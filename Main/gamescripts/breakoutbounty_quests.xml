@@ -1,0 +1,566 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="248000" name="OopsIDidItAgain" />
+		<DataID id="248001" name="BountyOfBounties_1" />
+		<DataID id="248002" name="BountyOfBounties_2" />
+		<DataID id="248003" name="BountyOfBounties_3" />
+		<DataID id="248004" name="BountyOfBounties_4" />
+		<DataID id="248005" name="BountyOfBounties_5" />
+		<DataID id="248006" name="GonnaNeedAFasterBoat" />
+		<DataID id="248007" name="SnakeCharmer_1" />
+		<DataID id="248008" name="SnakeCharmer_2" />
+		<DataID id="248009" name="SnakeCharmer_3" />
+		<DataID id="248010" name="SnakeCharmer_4" />
+		<DataID id="248011" name="TheLastLeg_1" />
+		<DataID id="248012" name="TheLastLeg_2" />
+		<DataID id="248013" name="TheLastLeg_3" />
+		<DataID id="248014" name="TheLastLeg_4" />
+		<DataID id="248015" name="TheLastLeg_5" />
+		<DataID id="248016" name="LadyJustice_1" />
+		<DataID id="248017" name="LadyJustice_2" />
+		<DataID id="248018" name="LadyJustice_3" />
+		<DataID id="248019" name="LadyJustice_4" />
+		<DataID id="248020" name="LadyJustice_5" />
+		<DataID id="248021" name="dummy_remove_convicts" />
+		<DataID id="248600" name="BreakoutBounty_Completed" />
+		<DataID id="248601" name="BreakoutBounty_IntroPanel" />
+		<DataID id="248602" name="BreakoutBounty_72HourWarning" onDeprecated="retain" endDate="BreakoutBounty_End" />
+		<DataID id="248603" name="BreakoutBounty_24HourWarning" onDeprecated="retain" endDate="BreakoutBounty_End" />
+		<DataID id="248604" name="BreakoutBounty_EventExpired" />
+		<DataID id="248605" name="BreakoutBounty_MasterQuest" />
+		<DataID id="248900" name="BreakoutBounty_RecommendStore" onDeprecated="delete" endDate="BreakoutBounty_End" />
+	</MasterList>
+	<Quest id="248600" name="BreakoutBounty_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="GonnaNeedAFasterBoat" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="248601" name="BreakoutBounty_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="OopsIDidItAgain" />
+			<Requirement type="time" end="BreakoutBounty_End" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="248602" name="BreakoutBounty_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::BreakoutBounty_End')-fromHours(72)]_" end="_[System::evaluate('Date::BreakoutBounty_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="BreakoutBounty_Complete" not="true" />
+			<Requirement type="quest" quest="BreakoutBounty_IntroPanel" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="248603" name="BreakoutBounty_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::BreakoutBounty_End')-fromHours(24)]_" end="BreakoutBounty_End" triggerEvent="true" />
+			<Requirement type="variable" variable="BreakoutBounty_Complete" not="true" />
+			<Requirement type="quest" quest="BreakoutBounty_IntroPanel" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="248604" name="BreakoutBounty_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="BreakoutBounty_End" triggerEvent="true" />
+			<Requirement type="variable" variable="BreakoutBounty_Complete" not="true" />
+			<Requirement type="quest" quest="BreakoutBounty_IntroPanel" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="248605" name="BreakoutBounty_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_Expired" not="true" />
+			<Requirement type="variable" variable="BreakoutBounty_Complete" not="true" />
+			<Requirement type="reqList" location="BreakoutBounty_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="BountyOfBounties_5" />
+					<Requirement type="variable" variable="BreakoutBounty_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="BountyOfBounties_1">
+				<Requirement type="quest started" quest="BountyOfBounties_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BountyOfBounties_2">
+				<Requirement type="quest started" quest="BountyOfBounties_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BountyOfBounties_3">
+				<Requirement type="quest started" quest="BountyOfBounties_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BountyOfBounties_4">
+				<Requirement type="quest started" quest="BountyOfBounties_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BountyOfBounties_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="248000" name="OopsIDidItAgain" tags="sidequest" icon="BreakoutBounty_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="BreakoutBounty_Start" end="BreakoutBounty_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="OopsIDidItAgain_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Apu" job="GetRobbedOverAndOver" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="TalkToThePress" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lou" job="GoLockThePrisonDoor" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lou" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248001" name="BountyOfBounties_1" tags="mainquest" icon="BreakoutBounty_Currency" sidebarIconScript="BreakoutBounty_Scripts:OpenMasterQuest" questMenuConfigPath="BreakoutBounty_QuestConfig:BreakoutBounty_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BreakoutBounty_IntroPanel" />
+			<Requirement type="time" start="BreakoutBounty_Start" end="BreakoutBounty_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_1_Start" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BreakoutBounty_Currency')" amount="__BreakoutBounty_GameConfig:ResourceQuantities:BreakoutBounty_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowJobList" textpoolName="QST_BreakoutBounty_Collect_obj">
+				<HighlightJobList>
+					<Job name="BuyHandcuffsAtYardSales" />
+					<Job name="OrderHandcuffsOnline" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="collect custom expression" expression="EscapedConvictTapped" amount="15" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowTappablesGuidePanel" textpoolName="QST_BountyOfBounties_1_2_obj_2"></Objective>
+			<Objective type="complete job" character="Homer" job="RunForIt_BreakoutBounty" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="ChaseSlowlyFromADistance" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="BreakoutBounty_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BreakoutBounty_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="248002" name="BountyOfBounties_2" tags="mainquest" icon="BreakoutBounty_Currency" sidebarIconScript="BreakoutBounty_Scripts:OpenMasterQuest" questMenuConfigPath="BreakoutBounty_QuestConfig:BreakoutBounty_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BountyOfBounties_1" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_2_Start" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BreakoutBounty_Currency')" amount="__BreakoutBounty_GameConfig:ResourceQuantities:BreakoutBounty_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowJobList" textpoolName="QST_BreakoutBounty_Collect_obj">
+				<HighlightJobList>
+					<Job name="BuyHandcuffsAtYardSales" />
+					<Job name="OrderHandcuffsOnline" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="collect custom expression" expression="EscapedConvictTapped" amount="15" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowTappablesGuidePanel" textpoolName="QST_BountyOfBounties_1_2_obj_2"></Objective>
+			<Objective type="complete job" character="Homer" job="BarelyPassTheBountyHunterTest" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="LamentTheStateOfTheJusticeSystem" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="BreakoutBounty_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BreakoutBounty_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="248003" name="BountyOfBounties_3" tags="mainquest" icon="BreakoutBounty_Currency" sidebarIconScript="BreakoutBounty_Scripts:OpenMasterQuest" questMenuConfigPath="BreakoutBounty_QuestConfig:BreakoutBounty_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BountyOfBounties_2" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_3_Start" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BreakoutBounty_Currency')" amount="__BreakoutBounty_GameConfig:ResourceQuantities:BreakoutBounty_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowJobList" textpoolName="QST_BreakoutBounty_Collect_obj">
+				<HighlightJobList>
+					<Job name="BuyHandcuffsAtYardSales" />
+					<Job name="OrderHandcuffsOnline" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="collect custom expression" expression="EscapedConvictTapped" amount="15" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowTappablesGuidePanel" textpoolName="QST_BountyOfBounties_1_2_obj_2"></Objective>
+			<Objective type="complete job" character="Homer" job="CompeteForBounties" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="CompeteForBounties" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="BreakoutBounty_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BreakoutBounty_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="248004" name="BountyOfBounties_4" tags="mainquest" icon="BreakoutBounty_Currency" sidebarIconScript="BreakoutBounty_Scripts:OpenMasterQuest" questMenuConfigPath="BreakoutBounty_QuestConfig:BreakoutBounty_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BountyOfBounties_3" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_4_Start" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BreakoutBounty_Currency')" amount="__BreakoutBounty_GameConfig:ResourceQuantities:BreakoutBounty_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowJobList" textpoolName="QST_BreakoutBounty_Collect_obj">
+				<HighlightJobList>
+					<Job name="BuyHandcuffsAtYardSales" />
+					<Job name="OrderHandcuffsOnline" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="collect custom expression" expression="EscapedConvictTapped" amount="15" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowTappablesGuidePanel" textpoolName="QST_BountyOfBounties_1_2_obj_2"></Objective>
+			<Objective type="complete job" character="Homer" job="FindMarge" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="CheckTheLatestBounties" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="BreakoutBounty_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BreakoutBounty_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="248005" name="BountyOfBounties_5" tags="mainquest" icon="BreakoutBounty_Currency" sidebarIconScript="BreakoutBounty_Scripts:OpenMasterQuest" questMenuConfigPath="BreakoutBounty_QuestConfig:BreakoutBounty_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="BreakoutBounty_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BountyOfBounties_4" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_5_Start" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="BountyOfBounties_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BreakoutBounty_Currency')" amount="__BreakoutBounty_GameConfig:ResourceQuantities:BreakoutBounty_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowJobList" textpoolName="QST_BreakoutBounty_Collect_obj">
+				<HighlightJobList>
+					<Job name="BuyHandcuffsAtYardSales" />
+					<Job name="OrderHandcuffsOnline" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="collect custom expression" expression="EscapedConvictTapped" amount="15" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToBehaviour="script" GoToScript="BreakoutBounty_Scripts:ShowTappablesGuidePanel" textpoolName="QST_BountyOfBounties_1_2_obj_2"></Objective>
+			<Objective type="complete job" character="Homer" job="BeThankfulForBeer" quantity="1" />
+			<Objective type="complete job" character="Marge" job="WorryAboutHomersLiver" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="RespectHomersSmoothMoves" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="BreakoutBounty_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BreakoutBounty_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="248006" name="GonnaNeedAFasterBoat" tags="sidequest" icon="BreakoutBounty_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BountyOfBounties_5" />
+		</Requirements>
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="GonnaNeedAFasterBoat_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="248007" name="SnakeCharmer_1" tags="sidequest" icon="WolfBountyHunter">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="WolfTheBountyHunter" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_1_Start" triggerType="character" character="WolfTheBountyHunter" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfTheBountyHunter" job="WorkOutWithCriminals" quantity="1" />
+			<Objective type="complete job" character="Snake" job="BeImpressed_BreakoutBounty" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Snake" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248008" name="SnakeCharmer_2" tags="sidequest" icon="WolfBountyHunter">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SnakeCharmer_1" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_2_Start" triggerType="character" character="WolfTheBountyHunter" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfTheBountyHunter" job="PlayGolf" quantity="1" />
+			<Objective type="complete job" character="Snake" job="PlayGolf" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Snake" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248009" name="SnakeCharmer_3" tags="sidequest" icon="WolfBountyHunter">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SnakeCharmer_2" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_3_Start" triggerType="character" character="WolfTheBountyHunter" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfTheBountyHunter" job="BreatheASighOfRelief" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="RemainOblivious" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248010" name="SnakeCharmer_4" tags="sidequest" icon="WolfBountyHunter">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SnakeCharmer_3" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_4_Start" triggerType="character" character="WolfTheBountyHunter" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="SnakeCharmer_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfTheBountyHunter" job="MakeAPlan" quantity="1" />
+			<Objective type="complete job" character="Snake" job="InterruptWolfsExplanation" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Snake" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="248011" name="TheLastLeg_1" tags="sidequest" icon="DaisyMcGunnan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="DaisyMcGunnan" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_1_Start" triggerType="character" character="DaisyMcGunnan" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="DaisyMcGunnan" job="EntertainHerCat" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="CallALawyer" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248012" name="TheLastLeg_2" tags="sidequest" icon="DaisyMcGunnan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLastLeg_1" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_2_Start" triggerType="character" character="DaisyMcGunnan" />
+		<Objectives>
+			<Objective type="complete job" character="DaisyMcGunnan" job="HaveAFlashback" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="ReallyListen" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248013" name="TheLastLeg_3" tags="sidequest" icon="DaisyMcGunnan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLastLeg_2" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_3_Start" triggerType="character" character="DaisyMcGunnan" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="DaisyMcGunnan" job="ChaseSnake" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="ChaseSnake" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248014" name="TheLastLeg_4" tags="sidequest" icon="DaisyMcGunnan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLastLeg_3" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_4_Start" triggerType="character" character="DaisyMcGunnan" />
+		<Objectives>
+			<Objective type="complete job" character="Snake" job="KnockDaisyMcGunnanIntoTheSharkTank" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Snake" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="DaisyMcGunnan" job="SwimForHerLife" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248015" name="TheLastLeg_5" tags="sidequest" icon="DaisyMcGunnan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLastLeg_4" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_5_Start" triggerType="character" character="DaisyMcGunnan" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="NoLegToStandOn_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="DaisyMcGunnan" job="GoOnASquirtGunShootingSpree" quantity="1" />
+			<Objective type="complete job" character="WolfTheBountyHunter" job="GetSoaked" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WolfTheBountyHunter" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="248016" name="LadyJustice_1" tags="sidequest" icon="JudgeJTWinchester">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="JudgeJTWinchester" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_1_Start" triggerType="character" character="JudgeJTWinchester" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeJTWinchester" job="ShowShesATripleThreat" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="LeaveBeforeSheRemembersTheLoitering" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248017" name="LadyJustice_2" tags="sidequest" icon="JudgeJTWinchester">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LadyJustice_1" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_2_Start" triggerType="character" character="JudgeJTWinchester" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="PayHisFine" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="JudgeJTWinchester" job="PrepForSuperstardom" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248018" name="LadyJustice_3" tags="sidequest" icon="JudgeJTWinchester">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LadyJustice_2" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_3_Start" triggerType="character" character="JudgeJTWinchester" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeJTWinchester" job="TryToKeepHerCool" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="PersuadeTheJudgeToThrowAnActualBook" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248019" name="LadyJustice_4" tags="sidequest" icon="JudgeJTWinchester">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LadyJustice_3" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_4_Start" triggerType="character" character="JudgeJTWinchester" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="EggJudgeJTWinchesterOn" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="JudgeJTWinchester" job="ThrowTheBookAtEmTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="248020" name="LadyJustice_5" tags="sidequest" icon="JudgeJTWinchester">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LadyJustice_4" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_5_Start" triggerType="character" character="JudgeJTWinchester" />
+		<EndScript package="BreakoutBounty_Scripts_Dialogue" name="LadyJustice_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeJTWinchester" job="ClearTheCourtroom" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="BeApoplectic" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="248900" name="BreakoutBounty_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="BreakoutBounty_Requirements:StoreCategory_BreakoutBounty_Unlocked" />
+		</Requirements>
+		<StartScript package="BreakoutBounty_Scripts" name="RecommendStoreCategory_BreakoutBounty" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="248021" name="dummy_remove_convicts" tags="dummy">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest started" quest="GonnaNeedAFasterBoat" />
+				<Requirement type="time" start="BreakoutBounty_End" />
+			</Requirement>
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="BreakoutBounty_Scripts" name="ClearAllTappables" />
+	</Quest>
+</Quests>

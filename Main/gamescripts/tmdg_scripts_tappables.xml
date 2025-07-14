@@ -1,0 +1,54 @@
+﻿<ScriptPackage>
+	<AnimalTapped_Radius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Tapped!=1">
+				<Then>
+					<Action type="setObjectVariable" variable="Tapped" value="1" allowOrphan="false" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+					<Action type="runScriptOnAll" character="Tappable_WildAnimal" in_radius="5" radius_delay="0.3" script="TMDG_Scripts_Tappables:AnimalTapped_InRadius" />
+					<Action type="actionSequence" script="TMDG_Scripts_Tappables:AnimalTapped" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</AnimalTapped_Radius>
+	<AnimalTapped_InRadius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Tapped!=1">
+				<Then>
+					<Action type="setObjectVariable" variable="Tapped" value="1" allowOrphan="false" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="actionSequence" script="TMDG_Scripts_Tappables:AnimalTapped" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</AnimalTapped_InRadius>
+	<AnimalTapped parallel="true" cache="true">
+		<Action type="actionSequence" script="TMDG_Scripts_Tappables:AnimalReward" />
+		<Action type="stop" />
+		<Action type="anim-play" character="Tappable_WildAnimal" animation="Tap" />
+		<Action type="deletecharacter" character="Tappable_WildAnimal" />
+	</AnimalTapped>
+	<AnimalReward parallel="true" cache="true">
+		<Action type="reward" save="true" TMDG_Pelts="__TMDG_GameConfig:Tappables:EventCurrency__" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+				<Requirement type="relative time" baseTime="BigclawStartTime" defaultTime="TMDG_Start" startOffset="3h" />
+				<Requirement type="formula" formula="rand(5)==1" />
+				<Requirement type="character" name="Tappable_Bigclaw" not="true" />
+			</Requirements>
+			<True>
+				<Action type="updateVariable" variable="TMDG_BigclawQueued" value="true" />
+			</True>
+		</Action>
+		<Action type="runScript" script="TMDG_Scripts_Tappables:RegisterTelemetry_Tappable" />
+	</AnimalReward>
+	<ClearTappables parallel="true">
+		<Action type="deletecharacter" character="Tappable_WildAnimal" />
+	</ClearTappables>
+	<RegisterTelemetry_Tappable parallel="true">
+		<Action type="updateVariable" variable="TMDG_Pelts_Tappables" value="TMDG_Pelts_Tappables + ConfigValue('__TMDG_GameConfig:Tappables:EventCurrency__')" />
+		<Action type="updateVariable" variable="TMDG_Pelts_Total" value="TMDG_Pelts_Total + ConfigValue('__TMDG_GameConfig:Tappables:EventCurrency__')" />
+	</RegisterTelemetry_Tappable>
+</ScriptPackage>

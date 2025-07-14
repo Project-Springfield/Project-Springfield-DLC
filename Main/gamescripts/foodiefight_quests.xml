@@ -1,0 +1,523 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="244000" name="CoronaryCapitalism" />
+		<DataID id="244001" name="FlopChef_1" />
+		<DataID id="244002" name="FlopChef_2" />
+		<DataID id="244003" name="FlopChef_3" />
+		<DataID id="244004" name="FlopChef_4" />
+		<DataID id="244005" name="FlopChef_5" />
+		<DataID id="244006" name="NoHarmNoJowl" />
+		<DataID id="244007" name="ASicklySituation_1" />
+		<DataID id="244008" name="ASicklySituation_2" />
+		<DataID id="244009" name="ASicklySituation_3" />
+		<DataID id="244010" name="ASicklySituation_4" />
+		<DataID id="244011" name="ASicklySituation_5" />
+		<DataID id="244012" name="LikeFodderLikeSon_1" />
+		<DataID id="244013" name="LikeFodderLikeSon_2" />
+		<DataID id="244014" name="LikeFodderLikeSon_3" />
+		<DataID id="244015" name="LikeFodderLikeSon_4" />
+		<DataID id="244016" name="LikeFodderLikeSon_5" />
+		<DataID id="244017" name="HighPoweredHotness" />
+		<DataID id="244600" name="FoodieFight_Completed" />
+		<DataID id="244601" name="FoodieFight_IntroPanel" />
+		<DataID id="244602" name="FoodieFight_72HourWarning" onDeprecated="retain" endDate="FoodieFight_End" />
+		<DataID id="244603" name="FoodieFight_24HourWarning" onDeprecated="retain" endDate="FoodieFight_End" />
+		<DataID id="244604" name="FoodieFight_EventExpired" />
+		<DataID id="244605" name="FoodieFight_MasterQuest" />
+		<DataID id="244900" name="FoodieFight_RecommendStore" onDeprecated="delete" endDate="FoodieFight_End" />
+	</MasterList>
+	<Quest id="244600" name="FoodieFight_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="NoHarmNoJowl" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="244601" name="FoodieFight_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="CoronaryCapitalism" />
+			<Requirement type="time" end="FoodieFight_End" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="244602" name="FoodieFight_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::FoodieFight_End')-fromHours(72)]_" end="_[System::evaluate('Date::FoodieFight_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="FoodieFight_Complete" not="true" />
+			<Requirement type="quest" quest="FoodieFight_IntroPanel" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="244603" name="FoodieFight_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::FoodieFight_End')-fromHours(24)]_" end="FoodieFight_End" triggerEvent="true" />
+			<Requirement type="variable" variable="FoodieFight_Complete" not="true" />
+			<Requirement type="quest" quest="FoodieFight_IntroPanel" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="244604" name="FoodieFight_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="FoodieFight_End" triggerEvent="true" />
+			<Requirement type="variable" variable="FoodieFight_Complete" not="true" />
+			<Requirement type="quest" quest="FoodieFight_IntroPanel" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="244605" name="FoodieFight_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_Expired" not="true" />
+			<Requirement type="variable" variable="FoodieFight_Complete" not="true" />
+			<Requirement type="reqList" location="FoodieFight_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="FlopChef_5" />
+					<Requirement type="variable" variable="FoodieFight_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="FlopChef_1">
+				<Requirement type="quest started" quest="FlopChef_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="FlopChef_2">
+				<Requirement type="quest started" quest="FlopChef_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="FlopChef_3">
+				<Requirement type="quest started" quest="FlopChef_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="FlopChef_4">
+				<Requirement type="quest started" quest="FlopChef_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="FlopChef_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="244000" name="CoronaryCapitalism" tags="sidequest" icon="FoodieFight_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="FoodieFight_Start" end="FoodieFight_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="CoronaryCapitalism_Start" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="CoronaryCapitalism_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="EatTwentySweetAndSourLasagnaBurritos" quantity="1" />
+			<Objective type="complete job" character="KentBrockman" job="AskForABite" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="KentBrockman" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="CBGuy" job="Deposit12000Cash" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CBGuy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244001" name="FlopChef_1" tags="mainquest" icon="FoodieFight_Currency" sidebarIconScript="FoodieFight_Scripts:OpenMasterQuest" questMenuConfigPath="FoodieFight_QuestConfig:FoodieFight_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FoodieFight_IntroPanel" />
+			<Requirement type="time" start="FoodieFight_Start" end="FoodieFight_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_1_Start" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodieFight_Currency')" amount="__FoodieFight_GameConfig:ResourceQuantities:FoodieFight_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodieFight_Scripts:ShowJobList" textpoolName="QST_FoodieFight_Collect_obj">
+				<HighlightJobList>
+					<Job name="FindRoadkillForMeat" />
+					<Job name="AskHisDadToCookMeat" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GoToTheMayor" quantity="1" />
+			<Objective type="complete job" character="Marge" job="GetAngryAtScottyBoom" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="LaughAtScottyBoom" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodieFight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodieFight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="244002" name="FlopChef_2" tags="mainquest" icon="FoodieFight_Currency" sidebarIconScript="FoodieFight_Scripts:OpenMasterQuest" questMenuConfigPath="FoodieFight_QuestConfig:FoodieFight_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FlopChef_1" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_2_Start" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodieFight_Currency')" amount="__FoodieFight_GameConfig:ResourceQuantities:FoodieFight_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodieFight_Scripts:ShowJobList" textpoolName="QST_FoodieFight_Collect_obj">
+				<HighlightJobList>
+					<Job name="FindRoadkillForMeat" />
+					<Job name="AskHisDadToCookMeat" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="BuyASweetAndSourLasagnaBurrito" quantity="1" />
+			<Objective type="complete job" character="Akira" job="PrepareADish" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Akira" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Luigi" job="GetToAWork" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Luigi" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Apu" job="AddAHotDogToHisRollerGrill" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Apu" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodieFight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodieFight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="244003" name="FlopChef_3" tags="mainquest" icon="FoodieFight_Currency" sidebarIconScript="FoodieFight_Scripts:OpenMasterQuest" questMenuConfigPath="FoodieFight_QuestConfig:FoodieFight_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FlopChef_2" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_3_Start" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodieFight_Currency')" amount="__FoodieFight_GameConfig:ResourceQuantities:FoodieFight_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodieFight_Scripts:ShowJobList" textpoolName="QST_FoodieFight_Collect_obj">
+				<HighlightJobList>
+					<Job name="FindRoadkillForMeat" />
+					<Job name="AskHisDadToCookMeat" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Apu" job="ContinueListingOffHotDogIngredients" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Apu" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="AskForAHotDog" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodieFight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodieFight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="244004" name="FlopChef_4" tags="mainquest" icon="FoodieFight_Currency" sidebarIconScript="FoodieFight_Scripts:OpenMasterQuest" questMenuConfigPath="FoodieFight_QuestConfig:FoodieFight_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FlopChef_3" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_4_Start" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodieFight_Currency')" amount="__FoodieFight_GameConfig:ResourceQuantities:FoodieFight_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodieFight_Scripts:ShowJobList" textpoolName="QST_FoodieFight_Collect_obj">
+				<HighlightJobList>
+					<Job name="FindRoadkillForMeat" />
+					<Job name="AskHisDadToCookMeat" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="EatTheLeftovers" quantity="1" />
+			<Objective type="complete job" character="Luigi" job="CryAllTheWayHome" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Luigi" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodieFight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodieFight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="244005" name="FlopChef_5" tags="mainquest" icon="FoodieFight_Currency" sidebarIconScript="FoodieFight_Scripts:OpenMasterQuest" questMenuConfigPath="FoodieFight_QuestConfig:FoodieFight_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodieFight_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FlopChef_4" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_5_Start" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="FlopChef_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodieFight_Currency')" amount="__FoodieFight_GameConfig:ResourceQuantities:FoodieFight_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodieFight_Scripts:ShowJobList" textpoolName="QST_FoodieFight_Collect_obj">
+				<HighlightJobList>
+					<Job name="FindRoadkillForMeat" />
+					<Job name="AskHisDadToCookMeat" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DriveScottyToTheHospital" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodieFight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodieFight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="244006" name="NoHarmNoJowl" tags="sidequest" icon="FoodieFight_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FlopChef_5" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="NoHarmNoJowl_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="MakeAMeatAngel" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="RocketPigs" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="AskLisaToPassSomeBarbecue" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="RocketPigs" not="true" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="PassSomeBarbecue" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lisa" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="EatSomeBarbecue" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="244007" name="ASicklySituation_1" tags="sidequest" icon="ScottyBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="ScottyBoom" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="NoHarmNoJowl" />
+				<Requirement type="time" start="FoodieFight_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_1_Start" triggerType="character" character="ScottyBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="ScottyBoom" job="BrainstormNewCareers" quantity="1" />
+			<Objective type="complete job" character="LindseyNaegle" job="RealizeItDoesntMakeSense" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LindseyNaegle" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244008" name="ASicklySituation_2" tags="sidequest" icon="ScottyBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASicklySituation_1" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_2_Start" triggerType="character" character="ScottyBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="ScottyBoom" job="PromoteCookingProducts" quantity="1" />
+			<Objective type="complete job" character="SeaCaptain" job="HuntTheKraken" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SeaCaptain" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="GoToBostonOnVacation" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="LookUpPersonalChefPrices" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244009" name="ASicklySituation_3" tags="sidequest" icon="ScottyBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASicklySituation_2" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_3_Start" triggerType="character" character="ScottyBoom" />
+		<Objectives>
+			<Objective type="complete job" character="ScottyBoom" job="ResearchCookingFromThe1800s" quantity="1" />
+			<Objective type="complete job" character="Burns" job="ReminisceAboutThe1840s" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Burns" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244010" name="ASicklySituation_4" tags="sidequest" icon="ScottyBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASicklySituation_3" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_4_Start" triggerType="character" character="ScottyBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Smithers" job="ReleaseTheHoundsOnScottyBoom" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Smithers" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="ScottyBoom" job="RunForHisLife_FoodieFight" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244011" name="ASicklySituation_5" tags="sidequest" icon="ScottyBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASicklySituation_4" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_5_Start" triggerType="character" character="ScottyBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="ASicklySituation_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="ScottyBoom" job="CallLindseyNaegle" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="244012" name="LikeFodderLikeSon_1" tags="sidequest" icon="TylerBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="TylerBoom" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_1_Start" triggerType="character" character="TylerBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="TylerBoom" job="ReadAnotherSadPoem" quantity="1" />
+			<Objective type="complete job" character="ScottyBoom" job="FilmThePoemWithHisPhone" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ScottyBoom" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244013" name="LikeFodderLikeSon_2" tags="sidequest" icon="TylerBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LikeFodderLikeSon_1" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_2_Start" triggerType="character" character="TylerBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="TylerBoom" job="WashDishes_FoodieFight" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244014" name="LikeFodderLikeSon_3" tags="sidequest" icon="TylerBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LikeFodderLikeSon_2" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_3_Start" triggerType="character" character="TylerBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="TylerBoom" job="GetPromotedToLineCook" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="RealizeLifeIsntFair" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244015" name="LikeFodderLikeSon_4" tags="sidequest" icon="TylerBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LikeFodderLikeSon_3" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_4_Start" triggerType="character" character="TylerBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="TylerBoom" job="CookOnAHibachi" quantity="1" />
+			<Objective type="complete job" character="ScottyBoom" job="BeamWithUndeservedPrideForTyler" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ScottyBoom" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="244016" name="LikeFodderLikeSon_5" tags="sidequest" icon="TylerBoom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LikeFodderLikeSon_4" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_5_Start" triggerType="character" character="TylerBoom" />
+		<EndScript package="FoodieFight_Scripts_Dialogue" name="LikeFodderLikeSon_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="ScottyBoom" job="PromoteTylerToExecutiveChef" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ScottyBoom" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="TylerBoom" job="GetPromotedToExecutiveChef" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="244017" name="HighPoweredHotness" tags="sidequest" icon="FoodieFight_ChiliBlasters">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="ChiliBlasters" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts_Dialogue" name="HighPoweredHotness_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="EatChili" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="244900" name="FoodieFight_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="FoodieFight_Requirements:StoreCategory_FoodieFight_Unlocked" />
+		</Requirements>
+		<StartScript package="FoodieFight_Scripts" name="RecommendStoreCategory_FoodieFight" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

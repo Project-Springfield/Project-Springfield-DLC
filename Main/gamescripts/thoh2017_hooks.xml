@@ -1,0 +1,163 @@
+﻿<Attributes>
+	<Attribute name="ApplyDamageToBeast"><![CDATA[
+            var beastHunter = Script::getObjectInstance();
+            var captureDamage = 0;
+            var objectID = Object::getId(beastHunter);
+            if(objectID == 1)
+            {
+                var skin = Character::getSkin(beastHunter);
+                if(skin == 'WizardBart')
+                {
+                    captureDamage = ObjectVars::getVariableDouble('Obj_WizardBartBeastHunter', damageVariable);
+                }
+            }
+            elseif(objectID == 4)
+            {
+                var skin = Character::getSkin(beastHunter);
+                if(skin == 'WizardLisa')
+                {
+                    captureDamage = ObjectVars::getVariableDouble('Obj_WizardLisaBeastHunter', damageVariable);
+                }
+            }
+            elseif(objectID == 21)
+            {
+                var skin = Character::getSkin(beastHunter);
+                if(skin == 'MagicActMilhouse')
+                {
+                    captureDamage = ObjectVars::getVariableDouble('Obj_MagicMilhouseBeastHunter', damageVariable);
+                }
+            }
+            elseif(objectID == 29)
+            {
+                var skin = Character::getSkin(beastHunter);
+                if(skin == 'WizardMartin')
+                {
+                    captureDamage = ObjectVars::getVariableDouble('Obj_WizardMartinBeastHunter', damageVariable);
+                }
+            }
+            elseif(objectID == 184000)
+            {
+                captureDamage = ObjectVars::getVariableDouble('Obj_AngelicaButtonBeastHunter', damageVariable);
+            }
+            elseif(objectID == 184002)
+            {
+                captureDamage = ObjectVars::getVariableDouble('Obj_GreystashBeastHunter', damageVariable);
+            }
+            elseif(objectID == 184003)
+            {
+                captureDamage = ObjectVars::getVariableDouble('Obj_TheGreatRaymondoBeastHunter', damageVariable);
+            }
+            elseif(objectID == 184018)
+            {
+                captureDamage = ObjectVars::getVariableDouble('Obj_UnicornWizardBeastHunter', damageVariable);
+            }
+            elseif(objectID == 19)
+            {
+                var skin = Character::getSkin(beastHunter);
+                if(skin == 'SorcererFrink')
+                {
+                    captureDamage = ObjectVars::getVariableDouble('Obj_SorcererFrinkBeastHunter', damageVariable);
+                }
+            }
+            
+            
+            var beastPendingManaVarName = beastName + 'PendingMana';
+            var pendingDamage = User::getVariable(beastPendingManaVarName);
+            User::setVariable(beastPendingManaVarName, pendingDamage + captureDamage, 1);
+        ]]></Attribute>
+	<Attribute name="UpdateBeastRewardFromCharacterLost"><![CDATA[#program;
+            {
+                function updateRewards(beastAdHoc, characterName, numCharactersVariable, rewardVariable, damageVariable, characterDamage, cancelJobScript)
+                {
+                    for(var i = 0; i < 4; i++)
+                    {
+                        var nameAndReward = ObjectVars::getVariableString(beastAdHoc, toString(i));
+                        if(nameAndReward != '0')
+                        {
+                            var splitNameAndReward = split(nameAndReward, ',');
+                            var name = Array::getValueAtIndex(splitNameAndReward, 0);
+                            var rewardToLose = toDouble(Array::getValueAtIndex(splitNameAndReward, 1));
+                            if(name == characterName)
+                            {
+                                Object::setVariableForAdHoc(beastAdHoc, toString(i), '0', 0, false);
+                                                    
+                                var numCharacters = User::getVariable(numCharactersVariable);
+                                numCharacters = numCharacters - 1;
+                                                    
+                                User::setVariable(numCharactersVariable, numCharacters, false);
+                                                    
+                                var rewardAmount = User::getVariable(rewardVariable);
+                                User::setVariable(rewardVariable, rewardAmount - rewardToLose, false);
+                                
+                                var damageAmount = User::getVariable(damageVariable);
+                                User::setVariable(damageVariable, damageAmount - characterDamage, false);
+                                
+                                if(numCharacters == 0)
+                                {
+                                    Script::runImmediately(cancelJobScript);
+                                }
+                                
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                
+                updateRewards('Obj_KearneymonCharacterJobs', scriptCharacterName, 'KearneymonAttackers', 'Kearneymon_Reward', 'KearneymonPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobKearneymon');
+                updateRewards('Obj_WiggopsCharacterJobs', scriptCharacterName, 'WiggopsAttackers', 'Wiggops_Reward', 'WiggopsPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobWiggops');
+                updateRewards('Obj_LewdCharacterJobs', scriptCharacterName, 'LewdAttackers', 'Lewd_Reward', 'LewdPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobLewd');
+                updateRewards('Obj_CrawlCharacterJobs', scriptCharacterName, 'CrawlAttackers', 'Crawl_Reward', 'CrawlPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobCrawl');
+                updateRewards('Obj_BarfyCharacterJobs', scriptCharacterName, 'BarfyAttackers', 'Barfy_Reward', 'BarfyPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobBarfy');
+                updateRewards('Obj_BullyVernCharacterJobs', scriptCharacterName, 'BullyVernAttackers', 'BullyVern_Reward', 'BullyVernPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobBullyVern');
+                updateRewards('Obj_BurnsDragonCharacterJobs', scriptCharacterName, 'BurnsDragonAttackers', 'BurnsDragon_Reward', 'BurnsDragonPendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobBurnsDragon');
+                updateRewards('Obj_TreestacheCharacterJobs', scriptCharacterName, 'TreestacheAttackers', 'Treestache_Reward', 'TreestachePendingMana', characterCaptureMana, 'THOH2017_Scripts:CompleteJobTreestache');
+                
+                updateRewards('Obj_KearneymonEnchantCharacterJobs', scriptCharacterName, 'KearneymonAttackers', 'Kearneymon_Reward', 'KearneymonPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobKearneymon');
+                updateRewards('Obj_WiggopsEnchantCharacterJobs', scriptCharacterName, 'WiggopsAttackers', 'Wiggops_Reward', 'WiggopsPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobWiggops');
+                updateRewards('Obj_LewdEnchantCharacterJobs', scriptCharacterName, 'LewdAttackers', 'Lewd_Reward', 'LewdPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobLewd');
+                updateRewards('Obj_CrawlEnchantCharacterJobs', scriptCharacterName, 'CrawlAttackers', 'Crawl_Reward', 'CrawlPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobCrawl');
+                updateRewards('Obj_BarfyEnchantCharacterJobs', scriptCharacterName, 'BarfyAttackers', 'Barfy_Reward', 'BarfyPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobBarfy');
+                updateRewards('Obj_BullyVernEnchantCharacterJobs', scriptCharacterName, 'BullyVernAttackers', 'BullyVern_Reward', 'BullyVernPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobBullyVern');
+                updateRewards('Obj_BurnsDragonEnchantCharacterJobs', scriptCharacterName, 'BurnsDragonAttackers', 'BurnsDragon_Reward', 'BurnsDragonPendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobBurnsDragon');
+                updateRewards('Obj_TreestacheEnchantCharacterJobs', scriptCharacterName, 'TreestacheAttackers', 'Treestache_Reward', 'TreestachePendingMana', characterEnchantMana, 'THOH2017_Scripts:CompleteJobTreestache');
+                
+                updateRewards('Obj_LordMontymortCharacterJobs', scriptCharacterName, 'LordMontymort_NumSentToBattle', 'LordMontymort_Reward', 'LordMontymort_PendingDamage', characterDamage, 'THOH2017_Scripts:CompleteJobLordMontymort');
+            }
+        ]]></Attribute>
+	<Attribute name="AddCharacterToBeastJob"><![CDATA[#program;
+            {
+                var configAmount = '__THOH2017_Config:Jobs:BeastHunterRewardAmount__';
+                
+                if(name == 'Martin')
+                {
+                    configAmount = '__THOH2017_Config:Jobs:PremiumBeastHunterRewardAmount__';
+                }
+                elseif(name == 'Frink')
+                {
+                    configAmount = '__THOH2017_Config:Jobs:PremiumBeastHunterRewardAmount__';
+                }
+                elseif(name == 'AngelicaButton')
+                {
+                    configAmount = '__THOH2017_Config:Jobs:PremiumBeastHunterRewardAmount__';
+                }
+                elseif(name == 'TheGreatRaymondo')
+                {
+                    configAmount = '__THOH2017_Config:Jobs:PremiumBeastHunterRewardAmount__';
+                }
+
+                var rewardAmount = toDouble(System::getConfigValue(configAmount));
+                var newNameAndReward = name + ',' + toString(rewardAmount);
+                for(var i = 0; i < 4; i++)
+                {
+                    var nameAndReward = ObjectVars::getVariableString(beastCharacters, toString(i));
+                    if(nameAndReward == '0')
+                    {
+                        Object::setVariableForAdHoc(beastCharacters, toString(i), newNameAndReward, 0, false);
+                        break;
+                    }
+                }
+            }
+
+        ]]></Attribute>
+</Attributes>

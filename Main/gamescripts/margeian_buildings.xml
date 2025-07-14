@@ -1,0 +1,130 @@
+﻿<Buildings>
+	<MasterList>
+		<DataID id="152000" name="ExplorationInc" />
+		<DataID id="152001" name="MarsColony" />
+	</MasterList>
+	<BuildingDefaults>
+		<LoadBuilding value="true" />
+		<Cost money="0" donuts="0" />
+		<Sell money="0.25" donuts="25" allowed="true" />
+		<Unique value="false" />
+		<Falls value="true" />
+		<MultiPlace value="false" />
+		<LoadBuilding value="true" />
+		<ApplyLevelMultiplier value="true" />
+		<BuildFromInventory value="true" />
+		<TaxJobPackage value="Margeian_Jobs" />
+		<MoveColour R="1.0" G="1.0" B="1.0" A="0.7" />
+		<BadColour R="1.0" G="0.8" B="0.8" A="0.7" />
+		<GoodColour R="1.0" G="1.0" B="1.0" A="0.7" />
+	</BuildingDefaults>
+	<Building id="152000" name="ExplorationInc" type="Building" xpValue="200">
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<Unique value="true" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="24h" />
+		<GridType type="grass|pavement" />
+		<Job id="152098" name="ExplorationIncTaxJob" time="12h" />
+		<Cost donuts="80" />
+		<Group name="MiscCash" />
+		<RatingElem decoration="10" />
+		<OnEvent event="BuildingTouched" onObject="ExplorationInc" gamestate="GameState_InGame" user="local">
+			<Script name="ExplorationInc_Tapped" package="Margeian_Scripts" />
+		</OnEvent>
+		<BSv2 name="ExplorationInc" flippedname="ExplorationIncFlipped" overrideFootprintFile="bwbuildstates" overrideFootprintTiles="boardwalk|boardwalkedge|pier|pieredge|pavement|dirtpavement" overrideFlatFootprint="false" />
+	</Building>
+	<Building id="152001" name="MarsColony" type="AnimatedDecoration" xpValue="200">
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<Unique value="true" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="0" />
+		<Falls value="false" />
+		<GridType type="grass|pavement|dirtpavement" />
+		<Cost donuts="200" />
+		<Group name="MiscCash" />
+		<RatingElem decoration="100" />
+		<BuildMenuText text="UI_MarsColony_Exciting" />
+		<BSv2 name="MarsColony01" flippedname="MarsColony01Flipped" />
+		<StorePositioningRule rule="Margeian_MarsColony" />
+		<CustomMenu useMenuConfig="Margeian_MenuConfig:MarsColonyInventory" />
+		<OnEvent event="BuildingTouched" onObject="MarsColony" gamestate="GameState_InGame" user="local">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="players land" />
+						<Requirement type="quest" quest="UpgradeMarsColony_3" />
+					</Requirement>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="active quest" quest="UpgradeMarsColony_1" />
+							<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_1::CurrentProgress')!=2" />
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="active quest" quest="UpgradeMarsColony_2" />
+							<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_2::CurrentProgress')!=2" />
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="active quest" quest="UpgradeMarsColony_3" />
+							<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_3::CurrentProgress')!=2" />
+						</Requirement>
+					</Requirement>
+				</Requirement>
+			</Requirements>
+			<Script name="MarsColony_Tapped" package="Margeian_Scripts" />
+		</OnEvent>
+		<OnEvent event="BuildingTouched" onObject="MarsColony" gamestate="FriendState_InGame" user="remote">
+			<Script name="MarsColony_FriendTapped" package="Margeian_Scripts" />
+		</OnEvent>
+		<UnityBuildingInfo type="variable" param="MarsColonyLevel">
+			<ExpectedValue skinIndex="0" minValue="0" maxValue="0" />
+			<ExpectedValue skinIndex="1" minValue="1" maxValue="1" />
+			<ExpectedValue skinIndex="2" minValue="2" maxValue="2" />
+			<ExpectedValue skinIndex="3" minValue="3" maxValue="3" />
+		</UnityBuildingInfo>
+		<TouchIcon value="Indicator_MarsColony.rgb" removeOnTouch="false">
+			<Requirements>
+				<Requirement type="players land" />
+				<Requirement type="quest started" quest="AColonyForAnts_2" />
+				<Requirement type="quest" quest="UpgradeMarsColony_3" not="true" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="active quest" quest="UpgradeMarsColony_1" />
+						<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_1::CurrentProgress')!=2" />
+					</Requirement>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="active quest" quest="UpgradeMarsColony_2" />
+						<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_2::CurrentProgress')!=2" />
+					</Requirement>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="active quest" quest="UpgradeMarsColony_3" />
+						<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_3::CurrentProgress')!=2" />
+					</Requirement>
+				</Requirement>
+			</Requirements>
+		</TouchIcon>
+		<UpgradeRequirements variable="MarsColonyLevel">
+			<UpgradeLevel iconTouchedScript="Margeian_Scripts:MarsColony_Upgrade_1">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="active quest" quest="UpgradeMarsColony_1" />
+					<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_1::CurrentProgress')==2" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel iconTouchedScript="Margeian_Scripts:MarsColony_Upgrade_2">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="active quest" quest="UpgradeMarsColony_2" />
+					<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_2::CurrentProgress')==2" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel iconTouchedScript="Margeian_Scripts:MarsColony_Upgrade_3">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="active quest" quest="UpgradeMarsColony_3" />
+					<Requirement type="formula" formula="System::evaluate('Quest::UpgradeMarsColony_3::CurrentProgress')==2" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+		</UpgradeRequirements>
+	</Building>
+</Buildings>

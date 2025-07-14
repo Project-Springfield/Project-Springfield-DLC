@@ -1,0 +1,218 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NewYears2021MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NewYears2021_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NewYears2021_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NewYears2021_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NewYears2021_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NewYears2021_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_NewYears2021_IntroPanelTimer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_NewYears2021_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_NewYears2021_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NewYears2021_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="NewYears2021_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="NewYears2021_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="NewYears2021_NewYearNewYou_OnePanel" eventName="UI_NewYears2021_Title" limitedTime="true" limitedTimeEndDate="NewYears2021_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NewYears2021MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NewYears2021_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_NewYears2021_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_NewYears2021_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NewYears2021_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_NewYears2021_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="NewYears2021_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="NewYears2021_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="NewYears2021_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="NewYears2021_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="NewYears2021_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_NewYears2021_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="NewYears2021_OnePanel" />
+		<Action type="runScript" script="NewYears2021_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="NewYears2021_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="NewYears2021_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="NewYears2021_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="SurvivalOfTheWellest_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2021_Event" />
+									<Attribute name="JobList" value="NewYears2021_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="SurvivalOfTheWellest_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2021_Event" />
+									<Attribute name="JobList" value="NewYears2021_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SurvivalOfTheWellest_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2021_Event" />
+									<Attribute name="JobList" value="NewYears2021_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SurvivalOfTheWellest_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2021_Event" />
+									<Attribute name="JobList" value="NewYears2021_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SurvivalOfTheWellest_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2021_Event" />
+									<Attribute name="JobList" value="NewYears2021_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="NewYears2021_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="NewYears2021_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<AutoApply_UnlicensedSurgeonMoeSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="NewYears2021_Scripts:AutoApply_UnlicensedSurgeonMoeSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_UnlicensedSurgeonMoeSkin_End>
+	<AutoApply_UnlicensedSurgeonMoeSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="UnlicensedSurgeonMoe" fromInventory="true" />
+	</AutoApply_UnlicensedSurgeonMoeSkin_Delayed>
+	<RecommendStoreCategory_NewYearNewYou ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="NewYears2021_NewYearNewYou_OnePanel" />
+		<Action type="recommendation" recType="Event" name="NewYears2021_NewYearNewYou_OnePanel" eventName="UI_NewYears2021_Title" limitedTime="true" limitedTimeEndDate="NewYears2021_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_NewYearNewYou>
+	<EnterStoreCategory_NewYearNewYou ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="NewYearNewYou_Category" />
+	</EnterStoreCategory_NewYearNewYou>
+	<ScammerVdogVending_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ScammerVdogVendingArrangement" value="mod(Object::ScammerVdogVendingArrangement+1,3)" asExpression="true" />
+	</ScammerVdogVending_Tapped>
+	<Octoparrot_Tapped parallel="true">
+		<Action type="anim-play" character="Octoparrot" animation="Tap" />
+	</Octoparrot_Tapped>
+</ScriptPackage>

@@ -1,0 +1,53 @@
+﻿<ScriptPackage>
+	<MusicPromo_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+	</MusicPromo_Start>
+	<Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" name="PraiselandBundle_Promo" />
+	</Recommend>
+	<MusicPromo_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="actionSequence" script="Music_Scripts_Promo:StartDialogue" />
+				<Action type="actionSequence" script="Music_Scripts_Promo:DisplayPromo" />
+				<Action type="runScript" script="KillGil" package="MiscScripts" />
+			</True>
+		</Action>
+	</MusicPromo_Display>
+	<DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="Music_Event" />
+	</DisplayPromo>
+	<MusicPromo_Purchase>
+		<Action type="setVariable" intVariable="PraiselandPromo_Purchased" intValue="1" />
+		<Action type="clearRecommendations" category="Promoted" name="PraiselandBundle_Promo" />
+	</MusicPromo_Purchase>
+	<MusicPromo_Cancel>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="PraiselandPromo_Purchased" not="true" />
+			<True>
+				<Action type="actionSequence" script="Music_Scripts_Promo:Recommend" />
+				<Action type="actionSequence" script="Music_Scripts_Promo:CancelledDialogue" />
+			</True>
+		</Action>
+	</MusicPromo_Cancel>
+	<StartDialogue>
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoStart_3_dlg_Start_1_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoStart_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoStart_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoStart_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="selling" />
+	</StartDialogue>
+	<PurchasedDialogue>
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoPurchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoPurchased_3_dlg_Start_2_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoPurchased_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="happy" />
+	</PurchasedDialogue>
+	<CancelledDialogue>
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoCancelled_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Gil" text="QST_HomerpaloozaGilPromoCancelled_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+	</CancelledDialogue>
+</ScriptPackage>

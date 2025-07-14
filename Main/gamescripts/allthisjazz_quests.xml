@@ -1,0 +1,542 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="236000" name="BurningBridges" />
+		<DataID id="236001" name="SongAndDance_1" />
+		<DataID id="236002" name="SongAndDance_2" />
+		<DataID id="236003" name="SongAndDance_3" />
+		<DataID id="236004" name="SongAndDance_4" />
+		<DataID id="236005" name="SongAndDance_5" />
+		<DataID id="236006" name="WhenTheMoonHitsYourEye" />
+		<DataID id="236007" name="TheBionicBoy_1" />
+		<DataID id="236008" name="TheBionicBoy_2" />
+		<DataID id="236009" name="TheBionicBoy_3" />
+		<DataID id="236010" name="TheBionicBoy_4" />
+		<DataID id="236011" name="TheBionicBoy_5" />
+		<DataID id="236012" name="TheCouchCaper_1" />
+		<DataID id="236013" name="TheCouchCaper_2" />
+		<DataID id="236014" name="TheCouchCaper_3" />
+		<DataID id="236015" name="TheCouchCaper_4" />
+		<DataID id="236016" name="TheCouchCaper_5" />
+		<DataID id="236017" name="PeacefulGroovyFeeling_1" />
+		<DataID id="236018" name="PeacefulGroovyFeeling_2" />
+		<DataID id="236019" name="PeacefulGroovyFeeling_3" />
+		<DataID id="236020" name="PeacefulGroovyFeeling_4" />
+		<DataID id="236021" name="PeacefulGroovyFeeling_5" />
+		<DataID id="236022" name="UnlockSideshowBob" onDeprecated="delete" endDate="AllThisJazz_End" />
+		<DataID id="236023" name="GiveBridgeAnimJobs" />
+		<DataID id="236600" name="AllThisJazz_Completed" />
+		<DataID id="236601" name="AllThisJazz_IntroPanel" />
+		<DataID id="236602" name="AllThisJazz_72HourWarning" onDeprecated="retain" endDate="AllThisJazz_End" />
+		<DataID id="236603" name="AllThisJazz_24HourWarning" onDeprecated="retain" endDate="AllThisJazz_End" />
+		<DataID id="236604" name="AllThisJazz_EventExpired" />
+		<DataID id="236605" name="AllThisJazz_MasterQuest" />
+		<DataID id="236700" name="AutoApply_TicTockSimpsonSkin" />
+		<DataID id="236900" name="AllThisJazz_RecommendStore" onDeprecated="delete" endDate="AllThisJazz_End" />
+	</MasterList>
+	<Quest id="236600" name="AllThisJazz_Completed">
+		<Requirement type="quest" quest="WhenTheMoonHitsYourEye" />
+		<StartScript package="AllThisJazz_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="236601" name="AllThisJazz_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="BurningBridges" />
+			<Requirement type="time" end="AllThisJazz_End" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="236602" name="AllThisJazz_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::AllThisJazz_End')-fromHours(72)]_" end="_[System::evaluate('Date::AllThisJazz_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="AllThisJazz_Complete" not="true" />
+			<Requirement type="quest" quest="AllThisJazz_IntroPanel" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="236603" name="AllThisJazz_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::AllThisJazz_End')-fromHours(24)]_" end="AllThisJazz_End" triggerEvent="true" />
+			<Requirement type="variable" variable="AllThisJazz_Complete" not="true" />
+			<Requirement type="quest" quest="AllThisJazz_IntroPanel" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="236604" name="AllThisJazz_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="AllThisJazz_End" triggerEvent="true" />
+			<Requirement type="variable" variable="AllThisJazz_Complete" not="true" />
+			<Requirement type="quest" quest="AllThisJazz_IntroPanel" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="236605" name="AllThisJazz_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_Expired" not="true" />
+			<Requirement type="variable" variable="AllThisJazz_Complete" not="true" />
+			<Requirement type="reqList" location="AllThisJazz_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="SongAndDance_5" />
+					<Requirement type="variable" variable="AllThisJazz_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="SongAndDance_1">
+				<Requirement type="quest started" quest="SongAndDance_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SongAndDance_2">
+				<Requirement type="quest started" quest="SongAndDance_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SongAndDance_3">
+				<Requirement type="quest started" quest="SongAndDance_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SongAndDance_4">
+				<Requirement type="quest started" quest="SongAndDance_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SongAndDance_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="236000" name="BurningBridges" tags="sidequest" icon="AllThisJazz_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="AllThisJazz_Start" end="AllThisJazz_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="BurningBridges_Start" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="BurningBridges_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="GoStraightToTheMayor" quantity="1" />
+			<Objective type="complete job" character="Homer" job="ReadMoreOfHisNewspaper" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236001" name="SongAndDance_1" tags="mainquest" icon="AllThisJazz_Currency" sidebarIconScript="AllThisJazz_Scripts:OpenMasterQuest" questMenuConfigPath="AllThisJazz_QuestConfig:AllThisJazz_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AllThisJazz_IntroPanel" />
+			<Requirement type="time" start="AllThisJazz_Start" end="AllThisJazz_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_1_Start" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllThisJazz_Currency')" amount="__AllThisJazz_GameConfig:ResourceQuantities:AllThisJazz_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllThisJazz_Scripts:ShowJobList" textpoolName="QST_AllThisJazz_Collect_obj">
+				<HighlightJobList>
+					<Job name="BrowsePassiveAggressivelyForVinylRecords" />
+					<Job name="SearchPeoplesClosetsForVinylRecords" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="FindAVenueForTheBenefitConcert" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllThisJazz_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllThisJazz_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="236002" name="SongAndDance_2" tags="mainquest" icon="AllThisJazz_Currency" sidebarIconScript="AllThisJazz_Scripts:OpenMasterQuest" questMenuConfigPath="AllThisJazz_QuestConfig:AllThisJazz_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SongAndDance_1" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_2_Start" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllThisJazz_Currency')" amount="__AllThisJazz_GameConfig:ResourceQuantities:AllThisJazz_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllThisJazz_Scripts:ShowJobList" textpoolName="QST_AllThisJazz_Collect_obj">
+				<HighlightJobList>
+					<Job name="BrowsePassiveAggressivelyForVinylRecords" />
+					<Job name="SearchPeoplesClosetsForVinylRecords" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="PromoteTheJazzBenefitConcert" quantity="1" />
+			<Objective type="complete job" character="SkinnyPalmer" job="RecruitJazzMusiciansForTheBenefitConcert" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SkinnyPalmer" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllThisJazz_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllThisJazz_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="236003" name="SongAndDance_3" tags="mainquest" icon="AllThisJazz_Currency" sidebarIconScript="AllThisJazz_Scripts:OpenMasterQuest" questMenuConfigPath="AllThisJazz_QuestConfig:AllThisJazz_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SongAndDance_2" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_3_Start" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllThisJazz_Currency')" amount="__AllThisJazz_GameConfig:ResourceQuantities:AllThisJazz_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllThisJazz_Scripts:ShowJobList" textpoolName="QST_AllThisJazz_Collect_obj">
+				<HighlightJobList>
+					<Job name="BrowsePassiveAggressivelyForVinylRecords" />
+					<Job name="SearchPeoplesClosetsForVinylRecords" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="PromoteTheBenefitConcertOnKJAZZ" quantity="1" />
+			<Objective type="complete job" character="SkinnyPalmer" job="ImproviseScatOnKJAZZ" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SkinnyPalmer" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllThisJazz_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllThisJazz_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="236004" name="SongAndDance_4" tags="mainquest" icon="AllThisJazz_Currency" sidebarIconScript="AllThisJazz_Scripts:OpenMasterQuest" questMenuConfigPath="AllThisJazz_QuestConfig:AllThisJazz_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SongAndDance_3" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_4_Start" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllThisJazz_Currency')" amount="__AllThisJazz_GameConfig:ResourceQuantities:AllThisJazz_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllThisJazz_Scripts:ShowJobList" textpoolName="QST_AllThisJazz_Collect_obj">
+				<HighlightJobList>
+					<Job name="BrowsePassiveAggressivelyForVinylRecords" />
+					<Job name="SearchPeoplesClosetsForVinylRecords" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="ConvinceBartToBringTicTockOutOfRetirement" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllThisJazz_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllThisJazz_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="236005" name="SongAndDance_5" tags="mainquest" icon="AllThisJazz_Currency" sidebarIconScript="AllThisJazz_Scripts:OpenMasterQuest" questMenuConfigPath="AllThisJazz_QuestConfig:AllThisJazz_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllThisJazz_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SongAndDance_4" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_5_Start" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="SongAndDance_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllThisJazz_Currency')" amount="__AllThisJazz_GameConfig:ResourceQuantities:AllThisJazz_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllThisJazz_Scripts:ShowJobList" textpoolName="QST_AllThisJazz_Collect_obj">
+				<HighlightJobList>
+					<Job name="BrowsePassiveAggressivelyForVinylRecords" />
+					<Job name="SearchPeoplesClosetsForVinylRecords" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" skin="TicTockSimpson" job="GiveThePeopleWhatTheyWant" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="ResentBartsInnateMusicalTalent" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllThisJazz_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllThisJazz_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="236006" name="WhenTheMoonHitsYourEye" tags="sidequest" icon="AllThisJazz_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SongAndDance_5" />
+		</Requirements>
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="WhenTheMoonHitsYourEye_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="236007" name="TheBionicBoy_1" tags="sidequest" icon="Bart_TicTock">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Bart" unlockedskin="TicTockSimpson" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="SongAndDance_5" />
+				<Requirement type="time" start="AllThisJazz_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_1_Start" triggerType="character" character="Bart" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="TicTockSimpson" job="SignAutographsForTheLadies" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236008" name="TheBionicBoy_2" tags="sidequest" icon="Bart_TicTock">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBionicBoy_1" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_2_Start" triggerType="character" character="Bart" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="TicTockSimpson" job="AskLisaForTheMoney" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236009" name="TheBionicBoy_3" tags="sidequest" icon="Bart_TicTock">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBionicBoy_2" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_3_Start" triggerType="character" character="Bart" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="TicTockSimpson" job="GetABionicArm" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236010" name="TheBionicBoy_4" tags="sidequest" icon="Bart_TicTock">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBionicBoy_3" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_4_Start" triggerType="character" character="Bart" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="TicTockSimpson" job="DoSomeBionicDrumming" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236011" name="TheBionicBoy_5" tags="sidequest" icon="Bart_TicTock">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBionicBoy_4" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_5_Start" triggerType="character" character="Bart" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheBionicBoy_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="TicTockSimpson" job="UnGetABionicArm" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="236012" name="TheCouchCaper_1" tags="sidequest" icon="SkinnyPalmer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="SkinnyPalmer" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="SongAndDance_3" />
+				<Requirement type="time" start="AllThisJazz_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_1_Start" triggerType="character" character="SkinnyPalmer" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkinnyPalmer" job="FollowTheClues" quantity="1" />
+			<Objective type="complete job" character="LunchladyDora" job="SqueezeKetchupPackets" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LunchladyDora" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236013" name="TheCouchCaper_2" tags="sidequest" icon="SkinnyPalmer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheCouchCaper_1" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_2_Start" triggerType="character" character="SkinnyPalmer" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkinnyPalmer" job="StockUpOnDetectiveSupplies" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236014" name="TheCouchCaper_3" tags="sidequest" icon="SkinnyPalmer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheCouchCaper_2" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_3_Start" triggerType="character" character="SkinnyPalmer" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkinnyPalmer" job="HaveAStakeout_SkinnyPalmer" quantity="1" />
+			<Objective type="complete job" character="Manacek" job="HaveAStakeout_Manacek" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Manacek" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236015" name="TheCouchCaper_4" tags="sidequest" icon="SkinnyPalmer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheCouchCaper_3" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_4_Start" triggerType="character" character="SkinnyPalmer" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkinnyPalmer" job="FollowTheFootprints" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236016" name="TheCouchCaper_5" tags="sidequest" icon="SkinnyPalmer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheCouchCaper_4" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_5_Start" triggerType="character" character="SkinnyPalmer" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="TheCouchCaper_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkinnyPalmer" job="SearchTheCouchCushionsForCoins_SkinnyPalmer" quantity="1" />
+			<Objective type="complete job" character="LunchladyDora" job="SearchTheCouchCushionsForCoins_LunchLadyDora" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LunchladyDora" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="236017" name="PeacefulGroovyFeeling_1" tags="sidequest" icon="MarblesLeMarquez">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="MarblesLeMarquez" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_1_Start" triggerType="character" character="MarblesLeMarquez" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Kirk" job="ShopForTurtlenecks" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WarmUpHisSmoothVocals" quantity="1" />
+			<Objective type="complete job" character="MarblesLeMarquez" job="TuneTheInstruments" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236018" name="PeacefulGroovyFeeling_2" tags="sidequest" icon="MarblesLeMarquez">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PeacefulGroovyFeeling_1" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_2_Start" triggerType="character" character="MarblesLeMarquez" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="MarblesLeMarquez" job="PlayTheSmoothBassUhSmoother" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236019" name="PeacefulGroovyFeeling_3" tags="sidequest" icon="MarblesLeMarquez">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PeacefulGroovyFeeling_2" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_3_Start" triggerType="character" character="MarblesLeMarquez" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="MarblesLeMarquez" job="HelpKirkGetThePowerBackOn" quantity="1" />
+			<Objective type="complete job" character="Homer" job="GetLunch_Homer" quantity="1" />
+			<Objective type="complete job" character="Lenny" job="GetLunch_Lenny" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lenny" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Carl" job="GetLunch_Carl" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lou" job="GetLunch_Lou" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lou" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236020" name="PeacefulGroovyFeeling_4" tags="sidequest" icon="MarblesLeMarquez">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PeacefulGroovyFeeling_3" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_4_Start" triggerType="character" character="MarblesLeMarquez" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="MarblesLeMarquez" job="PlayTheTriangle" quantity="1" />
+			<Objective type="complete job" character="Homer" job="SingAboutMargesStupidSisters" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="236021" name="PeacefulGroovyFeeling_5" tags="sidequest" icon="MarblesLeMarquez">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PeacefulGroovyFeeling_4" />
+		</Requirements>
+		<StartScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_5_Start" triggerType="character" character="MarblesLeMarquez" />
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="PeacefulGroovyFeeling_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="MarblesLeMarquez" job="SellAlbumsOnTheCorner" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WaitForHisHugePayday" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="236022" name="UnlockSideshowBob" tags="dummy">
+		<Requirement type="level" level="5" />
+		<Objectives>
+			<Objective type="build" building="SpringfieldOperaHouse" quantity="1" rewardsCollected="yes" progress="quest" />
+		</Objectives>
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="UnlockSideshowBob" />
+	</Quest>
+	<Quest id="236023" name="GiveBridgeAnimJobs" tags="dummy">
+		<Requirement type="quest" quest="AllThisJazz_Completed" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="AllThisJazz_Scripts_Dialogue" name="GiveBridgeAnimJobs" />
+	</Quest>
+	<Quest id="236700" name="AutoApply_TicTockSimpsonSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="TicTockSimpson" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Bart" unlockedskin="TicTockSimpson" not="true" />
+			<Requirement type="characterunlocked" name="Bart" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="AllThisJazz_Scripts" name="AutoApply_TicTockSimpsonSkin_End" />
+	</Quest>
+	<Quest id="236900" name="AllThisJazz_RecommendStore" tags="dummy">
+		<Requirement type="reqList" location="AllThisJazz_Requirements:StoreCategory_AllThisJazz_Unlocked" />
+		<StartScript package="AllThisJazz_Scripts" name="RecommendStoreCategory_AllThisJazz" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

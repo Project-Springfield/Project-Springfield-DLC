@@ -1,0 +1,175 @@
+﻿<ScriptPackage>
+	<July4th2016_EnterCategory>
+		<Action type="focusOnMenuItem" menuCategory="July4th2016" />
+	</July4th2016_EnterCategory>
+	<Squawky_Tapped parallel="true">
+		<Action type="anim-remap">
+			<AnimationRemap Front_Walk="Tap_Front_Active" Back_Walk="Tap_Back_Active" Idle="Tap_Front_Active" />
+		</Action>
+		<Action type="anim-play" animation="Tap_In" />
+		<Action type="move" randomMove="true" panCamera="false" />
+		<Action type="anim-remap" />
+		<Action type="anim-play" animation="Tap_Out" />
+	</Squawky_Tapped>
+	<SpringfieldNationalPark_Tapped parallel="true">
+		<Action type="sound" sound="SpringfieldNationalPark_Tap" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="System::evaluate('Job::GoHunting::Active')" not="true" />
+			<True>
+				<Action type="setObjectVariable" variable="Random" value="rand(100)" asExpression="true" />
+				<Action type="if">
+					<If expression="lessThan(System::evaluate('Building::SpringfieldNationalPark::Object::Random'), 33)">
+						<Then>
+							<Action type="anim-building-oneshot">
+								<OneShot name="regular" file="SpringfieldNationalPark_Hunting" animation="Hunting_Active_1" x="0" y="0" />
+							</Action>
+						</Then>
+					</If>
+					<ElseIf expression="lessThan(System::evaluate('Building::SpringfieldNationalPark::Object::Random'), 66)">
+						<Then>
+							<Action type="anim-building-oneshot">
+								<OneShot name="regular" file="SpringfieldNationalPark_Hunting" animation="Hunting_Active_2" x="0" y="0" />
+							</Action>
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="anim-building-oneshot">
+								<OneShot name="regular" file="SpringfieldNationalPark_Hunting" animation="Hunting_Active_3" x="0" y="0" />
+							</Action>
+						</Then>
+					</Else>
+				</Action>
+				<Action type="anim-play" animation="Active" nowait="true" />
+				<Action type="anim-waitforend" />
+				<Action type="anim-play" animation="Neutral" />
+			</True>
+		</Action>
+	</SpringfieldNationalPark_Tapped>
+	<GoHunting_Start parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldNationalPark" variable="AnimState" value="0" />
+	</GoHunting_Start>
+	<GoHunting_Update parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldNationalPark" variable="AnimState" value="System::evaluate('Building::SpringfieldNationalPark::Object::AnimState')+1" asExpression="true" />
+	</GoHunting_Update>
+	<OldFaithless_Tapped parallel="true">
+		<Action type="scheduleScript" mode="replace" script="July4th2016_Scripts:OldFaithless_Animate" shouldSave="true" relativeTime="rand(85)+35" asExpression="true" />
+		<Action type="sound" sound="OldFaithless_Tap" />
+		<Action type="anim-building-oneshot" nowait="true" postdraw="true">
+			<OneShot name="regular" file="OldFaithless_Water" animation="Active" x="0" y="0" />
+		</Action>
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</OldFaithless_Tapped>
+	<OldFaithless_TimerStart parallel="true">
+		<Action type="scheduleScript" mode="replace" script="July4th2016_Scripts:OldFaithless_Animate" shouldSave="true" relativeTime="rand(85)+35" asExpression="true" />
+	</OldFaithless_TimerStart>
+	<OldFaithless_Animate parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="OldFaithless" />
+			<True>
+				<Action type="scheduleScript" mode="replace" script="July4th2016_Scripts:OldFaithless_Animate" shouldSave="true" relativeTime="rand(85)+35" asExpression="true" />
+				<Action type="anim-building-oneshot" onBuilding="OldFaithless" nowait="true" postdraw="true">
+					<OneShot name="regular" file="OldFaithless_Water" animation="Active" x="0" y="0" />
+				</Action>
+				<Action type="anim-play" onBuilding="OldFaithless" animation="ActiveNoLoop" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="land" land="Springfield" not="true" />
+					<True>
+						<Action type="scheduleScript" mode="replace" script="July4th2016_Scripts:OldFaithless_Animate" shouldSave="true" relativeTime="rand(85)+35" asExpression="true" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+	</OldFaithless_Animate>
+	<PresidentialEstate_FreedomPurchased>
+		<Action type="rewardWithPlaceStore" attributes="Terwilligers_MenuConfig:PrizeTrack0">
+			<Item type="building" name="PresidentialEstate" />
+		</Action>
+		<Action type="reward">
+			<Item type="character" name="Freedom" useImmediately="true" />
+		</Action>
+	</PresidentialEstate_FreedomPurchased>
+	<LisaStatue_PatrioticBoxOfFireworksPurchased>
+		<Action type="reward">
+			<Item type="building" name="LisaStatue" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="PatrioticBoxOfFireworks" />
+		</Action>
+		<Action type="focusOnMenuItem" menuCategory="Decorations" inventory="true" />
+	</LisaStatue_PatrioticBoxOfFireworksPurchased>
+	<July4th2016Promo_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+		<Action type="setVariable" boolVariable="PROMO_STARTED" boolValue="false" />
+	</July4th2016Promo_Start>
+	<July4th2016Promo_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" name="EnterJuly4th2016Promo" />
+	</July4th2016Promo_Recommend>
+	<July4th2016Promo_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_4thJuly2016GilPromoStartDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="TeddyRoosevelt" text="QST_4thJuly2016GilPromoStartDialogue_3_dlg_Start_2_TeddyRoosevelt" revealSpeed="medium" />
+				<Action type="dialogue" character="Gil" text="QST_4thJuly2016GilPromoStartDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" />
+				<Action type="dialogue" character="TeddyRoosevelt" text="QST_4thJuly2016GilPromoStartDialogue_3_dlg_Start_4_TeddyRoosevelt" revealSpeed="medium" emotion="happy" />
+				<Action type="recommendation" recType="Promoted" name="EnterJuly4th2016Promo" />
+				<Action type="setVariable" boolVariable="July4th2016Promo_Indicator_Active" boolValue="false" />
+				<Action type="setVariable" boolVariable="PROMO_SHOW_IN_BUILD_MENU" boolValue="true" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="July4th2016_Promo" />
+				<Action type="runScript" script="KillGil" package="MiscScripts" />
+				<Action type="setVariable" boolVariable="July4th2016_PromoSeen" boolValue="true" />
+			</True>
+		</Action>
+	</July4th2016Promo_Display>
+	<July4th2016_DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="July4th2016_Promo" />
+	</July4th2016_DisplayPromo>
+	<July4th2016Promo_Purchase>
+		<Action type="dialogue" character="Gil" text="QST_4thJuly2016GilPromoPurchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_4thJuly2016GilPromoPurchased_3_dlg_Start_2_Gil" revealSpeed="medium" />
+		<Action type="clearRecommendations" category="Promoted" name="EnterJuly4th2016Promo" />
+	</July4th2016Promo_Purchase>
+	<July4th2016Promo_Cancel>
+		<Action type="dialogue" character="Gil" text="QST_4thJuly2016GilPromoDeclined_3_dlg_Start_1_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="TeddyRoosevelt" text="QST_4thJuly2016GilPromoDeclined_3_dlg_Start_2_TeddyRoosevelt" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="TeddyRoosevelt" text="QST_4thJuly2016GilPromoDeclined_3_dlg_Start_3_TeddyRoosevelt" revealSpeed="medium" />
+		<Action type="dialogue" character="TeddyRoosevelt" text="QST_4thJuly2016GilPromoDeclined_3_dlg_Start_4_TeddyRoosevelt" revealSpeed="medium" />
+		<Action type="dialogue" character="TeddyRoosevelt" text="QST_4thJuly2016GilPromoDeclined_3_dlg_Start_5_TeddyRoosevelt" revealSpeed="medium" />
+		<Action type="setVariable" boolVariable="ShowPromoCancelDialogue" boolValue="false" />
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</July4th2016Promo_Cancel>
+	<July4th2016Promo_End parallel="true">
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+		<Action type="clearRecommendations" category="Promoted" name="EnterJuly4th2016Promo" />
+		<Action type="clearRecommendations" category="Event" name="EnterJuly4th2016Category" />
+	</July4th2016Promo_End>
+	<FixRecommendations>
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="variable" variable="July4th2016_PromoSeen" />
+					<Requirement type="conditional" logic="OR" not="true">
+						<Requirement type="building" building="SpringfieldNationalPark" />
+						<Requirement type="place building" building="SpringfieldNationalPark" />
+						<Requirement type="item" item="SpringfieldNationalPark" />
+					</Requirement>
+				</Requirements>
+				<Then>
+					<Action type="setVariable" boolVariable="July4th2016Promo_Indicator_Active" boolValue="true" />
+					<Action type="setVariable" boolVariable="July4th2016_PromoSeen" boolValue="false" />
+					<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+					<Action type="setVariable" boolVariable="PROMO_STARTED" boolValue="false" />
+				</Then>
+			</If>
+		</Action>
+	</FixRecommendations>
+</ScriptPackage>

@@ -1,0 +1,224 @@
+﻿<ScriptPackage>
+	<Decoration_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</Decoration_Tapped>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="AnimalFriendlyThanksgivingMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="AFT_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="AFT_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="AFT_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="AFT_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_AFT_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_AFT_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_AFT_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_AFT_IntroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_AFT_IntroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_AnimalFriendlyThanksgiving_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="AFT_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="AFT_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="AFT_OnePanel" eventName="UI_AFT_Title" limitedTime="true" limitedTimeEndDate="AFT_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="AnimalFriendlyThanksgivingMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_AFT_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_AFT_OutroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_AFT_OutroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_AnimalFriendlyThanksgiving_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="AFT_Complete" boolValue="true" />
+	</ShowMiniEventOutro>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="AFTMasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ThisThanksgivingsGoneToTheBirds_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AnimalFriendlyThanksgiving" />
+									<Attribute name="JobList" value="AFT_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisThanksgivingsGoneToTheBirds_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AnimalFriendlyThanksgiving" />
+									<Attribute name="JobList" value="AFT_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisThanksgivingsGoneToTheBirds_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AnimalFriendlyThanksgiving" />
+									<Attribute name="JobList" value="AFT_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisThanksgivingsGoneToTheBirds_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AnimalFriendlyThanksgiving" />
+									<Attribute name="JobList" value="AFT_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisThanksgivingsGoneToTheBirds_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AnimalFriendlyThanksgiving" />
+									<Attribute name="JobList" value="AFT_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<EnterStoreCategory>
+		<Action type="focusOnMenuItem" menuCategory="AFT" />
+	</EnterStoreCategory>
+	<GoToQuinnStore>
+		<Action type="focusOnMenuItem" itemName="CONRAD" />
+	</GoToQuinnStore>
+	<AutoconsumeProgrammerLisaSkin>
+		<Action type="reward">
+			<Item type="consumable" name="ProgrammerLisa_CON" useImmediately="true" />
+		</Action>
+	</AutoconsumeProgrammerLisaSkin>
+	<ThisThanksgivingsGoneToTheBirds_3_End>
+		<Action type="rewardWithPlaceStore" attributes="AFT_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SlaughterhouseExpress" />
+		</Action>
+		<Action type="actionSequence" script="AFT_Scripts:CheckIfEnd" />
+	</ThisThanksgivingsGoneToTheBirds_3_End>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="AFT_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="AFT_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_AFT_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="AFT_PreExpiryDisplayed72" boolValue="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="AFT_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="AFT_PreExpiryDisplayed24" boolValue="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_AFT_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="AFT_OnePanel" />
+		<Action type="setVariable" boolVariable="AFT_ExpiryDisplayed" boolValue="true" />
+	</DisplayExpiry>
+	<SlaughterhouseRestaurantInInventory>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="SlaughterhouseRestaurant" not="true" />
+			<True>
+				<Action type="notification" icon="ICO_PRIZ_AnimalFriendlyThanksgiving_SlaughterhouseRestraunt_MD" title="UI_MiniEvents_BuildingDecoPrize_text" text="UI_AtW_ItemPurchased" button="UI_OK" />
+			</True>
+		</Action>
+	</SlaughterhouseRestaurantInInventory>
+</ScriptPackage>

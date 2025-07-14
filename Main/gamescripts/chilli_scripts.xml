@@ -1,0 +1,540 @@
+﻿<ScriptPackage>
+	<StartTurtleCatchGame>
+		<Action type="setMiniGameState" building="InsanityCauldron" name="InsanityMode" state="Playing" />
+	</StartTurtleCatchGame>
+	<StartMinigame>
+		<Action type="saveScreenEffects" clearEffects="true" />
+		<Action type="updateVariable" disableEvents="true" variable="GAMEMODE" value="2" />
+		<Action type="setVariable" intVariable="WasInInsanityMode" intValue="1" />
+		<Action type="runScript" script="HomersChiliad_Scripts:RegisterTelemetry_InsanityPlaythroughs" />
+		<Action type="runScript" script="LogTelemetry_InsanityMode" package="HomersChiliad_Scripts">
+			<FormatToken key="playthroughs" value="_[InsanityPlaythroughs]_" />
+		</Action>
+		<Action type="runScript" script="Chilli_Scripts:PlayTurtleGame" ignoreObject="true" />
+	</StartMinigame>
+	<SetTurtleSpawn>
+		<Action type="updateVariable" disableEvents="true" variable="TURTLESTOSPAWN" value="min((System::evaluate('Land::GameLevel')*5), 300)" />
+	</SetTurtleSpawn>
+	<PlayTurtleGame>
+		<Action type="actionSequence" script="Chilli_Scripts:SetTurtleSpawn" />
+		<Action type="updateVariable" disableEvents="true" variable="DUDESCAUGHT" value="0" />
+		<Action type="sound" sound="InsanityModeBackground" />
+		<Action type="sound" sound="InsanityModeStart" />
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="setVariable" boolVariable="InsanityActive" boolValue="true" />
+		<Action type="setBuildingSkin" skinGroup="ProShop_Group" skinName="ProShop_Pyramid" />
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreen" show="true" />
+		<Action type="hideAllCharacters" exceptCharacters="Tortoise_Tappable" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="if">
+			<If expression="GAMEMODE==1">
+				<Then>
+					<Action type="createobject" name="Tortoise_Tappable" count="DUDESTOCATCH" save="false" panCamera="false" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="createobject" name="Tortoise_Tappable" count="TURTLESTOSPAWN" save="false" panCamera="false" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="customTouch">
+			<Attribute name="config">
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="MiniEventMiniGameHUD" />
+					<Attribute name="config" value="MiniEventMiniGameHUD.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="RightCounter">
+							<Attribute name="text" value="0" />
+							<Attribute name="font" value="eFont_LargeBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="Chilli_Scripts:ConfirmQuit" />
+						</AttributeSet>
+						<AttributeSet name="Time01Anim">
+							<Attribute name="loop" value="false" />
+							<Attribute name="image" value="ICO_HomersChiliad_MiniGameTimer" />
+							<Attribute name="animation" value="chili_pepper_still" />
+						</AttributeSet>
+						<AttributeSet name="TappableIconRight">
+							<Attribute name="image" value="ICO_TortoiseReward" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+						<AttributeSet name="TopArrowAnim">
+							<Attribute name="loop" value="true" />
+							<Attribute name="image" value="ICO_ARROW_HintArrows" />
+							<Attribute name="animation" value="up_arrow" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="BottomArrowAnim">
+							<Attribute name="loop" value="true" />
+							<Attribute name="image" value="ICO_ARROW_HintArrows" />
+							<Attribute name="animation" value="down_arrow" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="LeftArrowAnim">
+							<Attribute name="loop" value="true" />
+							<Attribute name="image" value="ICO_ARROW_HintArrows" />
+							<Attribute name="animation" value="left_arrow" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="RightArrowAnim">
+							<Attribute name="loop" value="true" />
+							<Attribute name="image" value="ICO_ARROW_HintArrows" />
+							<Attribute name="animation" value="right_arrow" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="Tortoise_Tappable" />
+					<Attribute name="flagsToAvoid" value="delete" />
+					<Attribute name="ignoreObjectTypes" value="flyby|building" />
+					<Attribute name="runOnTouchScriptsInstantly" value="true" />
+				</AttributeSet>
+				<AttributeSet name="onTouchScripts">
+					<Attribute name="Tortoise_Tappable" value="Chilli_Scripts:DudeTouched" />
+				</AttributeSet>
+				<AttributeSet name="HideHud">
+					<Attribute name="HideHud" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="runScript" script="Chilli_Scripts:ShowInstructions" />
+	</PlayTurtleGame>
+	<ShowInstructions ignoreHUD="true">
+		<Action type="notification" title="UI_Chiliad_Minigame_Instructions_name" button="UI_OK" text="UI_Chiliad_Minigame_Instructions_desc" icon="ICO_InstructionsPopUp_SpaceCoyote" />
+		<Action type="runScript" script="Chilli_Scripts:StartGameTimer" />
+	</ShowInstructions>
+	<StartGameTimer ignoreHUD="true">
+		<Action type="updateVariable" disableEvents="true" variable="FRAMECNT" value="30" />
+		<Action type="scheduleScript" mode="create" script="Chilli_Scripts:UpdateTimer" shouldSave="true" relativeTime="1s" />
+	</StartGameTimer>
+	<UpdateTimer parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="System::evaluate('Game::State::GameState_CustomTouch')">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="FRAMECNT" value="FRAMECNT-1" />
+					<Action type="if">
+						<If expression="FRAMECNT==0">
+							<Then>
+								<Action type="actionSequence" script="Chilli_Scripts:ClearScreenEffect" />
+								<Action type="showScreenEffect" screenEffect="ScriptDarkScreen" show="true">
+									<Tint r="1" g="0" b="0" a="0.55" />
+								</Action>
+								<Action type="runScript" script="Chilli_Scripts:GameOver" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="scheduleScript" mode="create" script="Chilli_Scripts:UpdateTimer" shouldSave="true" relativeTime="1s" />
+								<Action type="runScript" script="Chilli_Scripts:DisplayDirection" />
+								<Action type="if">
+									<If expression="GAMEMODE==1">
+										<Then>
+											<Action type="actionSequence" script="Chilli_Scripts:UpdateAnimatedTimer" />
+											<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+												<Attribute name="config">
+													<AttributeSet name="RightCounter">
+														<Attribute name="text" value="" />
+														<Attribute name="text" value="{0} remaining" parameters="textParams" localise="true">
+															<AttributeSet name="textParams">
+																<Attribute name="0" formula="System::evaluate('Character::Tortoise_Tappable::TotalCount')" />
+															</AttributeSet>
+														</Attribute>
+														<Attribute name="color" value="FF0000FF">
+															<Requirement type="formula" formula="lessThan(FRAMECNT,5)" />
+														</Attribute>
+													</AttributeSet>
+												</Attribute>
+											</Action>
+										</Then>
+									</If>
+									<Else>
+										<Then>
+											<Action type="actionSequence" script="Chilli_Scripts:UpdateAnimatedTimer" />
+											<Action type="actionSequence" script="Chilli_Scripts:UpdateCatchModeTimerText" />
+										</Then>
+									</Else>
+								</Action>
+								<Action type="if">
+									<If expression="greaterThan(FRAMECNT,20)">
+										<Then>
+											<Action type="showScreenEffect" screenEffect="ScriptDarkScreen" show="true">
+												<Tint r="1-((FRAMECNT-10)/30)" g="0" b="(FRAMECNT-10)/30" a="min(0.75,0.55+(mod(FRAMECNT,3)*((FRAMECNT-10)/30)*190/250))" tweenDuration="1" />
+											</Action>
+										</Then>
+									</If>
+									<ElseIf expression="greaterThan(FRAMECNT,10)">
+										<Then>
+											<Action type="showScreenEffect" screenEffect="ScriptDarkScreen" show="true">
+												<Tint r="1-((FRAMECNT-10)/30)" g="0" b="(FRAMECNT-10)/30" a="min(0.75,0.55+(mod(FRAMECNT,2)*((FRAMECNT-10)/30)*190/250))" tweenDuration="1" />
+											</Action>
+										</Then>
+									</ElseIf>
+								</Action>
+								<Action type="if">
+									<If expression="FRAMECNT==10">
+										<Then>
+											<Action type="showScreenEffect" screenEffect="ScriptDarkScreenPulse" show="true">
+												<Tint r="1" g="0" b="0" a="1" />
+											</Action>
+											<Action type="showScreenEffect" screenEffect="ScriptDarkScreen" show="false" />
+										</Then>
+									</If>
+								</Action>
+								<Action type="if">
+									<If expression="lessThan(FRAMECNT,6)">
+										<Then>
+											<Action type="sound" sound="TurtleCountdown" />
+											<Action type="hudTip" parseOnDemand="true">
+												<Attribute name="config">
+													<AttributeSet name="text">
+														<Attribute name="requiresActiveHUD" value="false" />
+														<Attribute name="time" value="2s" />
+														<Attribute name="text" value="UI_Chiliad_Minigame_TimeWarning" localise="true" parameters="textParams">
+															<AttributeSet name="textParams">
+																<Attribute name="0" formula="FRAMECNT" />
+															</AttributeSet>
+														</Attribute>
+														<Attribute name="text" value="UI_Chiliad_Minigame_TimeWarning_Singular" localise="true" parameters="textParams">
+															<Requirements>
+																<Requirement type="formula" formula="FRAMECNT==1" />
+															</Requirements>
+															<AttributeSet name="textParams">
+																<Attribute name="0" formula="FRAMECNT" />
+															</AttributeSet>
+														</Attribute>
+													</AttributeSet>
+												</Attribute>
+											</Action>
+										</Then>
+									</If>
+								</Action>
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="Chilli_Scripts:ClearScreenEffect" />
+				</Then>
+			</Else>
+		</Action>
+	</UpdateTimer>
+	<UpdateAnimatedTimer>
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="Time01Anim">
+					<Attribute name="loop" value="false" />
+					<Attribute name="animation" value="Chili_Pepper_{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="11-ceil(FRAMECNT/3)" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</UpdateAnimatedTimer>
+	<UpdateCatchModeTimerText cache="true">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="RightCounter">
+					<Attribute name="text" value="{0}" parameters="textParams" localise="true">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="DUDESCAUGHT" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="color" value="FFFFFFFF">
+						<Requirement type="formula" formula="greaterThan(DUDESCAUGHT,MAXDUDESCAUGHT)" />
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</UpdateCatchModeTimerText>
+	<QuitGame ignoreHUD="true">
+		<Action type="scheduleScript" mode="delete" script="Chilli_Scripts:*" />
+		<Action type="stopSoundKit" sound="InsanityModeBackground" fadeoutTime="1.5" />
+		<Action type="sound" sound="InsanityModeStop" />
+		<Action type="runScript" script="Chilli_Scripts:ExitGame" />
+	</QuitGame>
+	<ExitGame>
+		<Action type="runScript" script="Chilli_Scripts:DoExitGame" />
+	</ExitGame>
+	<ClearScreenEffect>
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreen" show="false" />
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreenPulse" show="false" />
+	</ClearScreenEffect>
+	<DoExitGame>
+		<Action type="hudTip" clear="true" />
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="setVariable" boolVariable="InsanityActive" boolValue="false" />
+		<Action type="moveObjectInstance" forceValid="false" onType="character" onObject="Homer" xPos="gridToWorld(System::evaluate('Building::InsanityCauldron::Object::GridX'))+75.0" yPos="gridToWorld(System::evaluate('Building::InsanityCauldron::Object::GridY'))+50.0" />
+		<Action type="setBuildingSkin" skinGroup="ProShop_Group" skinName="ProShop_Pyramid" useDefault="true" />
+		<Action type="deletecharacter" character="Tortoise_Tappable" count="System::evaluate('Character::Tortoise_Tappable::TotalCount')" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="actionSequence" script="Chilli_Scripts:ClearScreenEffect" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="restoreScreenEffects" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="pantoobject" time="0" building="InsanityCauldron" />
+		<Action type="setVariable" intVariable="WasInInsanityMode" intValue="0" />
+		<Action type="setMiniGameState" building="InsanityCauldron" name="InsanityMode" state="Ready" />
+		<Action type="setVariable" intVariable="Insanity_CanHoldPharmaceuticals" intValue="lessThan(System::evaluate('Spendable::Pharmaceutical'), System::evaluate('Selector::PharmaceuticalResourceCap'))" asExpression="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="SpringfieldHeights08" />
+				<Requirement type="variable" variable="Insanity_CanHoldPharmaceuticals" />
+			</Requirements>
+			<True>
+				<Action type="if">
+					<If expression="HeightsMultiplierActive || toDouble(System::getConfigValue('__Multipliers_GameConfig:SpringfieldHeightsMultiplier:MultiplierActive__'))">
+						<Then>
+							<Action type="reward" xp="min((100+(DUDESCAUGHT*2)), 400)" Pharmaceutical="(min((1+floor(DUDESCAUGHT/7)), 5) * toDouble(System::getConfigValue('__Multipliers_GameConfig:SpringfieldHeightsMultiplier:Multiplier__')))" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="reward" xp="min((100+(DUDESCAUGHT*2)), 400)" Pharmaceutical="min((1+floor(DUDESCAUGHT/7)), 5)" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="reward" money="min((500+(DUDESCAUGHT*10)), 2000)" xp="min((100+(DUDESCAUGHT*2)), 400)" />
+			</False>
+		</Action>
+		<Action type="runScript" script="Chilli_Scripts:ShowInsanityModeRewardPanel" />
+	</DoExitGame>
+	<GameOver>
+		<Action type="hudTip" clear="true" />
+		<Action type="scheduleScript" mode="delete" script="Chilli_Scripts:*" />
+		<Action type="pantoobject" UID="System::evaluate('Land::Center::Nearest::Character::Tortoise_Tappable::UID')" mbWaitUntilComplete="false" />
+		<Action type="if">
+			<If expression="GAMEMODE==1">
+				<Then>
+					<Action type="sound" sound="HOMER_JOB-BAD3.caf" />
+					<Action type="message" formatMe="root" text="Timed out - you had {AMOUNTLEFT} turtles left">
+						<FormatToken key="AMOUNTLEFT" value="_[System::evaluate('Character::Tortoise_Tappable::TotalCount')]_" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="sound" sound="sfx_Homers_Chilliad_Distant_Wolf_Howl_01.caf" />
+					<Action type="if">
+						<If expression="DUDESCAUGHT==1">
+							<Then>
+								<Action type="message" text="{GameOverSingular}" formatMe="root">
+                                      <FormattingConfig path="HomersChiliad_MenuConfig:ChiliadRewardMenuConfig" /></Action>
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="message" text="{GameOverPlural}" formatMe="root">
+                                      <FormattingConfig path="HomersChiliad_MenuConfig:ChiliadRewardMenuConfig" /></Action>
+							</Then>
+						</Else>
+					</Action>
+					<Action type="updateVariable" disableEvents="true" variable="MAXDUDESCAUGHT" value="max(DUDESCAUGHT,MAXDUDESCAUGHT)" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="stopSoundKit" sound="InsanityModeBackground" fadeoutTime="1.5" />
+		<Action type="sound" sound="InsanityModeStop" />
+		<Action type="runScript" script="Chilli_Scripts:ExitGame" />
+	</GameOver>
+	<DisplayDirection parallel="true" cache="true" ignoreHUD="true">
+		<Action type="updateVariable" disableEvents="true" variable="NEARDIRECTION" value="System::evaluate('Land::Center::Nearest::Character::Tortoise_Tappable::Direction::Screen')" />
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch" parseOnDemand="true">
+			<Attribute name="config">
+				<AttributeSet name="TopArrowAnim">
+					<Attribute name="loop" value="true" />
+					<Attribute name="image" value="ICO_ARROW_HintArrows" />
+					<Attribute name="animation" value="up_arrow" />
+					<Attribute name="image" value="ICO_ARROW_HintArrowUp.rgb" />
+					<Attribute name="visible" formula="and(bitwiseAnd(NEARDIRECTION,1)==0,bitwiseAnd(NEARDIRECTION,2)!=0)" />
+				</AttributeSet>
+				<AttributeSet name="LeftArrowAnim">
+					<Attribute name="loop" value="true" />
+					<Attribute name="image" value="ICO_ARROW_HintArrows" />
+					<Attribute name="animation" value="left_arrow" />
+					<Attribute name="visible" formula="and(bitwiseAnd(NEARDIRECTION,1)==0,bitwiseAnd(NEARDIRECTION,16)!=0)" />
+				</AttributeSet>
+				<AttributeSet name="BottomArrowAnim">
+					<Attribute name="loop" value="true" />
+					<Attribute name="image" value="ICO_ARROW_HintArrows" />
+					<Attribute name="animation" value="down_arrow" />
+					<Attribute name="visible" formula="and(bitwiseAnd(NEARDIRECTION,1)==0,bitwiseAnd(NEARDIRECTION,8)!=0)" />
+				</AttributeSet>
+				<AttributeSet name="RightArrowAnim">
+					<Attribute name="loop" value="true" />
+					<Attribute name="image" value="ICO_ARROW_HintArrows" />
+					<Attribute name="animation" value="right_arrow" />
+					<Attribute name="visible" formula="and(bitwiseAnd(NEARDIRECTION,1)==0,bitwiseAnd(NEARDIRECTION,4)!=0)" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</DisplayDirection>
+	<DisplayFarthest cache="true">
+		<Action type="updateVariable" disableEvents="true" variable="FAR" value="System::evaluate('Character::Instance::[System::evaluate('Land::Center::Furthest::Character::Tortoise_Tappable::UID')]::Nearest::Building::Class::Building::UID')" />
+		<Action type="hudTip" parseOnDemand="true">
+			<Attribute name="config">
+				<AttributeSet name="text">
+					<Attribute name="time" value="3s" />
+					<Attribute name="queue" value="true" />
+					<Attribute name="text" value="Check near to {0}" parameters="textParams" localise="true">
+						<Requirement type="formula" formula="FAR" />
+						<AttributeSet name="textParams">
+							<Attribute name="0" value="{Object::LocalisedName}" formatMe="true" formatOnUID="FAR" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</DisplayFarthest>
+	<DudeTouched parallel="true" cache="true" ignoreHUD="true">
+		<Action type="updateVariable" disableEvents="true" variable="DUDESCAUGHT" value="DUDESCAUGHT+1" />
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="sound" sound="TurtleKicked" />
+		<Action type="runScript" script="Chilli_Scripts:DeleteTurtle" />
+		<Action type="if">
+			<If expression="GAMEMODE==1">
+				<Then>
+					<Action type="actionSequence" script="Chilli_Scripts:DudeTouchedCatchMode" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="Chilli_Scripts:DudeTouchedTimeMode" />
+				</Then>
+			</Else>
+		</Action>
+	</DudeTouched>
+	<DeleteTurtle parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="playCharacterAnimation" animation="Tap" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="Tortoise_Tappable" />
+	</DeleteTurtle>
+	<DudeTouchedTimeMode cache="true">
+		<Action type="actionSequence" script="Chilli_Scripts:UpdateCatchModeTimerText" />
+		<Action type="createobject" name="Tortoise_Tappable" count="1" save="false" panCamera="false" />
+	</DudeTouchedTimeMode>
+	<WonCatchMode>
+		<Action type="updateVariable" disableEvents="true" variable="DUDESTOCATCH" value="DUDESTOCATCH+1" />
+		<Action type="scheduleScript" mode="delete" script="Chilli_Scripts:*" />
+		<Action type="sound" sound="HOMER_JOB-GOOD3.caf" />
+		<Action type="message" text="Way to go. You got them all. Next time will be harderer." />
+		<Action type="runScript" script="Chilli_Scripts:ExitGame" />
+	</WonCatchMode>
+	<DisplayRemaining cache="true">
+		<Action type="hudTip" parseOnDemand="true">
+			<Attribute name="config">
+				<AttributeSet name="text">
+					<Attribute name="time" value="3s" />
+					<Attribute name="text" value="Only {0} to go" parameters="textParams" localise="true">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="REMAINING" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</DisplayRemaining>
+	<ConfirmQuit ignoreHUD="true">
+		<Action type="userConfirmation" text="UI_Chiliad_Minigame_ConfirmQuit_desc" title="UI_Chiliad_Minigame_InsanityMode_name" var="confirm_quitinsanity" rightButtonColor="A61F0CFF" useBackButtonAsCancel="true" />
+		<Action type="checkExpression" expression="confirm_quitinsanity">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="QuitGame" package="Chilli_Scripts" />
+			</ExpressionCase>
+		</Action>
+	</ConfirmQuit>
+	<ShowInsanityModeRewardPanel>
+		<Action type="showMenu" menu="ChiliadRewardPanel" scriptResProvider="ChiliadRewardPanel.mns" menuConfig="HomersChiliad_MenuConfig:ChiliadRewardMenuConfig" buttonsConfig="HomersChiliad_MenuConfig:ChiliadRewardButtonConfig" />
+		<Action type="runScript" script="Chilli_Scripts:RandomPrize" />
+	</ShowInsanityModeRewardPanel>
+	<Rush_InsanityMode parallel="true">
+		<Action type="rushMinigame" minigame="InsanityMode" />
+	</Rush_InsanityMode>
+	<ResetInsanityMinigame parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_CustomTouch" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setBuildingSkin" skinGroup="ProShop_Group" skinName="ProShop_Pyramid" useDefault="true" />
+				<Action type="setVariable" boolVariable="InsanityActive" boolValue="false" />
+				<Action type="setMiniGameState" building="InsanityCauldron" name="InsanityMode" state="Ready" />
+				<Action type="actionSequence" script="Chilli_Scripts:ClearScreenEffect" />
+			</True>
+		</Action>
+	</ResetInsanityMinigame>
+	<GoToHomer>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Homer" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Homer" inventory="true" menuCategory="Characters" />
+			</True>
+			<False>
+				<Action type="pantoobject" character="Homer" checkOtherLands="true" fakeTouch="true" time="0" />
+			</False>
+		</Action>
+	</GoToHomer>
+	<RandomPrize otherScriptsCanRunOnObject="true">
+		<Action type="setObjectVariable" onType="building" onObject="InsanityCauldron" variable="Random" value="rand(100)" asExpression="true" />
+		<Action type="if">
+			<If expression="System::evaluate('Building::InsanityCauldron::Object::Random')==0">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="LightupElderGod" />
+					</Action>
+					<Action type="message" text="UI_HomersChiliad_SystemMessage_InsanityModePrize" />
+				</Then>
+			</If>
+			<ElseIf expression="lessThan(System::evaluate('Building::InsanityCauldron::Object::Random'), 5)">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="CaneField" />
+					</Action>
+					<Action type="message" text="UI_HomersChiliad_SystemMessage_InsanityModePrize" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="lessThan(System::evaluate('Building::InsanityCauldron::Object::Random'), 12)">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="PumpkinPatch" />
+					</Action>
+					<Action type="message" text="UI_HomersChiliad_SystemMessage_InsanityModePrize" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="lessThan(System::evaluate('Building::InsanityCauldron::Object::Random'), 22)">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="HieroglyphWall" />
+					</Action>
+					<Action type="message" text="UI_HomersChiliad_SystemMessage_InsanityModePrize" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RandomPrize>
+</ScriptPackage>

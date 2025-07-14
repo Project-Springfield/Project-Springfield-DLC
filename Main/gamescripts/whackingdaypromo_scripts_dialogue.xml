@@ -1,0 +1,122 @@
+﻿<ScriptPackage>
+	<WhackableSnake_Promo_Tapped parallel="true">
+		<Action type="stop" character="WhackableSnake" />
+		<Action type="playanimation" character="WhackableSnake" animation="TappedSnake" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+				<Requirement type="variable" variable="GuidePanelPopped" />
+			</Requirements>
+			<True>
+				<Action type="reward" WW_ActivePrizeTrackCurrency="10" save="true" />
+			</True>
+		</Action>
+		<Action type="deletecharacter" />
+	</WhackableSnake_Promo_Tapped>
+	<TheWhackIsBack_Despawn>
+		<Action type="runScriptOnAll" character="WhackableSnake_Promo" script="DespawnCharacter" package="WhackingDayPromo_Scripts_Dialogue" />
+	</TheWhackIsBack_Despawn>
+	<DespawnCharacter parallel="true" runQueueState="RunInAnyState">
+		<Action type="deletecharacter" />
+	</DespawnCharacter>
+	<SnakeWestern_Tapped parallel="true">
+		<Action type="anim-play" character="SnakeWestern" animation="Tap" />
+	</SnakeWestern_Tapped>
+	<WhackingDayPromo_ToStore>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="WhackingDayPromo_Start" end="WhackingDayPromo_End" />
+			</Requirements>
+			<True>
+				<Action type="message" text="QST_TheWhackIsBack_2_3_dlg_Start_4_SystemMessage" revealSpeed="medium" />
+				<Action type="runScript" package="WhackingDayPromo_Scripts_Dialogue" script="WhackingDayPromo_EnterCategory" />
+			</True>
+		</Action>
+	</WhackingDayPromo_ToStore>
+	<WhackingDayPromo_EnterCategory>
+		<Action type="focusOnMenuItem" menuCategory="WhackingDayPromo" />
+	</WhackingDayPromo_EnterCategory>
+	<WhackingDayPromo_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" limitedTime="true" limitedTimeEndDate="WhackingDayPromo_End" eventName="UI_WhackingDayPromo_title" name="EnterWhackingDayPromoCategory" />
+		<Action type="recommendation" recType="Promoted" limitedTime="true" limitedTimeEndDate="WhackingDayPromo_End" name="Lumpy_Bundle_Con" />
+	</WhackingDayPromo_Recommend>
+	<SnakeSpeakers_Tapped parallel="true">
+		<Action type="anim-play" building="SnakeSpeakers" animation="QuickActive" />
+		<Action type="addAttractor" continuous="true" character="WhackableSnake_Promo|PetSnake|LumpyTheSnake|SnakeWestern" speedMul="3" duration="30" radius="1000" repathInterval="3" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character" name="WhackableSnake_Promo" not="true" />
+				<Requirement type="formula" formula="System::evaluate('Character::Instance::Snake::Object::Visible')" />
+				<Requirement type="formula" formula="greaterThan(time(0), System::evaluate('Character::Snake::Object::SnakeSpeakers_Timeout'))" />
+			</Requirements>
+			<True>
+				<Action type="runScript" package="WhackingDayPromo_Scripts_Dialogue" script="SnakeSpeakers_Snake_Dialogue" />
+				<Action type="addAttractor" continuous="true" character="Snake" speedMul="2" duration="30" radius="100" repathInterval="3" />
+				<Action type="setObjectVariable" onType="character" onObject="Snake" variable="SnakeSpeakers_Timeout" value="time(60*60*5)" asExpression="true" />
+			</True>
+		</Action>
+	</SnakeSpeakers_Tapped>
+	<SnakeSpeakers_Snake_Dialogue>
+		<Action type="dialogue" character="Snake" text="QST_SnakeSpeaker_1_dlg_Start_1_Snake" revealSpeed="medium" />
+	</SnakeSpeakers_Snake_Dialogue>
+	<Lumpy_Bundle_Purchased>
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="notification" title="CON_Lumpy_Bundle_Con_name" button="UI_OK" text="QST_Lumpy_Bundle_SystemMessage" icon="LumpyTheSnake_Menu" />
+		<Action type="focusOnMenuItem" menuCategory="Decorations" inventory="true" />
+	</Lumpy_Bundle_Purchased>
+	<TheWhackIsBack_1_Start>
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_1_3_dlg_Start_8_Lisa" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_1_3_dlg_Start_9_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_1_3_dlg_Start_10_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_11_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_1_3_dlg_Start_12_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_1_3_dlg_Start_13_Lisa" revealSpeed="medium" emotion="angry" />
+		<Action type="pantoobject" time="0" building="SimpsonHome" />
+		<Action type="createobject" name="WhackableSnake_Promo" building="SimpsonHome" count="10" showUnlock="false" save="true" panCamera="true" />
+		<Action type="runScript" package="WhackingDayPromo_Scripts_Dialogue" script="WhackingDayPromo_Recommend" />
+	</TheWhackIsBack_1_Start>
+	<TheWhackIsBack_1_End parallel="true">
+		<Action type="runScript" package="WhackingDayPromo_Scripts_Dialogue" script="TheWhackIsBack_Despawn" />
+		<Action type="runScript" package="WhackingDayPromo_Scripts_Dialogue" script="WhackingDayPromo_ToStore" />
+		<Action type="setVariable" boolVariable="TheWhackIsBack_1_Complete" boolValue="true" />
+	</TheWhackIsBack_1_End>
+	<TheWhackIsBack_2_Start>
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_2_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_2_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_2_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="pantoobject" time="0" building="SimpsonHome" />
+		<Action type="createobject" name="WhackableSnake_Promo" building="SimpsonHome" count="10" showUnlock="false" save="true" panCamera="true" />
+	</TheWhackIsBack_2_Start>
+	<TheWhackIsBack_3_Start>
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_3_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_3_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_TheWhackIsBack_3_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="eyeroll" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_3_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_TheWhackIsBack_3_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</TheWhackIsBack_3_Start>
+	<TheEastGoesWest_Start>
+		<Action type="dialogue" character="Homer_Ninja" text="QST_TheEastGoesWest_3_dlg_Start_1_NinjaHomer" revealSpeed="medium" />
+	</TheEastGoesWest_Start>
+	<TheEastGoesWest_End>
+		<Action type="dialogue" character="Lenny" text="QST_TheEastGoesWest_3_dlg_Start_2_Lenny" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Carl" text="QST_TheEastGoesWest_3_dlg_Start_3_Carl" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer_Ninja" text="QST_TheEastGoesWest_3_dlg_Start_4_NinjaHomer" revealSpeed="medium" emotion="doh" />
+	</TheEastGoesWest_End>
+	<HomerLiveDialogue_Start>
+		<Action type="dialogue" character="Homer" text="QST_HomerLiveDialogue_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_HomerLiveDialogue_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HomerLiveDialogue_3_dlg_Start_3_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_HomerLiveDialogue_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="curious" />
+		<Action type="dialogue" character="Homer" text="QST_HomerLiveDialogue_3_dlg_Start_5_Cbguy" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_HomerLiveDialogue_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HomerLiveDialogue_3_dlg_Start_7_Lisa" revealSpeed="medium" emotion="serious" />
+		<Action type="message" text="QST_HomerLiveDialogue_3_dlg_Start_8_SystemMessage" revealSpeed="medium" />
+	</HomerLiveDialogue_Start>
+</ScriptPackage>

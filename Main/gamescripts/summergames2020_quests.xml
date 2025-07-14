@@ -1,0 +1,502 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="234000" name="SummerFunAndGames" />
+		<DataID id="234001" name="SummerSportinHadMeABlast_1" />
+		<DataID id="234002" name="SummerSportinHadMeABlast_2" />
+		<DataID id="234003" name="SummerSportinHadMeABlast_3" />
+		<DataID id="234004" name="SummerSportinHadMeABlast_4" />
+		<DataID id="234005" name="SummerSportinHadMeABlast_5" />
+		<DataID id="234006" name="GameButNotForgotten" />
+		<DataID id="234007" name="ChairmanOfTheBored_1" />
+		<DataID id="234008" name="ChairmanOfTheBored_2" />
+		<DataID id="234009" name="ChairmanOfTheBored_3" />
+		<DataID id="234010" name="ChairmanOfTheBored_4" />
+		<DataID id="234011" name="ChairmanOfTheBored_5" />
+		<DataID id="234012" name="USAUSA_1" />
+		<DataID id="234013" name="USAUSA_2" />
+		<DataID id="234014" name="USAUSA_3" />
+		<DataID id="234015" name="USAUSA_4" />
+		<DataID id="234016" name="MakingARacket_1" />
+		<DataID id="234017" name="MakingARacket_2" />
+		<DataID id="234018" name="MakingARacket_3" />
+		<DataID id="234019" name="MakingARacket_4" />
+		<DataID id="234020" name="MakingARacket_5" />
+		<DataID id="234600" name="SummerGames2020_Completed" />
+		<DataID id="234601" name="SummerGames2020_IntroPanel" />
+		<DataID id="234602" name="SummerGames2020_72HourWarning" onDeprecated="retain" endDate="SummerGames2020_End" />
+		<DataID id="234603" name="SummerGames2020_24HourWarning" onDeprecated="retain" endDate="SummerGames2020_End" />
+		<DataID id="234604" name="SummerGames2020_EventExpired" />
+		<DataID id="234605" name="SummerGames2020_MasterQuest" />
+		<DataID id="234699" name="TruckTruckTruck_Promotion" />
+		<DataID id="234700" name="AutoApply_PatrioticHomerSkin" />
+		<DataID id="234900" name="SummerGames2020_RecommendStore" onDeprecated="delete" endDate="SummerGames2020_End" />
+	</MasterList>
+	<Quest id="234600" name="SummerGames2020_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="GameButNotForgotten" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="234601" name="SummerGames2020_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="SummerFunAndGames" />
+			<Requirement type="time" end="SummerGames2020_End" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="234602" name="SummerGames2020_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SummerGames2020_End')-fromHours(72)]_" end="_[System::evaluate('Date::SummerGames2020_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="SummerGames2020_Complete" not="true" />
+			<Requirement type="quest" quest="SummerGames2020_IntroPanel" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="234603" name="SummerGames2020_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SummerGames2020_End')-fromHours(24)]_" end="SummerGames2020_End" triggerEvent="true" />
+			<Requirement type="variable" variable="SummerGames2020_Complete" not="true" />
+			<Requirement type="quest" quest="SummerGames2020_IntroPanel" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="234604" name="SummerGames2020_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="SummerGames2020_End" triggerEvent="true" />
+			<Requirement type="variable" variable="SummerGames2020_Complete" not="true" />
+			<Requirement type="quest" quest="SummerGames2020_IntroPanel" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="234605" name="SummerGames2020_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="variable" variable="SummerGames2020_Complete" not="true" />
+			<Requirement type="reqList" location="SummerGames2020_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="SummerSportinHadMeABlast_5" />
+					<Requirement type="variable" variable="SummerGames2020_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="SummerSportinHadMeABlast_1">
+				<Requirement type="quest started" quest="SummerSportinHadMeABlast_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SummerSportinHadMeABlast_2">
+				<Requirement type="quest started" quest="SummerSportinHadMeABlast_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SummerSportinHadMeABlast_3">
+				<Requirement type="quest started" quest="SummerSportinHadMeABlast_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SummerSportinHadMeABlast_4">
+				<Requirement type="quest started" quest="SummerSportinHadMeABlast_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SummerSportinHadMeABlast_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="234000" name="SummerFunAndGames" tags="sidequest" icon="SummerGames2020_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="SummerGames2020_Start" end="SummerGames2020_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="SummerFunAndGames_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="SummerFunAndGames_End" />
+		<Objectives>
+			<Objective type="complete job" character="Quimby" job="BringTheSummerGamesToSpringfield" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="SummerGames2020_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="234001" name="SummerSportinHadMeABlast_1" tags="mainquest" icon="SummerGames2020_Currency" sidebarIconScript="SummerGames2020_Scripts:OpenMasterQuest" questMenuConfigPath="SummerGames2020_QuestConfig:SummerGames2020_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="SummerGames2020_IntroPanel" />
+			<Requirement type="quest" quest="SummerFunAndGames" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_1_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SummerGames2020_Currency')" amount="__SummerGames2020_GameConfig:ResourceQuantities:SummerGames2020_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SummerGames2020_Scripts:ShowJobList" textpoolName="QST_SummerGames2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCheapTrophies" />
+					<Job name="AwardHimselfCheapTrophies" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="LoungeWhileOthersClean" quantity="1" />
+			<Objective type="complete job" job="ScrubAndPolishStreets" quantity="5" />
+			<Objective type="complete job" job="WashWindows" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SummerGames2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SummerGames2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="234002" name="SummerSportinHadMeABlast_2" tags="mainquest" icon="SummerGames2020_Currency" sidebarIconScript="SummerGames2020_Scripts:OpenMasterQuest" questMenuConfigPath="SummerGames2020_QuestConfig:SummerGames2020_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="SummerSportinHadMeABlast_1" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_2_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SummerGames2020_Currency')" amount="__SummerGames2020_GameConfig:ResourceQuantities:SummerGames2020_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SummerGames2020_Scripts:ShowJobList" textpoolName="QST_SummerGames2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCheapTrophies" />
+					<Job name="AwardHimselfCheapTrophies" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="RallySpringfieldersAgainstLitovians" quantity="1" />
+			<Objective type="complete job" job="VolunteerToCompeteInGames" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SummerGames2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SummerGames2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="234003" name="SummerSportinHadMeABlast_3" tags="mainquest" icon="SummerGames2020_Currency" sidebarIconScript="SummerGames2020_Scripts:OpenMasterQuest" questMenuConfigPath="SummerGames2020_QuestConfig:SummerGames2020_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="SummerSportinHadMeABlast_2" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_3_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SummerGames2020_Currency')" amount="__SummerGames2020_GameConfig:ResourceQuantities:SummerGames2020_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SummerGames2020_Scripts:ShowJobList" textpoolName="QST_SummerGames2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCheapTrophies" />
+					<Job name="AwardHimselfCheapTrophies" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="BeatLitoviansInSportsMascotDanceOff" quantity="1" />
+			<Objective type="complete job" character="Barney" job="LoseToLitoviansInBowling" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ned" job="BeatLitoviansInHorseshoes" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SummerGames2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SummerGames2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="234004" name="SummerSportinHadMeABlast_4" tags="mainquest" icon="SummerGames2020_Currency" sidebarIconScript="SummerGames2020_Scripts:OpenMasterQuest" questMenuConfigPath="SummerGames2020_QuestConfig:SummerGames2020_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="SummerSportinHadMeABlast_3" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_4_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SummerGames2020_Currency')" amount="__SummerGames2020_GameConfig:ResourceQuantities:SummerGames2020_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SummerGames2020_Scripts:ShowJobList" textpoolName="QST_SummerGames2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCheapTrophies" />
+					<Job name="AwardHimselfCheapTrophies" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="InvestigateTheLitovians" quantity="1" />
+			<Objective type="complete job" character="Moe" job="BeatTheLitoviansInRockPaperScissors" quantity="1" />
+			<Objective type="complete job" character="Homer" job="BeatTheLitoviansAtCornhole" quantity="1" />
+			<Objective type="complete job" character="Carl" job="BeatTheLitoviansInLottoScratchers" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SummerGames2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SummerGames2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="234005" name="SummerSportinHadMeABlast_5" tags="mainquest" icon="SummerGames2020_Currency" sidebarIconScript="SummerGames2020_Scripts:OpenMasterQuest" questMenuConfigPath="SummerGames2020_QuestConfig:SummerGames2020_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="SummerSportinHadMeABlast_4" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_5_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="SummerSportinHadMeABlast_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SummerGames2020_Currency')" amount="__SummerGames2020_GameConfig:ResourceQuantities:SummerGames2020_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SummerGames2020_Scripts:ShowJobList" textpoolName="QST_SummerGames2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCheapTrophies" />
+					<Job name="AwardHimselfCheapTrophies" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="LoseToTheLitoviansAtTetherball" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="WatchBartLoseAtTetherball" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SummerGames2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SummerGames2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="234006" name="GameButNotForgotten" tags="sidequest" icon="SummerGames2020_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="SummerSportinHadMeABlast_5" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="GameButNotForgotten_Start" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="GameButNotForgotten_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="Celebrate_Homer" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="234007" name="ChairmanOfTheBored_1" tags="sidequest" icon="SummerGamesChairman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="SummerGamesChairman" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_1_Start" triggerType="character" character="SummerGamesChairman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="SummerGamesChairman" job="BalkAtHisRealEstateBusBenchAd" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234008" name="ChairmanOfTheBored_2" tags="sidequest" icon="SummerGamesChairman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ChairmanOfTheBored_1" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_2_Start" triggerType="character" character="SummerGamesChairman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="SummerGamesChairman" job="CoachLisasYouthHockeyLeague" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234009" name="ChairmanOfTheBored_3" tags="sidequest" icon="SummerGamesChairman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ChairmanOfTheBored_2" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_3_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="SummerGamesChairman" job="ExamineSportsEquipment" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234010" name="ChairmanOfTheBored_4" tags="sidequest" icon="SummerGamesChairman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ChairmanOfTheBored_3" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_4_Start" triggerType="character" character="SummerGamesChairman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="SummerGamesChairman" job="ChairAMeeting" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234011" name="ChairmanOfTheBored_5" tags="sidequest" icon="SummerGamesChairman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ChairmanOfTheBored_4" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="ChairmanOfTheBored_5_Start" triggerType="character" character="SummerGamesChairman" />
+		<Objectives>
+			<Objective type="complete job" character="SummerGamesChairman" job="WinGoldInTheRealEstateGame" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="234012" name="USAUSA_1" tags="sidequest" icon="Homer_Patriotic">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="Homer" unlockedskin="PatrioticHomer" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_1_Start" triggerType="character" character="Homer" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PatrioticHomer" job="TrainForSports" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234013" name="USAUSA_2" tags="sidequest" icon="Homer_Patriotic">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="USAUSA_1" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_2_Start" triggerType="character" character="Lisa" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PatrioticHomer" job="WaveABigFlagAround" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234014" name="USAUSA_3" tags="sidequest" icon="Homer_Patriotic">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="USAUSA_2" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_3_Start" triggerType="character" character="Homer" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PatrioticHomer" job="CompeteInSummerGamesCornhole" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234015" name="USAUSA_4" tags="sidequest" icon="Homer_Patriotic">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="USAUSA_3" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="USAUSA_4_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PatrioticHomer" job="EatPatrioticDonuts" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="234016" name="MakingARacket_1" tags="sidequest" icon="StephanieBrockman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="StephanieBrockman" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_1_Start" triggerType="character" character="StephanieBrockman" />
+		<Objectives>
+			<Objective type="complete job" character="StephanieBrockman" job="CheckTheWeather" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234017" name="MakingARacket_2" tags="sidequest" icon="StephanieBrockman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MakingARacket_1" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_2_Start" triggerType="character" character="StephanieBrockman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="StephanieBrockman" job="PracticeHerTennisSkills" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234018" name="MakingARacket_3" tags="sidequest" icon="StephanieBrockman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MakingARacket_2" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_3_Start" triggerType="character" character="StephanieBrockman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="StephanieBrockman" job="StormOffTheCourt" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234019" name="MakingARacket_4" tags="sidequest" icon="StephanieBrockman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MakingARacket_3" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_4_Start" triggerType="character" character="StephanieBrockman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="StephanieBrockman" job="TellHomerToStopWinking" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WinkAtGroundskeeperWillie" quantity="1" />
+			<Objective type="complete job" character="Willy" job="TakeItTheWrongWay" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Willy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="234020" name="MakingARacket_5" tags="sidequest" icon="StephanieBrockman">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MakingARacket_4" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_5_Start" triggerType="character" character="StephanieBrockman" />
+		<EndScript package="SummerGames2020_Scripts_Dialogue" name="MakingARacket_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="StephanieBrockman" job="AngrilyPlayTennis" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="234700" name="AutoApply_PatrioticHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="PatrioticHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="PatrioticHomer" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="SummerGames2020_Scripts" name="AutoApply_PatrioticHomerSkin_End" />
+	</Quest>
+	<Quest id="234900" name="SummerGames2020_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="SummerGames2020_Requirements:StoreCategory_SummerGames2020_Unlocked" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts" name="RecommendStoreCategory_SummerGames2020" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="234699" name="TruckTruckTruck_Promotion" tags="dummy">
+		<Requirements>
+			<Requirement type="time" end="SummerGames2020_End" />
+			<Requirement type="variable" variable="SummerGames2020_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+		</Requirements>
+		<StartScript package="SummerGames2020_Scripts_Dialogue" name="TruckTruckTruck_Promo_Script" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

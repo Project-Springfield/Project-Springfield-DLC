@@ -1,0 +1,621 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="IntoTheSimpsonsverseMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="IntoTheSimpsonsverse_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="IntoTheSimpsonsverse_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="IntoTheSimpsonsverse_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="IntoTheSimpsonsverse_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_IntoTheSimpsonsverse_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="IntoTheSimpsonsverse_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="IntoTheSimpsonsverse_IntoTheSimpsonsverse_OnePanel" eventName="UI_IntoTheSimpsonsverse_Title" limitedTime="true" limitedTimeEndDate="IntoTheSimpsonsverse_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="IntoTheSimpsonsverseMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_IntoTheSimpsonsverse_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_IntoTheSimpsonsverse_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_IntoTheSimpsonsverse_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="IntoTheSimpsonsverse_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_IntoTheSimpsonsverse_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="IntoTheSimpsonsverse_OnePanel" />
+		<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="IntoTheSimpsonsverse_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="IntoTheSimpsonsverse_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="IntoTheSimpsonsverse_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="IntoTheSimpsonsverse_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="IntoTheSimpsonsverse_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="IntoTheSimpsonsverse_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="IntoTheSimpsonsverse_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="IntoTheSimpsonsverse_Start" end="IntoTheSimpsonsverse_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="FromTheRedToTheBlackandWhite_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week1" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="FromTheRedToTheBlackandWhite_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week1" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FromTheRedToTheBlackandWhite_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week1" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FromTheRedToTheBlackandWhite_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week1" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FromTheRedToTheBlackandWhite_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week1" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="IntoTheSimpsonsverse_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="IntoTheSimpsonsverse_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="IntoTheSimpsonsverse_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="IntoTheSimpsonsverse_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="IntoTheSimpsonsverse_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="IntoTheSimpsonsverse_Start" end="IntoTheSimpsonsverse_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TheRoyalMaltreatment_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week2" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheRoyalMaltreatment_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week2" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheRoyalMaltreatment_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week2" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheRoyalMaltreatment_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week2" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheRoyalMaltreatment_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week2" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="IntoTheSimpsonsverse_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="IntoTheSimpsonsverse_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="IntoTheSimpsonsverse_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="IntoTheSimpsonsverse_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="IntoTheSimpsonsverse_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="IntoTheSimpsonsverse_Start" end="IntoTheSimpsonsverse_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AFourCourseOfAction_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week3" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFourCourseOfAction_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week3" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFourCourseOfAction_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week3" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFourCourseOfAction_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week3" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFourCourseOfAction_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week3" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="IntoTheSimpsonsverse_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="IntoTheSimpsonsverse_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="IntoTheSimpsonsverse_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="IntoTheSimpsonsverse_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="IntoTheSimpsonsverse_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="IntoTheSimpsonsverse_Start" end="IntoTheSimpsonsverse_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ArmpitOfTheUniverse_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week4" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ArmpitOfTheUniverse_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week4" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ArmpitOfTheUniverse_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week4" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ArmpitOfTheUniverse_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week4" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ArmpitOfTheUniverse_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="IntoTheSimpsonsverse_Event_Week4" />
+									<Attribute name="JobList" value="IntoTheSimpsonsverse_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="IntoTheSimpsonsverse_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="IntoTheSimpsonsverse_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="IntoTheSimpsonsverse_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="IntoTheSimpsonsverse_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="IntoTheSimpsonsverse_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="IntoTheSimpsonsverse_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<RecommendStoreCategory_IntoTheSimpsonsverse ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="IntoTheSimpsonsverse_IntoTheSimpsonsverse_OnePanel" />
+		<Action type="recommendation" recType="Event" name="IntoTheSimpsonsverse_IntoTheSimpsonsverse_OnePanel" eventName="UI_IntoTheSimpsonsverse_Title" limitedTime="true" limitedTimeEndDate="IntoTheSimpsonsverse_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_IntoTheSimpsonsverse>
+	<EnterStoreCategory_IntoTheSimpsonsverse ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="IntoTheSimpsonsverse_Category" />
+	</EnterStoreCategory_IntoTheSimpsonsverse>
+	<IntoTheSimpsonsverseTokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" IntoTheSimpsonsverseToken="1" />
+			<True>
+				<Action type="runScript" script="IntoTheSimpsonsverse_Scripts:GoToIntoTheSimpsonsverseTokenExchange" />
+			</True>
+		</Action>
+	</IntoTheSimpsonsverseTokenForDozenDonuts>
+	<GoToIntoTheSimpsonsverseTokenExchange>
+		<Action type="focusOnMenuItem" itemName="IntoTheSimpsonsverseTokenForDozenDonuts" menuCategory="IntoTheSimpsonsverse_Category" />
+	</GoToIntoTheSimpsonsverseTokenExchange>
+	<RewardOneIntoTheSimpsonsverseToken>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_IntoTheSimpsonsverse_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" IntoTheSimpsonsverseToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="IntoTheSimpsonsverse_Requirements:IntoTheSimpsonsverseBox_Available" />
+			<True>
+				<Action type="consumable" consumable="IntoTheSimpsonsverse_IntoTheSimpsonsverseMysteryBox" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="IntoTheSimpsonsverse_Scripts:GoToIntoTheSimpsonsverseTokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneIntoTheSimpsonsverseToken>
+	<RewardOneIntoTheSimpsonsverseToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_IntoTheSimpsonsverse_MysteryBoxTokenSingular" icon="ICO_PRIZ_IntoTheSimpsonsverse_Act1Prize3_LG" button="UI_OK" />
+		<Action type="reward" save="true" IntoTheSimpsonsverseToken="1" />
+		<Action type="consumable" consumable="IntoTheSimpsonsverse_IntoTheSimpsonsverseMysteryBox" fromInventory="false" />
+	</RewardOneIntoTheSimpsonsverseToken_Store>
+	<RewardFiveIntoTheSimpsonsverseTokens_Store>
+		<Action type="notification" title="UI_MysteryBoxTokensFive" text="UI_IntoTheSimpsonsverse_MysteryBoxTokenPlural" icon="ICO_PRIZ_IntoTheSimpsonsverse_Act1Prize3_LG" button="UI_OK" />
+		<Action type="reward" save="true" IntoTheSimpsonsverseToken="5" />
+		<Action type="consumable" consumable="IntoTheSimpsonsverse_IntoTheSimpsonsverseMysteryBox" fromInventory="false" />
+	</RewardFiveIntoTheSimpsonsverseTokens_Store>
+	<RoyalUnicorn_Tapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</RoyalUnicorn_Tapped>
+	<CookieCastle_PrincessEating parallel="true">
+		<Action type="setObjectVariable" variable="EatCookieCastleActive" value="1" allowOrphan="false" onType="building" onObject="CookieCastle" />
+		<Action type="anim-play" onBuilding="CookieCastle" animation="Neutral" />
+	</CookieCastle_PrincessEating>
+	<CookieCastle_PrincessEatingDone parallel="true">
+		<Action type="setObjectVariable" variable="EatCookieCastleActive" value="0" allowOrphan="false" onType="building" onObject="CookieCastle" />
+		<Action type="anim-play" onBuilding="CookieCastle" animation="Neutral" />
+	</CookieCastle_PrincessEatingDone>
+	<SurveyHerKingdom_Complete>
+		<Action type="setFlyByVelocity" flyBy="PrincessJules_SurveyHerKingdom" x="1250" y="30" />
+	</SurveyHerKingdom_Complete>
+	<GiveBossFightDeco>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="LordMontymortBossfightDecoration" not="true" />
+			<True>
+				<Action type="returnToInGameState" />
+				<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+					<Item type="building" name="LordMontymortBossfightDecoration" />
+				</Action>
+			</True>
+		</Action>
+	</GiveBossFightDeco>
+</ScriptPackage>

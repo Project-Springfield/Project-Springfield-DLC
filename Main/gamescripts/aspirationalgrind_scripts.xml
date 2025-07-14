@@ -1,0 +1,195 @@
+﻿<ScriptPackage>
+	<SpringfieldDam_Tapped parallel="true">
+		<Action type="anim-building-oneshot" postdraw="true" onBuilding="SpringfieldDam" nowait="true" panCamera="false">
+			<OneShot name="regular" file="springfielddam_overlay01" animation="active_tap" x="0" y="0" />
+		</Action>
+	</SpringfieldDam_Tapped>
+	<GoToCecilOrTownHall>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="TownHall" />
+			</Requirements>
+			<True>
+				<Action type="actionSequence" script="MiscScripts:ForceSpringfield">
+					<FormatToken key="script" value="AspirationalGrind_Scripts:GoToCecil_Impl" />
+				</Action>
+			</True>
+			<False>
+				<Action type="actionSequence" script="MiscScripts:ForceSpringfield">
+					<FormatToken key="script" value="AspirationalGrind_Scripts:GoToTownHall" />
+				</Action>
+			</False>
+		</Action>
+	</GoToCecilOrTownHall>
+	<GoToTownHall>
+		<Action type="returnToInGameState" waitForState="true" />
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="TownHall" />
+				<Then>
+					<Action type="pantoobject" building="TownHall" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="TownHall" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="TownHall" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" itemName="TownHall" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToTownHall>
+	<GoToCecil_Impl>
+		<Action type="returnToInGameState" waitForState="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="CecilTerwilliger" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="CecilTerwilliger" inventory="true" />
+			</True>
+			<False>
+				<Action type="pantoobject" character="CecilTerwilliger" fakeTouch="true" fakeTouchAvoidsIndicators="true" time="0" />
+			</False>
+		</Action>
+	</GoToCecil_Impl>
+	<OpenQuestTrack>
+		<Action type="gotoState" state="GameState_QuestProgress">
+			<Extras>
+				<Attribute name="questParentDelegate" value="AspirationalGrind_Master" />
+			</Extras>
+		</Action>
+	</OpenQuestTrack>
+	<GoToStore_Cecil>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="focusOnMenuItem" itemName="CecilTerwilliger" menuCategory="Characters" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToStore_Cecil>
+	<AspirationalGrind_Teaser_Start>
+		<Action type="notification" title="UI_AspirationalGrind_Teaser_name" button="UI_OK" text="UI_AspirationalGrind_Teaser_desc" icon="CubicZirconia_Menu" />
+		<Action type="focusOnMenuItem" itemName="CubicZirconia" menuCategory="Decorations" />
+	</AspirationalGrind_Teaser_Start>
+	<AspirationalGrind_Intro_Start>
+		<Action type="dialogue" character="Cecil" text="QST_LetBygonesBeGone_3_dlg_Start_1_Cecil" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Cecil" text="QST_LetBygonesBeGone_3_dlg_Start_2_Cecil" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_LetBygonesBeGone_3_dlg_Start_3_Bart" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Bart" text="QST_LetBygonesBeGone_3_dlg_Start_4_Bart" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Cecil" text="QST_LetBygonesBeGone_3_dlg_Start_5_Cecil" revealSpeed="medium" emotion="happy" />
+	</AspirationalGrind_Intro_Start>
+	<AspirationalGrind_1_Start>
+		<Action type="dialogue" character="Cecil" text="QST_SpringfieldDam_3_dlg_Start_1_Cecil" revealSpeed="medium" />
+		<Action type="dialogue" character="Cecil" text="QST_SpringfieldDam_3_dlg_Start_2_Cecil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="MrBurns" text="QST_SpringfieldDam_3_dlg_Start_3_MrBurns" revealSpeed="medium" emotion="shouting" />
+		<Action type="dialogue" character="MrBurns" text="QST_SpringfieldDam_3_dlg_Start_4_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="runScript" script="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+	</AspirationalGrind_1_Start>
+	<AspirationalGrind_1_End>
+		<Action type="loseResources" InvestedDollars="20000000" />
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SpringfieldDam" />
+		</Action>
+	</AspirationalGrind_1_End>
+	<AspirationalGrind_2_Start>
+		<Action type="dialogue" character="Cecil" text="QST_MansionGardens_3_dlg_Start_1_Cecil" revealSpeed="medium" />
+		<Action type="dialogue" character="Cecil" text="QST_MansionGardens_3_dlg_Start_2_Cecil" revealSpeed="medium" emotion="happy" />
+		<Action type="runScript" script="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+	</AspirationalGrind_2_Start>
+	<AspirationalGrind_2_End>
+		<Action type="loseResources" InvestedDollars="40000000" />
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="gameObjectBundle" name="MansionGardensGOB" />
+		</Action>
+	</AspirationalGrind_2_End>
+	<AspirationalGrind_3_Start>
+		<Action type="dialogue" character="Cecil" text="QST_RockAndAHardPlace_3_dlg_Start_1_Cecil" revealSpeed="medium" emotion="embarrassed" />
+		<Action type="dialogue" character="Cecil" text="QST_RockAndAHardPlace_3_dlg_Start_2_Cecil" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_RockAndAHardPlace_3_dlg_Start_3_Bart" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Otto" text="QST_RockAndAHardPlace_3_dlg_Start_4_Otto" revealSpeed="medium" />
+		<Action type="dialogue" character="Barney" text="QST_RockAndAHardPlace_3_dlg_Start_5_Barney" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_RockAndAHardPlace_3_dlg_Start_6_Cletus" revealSpeed="medium" emotion="smiling" />
+		<Action type="message" text="QST_RockAndAHardPlace_3_dlg_Start_7_SystemMessage" revealSpeed="medium" />
+		<Action type="runScript" script="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+	</AspirationalGrind_3_Start>
+	<AspirationalGrind_3_End>
+		<Action type="loseResources" InvestedDollars="80000000" />
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="RockAndAHardPlace" />
+		</Action>
+	</AspirationalGrind_3_End>
+	<AspirationalGrind_4_Start>
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_Start_1_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_Start_2_Cecil" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_Start_3_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_Start_4_Cecil" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_Start_5_Quimby" revealSpeed="medium" emotion="embarrassed" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_Start_6_Cecil" revealSpeed="medium" emotion="appalled" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_Start_7_Quimby" revealSpeed="medium" emotion="smug" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_Start_8_Cecil" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_Start_9_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_Start_10_Cecil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_Start_11_Quimby" revealSpeed="medium" emotion="happy" />
+		<Action type="runScript" script="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+	</AspirationalGrind_4_Start>
+	<AspirationalGrind_4_End>
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_End_1_Quimby" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_End_2_Cecil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_End_3_Quimby" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_End_4_Cecil" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_End_5_Quimby" revealSpeed="medium" emotion="embarrassed" />
+		<Action type="dialogue" character="Cecil" text="QST_BelovedBillionairesClub_4_dlg_End_6_Cecil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Quimby" text="QST_BelovedBillionairesClub_4_dlg_End_7_Quimby" revealSpeed="medium" emotion="deadpan" />
+		<Action type="loseResources" InvestedDollars="4000000000" />
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="BelovedBillionairesClub" />
+		</Action>
+	</AspirationalGrind_4_End>
+	<InvestOneMillion_Done ignoreHUD="true">
+		<Action type="reward" InvestedDollars="1000000" noDrops="true" suppress_sound="true" save="true" />
+	</InvestOneMillion_Done>
+	<InvestFiveMillion_Done ignoreHUD="true">
+		<Action type="reward" InvestedDollars="5000000" noDrops="true" suppress_sound="true" save="true" />
+	</InvestFiveMillion_Done>
+	<InvestTenMillion_Done ignoreHUD="true">
+		<Action type="reward" InvestedDollars="10000000" noDrops="true" suppress_sound="true" save="true" />
+	</InvestTenMillion_Done>
+	<InvestOneHundredMillion_Done ignoreHUD="true">
+		<Action type="reward" InvestedDollars="100000000" noDrops="true" suppress_sound="true" save="true" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" InvestedDollars="2000000000" />
+			<True>
+				<Action type="loseResources" InvestedDollars="InvestedDollars" />
+				<Action type="reward" InvestedDollars="2000000000" noDrops="true" suppress_sound="true" save="true" />
+			</True>
+		</Action>
+	</InvestOneHundredMillion_Done>
+	<InvestOneHundredTwentyFiveMillion_Done ignoreHUD="true">
+		<Action type="reward" InvestedDollars="125000000" noDrops="true" suppress_sound="true" save="true" />
+	</InvestOneHundredTwentyFiveMillion_Done>
+	<InvestTwoHundredMillion_Done ignoreHUD="true">
+		<Action type="reward" InvestedDollars="200000000" noDrops="true" suppress_sound="true" save="true" />
+	</InvestTwoHundredMillion_Done>
+	<TabPressed_AspirationalGrind ignoreHUD="true">
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="GameState_DynamicQuestTrack" forceState="false" extras="AspirationalGrind_MenuConfig:StateConfig" />
+	</TabPressed_AspirationalGrind>
+	<NoGoldRoadTiles>
+		<Action type="message" title="UI_GoldRoad" text="UI_GoldRoadMessage" />
+	</NoGoldRoadTiles>
+	<GoldRoadGuidePanel>
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="AspirationalGrind_MenuConfig:GoldRoadGuide_Config" />
+	</GoldRoadGuidePanel>
+	<GoldRoadGuidePanel_Exit>
+		<Action type="gotoState" state="GameState_InGame" />
+	</GoldRoadGuidePanel_Exit>
+</ScriptPackage>

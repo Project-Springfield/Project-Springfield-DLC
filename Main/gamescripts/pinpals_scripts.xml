@@ -1,0 +1,790 @@
+﻿<ScriptPackage>
+	<PerfectGameBalloon_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" waitforend="true" />
+	</PerfectGameBalloon_Tapped>
+	<KillDummy_PinpalsUpsell parallel="true">
+		<Action type="deletecharacter" character="PinpalsUpsell" />
+	</KillDummy_PinpalsUpsell>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="PinPals_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="PinPals_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="PinPals_Master" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="active quest" quest="PinPals_1" />
+					<True>
+						<Action type="gotoState" state="GameState_SpecialEventJobList">
+							<Extras>
+								<Attribute name="SpecialEvent" value="PinPals_Event" />
+								<Attribute name="JobList" value="PinPals_JL_01" />
+							</Extras>
+						</Action>
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="place building" building="PinPalsBowlingAlley" />
+							<True>
+								<Action type="checkRequirements">
+									<Requirements>
+										<Requirement type="building" building="PinPalsBowlingAlley" not="true" />
+									</Requirements>
+									<True>
+										<Action type="pantoobject" building="PinPalsBowlingAlley" fakeTouch="false" />
+									</True>
+									<False>
+										<Action type="if">
+											<If>
+												<Requirement type="active quest" quest="PinPals_2" />
+												<Then>
+													<Action type="gotoState" state="GameState_SpecialEventJobList">
+														<Extras>
+															<Attribute name="SpecialEvent" value="PinPals_Event" />
+															<Attribute name="JobList" value="PinPals_JL_02" />
+														</Extras>
+													</Action>
+												</Then>
+											</If>
+											<ElseIf>
+												<Requirement type="active quest" quest="PinPals_3" />
+												<Then>
+													<Action type="gotoState" state="GameState_SpecialEventJobList">
+														<Extras>
+															<Attribute name="SpecialEvent" value="PinPals_Event" />
+															<Attribute name="JobList" value="PinPals_JL_03" />
+														</Extras>
+													</Action>
+												</Then>
+											</ElseIf>
+											<ElseIf>
+												<Requirement type="active quest" quest="PinPals_4" />
+												<Then>
+													<Action type="gotoState" state="GameState_SpecialEventJobList">
+														<Extras>
+															<Attribute name="SpecialEvent" value="PinPals_Event" />
+															<Attribute name="JobList" value="PinPals_JL_04" />
+														</Extras>
+													</Action>
+												</Then>
+											</ElseIf>
+											<ElseIf>
+												<Requirement type="active quest" quest="PinPals_5" />
+												<Then>
+													<Action type="gotoState" state="GameState_SpecialEventJobList">
+														<Extras>
+															<Attribute name="SpecialEvent" value="PinPals_Event" />
+															<Attribute name="JobList" value="PinPals_JL_05" />
+														</Extras>
+													</Action>
+												</Then>
+											</ElseIf>
+										</Action>
+									</False>
+								</Action>
+							</True>
+							<False>
+								<Action type="focusOnMenuItem" itemName="PinPalsBowlingAlley" inventory="true" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="PinPalsMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="PinPals_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="PinPals_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="PinPals_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="PinPals_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_PinPals_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_PinPals_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_PinPals_IntroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_PinPals_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_PinPals_IntroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_PinPals_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="PinPals_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="PinPals_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="PinPals_OnePanel" eventName="UI_Pinpals_Title" limitedTime="true" limitedTimeEndDate="PinPals_End" />
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="PinPalsMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_PinPals_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_PinPals_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_PinPals_OutroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_PinPals_OutroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_PinPals_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<RegisterTelemetry_Job_Regular parallel="true">
+		<Action type="updateVariable" variable="PinPals_BowlingShoes_RegularJob" value="PinPals_BowlingShows_RegularJob + ConfigValue('__PinPals_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="PinPals_BowlingShoes_Total" value="PinPals_BowlingShoes_Total + ConfigValue('__PinPals_GameConfig:CurrencyRewards:RegularJobReward__')" />
+	</RegisterTelemetry_Job_Regular>
+	<RegisterTelemetry_Job_Premium parallel="true">
+		<Action type="updateVariable" variable="PinPals_BowlingShoes_PremiumJob" value="PinPals_BowlingShoes_PremiumJob + ConfigValue('__PinPals_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="PinPals_BowlingShoes_Total" value="PinPals_BowlingShoes_Total + ConfigValue('__PinPals_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Job_Premium>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="{Total}" param3Type="UserLevel" eventId="9501" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Enumeration" param2="{Regular}" param3Type="UserLevel" eventId="9502" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Enumeration" param2="{Premium}" param3Type="UserLevel" eventId="9502" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="GeneratorReward{task}" param2Type="Enumeration" param2="{Generator}" param3Type="UserLevel" eventId="9502" />
+		<Action type="setVariable" intVariable="PinPals_BowlingShoes_RegularJob" intValue="0" />
+		<Action type="setVariable" intVariable="PinPals_BowlingShoes_PremiumJob" intValue="0" />
+		<Action type="setVariable" intVariable="PinPals_BowlingShoes_Building" intValue="0" />
+	</LogTelemetry>
+	<NicksBowling_Tapped>
+		<Action type="sound" sound="sfx_ea_tsto_teleporter_tap.caf" />
+	</NicksBowling_Tapped>
+	<TeleportToNicksBowlingShopEast>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="building" building="NicksBowlingShopEast" />
+				<Requirement type="place building" building="NicksBowlingShopEast" />
+			</Requirement>
+			<True>
+				<Action type="pantoobject" building="NicksBowlingShopEast" time="0" />
+				<Action type="setVariable" intVariable="TeleportersUsed" intValue="TeleportersUsed+1" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="NicksBowlingShopEast" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToNicksBowlingShopEast>
+	<TeleportToNicksBowlingShopWest>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="building" building="NicksBowlingShopWest" />
+				<Requirement type="place building" building="NicksBowlingShopWest" />
+			</Requirement>
+			<True>
+				<Action type="pantoobject" building="NicksBowlingShopWest" time="0" />
+				<Action type="setVariable" intVariable="TeleportersUsed" intValue="TeleportersUsed+1" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="NicksBowlingShopWest" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToNicksBowlingShopWest>
+	<EnterPinPalsCategory>
+		<Action type="focusOnMenuItem" menuCategory="PinPals" />
+	</EnterPinPalsCategory>
+	<BundlePurchased>
+		<Action type="message" text="UI_EoS2015_ItemInInventory" />
+	</BundlePurchased>
+	<GoToPinPalsBundle>
+		<Action type="focusOnMenuItem" itemName="PinPalsBundle" menuCategory="PinPals" />
+	</GoToPinPalsBundle>
+	<PlayTheClawMachineSound parallel="true">
+		<Action type="sound" sound="Otto_CustomJob" />
+	</PlayTheClawMachineSound>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_PinPals_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="PinPals_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="PinPals_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="PinPals_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="PinPals_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="PinPals_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_PinPals_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="PinPals_OnePanel" />
+		<Action type="setVariable" boolVariable="PinPals_ExpiryDisplayed" boolValue="true" />
+		<Action type="runScript" script="PinPals_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<ClawMachine_Goto>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="building" building="ClawMachine" />
+						<Then>
+							<Action type="gotoState" state="GameState_BuildingSelected">
+								<Extras>
+									<Attribute name="BuildingName" value="ClawMachine" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="focusOnMenuItem" itemName="ClawMachine" inventory="true" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</ClawMachine_Goto>
+	<ClawMachine_Run parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="PinPals_Requirements:PinPals_Event_Active" />
+				<Then>
+					<Action type="setMiniGameState" building="ClawMachine" name="ClawMachineMinigameDuringEvent" state="Playing" />
+					<Action type="setMiniGameState" building="ClawMachine" name="ClawMachineMinigameDuringEvent" state="Ready" />
+					<Action type="scheduleScript" mode="create" script="PinPals_Scripts:ClawMachine_AwardPrize_Event" persistUntilComplete="true" localLandOnly="true" shouldSave="true" relativeTime="5s" />
+					<Action type="runScript" script="PinPals_Scripts:ClawMachine_Run_Event" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="setMiniGameState" building="ClawMachine" name="ClawMachineMinigamePostEvent" state="Playing" />
+					<Action type="setMiniGameState" building="ClawMachine" name="ClawMachineMinigamePostEvent" state="Ready" />
+					<Action type="scheduleScript" mode="create" script="PinPals_Scripts:ClawMachine_AwardPrize_Nonevent" persistUntilComplete="true" localLandOnly="true" shouldSave="true" relativeTime="5s" />
+					<Action type="runScript" script="PinPals_Scripts:ClawMachine_Run_Nonevent" />
+				</Then>
+			</Else>
+		</Action>
+	</ClawMachine_Run>
+	<ClawMachine_Rush parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="PinPals_Requirements:PinPals_Event_Active" />
+				<Then>
+					<Action type="rushMinigame" minigame="ClawMachineMinigameDuringEvent" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="rushMinigame" minigame="ClawMachineMinigamePostEvent" />
+				</Then>
+			</Else>
+		</Action>
+	</ClawMachine_Rush>
+	<ClawMachine_Run_Event>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    
+                    var clawMachine = Land::getFirstInstanceOfObject(Building::find('ClawMachine'));
+                    
+                    var prizeIndex = rand(10);
+                    if(prizeIndex < 6)
+                    {
+                        Object::setVariable(clawMachine, 'ClawResult', toString(1), 0, false);
+                    }
+                    else
+                    {
+                        Object::setVariable(clawMachine, 'ClawResult', toString(2), 0, false);
+                    }
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" offsetX="0" offsetZ="0" building="ClawMachine" fakeTouch="false" zoom="2.0" time="0" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="formula" formula="System::evaluate('Job::PlayTheClawMachine::Active')==0" />
+					<Requirement type="formula" formula="System::evaluate('Job::PlayTheClawMachine::Waiting')==0" />
+				</Requirements>
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == 0" />
+							<Then>
+								<Action type="sound" sound="ClawMachine_Active_Miss" />
+								<Action type="anim-play" onBuilding="ClawMachine" animation="Active1" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="sound" sound="ClawMachine_Active_Hit" />
+								<Action type="anim-play" onBuilding="ClawMachine" animation="Active2" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="runScript" script="PinPals_Scripts:ClawMachine_AwardPrize_Event" />
+	</ClawMachine_Run_Event>
+	<ClawMachine_AwardPrize_Event>
+		<Action type="if">
+			<If>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == 0" />
+				<Then>
+					<Action type="notification" title="BLD_ClawMachine_name" button="UI_OK" text="UI_ClawMachine_Miss" icon="CraneGame_Menu" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == 1" />
+				<Then>
+					<Action type="notification" title="BLD_ClawMachine_name" button="UI_OK" text="__PinPals_MenuConfig:ClawMachine_FormattedText:CommonShoesDuringEventText__" icon="ICO_CUR_PinPals_BowlingShoes_LG" />
+					<Action type="reward" PinPals_BowlingShoes="1">
+						<Objects>
+							<ObjectByName name="ClawMachine" land="local" />
+						</Objects>
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == 2" />
+				<Then>
+					<Action type="notification" title="BLD_ClawMachine_name" button="UI_OK" text="__PinPals_MenuConfig:ClawMachine_FormattedText:RareShoesDuringEventText__" icon="ICO_CUR_PinPals_BowlingShoes_LG" />
+					<Action type="reward" PinPals_BowlingShoes="1">
+						<Objects>
+							<ObjectByName name="ClawMachine" land="local" />
+						</Objects>
+					</Action>
+					<Action type="reward" PinPals_BowlingShoes="1">
+						<Objects>
+							<ObjectByName name="ClawMachine" land="local" />
+						</Objects>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="scheduleScript" mode="delete" script="PinPals_Scripts:ClawMachine_AwardPrize_Event" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="setObjectVariable" onType="building" onObject="ClawMachine" variable="PlayCount" value="Object::PlayCount+1" asExpression="true" />
+	</ClawMachine_AwardPrize_Event>
+	<ClawMachine_Check_Payment>
+		<Action type="spendResources">
+			<Cost money="__PinPals_GameConfig:ClawMachineSettings:CashCost__" />
+			<Success name="PinPals_Scripts:ClawMachine_Run" />
+			<Failure name="PinPals_Scripts:ClawMachine_InsufficientFunds" />
+		</Action>
+	</ClawMachine_Check_Payment>
+	<ClawMachine_Run_Nonevent>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    
+                    var clawMachine = Land::getFirstInstanceOfObject(Building::find('ClawMachine'));
+                    
+                    var prizeValue = rand(10);
+                    if(prizeValue < 4)
+                    {
+                        Object::setVariable(clawMachine, 'ClawResult', toString(0), 0, false);
+                    }
+                    elseif(prizeValue < 8)
+                    {
+                        Object::setVariable(clawMachine, 'IsClawResultRare', toString(0), 0, false);
+                    
+                        var prizeIndex = rand(5);
+                        if(prizeIndex == 0)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('IceSculpture')), 0, false);
+                        }
+                        elseif(prizeIndex == 1)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('RabbitHedge')), 0, false);
+                        }
+                        elseif(prizeIndex == 2)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('PatioTable')), 0, false);
+                        }
+                        elseif(prizeIndex == 3)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('GasPump')), 0, false);
+                        }
+                        elseif(prizeIndex == 4)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('PhoneBooth')), 0, false);
+                        }
+                    }
+                    else
+                    {
+                        Object::setVariable(clawMachine, 'IsClawResultRare', toString(1), 0, false);
+                    
+                        var prizeIndex = rand(31);
+                        if(prizeIndex < 10)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('Gazebo')), 0, false);
+                        }
+                        elseif(prizeIndex < 20)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('WoodChipper')), 0, false);
+                        }
+                        elseif(prizeIndex < 30)
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('Gargoyle')), 0, false);
+                        }
+                        else
+                        {
+                            Object::setVariable(clawMachine, 'ClawResult', Object::getId(Building::find('SirLoveALot')), 0, false);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" offsetX="0" offsetZ="0" building="ClawMachine" fakeTouch="false" zoom="2.0" time="0" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="formula" formula="System::evaluate('Job::PlayTheClawMachine::Active')==0" />
+					<Requirement type="formula" formula="System::evaluate('Job::PlayTheClawMachine::Waiting')==0" />
+				</Requirements>
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == 0" />
+							<Then>
+								<Action type="sound" sound="ClawMachine_Active_Miss" />
+								<Action type="anim-play" onBuilding="ClawMachine" animation="Active1" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="sound" sound="ClawMachine_Active_Hit" />
+								<Action type="anim-play" onBuilding="ClawMachine" animation="Active2" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="runScript" script="PinPals_Scripts:ClawMachine_AwardPrize_Nonevent" />
+	</ClawMachine_Run_Nonevent>
+	<ClawMachine_AwardPrize_Nonevent>
+		<Action type="if">
+			<If>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == 0" />
+				<Then>
+					<Action type="notification" title="BLD_ClawMachine_name" button="UI_OK" text="UI_ClawMachine_Miss" icon="CraneGame_Menu" />
+					<Action type="reward" xp="__PinPals_GameConfig:ClawMachineSettings:XPForMiss__">
+						<Objects>
+							<ObjectByName name="ClawMachine" land="local" />
+						</Objects>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('IceSculpture'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="IceSculpture" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('RabbitHedge'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="RabbitHedge" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('PatioTable'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="PatioTable" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('GasPump'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="GasPump" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('PhoneBooth'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="PhoneBooth" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('Gazebo'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="Gazebo" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('WoodChipper'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="WoodChipper" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('Gargoyle'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="Gargoyle" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="formula" formula="System::evaluate('Building::ClawMachine::Object::ClawResult') == Object::getId(Building::find('SirLoveALot'))" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:ClawMachine_RewardWithPlaceStore">
+						<Item type="building" name="SirLoveALot" />
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="scheduleScript" mode="delete" script="PinPals_Scripts:ClawMachine_AwardPrize_Nonevent" />
+		<Action type="setObjectVariable" onType="building" onObject="ClawMachine" variable="PlayCount" value="Object::PlayCount+1" asExpression="true" />
+	</ClawMachine_AwardPrize_Nonevent>
+	<ClawMachine_InsufficientFunds>
+		<Action type="runScript" script="PinPals_Scripts:ClawMachine_InsufficientFunds_Internal" />
+	</ClawMachine_InsufficientFunds>
+	<ClawMachine_InsufficientFunds_Internal ignoreHUD="true">
+		<Action type="genericConfirmation">
+			<Attribute name="config">
+				<AttributeSet name="onOK">
+					<Attribute name="script" value="PinPals_Scripts:OpenGrindStore" />
+				</AttributeSet>
+				<AttributeSet name="onCancel">
+					<Attribute name="script" value="PinPals_Scripts:OpenClawMachine" />
+				</AttributeSet>
+				<AttributeSet name="onBackButton">
+					<Attribute name="mapTo" value="onCancel" />
+				</AttributeSet>
+				<AttributeSet name="title">
+					<Attribute name="text" value="BLD_ClawMachine_name" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="RES_InsufficientMoney" localise="true" />
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_Cancel">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="GEN_Cancel" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="BB0310FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="GEN_GetMore" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="D03484FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="exitButton">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="showTwoButtons">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ClawMachine_InsufficientFunds_Internal>
+	<OpenGrindStore>
+		<Action type="focusOnMenuItem" menuCategory="Currency" onLeaveStore="PinPals_Scripts:OpenClawMachine" />
+	</OpenGrindStore>
+	<OpenClawMachine>
+		<Action type="gotoState" state="GameState_BuildingSelected">
+			<Extras>
+				<Attribute name="BuildingName" value="ClawMachine" />
+			</Extras>
+		</Action>
+	</OpenClawMachine>
+	<RewardPinPalMoe>
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="checkRequirements">
+			<Requirement type="character" name="Moe" unlockedskin="PinPalMoe" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="Moe" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:RewardWithPlaceStore">
+							<Item type="consumable" name="PinPalMoe" />
+						</Action>
+					</True>
+					<False>
+						<Action type="reward">
+							<Item type="consumable" name="PinPalMoe" useImmediately="true" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</RewardPinPalMoe>
+	<RewardPinPalBurns>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="Burns" unlockedskin="PinPalBurns" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="Burns" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="rewardWithPlaceStore" attributes="PinPals_MenuConfig:RewardWithPlaceStore">
+							<Item type="consumable" name="PinPalBurns" />
+						</Action>
+					</True>
+					<False>
+						<Action type="reward">
+							<Item type="consumable" name="PinPalBurns" useImmediately="true" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</RewardPinPalBurns>
+</ScriptPackage>

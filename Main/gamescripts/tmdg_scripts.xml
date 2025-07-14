@@ -1,0 +1,577 @@
+﻿<ScriptPackage>
+	<ImprovisedSnare_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="ImprovisedSnare_Tap" />
+		<Action type="anim-play" animation="Tap" onBuilding="ImprovisedSnare" />
+	</ImprovisedSnare_Tapped>
+	<ImprovisedSnare_Tapped_Event parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="ImprovisedSnare_Tap" />
+		<Action type="anim-play" animation="Tap" onBuilding="ImprovisedSnare" />
+		<Action type="runScript" script="TMDG_Scripts:RegisterTelemetry_Building" />
+	</ImprovisedSnare_Tapped_Event>
+	<CampingTent_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</CampingTent_Tapped>
+	<CrappyRV_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</CrappyRV_Tapped>
+	<BigclawTapped parallel="true">
+		<Action type="if">
+			<If expression="time(0) &gt;= TMDG_BigclawCooldown">
+				<Then>
+					<Action type="updateVariable" variable="TMDG_BigclawTaps" value="0" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="TMDG_BigclawTaps==0">
+				<Then>
+					<Action type="updateVariable" variable="TMDG_BigclawCooldown" value="time(0)+(60*60*24)" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" variable="TMDG_BigclawTaps" value="TMDG_BigclawTaps+1" />
+		<Action type="if">
+			<If expression="lessThan(TMDG_BigclawTaps,4)">
+				<Then>
+					<Action type="sound" sound="Bigclaw_Tap" />
+					<Action type="anim-play" character="Bigclaw" animation="Tap" />
+					<Action type="rewardchoice">
+						<Reward chance="0.50" chanceType="s" money="250">
+							<Requirement type="quest" quest="SpringfieldHeights08" not="true" />
+						</Reward>
+						<Reward chance="0.50" chanceType="s" Pharmaceutical="2">
+							<Requirement type="quest" quest="SpringfieldHeights08" />
+						</Reward>
+						<Reward chance="0.75" chanceType="s" money="500" />
+						<Reward chance="1.0" chanceType="s" xp="50" />
+					</Action>
+					<Action type="runScript" script="TMDG_Scripts:BigclawRun" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="sound" sound="Bigclaw_Gobble" />
+					<Action type="flashObject" object="Bigclaw" color="FF00FFFF" period="0.55" instanceDuration="0.2" />
+					<Action type="delay" time="2" />
+					<Action type="flashObject" object="Bigclaw" remove="true" />
+				</Then>
+			</Else>
+		</Action>
+	</BigclawTapped>
+	<BigclawTapped_Cooldown parallel="true">
+		<Action type="sound" sound="Bigclaw_Tap" />
+		<Action type="anim-play" character="Bigclaw" animation="Tap" />
+	</BigclawTapped_Cooldown>
+	<BigclawRun parallel="true">
+		<Action type="updateVariable" variable="TMDG_BigclawRun" value="true" />
+		<Action type="delay" time="7" />
+		<Action type="updateVariable" variable="TMDG_BigclawRun" value="false" />
+	</BigclawRun>
+	<Tappable_BigclawRun parallel="true">
+		<Action type="updateVariable" variable="TMDG_Tappable_BigclawRun" value="true" />
+		<Action type="delay" time="2" />
+		<Action type="flashObject" object="Tappable_Bigclaw" remove="true" />
+		<Action type="delay" time="5" />
+		<Action type="updateVariable" variable="TMDG_Tappable_BigclawRun" value="false" />
+	</Tappable_BigclawRun>
+	<SpawnBigclaw>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="character" name="Tappable_Bigclaw" />
+					<False>
+						<Action type="createobject" name="Tappable_Bigclaw" count="1" save="true" panCamera="false" />
+					</False>
+				</Action>
+				<Action type="setVariable" intVariable="TMDG_BigclawTaps" intValue="0" />
+			</True>
+		</Action>
+	</SpawnBigclaw>
+	<BigclawSpawned>
+		<Action type="setVariable" boolVariable="BigclawSpawned" boolValue="true" />
+		<Action type="pantoobject" time="0" character="Tappable_Bigclaw" />
+		<Action type="sound" sound="Bigclaw_Tap" />
+		<Action type="anim-play" character="Bigclaw" animation="Tap" />
+	</BigclawSpawned>
+	<BigclawTaskbar_Start>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="TMDG_BigclawInstructionsSeen" not="true" />
+			<True>
+				<Action type="message" text="UI_TMDG_BigclawSurfaced" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TMDG_TappableBigclawTaps" value="0" />
+	</BigclawTaskbar_Start>
+	<BigclawTaskbar_End>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+				<Requirement type="variable" variable="TMDG_BigclawInstructionsSeen" not="true" />
+			</Requirements>
+			<True>
+				<Action type="message" text="UI_TMDG_BigclawHiding" />
+				<Action type="updateVariable" variable="TMDG_BigclawInstructionsSeen" value="true" />
+			</True>
+		</Action>
+	</BigclawTaskbar_End>
+	<Tappable_Bigclaw_Tapped ignoreHUD="true">
+		<Action type="if">
+			<If expression="greaterThan(TMDG_TappableBigclawTaps, 2)">
+				<Then>
+					<Action type="updateVariable" variable="TMDG_TappableBigclawTaps" value="2" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="checkExpression" expression="TMDG_TappableBigclawTaps">
+			<ExpressionCase value="0">
+				<Action type="sound" sound="Bigclaw_Gobble" />
+				<Action type="flashObject" object="Tappable_Bigclaw" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+				<Action type="updateVariable" variable="TMDG_TappableBigclawTaps" value="TMDG_TappableBigclawTaps+1" />
+				<Action type="runScript" script="TMDG_Scripts:Tappable_BigclawRun" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="sound" sound="Bigclaw_Gobble" />
+				<Action type="flashObject" object="Tappable_Bigclaw" color="FF00FFFF" period="0.25" instanceDuration="0.15" />
+				<Action type="updateVariable" variable="TMDG_TappableBigclawTaps" value="TMDG_TappableBigclawTaps+1" />
+				<Action type="runScript" script="TMDG_Scripts:Tappable_BigclawRun" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="flashObject" object="Tappable_Bigclaw" remove="true" />
+				<Action type="setVariable" dateVariable="BigclawStartTime" />
+				<Action type="sound" sound="Bigclaw_Tap" />
+				<Action type="playanimation" character="Tappable_Bigclaw" animation="Tap" />
+				<Action type="setVariable" boolVariable="BigclawSpawned" boolValue="false" />
+				<Action type="reward" TMDG_Pelts="__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__" />
+				<Action type="reward" TMDG_Pelts="__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__" />
+				<Action type="reward" TMDG_Pelts="__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__" />
+				<Action type="reward" TMDG_Pelts="__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__" />
+				<Action type="reward" TMDG_Pelts="__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__" />
+				<Action type="updateVariable" variable="TMDG_BigclawQueued" value="false" />
+				<Action type="updateVariable" variable="TMDG_TappableBigclawTaps" value="TMDG_TappableBigclawTaps+1" />
+				<Action type="runScript" script="TMDG_Scripts:RegisterTelemetry_Bigclaw" ignoreObject="true" />
+				<Action type="deletecharacter" character="Tappable_Bigclaw" />
+			</ExpressionCase>
+		</Action>
+	</Tappable_Bigclaw_Tapped>
+	<Tappable_Tapped ignoreHUD="true" parallel="true">
+		<Action type="anim-play" animation="Tap" />
+		<Action type="reward" TMDG_Pelts="1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="relative time" baseTime="BigclawStartTime" defaultTime="TMDG_Start" startOffset="24h" />
+				<Requirement type="formula" formula="rand(5)==1" />
+				<Requirement type="character" name="Tappable_Bigclaw" not="true" />
+			</Requirements>
+			<True>
+				<Action type="updateVariable" variable="TMDG_BigclawQueued" value="true" />
+			</True>
+		</Action>
+		<Action type="deletecharacter" />
+	</Tappable_Tapped>
+	<GoToTappable parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="System::evaluate('Character::Tappable_WildAnimal::TotalCount') &gt; 0">
+						<Then>
+							<Action type="pantoobject" character="Tappable_WildAnimal" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+							<Action type="runScript" script="TMDG_Scripts:NoTappables" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoToTappable>
+	<BigclawTaskbar_Completer parallel="true">
+		<Action type="setVariable" boolVariable="BigclawSpawned" boolValue="false" />
+		<Action type="deletecharacter" character="Tappable_Bigclaw" />
+		<Action type="updateVariable" variable="TMDG_TappableBigclawTaps" value="3" />
+	</BigclawTaskbar_Completer>
+	<GoToTappableBigclaw parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" character="Tappable_Bigclaw" />
+			</True>
+		</Action>
+	</GoToTappableBigclaw>
+	<NoTappables>
+		<Action type="message" text="UI_TMDG_NoTappbles" />
+	</NoTappables>
+	<BalloonBundle>
+		<Action type="reward">
+			<Item type="building" name="BartBalloon" />
+			<Item type="building" name="ThanksGivingBalloonSnowball2" />
+			<Item type="building" name="StampyParadeBalloon" />
+			<Item type="building" name="TheGrumpleParadeBalloon" />
+		</Action>
+		<Action type="notificationLarge" title="CON_TMDG_BalloonBundle_name" button="UI_OK" text="UI_EoS2015_ItemInInventory" icon="ICO_STOR_Single_BalloonBundle" />
+		<Action type="focusOnMenuItem" itemName="BartBalloon" inventory="true" />
+	</BalloonBundle>
+	<KingsizeHomerBundle>
+		<Action type="reward">
+			<Item type="consumable" name="Homer_KingSize_Con" useImmediately="true" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="WorkFromHomeStation" />
+		</Action>
+	</KingsizeHomerBundle>
+	<ForesterBundle>
+		<Action type="reward">
+			<Item type="building" name="Tree04" />
+			<Item type="building" name="Tree04" />
+			<Item type="building" name="Tree04" />
+			<Item type="building" name="Tree04" />
+			<Item type="building" name="Tree04" />
+			<Item type="building" name="Tree05" />
+			<Item type="building" name="Tree05" />
+			<Item type="building" name="Tree05" />
+			<Item type="building" name="Tree05" />
+			<Item type="building" name="Tree05" />
+			<Item type="building" name="Tree05" />
+			<Item type="building" name="Tree06" />
+			<Item type="building" name="Tree06" />
+			<Item type="building" name="Tree06" />
+			<Item type="building" name="Tree06" />
+			<Item type="building" name="Tree06" />
+			<Item type="building" name="Tree06" />
+			<Item type="building" name="Tree07" />
+			<Item type="building" name="Tree07" />
+			<Item type="building" name="Tree07" />
+			<Item type="building" name="Tree07" />
+			<Item type="building" name="Tree07" />
+			<Item type="building" name="Tree07" />
+			<Item type="building" name="WillowTree" />
+			<Item type="building" name="MapleTree" />
+		</Action>
+	</ForesterBundle>
+	<RebateMessaging runQueueState="QueueIfNotIdle">
+		<Action type="checkRequirements" formatMe="deep">
+			<Requirements>
+				<Requirement type="formula" formula="greaterThan({0CurrencyAmount},49)" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_50orHigher}" icon="ico_priz_donuts_20" formatMe="true" dismissOnOKOnly="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements" formatMe="deep">
+					<Requirements>
+						<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},50), greaterThan({0CurrencyAmount},39))" />
+					</Requirements>
+					<True>
+						<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_40to49}" icon="ico_priz_donuts_20" formatMe="true" dismissOnOKOnly="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements" formatMe="deep">
+							<Requirements>
+								<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},40), greaterThan({0CurrencyAmount},19))" />
+							</Requirements>
+							<True>
+								<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_20to39}" icon="ico_priz_donuts_10" formatMe="true" dismissOnOKOnly="true" />
+							</True>
+							<False>
+								<Action type="checkRequirements" formatMe="deep">
+									<Requirements>
+										<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},20), greaterThan({0CurrencyAmount},9))" />
+									</Requirements>
+									<True>
+										<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_10to19}" icon="specialprize_donuts" formatMe="true" dismissOnOKOnly="true" />
+									</True>
+									<False>
+										<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_1to9}" icon="ico_priz_donuts_1" formatMe="true" dismissOnOKOnly="true" />
+									</False>
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</RebateMessaging>
+	<IntroSeen>
+		<Action type="updateVariable" variable="TMDG_IntroSeen" value="true" />
+		<Action type="updateVariable" variable="TMDG_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="TMDG_OnePanel" eventName="UI_TheMostDangerousGame_name" />
+	</IntroSeen>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="TheMostDangerousGame_MASTER" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="TMDG_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="TMDG_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_TMDG_Expiration72" />
+		<Action type="setVariable" boolVariable="TMDG_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="TMDG_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="UI_TMDG_Expiration24" />
+		<Action type="setVariable" boolVariable="TMDG_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="TMDG_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_TMDG_Expired" />
+		<Action type="clearRecommendations" category="Event" name="TMDG_OnePanel" />
+		<Action type="setVariable" boolVariable="TMDG_ExpiryDisplayed" boolValue="true" />
+		<Action type="runScriptOnAll" character="Tappable_WildAnimal" script="TMDG_Scripts_Tappables:ClearTappables" />
+		<Action type="updateVariable" variable="TMDG_TappablesTracker" value="1" />
+		<Action type="runScript" script="TMDG_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EnterCategory>
+		<Action type="focusOnMenuItem" menuCategory="TheMostDangerousGame" />
+	</EnterCategory>
+	<EnterXMAS2016Category>
+		<Action type="focusOnMenuItem" menuCategory="XMAS2016" />
+	</EnterXMAS2016Category>
+	<GoToItem_CampingTent>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="CampingTent" />
+			<True>
+				<Action type="pantoobject" building="CampingTent" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="CampingTent" inventory="true" />
+			</False>
+		</Action>
+	</GoToItem_CampingTent>
+	<GoToItem_CrappyRV>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="CrappyRV" />
+			<True>
+				<Action type="pantoobject" building="CrappyRV" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="CrappyRV" inventory="true" />
+			</False>
+		</Action>
+	</GoToItem_CrappyRV>
+	<GoToItem_WildlifeSanctuary>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="WildlifeSanctuary" />
+			<True>
+				<Action type="pantoobject" building="WildlifeSanctuary" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="WildlifeSanctuary" inventory="true" />
+			</False>
+		</Action>
+	</GoToItem_WildlifeSanctuary>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TheMostDangerousGame_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="TMDG_Event" />
+									<Attribute name="JobList" value="TheMostDangerousGame_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMostDangerousGame_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="TMDG_Event" />
+									<Attribute name="JobList" value="TheMostDangerousGame_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMostDangerousGame_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="TMDG_Event" />
+									<Attribute name="JobList" value="TheMostDangerousGame_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMostDangerousGame_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="TMDG_Event" />
+									<Attribute name="JobList" value="TheMostDangerousGame_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="TMDG_Event" />
+									<Attribute name="JobList" value="TheMostDangerousGame_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMostDangerousGame_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="TMDG_Event" />
+									<Attribute name="JobList" value="TheMostDangerousGame_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="TMDGMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_TMDG_name" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_TMDG_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_TMDG_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_TMDG_IntroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_TMDG_IntroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_TheMostDangerousGame_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="TMDGMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_TMDG_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_TMDG_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_TMDG_name" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value=" " localise="false" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_TMDG_OutroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_TMDG_OutroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_TheMostDangerousGame_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<SabotageMartinsProject_Interrupt>
+		<Action type="completeJob" name="SabotageMartinsProject" giveRewardsRefunds="false" character="Bart" doNotPlayVictoryAnim="true" />
+	</SabotageMartinsProject_Interrupt>
+	<RegisterTelemetry_Job_Regular parallel="true">
+		<Action type="updateVariable" variable="TMDG_Pelts_RegularJob" value="TMDG_Pelts_RegularJob + ConfigValue('__TMDG_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="TMDG_Pelts_Total" value="TMDG_Pelts_Total + ConfigValue('__TMDG_GameConfig:CurrencyRewards:RegularJobReward__')" />
+	</RegisterTelemetry_Job_Regular>
+	<RegisterTelemetry_Job_Premium parallel="true">
+		<Action type="updateVariable" variable="TMDG_Pelts_PremiumJob" value="TMDG_Pelts_PremiumJob + ConfigValue('__TMDG_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="TMDG_Pelts_Total" value="TMDG_Pelts_Total + ConfigValue('__TMDG_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Job_Premium>
+	<RegisterTelemetry_Building parallel="true">
+		<Action type="updateVariable" variable="TMDG_Pelts_Building" value="TMDG_Pelts_Building + ConfigValue('__TMDG_GameConfig:CurrencyRewards:ImprovisedSnareReward__')" />
+		<Action type="updateVariable" variable="TMDG_Pelts_Total" value="TMDG_Pelts_Total + ConfigValue('__TMDG_GameConfig:CurrencyRewards:ImprovisedSnareReward__')" />
+	</RegisterTelemetry_Building>
+	<RegisterTelemetry_Bigclaw parallel="true">
+		<Action type="updateVariable" variable="TMDG_Pelts_Bigclaw" value="TMDG_Pelts_Bigclaw + (ConfigValue('__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__') * 5)" />
+		<Action type="updateVariable" variable="TMDG_Pelts_Total" value="TMDG_Pelts_Total + (ConfigValue('__TMDG_GameConfig:CurrencyRewards:BigclawRewardBaseValue__') * 5)" />
+	</RegisterTelemetry_Bigclaw>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="{Total}" param3Type="UserLevel" eventId="5301" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Enumeration" param2="{Regular}" param3Type="UserLevel" eventId="5302" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Enumeration" param2="{Premium}" param3Type="UserLevel" eventId="5302" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="GeneratorReward{task}" param2Type="Enumeration" param2="{Generator}" param3Type="UserLevel" eventId="5302" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="TappableReward{task}" param2Type="Enumeration" param2="{Tappable}" param3Type="UserLevel" eventId="5302" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="BigclawReward{task}" param2Type="Enumeration" param2="{Bigclaw}" param3Type="UserLevel" eventId="5302" />
+		<Action type="setVariable" intVariable="TMDG_Pelts_RegularJob" intValue="0" />
+		<Action type="setVariable" intVariable="TMDG_Pelts_PremiumJob" intValue="0" />
+		<Action type="setVariable" intVariable="TMDG_Pelts_Building" intValue="0" />
+		<Action type="setVariable" intVariable="TMDG_Pelts_Tappables" intValue="0" />
+		<Action type="setVariable" intVariable="TMDG_Pelts_Bigclaw" intValue="0" />
+	</LogTelemetry>
+</ScriptPackage>

@@ -1,0 +1,228 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="FlandersFamilyReunionMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="FlandersFamilyReunion_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="FlandersFamilyReunion_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="FlandersFamilyReunion_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="FlandersFamilyReunion_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_FlandersParents_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="FlandersFamilyReunion_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="FlandersFamilyReunion_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="FlandersFamilyReunion_OnePanel" eventName="UI_FlandersFamilyReunion_Title" limitedTime="true" limitedTimeEndDate="FlandersFamilyReunion_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="FlandersFamilyReunionMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_FlandersFamilyReunion_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_FlandersParents_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_FlandersFamilyReunion_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="FlandersFamilyReunion_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="FlandersFamilyReunion_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="FlandersFamilyReunion_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="FlandersFamilyReunion_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="FlandersFamilyReunion_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_FlandersFamilyReunion_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="FlandersFamilyReunion_OnePanel" />
+		<Action type="runScript" script="FlandersFamilyReunion_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="FlandersFamilyReunion_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="FlandersFamilyReunion_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="FlandersFamilyReunion_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="FlandersORama_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="FlandersFamilyReunion_Event" />
+									<Attribute name="JobList" value="FlandersFamilyReunion_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="FlandersORama_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="FlandersFamilyReunion_Event" />
+									<Attribute name="JobList" value="FlandersFamilyReunion_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FlandersORama_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="FlandersFamilyReunion_Event" />
+									<Attribute name="JobList" value="FlandersFamilyReunion_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FlandersORama_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="FlandersFamilyReunion_Event" />
+									<Attribute name="JobList" value="FlandersFamilyReunion_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FlandersORama_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="FlandersFamilyReunion_Event" />
+									<Attribute name="JobList" value="FlandersFamilyReunion_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="FlandersFamilyReunion_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="FlandersFamilyReunion_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<CrowdOfFlanders_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="0" />
+	</CrowdOfFlanders_Init>
+	<CrowdOfFlanders_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="mod(Object::CrowdState+1,3)" asExpression="true" />
+	</CrowdOfFlanders_Tapped>
+	<GoToCrowdOfFlandersFamilyMembers ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="CrowdOfFlandersFamilyMembers" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="CrowdOfFlandersFamilyMembers" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="CrowdOfFlandersFamilyMembers" inventory="true" />
+			</False>
+		</Action>
+	</GoToCrowdOfFlandersFamilyMembers>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="FlandersFamilyReunion_OnePanel" />
+		<Action type="recommendation" recType="Event" name="FlandersFamilyReunion_OnePanel" eventName="UI_FlandersFamilyReunion_Title" limitedTime="true" limitedTimeEndDate="FlandersFamilyReunion_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="FlandersFamilyReunion_Category" />
+	</EnterStoreCategory>
+	<GoToCoachPommelhorst>
+		<Action type="focusOnMenuItem" menuCategory="FlandersFamilyReunion_Category" itemName="YardSale2019_MysteryBox" />
+	</GoToCoachPommelhorst>
+</ScriptPackage>

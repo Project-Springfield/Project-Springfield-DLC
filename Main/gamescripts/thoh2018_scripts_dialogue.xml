@@ -1,0 +1,1259 @@
+﻿<ScriptPackage>
+	<RuffWelcome_1_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_Start_2_WEREWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_1_3_dlg_Start_3_SHEWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_Start_4_WEREWOLF" revealSpeed="medium" />
+	</RuffWelcome_1_Start>
+	<RuffWelcome_1_End>
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_1_3_dlg_End_1_SHEWOLF" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_End_2_WEREWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_End_3_WEREWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_End_4_WEREWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_1_3_dlg_End_5_SHEWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_1_3_dlg_End_6_SHEWOLF" revealSpeed="medium" emotion="devious" />
+	</RuffWelcome_1_End>
+	<RuffWelcome_1_Obj_2_Completed>
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_Obj_2_Completed_1_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Willie" text="QST_RuffWelcome_1_3_dlg_Obj_2_Completed_2_WILLIE" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Willie" text="QST_RuffWelcome_1_3_dlg_Obj_2_Completed_3_WILLIE" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_1_3_dlg_Obj_2_Completed_4_WEREWOLF" revealSpeed="medium" emotion="sad" />
+	</RuffWelcome_1_Obj_2_Completed>
+	<RuffWelcome_2_Start>
+		<Action type="dialogue" character="TheFortuneTeller" text="QST_RuffWelcome_2_3_dlg_Start_1_FORTUNETELLER" revealSpeed="medium" emotion="spooky" />
+		<Action type="dialogue" character="TheFortuneTeller" text="QST_RuffWelcome_2_3_dlg_Start_2_FORTUNETELLER" revealSpeed="medium" emotion="spooky" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_2_3_dlg_Start_3_SHEWOLF" revealSpeed="medium" emotion="devious" />
+		<Action type="dialogue" character="TheFortuneTeller" text="QST_RuffWelcome_2_3_dlg_Start_4_FORTUNETELLER" revealSpeed="medium" />
+		<Action type="dialogue" character="TheFortuneTeller" text="QST_RuffWelcome_2_3_dlg_Start_5_FORTUNETELLER" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_RuffWelcome_2_3_dlg_Start_6_NED" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="TheFortuneTeller" text="QST_RuffWelcome_2_3_dlg_Start_7_FORTUNETELLER" revealSpeed="medium" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+				    var spawnCap = toDouble(System::getConfigValue('__THOH2018_BalanceConfig:Tappables:SpawnMaxInTown__'));
+				    var currentAmount = toDouble(User::getVariable('THOH2018_Total_Tappables'));
+                    var spawnAmount = max(min(spawnCap - currentAmount , 10), 0); //In case somehow we're over the cap, don't loop to a negative
+					for(var i = 0; i <spawnAmount; i++)
+					{
+					var chance = trunc(randRange(0, 3));
+					var created;
+					if (chance == 0) {
+					created = Character::createInstance('GenericSF_Small', false, false);
+					}
+					elseif (chance == 1) {
+					created = Character::createInstance('GenericSF_Medium', false, false);
+					}
+					else {
+					created = Character::createInstance('GenericSF_Large', false, false);
+					}
+					if (Requirements::checkRequirementList('THOH2018_Requirements:ActOne'))
+					Script::runOnObjectInstance('THOH2018_Scripts:VampireConvertGeneric', created);
+					elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActTwo'))
+					Script::runImmediately('THOH2018_Scripts:WerewolfConvertGeneric', created);
+					elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActThree'))
+					Script::runImmediately('THOH2018_Scripts:MummyConvertGeneric', created);
+					}
+				]]></Program>
+		</Action>
+		<Action type="setVariable" intVariable="THOH2018_Tappables_Tapped" intValue="0" />
+	</RuffWelcome_2_Start>
+	<RuffWelcome_3_Start>
+		<Action type="dialogue" character="Homer" text="QST_RuffWelcome_3_3_dlg_Start_1_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_RuffWelcome_3_3_dlg_Start_2_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RuffWelcome_3_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Ned" text="QST_RuffWelcome_3_3_dlg_Start_4_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RuffWelcome_3_3_dlg_Start_5_HOMER" revealSpeed="medium" emotion="guilty" />
+	</RuffWelcome_3_Start>
+	<RuffWelcome_3_End>
+		<Action type="dialogue" character="WerewolfMinion_Large" text="QST_RuffWelcome_3_3_dlg_End_1_WEREWOLFMINION" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_RuffWelcome_3_3_dlg_End_2_HOMER" revealSpeed="medium" emotion="angry" />
+	</RuffWelcome_3_End>
+	<RuffWelcome_4_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_4_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Ned" text="QST_RuffWelcome_4_3_dlg_Start_2_NED" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_RuffWelcome_4_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_4_3_dlg_Start_4_SheWolf" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_4_3_dlg_Start_5_SheWolf" revealSpeed="medium" emotion="devious" />
+	</RuffWelcome_4_Start>
+	<RuffWelcome_4_End>
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_4_3_dlg_End_1_SheWolf" revealSpeed="medium" emotion="devious" />
+		<Action type="dialogue" character="Wiggum" text="QST_RuffWelcome_4_3_dlg_End_2_WIGGUM" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Wiggum" text="QST_RuffWelcome_4_3_dlg_End_3_WIGGUM" revealSpeed="medium" emotion="exhausted" />
+	</RuffWelcome_4_End>
+	<RuffWelcome_5_Start>
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_5_3_dlg_Start_1_SHEWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_5_3_dlg_Start_2_SHEWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_5_3_dlg_Start_3_SHEWOLF" revealSpeed="medium" emotion="disgusted" />
+		<Action type="dialogue" character="Werewolf" text="QST_RuffWelcome_5_3_dlg_Start_4_WEREWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_5_3_dlg_Start_5_SHEWOLF" revealSpeed="medium" />
+	</RuffWelcome_5_Start>
+	<RuffWelcome_5_End>
+		<Action type="dialogue" character="CountessDracula" text="QST_RuffWelcome_5_3_dlg_End_1_COUNTESSDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SheWolf" text="QST_RuffWelcome_5_3_dlg_End_2_SHEWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="message" text="QST_RuffWelcome_5_3_dlg_End_3_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_RuffWelcome_5_3_dlg_End_4_SystemMessage" revealSpeed="medium" />
+	</RuffWelcome_5_End>
+	<DevilsDue_1_Start>
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_1_3_dlg_Start_1_THEDEVIL" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_1_3_dlg_Start_2_THEDEVIL" revealSpeed="medium" />
+		<Action type="dialogue" character="Lenny" text="QST_DevilsDue_1_3_dlg_Start_3_LENNY" revealSpeed="medium" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_1_3_dlg_Start_4_THEDEVIL" revealSpeed="medium" />
+		<Action type="dialogue" character="Lenny" text="QST_DevilsDue_1_3_dlg_Start_5_LENNY" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_1_3_dlg_Start_6_THEDEVIL" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lenny" text="QST_DevilsDue_1_3_dlg_Start_7_LENNY" revealSpeed="medium" />
+	</DevilsDue_1_Start>
+	<DevilsDue_2_Start>
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_2_3_dlg_Start_1_THEDEVIL" revealSpeed="medium" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_2_3_dlg_Start_2_THEDEVIL" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DevilsDue_2_3_dlg_Start_3_HOMER" revealSpeed="medium" />
+	</DevilsDue_2_Start>
+	<DevilsDue_3_Start>
+		<Action type="dialogue" character="Lisa" text="QST_DevilsDue_3_3_dlg_Start_1_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_3_3_dlg_Start_2_THEDEVIL" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_DevilsDue_3_3_dlg_Start_3_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_3_3_dlg_Start_4_THEDEVIL" revealSpeed="medium" />
+	</DevilsDue_3_Start>
+	<DevilsDue_3_Obj_2_Completed>
+		<Action type="dialogue" character="Milhouse" text="QST_DevilsDue_3_3_dlg_Obj_2_Completed_1_MILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="DeweyLargo" text="QST_DevilsDue_3_3_dlg_Obj_2_Completed_2_DEWEYLARGO" revealSpeed="medium" />
+	</DevilsDue_3_Obj_2_Completed>
+	<DevilsDue_4_Start>
+		<Action type="dialogue" character="Lisa" text="QST_DevilsDue_4_3_dlg_Start_1_LISA" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_4_3_dlg_Start_2_THEDEVIL" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_4_3_dlg_Start_3_THEDEVIL" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_4_3_dlg_Start_4_THEDEVIL" revealSpeed="medium" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_4_3_dlg_Start_5_THEDEVIL" revealSpeed="medium" emotion="annoyed" />
+	</DevilsDue_4_Start>
+	<DevilsDue_5_Start>
+		<Action type="dialogue" character="Lisa" text="QST_DevilsDue_5_3_dlg_Start_1_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="Lisa" text="QST_DevilsDue_5_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_5_3_dlg_Start_3_THEDEVIL" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_DevilsDue_5_3_dlg_Start_4_LISA" revealSpeed="medium" emotion="sly" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_5_3_dlg_Start_5_THEDEVIL" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="TheDevil" text="QST_DevilsDue_5_3_dlg_Start_6_THEDEVIL" revealSpeed="medium" emotion="sad" />
+	</DevilsDue_5_Start>
+	<ToTombOrNotToTomb_1_Start>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_Start_1_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_Start_2_Amenhotep" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_Start_3_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_Start_4_Amenhotep" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_Start_5_Amenhotep" revealSpeed="medium" />
+	</ToTombOrNotToTomb_1_Start>
+	<ToTombOrNotToTomb_1_End>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_End_1_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_1_3_dlg_End_2_Amenhotep" revealSpeed="medium" />
+	</ToTombOrNotToTomb_1_End>
+	<ToTombOrNotToTomb_2_Start>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_2_3_dlg_Start_1_Amenhotep" revealSpeed="medium" emotion="excited" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_2_3_dlg_Start_2_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_2_3_dlg_Start_3_Amenhotep" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Apu" text="QST_ToTombOrNotToTomb_2_3_dlg_Start_4_APU" revealSpeed="medium" emotion="angry" />
+	</ToTombOrNotToTomb_2_Start>
+	<ToTombOrNotToTomb_2_End>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_2_3_dlg_End_1_Amenhotep" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_ToTombOrNotToTomb_2_3_dlg_End_2_SQUEAKYVOICETEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_2_3_dlg_End_3_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+	</ToTombOrNotToTomb_2_End>
+	<ToTombOrNotToTomb_3_Start>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_3_3_dlg_Start_1_Amenhotep" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_3_3_dlg_Start_2_Amenhotep" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Milhouse" text="QST_ToTombOrNotToTomb_3_3_dlg_Start_3_MILHOUSE" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_3_3_dlg_Start_4_Amenhotep" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Milhouse" text="QST_ToTombOrNotToTomb_3_3_dlg_Start_5_MILHOUSE" revealSpeed="medium" emotion="sad" />
+	</ToTombOrNotToTomb_3_Start>
+	<ToTombOrNotToTomb_4_Start>
+		<Action type="dialogue" character="Wiggum" text="QST_ToTombOrNotToTomb_4_3_dlg_Start_1_WIGGUM" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_4_3_dlg_Start_2_Amenhotep" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Wiggum" text="QST_ToTombOrNotToTomb_4_3_dlg_Start_3_WIGGUM" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Wiggum" text="QST_ToTombOrNotToTomb_4_3_dlg_Start_4_WIGGUM" revealSpeed="medium" emotion="guilty" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_4_3_dlg_Start_5_Amenhotep" revealSpeed="medium" emotion="surprised" />
+	</ToTombOrNotToTomb_4_Start>
+	<ToTombOrNotToTomb_5_Start>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_5_3_dlg_Start_1_Amenhotep" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_5_3_dlg_Start_2_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_5_3_dlg_Start_3_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Milhouse" text="QST_ToTombOrNotToTomb_5_3_dlg_Start_4_MILHOUSE" revealSpeed="medium" />
+	</ToTombOrNotToTomb_5_Start>
+	<ToTombOrNotToTomb_5_End>
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_5_3_dlg_End_1_Amenhotep" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ToTombOrNotToTomb_5_3_dlg_End_2_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+	</ToTombOrNotToTomb_5_End>
+	<NosferaWho_1_Start>
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_1_3_dlg_Start_1_NOSFERATU" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="Abe" text="QST_NosferaWho_1_3_dlg_Start_2_ABE" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_1_3_dlg_Start_3_NOSFERATU" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="Abe" text="QST_NosferaWho_1_3_dlg_Start_4_ABE" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Abe" text="QST_NosferaWho_1_3_dlg_Start_5_ABE" revealSpeed="medium" />
+		<Action type="dialogue" character="Abe" text="QST_NosferaWho_1_3_dlg_Start_6_ABE" revealSpeed="medium" />
+	</NosferaWho_1_Start>
+	<NosferaWho_2_Start>
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_2_3_dlg_Start_1_NOSFERATU" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_2_3_dlg_Start_2_COMICBOOKGUY" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_2_3_dlg_Start_3_NOSFERATU" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_2_3_dlg_Start_4_COMICBOOKGUY" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_2_3_dlg_Start_5_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_2_3_dlg_Start_6_NOSFERATU" revealSpeed="medium" emotion="hypnotize" />
+	</NosferaWho_2_Start>
+	<NosferaWho_2_End>
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_2_3_dlg_End_1_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_2_3_dlg_End_2_NOSFERATU" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_2_3_dlg_End_3_COMICBOOKGUY" revealSpeed="medium" />
+	</NosferaWho_2_End>
+	<NosferaWho_3_Start>
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_3_3_dlg_Start_1_NOSFERATU" revealSpeed="medium" emotion="hypnotize" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_3_3_dlg_Start_2_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_3_3_dlg_Start_3_NOSFERATU" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_3_3_dlg_Start_4_COMICBOOKGUY" revealSpeed="medium" emotion="annoyed" />
+	</NosferaWho_3_Start>
+	<NosferaWho_3_End>
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_3_3_dlg_End_1_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_3_3_dlg_End_2_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_3_3_dlg_End_3_NOSFERATU" revealSpeed="medium" emotion="exhausted" />
+	</NosferaWho_3_End>
+	<NosferaWho_4_Start>
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_4_3_dlg_Start_1_NOSFERATU" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_4_3_dlg_Start_2_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_4_3_dlg_Start_3_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_4_3_dlg_Start_4_NOSFERATU" revealSpeed="medium" emotion="sad" />
+	</NosferaWho_4_Start>
+	<NosferaWho_5_Start>
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_5_3_dlg_Start_1_NOSFERATU" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_5_3_dlg_Start_2_NOSFERATU" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_5_3_dlg_Start_3_NOSFERATU" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_5_3_dlg_Start_4_COMICBOOKGUY" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_5_3_dlg_Start_5_NOSFERATU" revealSpeed="medium" emotion="annoyed" />
+	</NosferaWho_5_Start>
+	<NosferaWho_5_End>
+		<Action type="dialogue" character="Nosferatu" text="QST_NosferaWho_5_3_dlg_End_1_NOSFERATU" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_5_3_dlg_End_2_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_5_3_dlg_End_3_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_NosferaWho_5_3_dlg_End_4_COMICBOOKGUY" revealSpeed="medium" emotion="happy" />
+	</NosferaWho_5_End>
+	<ThePeoplesAuthor_1_Start>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_Start_1_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_Start_2_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_Start_3_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_Start_4_SLICK" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Cletus" text="QST_ThePeoplesAuthor_1_3_dlg_Start_5_CLETUS" revealSpeed="medium" emotion="smiling" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_Start_6_SLICK" revealSpeed="medium" emotion="happy" />
+	</ThePeoplesAuthor_1_Start>
+	<ThePeoplesAuthor_1_End>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_End_1_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_End_2_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_1_3_dlg_End_3_SLICK" revealSpeed="medium" />
+	</ThePeoplesAuthor_1_End>
+	<ThePeoplesAuthor_2_Start>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_2_3_dlg_Start_1_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_2_3_dlg_Start_2_SLICK" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePeoplesAuthor_2_3_dlg_Start_3_LISA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_2_3_dlg_Start_4_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Milhouse" text="QST_ThePeoplesAuthor_2_3_dlg_Start_5_MILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_2_3_dlg_Start_6_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_2_3_dlg_Start_7_SLICK" revealSpeed="medium" emotion="happy" />
+	</ThePeoplesAuthor_2_Start>
+	<ThePeoplesAuthor_2_End>
+		<Action type="dialogue" character="Lisa" text="QST_ThePeoplesAuthor_2_3_dlg_End_1_LISA" revealSpeed="medium" emotion="exhausted" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_2_3_dlg_End_2_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Milhouse" text="QST_ThePeoplesAuthor_2_3_dlg_End_3_MILHOUSE" revealSpeed="medium" emotion="excited" />
+	</ThePeoplesAuthor_2_End>
+	<ThePeoplesAuthor_3_Start>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_3_3_dlg_Start_1_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePeoplesAuthor_3_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_3_3_dlg_Start_3_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_3_3_dlg_Start_4_SLICK" revealSpeed="medium" emotion="happy" />
+	</ThePeoplesAuthor_3_Start>
+	<ThePeoplesAuthor_4_Start>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_4_3_dlg_Start_1_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_4_3_dlg_Start_2_SLICK" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_4_3_dlg_Start_3_SLICK" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePeoplesAuthor_4_3_dlg_Start_4_LISA" revealSpeed="medium" emotion="annoyed" />
+	</ThePeoplesAuthor_4_Start>
+	<ThePeoplesAuthor_4_End>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_4_3_dlg_End_1_SLICK" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_4_3_dlg_End_2_SLICK" revealSpeed="medium" emotion="happy" />
+	</ThePeoplesAuthor_4_End>
+	<ThePeoplesAuthor_5_Start>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_5_3_dlg_Start_1_SLICK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Milhouse" text="QST_ThePeoplesAuthor_5_3_dlg_Start_2_MILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_5_3_dlg_Start_3_SLICK" revealSpeed="medium" />
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_5_3_dlg_Start_4_SLICK" revealSpeed="medium" />
+	</ThePeoplesAuthor_5_Start>
+	<ThePeoplesAuthor_5_End>
+		<Action type="dialogue" character="Slick" text="QST_ThePeoplesAuthor_5_3_dlg_End_1_Slick" revealSpeed="medium" />
+	</ThePeoplesAuthor_5_End>
+	<CurseCraze_1_Start>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_1_3_dlg_Start_1_WITCH" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_1_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_1_3_dlg_Start_3_WITCH" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_1_3_dlg_Start_4_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_1_3_dlg_Start_5_WITCH" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_1_3_dlg_Start_6_WITCH" revealSpeed="medium" emotion="annoyed" />
+	</CurseCraze_1_Start>
+	<CurseCraze_2_Start>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_Start_1_WITCH" revealSpeed="medium" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_Start_2_WITCH" revealSpeed="medium" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_Start_3_WITCH" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_Start_4_WITCH" revealSpeed="medium" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_Start_5_WITCH" revealSpeed="medium" emotion="happy" />
+	</CurseCraze_2_Start>
+	<CurseCraze_2_End>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_End_1_WITCH" revealSpeed="medium" emotion="annoyedphone" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_2_3_dlg_End_2_WITCH" revealSpeed="medium" emotion="angryphone" />
+	</CurseCraze_2_End>
+	<CurseCraze_3_Start>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_3_3_dlg_Start_1_WITCH" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_3_3_dlg_Start_2_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_3_3_dlg_Start_3_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_3_3_dlg_Start_4_WITCH" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_3_3_dlg_Start_5_LISA" revealSpeed="medium" emotion="nagging" />
+	</CurseCraze_3_Start>
+	<CurseCraze_4_Start>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_Start_1_WITCH" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_4_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="embarrassed" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_Start_3_WITCH" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_Start_4_WITCH" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_Start_5_WITCH" revealSpeed="medium" emotion="sinister" />
+	</CurseCraze_4_Start>
+	<CurseCraze_4_End>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_End_1_WITCH" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_CurseCraze_4_3_dlg_End_2_LISA" revealSpeed="medium" emotion="happy" />
+	</CurseCraze_4_End>
+	<CurseCraze_4_Obj_1_Completed>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_Obj_1_Completed_1_WITCH" revealSpeed="medium" emotion="annoyedphone" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_4_3_dlg_Obj_1_Completed_2_WITCH" revealSpeed="medium" emotion="angryphone" />
+	</CurseCraze_4_Obj_1_Completed>
+	<CurseCraze_5_Start>
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_5_3_dlg_Start_1_WITCH" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_5_3_dlg_Start_2_WITCH" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_5_3_dlg_Start_3_WITCH" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="WitchTHOH2018" text="QST_CurseCraze_5_3_dlg_Start_4_WITCH" revealSpeed="medium" />
+	</CurseCraze_5_Start>
+	<Wanderlust_1_Start>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_1_3_dlg_Start_1_BEATRICE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceAttendant" text="QST_Wanderlust_1_3_dlg_Start_2_SQUEAKYVOICEATTENDANT" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_1_3_dlg_Start_3_BEATRICE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceAttendant" text="QST_Wanderlust_1_3_dlg_Start_4_SQUEAKYVOICEATTENDANT" revealSpeed="medium" emotion="sad" />
+	</Wanderlust_1_Start>
+	<Wanderlust_1_End>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_1_3_dlg_End_1_BEATRICE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_1_3_dlg_End_2_BEATRICE" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_1_3_dlg_End_3_BEATRICE" revealSpeed="medium" />
+	</Wanderlust_1_End>
+	<Wanderlust_2_Start>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_2_3_dlg_Start_1_BEATRICE" revealSpeed="medium" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_2_3_dlg_Start_2_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_2_3_dlg_Start_3_BEATRICE" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_2_3_dlg_Start_4_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_2_3_dlg_Start_5_BEATRICE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_2_3_dlg_Start_6_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_2_3_dlg_Start_7_BEATRICE" revealSpeed="medium" emotion="happy" />
+	</Wanderlust_2_Start>
+	<Wanderlust_2_End>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_2_3_dlg_End_1_BEATRICE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_2_3_dlg_End_2_BEATRICE" revealSpeed="medium" emotion="worried" />
+	</Wanderlust_2_End>
+	<Wanderlust_3_Start>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_3_3_dlg_Start_1_BEATRICE" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_3_3_dlg_Start_2_BEATRICE" revealSpeed="medium" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_3_3_dlg_Start_3_SQUEAKYVOICETEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_3_3_dlg_Start_4_BEATRICE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_3_3_dlg_Start_5_SQUEAKYVOICETEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_3_3_dlg_Start_6_SQUEAKYVOICETEEN" revealSpeed="medium" />
+	</Wanderlust_3_Start>
+	<Wanderlust_4_Start>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_4_3_dlg_Start_1_BEATRICE" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_4_3_dlg_Start_2_BEATRICE" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_4_3_dlg_Start_3_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_4_3_dlg_Start_4_BEATRICE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_4_3_dlg_Start_5_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="sad" />
+	</Wanderlust_4_Start>
+	<Wanderlust_4_End>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_4_3_dlg_End_1_BEATRICE" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_4_3_dlg_End_2_BEATRICE" revealSpeed="medium" emotion="sad" />
+	</Wanderlust_4_End>
+	<Wanderlust_5_Start>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_5_3_dlg_Start_1_BEATRICE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_Wanderlust_5_3_dlg_Start_2_SQUEAKYVOICETEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="Willie" text="QST_Wanderlust_5_3_dlg_Start_3_WILLIE" revealSpeed="medium" />
+		<Action type="dialogue" character="Willie" text="QST_Wanderlust_5_3_dlg_Start_4_WILLIE" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_5_3_dlg_Start_5_BEATRICE" revealSpeed="medium" emotion="happy" />
+	</Wanderlust_5_Start>
+	<Wanderlust_5_End>
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_5_3_dlg_End_1_BEATRICE" revealSpeed="medium" />
+		<Action type="dialogue" character="Beatrice" text="QST_Wanderlust_5_3_dlg_End_2_BEATRICE" revealSpeed="medium" emotion="annoyed" />
+	</Wanderlust_5_End>
+	<WhoDoVoodoo_1_Start>
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_1_3_dlg_Start_1_VOODOOQUEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_1_3_dlg_Start_2_VOODOOQUEEN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_1_3_dlg_Start_3_VOODOOQUEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_WhoDoVoodoo_1_3_dlg_Start_4_MOE" revealSpeed="medium" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_1_3_dlg_Start_5_VOODOOQUEEN" revealSpeed="medium" />
+	</WhoDoVoodoo_1_Start>
+	<WhoDoVoodoo_1_End>
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_1_3_dlg_End_1_VOODOOQUEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_WhoDoVoodoo_1_3_dlg_End_2_MOE" revealSpeed="medium" emotion="sad" />
+	</WhoDoVoodoo_1_End>
+	<WhoDoVoodoo_2_Start>
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_2_3_dlg_Start_1_VOODOOQUEEN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_WhoDoVoodoo_2_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_2_3_dlg_Start_3_VOODOOQUEEN" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="Lisa" text="QST_WhoDoVoodoo_2_3_dlg_Start_4_LISA" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Lisa" text="QST_WhoDoVoodoo_2_3_dlg_Start_5_LISA" revealSpeed="medium" emotion="sneaky" />
+	</WhoDoVoodoo_2_Start>
+	<WhoDoVoodoo_3_Start>
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_3_3_dlg_Start_1_HOMER" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_3_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="guilty" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_3_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_3_3_dlg_Start_4_VOODOOQUEEN" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_3_3_dlg_Start_5_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_3_3_dlg_Start_6_HOMER" revealSpeed="medium" emotion="thoughtful" />
+	</WhoDoVoodoo_3_Start>
+	<WhoDoVoodoo_4_Start>
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_4_3_dlg_Start_1_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_4_3_dlg_Start_2_VOODOOQUEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_4_3_dlg_Start_3_VOODOOQUEEN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_4_3_dlg_Start_4_VOODOOQUEEN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_4_3_dlg_Start_5_HOMER" revealSpeed="medium" />
+	</WhoDoVoodoo_4_Start>
+	<WhoDoVoodoo_5_Start>
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_5_3_dlg_Start_1_VOODOOQUEEN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_5_3_dlg_Start_2_VOODOOQUEEN" revealSpeed="medium" />
+		<Action type="dialogue" character="VoodooQueen" text="QST_WhoDoVoodoo_5_3_dlg_Start_3_VOODOOQUEEN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_5_3_dlg_Start_4_HOMER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_WhoDoVoodoo_5_3_dlg_Start_5_HOMER" revealSpeed="medium" emotion="angry" />
+	</WhoDoVoodoo_5_Start>
+	<AHowlOfANight_1_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_1_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_1_3_dlg_Start_2_WEREWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_1_3_dlg_Start_3_WEREWOLF" revealSpeed="medium" emotion="sinister" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_1_3_dlg_Start_4_WEREWOLF" revealSpeed="medium" />
+	</AHowlOfANight_1_Start>
+	<AHowlOfANight_2_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_2_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SantasLittleHelper" text="QST_AHowlOfANight_2_3_dlg_Start_2_SANTASLITTLEHELPER" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_2_3_dlg_Start_3_WEREWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="SantasLittleHelper" text="QST_AHowlOfANight_2_3_dlg_Start_4_SANTASLITTLEHELPER" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_2_3_dlg_Start_5_WEREWOLF" revealSpeed="medium" emotion="happy" />
+	</AHowlOfANight_2_Start>
+	<AHowlOfANight_3_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_3_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_3_3_dlg_Start_2_WEREWOLF" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_3_3_dlg_Start_3_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="SantasLittleHelper" text="QST_AHowlOfANight_3_3_dlg_Start_4_SANTASLITTLEHELPER" revealSpeed="medium" emotion="sad" />
+	</AHowlOfANight_3_Start>
+	<AHowlOfANight_4_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_4_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_4_3_dlg_Start_2_BART" revealSpeed="medium" emotion="sneaky" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_4_3_dlg_Start_3_WEREWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_4_3_dlg_Start_4_BART" revealSpeed="medium" emotion="smug" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_4_3_dlg_Start_5_BART" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_4_3_dlg_Start_6_WEREWOLF" revealSpeed="medium" emotion="surprised" />
+	</AHowlOfANight_4_Start>
+	<AHowlOfANight_4_End>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_4_3_dlg_End_1_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_4_3_dlg_End_2_BART" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_4_3_dlg_End_3_WEREWOLF" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_4_3_dlg_End_4_BART" revealSpeed="medium" emotion="smug" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_4_3_dlg_End_5_WEREWOLF" revealSpeed="medium" />
+	</AHowlOfANight_4_End>
+	<AHowlOfANight_5_Start>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_5_3_dlg_Start_1_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_5_3_dlg_Start_2_BART" revealSpeed="medium" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_5_3_dlg_Start_3_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_5_3_dlg_Start_4_WEREWOLF" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Bart" text="QST_AHowlOfANight_5_3_dlg_Start_5_BART" revealSpeed="medium" />
+	</AHowlOfANight_5_Start>
+	<AHowlOfANight_5_End>
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_5_3_dlg_End_1_WEREWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Werewolf" text="QST_AHowlOfANight_5_3_dlg_End_2_WEREWOLF" revealSpeed="medium" emotion="happy" />
+	</AHowlOfANight_5_End>
+	<PropertyBother_1_Start>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_1_3_dlg_Start_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_1_3_dlg_Start_2_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_1_3_dlg_Start_3_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_1_3_dlg_Start_4_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="angry" />
+	</PropertyBother_1_Start>
+	<PropertyBother_2_Start>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_2_3_dlg_Start_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_2_3_dlg_Start_2_MonstersBride" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_2_3_dlg_Start_3_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_2_3_dlg_Start_4_MonstersBride" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_2_3_dlg_Start_5_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="happy" />
+	</PropertyBother_2_Start>
+	<PropertyBother_3_Start>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_3_3_dlg_Start_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_3_3_dlg_Start_2_MonstersBride" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_3_3_dlg_Start_3_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_3_3_dlg_Start_4_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_3_3_dlg_Start_5_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+	</PropertyBother_3_Start>
+	<PropertyBother_3_Obj_1_Completed>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_3_3_dlg_Obj_1_Completed_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_3_3_dlg_Obj_1_Completed_2_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+	</PropertyBother_3_Obj_1_Completed>
+	<PropertyBother_4_Start>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_4_3_dlg_Start_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_4_3_dlg_Start_2_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_4_3_dlg_Start_3_MonstersBride" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_4_3_dlg_Start_4_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_4_3_dlg_Start_5_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="happy" />
+	</PropertyBother_4_Start>
+	<PropertyBother_4_End>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_4_3_dlg_End_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_4_3_dlg_End_2_MonstersBride" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_4_3_dlg_End_3_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+	</PropertyBother_4_End>
+	<PropertyBother_5_Start>
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_5_3_dlg_Start_1_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_5_3_dlg_Start_2_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_PropertyBother_5_3_dlg_Start_3_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Julienstein" text="QST_PropertyBother_5_3_dlg_Start_4_MonstersBride" revealSpeed="medium" emotion="happy" />
+	</PropertyBother_5_Start>
+	<KeepingUpWithTheSimpsons_1_Start>
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_Start_1_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_Start_2_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_Start_3_MonstersBride" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_Start_4_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+	</KeepingUpWithTheSimpsons_1_Start>
+	<KeepingUpWithTheSimpsons_1_End>
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_End_1_MARGE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_End_2_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_End_3_MARGE" revealSpeed="medium" emotion="laughing" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_End_4_MonstersBride" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_1_3_dlg_End_5_MARGE" revealSpeed="medium" emotion="happy" />
+	</KeepingUpWithTheSimpsons_1_End>
+	<KeepingUpWithTheSimpsons_2_Start>
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_2_3_dlg_Start_1_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_2_3_dlg_Start_2_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_2_3_dlg_Start_3_MARGE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_2_3_dlg_Start_4_MARGE" revealSpeed="medium" emotion="nervous" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_2_3_dlg_Start_5_MonstersBride" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_2_3_dlg_Start_6_MARGE" revealSpeed="medium" emotion="happy" />
+	</KeepingUpWithTheSimpsons_2_Start>
+	<KeepingUpWithTheSimpsons_3_Start>
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_3_3_dlg_Start_1_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_3_3_dlg_Start_2_MonstersBride" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Marge" text="QST_KeepingUpWithTheSimpsons_3_3_dlg_Start_3_MARGE" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_3_3_dlg_Start_4_MonstersBride" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_3_3_dlg_Start_5_MonstersBride" revealSpeed="medium" />
+	</KeepingUpWithTheSimpsons_3_Start>
+	<KeepingUpWithTheSimpsons_4_Start>
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_4_3_dlg_Start_1_MonstersBride" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_KeepingUpWithTheSimpsons_4_3_dlg_Start_2_FRANKENSTEINSMONSTER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_4_3_dlg_Start_3_MonstersBride" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_4_3_dlg_Start_4_MonstersBride" revealSpeed="medium" emotion="annoyed" />
+	</KeepingUpWithTheSimpsons_4_Start>
+	<KeepingUpWithTheSimpsons_5_Start>
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_5_3_dlg_Start_1_MonstersBride" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_KeepingUpWithTheSimpsons_5_3_dlg_Start_2_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_5_3_dlg_Start_3_MonstersBride" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="FrankensteinsMonster" text="QST_KeepingUpWithTheSimpsons_5_3_dlg_Start_4_FRANKENSTEINSMONSTER" revealSpeed="medium" />
+		<Action type="dialogue" character="Julienstein" text="QST_KeepingUpWithTheSimpsons_5_3_dlg_Start_5_MonstersBride" revealSpeed="medium" emotion="happy" />
+	</KeepingUpWithTheSimpsons_5_Start>
+	<SpookyGorge_1_Start>
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_1_3_dlg_Start_1_WIGGUM" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Jimbo" text="QST_SpookyGorge_1_3_dlg_Start_2_JIMBO" revealSpeed="medium" />
+		<Action type="dialogue" character="Shauna" text="QST_SpookyGorge_1_3_dlg_Start_3_SHAUNA" revealSpeed="medium" />
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_1_3_dlg_Start_4_WIGGUM" revealSpeed="medium" emotion="serious" />
+	</SpookyGorge_1_Start>
+	<SpookyGorge_1_Obj_2_Completed>
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_1_3_dlg_Obj_2_Completed_1_WIGGUM" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Shauna" text="QST_SpookyGorge_1_3_dlg_Obj_2_Completed_2_SHAUNA" revealSpeed="medium" />
+		<Action type="dialogue" character="Jimbo" text="QST_SpookyGorge_1_3_dlg_Obj_2_Completed_3_JIMBO" revealSpeed="medium" />
+		<Action type="dialogue" character="Shauna" text="QST_SpookyGorge_1_3_dlg_Obj_2_Completed_4_SHAUNA" revealSpeed="medium" />
+	</SpookyGorge_1_Obj_2_Completed>
+	<SpookyGorge_2_Start>
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_2_3_dlg_Start_1_WIGGUM" revealSpeed="medium" emotion="lost" />
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_2_3_dlg_Start_2_WIGGUM" revealSpeed="medium" emotion="lost" />
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_2_3_dlg_Start_3_WIGGUM" revealSpeed="medium" emotion="lost" />
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_2_3_dlg_Start_4_WIGGUM" revealSpeed="medium" emotion="lost" />
+	</SpookyGorge_2_Start>
+	<SpookyGorge_2_End>
+		<Action type="dialogue" character="Lou" text="QST_SpookyGorge_2_3_dlg_End_1_LOU" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_2_3_dlg_End_2_WIGGUM" revealSpeed="medium" emotion="lost" />
+		<Action type="dialogue" character="Lou" text="QST_SpookyGorge_2_3_dlg_End_3_LOU" revealSpeed="medium" emotion="disappointed" />
+		<Action type="dialogue" character="Wiggum" text="QST_SpookyGorge_2_3_dlg_End_4_WIGGUM" revealSpeed="medium" emotion="lost" />
+	</SpookyGorge_2_End>
+	<TongueKissPoint_1_Start>
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_1_3_dlg_Start_1_HOMER" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_1_3_dlg_Start_2_MARGE" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_1_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="proud" />
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_1_3_dlg_Start_4_MARGE" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_1_3_dlg_Start_5_HOMER" revealSpeed="medium" emotion="proud" />
+	</TongueKissPoint_1_Start>
+	<TongueKissPoint_1_End>
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_1_3_dlg_End_1_MARGE" revealSpeed="medium" emotion="nervous" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_1_3_dlg_End_2_HOMER" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_1_3_dlg_End_3_HOMER" revealSpeed="medium" emotion="proud" />
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_1_3_dlg_End_4_MARGE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_1_3_dlg_End_5_HOMER" revealSpeed="medium" emotion="serious" />
+	</TongueKissPoint_1_End>
+	<TongueKissPoint_2_Start>
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_2_3_dlg_Start_1_MARGE" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_2_3_dlg_Start_2_MARGE" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_2_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_2_3_dlg_Start_4_MARGE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Burns" text="QST_TongueKissPoint_2_3_dlg_Start_5_MRBURNS" revealSpeed="medium" emotion="diabolical" />
+	</TongueKissPoint_2_Start>
+	<TongueKissPoint_2_Obj_1_Completed>
+		<Action type="dialogue" character="Marge" text="QST_TongueKissPoint_2_3_dlg_Obj_1_Completed_1_MARGE" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_2_3_dlg_Obj_1_Completed_2_HOMER" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_2_3_dlg_Obj_1_Completed_3_HOMER" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Homer" text="QST_TongueKissPoint_2_3_dlg_Obj_1_Completed_4_HOMER" revealSpeed="medium" emotion="shocked" />
+	</TongueKissPoint_2_Obj_1_Completed>
+	<NoAccountingForTaste_1_Start>
+		<Action type="dialogue" character="Abe" text="QST_NoAccountingForTaste_1_3_dlg_Start_1_GRAMPA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_NoAccountingForTaste_1_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Abe" text="QST_NoAccountingForTaste_1_3_dlg_Start_3_GRAMPA" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Abe" text="QST_NoAccountingForTaste_1_3_dlg_Start_4_GRAMPA" revealSpeed="medium" emotion="happy" />
+	</NoAccountingForTaste_1_Start>
+	<NoAccountingForTaste_1_End>
+		<Action type="dialogue" character="Lisa" text="QST_NoAccountingForTaste_1_3_dlg_End_1_LISA" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_1_3_dlg_End_2_COUNTGRAMPA" revealSpeed="medium" />
+	</NoAccountingForTaste_1_End>
+	<NoAccountingForTaste_2_Start>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_2_3_dlg_Start_1_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_NoAccountingForTaste_2_3_dlg_Start_2_MARGE" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_NoAccountingForTaste_2_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_2_3_dlg_Start_4_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_NoAccountingForTaste_2_3_dlg_Start_5_HOMER" revealSpeed="medium" emotion="scared" />
+	</NoAccountingForTaste_2_Start>
+	<NoAccountingForTaste_2_End>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_2_3_dlg_End_1_COUNTGRAMPA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_2_3_dlg_End_2_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_NoAccountingForTaste_2_3_dlg_End_3_HOMER" revealSpeed="medium" emotion="snobby" />
+	</NoAccountingForTaste_2_End>
+	<NoAccountingForTaste_3_Start>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_3_3_dlg_Start_1_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_3_3_dlg_Start_2_COUNTGRAMPA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_3_3_dlg_Start_3_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_3_3_dlg_Start_4_COUNTGRAMPA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_3_3_dlg_Start_5_COUNTGRAMPA" revealSpeed="medium" emotion="sad" />
+	</NoAccountingForTaste_3_Start>
+	<NoAccountingForTaste_3_End>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_3_3_dlg_End_1_COUNTGRAMPA" revealSpeed="medium" emotion="sad" />
+	</NoAccountingForTaste_3_End>
+	<NoAccountingForTaste_4_Start>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_4_3_dlg_Start_1_COUNTGRAMPA" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Lisa" text="QST_NoAccountingForTaste_4_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="alarmed" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_4_3_dlg_Start_3_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_4_3_dlg_Start_4_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_NoAccountingForTaste_4_3_dlg_Start_5_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_4_3_dlg_Start_6_COUNTGRAMPA" revealSpeed="medium" emotion="happy" />
+	</NoAccountingForTaste_4_Start>
+	<NoAccountingForTaste_4_End>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_4_3_dlg_End_1_COUNTGRAMPA" revealSpeed="medium" emotion="sad" />
+	</NoAccountingForTaste_4_End>
+	<NoAccountingForTaste_5_Start>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_5_3_dlg_Start_1_COUNTGRAMPA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_NoAccountingForTaste_5_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_5_3_dlg_Start_3_COUNTGRAMPA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_NoAccountingForTaste_5_3_dlg_Start_4_LISA" revealSpeed="medium" emotion="alarmed" />
+		<Action type="dialogue" character="Homer" text="QST_NoAccountingForTaste_5_3_dlg_Start_5_HOMER" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_5_3_dlg_Start_6_COUNTGRAMPA" revealSpeed="medium" />
+	</NoAccountingForTaste_5_Start>
+	<NoAccountingForTaste_5_End>
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_5_3_dlg_End_1_COUNTGRAMPA" revealSpeed="medium" emotion="redeye" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_5_3_dlg_End_2_COUNTGRAMPA" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_NoAccountingForTaste_5_3_dlg_End_3_HOMER" revealSpeed="medium" emotion="glassedeye" />
+		<Action type="dialogue" character="CountGrampa" text="QST_NoAccountingForTaste_5_3_dlg_End_4_COUNTGRAMPA" revealSpeed="medium" emotion="happy" />
+	</NoAccountingForTaste_5_End>
+	<BatsOutOfTheBag_1_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_1_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_1_3_dlg_Start_2_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_1_3_dlg_Start_3_COUNTDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_1_3_dlg_Start_4_COUNTDRACULA" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_1_3_dlg_Start_5_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_1_3_dlg_Start_6_COUNTDRACULA" revealSpeed="medium" />
+	</BatsOutOfTheBag_1_Start>
+	<BatsOutOfTheBag_1_End>
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_1_3_dlg_End_1_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_1_3_dlg_End_2_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_1_3_dlg_End_3_COUNTDRACULA" revealSpeed="medium" />
+	</BatsOutOfTheBag_1_End>
+	<BatsOutOfTheBag_2_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_2_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_2_3_dlg_Start_2_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_2_3_dlg_Start_3_COUNTESSDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_2_3_dlg_Start_4_COUNTDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_2_3_dlg_Start_5_COUNTESSDRACULA" revealSpeed="medium" emotion="annoyed" />
+	</BatsOutOfTheBag_2_Start>
+	<BatsOutOfTheBag_2_End>
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_2_3_dlg_End_1_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_2_3_dlg_End_2_COUNTESSDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_2_3_dlg_End_3_COUNTESSDRACULA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_2_3_dlg_End_4_COUNTDRACULA" revealSpeed="medium" emotion="sad" />
+	</BatsOutOfTheBag_2_End>
+	<BatsOutOfTheBag_3_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_3_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_3_3_dlg_Start_2_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_3_3_dlg_Start_3_COUNTDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_3_3_dlg_Start_4_COUNTESSDRACULA" revealSpeed="medium" />
+	</BatsOutOfTheBag_3_Start>
+	<BatsOutOfTheBag_3_Obj_1_Completed>
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_3_3_dlg_Obj_1_Completed_1_HELENLOVEJOY" revealSpeed="medium" emotion="angsty" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_3_3_dlg_Obj_1_Completed_2_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_3_3_dlg_Obj_1_Completed_3_HELENLOVEJOY" revealSpeed="medium" emotion="yay" />
+	</BatsOutOfTheBag_3_Obj_1_Completed>
+	<BatsOutOfTheBag_4_Start>
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_4_3_dlg_Start_1_HELENLOVEJOY" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_4_3_dlg_Start_2_HELENLOVEJOY" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_4_3_dlg_Start_3_COUNTESSDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_4_3_dlg_Start_4_HELENLOVEJOY" revealSpeed="medium" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_4_3_dlg_Start_5_HELENLOVEJOY" revealSpeed="medium" emotion="happy" />
+	</BatsOutOfTheBag_4_Start>
+	<BatsOutOfTheBag_4_Obj_1_Completed>
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_4_3_dlg_Obj_1_Completed_1_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_4_3_dlg_Obj_1_Completed_2_HELENLOVEJOY" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_4_3_dlg_Obj_1_Completed_3_COUNTESSDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_BatsOutOfTheBag_4_3_dlg_Obj_1_Completed_4_HELENLOVEJOY" revealSpeed="medium" emotion="yay" />
+	</BatsOutOfTheBag_4_Obj_1_Completed>
+	<BatsOutOfTheBag_5_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_5_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_5_3_dlg_Start_2_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BatsOutOfTheBag_5_3_dlg_Start_3_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_5_3_dlg_Start_4_COUNTESSDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BatsOutOfTheBag_5_3_dlg_Start_5_COUNTESSDRACULA" revealSpeed="medium" />
+	</BatsOutOfTheBag_5_Start>
+	<BatsOutOfTheBag_5_End>
+		<Action type="dialogue" character="Marge" text="QST_BatsOutOfTheBag_5_3_dlg_End_1_MARGE" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_BatsOutOfTheBag_5_3_dlg_End_2_HOMER" revealSpeed="medium" emotion="serious" />
+	</BatsOutOfTheBag_5_End>
+	<WereIsYourHair_1_Start>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_Start_1_WEREMILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_1_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="grossed_out" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_Start_3_WEREMILHOUSE" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_Start_4_WEREMILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_1_3_dlg_Start_5_LISA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_Start_6_WEREMILHOUSE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_Start_7_WEREMILHOUSE" revealSpeed="medium" emotion="annoyed" />
+	</WereIsYourHair_1_Start>
+	<WereIsYourHair_1_End>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_End_1_WEREMILHOUSE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_1_3_dlg_End_2_LISA" revealSpeed="medium" emotion="suspicious" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_1_3_dlg_End_3_WEREMILHOUSE" revealSpeed="medium" emotion="annoyed" />
+	</WereIsYourHair_1_End>
+	<WereIsYourHair_2_Start>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_2_3_dlg_Start_1_WEREMILHOUSE" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_2_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_2_3_dlg_Start_3_WEREMILHOUSE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_2_3_dlg_Start_4_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_2_3_dlg_Start_5_WEREMILHOUSE" revealSpeed="medium" />
+	</WereIsYourHair_2_Start>
+	<WereIsYourHair_2_End>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_2_3_dlg_End_1_WEREMILHOUSE" revealSpeed="medium" emotion="exhausted" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_2_3_dlg_End_2_LISA" revealSpeed="medium" emotion="happy" />
+	</WereIsYourHair_2_End>
+	<WereIsYourHair_3_Start>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_3_3_dlg_Start_1_WEREMILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_3_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_3_3_dlg_Start_3_WEREMILHOUSE" revealSpeed="medium" emotion="sad" />
+	</WereIsYourHair_3_Start>
+	<WereIsYourHair_3_End>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_3_3_dlg_End_1_WEREMILHOUSE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_3_3_dlg_End_2_WEREMILHOUSE" revealSpeed="medium" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_3_3_dlg_End_3_WEREMILHOUSE" revealSpeed="medium" emotion="happy" />
+	</WereIsYourHair_3_End>
+	<WereIsYourHair_4_Start>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_4_3_dlg_Start_1_WEREMILHOUSE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_4_3_dlg_Start_2_WEREMILHOUSE" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_4_3_dlg_Start_3_WEREMILHOUSE" revealSpeed="medium" emotion="annoyed" />
+	</WereIsYourHair_4_Start>
+	<WereIsYourHair_4_End>
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_4_3_dlg_End_1_WEREMILHOUSE" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_4_3_dlg_End_2_LISA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_4_3_dlg_End_3_WEREMILHOUSE" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_WereIsYourHair_4_3_dlg_End_4_LISA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="WereMilhouse" text="QST_WereIsYourHair_4_3_dlg_End_5_WEREMILHOUSE" revealSpeed="medium" emotion="happy" />
+	</WereIsYourHair_4_End>
+	<MonsterPhysique_1_Start>
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_1_3_dlg_Start_1_SHEWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_1_3_dlg_Start_2_SHEWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_MonsterPhysique_1_3_dlg_Start_3_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_1_3_dlg_Start_4_SHEWOLF" revealSpeed="medium" emotion="sad" />
+	</MonsterPhysique_1_Start>
+	<MonsterPhysique_2_Start>
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_2_3_dlg_Start_1_SHEWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_MonsterPhysique_2_3_dlg_Start_2_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_2_3_dlg_Start_3_SHEWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_MonsterPhysique_2_3_dlg_Start_4_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_2_3_dlg_Start_5_SHEWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_MonsterPhysique_2_3_dlg_Start_6_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="scared" />
+	</MonsterPhysique_2_Start>
+	<MonsterPhysique_3_Start>
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_3_3_dlg_Start_1_SHEWOLF" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_MonsterPhysique_3_3_dlg_Start_2_GIL" revealSpeed="medium" emotion="selling" />
+		<Action type="dialogue" character="Gil" text="QST_MonsterPhysique_3_3_dlg_Start_3_GIL" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_3_3_dlg_Start_4_SHEWOLF" revealSpeed="medium" emotion="devious" />
+		<Action type="dialogue" character="Gil" text="QST_MonsterPhysique_3_3_dlg_Start_5_GIL" revealSpeed="medium" emotion="sad" />
+	</MonsterPhysique_3_Start>
+	<MonsterPhysique_4_Start>
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_4_3_dlg_Start_1_SHEWOLF" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="DrHibbert" text="QST_MonsterPhysique_4_3_dlg_Start_2_DRHIBBERT" revealSpeed="medium" />
+		<Action type="dialogue" character="DrHibbert" text="QST_MonsterPhysique_4_3_dlg_Start_3_DRHIBBERT" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_4_3_dlg_Start_4_SHEWOLF" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="DrHibbert" text="QST_MonsterPhysique_4_3_dlg_Start_5_DRHIBBERT" revealSpeed="medium" emotion="happy" />
+	</MonsterPhysique_4_Start>
+	<MonsterPhysique_4_End>
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_4_3_dlg_End_1_SHEWOLF" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="SqueakyVoiceTeen" text="QST_MonsterPhysique_4_3_dlg_End_2_SQUEAKYVOICETEEN" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SheWolf" text="QST_MonsterPhysique_4_3_dlg_End_3_SHEWOLF" revealSpeed="medium" emotion="devious" />
+	</MonsterPhysique_4_End>
+	<MrMum_1_Start>
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_1_3_dlg_Start_1_MUMMYWIGGUM" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Lou" text="QST_MrMum_1_3_dlg_Start_2_LOU" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_1_3_dlg_Start_3_MUMMYWIGGUM" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lou" text="QST_MrMum_1_3_dlg_Start_4_LOU" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_1_3_dlg_Start_5_MUMMYWIGGUM" revealSpeed="medium" emotion="annoyed" />
+	</MrMum_1_Start>
+	<MrMum_1_End>
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_1_3_dlg_End_1_MUMMYWIGGUM" revealSpeed="medium" emotion="happy" />
+	</MrMum_1_End>
+	<MrMum_2_Start>
+		<Action type="dialogue" character="Skinner" text="QST_MrMum_2_3_dlg_Start_1_SKINNER" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_2_3_dlg_Start_2_MUMMYWIGGUM" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_2_3_dlg_Start_3_MUMMYWIGGUM" revealSpeed="medium" />
+		<Action type="dialogue" character="Nelson" text="QST_MrMum_2_3_dlg_Start_4_NELSON" revealSpeed="medium" emotion="happy" />
+	</MrMum_2_Start>
+	<MrMum_3_Start>
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_3_3_dlg_Start_1_MUMMYWIGGUM" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_3_3_dlg_Start_2_MUMMYWIGGUM" revealSpeed="medium" />
+		<Action type="dialogue" character="Lou" text="QST_MrMum_3_3_dlg_Start_3_LOU" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_3_3_dlg_Start_4_MUMMYWIGGUM" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_3_3_dlg_Start_5_MUMMYWIGGUM" revealSpeed="medium" emotion="happy" />
+	</MrMum_3_Start>
+	<MrMum_4_Start>
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_4_3_dlg_Start_1_MUMMYWIGGUM" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_4_3_dlg_Start_2_MUMMYWIGGUM" revealSpeed="medium" />
+		<Action type="dialogue" character="MummyWiggum" text="QST_MrMum_4_3_dlg_Start_3_MUMMYWIGGUM" revealSpeed="medium" emotion="happy" />
+	</MrMum_4_Start>
+	<MumsTheWord_1_Start>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_1_3_dlg_Start_1_Womenhet" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Amenhotep" text="QST_MumsTheWord_1_3_dlg_Start_2_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_MumsTheWord_1_3_dlg_Start_3_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_1_3_dlg_Start_4_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Amenhotep" text="QST_MumsTheWord_1_3_dlg_Start_5_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_1_3_dlg_Start_6_Womenhet" revealSpeed="medium" emotion="annoyed" />
+	</MumsTheWord_1_Start>
+	<MumsTheWord_1_End>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_1_3_dlg_End_1_Womenhet" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_1_3_dlg_End_2_Womenhet" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_1_3_dlg_End_3_Womenhet" revealSpeed="medium" emotion="annoyed" />
+	</MumsTheWord_1_End>
+	<MumsTheWord_2_Start>
+		<Action type="dialogue" character="Lisa" text="QST_MumsTheWord_2_3_dlg_Start_1_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_MumsTheWord_2_3_dlg_Start_2_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_2_3_dlg_Start_3_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_MumsTheWord_2_3_dlg_Start_4_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_2_3_dlg_Start_5_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_2_3_dlg_Start_6_Womenhet" revealSpeed="medium" />
+	</MumsTheWord_2_Start>
+	<MumsTheWord_2_End>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_2_3_dlg_End_1_Womenhet" revealSpeed="medium" emotion="plead" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_2_3_dlg_End_2_Womenhet" revealSpeed="medium" emotion="plead" />
+	</MumsTheWord_2_End>
+	<MumsTheWord_3_Start>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_3_3_dlg_Start_1_Womenhet" revealSpeed="medium" emotion="plead" />
+		<Action type="dialogue" character="Lisa" text="QST_MumsTheWord_3_3_dlg_Start_2_LISA" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_3_3_dlg_Start_3_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_3_3_dlg_Start_4_Womenhet" revealSpeed="medium" emotion="serious" />
+	</MumsTheWord_3_Start>
+	<MumsTheWord_3_End>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_3_3_dlg_End_1_Womenhet" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_MumsTheWord_3_3_dlg_End_2_LISA" revealSpeed="medium" emotion="nagging" />
+	</MumsTheWord_3_End>
+	<MumsTheWord_3_Obj_2_Started>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_3_3_dlg_Obj_2_Completed_1_Womenhet" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_MumsTheWord_3_3_dlg_Obj_2_Completed_2_LISA" revealSpeed="medium" emotion="worried" />
+	</MumsTheWord_3_Obj_2_Started>
+	<MumsTheWord_4_Start>
+		<Action type="dialogue" character="Amenhotep" text="QST_MumsTheWord_4_3_dlg_Start_1_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_MumsTheWord_4_3_dlg_Start_2_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_4_3_dlg_Start_3_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Amenhotep" text="QST_MumsTheWord_4_3_dlg_Start_4_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_4_3_dlg_Start_5_Womenhet" revealSpeed="medium" emotion="angry" />
+	</MumsTheWord_4_Start>
+	<MumsTheWord_4_End>
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_4_3_dlg_End_1_Womenhet" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_MumsTheWord_4_3_dlg_End_2_Womenhet" revealSpeed="medium" emotion="confused" />
+	</MumsTheWord_4_End>
+	<TransylvaniaWelcomeSign_Start>
+		<Action type="dialogue" character="Homer" text="QST_TransylvaniaWelcomeSign_3_dlg_Start_1_HOMER" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="Bart" text="QST_TransylvaniaWelcomeSign_3_dlg_Start_2_BART" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Lisa" text="QST_TransylvaniaWelcomeSign_3_dlg_Start_3_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="Lisa" text="QST_TransylvaniaWelcomeSign_3_dlg_Start_4_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_TransylvaniaWelcomeSign_3_dlg_Start_5_BART" revealSpeed="medium" emotion="sneaky" />
+		<Action type="dialogue" character="Lisa" text="QST_TransylvaniaWelcomeSign_3_dlg_Start_6_LISA" revealSpeed="medium" emotion="annoyed" />
+	</TransylvaniaWelcomeSign_Start>
+	<DraculaLaLand_Start>
+		<Action type="dialogue" character="Ned" text="QST_DraculaLaLand_3_dlg_Start_1_NED" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_DraculaLaLand_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="guilty" />
+		<Action type="dialogue" character="Ned" text="QST_DraculaLaLand_3_dlg_Start_3_NED" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Ned" text="QST_DraculaLaLand_3_dlg_Start_4_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DraculaLaLand_3_dlg_Start_5_HOMER" revealSpeed="medium" />
+	</DraculaLaLand_Start>
+	<DraculaLaLand_End>
+		<Action type="dialogue" character="Ned" text="QST_DraculaLaLand_3_dlg_End_1_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_DraculaLaLand_3_dlg_End_2_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DraculaLaLand_3_dlg_End_3_HOMER" revealSpeed="medium" emotion="sarcastic" />
+	</DraculaLaLand_End>
+	<TheWebs_Start>
+		<Action type="dialogue" character="Burns" text="QST_TheWebs_3_dlg_Start_1_MRBURNS" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Smithers" text="QST_TheWebs_3_dlg_Start_2_SMITHERS" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheWebs_3_dlg_Start_3_MRBURNS" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Smithers" text="QST_TheWebs_3_dlg_Start_4_SMITHERS" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Burns" text="QST_TheWebs_3_dlg_Start_5_MRBURNS" revealSpeed="medium" emotion="sad" />
+	</TheWebs_Start>
+	<TheWebs_End>
+		<Action type="dialogue" character="Smithers" text="QST_TheWebs_3_dlg_End_1_SMITHERS" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheWebs_3_dlg_End_2_MRBURNS" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="Smithers" text="QST_TheWebs_3_dlg_End_3_SMITHERS" revealSpeed="medium" emotion="excited" />
+	</TheWebs_End>
+	<HauntedCrossroads_Start>
+		<Action type="dialogue" character="Marge" text="QST_HauntedCrossroads_3_dlg_Start_1_MARGE" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_HauntedCrossroads_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_HauntedCrossroads_3_dlg_Start_3_HOMER" revealSpeed="medium" />
+	</HauntedCrossroads_Start>
+	<HauntedCrossroads_End>
+		<Action type="dialogue" character="Marge" text="QST_HauntedCrossroads_3_dlg_End_1_MARGE" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_HauntedCrossroads_3_dlg_End_2_HOMER" revealSpeed="medium" emotion="guilty" />
+	</HauntedCrossroads_End>
+	<ScreamingStichAndHem_Start>
+		<Action type="dialogue" character="ComicBookGuy" text="QST_ScreamingStichAndHem_3_dlg_Start_1_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_ScreamingStichAndHem_3_dlg_Start_2_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_ScreamingStichAndHem_3_dlg_Start_3_COMICBOOKGUY" revealSpeed="medium" />
+	</ScreamingStichAndHem_Start>
+	<ScreamingStichAndHem_Obj_1_Completed>
+		<Action type="dialogue" character="CrazyCatLady" text="QST_ScreamingStichAndHem_3_dlg_Obj_1_Completed_1_CRAZYCATLADY" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_ScreamingStichAndHem_3_dlg_Obj_1_Completed_2_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_ScreamingStichAndHem_3_dlg_Obj_1_Completed_3_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_ScreamingStichAndHem_3_dlg_Obj_1_Completed_4_COMICBOOKGUY" revealSpeed="medium" />
+		<Action type="dialogue" character="CrazyCatLady" text="QST_ScreamingStichAndHem_3_dlg_Obj_1_Completed_5_CRAZYCATLADY" revealSpeed="medium" emotion="calm" />
+	</ScreamingStichAndHem_Obj_1_Completed>
+	<BarkingGoodButchery_Start>
+		<Action type="dialogue" character="Cletus" text="QST_BarkingGoodButchery_3_dlg_Start_1_CLETUS" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="MawSpuckler" text="QST_BarkingGoodButchery_3_dlg_Start_2_MAWSPUCKLER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Cletus" text="QST_BarkingGoodButchery_3_dlg_Start_3_CLETUS" revealSpeed="medium" />
+	</BarkingGoodButchery_Start>
+	<BarkingGoodButchery_End>
+		<Action type="dialogue" character="Cletus" text="QST_BarkingGoodButchery_3_dlg_End_1_CLETUS" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Cletus" text="QST_BarkingGoodButchery_3_dlg_End_2_CLETUS" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="MawSpuckler" text="QST_BarkingGoodButchery_3_dlg_End_3_MAWSPUCKLER" revealSpeed="medium" emotion="annoyed" />
+	</BarkingGoodButchery_End>
+	<StoneGate_Start>
+		<Action type="dialogue" character="Homer" text="QST_StoneGate_3_dlg_Start_1_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_StoneGate_3_dlg_Start_2_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_StoneGate_3_dlg_Start_3_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_StoneGate_3_dlg_Start_4_HOMER" revealSpeed="medium" />
+	</StoneGate_Start>
+	<Bazaar_Start>
+		<Action type="dialogue" character="Martin" text="QST_Bazaar_3_dlg_Start_1_MARTIN" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Martin" text="QST_Bazaar_3_dlg_Start_2_MARTIN" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Martin" text="QST_Bazaar_3_dlg_Start_3_MARTIN" revealSpeed="medium" />
+	</Bazaar_Start>
+	<Bazaar_End>
+		<Action type="dialogue" character="Bart" text="QST_Bazaar_3_dlg_End_1_BART" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Martin" text="QST_Bazaar_3_dlg_End_2_MARTIN" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Bart" text="QST_Bazaar_3_dlg_End_3_BART" revealSpeed="medium" />
+	</Bazaar_End>
+	<GrandPyramid_Start>
+		<Action type="dialogue" character="Krusty" text="QST_GrandPyramid_3_dlg_Start_1_KRUSTY" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Krusty" text="QST_GrandPyramid_3_dlg_Start_2_KRUSTY" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Willie" text="QST_GrandPyramid_3_dlg_Start_3_WILLIE" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_GrandPyramid_3_dlg_Start_4_KRUSTY" revealSpeed="medium" emotion="bored" />
+	</GrandPyramid_Start>
+	<GrandPyramid_End>
+		<Action type="dialogue" character="Krusty" text="QST_GrandPyramid_3_dlg_End_1_KRUSTY" revealSpeed="medium" />
+		<Action type="dialogue" character="Willie" text="QST_GrandPyramid_3_dlg_End_2_WILLIE" revealSpeed="medium" />
+	</GrandPyramid_End>
+	<BitingBack_1_Start>
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_Start_1_COUNTDRACULA" revealSpeed="medium" emotion="scary" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_Start_2_COUNTDRACULA" revealSpeed="medium" emotion="scary" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_1_3_dlg_Start_3_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_Start_4_COUNTDRACULA" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_1_3_dlg_Start_5_COUNTESSDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_Start_6_COUNTDRACULA" revealSpeed="medium" emotion="sad" />
+	</BitingBack_1_Start>
+	<BitingBack_1_End>
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_End_1_COUNTDRACULA" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_End_2_COUNTDRACULA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Selma" text="QST_BitingBack_1_3_dlg_End_3_SELMA" revealSpeed="medium" emotion="bitten" />
+	</BitingBack_1_End>
+	<BitingBack_1_Obj_2_Completed>
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_Obj_2_Completed_1_COUNTDRACULA" revealSpeed="medium" emotion="scary" />
+		<Action type="dialogue" character="Krusty" text="QST_BitingBack_1_3_dlg_Obj_2_Completed_2_KRUSTY" revealSpeed="medium" emotion="joking" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_1_3_dlg_Obj_2_Completed_3_COUNTDRACULA" revealSpeed="medium" emotion="happy" />
+	</BitingBack_1_Obj_2_Completed>
+	<BitingBack_2_Start>
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_2_3_dlg_Start_1_COUNTDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_2_3_dlg_Start_2_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_2_3_dlg_Start_3_COUNTESSDRACULA" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_2_3_dlg_Start_4_COUNTESSDRACULA" revealSpeed="medium" emotion="serious" />
+	</BitingBack_2_Start>
+	<BitingBack_2_End>
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_2_3_dlg_End_1_NED" revealSpeed="medium" emotion="pajamas_worried" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_2_3_dlg_End_2_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_2_3_dlg_End_3_NED" revealSpeed="medium" emotion="pajamas_annoyed" />
+	</BitingBack_2_End>
+	<BitingBack_2_Obj_1_Completed>
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_2_3_dlg_Obj_1_Completed_1_NED" revealSpeed="medium" emotion="pajamas_annoyed" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_2_3_dlg_Obj_1_Completed_2_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_2_3_dlg_Obj_1_Completed_3_NED" revealSpeed="medium" emotion="pajamas_worried" />
+	</BitingBack_2_Obj_1_Completed>
+	<BitingBack_3_Start>
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_3_3_dlg_Start_1_NED" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_3_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="aah" />
+		<Action type="dialogue" character="Frink" text="QST_BitingBack_3_3_dlg_Start_3_FRINK" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_BitingBack_3_3_dlg_Start_4_FRINK" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_BitingBack_3_3_dlg_Start_5_FRINK" revealSpeed="medium" />
+		<Action type="reward" noDrops="true" THOH2018_CurrencyDigging="10" />
+		<Action type="reparseBuildMenu" />
+	</BitingBack_3_Start>
+	<BitingBack_3_End>
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_3_3_dlg_End_1_HOMER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_3_3_dlg_End_2_NED" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_3_3_dlg_End_3_HOMER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_3_3_dlg_End_4_NED" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_3_3_dlg_End_5_HOMER" revealSpeed="medium" emotion="snobby" />
+	</BitingBack_3_End>
+	<BitingBack_4_Start>
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_4_3_dlg_Start_1_NED" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_4_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_4_3_dlg_Start_3_NED" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_4_3_dlg_Start_4_HOMER" revealSpeed="medium" emotion="angry" />
+	</BitingBack_4_Start>
+	<BitingBack_4_End>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var spawnCap = toDouble(System::getConfigValue('__THOH2018_BalanceConfig:Tappables:SpawnMaxInTown__'));
+                    var currentAmount = toDouble(User::getVariable('THOH2018_Total_Tappables'));
+                    var spawnAmount = max(min(spawnCap - currentAmount , 20), 0); //In case somehow we're over the cap, don't loop to a negative
+					for(var i = 0; i <spawnAmount; i++)
+					{
+					var chance = trunc(randRange(0, 3));
+					var created;
+					if (chance == 0) {
+					created = Character::createInstance('GenericSF_Small', false, false);
+					}
+					elseif (chance == 1) {
+					created = Character::createInstance('GenericSF_Medium', false, false);
+					}
+					else {
+					created = Character::createInstance('GenericSF_Large', false, false);
+					}
+					if (Requirements::checkRequirementList('THOH2018_Requirements:CountessNPCSpawn'))
+					Script::runOnObjectInstance('THOH2018_Scripts:VampireConvertGeneric', created);
+					}
+				]]></Program>
+		</Action>
+	</BitingBack_4_End>
+	<BitingBack_5_Start>
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_5_3_dlg_Start_1_HOMER" revealSpeed="medium" emotion="furious" />
+		<Action type="dialogue" character="VampireMinion_Small" text="QST_BitingBack_5_3_dlg_Start_2_VAMPIREMINION" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_5_3_dlg_Start_3_NED" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_5_3_dlg_Start_4_HOMER" revealSpeed="medium" emotion="furious" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_5_3_dlg_Start_5_NED" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_5_3_dlg_Start_6_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_5_3_dlg_Start_7_NED" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_5_3_dlg_Start_8_HOMER" revealSpeed="medium" />
+	</BitingBack_5_Start>
+	<BitingBack_5_Obj_3_Completed>
+		<Action type="delay" time="0.5" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_5_3_dlg_Obj_3_Completed_1_HOMER" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="Ned" text="QST_BitingBack_5_3_dlg_Obj_3_Completed_2_NED" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_5_3_dlg_Obj_3_Completed_3_HOMER" revealSpeed="medium" emotion="snobby" />
+	</BitingBack_5_Obj_3_Completed>
+	<BitingBack_6_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_6_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_6_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Quimby" text="QST_BitingBack_6_3_dlg_Start_3_QUIMBY" revealSpeed="medium" emotion="proud" />
+		<Action type="dialogue" character="Lisa" text="QST_BitingBack_6_3_dlg_Start_4_LISA" revealSpeed="medium" emotion="nagging" />
+		<Action type="dialogue" character="Lisa" text="QST_BitingBack_6_3_dlg_Start_5_LISA" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Frink" text="QST_BitingBack_6_3_dlg_Start_6_FRINK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Frink" text="QST_BitingBack_6_3_dlg_Start_7_FRINK" revealSpeed="medium" emotion="happy" />
+	</BitingBack_6_Start>
+	<BitingBack_6_Obj_2_Completed>
+		<Action type="dialogue" character="VampireMinion_Small" text="QST_BitingBack_6_3_dlg_Obj_2_Completed_1_VAMPIREMINION" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_BitingBack_6_3_dlg_Obj_2_Completed_2_LISA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Frink" text="QST_BitingBack_6_3_dlg_Obj_2_Completed_3_FRINK" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="TheFortuneTeller" text="QST_BitingBack_6_3_dlg_Obj_2_Completed_4_FORTUNETELLER" revealSpeed="medium" emotion="annoyed" />
+	</BitingBack_6_Obj_2_Completed>
+	<BitingBack_7_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_7_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_7_3_dlg_Start_2_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_7_3_dlg_Start_3_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_7_3_dlg_Start_4_COUNTDRACULA" revealSpeed="medium" emotion="happy" />
+	</BitingBack_7_Start>
+	<BitingBack_8_Start>
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_8_3_dlg_Start_1_COUNTESSDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_8_3_dlg_Start_2_COUNTDRACULA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_8_3_dlg_Start_3_HOMER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_8_3_dlg_Start_4_COUNTESSDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_8_3_dlg_Start_5_COUNTDRACULA" revealSpeed="medium" />
+	</BitingBack_8_Start>
+	<BitingBack_8_End>
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_8_3_dlg_End_1_COUNTESSDRACULA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_BitingBack_8_3_dlg_End_2_HOMER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_8_3_dlg_End_3_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="dialogue" character="CountessDracula" text="QST_BitingBack_8_3_dlg_End_4_COUNTESSDRACULA" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="CountDracula" text="QST_BitingBack_8_3_dlg_End_5_COUNTDRACULA" revealSpeed="medium" />
+		<Action type="message" text="QST_BitingBack_8_3_dlg_End_6_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_BitingBack_8_3_dlg_End_7_SystemMessage" revealSpeed="medium" />
+	</BitingBack_8_End>
+	<ItsAWrap_1_Start>
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_1_3_dlg_Start_1_Womenhet" revealSpeed="medium" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ItsAWrap_1_3_dlg_Start_2_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_1_3_dlg_Start_3_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ItsAWrap_1_3_dlg_Start_4_Amenhotep" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_1_3_dlg_Start_5_Womenhet" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ItsAWrap_1_3_dlg_Start_6_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+                	var spawnCap = toDouble(System::getConfigValue('__THOH2018_BalanceConfig:Tappables:SpawnMaxInTown__'));
+				    var currentAmount = toDouble(User::getVariable('THOH2018_Total_Tappables'));
+                    var spawnAmount = max(min(spawnCap - currentAmount , 10), 0); //In case somehow we're over the cap, don't loop to a negative
+					for(var i = 0; i <spawnAmount; i++)
+					{
+					var chance = trunc(randRange(0, 3));
+					var created;
+					if (chance == 0) {
+					created = Character::createInstance('GenericSF_Small', false, false);
+					}
+					elseif (chance == 1) {
+					created = Character::createInstance('GenericSF_Medium', false, false);
+					}
+					else {
+					created = Character::createInstance('GenericSF_Large', false, false);
+					}
+					if (Requirements::checkRequirementList('THOH2018_Requirements:ActOne'))
+					Script::runOnObjectInstance('THOH2018_Scripts:VampireConvertGeneric', created);
+					elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActTwo'))
+					Script::runImmediately('THOH2018_Scripts:WerewolfConvertGeneric', created);
+					elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActThree'))
+					Script::runImmediately('THOH2018_Scripts:MummyConvertGeneric', created);
+					}
+				]]></Program>
+		</Action>
+		<Action type="setVariable" intVariable="THOH2018_Tappables_Tapped" intValue="0" />
+	</ItsAWrap_1_Start>
+	<ItsAWrap_1_Obj_2_Completed>
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_1_3_dlg_Obj_2_Completed_1_HOMER" revealSpeed="medium" emotion="cautious" />
+		<Action type="dialogue" character="Marge" text="QST_ItsAWrap_1_3_dlg_Obj_2_Completed_2_MARGE" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_1_3_dlg_Obj_2_Completed_3_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_1_3_dlg_Obj_2_Completed_4_LISA" revealSpeed="medium" emotion="curious" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_1_3_dlg_Obj_2_Completed_5_HOMER" revealSpeed="medium" emotion="aah" />
+		<Action type="dialogue" character="MummyMinion_Medium" text="QST_ItsAWrap_1_3_dlg_Obj_2_Completed_6_MUMMYMINION" revealSpeed="medium" />
+	</ItsAWrap_1_Obj_2_Completed>
+	<ItsAWrap_2_Start>
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_2_3_dlg_Start_1_NED" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_2_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_2_3_dlg_Start_3_NED" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_2_3_dlg_Start_4_HOMER" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_2_3_dlg_Start_5_NED" revealSpeed="medium" emotion="worried" />
+	</ItsAWrap_2_Start>
+	<ItsAWrap_3_Start>
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_3_3_dlg_Start_1_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_3_3_dlg_Start_2_HOMER" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_3_3_dlg_Start_3_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_3_3_dlg_Start_4_HOMER" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_3_3_dlg_Start_5_NED" revealSpeed="medium" emotion="happy" />
+	</ItsAWrap_3_Start>
+	<ItsAWrap_3_End>
+		<Action type="dialogue" character="Ned" text="QST_ItsAWrap_3_3_dlg_End_1_NED" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_3_3_dlg_End_2_HOMER" revealSpeed="medium" emotion="cautious" />
+		<Action type="dialogue" character="MummyMinion_Medium" text="QST_ItsAWrap_3_3_dlg_End_3_MUMMYMINION" revealSpeed="medium" />
+	</ItsAWrap_3_End>
+	<ItsAWrap_4_Start>
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_4_3_dlg_Start_1_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_4_3_dlg_Start_2_Womenhet" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ItsAWrap_4_3_dlg_Start_3_Amenhotep" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_4_3_dlg_Start_4_Womenhet" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_4_3_dlg_Start_5_Womenhet" revealSpeed="medium" emotion="happy" />
+	</ItsAWrap_4_Start>
+	<ItsAWrap_5_Start>
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_5_3_dlg_Start_1_LISA" revealSpeed="medium" emotion="curious" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_5_3_dlg_Start_2_Womenhet" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_5_3_dlg_Start_3_LISA" revealSpeed="medium" emotion="nagging" />
+	</ItsAWrap_5_Start>
+	<ItsAWrap_5_End>
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_5_3_dlg_End_1_Womenhet" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_5_3_dlg_End_2_LISA" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_ItsAWrap_5_3_dlg_End_3_HOMER" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_5_3_dlg_End_4_LISA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Amenhotep" text="QST_ItsAWrap_5_3_dlg_End_5_Amenhotep" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_5_3_dlg_End_6_Womenhet" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ItsAWrap_5_3_dlg_End_7_QUIMBY" revealSpeed="medium" />
+		<Action type="message" text="QST_ItsAWrap_5_3_dlg_End_8_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_ItsAWrap_5_3_dlg_End_9_SystemMessage" revealSpeed="medium" />
+	</ItsAWrap_5_End>
+	<ItsAWrap_5_Obj_1_Completed>
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_5_3_dlg_Obj_1_Completed_1_LISA" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_ItsAWrap_5_3_dlg_Obj_1_Completed_2_LISA" revealSpeed="medium" />
+		<Action type="dialogue" character="Womenhet" text="QST_ItsAWrap_5_3_dlg_Obj_1_Completed_3_Womenhet" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Moe" text="QST_ItsAWrap_5_3_dlg_Obj_1_Completed_4_MOE" revealSpeed="medium" />
+	</ItsAWrap_5_Obj_1_Completed>
+	<TheDevilGilPromo_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+	</TheDevilGilPromo_Start>
+	<TheDevil_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="actionSequence" script="THOH2018_Scripts_Dialogue:TheDevilGilPromoDialogue_Start" />
+				<Action type="actionSequence" script="THOH2018_Scripts_Dialogue:DisplayPromo" />
+				<Action type="runScript" script="KillGil" package="MiscScripts" />
+			</True>
+		</Action>
+	</TheDevil_Display>
+	<TheDevilGilPromoDialogue_Start>
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoStart_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoStart_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoStart_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoStart_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="happy" />
+	</TheDevilGilPromoDialogue_Start>
+	<DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="THOH2018_Event" />
+	</DisplayPromo>
+	<TheDevilGilPromo_Purchase>
+		<Action type="actionSequence" script="THOH2018_Scripts_Dialogue:TheDevilGilPromoPurchasedDialogue_Start" />
+		<Action type="clearRecommendations" category="Promoted" name="TheDevilGilPromo" />
+	</TheDevilGilPromo_Purchase>
+	<TheDevilGilPromoPurchasedDialogue_Start>
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoPurchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoPurchased_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="selling" />
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoPurchased_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="happy" />
+	</TheDevilGilPromoPurchasedDialogue_Start>
+	<TheDevilGilPromo_Cancel>
+		<Action type="actionSequence" script="THOH2018_Scripts_Dialogue:RecommendTheDevilGilPromo" />
+		<Action type="actionSequence" script="THOH2018_Scripts_Dialogue:TheDevilGilPromoCancelled_Start" />
+	</TheDevilGilPromo_Cancel>
+	<TheDevilGilPromoCancelled_Start>
+		<Action type="dialogue" character="Gil" text="QST_TheDevilGilPromoCancelled_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="annoyed" />
+	</TheDevilGilPromoCancelled_Start>
+	<RecommendTheDevilGilPromo ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" name="TheDevilGilPromo" />
+	</RecommendTheDevilGilPromo>
+	<MonsterMinionIntro_Start>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="characterunlocked" name="Cloakie" not="true" />
+				<Requirement type="characterunlocked" name="Wearywolf" not="true" />
+				<Requirement type="characterunlocked" name="Shuffles" not="true" />
+			</Requirements>
+			<True>
+				<Action type="notificationLarge" title="CON_THOH2018_PostEventPetsBundle_name" text="QST_MonsterMinionIntro_3_dlg_Start_1_Notification" icon="ICO_STOR_Single_THOH2018Tappables" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="THOH2018_PostEventPetsBundle" />
+			</True>
+		</Action>
+	</MonsterMinionIntro_Start>
+	<MonsterMinions_Start>
+		<Action type="dialogue" character="Shuffles" text="QST_MonsterMinions_3_dlg_Start_1_Shuffles" revealSpeed="medium" />
+		<Action type="dialogue" character="Cloakie" text="QST_MonsterMinions_3_dlg_Start_2_Cloakie" revealSpeed="medium" />
+		<Action type="dialogue" character="Wearywolf" text="QST_MonsterMinions_3_dlg_Start_3_Wearywolf" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Shuffles" text="QST_MonsterMinions_3_dlg_Start_4_Shuffles" revealSpeed="medium" />
+		<Action type="dialogue" character="Cloakie" text="QST_MonsterMinions_3_dlg_Start_5_Cloakie" revealSpeed="medium" />
+	</MonsterMinions_Start>
+</ScriptPackage>

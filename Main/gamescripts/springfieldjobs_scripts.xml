@@ -1,0 +1,2692 @@
+﻿<ScriptPackage>
+	<Nigel_WearFunCostumes_Switch parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="State" value="mod(Object::State+1, 2)" asExpression="true" allowOrphan="false" />
+	</Nigel_WearFunCostumes_Switch>
+	<Nigel_WearFunCostumes_Done parallel="true" ignoreHUD="true">
+		<Action type="deleteObjectVariable" variable="State" onType="character" onObject="Nigel" />
+	</Nigel_WearFunCostumes_Done>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="SpringfieldJobs_EventHubTabValue">
+			<ExpressionCase value="0">
+				<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_Crafting" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_BuildingFinder" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_Scenes" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<GuidePanel_Event>
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+		<Action type="updateVariable" variable="SpringfieldJobs_EventGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:PrizeTrackGuide_Config" />
+	</GuidePanel_Event>
+	<Tab_PrizeTrack>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf expression="SpringfieldJobs_EventGuideSeen">
+				<Then>
+					<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+					<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+						<Extras>
+							<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+							<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+							<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						</Extras>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SpringfieldJobs_Scripts:GuidePanel_Event" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_PrizeTrack>
+	<ActOnePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_SpringfieldJobs_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_SpringfieldJobs_NigelMoHoHouse_LG" darken="true" />
+	</ActOnePrizeTrackTab>
+	<ActTwoPrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_SpringfieldJobs_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_Priz_SpringfieldJobs_FitTony_LG" darken="true" />
+	</ActTwoPrizeTrackTab>
+	<GuidePanel_Crafting>
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="1" />
+		<Action type="updateVariable" variable="SpringfieldJobs_CraftingGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:CraftingGuide_Config" />
+	</GuidePanel_Crafting>
+	<GuidePanel_Crafting_Center>
+		<Action type="updateVariable" variable="SpringfieldJobs_CraftingGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:CraftingGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_Crafting_Center>
+	<Tab_Crafting>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf expression="SpringfieldJobs_CraftingGuideSeen">
+				<Then>
+					<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="1" />
+					<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+						<Extras>
+							<Attribute name="MenuConfig" value="SpringfieldJobs_CraftingConfig:CraftingMenu" />
+							<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+							<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+						</Extras>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="SpringfieldJobs_CraftingBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SpringfieldJobs_Scripts:GuidePanel_Crafting" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_Crafting>
+	<Tab_Crafting_ScrollTo>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:Crafting_Unlocked" />
+			<True>
+				<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="1" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false" formatMe="deep">
+					<Extras>
+						<Attribute name="MenuConfig" value="SpringfieldJobs_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="SpringfieldJobs_Scripts_Crafting:UpdateCrafting" />
+						<Attribute name="specialEvent" value="SpringfieldJobs" />
+						<Attribute name="ItemToScrollTo" value="{ItemToScrollTo}" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="SpringfieldJobs_CraftingBadge" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="SpringfieldJobs_Scripts:GoToPlundererPetes" />
+			</False>
+		</Action>
+	</Tab_Crafting_ScrollTo>
+	<GetMoreCraftingCurrency>
+		<Action type="if">
+			<If>
+				<Requirement type="JobState" job="PlanHeist_MuseumOfSuperFineArts" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" building="MuseumOfSuperFineArts" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="JobState" job="PlanHeist_TowerOfSpringfield" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" building="TowerOfSpringfield" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="PlanHeist_MonteBurnsResortCasino" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" building="MonteBurnsResortCasino" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#program;                 if(User::getVariable('BankedJusticeAgents') &gt; 0)                 {                     return true;                 }                 else                 {                     var character = Character::find('JusticeAgent');                     var characterInstanceList = Land::getAllInstancesOfObject(character);                     foreach(characterInstanceList as instance)                     {                         if(!Object::getDelete(instance))                         {                             return true;                         }                     }                 }                 return false;">
+				<Then>
+					<Action type="pantoobject" time="0" character="JusticeAgent" flagsToAvoid="delete" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+				</Then>
+			</Else>
+		</Action>
+	</GetMoreCraftingCurrency>
+	<GuidePanel_BuildingFinder ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="SpringfieldJobs_Scripts:GuidePanel_BuildingFinder_NoSound" />
+	</GuidePanel_BuildingFinder>
+	<GuidePanel_BuildingFinder_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="2" />
+		<Action type="updateVariable" variable="SpringfieldJobs_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:BuildingFinderGuide_Config" />
+	</GuidePanel_BuildingFinder_NoSound>
+	<GuidePanel_BuildingFinder_Center>
+		<Action type="updateVariable" variable="SpringfieldJobs_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:BuildingFinderGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_BuildingFinder_Center>
+	<OpenMenu_BuildingFinder>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="2" />
+				<Action type="markBadgeViewed" badgeName="SpringfieldJobs_BuildingFinderBadge" />
+				<Action type="gotoState" state="GameState_BuildingFinder">
+					<Extras>
+						<Attribute name="menuConfig" value="SpringfieldJobs_MenuConfig:SpringfieldJobs_BuildingFinder" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMenu_BuildingFinder>
+	<Tab_BuildingFinder>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:BuildingFinder_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If expression="SpringfieldJobs_BuildingFinderGuideSeen">
+							<Then>
+								<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="2" />
+								<Action type="actionSequence" script="SpringfieldJobs_Scripts:OpenMenu_BuildingFinder" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="actionSequence" script="SpringfieldJobs_Scripts:GuidePanel_BuildingFinder" />
+								<Action type="updateVariable" variable="SpringfieldJobs_BuildingFinderGuideSeen" value="1" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_BuildingFinder>
+	<GuidePanel_Scenes ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="SpringfieldJobs_Scripts:GuidePanel_Scenes_NoSound" />
+	</GuidePanel_Scenes>
+	<GuidePanel_Scenes_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="3" />
+		<Action type="updateVariable" variable="SpringfieldJobs_ScenesGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:ScenesGuide_Config" />
+	</GuidePanel_Scenes_NoSound>
+	<GuidePanel_Scenes_Center>
+		<Action type="updateVariable" variable="SpringfieldJobs_ScenesGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="SpringfieldJobs_GuidePanelsConfig:ScenesGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_Scenes_Center>
+	<OpenMenu_Scenes>
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="3" />
+		<Action type="markBadgeViewed" badgeName="SpringfieldJobs_ScenesBadge" />
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+			</Extras>
+		</Action>
+	</OpenMenu_Scenes>
+	<OpenMenu_Scenes1>
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="3" />
+		<Action type="markBadgeViewed" badgeName="SpringfieldJobs_ScenesBadge" />
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+				<Attribute name="sceneListIndex" value="0" />
+			</Extras>
+		</Action>
+	</OpenMenu_Scenes1>
+	<OpenMenu_Scenes2>
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="3" />
+		<Action type="markBadgeViewed" badgeName="SpringfieldJobs_ScenesBadge" />
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+				<Attribute name="sceneListIndex" value="1" />
+			</Extras>
+		</Action>
+	</OpenMenu_Scenes2>
+	<OpenMenu_Scenes3>
+		<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="3" />
+		<Action type="markBadgeViewed" badgeName="SpringfieldJobs_ScenesBadge" />
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+				<Attribute name="sceneListIndex" value="2" />
+			</Extras>
+		</Action>
+	</OpenMenu_Scenes3>
+	<MuseumOfSuperFineArts_Scenes ignoreHUD="true">
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+				<Attribute name="sceneListIndex" value="0" />
+			</Extras>
+		</Action>
+	</MuseumOfSuperFineArts_Scenes>
+	<TowerOfSpringfield_Scenes ignoreHUD="true">
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+				<Attribute name="sceneListIndex" value="1" />
+			</Extras>
+		</Action>
+	</TowerOfSpringfield_Scenes>
+	<MonteBurnsResortCasino_Scenes ignoreHUD="true">
+		<Action type="gotoState" state="GameState_Scenes">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_ScenePanelMenuConfig:SceneMenu" />
+				<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+				<Attribute name="sceneListIndex" value="2" />
+			</Extras>
+		</Action>
+	</MonteBurnsResortCasino_Scenes>
+	<Tab_Scenes>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:Scenes_Unlocked" />
+				<Then>
+					<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="3" />
+					<Action type="actionSequence" script="SpringfieldJobs_Scripts:OpenMenu_Scenes" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_Scenes>
+	<Delete_MuseumOfSuperFineArts_Dummy ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="MuseumOfSuperFineArts_Dummy" />
+					<Requirement type="building" building="ParkingLot_Dummy" />
+					<Requirement type="variable" variable="SpringfieldJobs_Scene1_InProgress" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="deletebuilding" building="MuseumOfSuperFineArts_Dummy" waitForAnimationToComplete="false" />
+				<Action type="program">
+					<Program><![CDATA[#program;
+                            var building = Building::find('ParkingLot_Dummy');
+                            var buildingInstanceList = Land::getAllInstancesOfObject(building);
+
+                            foreach(buildingInstanceList as instance)
+                            {
+                                if( !Object::getDelete(instance) )
+                                {
+                                    Building::deleteInstance(instance);
+                                }
+                            }
+                        ]]></Program>
+				</Action>
+				<Action type="setClearColor" r="0.2" g="0.4667" b="0.2667" a="1.0" />
+				<Action type="setShader" shader="" set="THOH2015_ShaderSets:InGameSet" />
+				<Action type="showScreenEffect" screenEffect="LetterboxScreen" show="false" />
+				<Action type="setVariable" boolVariable="SpringfieldJobs_Scene1_InProgress" boolValue="false" />
+			</True>
+		</Action>
+	</Delete_MuseumOfSuperFineArts_Dummy>
+	<Delete_TowerOfSpringfield_Dummy ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="TowerOfSpringfield_Dummy" />
+					<Requirement type="variable" variable="SpringfieldJobs_Scene2_InProgress" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="deletebuilding" building="TowerOfSpringfield_Dummy" waitForAnimationToComplete="false" />
+				<Action type="setClearColor" r="0.2" g="0.4667" b="0.2667" a="1.0" />
+				<Action type="setShader" shader="" set="THOH2015_ShaderSets:InGameSet" />
+				<Action type="showScreenEffect" screenEffect="LetterboxScreen" show="false" />
+				<Action type="setVariable" boolVariable="SpringfieldJobs_Scene2_InProgress" boolValue="false" />
+			</True>
+		</Action>
+	</Delete_TowerOfSpringfield_Dummy>
+	<Delete_MonteBurnsResortCasino_Dummy ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="MonteBurnsResortCasino_Dummy" />
+					<Requirement type="building" building="LargeHedge_Dummy" />
+					<Requirement type="building" building="Shrub04_Dummy" />
+					<Requirement type="building" building="Shrub03_Dummy" />
+					<Requirement type="variable" variable="SpringfieldJobs_Scene3_InProgress" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="deletebuilding" building="MonteBurnsResortCasino_Dummy" waitForAnimationToComplete="false" />
+				<Action type="program">
+					<Program><![CDATA[#program;
+                            var building = Building::find('LargeHedge_Dummy');
+                            var buildingInstanceList = Land::getAllInstancesOfObject(building);
+
+                            foreach(buildingInstanceList as instance)
+                            {
+                                if( !Object::getDelete(instance) )
+                                {
+                                    Building::deleteInstance(instance);
+                                }
+                            }
+
+                            building = Building::find('Shrub04_Dummy');
+                            buildingInstanceList = Land::getAllInstancesOfObject(building);
+
+                            foreach(buildingInstanceList as instance)
+                            {
+                                if( !Object::getDelete(instance) )
+                                {
+                                    Building::deleteInstance(instance);
+                                }
+                            }
+
+                            building = Building::find('Shrub03_Dummy');
+                            buildingInstanceList = Land::getAllInstancesOfObject(building);
+
+                            foreach(buildingInstanceList as instance)
+                            {
+                                if( !Object::getDelete(instance) )
+                                {
+                                    Building::deleteInstance(instance);
+                                }
+                            }
+                        ]]></Program>
+				</Action>
+				<Action type="setClearColor" r="0.2" g="0.4667" b="0.2667" a="1.0" />
+				<Action type="setShader" shader="" set="THOH2015_ShaderSets:InGameSet" />
+				<Action type="showScreenEffect" screenEffect="LetterboxScreen" show="false" />
+				<Action type="setVariable" boolVariable="SpringfieldJobs_Scene3_InProgress" boolValue="false" />
+			</True>
+		</Action>
+	</Delete_MonteBurnsResortCasino_Dummy>
+	<CameraOverlay_ShowMenu parallel="true" runQueueState="RunInAnyState">
+		<Action type="showMenu" horizontalMargin="0" menu="SecurityFootageOverlay" scriptResProvider="SecurityFootageOverlay.mns" menuConfig="SpringfieldJobs_MenuConfig:CameraOverlay" buttonsConfig="SpringfieldJobs_MenuConfig:CameraOverlayButtonConfig" />
+	</CameraOverlay_ShowMenu>
+	<CameraOverlay_CloseMenu parallel="true" runQueueState="RunInAnyState">
+		<Action type="showMenu" clearShownMenu="true" />
+	</CameraOverlay_CloseMenu>
+	<Scene1StartScript>
+		<Action type="setVariable" intVariable="SpringfieldJobs_NumberOfTimesPlayScene1ButtonPressed" intValue="SpringfieldJobs_NumberOfTimesPlayScene1ButtonPressed+1" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SpringfieldJobs_Scene1" />
+			<False>
+				<Action type="setVariable" boolVariable="SpringfieldJobs_Scene1" boolValue="true" />
+			</False>
+		</Action>
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="delay" time=".4" />
+		<Action type="sound" sound="SpringfieldJobs_Act1_Heist_SceneStart" />
+		<Action type="actionSequence" script="SpringfieldJobs_Scripts:CreateScene1Objects" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="platform" assetTier="50" />
+					<Requirement type="platform" assetTier="25" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="MuseumOfSuperFineArts_Dummy" fakeTouch="false" zoom="0.9" time="0" offsetX="_[gridToWorld(0)]_" offsetZ="_[gridToWorld(-1)]_" />
+			</True>
+			<False>
+				<Action type="pantoobject" building="MuseumOfSuperFineArts_Dummy" fakeTouch="false" zoom="1.0" time="0" offsetX="_[gridToWorld(1)]_" offsetZ="_[gridToWorld(-1)]_" />
+			</False>
+		</Action>
+		<Action type="hideIndicators" hide="true" />
+		<Action type="hideAllCharacters" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="hideAllBuildings" hide="true" exceptBuildings="MuseumOfSuperFineArts_Dummy|ParkingLot_Dummy" />
+		<Action type="hideRoadMaps" hide="true" roadMaps="road|ocean|dirt|dirtriver|cobblestone|iceriver|river" />
+		<Action type="setClearColor" r="0.396" g="0.396" b="0.396" a="1" />
+		<Action type="setShader" shader="GreyscaleTone" set="THOH2015_ShaderSets:InGameSet" />
+		<Action type="showScreenEffect" screenEffect="LetterboxScreen" show="true" />
+		<Action type="runScript" script="CameraOverlay_ShowMenu" package="SpringfieldJobs_Scripts" />
+		<Action type="setVariable" boolVariable="SpringfieldJobs_Scene1_InProgress" boolValue="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="1" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="delay" time="1.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="2" />
+		<Action type="dialogue" character="Lenny" text="UI_SpringfieldJobs_Act1Scene_1" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="2" hideArrow="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="3" />
+		<Action type="delay" time="9.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="4" />
+		<Action type="dialogue" character="Homer" text="UI_SpringfieldJobs_Act1Scene_2" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="1" hideArrow="true" emotion="surprised" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="5" />
+		<Action type="delay" time="3.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="6" />
+		<Action type="dialogue" character="Primo" text="UI_SpringfieldJobs_Act1Scene_3" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="2" hideArrow="true" emotion="surprised" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="7" />
+		<Action type="delay" time="9.0" />
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene1Switch" intValue="0" />
+		<Action type="pantoobject" building="MuseumOfSuperFineArts" fakeTouch="false" zoom="0.5" time="0" />
+		<Action type="runScript" script="CameraOverlay_CloseMenu" package="SpringfieldJobs_Scripts" />
+		<Action type="hideIndicators" hide="false" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="hideAllBuildings" hide="false" exceptBuildings="MuseumOfSuperFineArts_Dummy|ParkingLot_Dummy" />
+		<Action type="hideRoadMaps" hide="false" roadMaps="road|ocean|dirt|dirtriver|cobblestone|iceriver|river" />
+		<Action type="actionSequence" script="SpringfieldJobs_Scripts:Delete_MuseumOfSuperFineArts_Dummy" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="logevent" param1Type="Enumeration" param1="MuseumOfSuperFineArts" eventId="9939" />
+		<Action type="setVariable" boolVariable="SpringfieldJobs_Scene1_InProgress" boolValue="false" />
+	</Scene1StartScript>
+	<CreateScene1Objects ignoreHUD="true">
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="64" yPos="20" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="68" yPos="20" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="72" yPos="20" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="76" yPos="20" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="64" yPos="16" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="68" yPos="16" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="72" yPos="16" />
+		<Action type="createobject" name="ParkingLot_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="76" yPos="16" />
+		<Action type="createobject" name="MuseumOfSuperFineArts_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="66" yPos="29" />
+	</CreateScene1Objects>
+	<Scene2StartScript>
+		<Action type="setVariable" intVariable="SpringfieldJobs_NumberOfTimesPlayScene2ButtonPressed" intValue="SpringfieldJobs_NumberOfTimesPlayScene2ButtonPressed+1" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SpringfieldJobs_Scene2" />
+			<False>
+				<Action type="setVariable" boolVariable="SpringfieldJobs_Scene2" boolValue="true" />
+			</False>
+		</Action>
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="delay" time=".4" />
+		<Action type="sound" sound="SpringfieldJobs_Act2_Heist_SceneStart" />
+		<Action type="createobject" name="TowerOfSpringfield_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="66" yPos="29" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="platform" assetTier="50" />
+					<Requirement type="platform" assetTier="25" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="TowerOfSpringfield_Dummy" fakeTouch="false" zoom="0.9" time="0" offsetX="_[gridToWorld(3)]_" offsetZ="_[gridToWorld(1)]_" />
+			</True>
+			<False>
+				<Action type="pantoobject" building="TowerOfSpringfield_Dummy" fakeTouch="false" zoom="1.0" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[gridToWorld(1)]_" />
+			</False>
+		</Action>
+		<Action type="hideIndicators" hide="true" />
+		<Action type="hideAllCharacters" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="hideAllBuildings" hide="true" exceptBuildings="TowerOfSpringfield_Dummy" />
+		<Action type="hideRoadMaps" hide="true" roadMaps="road|ocean|dirt|dirtriver|cobblestone|iceriver|river" />
+		<Action type="setClearColor" r="0.396" g="0.396" b="0.396" a="1" />
+		<Action type="setShader" shader="GreyscaleTone" set="THOH2015_ShaderSets:InGameSet" />
+		<Action type="showScreenEffect" screenEffect="LetterboxScreen" show="true" />
+		<Action type="runScript" script="CameraOverlay_ShowMenu" package="SpringfieldJobs_Scripts" />
+		<Action type="setVariable" boolVariable="SpringfieldJobs_Scene2_InProgress" boolValue="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="1" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="delay" time="1.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="2" />
+		<Action type="dialogue" character="PalaceGuard" text="UI_SpringfieldJobs_Act2Scene_1" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="2" hideArrow="true" emotion="Serious" />
+		<Action type="delay" time="0.5" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="3" />
+		<Action type="dialogue" character="Homer" text="UI_SpringfieldJobs_Act2Scene_2" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="2" hideArrow="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="4" />
+		<Action type="delay" time="0.5" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="5" />
+		<Action type="dialogue" character="PalaceGuard" text="UI_SpringfieldJobs_Act2Scene_3" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="3" hideArrow="true" emotion="Serious" />
+		<Action type="delay" time="1.0" />
+		<Action type="dialogue" character="FatTony" text="UI_SpringfieldJobs_Act2Scene_4" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="1" hideArrow="true" emotion="angry" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="6" />
+		<Action type="delay" time="10.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="7" />
+		<Action type="dialogue" character="Wiggum" text="UI_SpringfieldJobs_Act2Scene_5" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="3" hideArrow="true" />
+		<Action type="delay" time="1.0" />
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene2Switch" intValue="0" />
+		<Action type="pantoobject" building="TowerOfSpringfield" fakeTouch="false" zoom="0.5" time="0" />
+		<Action type="runScript" script="CameraOverlay_CloseMenu" package="SpringfieldJobs_Scripts" />
+		<Action type="hideIndicators" hide="false" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="hideAllBuildings" hide="false" exceptBuildings="TowerOfSpringfield_Dummy" />
+		<Action type="hideRoadMaps" hide="false" roadMaps="road|ocean|dirt|dirtriver|cobblestone|iceriver|river" />
+		<Action type="actionSequence" script="SpringfieldJobs_Scripts:Delete_TowerOfSpringfield_Dummy" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="logevent" param1Type="Enumeration" param1="TowerOfSpringfield" eventId="9939" />
+		<Action type="setVariable" boolVariable="SpringfieldJobs_Scene2_InProgress" boolValue="false" />
+	</Scene2StartScript>
+	<Scene3StartScript>
+		<Action type="setVariable" intVariable="SpringfieldJobs_NumberOfTimesPlayScene3ButtonPressed" intValue="SpringfieldJobs_NumberOfTimesPlayScene3ButtonPressed+1" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SpringfieldJobs_Scene3" />
+			<False>
+				<Action type="setVariable" boolVariable="SpringfieldJobs_Scene3" boolValue="true" />
+			</False>
+		</Action>
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="delay" time=".4" />
+		<Action type="sound" sound="SpringfieldJobs_Act3_Heist_SceneStart" />
+		<Action type="actionSequence" script="SpringfieldJobs_Scripts:CreateScene3Objects" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="platform" assetTier="50" />
+					<Requirement type="platform" assetTier="25" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="MonteBurnsResortCasino_Dummy" fakeTouch="false" zoom="0.9" time="0" offsetX="_[gridToWorld(0)]_" offsetZ="_[gridToWorld(3)]_" />
+			</True>
+			<False>
+				<Action type="pantoobject" building="MonteBurnsResortCasino_Dummy" fakeTouch="false" zoom="1.0" time="0" offsetX="_[gridToWorld(1)]_" offsetZ="_[gridToWorld(3)]_" />
+			</False>
+		</Action>
+		<Action type="hideIndicators" hide="true" />
+		<Action type="hideAllCharacters" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="hideAllBuildings" hide="true" exceptBuildings="MonteBurnsResortCasino_Dummy|LargeHedge_Dummy|Shrub04_Dummy|Shrub03_Dummy" />
+		<Action type="hideRoadMaps" hide="true" roadMaps="road|ocean|dirt|dirtriver|cobblestone|iceriver|river" />
+		<Action type="setClearColor" r="0.396" g="0.396" b="0.396" a="1" />
+		<Action type="setShader" shader="GreyscaleTone" set="THOH2015_ShaderSets:InGameSet" />
+		<Action type="showScreenEffect" screenEffect="LetterboxScreen" show="true" />
+		<Action type="runScript" script="CameraOverlay_ShowMenu" package="SpringfieldJobs_Scripts" />
+		<Action type="setVariable" boolVariable="SpringfieldJobs_Scene3_InProgress" boolValue="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene3Switch" intValue="1" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2" />
+		<Action type="delay" time="1.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene3Switch" intValue="2" />
+		<Action type="dialogue" character="FernandoVidal" text="UI_SpringfieldJobs_Act3Scene_1" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="4" hideArrow="true" />
+		<Action type="dialogue" character="FatTony" text="UI_SpringfieldJobs_Act3Scene_2" revealSpeed="instant" emotion="angry" contentRectHeight="0.85f" timeToDisplay="2" hideArrow="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene3Switch" intValue="3" />
+		<Action type="delay" time="6.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene3Switch" intValue="4" />
+		<Action type="dialogue" character="FernandoVidal" text="UI_SpringfieldJobs_Act3Scene_3" revealSpeed="instant" contentRectHeight="0.85f" timeToDisplay="3" hideArrow="true" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene3Switch" intValue="5" />
+		<Action type="delay" time="3.0" />
+		<Action type="dialogue" character="Homer" text="UI_SpringfieldJobs_Act3Scene_4" revealSpeed="instant" emotion="woohoo" contentRectHeight="0.85f" timeToDisplay="2" hideArrow="true" />
+		<Action type="fadeScreen" colour="Black" direction="out" speed="2.0" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_Scene3Switch" intValue="0" />
+		<Action type="pantoobject" building="MonteBurnsResortCasino" fakeTouch="false" zoom="0.5" time="0" />
+		<Action type="runScript" script="CameraOverlay_CloseMenu" package="SpringfieldJobs_Scripts" />
+		<Action type="hideIndicators" hide="false" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="hideAllBuildings" hide="false" exceptBuildings="MonteBurnsResortCasino_Dummy|LargeHedge_Dummy|Shrub04_Dummy|Shrub03_Dummy" />
+		<Action type="hideRoadMaps" hide="false" roadMaps="road|ocean|dirt|dirtriver|cobblestone|iceriver|river" />
+		<Action type="actionSequence" script="SpringfieldJobs_Scripts:Delete_MonteBurnsResortCasino_Dummy" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="2.0" />
+		<Action type="logevent" param1Type="Enumeration" param1="MonteBurnsResortCasino" eventId="9939" />
+		<Action type="setVariable" boolVariable="SpringfieldJobs_Scene3_InProgress" boolValue="false" />
+	</Scene3StartScript>
+	<CreateScene3Objects ignoreHUD="true">
+		<Action type="createobject">
+			<Object name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="82" yPos="25" orientation="SW" />
+			<Object name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="84" yPos="25" orientation="SW" />
+			<Object name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="25" orientation="SW" />
+		</Action>
+		<Action type="createobject" name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="26" />
+		<Action type="createobject" name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="28" />
+		<Action type="createobject" name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="30" />
+		<Action type="createobject" name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="32" />
+		<Action type="createobject" name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="34" />
+		<Action type="createobject">
+			<Object name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="86" yPos="35" orientation="SW" />
+			<Object name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="88" yPos="35" orientation="SW" />
+			<Object name="LargeHedge_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="90" yPos="35" orientation="SW" />
+			<Object name="Shrub03_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="83" yPos="36" orientation="SW" />
+			<Object name="Shrub03_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="81" yPos="36" orientation="SW" />
+		</Action>
+		<Action type="createobject" name="Shrub04_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="61" yPos="21" />
+		<Action type="createobject" name="Shrub04_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="61" yPos="23" />
+		<Action type="createobject" name="Shrub04_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="61" yPos="25" />
+		<Action type="createobject" name="Shrub04_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="61" yPos="27" />
+		<Action type="createobject" name="Shrub04_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="61" yPos="29" />
+		<Action type="createobject" name="MonteBurnsResortCasino_Dummy" count="1" save="false" panCamera="false" defineSpawnPosition="true" xPos="66" yPos="29" />
+	</CreateScene3Objects>
+	<GoTo_LifeSizePrinceAlbertInACan>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="LifeSizePrinceAlbertInACan" />
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="building owned" building="LifeSizePrinceAlbertInACan" />
+							<False>
+								<Action type="focusOnMenuItem" itemName="LifeSizePrinceAlbertInACan" menuCategory="SpringfieldJobs" />
+							</False>
+							<True>
+								<Action type="focusOnMenuItem" itemName="LifeSizePrinceAlbertInACan" inventory="true" />
+							</True>
+						</Action>
+					</False>
+					<True>
+						<Action type="pantoobject" time="0" building="LifeSizePrinceAlbertInACan" fakeTouch="false" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_LifeSizePrinceAlbertInACan>
+	<GoTo_Tappables ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="#program;                      if(User::getVariable('BankedJusticeAgents') &gt; 0)                      {                          return false;                      }                      else                      {                          var character = Character::find('JusticeAgent');                          var characterInstanceList = Land::getAllInstancesOfObject(character);                          foreach(characterInstanceList as instance)                          {                              if(!Object::getDelete(instance))                              {                                  return false;                              }                          }                      }                      return true;">
+						<Then>
+							<Action type="hudTip" text="UI_SpringfieldJobs_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="pantoobject" time="0" character="JusticeAgent" flagsToAvoid="delete" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Tappables>
+	<GoTo_Prestige ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="#program;                         if(User::getVariable('BankedJusticeAgents') &gt; 0)                         {                         return true;                         }                         else                         {                         var character = Character::find('JusticeAgent');                         var characterInstanceList = Land::getAllInstancesOfObject(character);                         foreach(characterInstanceList as instance)                         {                         if(!Object::getDelete(instance))                         {                         return true;                         }                         }                         }                         return false;">
+						<Then>
+							<Action type="pantoobject" time="0" character="JusticeAgent" flagsToAvoid="delete" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="reqList" location="SpringfieldJobs_Requirements:HasMuseumOfSuperFineArtsJobsAvailable" />
+						</Requirements>
+						<Then>
+							<Action type="pantoobject" building="MuseumOfSuperFineArts" fakeTouch="false" time="0" />
+							<Action type="gotoState" state="GameState_BuildingSelected">
+								<Extras>
+									<Attribute name="BuildingName" value="MuseumOfSuperFineArts" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="reqList" location="SpringfieldJobs_Requirements:HasTowerOfSpringfieldJobsAvailable" />
+						</Requirements>
+						<Then>
+							<Action type="pantoobject" building="TowerOfSpringfield" fakeTouch="true" time="0" />
+							<Action type="gotoState" state="GameState_BuildingSelected">
+								<Extras>
+									<Attribute name="BuildingName" value="TowerOfSpringfield" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="reqList" location="SpringfieldJobs_Requirements:HasMonteBurnsResortCasinoJobsAvailable" />
+						</Requirements>
+						<Then>
+							<Action type="pantoobject" building="MonteBurnsResortCasino" fakeTouch="true" time="0" />
+							<Action type="gotoState" state="GameState_BuildingSelected">
+								<Extras>
+									<Attribute name="BuildingName" value="MonteBurnsResortCasino" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+							<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+						</Requirements>
+						<Then>
+							<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="hudTip" text="UI_SpringfieldJobs_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Prestige>
+	<SpawnFullHudTip>
+		<Action type="hudTip" text="UI_SpringfieldJobs_TownFull" time="3s" queue="true" waitForHUD="true" />
+	</SpawnFullHudTip>
+	<TappableTapped parallel="true" cache="true">
+		<Action type="runScriptOnAll" character="JusticeAgent" in_radius="5" radius_delay="0.3" script="SpringfieldJobs_Scripts:Tappable_Tapped_Single" />
+		<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tappable_Tapped_Single" />
+	</TappableTapped>
+	<Tappable_Tapped_Single parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="TAPPED" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tappable_Reward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="runScript" script="SpringfieldJobs_Scripts:Tappable_AnimateAndDie_Single" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_Tapped_Single>
+	<Tappable_AnimateAndDie_Single parallel="true" cache="true">
+		<Action type="sound" sound="JusticeAgent_Tap" />
+		<Action type="anim-play" character="JusticeAgent" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="JusticeAgent" />
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="active quest" quest="SpringfieldJobs_DCS_ClearJusticeAgents" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="SpringfieldJobs_DCS_JusticeAgents" intValue="SpringfieldJobs_DCS_JusticeAgents+1" />
+			</True>
+		</Action>
+		<Action type="if">
+			<If expression="#program;              if(User::getVariable('BankedJusticeAgents') &gt; 0)              {                  return false;              }              else              {                  var character = Character::find('JusticeAgent');                  var characterInstanceList = Land::getAllInstancesOfObject(character);                  foreach(characterInstanceList as instance)                  {                      if(!Object::getDelete(instance))                      {                          return false;                      }                  }              }              return true;">
+				<Then>
+					<Action type="hudTip" text="UI_SpringfieldJobs_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_AnimateAndDie_Single>
+	<Tappable_Reward parallel="true" cache="true">
+		<Action type="reward" save="true" SpringfieldJobs_ActivePrizeTrackCurrency="__SpringfieldJobs_GameConfig:TappablePrizeReward:Amount__" chance="__SpringfieldJobs_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" SpringfieldJobs_CraftingCurrency="__SpringfieldJobs_GameConfig:TappableCraftReward:Amount__" chance="__SpringfieldJobs_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" SpringfieldJobs_SocialCurrency="__SpringfieldJobs_BalanceConfig:Tappables:Award_Social1__" chance="__SpringfieldJobs_BalanceConfig:Tappables:DropChance_Social__" chanceType="s" suppress_sound="true" />
+		<Action type="setVariable" intVariable="JusticeAgents_Tapped" intValue="JusticeAgents_Tapped+1" />
+	</Tappable_Reward>
+	<Tappable_Crowd cache="true" parallel="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="building" building="MonteBurnsResortCasino" />
+					<Requirement type="formula" formula="greaterThanEQ(SpringfieldJobs_BaseLocationIndex, 2)" />
+				</Requirements>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="MonteBurnsResortCasino" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="building" building="TowerOfSpringfield" />
+					<Requirement type="formula" formula="greaterThanEQ(SpringfieldJobs_BaseLocationIndex, 1)" />
+				</Requirements>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="TowerOfSpringfield" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="building" building="MuseumOfSuperFineArts" />
+				</Requirements>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="MuseumOfSuperFineArts" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setVariable" intVariable="SpringfieldJobs_NumBasesActive" intValue="System::evaluate('Building::MuseumOfSuperFineArts::LandCount') + System::evaluate('Building::TowerOfSpringfield::LandCount') + System::evaluate('Building::MonteBurnsResortCasino::LandCount')" />
+		<Action type="setVariable" intVariable="SpringfieldJobs_BaseLocationIndex" intValue="mod((SpringfieldJobs_BaseLocationIndex+1), SpringfieldJobs_NumBasesActive)" />
+	</Tappable_Crowd>
+	<Tappable_RefreshCrowdLocations>
+		<Action type="runScriptOnAll" character="JusticeAgent" script="SpringfieldJobs_Scripts:Tappable_Crowd" />
+	</Tappable_RefreshCrowdLocations>
+	<DCS_Reset_JusticeAgents>
+		<Action type="updateVariable" variable="SpringfieldJobs_DCS_JusticeAgents" value="0" />
+	</DCS_Reset_JusticeAgents>
+	<SpawnFriendTappables>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="friendlevel" level="15" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="JusticeAgent" count="40" save="true" panCamera="false" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="10" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="JusticeAgent" count="30" save="true" panCamera="false" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="5" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="JusticeAgent" count="20" save="true" panCamera="false" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SpawnFriendTappables>
+	<TappableTapped_Friend>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="JusticeAgents_Tapped_Friend" intValue="JusticeAgents_Tapped_Friend+1" />
+				<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tappable_Reward_Friend" />
+				<Action type="friendActionPerformed" />
+				<Action type="runScript" script="SpringfieldJobs_Scripts:Tappable_AnimateAndDie_Friend" />
+			</True>
+		</Action>
+	</TappableTapped_Friend>
+	<Tappable_AnimateAndDie_Friend parallel="true" cache="true">
+		<Action type="sound" sound="JusticeAgent_Tap" />
+		<Action type="stop" />
+		<Action type="anim-play" character="JusticeAgent" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="JusticeAgent" />
+	</Tappable_AnimateAndDie_Friend>
+	<Tappable_Reward_Friend parallel="true" cache="true">
+		<Action type="reward" save="true" SpringfieldJobs_ActivePrizeTrackCurrency="selector SpringfieldJobs_PTCurrencyPerFriendAction" chance="__SpringfieldJobs_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" SpringfieldJobs_CraftingCurrency="selector SpringfieldJobs_CraftingCurrencyPerFriendAction" chance="__SpringfieldJobs_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+		<Action type="reward" save="true" SpringfieldJobs_SocialCurrency="selector SpringfieldJobs_SocialCurrencyPerFriendAction" chance="__SpringfieldJobs_BalanceConfig:Tappables:DropChance_Social__" chanceType="s" suppress_sound="true" />
+	</Tappable_Reward_Friend>
+	<SocialLicensePurchased>
+		<Action type="setVariable" boolVariable="SpringfieldJobs_SocialUpgrade_Purchased" boolValue="true" />
+		<Action type="notification" icon="ICO_STOR_SpringfieldJobs_License_Popup" title="CON_SpringfieldJobs_SocialLicense_name" text="CON_SpringfieldJobs_SocialLicense_desc" button="UI_OK" />
+	</SocialLicensePurchased>
+	<FriendsHUDInfo ignoreHUD="true" parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="SpringfieldJobs_UpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="SpringfieldJobs_Scripts:FriendsHUDInfoAux" />
+	</FriendsHUDInfo>
+	<FriendsHUDInfoAux ignoreHUD="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActOne" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_SpringfieldJobs_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_SpringfieldJobs_PT1" icon="ICO_CUR_SpringfieldJobs_Act1Currency_LG">
+							<Variable name="SpringfieldJobs_Act1PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="SpringfieldJobs_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_SpringfieldJobs_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="UI_SpringfieldJobs_OutOfFriendActions_PT1" icon="ICO_CUR_SpringfieldJobs_Act1Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_SpringfieldJobs_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_SpringfieldJobs_PT2" icon="ICO_CUR_SpringfieldJobs_Act2Currency_LG">
+							<Variable name="SpringfieldJobs_Act2PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="SpringfieldJobs_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_SpringfieldJobs_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="UI_SpringfieldJobs_OutOfFriendActions_PT2" icon="ICO_CUR_SpringfieldJobs_Act2Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_SpringfieldJobs_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_SpringfieldJobs_PT3" icon="ICO_CUR_SpringfieldJobs_Act3Currency_LG">
+							<Variable name="SpringfieldJobs_Act3PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="SpringfieldJobs_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_SpringfieldJobs_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="UI_SpringfieldJobs_OutOfFriendActions_PT3" icon="ICO_CUR_SpringfieldJobs_Act3Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</FriendsHUDInfoAux>
+	<SpawnLocalSocialTappable>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:SocialActions_Unlocked" />
+			<True>
+				<Action type="addlocaltimedcharacter" character="Crook" event="197000" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="config" key="SpringfieldJobs_GameConfig:Enable:FriendDeployedCrook" value="1" />
+					</Requirements>
+					<True>
+						<Action type="sendPeerNotification" blueprint="FriendDeployedCrook" />
+					</True>
+				</Action>
+				<Action type="createobject" name="Crook" count="1" save="false" panCamera="false" showFadeIn="false" teleportCamera="true" />
+			</True>
+		</Action>
+	</SpawnLocalSocialTappable>
+	<SpawnFriendSocialTappable>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:SocialActions_Unlocked" />
+			<True>
+				<Action type="addfriendtimedcharacter" character="Crook" event="197000" />
+			</True>
+		</Action>
+	</SpawnFriendSocialTappable>
+	<OffLineReward>
+		<Action type="gotoState" state="GameState_TappableReward">
+			<Extras>
+				<Attribute name="MenuConfig" value="SpringfieldJobs_TappableRewardMenuConfig:MenuConfig" />
+			</Extras>
+		</Action>
+	</OffLineReward>
+	<CrookTapped parallel="true" cache="true">
+		<Action type="sound" sound="Crook_Tap" />
+		<Action type="stop" character="Crook" />
+		<Action type="playanimation" character="CriminalBurglar" animation="Squish" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:SocialActions_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="reward" suppress_sound="true" SpringfieldJobs_ActivePrizeTrackCurrency="__SpringfieldJobs_GameConfig:Tappables:Social_PTCurrency_Amount__" SpringfieldJobs_CraftingCurrency="__SpringfieldJobs_GameConfig:Tappables:Social_CraftingCurrency_Amount__" />
+				<Action type="removetimedcharacter" script="FriendHasTappedCrook" package="SpringfieldJobs_Scripts" character="Crook" event="197000" />
+			</True>
+		</Action>
+	</CrookTapped>
+	<FriendHasTappedCrook parallel="true" cache="true">
+		<Action type="removefriendstimedcharacter" character="Crook" event="197000" />
+	</FriendHasTappedCrook>
+	<EnterPlacementMode_ArrangementBonus parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:ArrangementBonus_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="10s" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</EnterPlacementMode_ArrangementBonus>
+	<PlacementConfirm_MuseumOfSuperFineArts parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="MuseumOfSuperFineArts_ABDelta != 0" />
+			</Requirements>
+			<True>
+				<Action type="scheduleScript" mode="replace" script="SpringfieldJobs_Scripts:ShowDelayedArrangementBonusHudTip" shouldSave="false" relativeTime="2s" />
+				<Action type="floatText" building="MuseumOfSuperFineArts">
+					<Attribute name="config">
+						<AttributeSet name="text">
+							<Attribute name="text" value="{0}% {1}" parameters="textParams">
+								<AttributeSet name="textParams">
+									<Attribute name="0" formula="MuseumOfSuperFineArts_ABDelta" />
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_XSBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+							<Attribute name="name" value="MuseumOfSuperFineArts_Delta" />
+							<Attribute name="duration" value="2s" />
+							<Attribute name="speed" value="2" />
+							<Attribute name="resetTime" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="setVariable" intVariable="MuseumOfSuperFineArts_ABDelta" intValue="0" />
+			</True>
+		</Action>
+	</PlacementConfirm_MuseumOfSuperFineArts>
+	<PlacementConfirm_TowerOfSpringfield parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="TowerOfSpringfield_ABDelta != 0" />
+			</Requirements>
+			<True>
+				<Action type="scheduleScript" mode="replace" script="SpringfieldJobs_Scripts:ShowDelayedArrangementBonusHudTip" shouldSave="false" relativeTime="2s" />
+				<Action type="floatText" building="TowerOfSpringfield">
+					<Attribute name="config">
+						<AttributeSet name="text">
+							<Attribute name="text" value="{0}% {1}" parameters="textParams">
+								<AttributeSet name="textParams">
+									<Attribute name="0" formula="TowerOfSpringfield_ABDelta" />
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_XSBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+							<Attribute name="name" value="TowerOfSpringfield_Delta" />
+							<Attribute name="duration" value="2s" />
+							<Attribute name="speed" value="2" />
+							<Attribute name="resetTime" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="setVariable" intVariable="TowerOfSpringfield_ABDelta" intValue="0" />
+			</True>
+		</Action>
+	</PlacementConfirm_TowerOfSpringfield>
+	<PlacementConfirm_MonteBurnsResortCasino parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="MonteBurnsResortCasino_ABDelta != 0" />
+			</Requirements>
+			<True>
+				<Action type="scheduleScript" mode="replace" script="SpringfieldJobs_Scripts:ShowDelayedArrangementBonusHudTip" shouldSave="false" relativeTime="2s" />
+				<Action type="floatText" building="MonteBurnsResortCasino">
+					<Attribute name="config">
+						<AttributeSet name="text">
+							<Attribute name="text" value="{0}% {1}" parameters="textParams">
+								<AttributeSet name="textParams">
+									<Attribute name="0" formula="MonteBurnsResortCasino_ABDelta" />
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="1" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_XSBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+							<Attribute name="name" value="MonteBurnsResortCasino_Delta" />
+							<Attribute name="duration" value="2s" />
+							<Attribute name="speed" value="2" />
+							<Attribute name="resetTime" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="setVariable" intVariable="MonteBurnsResortCasino_ABDelta" intValue="0" />
+			</True>
+		</Action>
+	</PlacementConfirm_MonteBurnsResortCasino>
+	<ShowDelayedArrangementBonusHudTip parallel="true" runQueueState="RunInAnyState">
+		<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MuseumOfSuperFineArts" />
+			<True>
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="3s" />
+							<Attribute name="queue" value="true" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_Adjust_MuseumOfSuperFineArts" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="1" />
+									<Attribute name="text" formula="#program;                                     var object = Land::getFirstInstanceOfObject(Building::find('MuseumOfSuperFineArts'));                                     return toString(round(((toDouble(Building::getArrangeBonus(object)))*100))/100);" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="2" />
+									<Attribute name="text" value="%" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="TowerOfSpringfield" />
+			<True>
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="3s" />
+							<Attribute name="queue" value="true" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_Adjust_TowerOfSpringfield" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="1" />
+									<Attribute name="text" formula="#program;                                     var object = Land::getFirstInstanceOfObject(Building::find('TowerOfSpringfield'));                                     return toString(round(((toDouble(Building::getArrangeBonus(object)))*100))/100);" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="2" />
+									<Attribute name="text" value="%" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MonteBurnsResortCasino" />
+			<True>
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="3s" />
+							<Attribute name="queue" value="true" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_Adjust_MonteBurnsResortCasino" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_SpringfieldJobs_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="SpringfieldJobs_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="1" />
+									<Attribute name="text" formula="#program;                                     var object = Land::getFirstInstanceOfObject(Building::find('MonteBurnsResortCasino'));                                     return toString(round(((toDouble(Building::getArrangeBonus(object)))*100))/100);" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="2" />
+									<Attribute name="text" value="%" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</ShowDelayedArrangementBonusHudTip>
+	<MuseumOfSuperFineArtsAndFreeLandToken>
+		<Action type="hudTip" text="UI_HudTip_FreeLandToken" time="10s" requiresActiveHUD="false" />
+		<Action type="checkRequirements">
+			<Requirement type="friend land" />
+			<True>
+				<Action type="reward" FreeLandTokenCurrency="1">
+					<Item type="building" name="MuseumOfSuperFineArts" useImmediately="false" />
+				</Action>
+			</True>
+			<False>
+				<Action type="reward" FreeLandTokenCurrency="1">
+					<Item type="building" name="MuseumOfSuperFineArts" useImmediately="true" />
+				</Action>
+			</False>
+		</Action>
+		<Action type="gotoState" state="GameState_InGame" />
+	</MuseumOfSuperFineArtsAndFreeLandToken>
+	<Goto_PlanHeistJobList>
+		<Action type="sound" sound="SpringfieldJobs_Heist_MenuOpened" />
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Krustyland" />
+				<Then>
+					<Action type="returnToInGameState" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:Heists_ActThree_Unlocked" />
+				<Then>
+					<Action type="pantoobject" time="0" building="MonteBurnsResortCasino" fakeTouch="false" />
+					<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_MonteBurnsResortCasino" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:Heists_ActTwo_Unlocked" />
+				<Then>
+					<Action type="pantoobject" time="0" building="TowerOfSpringfield" fakeTouch="false" />
+					<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_TowerOfSpringfield" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="SpringfieldJobs_Requirements:Heists_ActOne_Unlocked" />
+				<Then>
+					<Action type="pantoobject" time="0" building="MuseumOfSuperFineArts" fakeTouch="false" />
+					<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_MuseumOfSuperFineArts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="reqList" location="SpringfieldJobs_Requirements:Heists_Intro_Unlocked" />
+				</Requirements>
+				<Then>
+					<Action type="checkRequirements">
+						<Requirement type="land" land="Springfield" />
+						<True>
+							<Action type="if">
+								<If>
+									<Requirement type="place building" building="BrownHouse" />
+									<Then>
+										<Action type="pantoobject" time="0" building="BrownHouse" fakeTouch="false" />
+										<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_Intro" />
+									</Then>
+								</If>
+								<ElseIf>
+									<Requirement type="item" item="BrownHouse" checkInventoryOnly="true" />
+									<Then>
+										<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="BrownHouse" inventory="true" />
+									</Then>
+								</ElseIf>
+								<Else>
+									<Then>
+										<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="BrownHouse" />
+									</Then>
+								</Else>
+							</Action>
+						</True>
+						<False>
+							<Action type="returnToInGameState" />
+							<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+						</False>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Goto_PlanHeistJobList>
+	<ShowHeistJobList_Intro>
+		<Action type="pantoobject" time="0" building="BrownHouse" fakeTouch="false" />
+		<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_Intro" />
+	</ShowHeistJobList_Intro>
+	<ShowHeistJobList_MuseumOfSuperFineArts>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MuseumOfSuperFineArts" />
+			<True>
+				<Action type="sound" sound="SpringfieldJobs_Heist_MenuOpened" />
+				<Action type="pantoobject" time="0" building="MuseumOfSuperFineArts" fakeTouch="false" />
+				<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_MuseumOfSuperFineArts" />
+			</True>
+		</Action>
+	</ShowHeistJobList_MuseumOfSuperFineArts>
+	<ShowHeistJobList_TowerOfSpringfield>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="TowerOfSpringfield" />
+			<True>
+				<Action type="sound" sound="SpringfieldJobs_Heist_MenuOpened" />
+				<Action type="pantoobject" time="0" building="TowerOfSpringfield" fakeTouch="false" />
+				<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_TowerOfSpringfield" />
+			</True>
+			<False>
+				<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+			</False>
+		</Action>
+	</ShowHeistJobList_TowerOfSpringfield>
+	<ShowHeistJobList_MonteBurnsResortCasino>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MonteBurnsResortCasino" />
+			<True>
+				<Action type="sound" sound="SpringfieldJobs_Heist_MenuOpened" />
+				<Action type="pantoobject" time="0" building="MonteBurnsResortCasino" fakeTouch="false" />
+				<Action type="gotoState" state="GameState_JobList" extras="SpringfieldJobs_MenuConfig:HeistsJobList_MonteBurnsResortCasino" />
+			</True>
+		</Action>
+	</ShowHeistJobList_MonteBurnsResortCasino>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="SpringfieldJobs_ThreePanel" />
+		<Action type="recommendation" recType="Event" name="SpringfieldJobs_ThreePanel" eventName="UI_SpringfieldJobs_Title" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<RecommendStoreOnePanel ignoreHUD="true">
+		<Action type="clearRecommendations" category="Event" name="SpringfieldJobs_ThreePanel" />
+		<Action type="clearRecommendations" category="Event" name="SpringfieldJobs_OnePanel" />
+		<Action type="recommendation" recType="Event" name="SpringfieldJobs_OnePanel" eventName="UI_SpringfieldJobs_Title" limitedTime="true" limitedTimeEndDate="SpringfieldJobs_End" />
+	</RecommendStoreOnePanel>
+	<SpringfieldJobs_CloseStore ignoreHUD="true">
+		<Action type="clearRecommendations" category="Event" name="SpringfieldJobs_ThreePanel" />
+		<Action type="clearRecommendations" category="Event" name="SpringfieldJobs_OnePanel" />
+	</SpringfieldJobs_CloseStore>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" />
+	</EnterStoreCategory>
+	<EnterStoreCategory_ResurrectionOfRigellianChrist ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="ResurrectionOfRigellianChrist_Category" />
+	</EnterStoreCategory_ResurrectionOfRigellianChrist>
+	<EnterStoreCategory_CincoDeMayo ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="CincoDeMayo_Category" />
+	</EnterStoreCategory_CincoDeMayo>
+	<StoreNotification_MonteBurnsCasinoBox>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SpringfieldJobs_Requirements:MonteBurnsCasinoBox_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CON_SpringfieldJobs_Casino_MysteryBox_name" text="CON_MonteBurnsCasinoBox_upsell_desc" icon="ICO_STOR_Single_SpringfieldJobs_MysteryBoxMoes" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="SpringfieldJobs_Casino_MysteryBox" menuCategory="SpringfieldJobs_Category" />
+			</True>
+		</Action>
+	</StoreNotification_MonteBurnsCasinoBox>
+	<StoreNotification_SvenGollyMTX>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="characterunlocked" name="SvenGolly" />
+				<Requirement type="building owned" building="MasterHypnotistTent" />
+			</Requirement>
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_SvenGolly_name" text="CON_SvenGollyMTX_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_SvenGollyMTX_LG" button="UI_OK" />
+			</False>
+		</Action>
+	</StoreNotification_SvenGollyMTX>
+	<StoreNotification_CalabresiBundle>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="characterunlocked" name="DanteCalabresiJr" />
+				<Requirement type="characterunlocked" name="DanteCalabresiSr" />
+			</Requirement>
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CON_CalabresiBundle_name" text="CON_CalabresiBundle_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_CalabresiBundle_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="CalabresiBundle" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CalabresiBundle>
+	<StoreNotification_PompeiiRuins>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="PompeiiRuins" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PompeiiRuins_name" text="BLD_PompeiRuins_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_PompeiiRuins_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PompeiiRuins" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_PompeiiRuins>
+	<StoreNotification_StPaulsBasilica>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="StPaulsBasilica" />
+			<False>
+				<Action type="notificationLarge" title="BLD_StPaulsBasilica_name" text="BLD_StPaulsBasilica_upsell_desc" icon="ico_priz_springfieldjobs_stpaulscathedral_lg" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="StPaulsBasilica" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_StPaulsBasilica>
+	<StoreNotification_WestminsterAbbey>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="WestminsterAbbey" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_WestminsterAbbey_name" text="BLD_WestminsterAbbey_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_WestminsterAbbey_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="WestminsterAbbey" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_WestminsterAbbey>
+	<StoreNotification_FortuneMegastore>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="FortuneMegastore" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_FortuneMegastore_name" text="BLD_FortuneMegastore_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_FortuneMegastore_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="FortuneMegastore" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_FortuneMegastore>
+	<StoreNotification_NagAndWeasel>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TheNagAndWeasel" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TheNagAndWeasel_name" text="BLD_NagAndWeasel_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_TheNagAndWeasel_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TheNagAndWeasel" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_NagAndWeasel>
+	<StoreNotification_GiantFerrisWheel>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="GiantFerrisWheel" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_GiantFerrisWheel_name" text="BLD_GiantFerrisWheel_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_GiantFerrisWheel_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="GiantFerrisWheel" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_GiantFerrisWheel>
+	<StoreNotification_RaoulsPenthouse>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="RaoulsPenthouse" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_RaoulsPenthouse_name" text="BLD_RaoulsPenthouse_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_RaoulsPenthouse_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="RaoulsPenthouse" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_RaoulsPenthouse>
+	<StoreNotification_Swelldorado>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="Swelldorado" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_Swelldorado_name" text="BLD_Swelldorado_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_Swelldorado_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="Swelldorado" menuCategory="SpringfieldJobs_Category" />
+			</False>
+		</Action>
+	</StoreNotification_Swelldorado>
+	<StoreNotification_ResurrectionOfRigellianChrist>
+		<Action type="recommendation" recType="Event" name="ResurrectionOfRigellianChrist_OnePanel" eventName="UI_ResurrectionOfRigellianChrist_Title" limitedTime="true" limitedTimeEndDate="SpringfieldJobs_ResurrectionOfRigellianChrist_OUT" />
+		<Action type="notificationLarge" title="UI_ResurrectionOfRigellianChrist_Title" text="BLD_Manger_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_Manger_LG" button="UI_OK" />
+		<Action type="reparseBuildMenu" />
+		<Action type="reward" donuts="10" />
+		<Action type="focusOnMenuItem" itemName="Manger" menuCategory="ResurrectionOfRigellianChrist_Category" />
+	</StoreNotification_ResurrectionOfRigellianChrist>
+	<StoreNotification_CincoDeMayo>
+		<Action type="recommendation" recType="Event" name="CincoDeMayo_OnePanel" eventName="UI_CincoDeMayo_Title" limitedTime="true" limitedTimeEndDate="SpringfieldJobs_CincoDeMayo_OUT" />
+		<Action type="reparseBuildMenu" />
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="DuffBrewery" />
+			<True>
+				<Action type="notificationLarge" title="UI_CincoDeMayo_Title" text="CON_MexicanDuffmanBundle_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_MexicanDuffman_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MexicanDuffman" menuCategory="CincoDeMayo_Category" />
+			</True>
+			<False>
+				<Action type="notificationLarge" title="UI_CincoDeMayo_Title" text="CON_MexicanDuffmanBundle_upsell_desc" icon="ICO_PRIZ_SpringfieldJobs_MexicanDuffmanBundle_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MexicanDuffmanBundle" menuCategory="CincoDeMayo_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CincoDeMayo>
+	<StoreNotification_LastChance>
+		<Action type="reparseBuildMenu" />
+		<Action type="notificationLarge" title="UI_SpringfieldJobs_LastChance_Notification_Title" text="UI_SpringfieldJobs_LastChance_Notification_Desc" icon="ICO_PRIZ_SpringfieldJobs_CalabresiBundle_LG" button="UI_OK" />
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" />
+	</StoreNotification_LastChance>
+	<Prestige_Act1>
+		<Action type="reward">
+			<Item type="consumable" name="SpringfieldJobs_Prestige_Act1" useImmediately="true" />
+		</Action>
+	</Prestige_Act1>
+	<Prestige_Act2>
+		<Action type="reward">
+			<Item type="consumable" name="SpringfieldJobs_Prestige_Act2" useImmediately="true" />
+		</Action>
+	</Prestige_Act2>
+	<Prestige_Act3>
+		<Action type="reward">
+			<Item type="consumable" name="SpringfieldJobs_Prestige_Act3" useImmediately="true" />
+		</Action>
+	</Prestige_Act3>
+	<GoToPlundererPetes>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="place building" building="PlundererPetes" />
+						<Then>
+							<Action type="pantoobject" building="PlundererPetes" fakeTouch="false" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="item" item="PlundererPetes" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="PlundererPetes" inventory="true" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="PlundererPetes" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="returnToInGameState" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToPlundererPetes>
+	<PlundererPetes_Tapped>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="reqList" location="SpringfieldJobs_Requirements:Crafting_Unlocked" />
+						<Then>
+							<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_Crafting" />
+						</Then>
+					</If>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</PlundererPetes_Tapped>
+	<GoToMuseumOfSuperFineArts_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="MuseumOfSuperFineArts" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="MuseumOfSuperFineArts" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+								<Attribute name="prizeListIndex" value="0" />
+								<Attribute name="selectPrize" value="0" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMuseumOfSuperFineArts_PrizeTrack>
+	<GoToCheeseTruck_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="CheeseTruck" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="CheeseTruck" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="CheeseTruck" />
+								<Then>
+									<Action type="pantoobject" building="CheeseTruck" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_CheeseTruck_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToCheeseTruck_Crafting>
+	<GoToDaVinciAircraft_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="DaVinciAircraft" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="DaVinciAircraft" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="DaVinciAircraft" />
+								<Then>
+									<Action type="pantoobject" building="DaVinciAircraft" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_DaVinciAircraft_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToDaVinciAircraft_Crafting>
+	<GoToGondola_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="Gondola" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="Gondola" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="Gondola" />
+								<Then>
+									<Action type="pantoobject" building="Gondola" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_Gondola_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToGondola_Crafting>
+	<GoToPrimo_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="Primo" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="Primo" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+								<Attribute name="prizeListIndex" value="0" />
+								<Attribute name="selectPrize" value="4" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToPrimo_PrizeTrack>
+	<GoToTowerOfSpringfield_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="place building" building="TowerOfSpringfield" />
+						<Then>
+							<Action type="pantoobject" building="TowerOfSpringfield" fakeTouch="false" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="item" item="TowerOfSpringfield" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="TowerOfSpringfield" inventory="true" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+							<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+								<Extras>
+									<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+									<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+									<Attribute name="prizeListIndex" value="1" />
+									<Attribute name="selectPrize" value="0" />
+									<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+								</Extras>
+							</Action>
+							<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToTowerOfSpringfield_PrizeTrack>
+	<GoToOldPhoneBooth_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="OldPhoneBooth" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="OldPhoneBooth" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="OldPhoneBooth" />
+								<Then>
+									<Action type="pantoobject" building="OldPhoneBooth" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_OldPhoneBooth_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToOldPhoneBooth_Crafting>
+	<GoToPoliceCallBox_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="PoliceCallBox" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="PoliceCallBox" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="PoliceCallBox" />
+								<Then>
+									<Action type="pantoobject" building="PoliceCallBox" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_PoliceCallBox_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToPoliceCallBox_Crafting>
+	<GoToQueensGuard_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="QueensGuard" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="QueensGuard" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="QueensGuard" />
+								<Then>
+									<Action type="pantoobject" building="QueensGuard" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_QueensGuard_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToQueensGuard_Crafting>
+	<GoToQueensCarriage_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="QueensCarriage" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="QueensCarriage" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+								<Attribute name="prizeListIndex" value="1" />
+								<Attribute name="selectPrize" value="4" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToQueensCarriage_PrizeTrack>
+	<GoToMonteBurnsResortCasino_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="place building" building="MonteBurnsResortCasino" />
+						<Then>
+							<Action type="pantoobject" building="MonteBurnsResortCasino" fakeTouch="false" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="item" item="MonteBurnsResortCasino" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="MonteBurnsResortCasino" inventory="true" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+							<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+								<Extras>
+									<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+									<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+									<Attribute name="prizeListIndex" value="2" />
+									<Attribute name="selectPrize" value="0" />
+									<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+								</Extras>
+							</Action>
+							<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMonteBurnsResortCasino_PrizeTrack>
+	<GoToFancyOvalFountain_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="FancyOvalFountain" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="FancyOvalFountain" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="FancyOvalFountain" />
+								<Then>
+									<Action type="pantoobject" building="FancyOvalFountain" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_FancyOvalFountain_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToFancyOvalFountain_Crafting>
+	<GoToFirstPrimeMinisterOfAustraliaStatue_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="FirstPrimeMinisterOfAustraliaStatue" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="FirstPrimeMinisterOfAustraliaStatue" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="FirstPrimeMinisterOfAustraliaStatue" />
+								<Then>
+									<Action type="pantoobject" building="FirstPrimeMinisterOfAustraliaStatue" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_FirstPrimeMinisterOfAustraliaStatue_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToFirstPrimeMinisterOfAustraliaStatue_Crafting>
+	<GoToRaceCarStatue_Crafting>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="RaceCarStatue" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="RaceCarStatue" inventory="true" />
+					</True>
+					<False>
+						<Action type="if">
+							<If>
+								<Requirement type="place building" building="RaceCarStatue" />
+								<Then>
+									<Action type="pantoobject" building="RaceCarStatue" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+										<FormatToken key="ItemToScrollTo" value="BLD_RaceCarStatue_name" />
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToRaceCarStatue_Crafting>
+	<GoToFernandoVidal_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="place building" building="FernandoVidalsVilla" />
+						<Then>
+							<Action type="pantoobject" building="FernandoVidalsVilla" fakeTouch="false" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="item" item="FernandoVidalsVilla" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="FernandoVidalsVilla" inventory="true" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="updateVariable" variable="SpringfieldJobs_EventHubTabValue" value="0" />
+							<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+								<Extras>
+									<Attribute name="helpButtonScript" value="SpringfieldJobs_Scripts:GuidePanel_Event" />
+									<Attribute name="specialEvent" value="SpringfieldJobs_Event" />
+									<Attribute name="prizeListIndex" value="2" />
+									<Attribute name="selectPrize" value="4" />
+									<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+								</Extras>
+							</Action>
+							<Action type="markBadgeViewed" badgeName="SpringfieldJobs_PrizeTrackBadge" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToFernandoVidal_PrizeTrack>
+	<GoTo_GiantFerrisWheel>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building" building="GiantFerrisWheel" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="GiantFerrisWheel" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="pantoobject" time="0" building="GiantFerrisWheel" fakeTouch="false" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_GiantFerrisWheel>
+	<AutoApply_HostessMissSpringfieldSkin_End>
+		<Action type="scheduleScript" mode="create" script="SpringfieldJobs_Scripts:AutoApply_HostessMissSpringfieldSkin_End_Delayed" relativeTime="3s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_HostessMissSpringfieldSkin_End>
+	<AutoApply_HostessMissSpringfieldSkin_End_Delayed>
+		<Action type="consumable" consumable="HostessMissSpringfield" fromInventory="true" />
+	</AutoApply_HostessMissSpringfieldSkin_End_Delayed>
+	<Notify_HostessMissSpringfieldSkin_End>
+		<Action type="scheduleScript" mode="create" script="SpringfieldJobs_Scripts:Notify_HostessMissSpringfieldSkin_End_Delayed" relativeTime="1s" localLandOnly="true" shouldSave="true" />
+	</Notify_HostessMissSpringfieldSkin_End>
+	<Notify_HostessMissSpringfieldSkin_End_Delayed>
+		<Action type="checkRequirements">
+			<Requirement type="item" item="SleepEazyMotel" checkInventoryOnly="true" />
+			<True>
+				<Action type="genericMessage">
+					<Attribute name="config">
+						<AttributeSet name="message">
+							<Attribute name="text" value="UI_Added_To_Inventory" parameters="textParams" localise="true">
+								<AttributeSet name="textParams">
+									<Attribute name="0" value="CHA_HostessMissSpringfield_name" localise="true" />
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_Normal" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="left">
+							<Attribute name="image" value="MissSpringfield_Hostess_menu" />
+						</AttributeSet>
+						<AttributeSet name="button_OK">
+							<Attribute name="button_text">
+								<AttributeSet name="text">
+									<Attribute name="text" value="UI_OK" localise="true" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="gradient">
+							<Attribute name="active" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</Notify_HostessMissSpringfieldSkin_End_Delayed>
+	<AutoApply_SailorKumikoSkin_End>
+		<Action type="scheduleScript" mode="create" script="SpringfieldJobs_Scripts:AutoApply_SailorKumikoSkin_End_Delayed" relativeTime="3s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SailorKumikoSkin_End>
+	<AutoApply_SailorKumikoSkin_End_Delayed>
+		<Action type="consumable" consumable="SailorKumikoSkin" fromInventory="true" />
+	</AutoApply_SailorKumikoSkin_End_Delayed>
+	<Notify_SailorKumikoSkin_End>
+		<Action type="scheduleScript" mode="create" script="SpringfieldJobs_Scripts:Notify_SailorKumikoSkin_End_Delayed" relativeTime="1s" localLandOnly="true" shouldSave="true" />
+	</Notify_SailorKumikoSkin_End>
+	<Notify_SailorKumikoSkin_End_Delayed>
+		<Action type="checkRequirements">
+			<Requirement type="item" item="Kumiko" checkInventoryOnly="true" />
+			<True>
+				<Action type="genericMessage">
+					<Attribute name="config">
+						<AttributeSet name="message">
+							<Attribute name="text" value="UI_Added_To_Inventory" parameters="textParams" localise="true">
+								<AttributeSet name="textParams">
+									<Attribute name="0" value="CHA_SailorKumiko_name" localise="true" />
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_Normal" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="left">
+							<Attribute name="image" value="Kumiko_Sailor_menu" />
+						</AttributeSet>
+						<AttributeSet name="button_OK">
+							<Attribute name="button_text">
+								<AttributeSet name="text">
+									<Attribute name="text" value="UI_OK" localise="true" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="gradient">
+							<Attribute name="active" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</Notify_SailorKumikoSkin_End_Delayed>
+	<Message_SvenGolly>
+		<Action type="checkRequirements">
+			<Requirement type="item" item="MasterHypnotistTent" checkInventoryOnly="true" />
+			<True>
+				<Action type="focusOnMenuItem" itemName="MasterHypnotistTent" inventory="true" />
+			</True>
+		</Action>
+	</Message_SvenGolly>
+	<GoToGondola_Quest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="Gondola" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="Gondola" inventory="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="building" building="Gondola" />
+							</Requirements>
+							<True>
+								<Action type="gotoState" state="GameState_Rearrange">
+									<Extras>
+										<Attribute name="building" value="Gondola" />
+									</Extras>
+								</Action>
+							</True>
+							<False>
+								<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+									<FormatToken key="ItemToScrollTo" value="BLD_Gondola_name" />
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToGondola_Quest>
+	<GoToGrandCanal_Quest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="time" end="SpringfieldJobs_ActTwo" />
+						<Then>
+							<Action type="pantoobject" building="MuseumOfSuperFineArts" time="0" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="time" start="SpringfieldJobs_ActTwo" end="SpringfieldJobs_ActThree" />
+						<Then>
+							<Action type="pantoobject" building="TowerOfSpringfield" time="0" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="time" start="SpringfieldJobs_ActThree" />
+						<Then>
+							<Action type="pantoobject" building="MonteBurnsResortCasino" time="0" />
+						</Then>
+					</ElseIf>
+				</Action>
+				<Action type="if">
+					<If>
+						<Requirement type="item" item="GrandCanal3" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="GrandCanal3" inventory="true" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="item" item="GrandCanal1" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="GrandCanal1" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="GrandCanal2" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="GrandCanal2" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="GrandCanal4" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="GrandCanal4" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="GrandCanal5" checkInventoryOnly="true" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="GrandCanal5" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="GrandCanal3" />
+						<Then>
+							<Action type="gotoState" state="GameState_Rearrange">
+								<Extras>
+									<Attribute name="building" value="GrandCanal3" />
+									<Attribute name="skipInitialCameraPan" value="true" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="GrandCanal1" />
+						<Then>
+							<Action type="gotoState" state="GameState_Rearrange">
+								<Extras>
+									<Attribute name="building" value="GrandCanal1" />
+									<Attribute name="skipInitialCameraPan" value="true" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="GrandCanal2" />
+						<Then>
+							<Action type="gotoState" state="GameState_Rearrange">
+								<Extras>
+									<Attribute name="building" value="GrandCanal2" />
+									<Attribute name="skipInitialCameraPan" value="true" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="GrandCanal4" />
+						<Then>
+							<Action type="gotoState" state="GameState_Rearrange">
+								<Extras>
+									<Attribute name="building" value="GrandCanal4" />
+									<Attribute name="skipInitialCameraPan" value="true" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="GrandCanal5" />
+						<Then>
+							<Action type="gotoState" state="GameState_Rearrange">
+								<Extras>
+									<Attribute name="building" value="GrandCanal5" />
+									<Attribute name="skipInitialCameraPan" value="true" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+								<FormatToken key="ItemToScrollTo" value="BLD_GrandCanal3_name" />
+							</Action>
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToGrandCanal_Quest>
+	<GoToPoliceCallBox_Quest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="pantoobject" building="TowerOfSpringfield" time="0" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="PoliceCallBox" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="PoliceCallBox" inventory="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="building" building="PoliceCallBox" />
+							</Requirements>
+							<True>
+								<Action type="gotoState" state="GameState_Rearrange">
+									<Extras>
+										<Attribute name="building" value="PoliceCallBox" />
+										<Attribute name="skipInitialCameraPan" value="true" />
+									</Extras>
+								</Action>
+							</True>
+							<False>
+								<Action type="actionSequence" script="SpringfieldJobs_Scripts:Tab_Crafting_ScrollTo">
+									<FormatToken key="ItemToScrollTo" value="BLD_PoliceCallBox_name" />
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToPoliceCallBox_Quest>
+	<GoToRearrange_TheSpringfieldJob_6>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="time" end="SpringfieldJobs_ActTwo" />
+						<Then>
+							<Action type="checkRequirements">
+								<Requirements>
+									<Requirement type="item" item="MuseumOfSuperFineArts" checkInventoryOnly="true" />
+								</Requirements>
+								<True>
+									<Action type="focusOnMenuItem" itemName="MuseumOfSuperFineArts" inventory="true" />
+								</True>
+								<False>
+									<Action type="checkRequirements">
+										<Requirement type="building" building="MuseumOfSuperFineArts" />
+										<True>
+											<Action type="pantoobject" building="MuseumOfSuperFineArts" fakeTouch="false" time="0" />
+											<Action type="gotoState" state="GameState_Rearrange" />
+										</True>
+										<False>
+											<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+										</False>
+									</Action>
+								</False>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="time" start="SpringfieldJobs_ActTwo" end="SpringfieldJobs_ActThree" />
+						<Then>
+							<Action type="checkRequirements">
+								<Requirements>
+									<Requirement type="item" item="TowerOfSpringfield" checkInventoryOnly="true" />
+								</Requirements>
+								<True>
+									<Action type="focusOnMenuItem" itemName="TowerOfSpringfield" inventory="true" />
+								</True>
+								<False>
+									<Action type="checkRequirements">
+										<Requirement type="building" building="TowerOfSpringfield" />
+										<True>
+											<Action type="pantoobject" building="TowerOfSpringfield" fakeTouch="false" time="0" />
+											<Action type="gotoState" state="GameState_Rearrange" />
+										</True>
+										<False>
+											<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+										</False>
+									</Action>
+								</False>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="time" start="SpringfieldJobs_ActThree" />
+						<Then>
+							<Action type="checkRequirements">
+								<Requirements>
+									<Requirement type="item" item="MonteBurnsResortCasino" checkInventoryOnly="true" />
+								</Requirements>
+								<True>
+									<Action type="focusOnMenuItem" itemName="MonteBurnsResortCasino" inventory="true" />
+								</True>
+								<False>
+									<Action type="checkRequirements">
+										<Requirement type="building" building="MonteBurnsResortCasino" />
+										<True>
+											<Action type="pantoobject" building="MonteBurnsResortCasino" fakeTouch="false" time="0" />
+											<Action type="gotoState" state="GameState_Rearrange" />
+										</True>
+										<False>
+											<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+										</False>
+									</Action>
+								</False>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToRearrange_TheSpringfieldJob_6>
+	<GoToRearrange_MuseumOfSuperFineArts>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="place building" building="MuseumOfSuperFineArts" />
+					<True>
+						<Action type="pantoobject" building="MuseumOfSuperFineArts" fakeTouch="false" time="0" />
+						<Action type="gotoState" state="GameState_Rearrange" />
+					</True>
+					<False>
+						<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToRearrange_MuseumOfSuperFineArts>
+	<GoToRearrange_TowerOfSpringfield>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="TowerOfSpringfield" />
+					<True>
+						<Action type="pantoobject" building="TowerOfSpringfield" fakeTouch="false" time="0" />
+						<Action type="gotoState" state="GameState_Rearrange" />
+					</True>
+					<False>
+						<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToRearrange_TowerOfSpringfield>
+	<GoToRearrange_MonteBurnsResortCasino>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="MonteBurnsResortCasino" />
+					<True>
+						<Action type="pantoobject" building="MonteBurnsResortCasino" fakeTouch="false" time="0" />
+						<Action type="gotoState" state="GameState_Rearrange" />
+					</True>
+					<False>
+						<Action type="runScript" script="SpringfieldJobs_Scripts:Tab_PrizeTrack" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToRearrange_MonteBurnsResortCasino>
+	<GetCalabresiBundleNow>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="CalabresiBundle" />
+	</GetCalabresiBundleNow>
+	<GetWestminsterBundleNow>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="WestminsterAbbey" />
+	</GetWestminsterBundleNow>
+	<GetGuyIncognitoNow>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="TheNagAndWeasel" />
+	</GetGuyIncognitoNow>
+	<GetRaoulNow>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="RaoulsPenthouse" />
+	</GetRaoulNow>
+	<GetMolloyNow>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="SpringfieldMuseum" />
+	</GetMolloyNow>
+	<GetJohnnyTightlipsNow>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldJobs_Category" itemName="PlatosRepublicCasino" />
+	</GetJohnnyTightlipsNow>
+	<PanToOscarWilde>
+		<Action type="pantoobject" time="0" character="OscarWilde" />
+	</PanToOscarWilde>
+	<JusticeAgent_Tapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</JusticeAgent_Tapped>
+	<Crook_Tapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</Crook_Tapped>
+</ScriptPackage>

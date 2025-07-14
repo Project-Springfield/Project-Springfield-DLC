@@ -1,0 +1,2180 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="167000" name="XMAS2016" status="deprecated" onDeprecated="delete" />
+		<DataID id="167001" name="XMAS2016_Act1" status="deprecated" onDeprecated="delete" />
+		<DataID id="167002" name="XMAS2016_Act2" status="deprecated" onDeprecated="delete" />
+		<DataID id="167003" name="XMAS2016_Social_Act1" status="deprecated" onDeprecated="delete" />
+		<DataID id="167004" name="XMAS2016_Social_Act2" status="deprecated" onDeprecated="delete" />
+		<DataID id="167005" name="XMAS2016_OfferingBoard" status="deprecated" onDeprecated="delete" />
+		<DataID id="167006" name="XMAS2016_PaganSimpsons_Promo" status="deprecated" onDeprecated="delete" />
+	</MasterList>
+	<SpecialEvent id="167000" name="XMAS2016">
+		<Variable name="XMAS2016" value="true" />
+		<Variable name="GnomeLevel" value="1" />
+		<Variable name="GnomeLevelCap" value="15" />
+		<Variable name="GnomeCooldownStart" value="0" />
+		<Variable name="GnomeCooldownEnd" value="0" />
+		<Variable name="GnomeOverlayActive" value="0" />
+		<Variable name="GnomeIdleState" value="0" />
+		<Variable name="GnomeGameSocial" value="0" />
+		<Variable name="GnomeCaughtCount" value="0" />
+		<Variable name="GnomeSocialCaughtCount" value="0" />
+		<Variable name="GnomeSpawnPending" value="0" />
+		<Variable name="GnomeGuiltDustPerMS" value="0" />
+		<Variable name="GnomeGiftReceiptPerMS" value="0" />
+		<Variable name="GnomeCatnipPerMS" value="0" />
+		<Variable name="GnomeCarvedFigurinesPerMS" value="0" />
+		<Variable name="GnomeBookOfShadowsPerMS" value="0" />
+		<Variable name="GnomeChickenFingersPerMS" value="0" />
+		<Variable name="GnomeSocialActionCount" value="__XMAS2016_Spreadsheet_Config:Gnome:DailySocialGameCap__" />
+		<Variable name="GnomeSocialActionResetTime" value="0" />
+		<Variable name="GnomeGuiltDustRewarded" value="0" />
+		<Variable name="GnomeGiftReceiptRewarded" value="0" />
+		<Variable name="GnomeCatnipRewarded" value="0" />
+		<Variable name="GnomeCarvedFigurinesRewarded" value="0" />
+		<Variable name="GnomeBookOfShadowsRewarded" value="0" />
+		<Variable name="GnomeChickenFingersRewarded" value="0" />
+		<Variable name="XMAS2016_EventHubTabValue" value="0" owner="0" />
+		<Variable name="XMAS2016_MembershipNotificationCountdown" value="0" />
+		<Variable name="XMAS2016_HasMembership" value="false" />
+		<Variable name="XMAS2016_EventGuideSeen" value="0" />
+		<Variable name="XMAS2016_CraftingGuideSeen" value="0" />
+		<Variable name="XMAS2016_GnomeGuideSeen" value="0" />
+		<Variable name="XMAS2016_MysteryBoxSeen" value="0" />
+		<Variable name="ShowNoPaganMessage" value="0" />
+		<Variable name="RadarAfterSpawn" value="0" />
+		<Variable name="XMAS2016_DCS_Pagans" value="0" />
+		<Variable name="XMAS2016_DCS_GnomeCaught" value="0" />
+		<Variable name="XMAS2016_DCS_Offerings" value="0" />
+		<Variable name="XMAS2016_DCS_ItemCrafted" value="0" />
+		<GeneralBuffers>
+			<Buffer name="OfferingBoard_Act1" id="1" />
+			<Buffer name="OfferingBoard_Act2" id="2" />
+		</GeneralBuffers>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="SpringfieldHenge" priority="1" />
+			</LandInfo>
+		</LandInfos>
+		<FriendsMap screenEffect="SnowFall" />
+		<OnEvent event="LandVisited" ignoreTypeCheck="true" user="local">
+			<Requirement type="variable" variable="GnomeGameSocial" />
+			<Script name="GiveSocialRewards" package="XMAS2016_GnomeScripts" />
+		</OnEvent>
+		<HUDCurrencies buttonType="guide" guideButtonScript="XMAS2016_Scripts:CurrencyGuideButtonPressed">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:EventHub_Unlocked" />
+			</Requirements>
+			<Currency type="XMAS2016_ActivePrizeTrackCurrency">
+				<Requirement type="time" end="XMASSixteen_End" />
+			</Currency>
+			<Currency type="Runestones">
+				<Requirement type="time" end="XMASSixteen_End" />
+			</Currency>
+			<Currency type="GiftVouchers">
+				<Requirement type="time" start="XMASSixteen_End" end="XMASSixteen_MysteryGift_End" />
+			</Currency>
+		</HUDCurrencies>
+		<FriendHUD tipText="UI_XMAS2016_FriendHud_tip">
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</Requirements>
+		</FriendHUD>
+		<FriendHUDCurrencies buttonType="guide" guideButtonScript="XMAS2016_Scripts:GuidePanel_Crafting_Center">
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</Requirements>
+			<Currency type="XMAS2016_ActivePrizeTrackCurrency" />
+			<Currency type="Runestones" />
+		</FriendHUDCurrencies>
+		<PrizeListButton icon="ICO_MHUD_XMAS2016_EventHUB">
+			<Script package="XMAS2016_Scripts" name="PrizeListButtonPressed" />
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:EventHub_Unlocked" />
+			</Requirements>
+			<BadgeRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="checkBadge" badgeName="XMAS2016_PrizeTrackBadge" />
+					<Requirement type="checkBadge" badgeName="SpringfieldHengeBadge" />
+					<Requirement type="checkBadge" badgeName="XMAS2016_FindBuildingBadge" />
+					<Requirement type="checkBadge" badgeName="XMAS2016_CraftingBadge" />
+					<Requirement type="checkBadge" badgeName="GnomeInYourHomeBadge" />
+				</Requirement>
+			</BadgeRequirements>
+		</PrizeListButton>
+		<SpecialButtons>
+			<Button mode="any" icon="ico_mhud_xmas2016_gnomeradar_se_active">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="character" name="GnomeInYourHome" />
+				</Requirements>
+				<RunScript>
+					<Script name="GnomeRadarButtonPressed" package="XMAS2016_GnomeScripts" />
+				</RunScript>
+			</Button>
+			<Button mode="friend" icon="ico_mhud_xmas2016_gnomeradar_se_inactive">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="character" name="GnomeInYourHome" not="true" />
+					<Requirement type="quest started" quest="GnomeAlone_2" />
+				</Requirements>
+				<RunScript>
+					<Script name="FriendTownEmpty" package="XMAS2016_GnomeScripts" />
+				</RunScript>
+			</Button>
+			<Button mode="friendmap" icon="ICO_FHUD_XMAS2016_Leaderboard.rgb">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest started" quest="SpringfieldHeights04" />
+						<Requirement type="quest started" quest="GnomeAlone_2" />
+					</Requirement>
+				</Requirements>
+				<RunScript>
+					<Script name="SpecialEventButtonInFriendMapPressed" package="XMAS2016_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<Overrides>
+			<Override what="menu" from="FriendsIcon" to="ICO_MHUD_XMAS2016_Friends.rgb" />
+		</Overrides>
+		<Buildings override="true">
+			<Building name="PaganLumberMill">
+				<Sell allowed="false" storeoverride="false" />
+				<ConstructionReward Runestones="180" />
+				<TouchIcon value="indicator_XMAS2016_Runestones.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="time" end="XMASSixteen_End" />
+						<Requirement type="checkBadge" badgeName="XMAS2016_CraftingBadge" />
+					</Requirements>
+				</TouchIcon>
+				<OnEvent event="BuildingTouched" onObject="PaganLumberMill" user="local">
+					<Requirement type="reqList" location="XMAS2016_Requirements:Crafting_Unlocked" />
+					<Script name="XMAS2016_Scripts:Tab_Crafting" />
+				</OnEvent>
+			</Building>
+			<Building name="SpringfieldHenge">
+				<Sell allowed="false" storeoverride="false" />
+				<NeutralAnimationController name="Active_2" />
+				<TouchIcon value="Indicator_XMAS2016_GenericWinter.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="time" end="XMASSixteen_End" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ProjectAvailableForHandIn" />
+					</Requirements>
+				</TouchIcon>
+				<OnEvent event="BuildingTouched" onObject="SpringfieldHenge" user="local">
+					<Requirement type="reqList" location="XMAS2016_Requirements:SpringfieldHenge_Unlocked" />
+					<Script name="XMAS2016_Scripts:Tab_SpringfieldHenge" />
+				</OnEvent>
+			</Building>
+			<Building name="GnomeBox">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="Indicator_XMAS2016_GnomeInYourHome.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="lessThan(GnomeLevel, GnomeLevelCap)" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::GuiltDust'), System::evaluate('Selector::XMASSixteenGnomeUpgradeCost'))" />
+							<Requirement type="character" name="GnomeInYourHome" />
+						</Requirement>
+					</Requirements>
+				</TouchIcon>
+				<OnEvent event="BuildingTouched" onObject="GnomeBox" user="local">
+					<Requirement type="reqList" location="XMAS2016_Requirements:GnomeInYourHome_Unlocked" />
+					<Script name="Tab_GnomeInYourHome" package="XMAS2016_Scripts" />
+				</OnEvent>
+			</Building>
+			<Building name="SmallPaganTent">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:SmallPaganTent_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:SmallPaganTent_Cost__" />
+			</Building>
+			<Building name="CarnivalBanner1">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:CarnivalBanner1_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:CarnivalBanner1_Cost__" />
+			</Building>
+			<Building name="LargeMushrooms">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:LargeMushrooms_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:LargeMushrooms_Cost__" />
+			</Building>
+			<Building name="ChickenCoop_Grind">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:ChickenCoop_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:ChickenCoop_Cost__" />
+			</Building>
+			<Building name="GoatHeadStatue">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:GoatHeadStatue_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:GoatHeadStatue_Cost__" />
+			</Building>
+			<Building name="HayCart">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:HayCart_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:HayCart_Cost__" />
+			</Building>
+			<Building name="LargePaganTent">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:LargePaganTent_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:LargePaganTent_Cost__" />
+			</Building>
+			<Building name="PaganCauldron">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:PaganCauldron_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:PaganCauldron_Cost__" />
+			</Building>
+			<Building name="CarnivalBanner2">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:CarnivalBanner2_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:CarnivalBanner2_Cost__" />
+			</Building>
+			<Building name="PhoneHengeKiosk">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:PhoneHengeKiosk_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:PhoneHengeKiosk_Cost__" />
+			</Building>
+			<Building name="GiantMushrooms">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:GiantMushrooms_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:GiantMushrooms_Cost__" />
+			</Building>
+			<Building name="Brazier">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:Brazier_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:Brazier_Cost__" />
+			</Building>
+			<Building name="TwoStoreyOuthouse_Grind">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:TwoStoreyOuthouse_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:TwoStoreyOuthouse_Cost__" />
+			</Building>
+			<Building name="PaganHall">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:PaganHall_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:PaganHall_Cost__" />
+			</Building>
+			<Building name="CarnivalBanner3">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:CarnivalBanner3_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:CarnivalBanner3_Cost__" />
+			</Building>
+			<Building name="Windmill_Grind">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:Windmill_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:Windmill_Cost__" />
+			</Building>
+			<Building name="FirIsMurderChristmasTree">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:FirIsMurderChristmasTree_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:FirIsMurderTree_Cost__" />
+			</Building>
+			<Building name="MedievalTent">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:MedievalTent_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:MedievalTent_Cost__" />
+			</Building>
+			<Building name="DunkTheMonk">
+				<ConstructionReward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CraftRewardBonuses:DunkTheMonk_PTCurrency_Bonus__" />
+				<Cost Runestones="__XMAS2016_Spreadsheet_Config:CraftItemCosts:DunkTheMonk_Cost__" />
+			</Building>
+			<Building name="ItsAWonderfulKnife">
+				<BuildMenuText text="BLD_KingWintersCave_desc" />
+			</Building>
+		</Buildings>
+		<Characters override="true">
+			<Character name="TheWiccans">
+				<BuildMenuText text="BLD_KingWintersCave_desc" />
+			</Character>
+			<Character name="PatchesAndPoorViolet">
+				<BuildMenuText text="BLD_KingWintersCave_desc" />
+			</Character>
+			<Character name="LingBouvier">
+				<BuildMenuText text="BLD_KingWintersCave_desc" />
+			</Character>
+		</Characters>
+		<Jobs override="true">
+			<Job name="TerrorizeSpringfield_XMAS">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_1h__" />
+			</Job>
+			<Job name="StarInTheSnowGlobe">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_2h__" />
+			</Job>
+			<Job name="CastASleepingSpell">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="DineAtAStoneTable">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_8h__" />
+			</Job>
+			<Job name="SitAndBrood">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_12h__" />
+			</Job>
+			<Job name="MutterDeplorableWords">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_24h__" />
+			</Job>
+			<Job name="GetDatingTips">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="LurePreyWithAHotChocolate">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_8h__" />
+			</Job>
+			<Job name="SearchForDinner">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_12h__" />
+			</Job>
+			<Job name="GnawOnBabyBackRibs">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_24h__" />
+			</Job>
+			<Job name="WorshipBaal_Homer">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="WorshipBaal_Marge">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="WorshipBaal_Bart">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="WorshipBaal_Maggie">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="WorshipBaal_Lisa">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+			<Job name="DanceAroundTheBonfire">
+				<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:CharacterJobs:PTCurrency_Reward_4h__" />
+			</Job>
+		</Jobs>
+		<EventHub menuConfig="Config_EventHub:Default">
+			<Tabs>
+				<Tab name="Tab_PrizeTrack" icon="ICO_MHUB_XMAS2016_PrizeTrack">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==0" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2016_PrizeTrackBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_PrizeTrack" package="XMAS2016_Scripts" />
+				</Tab>
+				<Tab name="Tab_SpringfieldHenge" icon="ICO_MHUB_XMAS2016_SpringfieldHenge">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:SpringfieldHenge_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==1" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="SpringfieldHengeBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_SpringfieldHenge" package="XMAS2016_Scripts" />
+				</Tab>
+				<Tab name="Tab_GnomeInYourHome" icon="ICO_MHUB_XMAS2016_GnomeInYourHome">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:GnomeInYourHome_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==2" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="GnomeInYourHomeBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_GnomeInYourHome" package="XMAS2016_Scripts" />
+				</Tab>
+				<Tab name="Tab_Crafting" icon="ICO_MHUB_XMAS2016_Crafting">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:Crafting_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==3" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2016_CraftingBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_Crafting" package="XMAS2016_Scripts" />
+				</Tab>
+				<Tab name="Tab_FindBuildings" icon="ICO_MHUB_XMAS2016_FindBuilding">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:FindBuildings_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==4" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2016_FindBuildingBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_FindBuildings" package="XMAS2016_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="Runestones">
+					<Requirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==3" />
+					</Requirements>
+				</Resource>
+				<Resource type="XMAS2016_ActivePrizeTrackCurrency">
+					<Requirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==0" />
+					</Requirements>
+				</Resource>
+				<Resource type="Catnip">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==1" />
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==4" />
+						</Requirement>
+					</Requirements>
+				</Resource>
+				<Resource type="CarvedFigurines">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==1" />
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==4" />
+						</Requirement>
+					</Requirements>
+				</Resource>
+				<Resource type="BookOfShadows">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==1" />
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==4" />
+						</Requirement>
+					</Requirements>
+				</Resource>
+				<Resource type="ChickenFingers">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==1" />
+							<Requirement type="formula" formula="XMAS2016_EventHubTabValue==4" />
+						</Requirement>
+					</Requirements>
+				</Resource>
+				<Resource type="GuiltDust">
+					<Requirements>
+						<Requirement type="formula" formula="XMAS2016_EventHubTabValue==2" />
+					</Requirements>
+				</Resource>
+			</ResourceTypes>
+		</EventHub>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="XMAS2016_PrizeTrackConfig:PrizeTrack0">
+				<Prize name="BLD_GoatGodStatue_name" listIcon="ICO_PRIZ_XMAS2016_GoatGodStatue_MD" rewardIcon="ICO_PRIZ_XMAS2016_GoatGodStatue_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize1_RushCost__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize1_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="GoatGodStatue" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_XMAS2016_Act1CurrencyPack_1_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize2_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A1P1_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize2_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="XMAS2016_Act1CurrencyPack_1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_FiveDollarAntlerRental_name" listIcon="ICO_PRIZ_XMAS2016_AntlerRentalHut_MD" rewardIcon="ICO_PRIZ_XMAS2016_AntlerRentalHut_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize3_RushCost__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize3_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="FiveDollarAntlerRental" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_NewGodMrBurns_name" listIcon="ICO_PRIZ_XMAS2016_MrBurns_NewGod_MD" rewardIcon="ICO_PRIZ_XMAS2016_MrBurns_NewGod_LG.rgb" useImmediately="true" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize4_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A1P4_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize4_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="NewGodMrBurns" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_XMAS2016_Act1CurrencyPack_2_name" listIcon="ICO_XMAS2016_Runestones_Pack2" rewardIcon="ICO_XMAS2016_Runestones_Pack2.rgb" useImmediately="true" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize5_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A1P5_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize5_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="XMAS2016_Act1CurrencyPack_2" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_CultFlyingSaucer_name" listIcon="ICO_PRIZ_XMAS2016_CultFlyingSaucer_MD" rewardIcon="ICO_PRIZ_XMAS2016_CultFlyingSaucer_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize6_RushCost__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize6_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="CultFlyingSaucer" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_TheParson_name" listIcon="ICO_PRIZ_XMAS2016_TheParson_MD" rewardIcon="ICO_PRIZ_XMAS2016_TheParson_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize7_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A1P7_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize7_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="TheParson" useImmediately="false" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="XMAS2016_PrizeTrackConfig:PrizeTrack1">
+				<Prize name="BLD_DevilSnowman_name" listIcon="ICO_PRIZ_XMAS2016_DevilSnowman_MD" rewardIcon="ICO_PRIZ_XMAS2016_DevilSnowman_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize1_RushCost__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize1_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="DevilSnowman" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_XMAS2016_Act2CurrencyPack_1_name" listIcon="ICO_XMAS2016_Runestones_Pack2" rewardIcon="ICO_XMAS2016_Runestones_Pack2.rgb" useImmediately="true" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize2_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A2P1_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize2_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="XMAS2016_Act2CurrencyPack_1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_BaalPit_name" listIcon="ICO_PRIZ_XMAS2016_BaalPit_MD" rewardIcon="ICO_PRIZ_XMAS2016_BaalPit_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize3_RushCost__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize3_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="BaalPit" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_RavencrowNeversmiles_name" listIcon="Lisa_Goth_menu" rewardIcon="CharacterSets_Lisa_Goth.rgb" useImmediately="true" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize4_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A2P4_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize4_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="RavencrowNeversmiles" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_XMAS2016_Act2CurrencyPack_2_name" listIcon="ICO_XMAS2016_Runestones_Pack3" rewardIcon="ICO_XMAS2016_Runestones_Pack3.rgb" useImmediately="true" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize5_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A2P5_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize5_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="XMAS2016_Act2CurrencyPack_2" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_Wickerman_name" listIcon="ICO_PRIZ_XMAS2016_Wickerman_MD" rewardIcon="ICO_PRIZ_XMAS2016_Wickerman_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize6_RushCost__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize6_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="Wickerman" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_StarSnowsuitMaggie_name" listIcon="ICO_PRIZ_XMAS2016_Maggie_Snowsuit_MD" rewardIcon="ICO_PRIZ_XMAS2016_Maggie_Snowsuit_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize7_RushCost__" largeSizeIcon="true" itemDoneOverrideText="UI_XMAS2016_PrizeTrack_A2P7_reward">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize7_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="SacrificeYourSheepToOdin" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<Variable name="XMAS2016_StoreLevel" value="1" />
+		<Variable name="XMAS2016_MaxStoreLevel" value="__XMAS2016_Spreadsheet_Config:CraftLevels:MaxLevel__" />
+		<Variable name="XMAS2016_CraftProgress" value="0" />
+		<Variable name="XMAS2016_MaxCraftProgress" value="99999" />
+		<Variable name="SmallPaganTent_New" value="true" />
+		<Variable name="SmallPaganTent_Crafted" value="false" />
+		<Variable name="SmallPaganTent_TotalCrafted" value="0" />
+		<Variable name="CarnivalBanner1_New" value="true" />
+		<Variable name="CarnivalBanner1_Crafted" value="false" />
+		<Variable name="CarnivalBanner1_TotalCrafted" value="0" />
+		<Variable name="LargeMushrooms_New" value="true" />
+		<Variable name="LargeMushrooms_Crafted" value="false" />
+		<Variable name="LargeMushrooms_TotalCrafted" value="0" />
+		<Variable name="ChickenCoop_New" value="true" />
+		<Variable name="ChickenCoop_Crafted" value="false" />
+		<Variable name="ChickenCoop_TotalCrafted" value="0" />
+		<Variable name="GoatHeadStatue_New" value="true" />
+		<Variable name="GoatHeadStatue_Crafted" value="false" />
+		<Variable name="GoatHeadStatue_TotalCrafted" value="0" />
+		<Variable name="HayCart_New" value="true" />
+		<Variable name="HayCart_Crafted" value="false" />
+		<Variable name="HayCart_TotalCrafted" value="0" />
+		<Variable name="LargePaganTent_New" value="true" />
+		<Variable name="LargePaganTent_Crafted" value="false" />
+		<Variable name="LargePaganTent_TotalCrafted" value="0" />
+		<Variable name="Cauldron_New" value="true" />
+		<Variable name="Cauldron_Crafted" value="false" />
+		<Variable name="Cauldron_TotalCrafted" value="0" />
+		<Variable name="CarnivalBanner2_New" value="true" />
+		<Variable name="CarnivalBanner2_Crafted" value="false" />
+		<Variable name="CarnivalBanner2_TotalCrafted" value="0" />
+		<Variable name="PhoneHengeKiosk_New" value="true" />
+		<Variable name="PhoneHengeKiosk_Crafted" value="false" />
+		<Variable name="PhoneHengeKiosk_TotalCrafted" value="0" />
+		<Variable name="GiantMushrooms_New" value="true" />
+		<Variable name="GiantMushrooms_Crafted" value="false" />
+		<Variable name="GiantMushrooms_TotalCrafted" value="0" />
+		<Variable name="Brazier_New" value="true" />
+		<Variable name="Brazier_Crafted" value="false" />
+		<Variable name="Brazier_TotalCrafted" value="0" />
+		<Variable name="TwoStoreyOuthouse_New" value="true" />
+		<Variable name="TwoStoreyOuthouse_Crafted" value="false" />
+		<Variable name="TwoStoreyOuthouse_TotalCrafted" value="0" />
+		<Variable name="PaganHall_New" value="true" />
+		<Variable name="PaganHall_Crafted" value="false" />
+		<Variable name="PaganHall_TotalCrafted" value="0" />
+		<Variable name="CarnivalBanner3_New" value="true" />
+		<Variable name="CarnivalBanner3_Crafted" value="false" />
+		<Variable name="CarnivalBanner3_TotalCrafted" value="0" />
+		<Variable name="Windmill_New" value="true" />
+		<Variable name="Windmill_Crafted" value="false" />
+		<Variable name="Windmill_TotalCrafted" value="0" />
+		<Variable name="FirIsMurderChristmasTree_New" value="true" />
+		<Variable name="FirIsMurderChristmasTree_Crafted" value="false" />
+		<Variable name="FirIsMurderChristmasTree_TotalCrafted" value="0" />
+		<Variable name="MedievalTent_New" value="true" />
+		<Variable name="MedievalTent_Crafted" value="false" />
+		<Variable name="MedievalTent_TotalCrafted" value="0" />
+		<Variable name="DunkTheMonk_New" value="true" />
+		<Variable name="DunkTheMonk_Crafted" value="false" />
+		<Variable name="DunkTheMonk_TotalCrafted" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act1_Seen" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act1_Prize2" value="0" />
+		<Variable name="XMAS2016_XMAS2016_PrizeTrack_Act1_Prize3" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act1_Prize4" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act1_Prize5" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act1_Prize6" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act1_Prize7" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Seen" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Prize2" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Prize3" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Prize4" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Prize5" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Prize6" value="0" />
+		<Variable name="XMAS2016_PrizeTrack_Act2_Prize7" value="0" />
+		<Variable name="XMAS2016_Project_Ready" value="0" />
+		<Variable name="XMAS2016_ResourceJob_Available" value="0" />
+		<Variable name="XMAS2016_ResourceJob_Done" value="0" />
+		<Variable name="XMAS2016_Crafting_ActOne_Seen" value="0" />
+		<Variable name="XMAS2016_Crafting_ActTwo_Seen" value="0" />
+		<Variable name="XMAS2016_Crafting_LevelAvailable" value="0" />
+		<Variable name="XMAS2016_Crafting_SmallPaganTent" value="0" />
+		<Variable name="XMAS2016_Crafting_CarnivalBanner1" value="0" />
+		<Variable name="XMAS2016_Crafting_LargeMushrooms" value="0" />
+		<Variable name="XMAS2016_Crafting_ChickenCoop" value="0" />
+		<Variable name="XMAS2016_Crafting_CarnivalBanner2" value="0" />
+		<Variable name="XMAS2016_Crafting_PhoneHengeKiosk" value="0" />
+		<Variable name="XMAS2016_Crafting_LargePaganTent" value="0" />
+		<Variable name="XMAS2016_Crafting_GiantMushrooms" value="0" />
+		<Variable name="XMAS2016_Crafting_Cauldron" value="0" />
+		<Variable name="XMAS2016_Crafting_HayCart" value="0" />
+		<Variable name="XMAS2016_Crafting_PaganHall" value="0" />
+		<Variable name="XMAS2016_Crafting_TwoStoreyOuthouse" value="0" />
+		<Variable name="XMAS2016_Crafting_Brazier" value="0" />
+		<Variable name="XMAS2016_Crafting_CarnivalBanner3" value="0" />
+		<Variable name="XMAS2016_Crafting_MedievalTent" value="0" />
+		<Variable name="XMAS2016_Crafting_DunkTheMonk" value="0" />
+		<Variable name="XMAS2016_Crafting_FirIsMurderChristmasTree" value="0" />
+		<Variable name="XMAS2016_Crafting_GoatHeadStatue" value="0" />
+		<Variable name="XMAS2016_Crafting_Windmill" value="0" />
+		<Variable name="XMAS2016_GnomeInYourHome_CanUpgrade" value="0" />
+		<Badges>
+			<Badge name="XMAS2016_PrizeTrackBadge">
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Seen">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Prize2">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize1_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Prize3">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize2_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Prize4">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize3_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Prize5">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize4_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Prize6">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize5_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act1_Prize7">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT1Currency" amount="__XMAS2016_Spreadsheet_Config:Act1Prizes:Prize6_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Seen">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Prize2">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize1_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Prize3">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize2_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Prize4">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize3_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Prize5">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize4_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Prize6">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize5_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_PrizeTrack_Act2_Prize7">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2016_PT2Currency" amount="__XMAS2016_Spreadsheet_Config:Act2Prizes:Prize6_Target__" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="SpringfieldHengeBadge">
+				<Condition variable="XMAS2016_Project_Ready" repeatable="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:SpringfieldHenge_Unlocked" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ProjectAvailableForHandIn" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="XMAS2016_FindBuildingBadge">
+				<Condition variable="XMAS2016_ResourceJob_Available" repeatable="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:FindBuildings_Unlocked" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_CletusFarm_CharactersAvailable" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_CletusFarm_JobsWaitingOnAward" not="true" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_WilliesShack_CharactersAvailable" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_WilliesShack_JobsWaitingOnAward" not="true" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_SpringfieldLibrary_CharactersAvailable" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_SpringfieldLibrary_JobsWaitingOnAward" not="true" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_MoesTavern_CharactersAvailable" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_MoesTavern_JobsWaitingOnAward" not="true" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_ResourceJob_Done" repeatable="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:FindBuildings_Unlocked" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_CletusFarm_CharactersAvailable" not="true" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_CletusFarm_JobsInProgress" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_CletusFarm_JobsWaitingOnAward" not="true" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_WilliesShack_CharactersAvailable" not="true" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_WilliesShack_JobsInProgress" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_WilliesShack_JobsWaitingOnAward" not="true" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_SpringfieldLibrary_CharactersAvailable" not="true" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_SpringfieldLibrary_JobsInProgress" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_SpringfieldLibrary_JobsWaitingOnAward" not="true" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_MoesTavern_CharactersAvailable" not="true" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_MoesTavern_JobsInProgress" />
+								<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_MoesTavern_JobsWaitingOnAward" not="true" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="XMAS2016_CraftingBadge">
+				<Condition variable="XMAS2016_Crafting_ActOne_Seen">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:Crafting_Unlocked" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_ActTwo_Seen">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:Crafting_Unlocked" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_LevelAvailable">
+					<Requirements>
+						<Requirement type="formula" formula="and(Runestones &gt;= (XMAS2016_MaxCraftProgress - XMAS2016_CraftProgress), XMAS2016_StoreLevel &lt; XMAS2016_MaxStoreLevel)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_SmallPaganTent">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:SmallPaganTent_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="Crafting_CarnivalBanners">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:CarnivalBanner1_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_LargeMushrooms">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:LargeMushrooms_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_ChickenCoop">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:ChickenCoop_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_CarnivalBanner2">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:CarnivalBanner2_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_PhoneHengeKiosk">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:PhoneHengeKiosk_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_LargePaganTent">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:LargePaganTent_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_GiantMushrooms">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:GiantMushrooms_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_Cauldron">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:PaganCauldron_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_HayCart">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:HayCart_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_PaganHall">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:PaganHall_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_TwoStoreyOuthouse">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:TwoStoreyOuthouse_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_Brazier">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:Brazier_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_CarnivalBanner3">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:CarnivalBanner3_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_MedievalTent">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:MedievalTent_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_DunkTheMonk">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:DunkTheMonk_Cost__" />
+						<Requirement type="building owned" building="DunkTheMonk" not="true" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_FirIsMurderChristmasTree">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:FirIsMurderTree_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_GoatHeadStatue">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:GoatHeadStatue_Cost__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2016_Crafting_Windmill">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2016_Crafting_ActOne_Seen+XMAS2016_Crafting_ActTwo_Seen, 0)" />
+						<Requirement type="special currency" currency="Runestones" amount="__XMAS2016_Spreadsheet_Config:CraftItemCosts:Windmill_Cost__" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="GnomeInYourHomeBadge">
+				<Condition variable="XMAS2016_GnomeInYourHome_CanUpgrade" repeatable="true">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::GuiltDust'), System::evaluate('Selector::XMASSixteenGnomeUpgradeCost'))" />
+						<Requirement type="formula" formula="lessThan(GnomeLevel, GnomeLevelCap)" />
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+	</SpecialEvent>
+	<SpecialEvent id="167001" name="XMAS2016_Act1">
+		<Variable name="XMAS2016_Act1" value="true" />
+		<Variable name="BankedPagans_Act1" value="0" />
+		<Variable name="PagansTapped_Act1" value="0" />
+		<Variable name="PagansTapped_Social_Act1" value="0" />
+		<Variable name="OfferingBoard_RewardCapVar_Act1" value="0" />
+		<SpawnOverTime character="Pagan_Act1" loggedOnSpawnTime="__XMAS2016_Spreadsheet_Config:Tappables:SpawnRate__" loggedOffSpawnTime="__XMAS2016_Spreadsheet_Config:Tappables:SpawnRate__" maxAllowedInTown="__XMAS2016_Spreadsheet_Config:Tappables:LandMax__" regularBankMax="__XMAS2016_Spreadsheet_Config:Tappables:BankMax__" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedPagans_Act1" errorTitle="UI_XMAS2016_Tappables_TownFull_title" errorBody="UI_XMAS2016_Tappables_TownFull_text" weightPerTimeIncrement="1">
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2016_Requirements:Tappables_Unlocked" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<Notifications location="XMAS2016_Notifications:Notifications">
+			<Notification name="MaxPagansPN_Act1" />
+			<Notification name="MaxPagans24HPN_Act1" />
+		</Notifications>
+		<Variable name="CletusFarmSlotsUnlocked" value="0" />
+		<Variable name="WilliesShackSlotsUnlocked" value="0" />
+		<Buildings override="true">
+			<Building name="OldTreeSpirit">
+				<BuildMenuText text="UI_XMAS2016_ExciteText_Act1" />
+				<Job id="167116" name="LongingForLocomotion" time="4h" rushRulesPackageName="RushRulesDefaults:TaxJobNoRush">
+					<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:BuildingJobs:OldTreeSpirit_CurrencyReward_Act1__" />
+				</Job>
+			</Building>
+			<Building name="CletusFarm">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="Indicator_XMAS2016_Catnip.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_CletusFarm_CharactersAvailable" />
+					</Requirements>
+				</TouchIcon>
+				<ResourceGenerator resourceCapSelector="1000000" slotsUnlockedVariable="CletusFarmSlotsUnlocked" resourceName="Catnip" resourceCapIcon="ICO_CUR_XMAS2016_Catnip_sm.rgb" topupConfig="MonorailTopup" menuConfig="XMAS2016_GameConfig:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" gotoBuilding="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+					</Requirements>
+					<Slot>
+						<Job name="InduceCatsVomiting" character="CrazyCatLady" />
+					</Slot>
+					<Slot>
+						<Job name="TeachCatsGradeTenMath" character="LingBouvier" />
+					</Slot>
+					<Slot>
+						<Job name="WatchACatFight" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="ReadABotanyReferenceBook" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="ThankTheCats" character="Apu" />
+					</Slot>
+					<Slot>
+						<Job name="StruggleInACatsFight" character="Cletus" />
+					</Slot>
+					<Slot>
+						<Job name="FailAtPerformingACatTamingAct" character="Krusty" />
+					</Slot>
+					<Slot>
+						<Job name="GambleOnCatFights" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+			<Building name="WilliesShack">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="Indicator_XMAS2016_CarvedFigurine.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_WilliesShack_CharactersAvailable" />
+					</Requirements>
+				</TouchIcon>
+				<ResourceGenerator resourceCapSelector="1000000" slotsUnlockedVariable="WilliesShackSlotsUnlocked" resourceName="CarvedFigurines" resourceCapIcon="ICO_CUR_XMAS2016_CarvedFigurine_sm.rgb" topupConfig="MonorailTopup" menuConfig="XMAS2016_GameConfig:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" gotoBuilding="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+					</Requirements>
+					<Slot>
+						<Job name="WorkHardForTemporaryShelter" character="PatchesAndPoorViolet" />
+					</Slot>
+					<Slot>
+						<Job name="ThreatenToUseHisKnife" character="GinoUnderdunkTerwilliger" />
+					</Slot>
+					<Slot>
+						<Job name="FallAsleepOnAChisel" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="AttemptToCarveAMalibuStacy" character="Milhouse" />
+					</Slot>
+					<Slot>
+						<Job name="CarveASelfie" character="Willy" />
+					</Slot>
+					<Slot>
+						<Job name="LaughAtOtherPeoplesCarvings" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="TryToBeNumberOne" character="Martin" />
+					</Slot>
+					<Slot>
+						<Job name="CleanUpTheMess_XMAS2016" character="Marge" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job name="InduceCatsVomiting">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward_Prem__" />
+			</Job>
+			<Job name="TeachCatsGradeTenMath">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward_Prem__" />
+			</Job>
+			<Job name="WatchACatFight">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="ReadABotanyReferenceBook">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="ThankTheCats">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="StruggleInACatsFight">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="FailAtPerformingACatTamingAct">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="GambleOnCatFights">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="WorkHardForTemporaryShelter">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward_Prem__" />
+			</Job>
+			<Job name="ThreatenToUseHisKnife">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward_Prem__" />
+			</Job>
+			<Job name="FallAsleepOnAChisel">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="AttemptToCarveAMalibuStacy">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="CarveASelfie">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="LaughAtOtherPeoplesCarvings">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="TryToBeNumberOne">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="CleanUpTheMess_XMAS2016">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="StruggleInACatFight">
+				<Requirement type="active quest" quest="YuleLoveIt_3a" />
+				<Reward Catnip="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:Catnip_JobReward__" />
+			</Job>
+			<Job name="CarveMoreSelfies">
+				<Requirement type="active quest" quest="YuleLoveIt_4a" />
+				<Reward CarvedFigurines="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:CarvedFigurine_JobReward__" />
+			</Job>
+			<Job name="ExplainTheOriginsOfChristmas">
+				<Requirement type="active quest" quest="YuleLoveIt_1" />
+			</Job>
+			<Job name="LearnAboutChristmas">
+				<Requirement type="active quest" quest="YuleLoveIt_1" />
+			</Job>
+			<Job name="GetReadyForBacon">
+				<Requirement type="active quest" quest="YuleLoveIt_2" />
+			</Job>
+			<Job name="SingCarols_Ned">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+			<Job name="SingCarols_Lovejoy">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+			<Job name="AttendThePaganFestival">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="167002" name="XMAS2016_Act2">
+		<Variable name="XMAS2016_Act2" value="true" />
+		<Variable name="BankedPagans_Act2" value="0" />
+		<Variable name="PagansTapped_Act2" value="0" />
+		<Variable name="PagansTapped_Social_Act2" value="0" />
+		<Variable name="OfferingBoard_RewardCapVar_Act2" value="0" />
+		<SpawnOverTime character="Pagan_Act2" loggedOnSpawnTime="__XMAS2016_Spreadsheet_Config:Tappables:SpawnRate__" loggedOffSpawnTime="__XMAS2016_Spreadsheet_Config:Tappables:SpawnRate__" maxAllowedInTown="__XMAS2016_Spreadsheet_Config:Tappables:LandMax__" regularBankMax="__XMAS2016_Spreadsheet_Config:Tappables:BankMax__" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedPagans_Act2" errorTitle="UI_XMAS2016_Tappables_TownFull_title" errorBody="UI_XMAS2016_Tappables_TownFull_text" weightPerTimeIncrement="1">
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2016_Requirements:Tappables_Unlocked" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<Notifications location="XMAS2016_Notifications:Notifications">
+			<Notification name="MaxPagansPN_Act2" />
+			<Notification name="MaxPagans24HPN_Act2" />
+		</Notifications>
+		<Variable name="SpringfieldLibrarySlotsUnlocked" value="0" />
+		<Variable name="MoesTavernSlotsUnlocked" value="0" />
+		<Buildings override="true">
+			<Building name="OldTreeSpirit">
+				<BuildMenuText text="UI_XMAS2016_ExciteText_Act2" />
+				<Job id="167116" name="LongingForLocomotion" time="4h" rushRulesPackageName="RushRulesDefaults:TaxJobNoRush">
+					<Reward XMAS2016_ActivePrizeTrackCurrency="__XMAS2016_Spreadsheet_Config:BuildingJobs:OldTreeSpirit_CurrencyReward_Act2__" />
+				</Job>
+			</Building>
+			<Building name="SpringfieldLibrary">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="Indicator_XMAS2016_BookOfShadows.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_SpringfieldLibrary_CharactersAvailable" />
+					</Requirements>
+				</TouchIcon>
+				<ResourceGenerator resourceCapSelector="1000000" slotsUnlockedVariable="SpringfieldLibrarySlotsUnlocked" resourceName="BookOfShadows" resourceCapIcon="ICO_CUR_XMAS2016_BookOfShadows_sm.rgb" topupConfig="MonorailTopup" menuConfig="XMAS2016_GameConfig:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" gotoBuilding="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+					</Requirements>
+					<Slot>
+						<Job name="LookForBooksAboutCats" character="CrazyCatLady" />
+					</Slot>
+					<Slot>
+						<Job name="LookForNewSpells" character="TheWiccans" />
+					</Slot>
+					<Slot>
+						<Job name="WriteAGraduateLevelEssayOnWicca" character="LingBouvier" />
+					</Slot>
+					<Slot>
+						<Job name="ReadAllBooksOnPaganism" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="MakePaperAirplanes_Milhouse" character="Milhouse" />
+					</Slot>
+					<Slot>
+						<Job name="PreparePaganHistoryCourseMaterials" character="Skinner" />
+					</Slot>
+					<Slot>
+						<Job name="MakePaperAirplanes_Bart" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CoWriteAPaganLARP" character="Martin" />
+					</Slot>
+					<Slot>
+						<Job name="WriteAPaganLARP" character="CBGuy" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+			<Building name="MoesTavern">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="Indicator_XMAS2016_ChickenFingers.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:ResourceStation_MoesTavern_CharactersAvailable" />
+					</Requirements>
+				</TouchIcon>
+				<ResourceGenerator resourceCapSelector="1000000" slotsUnlockedVariable="MoesTavernSlotsUnlocked" resourceName="ChickenFingers" resourceCapIcon="ICO_CUR_XMAS2016_ChickenFingers_sm.rgb" topupConfig="MonorailTopup" menuConfig="XMAS2016_GameConfig:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" gotoBuilding="true">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+						<Requirement type="quest" quest="SpringfieldHenge_1" />
+					</Requirements>
+					<Slot>
+						<Job name="DumpsterDiveForFood" character="PatchesAndPoorViolet" />
+					</Slot>
+					<Slot>
+						<Job name="ThreatenTheCook" character="GinoUnderdunkTerwilliger" />
+					</Slot>
+					<Slot>
+						<Job name="PerformChickenBoneDivination" character="TheWiccans" />
+					</Slot>
+					<Slot>
+						<Job name="BingeOnChickenFingers_Homer" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="StealTheRecipe" character="Krusty" />
+					</Slot>
+					<Slot>
+						<Job name="BakeChickenFingers" character="Moe" />
+					</Slot>
+					<Slot>
+						<Job name="BingeOnChickenFingers_Wiggum" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="AnalyzeTheFood" character="Luigi" />
+					</Slot>
+					<Slot>
+						<Job name="FallAsleepInHisPlate" character="Grampa" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job name="LookForBooksAboutCats">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward_Prem__" />
+			</Job>
+			<Job name="LookForNewSpells">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward_Prem__" />
+			</Job>
+			<Job name="WriteAGraduateLevelEssayOnWicca">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward_Prem__" />
+			</Job>
+			<Job name="ReadAllBooksOnPaganism">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="MakePaperAirplanes_Milhouse">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="PreparePaganHistoryCourseMaterials">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="MakePaperAirplanes_Bart">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="CoWriteAPaganLARP">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="WriteAPaganLARP">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="DumpsterDiveForFood">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward_Prem__" />
+			</Job>
+			<Job name="ThreatenTheCook">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward_Prem__" />
+			</Job>
+			<Job name="PerformChickenBoneDivination">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward_Prem__" />
+			</Job>
+			<Job name="BingeOnChickenFingers_Homer">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="StealTheRecipe">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="BakeChickenFingers">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="BingeOnChickenFingers_Wiggum">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="AnalyzeTheFood">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="FallAsleepInHisPlate">
+				<VisibilityRequirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+					<Requirement type="quest" quest="SpringfieldHenge_1" />
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="CheckOutTheRestrictedSection">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YuleLoveIt_3b" />
+						<Requirement type="active quest" quest="LikeABOS" />
+					</Requirement>
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YuleLoveIt_3b" />
+						<Requirement type="active quest" quest="LikeABOS" />
+					</Requirement>
+				</Requirements>
+				<Reward BookOfShadows="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:BookofShadows_JobReward__" />
+			</Job>
+			<Job name="BingeOnChickenFingers">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YuleLoveIt_4b" />
+						<Requirement type="active quest" quest="AHappyMeal" />
+					</Requirement>
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YuleLoveIt_4b" />
+						<Requirement type="active quest" quest="AHappyMeal" />
+					</Requirement>
+				</Requirements>
+				<Reward ChickenFingers="__XMAS2016_Spreadsheet_Config:ResourceStationJobs:ChickenFinger_JobReward__" />
+			</Job>
+			<Job name="AttendThePaganFestival">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+			<Job name="ExplainTheOriginsOfChristmas">
+				<Requirement type="active quest" quest="YuleLoveIt_1" />
+			</Job>
+			<Job name="LearnAboutChristmas">
+				<Requirement type="active quest" quest="YuleLoveIt_1" />
+			</Job>
+			<Job name="GetReadyForBacon">
+				<Requirement type="active quest" quest="YuleLoveIt_2" />
+			</Job>
+			<Job name="SingCarols_Ned">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+			<Job name="SingCarols_Lovejoy">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+			<Job name="AttendThePaganFestival">
+				<Requirement type="active quest" quest="YuleLoveIt_5" />
+			</Job>
+			<Job name="Prepare50GallonsOfHolyWater">
+				<Requirement type="active quest" quest="IWillieFollowYouIntoTheDark_1" />
+			</Job>
+			<Job name="SpraySatyrWillie">
+				<Requirement type="active quest" quest="IWillieFollowYouIntoTheDark_1" />
+			</Job>
+			<Job name="GetSprayed">
+				<Requirement type="active quest" quest="IWillieFollowYouIntoTheDark_1" />
+			</Job>
+			<Job name="MowTheSchoolsLawn">
+				<Requirement type="active quest" quest="IWillieFollowYouIntoTheDark_2" />
+			</Job>
+			<Job name="HuntSquirrels">
+				<Requirement type="active quest" quest="IWillieFollowYouIntoTheDark_3" />
+			</Job>
+			<Job name="DoNormalThings">
+				<Requirement type="active quest" quest="NoPainNoPagain_1" />
+			</Job>
+			<Job name="RunNakedInTheHalls">
+				<Requirement type="active quest" quest="NoPainNoPagain_1" />
+			</Job>
+			<Job name="BingeOnFood">
+				<Requirement type="active quest" quest="NoPainNoPagain_2" />
+			</Job>
+			<Job name="ExchangeGifts">
+				<Requirement type="active quest" quest="NoPainNoPagain_3" />
+			</Job>
+			<Job name="TakeANap_Willie">
+				<Requirement type="active quest" quest="IWillieFollowYouIntoTheDark_3" />
+			</Job>
+			<Job name="PreachTheRealStoryOfChristmas">
+				<Requirement type="active quest" quest="NoPainNoPagain_4" />
+			</Job>
+			<Job name="EmbraceCommercialismAgain">
+				<Requirement type="active quest" quest="NoPainNoPagain_5" />
+			</Job>
+			<Job name="TossSomeCabers">
+				<Requirement type="quest started" quest="IWillieFollowYouIntoTheDark_2" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="167003" name="XMAS2016_Social_Act1">
+		<Variable name="XMAS2016_Social_Act1" value="true" />
+		<Variable name="PagansTapped_Social_Act1" value="0" />
+		<SuppressFriendActions shop="true" farm="true" pushnotes="false" vandalism="true">
+			<ShopRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act1" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</ShopRequirements>
+			<FarmRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act1" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</FarmRequirements>
+			<VandalismRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act1" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</VandalismRequirements>
+			<PushNoteRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act1" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</PushNoteRequirements>
+		</SuppressFriendActions>
+		<Characters>
+			<Character name="Pagan_Act1">
+				<OnEvent event="CharacterTouched" user="local">
+					<Script name="PaganTapped_Act1" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent onObject="Pagan_Act1" event="CharacterTouched" user="remote">
+					<Script name="Pagan_FriendTap_Act1" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="SpawnFriendPagans_Tier1_Act1" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="SpawnFriendPagans_Tier2_Act1" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="SpawnFriendPagans_Tier3_Act1" package="XMAS2016_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+	</SpecialEvent>
+	<SpecialEvent id="167004" name="XMAS2016_Social_Act2">
+		<Variable name="XMAS2016_Social_Act2" value="true" />
+		<Variable name="PagansTapped_Social_Act2" value="0" />
+		<SuppressFriendActions shop="true" farm="true" pushnotes="false" vandalism="true">
+			<ShopRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act2" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</ShopRequirements>
+			<FarmRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act2" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</FarmRequirements>
+			<VandalismRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act2" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</VandalismRequirements>
+			<PushNoteRequirements>
+				<Requirement type="variable" variable="XMAS2016_Social_Act2" />
+				<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+			</PushNoteRequirements>
+		</SuppressFriendActions>
+		<Characters>
+			<Character name="Pagan_Act2">
+				<OnEvent event="CharacterTouched" user="local">
+					<Script name="PaganTapped_Act2" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent onObject="Pagan_Act2" event="CharacterTouched" user="remote">
+					<Script name="Pagan_FriendTap_Act2" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="SpawnFriendPagans_Tier1_Act2" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="SpawnFriendPagans_Tier2_Act2" package="XMAS2016_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+						<Requirement type="reqList" location="XMAS2016_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="SpawnFriendPagans_Tier3_Act2" package="XMAS2016_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+	</SpecialEvent>
+	<SpecialEvent id="167005" name="XMAS2016_OfferingBoard">
+		<Variable name="XMAS2016_OfferingBoard" value="true" />
+		<Variable name="OfferingBoard_TurnIns_Act1" value="0" />
+		<Variable name="OfferingBoard_TurnIns_Act2" value="0" />
+		<PrizeLists>
+			<PrizeList id="0" type="projectboard" menuConfig="XMAS2016_OfferingBoardConfig:OfferingBoardPrizeTrackConfig">
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="0d" endOffset="12d" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day1_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="1d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="0" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day2_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="2d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="1" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day3_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_DonutBonus_name" listIcon="ICO_WildWest_3Donut_MD" rewardIcon="ICO_WildWest_3Donut_MD.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_DonutBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="3d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="2" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day4_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_DonutBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="4d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="3" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day5_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="5d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="4" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day6_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="6d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="5" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day7_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="7d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="6" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day8_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_DonutBonus_name" listIcon="ICO_WildWest_3Donut_MD" rewardIcon="ICO_WildWest_3Donut_MD.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_DonutBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="8d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="7" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day9_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_DonutBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="9d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="8" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day10_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="10d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="9" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day11_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteen_Start" startOffset="11d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="10" prizeListID="0" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day12_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_XMAS2016_OfferingBoard_FinalPrize_Act1_name" listIcon="ICO_MHUB_XMAS2016_JobBoard_End" rewardIcon="ICO_MHUB_XMAS2016_JobBoard_End.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="level" level="1" not="true" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="level" level="1" not="true" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act1" amount="1000" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="XMAS2016_OfferingBoard_FinalPrize_Act1" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="projectboard" menuConfig="XMAS2016_OfferingBoardConfig:OfferingBoardPrizeTrackConfig">
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="0d" endOffset="12d" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day13_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_DonutBonus_name" listIcon="ICO_WildWest_3Donut_MD" rewardIcon="ICO_WildWest_3Donut_MD.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_DonutBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="1d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="0" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day14_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_DonutBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="2d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="1" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day15_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="3d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="2" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day16_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="4d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="3" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day17_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="5d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="4" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day18_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_DonutBonus_name" listIcon="ICO_WildWest_3Donut_MD" rewardIcon="ICO_WildWest_3Donut_MD.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_DonutBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="6d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="5" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day19_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_DonutBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="7d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="6" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day20_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="8d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="7" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day21_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="9d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="8" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day22_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_CurrencyBonus_name" listIcon="ICO_XMAS2016_Runestones_Pack1" rewardIcon="ICO_XMAS2016_Runestones_Pack1.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="10d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="9" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day23_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_CurrencyBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_OfferingBoard_DonutBonus_name" listIcon="ICO_WildWest_3Donut_MD" rewardIcon="ICO_WildWest_3Donut_MD.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_DonutBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASSixteenActTwo_Start" startOffset="11d" endOffset="12d" />
+						<Requirement type="prize gained" event="XMAS2016_OfferingBoard" prizeIndex="10" prizeListID="1" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="__XMAS2016_Spreadsheet_Config:DailyGifts:Day24_Target__" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="OfferingBoard_DonutBonus" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_XMAS2016_OfferingBoard_FinalPrize_Act2_name" listIcon="ICO_MHUB_XMAS2016_JobBoard_End" rewardIcon="ICO_MHUB_XMAS2016_JobBoard_End.rgb" useImmediately="true" showInventoryPopup="true" rush_rate="1" largeSizeIcon="true" itemDoneOverrideText="CON_OfferingBoard_CurrencyBonus_reward">
+					<UnlockRequirements>
+						<Requirement type="level" level="1" not="true" />
+					</UnlockRequirements>
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="level" level="1" not="true" />
+						<Requirement type="special currency" currency="OfferingBoard_TurnIns_Spendable_Act2" amount="1000" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="XMAS2016_OfferingBoard_FinalPrize_Act2" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+	</SpecialEvent>
+	<SpecialEvent id="167006" name="XMAS2016_PaganSimpsons_Promo">
+		<Variable name="PaganSimpsons_PromoActive" value="true" />
+		<Variable name="PaganSimpsons_PromoIndicatorActive" value="true" />
+		<Variable name="PaganSimpsons_PromoShowInBuildMenu" value="false" />
+		<Variable name="PaganSimpsons_PromoSeen" value="false" />
+		<Characters override="true">
+			<Character name="PromoGilPermanent">
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="PaganSimpsons_PromoIndicatorActive" />
+					<Script name="Promo_Display" package="XMAS2016_Scripts_Promo" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<Promo eventName="PaganSimpsons_Promo" questID="163500" type="building" object="PaganBonfire" file="Promo_XMAS2016Promo" yes="BTN_170Donuts" visualEndDate="PaganSimpsons_Promo_End" />
+	</SpecialEvent>
+</SpecialEvents>

@@ -1,0 +1,124 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="4314" name="Terwilligers_Act1">
+		<LoopScript scheduleTime="TerwilligersActTwo" package="Terwilligers_Scripts" interval="0s" script="CheckActOneOver" loop="false">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+		</LoopScript>
+		<GuideData title="" tip=""></GuideData>
+		<HUDCurrencies buttonType="guide" guideButtonScript="Terwilligers_Scripts:ShowGuidePanel">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<Currency type="Spades" />
+			<Currency type="MutantSeeds" />
+		</HUDCurrencies>
+		<FriendHUDCurrencies buttonType="guide" guideButtonScript="Terwilligers_Scripts:ShowGuidePanelFromFriendHUD">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Terwilligers" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="Terwilligers" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+			<Currency type="Spades" />
+			<Currency type="MutantSeeds" />
+		</FriendHUDCurrencies>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="2" type1FakeFriend="true" type2FakeFriend="true" icon="ICO_Terwilligers_Spades_SM.rgb" type="Spades" icon2="ICO_Terwilligers_MutantSeeds_SM.rgb" type2="MutantSeeds" leaveSubStateAfterScript="false">
+			<Currency type="Spades">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+				</Requirements>
+			</Currency>
+			<Currency type="MutantSeeds">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+				</Requirements>
+			</Currency>
+			<Requirements>
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<Script name="ShowGuidePanelFromFriendMapHUD" package="Terwilligers_Scripts" />
+		</FriendsMap>
+		<SpecialButtons>
+			<Button mode="friend" icon="ICO_MHUD_MutantTask_SE" counter="true" identifier="MutantSeeds" timecharacter="MutantSeedling">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="fakefriend" />
+						<Requirement type="friendvariable" variable="Terwilligers" />
+					</Requirement>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="ChaosSheory02" />
+						<Requirement type="quest" quest="ChaosSheory02" />
+					</Requirement>
+				</Requirements>
+				<CharacterSpawnMode character="MutantSeedling" popup_OutOfCharTitle="UI_TERWILLIGERS_GetMoreMutantSeedlingsTitle" popup_OutOfCharText="UI_TERWILLIGERS_GetMoreMutantSeedlingsDesc" getMoreCurrencyName="Terwilligers_StoreItem_MutantSeeds_1" popup_ExceedAllowedTownMaxTitle="UI_TERWILLIGERS_FriendMaxSeedlingsTitle" popup_ExceedAllowedTownMaxText="UI_TERWILLIGERS_FriendMaxSeedlingsBody">
+					<Cost MutantSeeds="1" />
+					<MaxAllowedInTown default="10" frinkTown="5" />
+					<LocalScript>
+						<Script name="SpawnLocalMutantSeedling_Act1" package="Terwilligers_Scripts" />
+					</LocalScript>
+					<FriendScript>
+						<Script name="SpawnFriendMutantSeedling_Act1" package="Terwilligers_Scripts" />
+					</FriendScript>
+				</CharacterSpawnMode>
+			</Button>
+		</SpecialButtons>
+		<TimedCharacterRule character="MutantSeedling">
+			<TimeLimit default="4h" frinkTown="24h" />
+			<MaxAllowedInTown default="10" frinkTown="5" />
+			<OnOfflineScript>
+				<Script name="OffLineReward" package="Terwilligers_Scripts" />
+			</OnOfflineScript>
+			<SpendableVariables>
+				<Variable Corn="SPECIAL_EVENT_OFFLINE_CORN" />
+				<Variable Fertilizer="SPECIAL_EVENT_OFFLINE_FERTILIZER" />
+				<Variable Spades="SPECIAL_EVENT_OFFLINE_SPADES" />
+			</SpendableVariables>
+			<OnTimeOut>
+				<CreatorReward>
+					<Reward Fertilizer="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendTimeout_Reward1_FertAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendTimeout_Reward1_FertChance__" />
+					<Reward Corn="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendTimeout_Reward1_CornAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendTimeout_Reward1_CornChance__" />
+				</CreatorReward>
+				<CreatorReward>
+					<Reward Spades="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendTimeout_Reward2_SpadesAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendTimeout_Reward2_SpadesChance__" />
+				</CreatorReward>
+			</OnTimeOut>
+			<OnCollected>
+				<CreatorReward>
+					<Reward Fertilizer="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendCollected_Reward1_FertAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendCollected_Reward1_FertChance__" />
+					<Reward Corn="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendCollected_Reward1_CornAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendCollected_Reward1_CornChance__" />
+					<Reward TerwilligersScore="5" chance="1" />
+				</CreatorReward>
+				<CreatorReward>
+					<Reward Spades="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendCollected_Reward2_SpadesAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_FriendCollected_Reward2_SpadesChance__" />
+				</CreatorReward>
+			</OnCollected>
+			<Sublands>
+				<Subland value="Springfield" />
+			</Sublands>
+		</TimedCharacterRule>
+		<Jobs>
+			<Job name="ImprovingNature">
+				<Reward TerwilligersActivePrizeTrackCurrency="120" xp="13" />
+			</Job>
+		</Jobs>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="Monsarno" />
+			</LandInfo>
+		</LandInfos>
+	</SpecialEvent>
+	<SpecialEvent id="4315" name="Terwilligers_Act1_MonsarnoJob">
+		<Jobs>
+			<Job name="ImprovingNature">
+				<Reward TerwilligersActivePrizeTrackCurrency="120" xp="13" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>

@@ -1,0 +1,180 @@
+﻿<ScriptPackage>
+	<GoldenCock_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" waitforend="true" />
+	</GoldenCock_Tapped>
+	<GreatWallMainTower_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_BuildingSelected">
+					<Extras>
+						<Attribute name="BuildingName" value="GreatWallMainTower" />
+						<Attribute name="GoToFarmMode" value="true" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</GreatWallMainTower_Tapped>
+	<GreatWallTowerCreated parallel="true">
+		<Action type="hudTip" text="UI_GreatWall_PieceCreated" time="10s" />
+		<Action type="setObjectVariable" onType="building" onObject="GreatWallMainTower" variable="TowersBuilt" value="TowersBuilt+1" asExpression="true" />
+		<Action type="logevent" eventId="7009" param1Type="Enumeration" param1="Tower" />
+	</GreatWallTowerCreated>
+	<GreatWallPiece1Created parallel="true">
+		<Action type="hudTip" text="UI_GreatWall_PieceCreated" time="10s" />
+		<Action type="setObjectVariable" onType="building" onObject="GreatWallMainTower" variable="WallsBuilt" value="WallsBuilt+1" asExpression="true" />
+		<Action type="logevent" eventId="7009" param1Type="Enumeration" param1="Wall01" />
+	</GreatWallPiece1Created>
+	<GreatWallPiece2Created parallel="true">
+		<Action type="hudTip" text="UI_GreatWall_PieceCreated" time="10s" />
+		<Action type="setObjectVariable" onType="building" onObject="GreatWallMainTower" variable="WallsBuilt" value="WallsBuilt+1" asExpression="true" />
+		<Action type="logevent" eventId="7009" param1Type="Enumeration" param1="Wall02" />
+	</GreatWallPiece2Created>
+	<GoToTakeout parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="TakeoutBox" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="TakeoutBox" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" time="0" building="TakeoutBox" fakeTouch="false" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoToTakeout>
+	<TakeoutBox_Tapped>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					
+					var takeoutBox = Land::getFirstInstanceOfObject(Building::find('TakeoutBox'));
+					var randVal = toDouble(Object::getVariable(takeoutBox, 'rand'));
+					var newRand = rand(22);
+					if(randVal!=newRand)
+					{
+						Object::setVariable(takeoutBox, 'rand', toString(newRand), 0, false);
+					}
+					else
+					{
+						Object::setVariable(takeoutBox, 'rand', toString(mod(newRand+1, 22)), 0, false);
+					}
+				]]></Program>
+		</Action>
+		<Action type="checkExpression" expression="System::evaluate('Building::TakeoutBox::Object::rand')">
+			<ExpressionCase value="0">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText1" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText2" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText3" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText4" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText5" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText6" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="6">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText7" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="7">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText8" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="8">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText9" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="9">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText10" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="10">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText11" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="11">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText12" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="12">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText13" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="13">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText14" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="14">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText15" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="15">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText16" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="16">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText17" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="17">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText18" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="18">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText19" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="19">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText20" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="20">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText21" revealSpeed="medium" />
+			</ExpressionCase>
+			<ExpressionCase value="21">
+				<Action type="dialogue" character="GiantTakeoutBox_Neutral" text="UI_LunarNewYear_TakeoutBoxText22" revealSpeed="medium" />
+			</ExpressionCase>
+		</Action>
+	</TakeoutBox_Tapped>
+	<RedDragon_Tapped parallel="true">
+		<Action type="sound" sound="bld_RedDragon_tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</RedDragon_Tapped>
+	<WhiteDragon_Tapped parallel="true">
+		<Action type="sound" sound="bld_WhiteYellowDragon_tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</WhiteDragon_Tapped>
+	<YellowDragon_Tapped parallel="true">
+		<Action type="sound" sound="bld_WhiteYellowDragon_tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</YellowDragon_Tapped>
+	<ChineseLantern_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</ChineseLantern_Tapped>
+	<EnterLNYCategory>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="LunarNewYearStore" />
+			</True>
+		</Action>
+	</EnterLNYCategory>
+	<LNY_StoreUnlock parallel="true">
+		<Action type="updateVariable" variable="LunarNewYear_Store" value="1" />
+		<Action type="recommendation" recType="Event" name="LunarNewYear_OnePanel" eventName="UI_LunarNewYear_Title" />
+	</LNY_StoreUnlock>
+	<DragonBundlePurchased>
+		<Action type="notificationLarge" title="CON_DragonBundle_name" text="QST_MayanBundlePurchaseMessage_3_dlg_Start_1_SystemMessage" icon="ICO_STOR_Single_AtW_DragonBundle" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="RedDragon" inventory="true" />
+	</DragonBundlePurchased>
+	<GreatWallBundlePurchased>
+		<Action type="actionSequence" script="MiscScripts:GoToInGame" waitUntilComplete="true" />
+		<Action type="notificationLarge" title="CON_GreatWallBundle_name" text="QST_MayanBundlePurchaseMessage_3_dlg_Start_1_SystemMessage" icon="ICO_STOR_Single_AtW_GreatWallofChinaBundle" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="GreatWallMainTower" inventory="true" />
+	</GreatWallBundlePurchased>
+</ScriptPackage>

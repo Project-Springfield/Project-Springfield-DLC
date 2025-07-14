@@ -1,0 +1,232 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="Pride2020MiniEventPopup" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Pride2020_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Pride2020_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Pride2020_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Pride2020_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Pride2020_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_Pride2020_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_Pride2020_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_Pride2020_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Pride2020_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="Pride2020_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="Pride2020_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="Pride2020_Pride2020_OnePanel" eventName="UI_Pride2020_Title" limitedTime="true" limitedTimeEndDate="Pride2020_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="Pride2020MiniEventPopup" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Pride2020_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_Pride2020_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_Pride2020_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Pride2020_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_Pride2020_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="Pride2020_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="Pride2020_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="Pride2020_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="Pride2020_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="Pride2020_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_Pride2020_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="Pride2020_OnePanel" />
+		<Action type="runScript" script="Pride2020_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="Pride2020_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="Pride2020_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="Pride2020_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="HeadOverHeels_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2020_Event" />
+									<Attribute name="JobList" value="Pride2020_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeadOverHeels_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2020_Event" />
+									<Attribute name="JobList" value="Pride2020_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeadOverHeels_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2020_Event" />
+									<Attribute name="JobList" value="Pride2020_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeadOverHeels_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2020_Event" />
+									<Attribute name="JobList" value="Pride2020_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeadOverHeels_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2020_Event" />
+									<Attribute name="JobList" value="Pride2020_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="Pride2020_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="Pride2020_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<AutoApply_GlamazonMargeSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="Pride2020_Scripts:AutoApply_GlamazonMargeSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_GlamazonMargeSkin_End>
+	<AutoApply_GlamazonMargeSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="GlamazonMarge" fromInventory="true" />
+	</AutoApply_GlamazonMargeSkin_Delayed>
+	<AutoApply_PrideHomerSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="Pride2020_Scripts:AutoApply_PrideHomerSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_PrideHomerSkin_End>
+	<AutoApply_PrideHomerSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="PrideHomer" fromInventory="true" />
+	</AutoApply_PrideHomerSkin_Delayed>
+	<AutoApply_MysteriousWaylonSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="Pride2020_Scripts:AutoApply_MysteriousWaylonSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_MysteriousWaylonSkin_End>
+	<AutoApply_MysteriousWaylonSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="MysteriousWaylon" fromInventory="true" />
+	</AutoApply_MysteriousWaylonSkin_Delayed>
+	<RecommendStoreCategory_Pride2020 ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="Pride2020_PrideAccessories_OnePanel" />
+		<Action type="recommendation" recType="Event" name="Pride2020_PrideAccessories_OnePanel" eventName="UI_PrideAccessories_Title" limitedTime="true" limitedTimeEndDate="Pride2020_End" />
+		<Action type="clearRecommendations" category="Event" name="Pride2020_Pride2020_OnePanel" />
+		<Action type="recommendation" recType="Event" name="Pride2020_Pride2020_OnePanel" eventName="UI_Pride2020_Title" limitedTime="true" limitedTimeEndDate="Pride2020_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_Pride2020>
+	<EnterStoreCategory_Pride2020 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="Pride2020_Category" />
+	</EnterStoreCategory_Pride2020>
+	<EnterStoreCategory_PrideAccessories ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="PrideAccessories_Category" />
+	</EnterStoreCategory_PrideAccessories>
+	<GoToDraggleRock>
+		<Action type="focusOnMenuItem" menuCategory="Pride2020_Category" itemName="DraggleRock" />
+	</GoToDraggleRock>
+</ScriptPackage>

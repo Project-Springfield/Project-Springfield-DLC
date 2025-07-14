@@ -1,0 +1,3297 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="127000" name="XMAS2015" status="deprecated" onDeprecated="delete" endDate="XMASFifteen_EndDate" />
+		<DataID id="127001" name="XMAS2015_Act1" status="deprecated" onDeprecated="delete" endDate="XMASFifteen_ActTwo" />
+		<DataID id="127002" name="XMAS2015_Act2" status="deprecated" onDeprecated="delete" startDate="XMASFifteen_ActTwo" endDate="XMASFifteen_EndDate" />
+		<DataID id="127005" name="XMAS2015_Maggie" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+		<DataID id="127006" name="Maggie_Act3" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+		<DataID id="127010" name="XMAS2015DailyPrizeAct1" status="deprecated" onDeprecated="delete" endDate="XMASFifteen_ActTwo" />
+		<DataID id="127011" name="XMAS2015DailyPrizeAct2" status="deprecated" onDeprecated="delete" startDate="XMASFifteen_ActTwo" endDate="XMASFifteen_EndDate" />
+		<DataID id="127012" name="XMAS2015DailyPrizeAct3" status="deprecated" onDeprecated="delete" startDate="Maggie_StartDate" />
+		<DataID id="127110" name="XMAS2015_NaughtyOrNice" status="deprecated" onDeprecated="delete" endDate="XMASFifteen_EndDate" />
+		<DataID id="127111" name="XMAS2015_FindMinigame" />
+		<DataID id="127112" name="XMAS2015_WeeklyChallenges" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+		<DataID id="127113" name="XMAS2015_FriendTappables" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+		<DataID id="127150" name="XMAS2015_Act1_CrossOver" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+		<DataID id="127151" name="XMAS2015_Act2_CrossOver" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+		<DataID id="127152" name="MaggieMiniGame" />
+		<DataID id="127153" name="XMAS2015_BuildablePrizeLots" status="deprecated" onDeprecated="delete" enabled="FLAG_XMAS2015" />
+	</MasterList>
+	<SpecialEvent id="127000" name="XMAS2015">
+		<Variable name="XMAS2015" value="true" />
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="SimpsonHome" priority="1" />
+			</LandInfo>
+		</LandInfos>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script name="RemovedAllDeletedMerrymakers" package="XMAS2015_Scripts" />
+		</OnEvent>
+		<Buildings override="true">
+			<Building name="SimpsonHome">
+				<TouchIcon value="ICO_MHUD_WeeklyChallenges_SE.rgb" removeOnTouch="true" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2015_Requirements:ChallengesCallToAction" />
+					</Requirements>
+				</TouchIcon>
+				<ScriptTrigger title="UI_XMAS2015_WeeklyChallenges_CTA_title" description="UI_XMAS2015_WeeklyChallenges_CTA_desc" buttonLabel="UI_GoTo" buttonColor="b73affff" allowedInFriendLand="false">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Challenges" />
+					</Requirements>
+					<Script onButtonPressed="XMAS2015_Scripts:TabPressed_Challenges" />
+				</ScriptTrigger>
+				<EffectOverlay bsv3="SmallPresent_00" anim="Ground_SH" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="and(and(and(NaughtyOrNice2Started==1, FrinkPresentTapped==0), Object::Flipped::AsInt==0), System::evaluate('Land::Local'))" />
+				<EffectOverlay bsv3="SmallPresent_00" anim="Opening_Ground_Nice_SH" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" animDoneScript="XMAS2015_Scripts_NaughtyOrNice:FrinkPresentDoneAnimating" registerVariableEvent="true" formulaRequirement="and(and(and(NaughtyOrNice2Started==1, FrinkPresentTapped==1), Object::Flipped::AsInt==0), System::evaluate('Land::Local'))" />
+				<EffectOverlay bsv3="SmallPresent_00" anim="Ground_SHF" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="and(and(and(NaughtyOrNice2Started==1, FrinkPresentTapped==0), Object::Flipped::AsInt==1), System::evaluate('Land::Local'))" />
+				<EffectOverlay bsv3="SmallPresent_00" anim="Opening_Ground_Nice_SHF" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" animDoneScript="XMAS2015_Scripts_NaughtyOrNice:FrinkPresentDoneAnimating" registerVariableEvent="true" formulaRequirement="and(and(and(NaughtyOrNice2Started==1, FrinkPresentTapped==1), Object::Flipped::AsInt==1), System::evaluate('Land::Local'))" />
+				<OnEvent onObject="SimpsonHome" event="BuildingTouched">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="variable" variable="NaughtyOrNice2Started" />
+					</Requirements>
+					<Script package="XMAS2015_Scripts_NaughtyOrNice" name="OpenFakePresent" />
+				</OnEvent>
+			</Building>
+		</Buildings>
+		<EventHub menuConfig="XMAS2015_EventHubMenuConfig:EventHub">
+			<Tabs>
+				<Tab name="Tab_PrizeTrack" icon="__XMAS2015_GameConfig:Icons:PrizeTrack__">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack_Selected" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="PrizeTrackBadge" />
+					</BadgeRequirements>
+					<Script name="TabPressed_PrizeTrack" package="XMAS2015_Scripts" />
+				</Tab>
+				<Tab name="Tab_WinterProjects" icon="ICO_XMAS2015_BuildingFinder_Tab">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_WinterProjects" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_WinterProjects_Selected" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="WinterProjectsBadge" />
+					</BadgeRequirements>
+					<Script name="TabPressed_WinterProjects" package="XMAS2015_Scripts" />
+				</Tab>
+				<Tab name="Tab_Crafting" icon="ICO_MHUB_XMAS2015_Crafting">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Crafting" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Crafting_Selected" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="CraftingBadge" />
+					</BadgeRequirements>
+					<Script name="TabPressed_Crafting" package="XMAS2015_Scripts" />
+				</Tab>
+				<Tab name="Tab_Challenges" icon="ICO_MHUB_XMAS2015_WeeklyChallenges">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Challenges" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Challenges_Selected" />
+					</HighlightRequirements>
+					<Script name="TabPressed_Challenges" package="XMAS2015_Scripts" />
+				</Tab>
+				<Tab name="Tab_NaughtyOrNiceFriendHistory" icon="ICO_MHUB_XMAS2015_NaughtyOrNice">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_NaughtyOrNiceFriendHistory" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_NaughtyOrNiceFriendHistory_Selected" />
+					</HighlightRequirements>
+					<Script name="TabPressed_NaughtyOrNiceFriendHistory" package="XMAS2015_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="XMAS2015ActivePrizeTrackCurrency" />
+				<Resource type="Bows" />
+				<Resource type="Baubles" />
+			</ResourceTypes>
+		</EventHub>
+		<PrizeListButton icon="ICO_MHUD_XMAS15_EventIcon">
+			<Script package="XMAS2015_Scripts" name="PrizeListButtonPressed" />
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2015_Requirements:EventHubAvailable" />
+			</Requirements>
+			<BadgeRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="checkBadge" badgeName="GuidePanelBadge" />
+					<Requirement type="checkBadge" badgeName="PrizeTrackBadge" />
+					<Requirement type="checkBadge" badgeName="WinterProjectsBadge" />
+					<Requirement type="checkBadge" badgeName="CraftingBadge" />
+				</Requirement>
+			</BadgeRequirements>
+		</PrizeListButton>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_WeeklyChallenges_SE">
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Challenges" />
+				</Requirements>
+				<RunScript>
+					<Script name="TabPressed_Challenges" package="XMAS2015_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<Variable name="EventHubTabValue" value="1" owner="0" />
+		<Variable name="MerrymakerTap" value="0" />
+		<Variable name="MerrymakerTapFriend" value="0" />
+		<Variable name="MerrymakerTapRadius" value="5" />
+		<Variable name="BankedMerryMakers" value="0" />
+		<Variable name="PresentDropped" value="false" />
+		<Variable name="PresentOpened" value="false" />
+		<Variable name="HasSeenNaughtyOrNicePanel" value="false" />
+		<Variable name="HasXMAS2015Ticket" value="0" />
+		<Variable name="XMASFestivalTicketTime" value="0" />
+		<Variable name="NaughtyOrNice2Started" value="false" />
+		<Variable name="FrinkPresentTapped" value="false" />
+		<Variable name="DonePresentDropQuests" value="false" />
+		<Variable name="ShowEmptyMerrymakers" value="false" />
+		<Variable name="TotalNiceActions" value="0" />
+		<Variable name="TotalNaughtyActions" value="0" />
+		<Variable name="NaughtyNiceRatio" value="50" shareId="1" />
+		<Variable name="EfcotCenter_new" value="true" />
+		<Variable name="EfcotCenter_hasCrafted" value="false" />
+		<Variable name="GiantOutdoorFireplace_new" value="true" />
+		<Variable name="GiantOutdoorFireplace_hasCrafted" value="false" />
+		<Variable name="FancyIgloo_new" value="true" />
+		<Variable name="FancyIgloo_hasCrafted" value="false" />
+		<Variable name="IceSculptureCouchGagScene_new" value="true" />
+		<Variable name="IceSculptureCouchGagScene_hasCrafted" value="false" />
+		<Variable name="ChristmasClamsFiftyAPound_new" value="true" />
+		<Variable name="ChristmasClamsFiftyAPound_hasCrafted" value="false" />
+		<Variable name="WoolyBully_new" value="true" />
+		<Variable name="WoolyBully_hasCrafted" value="false" />
+		<Variable name="XmasTreesSlightlyIrregular_new" value="true" />
+		<Variable name="XmasTreesSlightlyIrregular_hasCrafted" value="false" />
+		<Variable name="SkiChalet_new" value="true" />
+		<Variable name="SkiChalet_hasCrafted" value="false" />
+		<Variable name="LampPostFestiveBow_new" value="true" />
+		<Variable name="LampPostFestiveBow_hasCrafted" value="false" />
+		<Variable name="LampPostFestiveWreath_new" value="true" />
+		<Variable name="LampPostFestiveWreath_hasCrafted" value="false" />
+		<Variable name="FestiveLawnBell_new" value="true" />
+		<Variable name="FestiveLawnBell_hasCrafted" value="false" />
+		<Variable name="FestiveCandycane_new" value="true" />
+		<Variable name="FestiveCandycane_hasCrafted" value="false" />
+		<Variable name="MargeSnowman_new" value="true" />
+		<Variable name="MargeSnowman_hasCrafted" value="false" />
+		<Variable name="LisaSnowman_new" value="true" />
+		<Variable name="LisaSnowman_hasCrafted" value="false" />
+		<Variable name="SantasLittleHelperSnowdog_new" value="true" />
+		<Variable name="SantasLittleHelperSnowdog_hasCrafted" value="false" />
+		<Variable name="GrampaSnowman_new" value="true" />
+		<Variable name="GrampaSnowman_hasCrafted" value="false" />
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="variable" variable="HasSeenNaughtyOrNicePanel" count="1" not="true" />
+				<Requirement type="quest started" quest="GonnaFindOutWhosNaughtyOrNice_1" />
+			</Requirements>
+			<Script package="XMAS2015_Scripts" name="Guide_Leaderboards_FriendTown" />
+		</OnEvent>
+		<HUDCurrencies buttonType="guide" guideButtonScript="XMAS2015_Scripts:GuidePanel_Event">
+			<Requirements>
+				<Requirement type="quest started" quest="TheDecorationInflation_4" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Currency type="XMAS2015ActivePrizeTrackCurrency"></Currency>
+			<Currency type="Baubles">
+				<Requirement type="quest started" quest="GonnaFindOutWhosNaughtyOrNice_1" />
+			</Currency>
+			<Currency type="Bows">
+				<Requirement type="quest started" quest="GonnaFindOutWhosNaughtyOrNice_1" />
+			</Currency>
+		</HUDCurrencies>
+		<SpawnOverTime character="Merrymaker" loggedOnSpawnTime="__XMAS2015_GameConfig:Merrymaker:SpawnRate__" loggedOffSpawnTime="__XMAS2015_GameConfig:Merrymaker:SpawnRate__" maxAllowedInTown="__XMAS2015_GameConfig:Merrymaker:Max__" regularBankMax="__XMAS2015_GameConfig:Merrymaker:BankMax__" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedMerryMakers" errorTitle="UI_XMAS2015_Merrymakers_TownFull_title" errorBody="UI_XMAS2015_Merrymakers_TownFull_text">
+			<Requirements>
+				<Requirement type="quest started" quest="TheDecorationInflation_4" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<FriendHUD regularActionText="UI_XMAS2015_FriendHUD_MainAction_Merrymakers" tipText="UI_XMAS2015_FriendHUD_tiptext">
+			<Requirements>
+				<Requirement type="level" level="5" />
+				<Requirement type="quest started" quest="TheWhiteElephantInTheRoom_4" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="XMAS2015" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="XMAS2015" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+		</FriendHUD>
+		<FriendHUDCurrencies buttonType="guide" guideButtonScript="XMAS2015_Scripts:GuidePanel_Event_Center">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="XMAS2015" />
+				<Requirement type="quest started" quest="TheWhiteElephantInTheRoom_4" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="XMAS2015" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+			<Currency type="FestiveHat">
+				<Requirement type="variable" variable="XMAS2015_Act1" />
+			</Currency>
+			<Currency type="Mistletoe">
+				<Requirement type="variable" variable="XMAS2015_Act2" />
+			</Currency>
+			<Currency type="Baubles" />
+		</FriendHUDCurrencies>
+		<Characters>
+			<Character name="Merrymaker">
+				<OnEvent onObject="Merrymaker" event="CharacterTouched" user="local">
+					<Script name="Merrymaker_RadiusTap" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent onObject="Merrymaker" event="CharacterTouched" user="remote">
+					<Script name="Merrymaker_FriendTap" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+						<Requirement type="quest started" quest="TheWhiteElephantInTheRoom_4" />
+					</Requirements>
+					<Script name="SpawnFirstFriendMerrymakers" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+						<Requirement type="quest started" quest="TheWhiteElephantInTheRoom_4" />
+					</Requirements>
+					<Script name="SpawnSecondFriendMerrymakers" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+						<Requirement type="quest started" quest="TheWhiteElephantInTheRoom_4" />
+					</Requirements>
+					<Script name="SpawnThirdFriendMerrymakers" package="XMAS2015_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<FakeFriendOverride>
+			<Building name="SimpsonHome" skin="SimpsonHome_Festive_03" />
+			<Building name="BrownHouse" skin="Decorated_BrownHouse" />
+			<Building name="FlandersHome" skin="FlandersHome_Festive_03" />
+			<Building name="PurpleHouse" skin="Decorated_PurpleHouse" />
+			<Building name="BlueHouse" skin="Decorated_BlueHouse" />
+			<Building name="VanHoutenHome" skin="VanHoutenHome_Decorated_01" />
+			<Building name="PinkHouse" skin="Decorated_PinkHouse" />
+			<Building name="WhiteHouse" skin="Decorated_WhiteHouse" />
+			<Building name="WilliesShack" skin="Decorated_WilliesShack" />
+			<Building name="OrangeHouse" skin="Decorated_OrangeHouse" />
+			<Building name="MuntzHouse" skin="Decorated_MuntzHouse" />
+			<Building name="KrabappelApartment" skin="Decorated_KrabappelApartment" />
+			<Building name="FrinksLab" skin="Decorated_FrinksLab" />
+			<Building name="VolcanoLair" skin="Decorated_VolcanoLair" />
+			<Building name="CletusFarm" skin="CletusFarm_Decorated_01" />
+			<Building name="PowerPlant" skin="CCT" />
+			<Building name="SkinnerHouse" skin="Decorated_SkinnerHouse" />
+			<Building name="FirstChurchofSpringfield" skin="FirstChurchofSpringfield_Decorated_01" />
+			<Building name="BurnsManor" skin="Decorated_FestiveBurnsManor" />
+			<Building name="FatTonysCompound" skin="Decorated_FestiveCompound" />
+			<Building name="WolfcastlesMansion" skin="Decorated_FestiveWolfcastlesMansion" />
+			<Building name="SanjaysHouse" skin="Decorated_FestiveSanjaysHouse" />
+			<Building name="MansionOfSolidGold" skin="Decorated_FestiveMansionOfSolidGold" />
+			<Building name="CrazyCatHouse" skin="Decorated_FestiveCrazyCatHouse" />
+			<Building name="ApusApartment" skin="Decorated_FestiveApusApartment" />
+			<Building name="Houseboat" skin="Decorated_FestiveHouseboat" />
+			<Building name="WiggumHouse" skin="Decorated_WiggumHome" />
+			<Building name="LardLadsDonuts" skin="Decorated_LardLadsDonuts" />
+		</FakeFriendOverride>
+		<Jobs override="true">
+			<Job name="TerrorizingChildrenWithAnimatronics" rushMultiplier="9.0">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:DuffCenterArenaJob__" />
+			</Job>
+			<Job name="TerrorizeSpringfield_XMAS">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:1HourReward__" xp="26" />
+			</Job>
+			<Job name="StarInTheSnowGlobe">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:2HourReward__" xp="40" />
+			</Job>
+			<Job name="CastASleepingSpell">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:4HourReward__" xp="70" />
+			</Job>
+			<Job name="DineAtAStoneTable">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:8HourReward__" xp="105" />
+			</Job>
+			<Job name="SitAndBrood">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:12HourReward__" xp="150" />
+			</Job>
+			<Job name="MutterDeplorableWords">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:24HourReward__" xp="225" />
+			</Job>
+			<Job name="PracticePlayingViolin">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:1HourReward__" xp="26" />
+			</Job>
+			<Job name="Get5PercentOffLunch">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:2HourReward__" xp="40" />
+			</Job>
+			<Job name="HangOutWithDad">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:4HourReward__" xp="70" />
+			</Job>
+			<Job name="HangOutWithDad_Dual">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:4HourReward__" xp="45" />
+			</Job>
+			<Job name="TellDadJokes">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:12HourReward__" xp="150" />
+			</Job>
+			<Job name="WriteToHerMom">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:24HourReward__" xp="225" />
+			</Job>
+			<Job name="StockShelvesWithXMASGoodies">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week00Challenge00" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week00Challenge00" />
+			</Job>
+			<Job name="GoCaroling">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week03Challenge01" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week03Challenge01" />
+			</Job>
+			<Job name="BuyAFestiveKippah">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week00Challenge04" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week00Challenge04" />
+			</Job>
+			<Job name="BuyATartanTamOShanter">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week00Challenge04" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week00Challenge04" />
+			</Job>
+			<Job name="BuyCheapTreesForSquisheeFiller">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week03Challenge00" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week03Challenge00" />
+			</Job>
+			<Job name="SearchForThePerfectChristmasTree">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week02Challenge01" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week02Challenge01" />
+			</Job>
+			<Job name="HarvestTermites">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week02Challenge03" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week02Challenge03" />
+			</Job>
+			<Job name="FindATreeThatResemblesJesus">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="XMAS2015_Week02Challenge04" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="XMAS2015_Week02Challenge04" />
+			</Job>
+			<Job name="ClearBuildspace">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="ClearBuildspace_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="WholesaleGingerbread">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="WholesaleGingerbread_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="ChewOffRoughEdges">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="ChewOffRoughEdges_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="AccidentallyInhaleMarkerFumes_1">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="GuesstimateMeasurements">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="8" />
+			</Job>
+			<Job name="GuesstimateMeasurements_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="12" />
+			</Job>
+			<Job name="MeasureAngles">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="MeasureAngles_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="AccidentallyInhaleMarkerFumes_2">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="WorkFeverishly">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="WorkFeverishly_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="MakeDemands">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="MakeDemands_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_3_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="DisposeOfExcessMaterials">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="DisposeOfExcessMaterials_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="AppreciateTheExtravagance">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="AppreciateTheExtravagance_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="AdmitDefeat">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="AdmitDefeat_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_4_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="PileUpSnow">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="PileUpSnow_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="UnpileSnow">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="UnpileSnow_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="EatSnow">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="EatSnow_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="PackSnow">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="8" />
+			</Job>
+			<Job name="PackSnow_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="12" />
+			</Job>
+			<Job name="ComplainAboutTheCold">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="ComplainAboutTheCold_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="PointOutProblems">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="PointOutProblems_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="PutSnowInAllTheWrongPlaces">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="PutSnowInAllTheWrongPlaces_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="MoveSnowForNoReason">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="MoveSnowForNoReason_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="MakeThingsWorse">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="MakeThingsWorse_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_3_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="PlanAWorkFlow">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="PlanAWorkFlow_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="BuySnowBuildingMaterials">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="BuySnowBuildingMaterials_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="PutACrazyIdeaToWork">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" />
+			</Job>
+			<Job name="PutACrazyIdeaToWork_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" not="true" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_4_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="60" />
+			</Job>
+			<Job name="GetDistractedByAnimals">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" />
+			</Job>
+			<Job name="GetDistractedByAnimals_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="60" />
+			</Job>
+			<Job name="ChaseWeirdAnimals">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="ChaseWeirdAnimals_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="LookUpTheWordExotic">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="LookUpTheWordExotic_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="PaintPandasToLookLikeKoalas">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" />
+			</Job>
+			<Job name="DressUpLizards">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="DressUpLizards_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="InvestInAnimalCostumes">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="InvestInAnimalCostumes_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="EatRawMeat">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="EatRawMeat_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="DeliverReindeerWings">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="DeliverReindeerWings_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="PredictAReindeerExtinctionEvent">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="PredictAReindeerExtinctionEvent_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="GatherSawdust">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="GatherSawdust_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="GrowSyntheticMeat">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="GrowSyntheticMeat_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="EatOverpricedSawdust">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="EatOverpricedSawdust_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="TakeCreativeLiberties">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="TakeCreativeLiberties_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="ViolateCanon">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="ViolateCanon_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="AddLensFlares">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="AddLensFlares_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="RunForIt_XMAS">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="RunForIt_XMAS_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="FindSomethingBetterToDo">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="16" />
+			</Job>
+			<Job name="FindSomethingBetterToDo_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="InvestElsewhere">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="InvestElsewhere_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="BuildValves">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="BuildValves_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="AttachContainers">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="AttachContainers_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="IdentifyRisks">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="IdentifyRisks_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_1_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="72" />
+			</Job>
+			<Job name="BrewShine_Kook">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="24" />
+			</Job>
+			<Job name="BrewShine_Kook_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_0" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_0" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="36" />
+			</Job>
+			<Job name="BrewShine_Senior">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" />
+			</Job>
+			<Job name="BrewShine_Senior_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="60" />
+			</Job>
+			<Job name="BrewShine_Dimwit">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="32" />
+			</Job>
+			<Job name="BrewShine_Dimwit_Premium">
+				<VisibilityRequirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_2" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015_Act2" />
+					<Requirement type="variable" variable="Maggie_Act3" not="true" />
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_2_2" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="48" />
+			</Job>
+			<Job name="AdmireHisCreation">
+				<Requirement type="quest started" quest="EffigyInWhite_5" />
+			</Job>
+		</Jobs>
+		<Buildings override="true">
+			<Building name="ThingsUnnecessary">
+				<TouchIcon value="Indicator_XMAS2015_Crafting.rgb" removeOnTouch="true">
+					<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Crafting" />
+				</TouchIcon>
+				<OnEvent event="BuildingTouched">
+					<Requirement type="players land" />
+					<Script name="TabPressed_Crafting" package="XMAS2015_Scripts" />
+				</OnEvent>
+			</Building>
+		</Buildings>
+		<Badges>
+			<Badge name="PrizeTrackBadge">
+				<Condition variable="PrizeTrackFirstAvailable">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct1Prize2">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize1_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct1Prize3">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize2_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct1Prize4">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize3_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct1Prize5">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize4_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct2Prize1">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="reqList" location="XMAS2015_Requirements:ActTwo" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct2Prize2">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize1_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct2Prize3">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize2_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct2Prize4">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize3_Target__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrackAct2Prize5">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_PrizeTrack" />
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize4_Target__" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="WinterProjectsBadge">
+				<Condition variable="WinterProjectsFirstAvailable">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_WinterProjects" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="CraftingBadge">
+				<Condition variable="CraftingFirstAvailable">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2015_Requirements:Tab_Crafting" />
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+		<Variable name="GuidePanelFirstAvailable" value="0" />
+		<Variable name="PrizeTrackFirstAvailable" value="0" />
+		<Variable name="PrizeTrackAct1Prize2" value="0" />
+		<Variable name="PrizeTrackAct1Prize3" value="0" />
+		<Variable name="PrizeTrackAct1Prize4" value="0" />
+		<Variable name="PrizeTrackAct1Prize5" value="0" />
+		<Variable name="PrizeTrackAct2Prize1" value="0" />
+		<Variable name="PrizeTrackAct2Prize2" value="0" />
+		<Variable name="PrizeTrackAct2Prize3" value="0" />
+		<Variable name="PrizeTrackAct2Prize4" value="0" />
+		<Variable name="PrizeTrackAct2Prize5" value="0" />
+	</SpecialEvent>
+	<SpecialEvent id="127001" name="XMAS2015_Act1">
+		<Variable name="XMAS2015_Act1" value="true" />
+		<Notifications location="XMAS2015_Notifications:Notifications">
+			<Notification name="MaxMerryMakerPN" />
+			<Notification name="MaxMerryMaker24PN" />
+			<Notification name="NewChallengesWeek1PN" />
+			<Notification name="NewChallengesWeek2PN" />
+		</Notifications>
+		<Jobs override="true">
+			<Job name="RunningTennisTournaments">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:GingerbreadMansionJob__" />
+			</Job>
+			<Job name="SpreadingWinterCheer">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:BestSnowmanEverJob__" />
+			</Job>
+			<Job name="SellingOverpricedHats" rushMultiplier="14.0">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:WoolyBullyJob__" />
+			</Job>
+		</Jobs>
+		<FriendsMap screenEffect="SnowFall" showCurrencyForFriends="true" currenciesToDisplay="1" icon="ICO_XMAS2015_FestiveHat_sm.rgb" type="FestiveHat" leaveSubStateAfterScript="false">
+			<Currency type="XMAS2015ActivePrizeTrackCurrency" />
+			<Script name="GuidePanel_Event_FriendMap" package="XMAS2015_Scripts" />
+		</FriendsMap>
+	</SpecialEvent>
+	<SpecialEvent id="127002" name="XMAS2015_Act2">
+		<Variable name="XMAS2015_Act2" value="true" />
+		<Variable name="ExoticPettingZoo_Graffiti" value="0" />
+		<Variable name="ReindeerBurgerTruck_Graffiti" value="0" />
+		<Variable name="FortressOfLonelitude_Graffiti" value="0" />
+		<Variable name="MoonshineShack_Graffiti" value="0" />
+		<PrizeListButton icon="ICO_MHUB_XMAS2015_Prizetrack2">
+			<Script package="XMAS2015_Scripts" name="TabPressed_PrizeTrack" />
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2015_Requirements:EventHubAvailable" />
+			</Requirements>
+		</PrizeListButton>
+		<Notifications location="XMAS2015_Notifications:Notifications">
+			<Notification name="MaxMerryMakerPN" />
+			<Notification name="MaxMerryMaker24PN" />
+			<Notification name="NewChallengesWeek3PN" />
+			<Notification name="NewChallengesWeek4PN" />
+		</Notifications>
+		<Jobs override="true">
+			<Job name="DressingUpAnimalsForALameShow">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:ExoticPettingZooJob__" />
+			</Job>
+			<Job name="ServingBurgersWithOnePercentReindeerMeat">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:ReindeerBurgerTruckJob__" />
+			</Job>
+			<Job name="BeingAPlaceOfSolaceForNerds">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:FortressOfLonelitudeJob__" />
+			</Job>
+			<Job name="SellingMoonshineWithBlindingProperties">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:MoonshineShackJob__" />
+			</Job>
+			<Job name="SellingIrregularTrees" rushMultiplier="14.0">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:XMASTreesIrregularJob__" />
+			</Job>
+		</Jobs>
+		<FriendsMap screenEffect="SnowFall" showCurrencyForFriends="true" currenciesToDisplay="1" icon="ICO_XMAS2015_Mistletoe_sm.rgb" type="Mistletoe" leaveSubStateAfterScript="false">
+			<Currency type="XMAS2015ActivePrizeTrackCurrency" />
+			<Script name="GuidePanel_Event_FriendMap" package="XMAS2015_Scripts" />
+		</FriendsMap>
+	</SpecialEvent>
+	<SpecialEvent id="127005" name="XMAS2015_Maggie">
+		<Variable name="XMAS2015_Maggie" value="true" />
+		<Variable name="HotSquisheeStationLevel" value="1" />
+		<Variable name="HasTicketImaginaryBears" value="0" />
+		<Variable name="ExoticPettingZoo_Graffiti_Fix" value="0" />
+		<Variable name="ReindeerBurgerTruck_Graffiti_Fix" value="0" />
+		<Variable name="FortressOfLonelitude_Graffiti_Fix" value="0" />
+		<Variable name="MoonshineShack_Graffiti_Fix" value="0" />
+		<Variable name="LucilleBReminderTime" value="0" />
+		<LoopScript package="XMAS2015_Scripts" script="ExoticPettingZoo_Idle" interval="10s" interval_variance="5s" loop="true" playThenWait="false">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+					<Requirement type="building" building="ExoticPettingZoo" />
+				</Requirement>
+			</Requirements>
+		</LoopScript>
+		<LoopScript package="XMAS2013_Scripts" script="WindSound" interval="20s" interval_variance="5s" loop="true" playThenWait="false">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+			</Requirements>
+		</LoopScript>
+		<OnEvent event="HeartbeatLoadComplete" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="players land" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script package="XMAS2015_Scripts" name="LandLoad" />
+		</OnEvent>
+		<Overrides>
+			<Override what="menu" from="FriendsIcon" to="ICO_MHUD_Friends_XMAS2015.rgb" />
+		</Overrides>
+		<Buildings override="true">
+			<Building name="HotSquisheeStation">
+				<JobCensusData enable="true" gotoOtherLandColour="CE7901FF" premiumBackgroundColour="001A2AD9" premiumToolTip="UI_XMAS2015_HotSquisheePremiumTip_text" menuHeaderText="" />
+				<AllowLevelUp value="true" useLevelUpMenuConfig="XMAS2015_MenuConfig:HotSquisheeStationLevelUpMenu" />
+				<StatusMenuReorder>
+					<BeforeJobs type="LevelUp" />
+					<BeforeJobs type="Premium" />
+					<BeforeJobs type="Crops" />
+					<BeforeJobs type="Census" />
+				</StatusMenuReorder>
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job name="BuyHotSquishee">
+				<VisibilityRequirements>
+					<Requirement type="quest started" quest="BartyItsColdOutside_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2015_Requirements:HotSquisheeStationJobsUnlocked" />
+				</Requirements>
+				<Reward LoyaltyStamps="__XMAS2015_GameConfig:HotSquisheeStation:CurrencyPerJob__" />
+			</Job>
+			<Job name="BuyHotSquishee_Premium">
+				<VisibilityRequirements>
+					<Requirement type="quest started" quest="BartyItsColdOutside_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="reqList" location="XMAS2015_Requirements:HotSquisheeStationJobsUnlocked" />
+				</Requirements>
+				<Reward LoyaltyStamps="__XMAS2015_GameConfig:HotSquisheeStation:CurrencyPerJob_Premium__" />
+			</Job>
+			<Job name="DigThroughTrash">
+				<Requirement type="active quest" quest="ATaleOfTwoOrphans_2" />
+			</Job>
+			<Job name="DecorateHisHouse">
+				<Requirement type="active quest" quest="TheDecorationInflation_1" />
+			</Job>
+			<Job name="FranticallyDecorateHisHouse">
+				<Requirement type="active quest" quest="TheDecorationInflation_2" />
+			</Job>
+			<Job name="AggressivelyDecorateHisHouse">
+				<Requirement type="active quest" quest="TheDecorationInflation_3" />
+			</Job>
+			<Job name="BuyBeerAndFood">
+				<Requirement type="active quest" quest="OutWithTheOld_1" />
+			</Job>
+			<Job name="BuyPartyPoppers">
+				<Requirement type="active quest" quest="OutWithTheOld_1" />
+			</Job>
+			<Job name="StealADiscoBall">
+				<Requirement type="active quest" quest="OutWithTheOld_1" />
+			</Job>
+			<Job name="BuyAChocolateFountain">
+				<Requirement type="active quest" quest="OutWithTheOld_1" />
+			</Job>
+			<Job name="StealIceSculptures">
+				<Requirement type="active quest" quest="OutWithTheOld_2" />
+			</Job>
+			<Job name="WayOverSleepForAPowerNap_XMAS">
+				<Requirement type="active quest" quest="OutWithTheOld_3" />
+			</Job>
+			<Job name="WayOverSleepForAPowerNap">
+				<Requirement type="active quest" quest="OutWithTheOld_3" not="true" />
+			</Job>
+			<Job name="CelebrateNewYears">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="OutWithTheOld_4a" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="OutWithTheOld_4a" />
+			</Job>
+			<Job name="CelebrateNewYearsB">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="OutWithTheOld_4b" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="OutWithTheOld_4b" />
+			</Job>
+			<Job name="CelebrateTheHoliday">
+				<Requirement type="active quest" quest="YouBetterNotCry_5" />
+			</Job>
+			<Job name="DecorateHisHouse_Milhouse">
+				<Requirement type="active quest" quest="DoYouSeeWhatISee_2" />
+			</Job>
+			<Job name="DecorateHisFarm">
+				<Requirement type="active quest" quest="DoYouSeeWhatISee_1" />
+			</Job>
+			<Job name="DecorateHisChurch">
+				<Requirement type="active quest" quest="DoYouSeeWhatISee_3" />
+			</Job>
+			<Job name="DesignAZoo">
+				<Requirement type="active quest" quest="OnceInRoyalQuimbysCity_1" />
+			</Job>
+			<Job name="VandalizeTheFortressOfLonelitude">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_1" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_1" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheFortressOfLonelitude_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_1" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_1" />
+				</Requirements>
+			</Job>
+			<Job name="RepairTheFortressOfLonelitude">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_2" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+					</Requirement>
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_2" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="RepairTheFortressOfLonelitude_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_2" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+					</Requirement>
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_2" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+					</Requirement>
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheMoonshineShack">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireComicBookGuy" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_2" />
+					</Requirement>
+					<Requirement type="building" building="MoonshineShack_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireComicBookGuy" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_2" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheMoonshineShack_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireComicBookGuy" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_2" />
+					</Requirement>
+					<Requirement type="building" building="MoonshineShack_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireComicBookGuy" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_2" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="RepairTheMoonshineShack">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_3" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+					</Requirement>
+					<Requirement type="building" building="MoonshineShack_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_3" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="RepairTheMoonshineShack_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_3" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+					</Requirement>
+					<Requirement type="building" building="MoonshineShack_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_3" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="EatAPeaceOffering">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+				</Requirements>
+			</Job>
+			<Job name="EatAPeaceOffering_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_1" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheReindeerBurgerTruck">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireCletus" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_3" />
+					</Requirement>
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireCletus" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_3" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheReindeerBurgerTruck_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireCletus" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_3" />
+					</Requirement>
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BurningWreathOfFireCletus" allowDeprecate="true" />
+						<Requirement type="active quest" quest="OhComeAllYeVengeful_3" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="RepairTheReindeerBurgerTruck">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_4" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+					</Requirement>
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_4" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="RepairTheReindeerBurgerTruck_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_4" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+					</Requirement>
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="YouBetterNotCry_4" />
+						<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="PassOutDrunk">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+					<Requirement type="building" building="MoonshineShack_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+				</Requirements>
+			</Job>
+			<Job name="PassOutDrunk_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+					<Requirement type="building" building="MoonshineShack_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_2" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheExoticPettingZoo">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_4" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_4" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheExoticPettingZoo_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_4" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="OhComeAllYeVengeful_4" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheFortressOfLonelitude_Krusty">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="BurningWreathOfFireKrusty" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="BurningWreathOfFireKrusty" />
+				</Requirements>
+			</Job>
+			<Job name="VandalizeTheFortressOfLonelitude_Krusty_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="BurningWreathOfFireKrusty" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="BurningWreathOfFireKrusty" />
+				</Requirements>
+			</Job>
+			<Job name="RepairTheExoticPettingZoo">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+				</Requirements>
+			</Job>
+			<Job name="RepairTheExoticPettingZoo_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+				</Requirements>
+			</Job>
+			<Job name="CookWithRoadkill">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+				</Requirements>
+			</Job>
+			<Job name="CookWithRoadkill_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_3" />
+				</Requirements>
+			</Job>
+			<Job name="TakeMaggieToTheZoo">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="YouBetterNotCry_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="YouBetterNotCry_1" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="building" building="ExoticPettingZoo" />
+						<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="CleanUpTheHouse">
+				<Requirement type="active quest" quest="ImaginaryFriends_1" />
+			</Job>
+			<Job name="PlayInHerRoom_XMAS">
+				<Requirement type="active quest" quest="ImaginaryFriends_1" />
+			</Job>
+			<Job name="StealEachOthersCustomers_Moe">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_Moe_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="ReindeerBurgerTruck_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_Cletus">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_Cletus_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_Krusty">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_Krusty_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="FortressOfLonelitude_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_CBGuy">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="MoonshineShack_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="StealEachOthersCustomers_CBGuy_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+					<Requirement type="building" building="MoonshineShack_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="TheTruthInTheTantrums" />
+				</Requirements>
+			</Job>
+			<Job name="PocketAPeaceOffering">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" not="true" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+				</Requirements>
+			</Job>
+			<Job name="PocketAPeaceOffering_Buildable">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+					<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="SeemsToBeTheHardestWord_4" />
+				</Requirements>
+			</Job>
+			<Job name="RegisterAsAnOrphan">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="SpringfieldOrphanage" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="SpringfieldOrphanage" />
+			</Job>
+			<Job name="GoChristmasShopping">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="AbercrombieAndRich" />
+				</VisibilityRequirements>
+				<Requirement type="active quest" quest="AbercrombieAndRich" />
+			</Job>
+		</Jobs>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="XMAS2015_PrizeTrackConfig:PrizeTrack1">
+				<Prize name="BLD_LeftoriumExpress_name" listIcon="ICO_PRIZ_XMAS2015_LeftoriumExpress_MD" rewardIcon="ICO_PRIZ_XMAS2015_LeftoriumExpress_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act1Prizes:Prize1_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize1_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="LeftoriumExpress" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SpringfieldOrphanage_name" listIcon="ICO_PRIZ_XMAS2015_SpringfieldOrphanage_MD" rewardIcon="ICO_PRIZ_XMAS2015_SpringfieldOrphanage_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act1Prizes:Prize2_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize2_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="SpringfieldOrphanage" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_DancingReindeer_name" listIcon="ICO_PRIZ_XMAS2015_DancingReindeer_MD" rewardIcon="ICO_PRIZ_XMAS2015_DancingReindeer_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act1Prizes:Prize3_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize3_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="DancingReindeer" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_VirgilsCabin_name" listIcon="ICO_PRIZ_XMAS2015_CanadianCabin_MD" rewardIcon="ICO_PRIZ_XMAS2015_CanadianCabin_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act1Prizes:Prize4_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize4_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="VirgilsCabin" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_PatchesAndPoorViolet_name" listIcon="ICO_PRIZ_XMAS2015_VioletPoorPatches_MD" rewardIcon="ICO_PRIZ_XMAS2015_VioletPoorPatches_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act1Prizes:Prize5_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="FestiveHat" amount="__XMAS2015_GameConfig:Act1Prizes:Prize5_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="PatchesAndPoorViolet" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="XMAS2015_PrizeTrackConfig:PrizeTrack2">
+				<Prize name="BLD_YourPictureOnARembrandt_name" listIcon="ICO_PRIZ_XMAS2015_YourRembrant_MD" rewardIcon="ICO_PRIZ_XMAS2015_YourRembrant_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act2Prizes:Prize1_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize1_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="YourPictureOnARembrandt" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_AbercrombieAndRich_name" listIcon="ICO_PRIZ_XMAS2015_AbercrombieAndRich_MD" rewardIcon="ICO_PRIZ_XMAS2015_AbercrombieAndRich_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act2Prizes:Prize2_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize2_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="AbercrombieAndRich" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_YeOldeChocolateShoppe_name" listIcon="ICO_PRIZ_XMAS2015_YeOldeChocolateShoppe_MD" rewardIcon="ICO_PRIZ_XMAS2015_YeOldeChocolateShoppe_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act2Prizes:Prize3_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize3_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="YeOldeChocolateShoppe" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_BuckinghamPayLessMotel_name" listIcon="ICO_PRIZ_XMAS2015_BuckinghamPaylessMotel_MD" rewardIcon="ICO_PRIZ_XMAS2015_BuckinghamPaylessMotel_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act2Prizes:Prize4_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize4_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="BuckinghamPayLessMotel" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_Festivus_name" listIcon="ICO_PRIZ_XMAS2015_FestivusComicBookGuy_MD" rewardIcon="ICO_PRIZ_XMAS2015_FestivusComicBookGuy_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act2Prizes:Prize5_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Mistletoe" amount="__XMAS2015_GameConfig:Act2Prizes:Prize5_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="Festivus" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="2" type="local" menuConfig="XMAS2015_PrizeTrackConfig:PrizeTrack3">
+				<Prize name="CHA_KearneysOtherSon_name" listIcon="ICO_PRIZ_XMAS2015_KearneysOtherSon_MD" rewardIcon="ICO_PRIZ_XMAS2015_KearneysOtherSon_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act3Prizes:Prize1_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Soothers" amount="__XMAS2015_GameConfig:Act3Prizes:Prize1_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="KearneysOtherSon" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_MrsSinclair_name" listIcon="ICO_PRIZ_XMAS2015_MsSinclair_MD" rewardIcon="ICO_PRIZ_XMAS2015_MsSinclair_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act3Prizes:Prize2_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Soothers" amount="__XMAS2015_GameConfig:Act3Prizes:Prize2_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="MrsSinclair" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_WallEWeasels_name" listIcon="ICO_PRIZ_XMAS2015_WallEWeasels_MD" rewardIcon="ICO_PRIZ_XMAS2015_WallEWeasels_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act3Prizes:Prize3_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Soothers" amount="__XMAS2015_GameConfig:Act3Prizes:Prize3_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="WallEWeasels" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_BabyGerald_name" listIcon="ICO_PRIZ_XMAS2015_BabyGerald_MD" rewardIcon="ICO_PRIZ_XMAS2015_BabyGerald_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__XMAS2015_GameConfig:Act3Prizes:Prize4_RushRate__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="special currency" currency="Soothers" amount="__XMAS2015_GameConfig:Act3Prizes:Prize4_Target__" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="BabyGerald" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+	</SpecialEvent>
+	<SpecialEvent id="127006" name="Maggie_Act3">
+		<Variable name="Maggie_Act3" value="true" />
+		<Variable name="BankedBears" value="0" />
+		<Variable name="ImaginaryBearTap" value="0" />
+		<Variable name="ImaginaryBearTapFriend" value="0" />
+		<Variable name="ImaginaryBearTapRadius" value="5" />
+		<Variable name="ShowEmptyBears" value="false" />
+		<HUDCurrencies buttonType="guide" guideButtonScript="XMAS2015_Scripts:GuidePanel_Event">
+			<Requirements>
+				<Requirement type="quest started" quest="ImaginaryFriends_2" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Currency type="Soothers"></Currency>
+		</HUDCurrencies>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="SimpsonHome" priority="1" />
+			</LandInfo>
+		</LandInfos>
+		<FriendsMap screenEffect="SnowFall" showCurrencyForFriends="true" currenciesToDisplay="1" icon="ICO_XMAS2015_Soother_SM.rgb" type="Soothers" leaveSubStateAfterScript="false">
+			<Currency type="XMAS2015ActivePrizeTrackCurrency" />
+			<Script name="GuidePanel_Event_FriendMap" package="XMAS2015_Scripts" />
+		</FriendsMap>
+		<PrizeListButton icon="ICO_MHUB_XMAS2015_MaggiePrizetrack">
+			<Script package="XMAS2015_Scripts" name="TabPressed_PrizeTrack" />
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2015_Requirements:EventHubAvailable" />
+			</Requirements>
+		</PrizeListButton>
+		<Notifications location="XMAS2015_Notifications:Notifications">
+			<Notification name="MaxBearsPN" />
+			<Notification name="MaxBears24PN" />
+		</Notifications>
+		<SpawnOverTime character="ImaginaryBear" loggedOnSpawnTime="__XMAS2015_GameConfig:ImaginaryBear:SpawnRate__" loggedOffSpawnTime="__XMAS2015_GameConfig:ImaginaryBear:SpawnRate__" maxAllowedInTown="__XMAS2015_GameConfig:ImaginaryBear:Max__" regularBankMax="__XMAS2015_GameConfig:ImaginaryBear:BankMax__" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedBears" errorTitle="UI_XMAS2015_ImaginaryBear_TownFull_title" errorBody="UI_XMAS2015_ImaginaryBear_TownFull_text">
+			<Requirement type="quest started" quest="ImaginaryFriends_2" />
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<FriendHUD regularActionText="UI_XMAS2015_FriendHUD_MainAction_ImaginaryBears" tipText="UI_XMAS2015_FriendHUD_tiptext_maggie">
+			<Requirements>
+				<Requirement type="level" level="5" />
+				<Requirement type="quest started" quest="ImaginaryFriends_3" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Maggie_Act3" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="Maggie_Act3" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+		</FriendHUD>
+		<FriendHUDCurrencies buttonType="guide" guideButtonScript="XMAS2015_Scripts:GuidePanel_Event_Center">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Maggie_Act3" />
+				<Requirement type="quest started" quest="ImaginaryFriends_3" />
+			</Requirements>
+			<Currency type="Soothers" />
+		</FriendHUDCurrencies>
+		<Jobs override="true">
+			<Job name="WatchTheHappyLittleElvesDVD">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:1HourJob__" xp="17" />
+			</Job>
+			<Job name="PracticeLoathingGerald">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourJob__" xp="45" />
+			</Job>
+			<Job name="DrinkMilkAtMoes">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:8HourJob__" xp="70" />
+			</Job>
+			<Job name="DanceToRepetitiveChildrensSongs">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:12HourJob__" xp="100" />
+			</Job>
+			<Job name="TakeANap_Maggie">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:24HourJob__" xp="150" />
+			</Job>
+			<Job name="ExploreThePlaydoughFactory">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourJob__" xp="45" />
+			</Job>
+			<Job name="PlayWithButterflies">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:12HourJob__" xp="100" />
+			</Job>
+			<Job name="TakeMaggieForAWalk">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:8HourJob__" xp="70" />
+			</Job>
+			<Job name="TakeMaggieForAQuickWalk">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourJob__" xp="45" />
+			</Job>
+			<Job name="MaggieWalkWithMarge">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:8HourJob__" xp="70" />
+			</Job>
+			<Job name="MaggieWalkWithMargeQuick">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourJob__" xp="45" />
+			</Job>
+			<Job name="PacifyABear">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourJob__" xp="45" />
+			</Job>
+			<Job name="DrownHerSorrowsInBeets">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourJob__" xp="45" />
+			</Job>
+			<Job name="ChangeMaggie">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:4HourDualJob__" xp="90" />
+			</Job>
+			<Job name="StartAtPreschool">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:8HourJob__" xp="70" />
+			</Job>
+			<Job name="TeachHomerHowItWorks">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Maggie:8HourJob__" xp="70" />
+			</Job>
+			<Job name="Flutenastics">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:1HourReward__" xp="26" />
+			</Job>
+			<Job name="StayWithFamily">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:4HourReward__" xp="70" />
+			</Job>
+			<Job name="PaintAMasterpiece">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:8HourReward__" xp="105" />
+			</Job>
+			<Job name="SpeakAtAPreKLevel">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:12HourReward__" xp="150" />
+			</Job>
+			<Job name="SleepLikeAnAngel">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:24HourReward__" xp="225" />
+			</Job>
+			<Job name="TakeCareOfTheChildren">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:1HourReward__" xp="26" />
+			</Job>
+			<Job name="AvoidSpringfieldPD">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:4HourReward__" xp="70" />
+			</Job>
+			<Job name="ForciblyWatchHappyLittleElves">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:8HourReward__" xp="105" />
+			</Job>
+			<Job name="VisitAlmaMater">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:12HourReward__" xp="150" />
+			</Job>
+			<Job name="RobAHouse">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:24HourReward__" xp="225" />
+			</Job>
+			<Job name="MakingChildrenBarfTheirLunch" rushMultiplier="8.0">
+				<Reward XMAS2015ActivePrizeTrackCurrency="__XMAS2015_GameConfig:Misc:SlideFactoryJob__" />
+			</Job>
+		</Jobs>
+		<Characters>
+			<Character name="ImaginaryBear">
+				<OnEvent onObject="ImaginaryBear" event="CharacterTouched" user="local">
+					<Script name="ImaginaryBear_RadiusTap" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent onObject="ImaginaryBear" event="CharacterTouched" user="remote">
+					<Script name="ImaginaryBear_FriendTap" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+						<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+						<Requirement type="quest started" quest="ImaginaryFriends_3" />
+					</Requirements>
+					<Script name="SpawnFirstFriendImaginaryBears" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+						<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+						<Requirement type="quest started" quest="ImaginaryFriends_3" />
+					</Requirements>
+					<Script name="SpawnSecondFriendImaginaryBears" package="XMAS2015_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+						<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+						<Requirement type="quest started" quest="ImaginaryFriends_3" />
+					</Requirements>
+					<Script name="SpawnThirdFriendImaginaryBears" package="XMAS2015_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+	</SpecialEvent>
+	<SpecialEvent id="127010" name="XMAS2015DailyPrizeAct1">
+		<Variable name="XMAS2015DailyPrizeAct1" value="true" />
+		<DailyBonus>
+			<Day id="1">
+				<Reward>
+					<Item type="consumable" name="XMAS2015DailyPrizeAct1Day1" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="2">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct1Day2" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="3">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct1Day3" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="4">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct1Day4" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="5">
+				<Reward>
+					<Cost price="5" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct1Day5" useImmediately="true" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="127011" name="XMAS2015DailyPrizeAct2">
+		<Variable name="XMAS2015DailyPrizeAct2" value="true" />
+		<DailyBonus>
+			<Day id="1">
+				<Reward>
+					<Item type="consumable" name="XMAS2015DailyPrizeAct2Day1" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="2">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct2Day2" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="3">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct2Day3" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="4">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct2Day4" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="5">
+				<Reward>
+					<Cost price="5" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct2Day5" useImmediately="true" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="127012" name="XMAS2015DailyPrizeAct3">
+		<Variable name="XMAS2015DailyPrizeAct3" value="true" />
+		<DailyBonus>
+			<Day id="1">
+				<Reward>
+					<Item type="consumable" name="XMAS2015DailyPrizeAct3Day1" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="2">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct3Day2" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="3">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct3Day3" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="4">
+				<Reward>
+					<Cost price="1" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct3Day4" useImmediately="true" />
+				</Reward>
+			</Day>
+			<Day id="5">
+				<Reward>
+					<Cost price="5" />
+					<Item type="consumable" name="XMAS2015DailyPrizeAct3Day5" useImmediately="true" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="127110" name="XMAS2015_NaughtyOrNice">
+		<SpecialButtons>
+			<Button mode="friend" icon="ICO_FHUD_DropPresent_SE" counter="true" identifier="PresentsDroppedSel">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="friendvariable" variable="DonePresentDropQuests" />
+							<Requirement type="friendvariable" variable="XMAS2015" />
+						</Requirement>
+						<Requirement type="fakefriend" />
+					</Requirement>
+				</Requirements>
+				<CounterSource source="System::evaluate('Selector::PresentsDroppedSel')" type="formula" />
+				<RunScript>
+					<Script name="ShowNaughtyOrNicePrompt" package="XMAS2015_Scripts_NaughtyOrNice" />
+				</RunScript>
+			</Button>
+			<Button mode="friendmap" icon="ICO_MHUD_XMAS2015_LeaderBoard.rgb">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2015" />
+					<Requirement type="quest" quest="GonnaFindOutWhosNaughtyOrNice_2" />
+				</Requirements>
+				<RunScript>
+					<Script name="SpecialEventButtonInFriendMapPressed" package="XMAS2015_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<OnEvent event="HeartbeatLoadComplete" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="players land" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script package="XMAS2015_Scripts_NaughtyOrNice" name="HeartbeatLoadComplete" />
+		</OnEvent>
+		<Variable name="PendingNiceOnNice" value="0" />
+		<Variable name="PendingNiceOnNaughty" value="0" />
+		<Variable name="PendingNaughtyOnNaughty" value="0" />
+		<Variable name="PendingNaughtyOnNice" value="0" />
+		<Variable name="TotalNiceOnNice" value="0" />
+		<Variable name="TotalNiceOnNaughty" value="0" />
+		<Variable name="TotalNaughtyOnNaughty" value="0" />
+		<Variable name="TotalNaughtyOnNice" value="0" />
+		<Variable name="PendingNaughtyOrNiceBows" owner="0" value="0" />
+		<Variable name="NiceOnNice_OpenerReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NiceOnNice_Opener__" />
+		<Variable name="NiceOnNaughty_OpenerReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NiceOnNaughty_Opener__" />
+		<Variable name="NaughtyOnNice_OpenerReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NaughtyOnNice_Opener__" />
+		<Variable name="NaughtyOnNaughty_OpenerReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NaughtyOnNaughty_Opener__" />
+		<Variable name="NiceOnNice_DropperReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NiceOnNice_Dropper__" />
+		<Variable name="NiceOnNaughty_DropperReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NiceOnNaughty_Dropper__" />
+		<Variable name="NaughtyOnNice_DropperReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NaughtyOnNice_Dropper__" />
+		<Variable name="NaughtyOnNaughty_DropperReward" owner="0" value="__XMAS2015_GameConfig:NaughtyOrRewards:NaughtyOnNaughty_Dropper__" />
+		<GeneralBuffers>
+			<Buffer name="PresentData" id="1" />
+			<Buffer name="NaughtyOrNiceFriendBehaviour" id="2" />
+		</GeneralBuffers>
+		<BuildingRespawner maxInstancesToRespawn="0" sequenceDuration="0s" respawnOnLandVisitThreshold="0h">
+			<Item buildingName="NaughtyPresent" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+			<Item buildingName="NicePresent" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+		</BuildingRespawner>
+	</SpecialEvent>
+	<SpecialEvent id="127111" name="XMAS2015_FindMinigame">
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="WasInFindMinigame" count="1" />
+					<Requirement type="formula" formula="System::evaluate('Minigame::FindMaggie::Active') == 1" />
+				</Requirement>
+			</Requirements>
+			<Script name="FindMinigameOnLandEnter" package="Maggie_Scripts" />
+		</OnEvent>
+		<Notifications location="XMAS2015_Notifications:Notifications">
+			<Notification name="MinigameReadyPN" />
+		</Notifications>
+		<List name="FindGroup">
+			<String name="SimpsonHome" />
+			<String name="CletusFarm" />
+			<String name="KrustyBurger" />
+			<String name="VanHoutenHome" />
+			<String name="SpringfieldElementary" />
+			<String name="SpringfieldLibrary" />
+			<String name="AndroidsDungeon" />
+			<String name="FirstChurchofSpringfield" />
+			<String name="MoesTavern" />
+			<String name="PoliceStation" />
+			<String name="Luigis" />
+			<String name="SpringfieldRetirementCastle" />
+			<String name="TownHall" />
+			<String name="SpringfieldWaxMuseum" />
+			<String name="ZiffCorpOfficeBuilding" />
+			<String name="PurpleHouse" />
+			<String name="BlueHouse" />
+			<String name="PinkHouse" />
+			<String name="WhiteHouse" />
+			<String name="OrangeHouse" />
+			<String name="LardLadsDonuts" />
+		</List>
+		<BuildingGroupNames>
+			<Group name="FindMinigame" />
+		</BuildingGroupNames>
+		<Buildings override="true" list="FindGroup">
+			<Building>
+				<Group name="FindMinigame" />
+				<EffectOverlays>
+					<EffectOverlay bsv3="Maggie_Hiding_{Object::Name}_In.bcell" anim="Maggie_Hiding_{Object::Name}_In.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" formulaRequirement="and(AllowMaggieOverlays, and(Object::MaggieIn, Object::Flipped::AsInt==0))" ignoreFlip="true">
+						<AmbientSound soundKit="wheresmaggie_soother_loop" />
+					</EffectOverlay>
+					<EffectOverlay bsv3="Maggie_Hiding_{Object::Name}Flipped_In.bcell" anim="Maggie_Hiding_{Object::Name}Flipped_In.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" formulaRequirement="and(AllowMaggieOverlays, and(Object::MaggieIn, Object::Flipped::AsInt==1))" ignoreFlip="true">
+						<AmbientSound soundKit="wheresmaggie_soother_loop" />
+					</EffectOverlay>
+					<EffectOverlay bsv3="Maggie_Hiding_{Object::Name}_Maggie.bcell" anim="Maggie_Hiding_{Object::Name}_Maggie.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" formulaRequirement="and(AllowMaggieOverlays, and(Object::Maggie, Object::Flipped::AsInt==0))" ignoreFlip="true">
+						<AmbientSound soundKit="wheresmaggie_soother_loop" />
+					</EffectOverlay>
+					<EffectOverlay bsv3="Maggie_Hiding_{Object::Name}Flipped_Maggie.bcell" anim="Maggie_Hiding_{Object::Name}Flipped_Maggie.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" formulaRequirement="and(AllowMaggieOverlays, and(Object::Maggie, Object::Flipped::AsInt==1))" ignoreFlip="true">
+						<AmbientSound soundKit="wheresmaggie_soother_loop" />
+					</EffectOverlay>
+					<EffectOverlay bsv3="Maggie_Hiding_{Object::Name}_Out.bcell" anim="Maggie_Hiding_{Object::Name}_Out.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" formulaRequirement="and(AllowMaggieOverlays, and(Object::MaggieOut, Object::Flipped::AsInt==0))" ignoreFlip="true">
+						<AmbientSound soundKit="wheresmaggie_soother_loop" />
+					</EffectOverlay>
+					<EffectOverlay bsv3="Maggie_Hiding_{Object::Name}Flipped_Out.bcell" anim="Maggie_Hiding_{Object::Name}Flipped_Out.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" formulaRequirement="and(AllowMaggieOverlays, and(Object::MaggieOut, Object::Flipped::AsInt==1))" ignoreFlip="true">
+						<AmbientSound soundKit="wheresmaggie_soother_loop" />
+					</EffectOverlay>
+				</EffectOverlays>
+			</Building>
+		</Buildings>
+		<Variable name="WasInFindMinigame" value="0" />
+		<Variable name="MaggieFoundCount" value="0" />
+		<Variable name="AnimateFoundCount" value="0" />
+		<Variable name="AwardFindMinigame" value="0" />
+		<Variable name="AllowMaggieOverlays" value="0" owner="0" />
+	</SpecialEvent>
+	<SpecialEvent id="127112" name="XMAS2015_WeeklyChallenges">
+		<Variable name="XMAS2015_Week00Challenge00_new" value="true" />
+		<Variable name="XMAS2015_Week00Challenge01_new" value="true" />
+		<Variable name="XMAS2015_Week00Challenge02_new" value="true" />
+		<Variable name="XMAS2015_Week00Challenge03_new" value="true" />
+		<Variable name="XMAS2015_Week00Challenge04_new" value="true" />
+		<Variable name="XMAS2015_Week01Challenge00_new" value="true" />
+		<Variable name="XMAS2015_Week01Challenge01_new" value="true" />
+		<Variable name="XMAS2015_Week01Challenge02_new" value="true" />
+		<Variable name="XMAS2015_Week01Challenge03_new" value="true" />
+		<Variable name="XMAS2015_Week01Challenge04_new" value="true" />
+		<Variable name="XMAS2015_Week02Challenge00_new" value="true" />
+		<Variable name="XMAS2015_Week02Challenge01_new" value="true" />
+		<Variable name="XMAS2015_Week02Challenge02_new" value="true" />
+		<Variable name="XMAS2015_Week02Challenge03_new" value="true" />
+		<Variable name="XMAS2015_Week02Challenge04_new" value="true" />
+		<Variable name="XMAS2015_Week03Challenge00_new" value="true" />
+		<Variable name="XMAS2015_Week03Challenge01_new" value="true" />
+		<Variable name="XMAS2015_Week03Challenge02_new" value="true" />
+		<Variable name="XMAS2015_Week03Challenge03_new" value="true" />
+		<Variable name="XMAS2015_Week03Challenge04_new" value="true" />
+		<Variable name="XMAS2015_Week00_grant_bonus" value="false" />
+		<Variable name="XMAS2015_Week01_grant_bonus" value="false" />
+		<Variable name="XMAS2015_Week02_grant_bonus" value="false" />
+		<Variable name="XMAS2015_Week03_grant_bonus" value="false" />
+		<QuestLists>
+			<QuestList id="0">
+				<UnlockVisiblityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="0" endOffset="7d" useTimezoneOffset="true" />
+						<Requirement type="variable" variable="XMAS2015_Week00_grant_bonus" count="1" />
+					</Requirement>
+					<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+				</UnlockVisiblityRequirements>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot00" id="1">
+					<Quest questname="XMAS2015_Week00Challenge00" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="0" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot01" id="2">
+					<Quest questname="XMAS2015_Week00Challenge01" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="1d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot02" id="3">
+					<Quest questname="XMAS2015_Week00Challenge02" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="2d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot03" id="4">
+					<Quest questname="XMAS2015_Week00Challenge03" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="3d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot04" id="5">
+					<Quest questname="XMAS2015_Week00Challenge04" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="4d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+			</QuestList>
+			<QuestList id="1">
+				<UnlockVisiblityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="7d" endOffset="14d" useTimezoneOffset="true" />
+						<Requirement type="variable" variable="XMAS2015_Week01_grant_bonus" count="1" />
+					</Requirement>
+					<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+				</UnlockVisiblityRequirements>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot05" id="1">
+					<Quest questname="XMAS2015_Week01Challenge00" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="7d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot06" id="2">
+					<Quest questname="XMAS2015_Week01Challenge01" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="8d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot07" id="3">
+					<Quest questname="XMAS2015_Week01Challenge02" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="9d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot08" id="4">
+					<Quest questname="XMAS2015_Week01Challenge03" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="10d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot09" id="5">
+					<Quest questname="XMAS2015_Week01Challenge04" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="11d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+			</QuestList>
+			<QuestList id="2">
+				<UnlockVisiblityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="14d" endOffset="21d" useTimezoneOffset="true" />
+						<Requirement type="variable" variable="XMAS2015_Week02_grant_bonus" count="1" />
+					</Requirement>
+					<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+				</UnlockVisiblityRequirements>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot10" id="1">
+					<Quest questname="XMAS2015_Week02Challenge00" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="14d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot11" id="2">
+					<Quest questname="XMAS2015_Week02Challenge01" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="15d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot12" id="3">
+					<Quest questname="XMAS2015_Week02Challenge02" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="16d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot13" id="4">
+					<Quest questname="XMAS2015_Week02Challenge03" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="17d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot14" id="5">
+					<Quest questname="XMAS2015_Week02Challenge04" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="18d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+			</QuestList>
+			<QuestList id="3">
+				<UnlockVisiblityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="21d" endOffset="28d" useTimezoneOffset="true" />
+						<Requirement type="variable" variable="XMAS2015_Week02_grant_bonus" count="1" />
+					</Requirement>
+					<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+				</UnlockVisiblityRequirements>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot15" id="1">
+					<Quest questname="XMAS2015_Week03Challenge00" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="21d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot16" id="2">
+					<Quest questname="XMAS2015_Week03Challenge01" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="22d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot17" id="3">
+					<Quest questname="XMAS2015_Week03Challenge02" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="23d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot18" id="4">
+					<Quest questname="XMAS2015_Week03Challenge03" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="24d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+				<QuestLot config="XMAS2015_WeeklyChallenges_QuestLots:QuestLot19" id="5">
+					<Quest questname="XMAS2015_Week03Challenge04" />
+					<UnlockRequirements>
+						<Requirement type="relative time" defaultTime="XMASFifteen_Challenges_Start" startOffset="25d" useTimezoneOffset="true" />
+						<Requirement type="quest started" quest="FestiveSpontaneityScheduled" />
+					</UnlockRequirements>
+				</QuestLot>
+			</QuestList>
+		</QuestLists>
+	</SpecialEvent>
+	<SpecialEvent id="127113" name="XMAS2015_FriendTappables">
+		<SuppressFriendActions>
+			<ShopRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+				</Requirement>
+			</ShopRequirements>
+			<FarmRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+				</Requirement>
+			</FarmRequirements>
+			<VandalismRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+				</Requirement>
+			</VandalismRequirements>
+			<PushNoteRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="XMAS2015_Maggie" />
+				</Requirement>
+			</PushNoteRequirements>
+		</SuppressFriendActions>
+	</SpecialEvent>
+	<SpecialEvent id="127150" name="XMAS2015_Act1_CrossOver">
+		<LoopScript scheduleTime="XMASFifteen_ActTwo" package="XMAS2015_Scripts" interval="1s" script="CheckOver1" loop="false" />
+	</SpecialEvent>
+	<SpecialEvent id="127151" name="XMAS2015_Act2_CrossOver">
+		<LoopScript scheduleTime="XMASFifteen_EndDate" package="XMAS2015_Scripts" interval="1s" script="CheckOver2" loop="false" />
+	</SpecialEvent>
+	<SpecialEvent id="127152" name="MaggieMiniGame">
+		<Buildings override="true">
+			<Building name="PlaydoughFactory">
+				<StatusMenuPrize formula="MaggieFoundCount" animateFormula="AnimateFoundCount" descText="UI_Maggie_StatusMenu_desc" countTitle="UI_Maggie_StatusMenu_count_title" prizeAtlas="ICO_GENR_DONUT_MD" animDoneScript="Maggie_Scripts:StatusMenuPrizeAnimDone" collectbsv="ICO_XMAS2015_MaggieHead" activeAnim="MaggieCheckTransition" staticAnim="MaggieCheckedStatic" uncollectedAnim="MaggieGreyStatic" />
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="127153" name="XMAS2015_BuildablePrizeLots">
+		<Jobs override="true">
+			<Job name="ThinkBig">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_0_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="GingerbreadMansion_QuestLot_0_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" xp="90" />
+			</Job>
+			<Job name="PileSnow">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_0_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="BestSnowmanEver_QuestLot_0_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="1" xp="1" />
+			</Job>
+			<Job name="ShovelDung">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_0_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="ExoticPettingZoo_QuestLot_0_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="1" xp="1" />
+			</Job>
+			<Job name="BorrowFromTheTill">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_0_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="ReindeerBurgerTruck_QuestLot_0_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" xp="90" />
+			</Job>
+			<Job name="SpendFridayNightAlone">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_0_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="FortressOfLonelitude_QuestLot_0_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" xp="90" />
+			</Job>
+			<Job name="SampleTheGoods">
+				<VisibilityRequirements>
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_0_1" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="active quest" quest="MoonshineShack_QuestLot_0_1" />
+				</Requirements>
+				<Reward XMAS2015ActivePrizeTrackCurrency="40" xp="90" />
+			</Job>
+		</Jobs>
+		<QuestLists>
+			<QuestList id="0">
+				<QuestLot config="XMAS2015_QuestLots:GingerbreadMansion_Lot00" id="1" rushMode="nothing">
+					<Quest questname="GingerbreadMansion_QuestLot_0_0" clue="QST_GingerbreadMansion_QuestLot_0_0_2_obj_1" census="false" />
+					<Quest questname="GingerbreadMansion_QuestLot_0_1" clue="QST_GingerbreadMansion_QuestLot_0_1_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:GingerbreadMansion_Lot01" id="2" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="GingerbreadMansion_QuestLot_1_0" rushcost="40" clue="QST_GingerbreadMansion_QuestLot_1_0_2_obj_1" census="true" censusTitle="UI_Group_Youngsters" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_1_1" rushcost="60" clue="QST_GingerbreadMansion_QuestLot_1_1_2_obj_1" census="true" censusTitle="UI_Group_Entrepreneurs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_1_2" rushcost="40" clue="QST_GingerbreadMansion_QuestLot_1_2_2_obj_1" census="true" censusTitle="UI_Group_Gluttons" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:GingerbreadMansion_Lot02" id="3" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="GingerbreadMansion_QuestLot_2_0" rushcost="36" clue="QST_GingerbreadMansion_QuestLot_2_0_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_2_1" rushcost="100" clue="QST_GingerbreadMansion_QuestLot_2_1_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_2_2" rushcost="14" clue="QST_GingerbreadMansion_QuestLot_2_2_2_obj_1" census="true" censusTitle="UI_Group_Brainiacs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:GingerbreadMansion_Lot03" id="4" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="GingerbreadMansion_QuestLot_3_0" rushcost="50" clue="QST_GingerbreadMansion_QuestLot_3_0_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_3_1" rushcost="56" clue="QST_GingerbreadMansion_QuestLot_3_1_2_obj_1" census="true" censusTitle="UI_Group_Kooks" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_3_2" rushcost="20" clue="QST_GingerbreadMansion_QuestLot_3_2_2_obj_1" census="true" censusTitle="UI_Group_Seniors" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:GingerbreadMansion_Lot04" id="5" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="GingerbreadMansion_QuestLot_4_0" rushcost="40" clue="QST_GingerbreadMansion_QuestLot_4_0_2_obj_1" census="true" censusTitle="UI_Group_Gluttons" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_4_1" rushcost="80" clue="QST_GingerbreadMansion_QuestLot_4_1_2_obj_1" census="true" censusTitle="UI_Group_HighRollers" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="GingerbreadMansion_QuestLot_4_2" rushcost="30" clue="QST_GingerbreadMansion_QuestLot_4_2_2_obj_1" census="true" censusTitle="UI_Group_Pessimists" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+			</QuestList>
+			<QuestList id="1">
+				<QuestLot config="XMAS2015_QuestLots:BestSnowmanEver_Lot00" id="1" rushMode="nothing">
+					<Quest questname="BestSnowmanEver_QuestLot_0_0" clue="QST_BestSnowmanEver_QuestLot_0_0_2_obj_1" census="false" />
+					<Quest questname="BestSnowmanEver_QuestLot_0_1" clue="QST_BestSnowmanEver_QuestLot_0_1_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:BestSnowmanEver_Lot01" id="2" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="BestSnowmanEver_QuestLot_1_0" rushcost="30" clue="QST_BestSnowmanEver_QuestLot_1_0_2_obj_1" census="true" censusTitle="UI_Group_Youngsters" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_1_1" rushcost="30" clue="QST_BestSnowmanEver_QuestLot_1_1_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_1_2" rushcost="60" clue="QST_BestSnowmanEver_QuestLot_1_2_2_obj_1" census="true" censusTitle="UI_Group_Gluttons" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:BestSnowmanEver_Lot02" id="3" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="BestSnowmanEver_QuestLot_2_0" rushcost="36" clue="QST_BestSnowmanEver_QuestLot_2_0_2_obj_1" census="true" censusTitle="UI_Group_Youngsters" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_2_1" rushcost="56" clue="QST_BestSnowmanEver_QuestLot_2_1_2_obj_1" census="true" censusTitle="UI_Group_Seniors" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_2_2" rushcost="40" clue="QST_BestSnowmanEver_QuestLot_2_2_2_obj_1" census="true" censusTitle="UI_Group_Pessimists" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:BestSnowmanEver_Lot03" id="4" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="BestSnowmanEver_QuestLot_3_0" rushcost="50" clue="QST_BestSnowmanEver_QuestLot_3_0_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_3_1" rushcost="40" clue="QST_BestSnowmanEver_QuestLot_3_1_2_obj_1" census="true" censusTitle="UI_Group_Seniors" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_3_2" rushcost="40" clue="QST_BestSnowmanEver_QuestLot_3_2_2_obj_1" census="true" censusTitle="UI_Group_Gluttons" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:BestSnowmanEver_Lot04" id="5" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="BestSnowmanEver_QuestLot_4_0" rushcost="30" clue="QST_BestSnowmanEver_QuestLot_4_0_2_obj_1" census="true" censusTitle="UI_Group_Entrepreneurs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_4_1" rushcost="50" clue="QST_BestSnowmanEver_QuestLot_4_1_2_obj_1" census="true" censusTitle="UI_Group_HighRollers" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="BestSnowmanEver_QuestLot_4_2" rushcost="96" clue="QST_BestSnowmanEver_QuestLot_4_2_2_obj_1" census="true" censusTitle="UI_Group_Kooks" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+			</QuestList>
+			<QuestList id="2">
+				<QuestLot config="XMAS2015_QuestLots:ExoticPettingZoo_Lot00" id="1" rushMode="nothing">
+					<Quest questname="ExoticPettingZoo_QuestLot_0_0" clue="QST_ExoticPettingZoo_QuestLot_0_0_2_obj_1" census="false" />
+					<Quest questname="ExoticPettingZoo_QuestLot_0_1" clue="QST_ExoticPettingZoo_QuestLot_0_1_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:ExoticPettingZoo_Lot01" id="2" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="ExoticPettingZoo_QuestLot_1_0" rushcost="96" clue="QST_ExoticPettingZoo_QuestLot_1_0_2_obj_1" census="true" censusTitle="UI_Group_Seniors" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ExoticPettingZoo_QuestLot_1_1" rushcost="40" clue="QST_ExoticPettingZoo_QuestLot_1_1_2_obj_1" census="true" censusTitle="UI_Group_Youngsters" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ExoticPettingZoo_QuestLot_1_2" rushcost="56" clue="QST_ExoticPettingZoo_QuestLot_1_2_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:ExoticPettingZoo_Lot02" id="3" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="ExoticPettingZoo_QuestLot_2_0" rushcost="24" clue="QST_ExoticPettingZoo_QuestLot_2_0_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ExoticPettingZoo_QuestLot_2_1" rushcost="112" clue="QST_ExoticPettingZoo_QuestLot_2_1_2_obj_1" census="true" censusTitle="UI_Group_Brainiacs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ExoticPettingZoo_QuestLot_2_2" rushcost="40" clue="QST_ExoticPettingZoo_QuestLot_2_2_2_obj_1" census="true" censusTitle="UI_Group_Entrepreneurs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+			</QuestList>
+			<QuestList id="3">
+				<QuestLot config="XMAS2015_QuestLots:ReindeerBurgerTruck_Lot00" id="1" rushMode="nothing">
+					<Quest questname="ReindeerBurgerTruck_QuestLot_0_0" clue="QST_ReindeerBurgerTruck_QuestLot_0_0_2_obj_1" census="false" />
+					<Quest questname="ReindeerBurgerTruck_QuestLot_0_1" clue="QST_ReindeerBurgerTruck_QuestLot_0_1_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:ReindeerBurgerTruck_Lot01" id="2" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="ReindeerBurgerTruck_QuestLot_1_0" rushcost="60" clue="QST_ReindeerBurgerTruck_QuestLot_1_0_2_obj_1" census="true" censusTitle="UI_Group_Gluttons" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ReindeerBurgerTruck_QuestLot_1_1" rushcost="70" clue="QST_ReindeerBurgerTruck_QuestLot_1_1_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ReindeerBurgerTruck_QuestLot_1_2" rushcost="160" clue="QST_ReindeerBurgerTruck_QuestLot_1_2_2_obj_1" census="true" censusTitle="UI_Group_Pessimists" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:ReindeerBurgerTruck_Lot02" id="3" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="ReindeerBurgerTruck_QuestLot_2_0" rushcost="112" clue="QST_ReindeerBurgerTruck_QuestLot_2_0_2_obj_1" census="true" censusTitle="UI_Group_Kooks" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ReindeerBurgerTruck_QuestLot_2_1" rushcost="60" clue="QST_ReindeerBurgerTruck_QuestLot_2_1_2_obj_1" census="true" censusTitle="UI_Group_Brainiacs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="ReindeerBurgerTruck_QuestLot_2_2" rushcost="112" clue="QST_ReindeerBurgerTruck_QuestLot_2_2_2_obj_1" census="true" censusTitle="UI_Group_HighRollers" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+			</QuestList>
+			<QuestList id="4">
+				<QuestLot config="XMAS2015_QuestLots:FortressOfLonelitude_Lot00" id="1" rushMode="nothing">
+					<Quest questname="FortressOfLonelitude_QuestLot_0_0" clue="QST_FortressOfLonelitude_QuestLot_0_0_2_obj_1" census="false" />
+					<Quest questname="FortressOfLonelitude_QuestLot_0_1" clue="QST_FortressOfLonelitude_QuestLot_0_1_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:FortressOfLonelitude_Lot01" id="2" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="FortressOfLonelitude_QuestLot_1_0" rushcost="60" clue="QST_FortressOfLonelitude_QuestLot_1_0_2_obj_1" census="true" censusTitle="UI_Group_Kooks" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="FortressOfLonelitude_QuestLot_1_1" rushcost="160" clue="QST_FortressOfLonelitude_QuestLot_1_1_2_obj_1" census="true" censusTitle="UI_Group_Youngsters" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="FortressOfLonelitude_QuestLot_1_2" rushcost="60" clue="QST_FortressOfLonelitude_QuestLot_1_2_2_obj_1" census="true" censusTitle="UI_Group_Entrepreneurs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:FortressOfLonelitude_Lot02" id="3" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="FortressOfLonelitude_QuestLot_2_0" rushcost="160" clue="QST_FortressOfLonelitude_QuestLot_2_0_2_obj_1" census="true" censusTitle="UI_Group_Kooks" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="FortressOfLonelitude_QuestLot_2_1" rushcost="50" clue="QST_FortressOfLonelitude_QuestLot_2_1_2_obj_1" census="true" censusTitle="UI_Group_Youngsters" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="FortressOfLonelitude_QuestLot_2_2" rushcost="42" clue="QST_FortressOfLonelitude_QuestLot_2_2_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+			</QuestList>
+			<QuestList id="5">
+				<QuestLot config="XMAS2015_QuestLots:MoonshineShack_Lot00" id="1" rushMode="nothing">
+					<Quest questname="MoonshineShack_QuestLot_0_0" clue="QST_MoonshineShack_QuestLot_0_0_2_obj_1" census="false" />
+					<Quest questname="MoonshineShack_QuestLot_0_1" clue="QST_MoonshineShack_QuestLot_0_1_2_obj_1" census="false" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:MoonshineShack_Lot01" id="2" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="MoonshineShack_QuestLot_1_0" rushcost="60" clue="QST_MoonshineShack_QuestLot_1_0_2_obj_1" census="true" censusTitle="UI_Group_Brainiacs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="MoonshineShack_QuestLot_1_1" rushcost="84" clue="QST_MoonshineShack_QuestLot_1_1_2_obj_1" census="true" censusTitle="UI_Group_Entrepreneurs" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="MoonshineShack_QuestLot_1_2" rushcost="112" clue="QST_MoonshineShack_QuestLot_1_2_2_obj_1" census="true" censusTitle="UI_Group_Pessimists" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+				<QuestLot config="XMAS2015_QuestLots:MoonshineShack_Lot02" id="3" useFullRushCost="true" bulkRushModifier="__XMAS2015_GameConfig:BulkRushDiscount:Modifier__" bulkRushModifierThreshold="__XMAS2015_GameConfig:BulkRushDiscount:Threshold__" rushMode="release">
+					<Quest questname="MoonshineShack_QuestLot_2_0" rushcost="112" clue="QST_MoonshineShack_QuestLot_2_0_2_obj_1" census="true" censusTitle="UI_Group_Kooks" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="MoonshineShack_QuestLot_2_1" rushcost="96" clue="QST_MoonshineShack_QuestLot_2_1_2_obj_1" census="true" censusTitle="UI_Group_Seniors" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+					<Quest questname="MoonshineShack_QuestLot_2_2" rushcost="80" clue="QST_MoonshineShack_QuestLot_2_2_2_obj_1" census="true" censusTitle="UI_Group_Dimwits" lockedStatus="UI_XMAS2015_Buildable_TaskLocked" />
+				</QuestLot>
+			</QuestList>
+		</QuestLists>
+		<Variable name="RUSHALL_INPROGRESS" value="false" />
+	</SpecialEvent>
+</SpecialEvents>

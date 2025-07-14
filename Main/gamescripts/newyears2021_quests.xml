@@ -1,0 +1,571 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="240000" name="ThePostHolidayExpansion" />
+		<DataID id="240001" name="SurvivalOfTheWellest_1" />
+		<DataID id="240002" name="SurvivalOfTheWellest_2" />
+		<DataID id="240003" name="SurvivalOfTheWellest_3" />
+		<DataID id="240004" name="SurvivalOfTheWellest_4" />
+		<DataID id="240005" name="SurvivalOfTheWellest_5" />
+		<DataID id="240006" name="ThePostHolidayContractionExpansion" />
+		<DataID id="240007" name="TheNatureToNurture_1" />
+		<DataID id="240008" name="TheNatureToNurture_2" />
+		<DataID id="240009" name="TheNatureToNurture_3" />
+		<DataID id="240010" name="TheNatureToNurture_4" />
+		<DataID id="240011" name="TheNatureToNurture_5" />
+		<DataID id="240012" name="TheOlNipAndTuck_1" />
+		<DataID id="240013" name="TheOlNipAndTuck_2" />
+		<DataID id="240014" name="TheOlNipAndTuck_3" />
+		<DataID id="240015" name="TheOlNipAndTuck_4" />
+		<DataID id="240016" name="TheOlNipAndTuck_5" />
+		<DataID id="240017" name="MotivationToTheMasses_1" />
+		<DataID id="240018" name="MotivationToTheMasses_2" />
+		<DataID id="240019" name="MotivationToTheMasses_3" />
+		<DataID id="240020" name="MotivationToTheMasses_4" />
+		<DataID id="240021" name="MotivationToTheMasses_5" />
+		<DataID id="240600" name="NewYears2021_Completed" />
+		<DataID id="240601" name="NewYears2021_IntroPanel" />
+		<DataID id="240602" name="NewYears2021_72HourWarning" onDeprecated="retain" endDate="NewYears2021_End" />
+		<DataID id="240603" name="NewYears2021_24HourWarning" onDeprecated="retain" endDate="NewYears2021_End" />
+		<DataID id="240604" name="NewYears2021_EventExpired" />
+		<DataID id="240605" name="NewYears2021_MasterQuest" />
+		<DataID id="240700" name="AutoApply_UnlicensedSurgeonMoeSkin" />
+		<DataID id="240900" name="NewYears2021_RecommendStore" onDeprecated="delete" endDate="NewYears2021_End" />
+		<DataID id="240951" name="NewYears2021_Store_LastChance" onDeprecated="delete" endDate="NewYears2021_End" />
+	</MasterList>
+	<Quest id="240600" name="NewYears2021_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="ThePostHolidayContractionExpansion" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="240601" name="NewYears2021_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="ThePostHolidayExpansion" />
+			<Requirement type="time" end="NewYears2021_End" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="240602" name="NewYears2021_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2021_End')-fromHours(72)]_" end="_[System::evaluate('Date::NewYears2021_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2021_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2021_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="240603" name="NewYears2021_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2021_End')-fromHours(24)]_" end="NewYears2021_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2021_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2021_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="240604" name="NewYears2021_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="NewYears2021_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2021_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2021_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="240605" name="NewYears2021_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_Expired" not="true" />
+			<Requirement type="variable" variable="NewYears2021_Complete" not="true" />
+			<Requirement type="reqList" location="NewYears2021_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="SurvivalOfTheWellest_5" />
+					<Requirement type="variable" variable="NewYears2021_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="SurvivalOfTheWellest_1">
+				<Requirement type="quest started" quest="SurvivalOfTheWellest_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SurvivalOfTheWellest_2">
+				<Requirement type="quest started" quest="SurvivalOfTheWellest_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SurvivalOfTheWellest_3">
+				<Requirement type="quest started" quest="SurvivalOfTheWellest_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SurvivalOfTheWellest_4">
+				<Requirement type="quest started" quest="SurvivalOfTheWellest_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SurvivalOfTheWellest_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="240000" name="ThePostHolidayExpansion" tags="sidequest" icon="NewYears2021_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="NewYears2021_Start" end="NewYears2021_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="ThePostHolidayExpansion_Start" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="ThePostHolidayExpansion_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="AgreeToLoseWeight" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240001" name="SurvivalOfTheWellest_1" tags="mainquest" icon="NewYears2021_Currency" sidebarIconScript="NewYears2021_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2021_QuestConfig:NewYears2021_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="NewYears2021_IntroPanel" />
+			<Requirement type="variable" variable="NewYears2021_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="time" start="NewYears2021_Start" end="NewYears2021_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_1_Start" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2021_Currency')" amount="__NewYears2021_GameConfig:ResourceQuantities:NewYears2021_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2021_Scripts:ShowJobList" textpoolName="QST_NewYears2021_Collect_obj">
+				<HighlightJobList>
+					<Job name="CalibrateDumbbells" />
+					<Job name="CollectDumbbells" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GorgeHimselfOnMealReplacementPacks" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2021_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2021_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="240002" name="SurvivalOfTheWellest_2" tags="mainquest" icon="NewYears2021_Currency" sidebarIconScript="NewYears2021_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2021_QuestConfig:NewYears2021_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SurvivalOfTheWellest_1" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="item" item="SerenityRanch" checkInventoryOnly="true" />
+				<Requirement type="building" building="SerenityRanch" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_2_Start" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2021_Currency')" amount="__NewYears2021_GameConfig:ResourceQuantities:NewYears2021_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2021_Scripts:ShowJobList" textpoolName="QST_NewYears2021_Collect_obj">
+				<HighlightJobList>
+					<Job name="CalibrateDumbbells" />
+					<Job name="CollectDumbbells" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="RushToSerenityRanch" quantity="1" />
+			<Objective type="complete job" group="Glutton" job="HeadToSerenityRanch" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2021_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2021_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="240003" name="SurvivalOfTheWellest_3" tags="mainquest" icon="NewYears2021_Currency" sidebarIconScript="NewYears2021_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2021_QuestConfig:NewYears2021_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SurvivalOfTheWellest_2" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_3_Start" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2021_Currency')" amount="__NewYears2021_GameConfig:ResourceQuantities:NewYears2021_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2021_Scripts:ShowJobList" textpoolName="QST_NewYears2021_Collect_obj">
+				<HighlightJobList>
+					<Job name="CalibrateDumbbells" />
+					<Job name="CollectDumbbells" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DrinkAGreenJuice" quantity="1" />
+			<Objective type="complete job" character="Sakatumi" job="MeditateOnWeightLoss" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Sakatumi" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Wiggum" job="StrikeAYogaPose" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="LearnPilates" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2021_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2021_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="240004" name="SurvivalOfTheWellest_4" tags="mainquest" icon="NewYears2021_Currency" sidebarIconScript="NewYears2021_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2021_QuestConfig:NewYears2021_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SurvivalOfTheWellest_3" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_4_Start" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2021_Currency')" amount="__NewYears2021_GameConfig:ResourceQuantities:NewYears2021_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2021_Scripts:ShowJobList" textpoolName="QST_NewYears2021_Collect_obj">
+				<HighlightJobList>
+					<Job name="CalibrateDumbbells" />
+					<Job name="CollectDumbbells" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="ConvinceFellowGluttonsToEscape" quantity="1" />
+			<Objective type="complete job" character="Barney" job="HaveAnotherJuice" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Wiggum" job="AlmostStretchHisBack" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2021_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2021_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="240005" name="SurvivalOfTheWellest_5" tags="mainquest" icon="NewYears2021_Currency" sidebarIconScript="NewYears2021_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2021_QuestConfig:NewYears2021_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2021_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SurvivalOfTheWellest_4" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_5_Start" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="SurvivalOfTheWellest_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2021_Currency')" amount="__NewYears2021_GameConfig:ResourceQuantities:NewYears2021_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2021_Scripts:ShowJobList" textpoolName="QST_NewYears2021_Collect_obj">
+				<HighlightJobList>
+					<Job name="CalibrateDumbbells" />
+					<Job name="CollectDumbbells" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="PutTogetherATrainingMontage" quantity="1" />
+			<Objective type="complete job" group="Glutton" job="TrainInATrainingMontage" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2021_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2021_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="240006" name="ThePostHolidayContractionExpansion" tags="sidequest" icon="NewYears2021_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SurvivalOfTheWellest_5" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="ThePostHolidayContractionExpansion_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="GorgeHimselfBackIntoHomerShape" quantity="1" />
+			<Objective type="complete job" character="Marge" job="EnjoyBuffHomerWhileSheCan" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="240007" name="TheNatureToNurture_1" tags="sidequest" icon="MrsFrink">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="MrsFrink" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_1_Start" triggerType="character" character="MrsFrink" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="MrsFrink" job="RescueOctoparrot" quantity="1" />
+			<Objective type="complete job" character="SebastianCobb" job="WrangleTheMonkeys" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SebastianCobb" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ned" job="HarassScientists" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ned" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240008" name="TheNatureToNurture_2" tags="sidequest" icon="MrsFrink">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheNatureToNurture_1" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_2_Start" triggerType="character" character="MrsFrink" />
+		<Objectives>
+			<Objective type="complete job" character="MrsFrink" job="TryToFeedOctoparrot" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Octoparrot" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="MrsFrink" job="TryToFeedOctoparrot_noOctoparrot" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Octoparrot" not="true" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Frink" job="CleanUpOctoparrotsInkStainsWithLasers" textpoolName="QST_TheNatureToNurture_2_2_obj_2" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240009" name="TheNatureToNurture_3" tags="sidequest" icon="MrsFrink">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheNatureToNurture_2" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_3_Start" triggerType="character" character="MrsFrink" />
+		<Objectives>
+			<Objective type="complete job" character="MrsFrink" job="DisguiseOctoparrot" quantity="1" />
+			<Objective type="complete job" character="Frink" job="MiniaturizeClothes" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240010" name="TheNatureToNurture_4" tags="sidequest" icon="MrsFrink">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheNatureToNurture_3" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_4_Start" triggerType="character" character="MrsFrink" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="MrsFrink" job="GetAManiPedi" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="WatchViewTubeWhileKidsRunWild" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240011" name="TheNatureToNurture_5" tags="sidequest" icon="MrsFrink">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheNatureToNurture_4" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_5_Start" triggerType="character" character="MrsFrink" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheNatureToNurture_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="MrsFrink" job="ComplainAboutFrink" quantity="1" />
+			<Objective type="complete job" character="Frink" job="WorkOnRobotBartender" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="240012" name="TheOlNipAndTuck_1" tags="sidequest" icon="Moe_Surgeon">
+		<Requirements>
+			<Requirement type="active quest" quest="SurvivalOfTheWellest_3" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Moe" unlockedskin="UnlicensedSurgeonMoe" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_1_Start" triggerType="character" character="Moe" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_1_End" />
+		<Objectives>
+			<Objective type="complete job" group="Barflies" job="HaveDrunkBrainstormingSession" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240013" name="TheOlNipAndTuck_2" tags="sidequest" icon="Moe_Surgeon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheOlNipAndTuck_1" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_2_Start" triggerType="character" character="Moe" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Moe" job="HagglePrices" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240014" name="TheOlNipAndTuck_3" tags="sidequest" icon="Moe_Surgeon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheOlNipAndTuck_2" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_3_Start" triggerType="character" character="Moe" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Moe" skin="UnlicensedSurgeonMoe" job="HandOutFlyersAtThePrison" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240015" name="TheOlNipAndTuck_4" tags="sidequest" icon="Moe_Surgeon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheOlNipAndTuck_3" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_4_Start" triggerType="character" character="Moe" />
+		<Objectives>
+			<Objective type="complete job" character="Moe" skin="UnlicensedSurgeonMoe" job="PerformSecretSurgeryOnBigPookie" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240016" name="TheOlNipAndTuck_5" tags="sidequest" icon="Moe_Surgeon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheOlNipAndTuck_4" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_5_Start" triggerType="character" character="Moe" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="TheOlNipAndTuck_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Moe" skin="UnlicensedSurgeonMoe" job="GiveWiggumTheOlNipAndTuck" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="240017" name="MotivationToTheMasses_1" tags="sidequest" icon="TabSpangler">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="TabSpangler" />
+			<Requirement type="active quest" quest="SurvivalOfTheWellest_5" not="true" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_1_Start" triggerType="character" character="TabSpangler" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="TabSpangler" job="ContemplatePromotionIdeas" quantity="1" />
+			<Objective type="complete job" character="HankScorpio" job="CoachTabSpangler_HankScorpio" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="HankScorpio" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="TheRichTexan" job="CoachTabSpangler_RichTexan" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="TheRichTexan" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240018" name="MotivationToTheMasses_2" tags="sidequest" icon="TabSpangler">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MotivationToTheMasses_1" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_2_Start" triggerType="character" character="TabSpangler" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="TabSpangler" job="FailToRegainNerdsAttention" quantity="1" />
+			<Objective type="complete job" character="Nerds" job="ArgueWithBikersAboutComicBookReality" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240019" name="MotivationToTheMasses_3" tags="sidequest" icon="TabSpangler">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MotivationToTheMasses_2" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_3_Start" triggerType="character" character="TabSpangler" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="TabSpangler" job="MotivateTheStonecutters" quantity="1" />
+			<Objective type="complete job" character="Number1" job="GetMotivated" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Number1" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240020" name="MotivationToTheMasses_4" tags="sidequest" icon="TabSpangler">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MotivationToTheMasses_3" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_4_Start" triggerType="character" character="TabSpangler" />
+		<Objectives>
+			<Objective type="complete job" character="TabSpangler" job="BreakdownAndGiveUp" quantity="1" />
+			<Objective type="complete job" character="Children" job="MakeDemands_Kids" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="240021" name="MotivationToTheMasses_5" tags="sidequest" icon="TabSpangler">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MotivationToTheMasses_4" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_5_Start" triggerType="character" character="TabSpangler" />
+		<EndScript package="NewYears2021_Scripts_Dialogue" name="MotivationToTheMasses_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="TabSpangler" job="PromoteNewBusinessModel" quantity="1" />
+			<Objective type="complete job" character="SideshowRaheem" job="CashIn" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SideshowRaheem" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="240700" name="AutoApply_UnlicensedSurgeonMoeSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="UnlicensedSurgeonMoe" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Moe" unlockedskin="UnlicensedSurgeonMoe" not="true" />
+			<Requirement type="characterunlocked" name="Moe" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="NewYears2021_Scripts" name="AutoApply_UnlicensedSurgeonMoeSkin_End" />
+	</Quest>
+	<Quest id="240900" name="NewYears2021_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="NewYears2021_Requirements:StoreCategory_NewYearNewYou_Unlocked" />
+		</Requirements>
+		<StartScript package="NewYears2021_Scripts" name="RecommendStoreCategory_NewYearNewYou" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

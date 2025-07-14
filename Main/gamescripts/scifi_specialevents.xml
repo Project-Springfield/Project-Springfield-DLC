@@ -1,0 +1,1268 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="159000" name="SciFi_Event" onDeprecated="delete" status="deprecated" />
+		<DataID id="159003" name="RockstarMaggie_Promo" onDeprecated="delete" status="deprecated" />
+		<DataID id="159004" name="SciFi_SocialHUD_Act1" onDeprecated="delete" status="deprecated" />
+		<DataID id="159005" name="SciFi_SocialHUD_Act2" onDeprecated="delete" status="deprecated" />
+		<DataID id="159006" name="SciFi_SocialHUD_Act3" onDeprecated="delete" status="deprecated" />
+		<DataID id="159007" name="SciFi_Act1_Crossover" onDeprecated="delete" status="deprecated" />
+		<DataID id="159008" name="SciFi_Act2_Crossover" onDeprecated="delete" status="deprecated" />
+		<DataID id="159010" name="SciFighter" />
+	</MasterList>
+	<SpecialEvent id="159000" name="SciFi_Event">
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="SciFi_Scripts:SciFiLandLoad" />
+		</OnEvent>
+		<OnEvent event="BuildingPlaced" onObject="BrownHouse" user="local">
+			<Requirements>
+				<Requirement type="variable" variable="SciFi_Destruction_Active" />
+			</Requirements>
+			<Script name="DestroyBrownHouse" package="SciFi_Scripts" />
+		</OnEvent>
+		<OnEvent event="BuildingPlaced" onObject="Kwik-E-MartFranchise" user="local">
+			<Requirements>
+				<Requirement type="variable" variable="SciFi_Destruction_Active" />
+			</Requirements>
+			<Script name="DestroyKwik-E-MartFranchise" package="SciFi_Scripts" />
+		</OnEvent>
+		<OnEvent event="BuildingPlaced" onObject="QuickAndFresh" user="local">
+			<Requirements>
+				<Requirement type="variable" variable="SciFi_Destruction_Active" />
+			</Requirements>
+			<Script name="DestroyQuickAndFresh" package="SciFi_Scripts" />
+		</OnEvent>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="MultiVac" priority="1" />
+			</LandInfo>
+		</LandInfos>
+		<PrizeListButton icon="ICO_MHUB_SciFi_PrizeTrack">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest started" quest="DarkMatters_4" />
+			</Requirements>
+			<BadgeRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="checkBadge" badgeName="PrizeTrack" />
+					<Requirement type="checkBadge" badgeName="SciFighter" />
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="checkBadge" badgeName="Crafting" />
+						<Requirement type="variable" variable="SF_RPAvailable" />
+					</Requirement>
+				</Requirement>
+			</BadgeRequirements>
+			<Script package="SciFi_Scripts" name="TabPressed_PrizeTrack" />
+		</PrizeListButton>
+		<Notifications location="SciFi_Notifications:Notifications">
+			<Notification name="MaxRobotsPN" />
+			<Notification name="MaxRobots24HPN" />
+			<Notification name="PlaySciFighterPN" />
+		</Notifications>
+		<HUDCurrencies buttonType="guide" guideButtonScript="SciFi_Scripts:TabPressed_PrizeTrack_Help">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest started" quest="DarkMatters_4" />
+			</Requirements>
+			<Currency type="SciFi_ActivePrizeTrackCurrency" />
+			<Currency type="SciFi_CraftingCurrency1" />
+			<Currency type="SciFi_CraftingCurrency2" />
+		</HUDCurrencies>
+		<SpawnOverTime character="Robot_Tappable" loggedOnSpawnTime="__SciFi_BalancingConfig:Tappables:SpawnRate__" loggedOffSpawnTime="__SciFi_BalancingConfig:Tappables:SpawnRate__" maxAllowedInTown="__SciFi_BalancingConfig:Tappables:MaxInLand__" regularBankMax="__SciFi_BalancingConfig:Tappables:MaxBank__" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedRobots" errorTitle="UI_June2015_BallFull_title" errorBody="UI_SciFi_TownFull" alwaysCheckRequirements="true">
+			<Requirements>
+				<Requirement type="quest started" quest="DarkMatters_4" />
+				<Requirement type="formula" formula="!System::evaluate('Game::State::GameState_CustomTouch') &amp;&amp; SF_STARTED==0" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<EventHub menuConfig="June2015_EventHubMenuConfig:EventHub">
+			<Tabs>
+				<Tab name="Tab_SciFiPrizeTrack" icon="ICO_MHUB_SciFi_PrizeTrack">
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="PrizeTrack" />
+					</BadgeRequirements>
+					<Script name="TabPressed_PrizeTrack" package="SciFi_Scripts" />
+				</Tab>
+				<Tab name="Tab_SciFighter" icon="ICO_MHUB_SCIFI_SciFighter">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="DarkMatters_6" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="SciFighter" />
+					</BadgeRequirements>
+					<Script name="TabPressed_SciFighter" package="SciFi_Scripts" />
+				</Tab>
+				<Tab name="Tab_SciFiCrafting" icon="ICO_MHUB_SciFi_Crafting">
+					<DisplayRequirements>
+						<Requirement type="variable" variable="SF_RPAvailable" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==3" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="Crafting" />
+					</BadgeRequirements>
+					<Script name="TabPressed_Crafting" package="SciFi_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="SciFi_ActivePrizeTrackCurrency" />
+				<Resource type="SciFi_CraftingCurrency1">
+					<Requirement type="variable" variable="SF_RPAvailable" />
+				</Resource>
+				<Resource type="SciFi_CraftingCurrency2">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="variable" variable="SF_FBAvailable" />
+						<Requirement type="special currency" currency="SciFi_CraftingCurrency2" amount="1" />
+					</Requirement>
+				</Resource>
+				<Resource type="SciFi_Homerkazes">
+					<Requirement type="quest started" quest="PhotoSensitiveDeficiency" />
+				</Resource>
+			</ResourceTypes>
+		</EventHub>
+		<Badges>
+			<Badge name="PrizeTrack">
+				<Condition variable="PrizeTrack1_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+				</Condition>
+				<Condition variable="PrizeTrack2_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+				</Condition>
+				<Condition variable="PrizeTrack3_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+				</Condition>
+			</Badge>
+			<Badge name="SciFighter">
+				<Condition variable="SciFighter_Unlocked" repeatable="true">
+					<Requirement type="formula" formula="System::evaluate('Minigame::SciFighter::Ready')" />
+				</Condition>
+			</Badge>
+			<Badge name="Crafting">
+				<Condition variable="Crafting_NewItem" repeatable="true">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="variable" variable="HoloTulips_New" />
+						<Requirement type="variable" variable="FutureStreetLamp_New" />
+						<Requirement type="variable" variable="VacationToVenusSign_New" />
+						<Requirement type="variable" variable="HoverStreetSign_New" />
+						<Requirement type="variable" variable="Domeicile_New" />
+						<Requirement type="variable" variable="HoverBench_New" />
+						<Requirement type="variable" variable="AtomicHulaHoop_New" />
+						<Requirement type="variable" variable="HoloTree_New" />
+						<Requirement type="variable" variable="MushroomOfficeBuilding_New" />
+						<Requirement type="variable" variable="LuminescentFlowers_New" />
+						<Requirement type="variable" variable="MobileDome_New" />
+						<Requirement type="variable" variable="FountainOfTomorrow_New" />
+						<Requirement type="variable" variable="ParkedHoverCar_New" />
+						<Requirement type="variable" variable="Parcology_New" />
+						<Requirement type="variable" variable="RetroStyleTownhouse_New" />
+						<Requirement type="variable" variable="GlobalHousing_New" />
+						<Requirement type="variable" variable="TeleporterBillboard_New" />
+						<Requirement type="variable" variable="TomorrowsCostingtons_New" />
+						<Requirement type="variable" variable="OfficeTowers_New" />
+						<Requirement type="variable" variable="HomersAboveGroundUnderseaHouse_New" />
+					</Requirement>
+				</Condition>
+				<Condition variable="Crafting_UniqueReady" repeatable="true">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="formula" formula="SciFi_CraftingLevel&gt;=12" />
+							<Requirement type="formula" formula="Parcology_TotalCrafted==0" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="formula" formula="System::evaluate('Selector::Parcology_Currency1')" />
+								<Requirement type="formula" formula="System::evaluate('Selector::Parcology_Currency2')" />
+							</Requirement>
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="formula" formula="SciFi_CraftingLevel==16" />
+							<Requirement type="formula" formula="TomorrowsCostingtons_TotalCrafted==0" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="formula" formula="System::evaluate('Selector::TomorrowsCostingtons_Currency1')" />
+								<Requirement type="formula" formula="System::evaluate('Selector::TomorrowsCostingtons_Currency2')" />
+							</Requirement>
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="formula" formula="SciFi_CraftingLevel==18" />
+							<Requirement type="formula" formula="HomersAboveGroundUnderseaHouse_TotalCrafted==0" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="formula" formula="System::evaluate('Selector::HomersAboveGroundUnderseaHouse_Currency1')" />
+								<Requirement type="formula" formula="System::evaluate('Selector::HomersAboveGroundUnderseaHouse_Currency2')" />
+							</Requirement>
+						</Requirement>
+					</Requirement>
+				</Condition>
+			</Badge>
+		</Badges>
+		<Jobs override="true">
+			<Job name="DJSomeTunes">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="WhatsTheMatter_3" />
+					<Requirement type="active quest" quest="SmackToTheFuture_10" not="true" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="HawkBox">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="WhatsTheMatter_8" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="RocketAroundTown">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="WhatsTheMatter_8" />
+					<Requirement type="active quest" quest="SmackToTheFuture_10" not="true" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="AcceptSpringfieldCanon">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="SgtSkinnersRobotPartsClub_2" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="InfiltrateSkyberdineSystems">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="SgtSkinnersRobotPartsClub_1" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="LieAboutHisSuccess">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="TheMoochWhoKnewTooMuch_1" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="PrintSomeResumes">
+				<Location name="SimpsonHome" />
+			</Job>
+			<Job name="OpposeTheVenusianTradePact">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PresidentialPrimaries_5" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="MarvelAtTheOutsideWorld">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="AndroidInTheDungeon_4" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="DestroyHumanityFinancially">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="AndroidInTheDungeon_6" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="RestInACryoChamber_Grampa">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="Cryogenics_1" />
+					<Requirement type="active quest" quest="Cryogenics_2" objective="1" not="true" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="RestInACryoChamber_Jasper">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="Cryogenics_2" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="RideTheMech">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="MechBart" />
+					<Requirement type="building" building="MechRobot" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="PretendToLiveUnderTheSea">
+				<VisibilityRequirements>
+					<Requirement type="building" building="HomersAboveGroundUnderseaHouse" />
+					<Requirement type="quest started" quest="DoMeASolid_6" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="FallIntoTheWormhole_Permanent">
+				<VisibilityRequirements>
+					<Requirement type="building" building="MultiVac" />
+					<Requirement type="quest" quest="ReturnToStatusQuo_4" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="DownloadVocalEnhancements">
+				<VisibilityRequirements>
+					<Requirement type="quest started" quest="DialMForMaggie_3" />
+					<Requirement type="quest started" quest="PurpleReign" not="true" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="CaseThejoint_SciFi">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="Fraternize_SciFi">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="PlunderTheMultiverse">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="RelaxInTheBrownHouse_SciFiTemp">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="27" />
+			</Job>
+			<Job name="PrepareDefences">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="GatherExoticMatter">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="Scheme_SciFi">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="PrayToTheSkyFinger">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="RollHisEyes">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="PonderTheNatureOfTheSkyFinger">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="EnjoyTheCalmingNumbnessOfFaith">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="CreateASimulationOfHimself">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="AbsorbKnifeThrusts">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="DriveHisWheelChairUpAndDownStairs">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="FightForHisRights">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="ThinkWithoutGettingTapped">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="SlingshotChrononsIntoTheBlackHole">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="WaitForTheRobotsToBeBuilt">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ChairButtFrinkIntoTheFuture">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="GetChairButtedIntoTheFuture">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="105" />
+			</Job>
+			<Job name="PlunderTheFuture">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="TeachTheOldTestamentToNewRobots">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="ArmTheGoodRobotsWithWeapons">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="SendGoodRobotsToTheFuture">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="LookSidetoSideSuspiciously">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="HideFromAnAngryMob">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="FightTheInfiniteRobotArmy">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="HeaveAntimatterIntoTheBlackHole">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ThrowAntimatterIntoTheBlackHole">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="WhileAwayTheYears">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="HideFromBullies_SciFi">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="FreeLadyBot">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="ThreatenTheWorld">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="FigureOutACareer">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="BlackmailAClown">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ReceiveABlackmailing_Krusty">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="BlackmailANewscaster">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ReceiveABlackmailing_Kent">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="BlackmailAMovieStar">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ReceiveABlackmailing_Wolfcastle">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="BlackmailAMooch">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ReceiveABlackmailing_Bart">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="AvoidMolecules">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="DisruptTheTimeline">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="LookUpPresidentialCandidates">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="RunForPresident">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="WatchTheElectionReturns">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="DescribeHisSteel">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="FeelTheSteel">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="TerminateHomer">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="DefineTheWordTerminate">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="Concur">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="DonateToMoesFertilityBank">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="TerminateHomer_2">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="TerminateHomer_2_Dual">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="ClarifyDefinitions">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="GetTestedForBrainitis">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="TryToGetAwayInACar">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="CoexistWithPrincipalSkinner">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="AuthenticateMaggiesAutograph">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="NotGetAWordIn">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="PlugACableIntoHerHead">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="ConserveHerVoice">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="TryToGrowOutHisHair">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="StrainToHear">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="TryToWatchTV">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="ShowHowModernTVsWork">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="WatchTV_SciFi">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="105" />
+			</Job>
+			<Job name="UseA12Gauge">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="PlunderTheFuture_Anne">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="ThrowAntimatterIntoTheBlackHole_Anne">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="FightTheInfiniteRobotArmy">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="45" />
+			</Job>
+			<Job name="DumpPaperTowel">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="2" />
+			</Job>
+			<Job name="RetrieveTheFrappuccino">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="HipCheckCarl">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="DJSomeTunes_Event">
+				<Requirement type="active quest" quest="WhatsTheMatter_3" />
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="17" />
+			</Job>
+			<Job name="RocketAroundTown_Event">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="WhatsTheMatter_8" />
+					<Requirement type="active quest" quest="SmackToTheFuture_10" />
+				</Requirement>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="70" />
+			</Job>
+			<Job name="AcceptSpringfieldCanon_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="SgtSkinnersRobotPartsClub_2" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="17" />
+			</Job>
+			<Job name="InfiltrateSkyberdineSystems_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="SgtSkinnersRobotPartsClub_1" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="100" />
+			</Job>
+			<Job name="LieAboutHisSuccess_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="TheMoochWhoKnewTooMuch_1" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="17" />
+			</Job>
+			<Job name="OpposeTheVenusianTradePact_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="PresidentialPrimaries_5" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="150" />
+			</Job>
+			<Job name="MarvelAtTheOutsideWorld_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="AndroidInTheDungeon_4" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="70" />
+			</Job>
+			<Job name="DestroyHumanityFinancially_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="AndroidInTheDungeon_6" />
+					<Requirement type="variable" variable="SciFi_Event" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="225" />
+			</Job>
+			<Job name="RestInACryoChamber_Grampa_Event" time="10h" textpoolName="JOB_RestInACryoChamber_name" animated="true" OnJobBeginScript="SciFi_Scripts:RestInCryoStarted_Grampa" OnJobDoneScript="SciFi_Scripts:RestInCryoDone_Grampa">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="Cryogenics_1" />
+						<Requirement type="active quest" quest="Cryogenics_2" objective="1" />
+					</Requirement>
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="90" />
+			</Job>
+			<Job name="RestInACryoChamber_Jasper_Event">
+				<Requirements>
+					<Requirement type="active quest" quest="Cryogenics_2" objective="2" />
+				</Requirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="135" />
+			</Job>
+			<Job name="RideTheMech_Event">
+				<VisibilityRequirements>
+					<Requirement type="building" building="MechRobot" />
+					<Requirement type="active quest" quest="MechBart" />
+				</VisibilityRequirements>
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency_Premium__" xp="60" />
+			</Job>
+			<Job name="PlantShift_SciFiTemp">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_PTCurrency__" xp="125" />
+			</Job>
+			<Job name="RelaxInTheBrownHouse">
+				<Requirements>
+					<Requirement type="level" level="6" />
+					<Requirement type="conditional" logic="OR" not="true" hideFromInfo="true">
+						<Requirement type="active quest" quest="DarkMatters_7" />
+						<Requirement type="active quest" quest="DarkMatters_7_NoFrank" />
+						<Requirement type="active quest" quest="WhatsTheMatter_5" />
+						<Requirement type="active quest" quest="SmackToTheFuture_10" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job id="159521" name="InsuringAgainstFlood" time="4h" rushMultiplier="__SciFi_GameConfig:Costs:RushCostMultiplier__" rushRulesPackageName="SciFi_GameConfig:UnrushableJobRules">
+				<Reward SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Jobs:Reward_GeneratorCurrency__" xp="15" />
+			</Job>
+		</Jobs>
+		<Buildings override="true">
+			<Building name="MultiVac">
+				<JobCensusData enable="true" gotoOtherLandColour="CE7901FF" premiumBackgroundColour="000000D9" premiumToolTip="UI_THOH2015_Act2Census_SimpsonHome_PremiumTip">
+					<VisibilityRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="quest started" quest="AlternateHomers" />
+							<Requirement type="formula" formula="System::evaluate('Job::SpitPlutoniumIntoAcidToFormTheBlackHole::Active') ||  System::evaluate('Job::WriggleThroughTheWormhole::Active') ||  System::evaluate('Job::KidnapOtherHomers::Active')" />
+						</Requirement>
+					</VisibilityRequirements>
+				</JobCensusData>
+				<Job removeTaxJob="true" />
+				<CustomMenuComponents>
+					<MenuComponent menu="MinigameWithIconComponent" component="MinigameWithIcon" menuConfig="SciFi_MenuConfig_SciFighter:SciFighterStatusMenuComponentMenuConfig" buttonsConfig="SciFi_MenuConfig_SciFighter:SciFighterStatusMenuComponentButtonConfig" progressBarsConfig="SciFi_MenuConfig_SciFighter:SciFighterStatusMenuComponentProgressBarConfig" showBeforeJobs="true">
+						<Requirements>
+							<Requirement type="quest started" quest="DarkMatters_6" />
+						</Requirements>
+					</MenuComponent>
+				</CustomMenuComponents>
+				<TouchIcon value="indicator_SciFi_SciFighter.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="System::evaluate('Minigame::SciFighter::Ready')" />
+						<Requirement type="quest started" quest="DarkMatters_6" />
+					</Requirements>
+				</TouchIcon>
+				<ActiveAnimationController name="MultiVac_Active" />
+				<NeutralAnimationController name="MultiVac_Neutral" />
+				<Locators>
+					<Locator name="AttackPoint" x="8" z="3" />
+				</Locators>
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="3DPrinter">
+				<Job removeTaxJob="true" />
+				<OnEvent event="BuildingTouched" onObject="3DPrinter">
+					<Requirements>
+						<Requirement type="variable" variable="SF_RPAvailable" />
+						<Requirement type="players land" />
+					</Requirements>
+					<Script name="SciFi_Scripts:TabPressed_Crafting" />
+				</OnEvent>
+				<TouchIcon value="Indicator_SciFi_Crafting.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="variable" variable="SF_RPAvailable" />
+						<Requirement type="variable" variable="SciFi_CraftingLevel" count="SciFi_MaxCraftLevel" not="true" />
+						<Requirement type="formula" formula="greaterThanEQ(SciFi_CraftingCurrency1+SciFi_CraftProgress, System::evaluate('Selector::SciFi_CraftingLevel_XPNeeded'))" />
+					</Requirements>
+				</TouchIcon>
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="BigDigiBen">
+				<Job id="159530" name="PreparingEMPBlast" time="1h" premiumJob="true" replaceTaxJob="true" OnJobDoneScript="SciFi_Scripts:BigDigiBenJobDone" OnJobStartedScript="SciFi_Scripts:BigDigiBenJobStarted">
+					<CompleteIcon file="indicator_SciFi_SciFighter.rgb" />
+				</Job>
+			</Building>
+			<Building name="GiantRobot">
+				<Requirements>
+					<Requirement type="reqList" location="SciFi_GameConfig:Requirement_SciFiStore" />
+				</Requirements>
+			</Building>
+			<Building name="PowerPlantLot">
+				<Job id="159531" name="CollectFlashes_SciFi" time="24h">
+					<CompleteIcon file="Indicator_SciFi_FlashBulb.rgb" />
+					<Reward SciFi_Homerkazes="1" xp="45" />
+				</Job>
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="BurnsManor">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_BurnsManor_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="PoliceStation">
+				<EffectOverlay bsv3="PoliceStation_Fire" flippedbsv3="PoliceStationFlipped_Fire" anim="Fire_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="FirstChurchofSpringfield">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_Church_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="CletusFarm">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_CletusFarm_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="AndroidsDungeon">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_ComicBookShop_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="FlandersHome">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_FlandersHouse_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="BrownHouse">
+				<EffectOverlay bsv3="FireOverlay" anim="Fire_GenericHouse01_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="BlueHouse">
+				<EffectOverlay bsv3="FireOverlay" anim="Fire_GenericHouse02_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="WhiteHouse">
+				<EffectOverlay bsv3="FireOverlay" anim="Fire_GenericHouse04_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="OrangeHouse">
+				<EffectOverlay bsv3="FireOverlay" anim="Fire_GenericHouse05_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="JavaServer">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_JavaServer_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="Kwik-E-MartFranchise">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_KwikEMart_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="KrustyBurger">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_KrustyBurger_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="KrustyBurgerFranchise">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_KrustyBurger_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="MoesTavern">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_Moes_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="SpringfieldElementary">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_School_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="SimpsonHome">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_SimpsonHome_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="SkinnerHouse">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_SkinnerHouse_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="SpringfieldDowns">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_SpringfieldDowns_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="SpringfieldLibrary">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_SpringfieldLibrary_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="VanHoutenHome">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_VanHouten_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="WiggumHouse">
+				<EffectOverlay bsv3="FireOverlay" flippedbsv3="FireOverlayFlipped" anim="Fire_WiggumHouse_Active" randomStartFrame="true" rooted="true" allowInNormal="true" animLoop="true" registerVariableEvent="true" formulaRequirement="SciFi_Destruction_Active" />
+			</Building>
+			<Building name="ElysiumProject">
+				<BuildMenuText text="BLD_SciFi_ForgottenGrave_ExcitingText" />
+			</Building>
+		</Buildings>
+		<Characters override="true">
+			<Character name="Robot_Tappable">
+				<OnEvent onObject="Robot_Tappable" event="CharacterTouched" user="local">
+					<Script name="SciFi_Scripts_Tappables:RobotTapped_Local_Radius" />
+				</OnEvent>
+				<OnEvent onObject="Robot_Tappable" event="CharacterTouched" user="remote">
+					<Requirement type="variable" variable="SciFi_Social" />
+					<Script name="SciFi_Scripts_Tappables:RobotTapped_Social" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="SciFi_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+						<Requirement type="quest started" quest="AcrossTheMultiverse" />
+					</Requirements>
+					<Script name="SciFi_Scripts_Tappables:SpawnRobots_LowLevelFriend" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="SciFi_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+						<Requirement type="quest started" quest="AcrossTheMultiverse" />
+					</Requirements>
+					<Script name="SciFi_Scripts_Tappables:SpawnRobots_MidLevelFriend" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="SciFi_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+						<Requirement type="quest started" quest="AcrossTheMultiverse" />
+					</Requirements>
+					<Script name="SciFi_Scripts_Tappables:SpawnRobots_HighLevelFriend" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="SciFi_MenuConfig:PrizeTrack0">
+				<Prize name="BLD_SkyberdineSystems_name" listIcon="ICO_PRIZ_SciFi_SkyberdineSystems_MD" rewardIcon="ICO_PRIZ_SciFi_SkyberdineSystems_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack1:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT1Currency" amount="__SciFi_BalancingConfig:PrizeTrack1:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="SkyberdineSystems" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_FutureDuffSign_name" listIcon="ICO_PRIZ_SciFi_FutureDuffSign_MD" rewardIcon="ICO_PRIZ_SciFi_FutureDuffSign_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack1:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT1Currency" amount="__SciFi_BalancingConfig:PrizeTrack1:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="FutureDuffSign" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SimpsonsHoverCar_name" listIcon="ICO_PRIZ_SciFi_SimpsonsHoverCar_MD" rewardIcon="ICO_PRIZ_SciFi_SimpsonsHoverCar_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack1:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT1Currency" amount="__SciFi_BalancingConfig:PrizeTrack1:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="SimpsonsHoverCar" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_HoloTheater_name" listIcon="ICO_PRIZ_SciFi_HoloTheater_MD" rewardIcon="ICO_PRIZ_SciFi_HoloTheater_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack1:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT1Currency" amount="__SciFi_BalancingConfig:PrizeTrack1:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="HoloTheater" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_SgtSkinner_name" listIcon="ICO_PRIZ_SciFi_SergeantSkinner_MD" rewardIcon="ICO_PRIZ_SciFi_SergeantSkinner_LG.rgb" useImmediately="true" showInventoryPopup="false" baseRushCost="__SciFi_BalancingConfig:PrizeTrack1:Prize5_Rush__" showRewardPopup="false" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT1Currency" amount="__SciFi_BalancingConfig:PrizeTrack1:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="SgtSkinner" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="SciFi_MenuConfig:PrizeTrack1">
+				<Prize name="CHA_MoochBart_name" listIcon="ICO_PRIZ_SciFi_MoochBart_MD" rewardIcon="ICO_PRIZ_SciFi_MoochBart_LG.rgb" useImmediately="true" showInventoryPopup="false" baseRushCost="__SciFi_BalancingConfig:PrizeTrack2:Prize1_Rush__" showRewardPopup="false" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT2Currency" amount="__SciFi_BalancingConfig:PrizeTrack2:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="MoochBart" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_FutureSimpsonsHouse_name" listIcon="ICO_PRIZ_SciFi_FutureSimpsonsHouse_MD" rewardIcon="ICO_PRIZ_SciFi_FutureSimpsonsHouse_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack2:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT2Currency" amount="__SciFi_BalancingConfig:PrizeTrack2:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="FutureSimpsonsHouse" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_AstroHouse_name" listIcon="ICO_PRIZ_SciFi_AstroHouse_MD" rewardIcon="ICO_PRIZ_SciFi_AstroHouse_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack2:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT2Currency" amount="__SciFi_BalancingConfig:PrizeTrack2:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="AstroHouse" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_KwikEMart2054_name" listIcon="ICO_PRIZ_SciFi_NewfangledKwikEMart_MD" rewardIcon="ICO_PRIZ_SciFi_NewfangledKwikEMart_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack2:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT2Currency" amount="__SciFi_BalancingConfig:PrizeTrack2:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="KwikEMart2054" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_CryoStasisMemorial_name" listIcon="ICO_PRIZ_SciFi_CryoStasisMemorial_MD" rewardIcon="ICO_PRIZ_SciFi_CryoStasisMemorial_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack2:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT2Currency" amount="__SciFi_BalancingConfig:PrizeTrack2:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="CryoStasisMemorial" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_PresidentLisa_name" listIcon="ICO_PRIZ_SciFi_PresidentLisa_MD" rewardIcon="ICO_PRIZ_SciFi_PresidentLisa_LG.rgb" useImmediately="true" showInventoryPopup="false" baseRushCost="__SciFi_BalancingConfig:PrizeTrack2:Prize6_Rush__" showRewardPopup="false" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT2Currency" amount="__SciFi_BalancingConfig:PrizeTrack2:Prize6__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="PresidentLisa" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="2" type="local" menuConfig="SciFi_MenuConfig:PrizeTrack2">
+				<Prize name="BLD_MechRobot_name" listIcon="ICO_PRIZ_SciFi_MechRobot_MD" rewardIcon="ICO_PRIZ_SciFi_MechRobot_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack3:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT3Currency" amount="__SciFi_BalancingConfig:PrizeTrack3:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="MechRobot" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_CrazyPlane_name" listIcon="ICO_PRIZ_SciFi_CrazyPlane_MD" rewardIcon="ICO_PRIZ_SciFi_CrazyPlane_LG.rgb" useImmediately="false" showInventoryPopup="true" baseRushCost="__SciFi_BalancingConfig:PrizeTrack3:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT3Currency" amount="__SciFi_BalancingConfig:PrizeTrack3:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="CrazyPlane" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_MechaHawk_name" listIcon="ICO_PRIZ_SciFi_MechaHawk_MD" rewardIcon="ICO_PRIZ_SciFi_MechaHawk_LG.rgb" useImmediately="true" showInventoryPopup="false" itemDoneOverrideText="UI_SciFi_ReclusiveMrBUrns_PrizeUnlock" baseRushCost="__SciFi_BalancingConfig:PrizeTrack3:Prize3_Rush__" showRewardPopup="false" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="SciFi_PT3Currency" amount="__SciFi_BalancingConfig:PrizeTrack3:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="MechaHawk" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<SuppressFriendActions shop="true" farm="true" pushnotes="false" vandalism="true">
+			<ShopRequirements>
+				<Requirement type="variable" variable="SciFi_Social" />
+				<Requirement type="quest started" quest="AcrossTheMultiverse" />
+			</ShopRequirements>
+			<FarmRequirements>
+				<Requirement type="variable" variable="SciFi_Social" />
+				<Requirement type="quest started" quest="AcrossTheMultiverse" />
+			</FarmRequirements>
+			<VandalismRequirements>
+				<Requirement type="variable" variable="SciFi_Social" />
+				<Requirement type="quest started" quest="AcrossTheMultiverse" />
+			</VandalismRequirements>
+			<PushNoteRequirements>
+				<Requirement type="variable" variable="SciFi_Social" />
+				<Requirement type="quest started" quest="AcrossTheMultiverse" />
+			</PushNoteRequirements>
+		</SuppressFriendActions>
+		<Variable name="SciFi_Social" value="true" />
+		<Variable name="RobotSalvageCard_Purchased" value="false" />
+		<Variable name="SciFi_Event" value="true" />
+		<Variable name="EventHubTabValue" value="1" owner="0" />
+		<Variable name="SF_HomerkazeUnlocked" value="false" />
+		<Variable name="BankedRobots" value="0" />
+		<Variable name="RobotsTapped" value="0" />
+		<Variable name="SciFighterOn" value="0" />
+		<Variable name="RobotTapped_Social" value="0" />
+		<Variable name="HomerJobsState" value="0" />
+		<Variable name="AnomalySeen" value="false" />
+		<Variable name="AnomaliesTapped" value="0" />
+		<Variable name="AnomalyTappedTime" value="0" />
+		<Variable name="SF_RPAvailable" value="false" />
+		<Variable name="SF_FBAvailable" value="false" />
+		<Variable name="SciFighterWon" value="false" />
+		<Variable name="SciFighterLost" value="false" />
+		<Variable name="MechaHawkSciFighterLost" value="false" />
+		<Variable name="SciFighterFTUESeen" value="0" />
+		<Variable name="SF_DarkMatters2" value="0" />
+		<Variable name="SF_DarkMatters5A" value="0" />
+		<Variable name="SF_DarkMatters5B" value="0" />
+		<Variable name="SF_JudgmentDay_MechaDefeated" value="0" />
+		<Variable name="SciFi_Destruction_Active" value="false" />
+		<Variable name="SciFi_HomersGone" value="false" />
+		<Variable name="PrizeTrack1_Unlocked" value="0" />
+		<Variable name="PrizeTrack2_Unlocked" value="0" />
+		<Variable name="PrizeTrack3_Unlocked" value="0" />
+		<Variable name="SciFighter_Unlocked" value="0" />
+		<Variable name="Crafting_NewItem" value="0" />
+		<Variable name="Crafting_UniqueReady" value="0" />
+		<Variable name="SciFi_CraftingLevel" value="1" />
+		<Variable name="SciFi_CraftProgress" value="0" />
+		<Variable name="SciFi_MaxCraftLevel" value="__SciFi_BalancingConfig:CraftLevels:MaxLevel__" />
+		<Variable name="SF_PrototypeCompleted" value="false" />
+		<Variable name="SF_CraftItemPurchased" value="false" />
+		<Variable name="HoloTulips_New" value="true" />
+		<Variable name="FutureStreetLamp_New" value="true" />
+		<Variable name="VacationToVenusSign_New" value="true" />
+		<Variable name="HoverStreetSign_New" value="false" />
+		<Variable name="Domeicile_New" value="false" />
+		<Variable name="HoverBench_New" value="false" />
+		<Variable name="AtomicHulaHoop_New" value="false" />
+		<Variable name="HoloTree_New" value="false" />
+		<Variable name="MushroomOfficeBuilding_New" value="false" />
+		<Variable name="LuminescentFlowers_New" value="false" />
+		<Variable name="MobileDome_New" value="false" />
+		<Variable name="FountainOfTomorrow_New" value="false" />
+		<Variable name="ParkedHoverCar_New" value="false" />
+		<Variable name="Parcology_New" value="false" />
+		<Variable name="RetroStyleTownhouse_New" value="false" />
+		<Variable name="GlobalHousing_New" value="false" />
+		<Variable name="TeleporterBillboard_New" value="false" />
+		<Variable name="TomorrowsCostingtons_New" value="false" />
+		<Variable name="OfficeTowers_New" value="false" />
+		<Variable name="HomersAboveGroundUnderseaHouse_New" value="false" />
+		<Variable name="HoloTulipsMax" value="0" />
+		<Variable name="FutureStreetLampMax" value="0" />
+		<Variable name="VacationToVenusSignMax" value="0" />
+		<Variable name="HoverStreetSignMax" value="0" />
+		<Variable name="DomeicileMax" value="0" />
+		<Variable name="HoverBenchMax" value="0" />
+		<Variable name="AtomicHulaHoopMax" value="0" />
+		<Variable name="HoloTreeMax" value="0" />
+		<Variable name="MushroomOfficeBuildingMax" value="0" />
+		<Variable name="LuminescentFlowersMax" value="0" />
+		<Variable name="MobileDomeMax" value="0" />
+		<Variable name="FountainOfTomorrowMax" value="0" />
+		<Variable name="ParkedHoverCarMax" value="0" />
+		<Variable name="ParcologyMax" value="0" />
+		<Variable name="RetroStyleTownhouseMax" value="0" />
+		<Variable name="GlobalHousingMax" value="0" />
+		<Variable name="TeleporterBillboardMax" value="0" />
+		<Variable name="TomorrowsCostingtonsMax" value="0" />
+		<Variable name="OfficeTowersMax" value="0" />
+		<Variable name="HomersAboveGroundUnderseaHouseMax" value="0" />
+		<Variable name="HoloTulips_TotalCrafted" value="0" />
+		<Variable name="FutureStreetLamp_TotalCrafted" value="0" />
+		<Variable name="VacationToVenusSign_TotalCrafted" value="0" />
+		<Variable name="HoverStreetSign_TotalCrafted" value="0" />
+		<Variable name="Domeicile_TotalCrafted" value="0" />
+		<Variable name="HoverBench_TotalCrafted" value="0" />
+		<Variable name="AtomicHulaHoop_TotalCrafted" value="0" />
+		<Variable name="HoloTree_TotalCrafted" value="0" />
+		<Variable name="MushroomOfficeBuilding_TotalCrafted" value="0" />
+		<Variable name="LuminescentFlowers_TotalCrafted" value="0" />
+		<Variable name="MobileDome_TotalCrafted" value="0" />
+		<Variable name="FountainOfTomorrow_TotalCrafted" value="0" />
+		<Variable name="ParkedHoverCar_TotalCrafted" value="0" />
+		<Variable name="Parcology_TotalCrafted" value="0" />
+		<Variable name="RetroStyleTownhouse_TotalCrafted" value="0" />
+		<Variable name="GlobalHousing_TotalCrafted" value="0" />
+		<Variable name="TeleporterBillboard_TotalCrafted" value="0" />
+		<Variable name="TomorrowsCostingtons_TotalCrafted" value="0" />
+		<Variable name="OfficeTowers_TotalCrafted" value="0" />
+		<Variable name="HomersAboveGroundUnderseaHouse_TotalCrafted" value="0" />
+		<Variable name="HoloTulips_Crafted" value="0" />
+		<Variable name="FutureStreetLamp_Crafted" value="0" />
+		<Variable name="VacationToVenusSign_Crafted" value="0" />
+		<Variable name="HoverStreetSign_Crafted" value="0" />
+		<Variable name="Domeicile_Crafted" value="0" />
+		<Variable name="HoverBench_Crafted" value="0" />
+		<Variable name="AtomicHulaHoop_Crafted" value="0" />
+		<Variable name="HoloTree_Crafted" value="0" />
+		<Variable name="MushroomOfficeBuilding_Crafted" value="0" />
+		<Variable name="LuminescentFlowers_Crafted" value="0" />
+		<Variable name="MobileDome_Crafted" value="0" />
+		<Variable name="FountainOfTomorrow_Crafted" value="0" />
+		<Variable name="ParkedHoverCar_Crafted" value="0" />
+		<Variable name="Parcology_Crafted" value="0" />
+		<Variable name="RetroStyleTownhouse_Crafted" value="0" />
+		<Variable name="GlobalHousing_Crafted" value="0" />
+		<Variable name="TeleporterBillboard_Crafted" value="0" />
+		<Variable name="TomorrowsCostingtons_Crafted" value="0" />
+		<Variable name="OfficeTowers_Crafted" value="0" />
+		<Variable name="HomersAboveGroundUnderseaHouse_Crafted" value="0" />
+		<Variable name="SF_DCS_RobotsTapped" value="0" />
+		<Variable name="SF_DCS_FriendsRobotsTapped" value="0" />
+		<Variable name="SF_DCS_AnomalyTapped" value="0" />
+		<Variable name="SF_DCS_SciFighter_Consumable" value="0" />
+		<Variable name="SF_DCS_MultiVac_Homer" value="0" />
+		<Variable name="SF_DCS_MultiVac_Maggie" value="0" />
+		<Variable name="SF_DCS_CraftItemAssembled" value="0" />
+		<Variable name="SF_DCS_CraftItemPurchased" value="0" />
+		<Variable name="SF_SkipEMP" value="0" />
+		<Variable name="SF_AdvRobotSeen" value="0" />
+		<Variable name="SF_MechaHawkSeen" value="0" />
+		<Variable name="SF_MechaHawkSeen" value="0" />
+	</SpecialEvent>
+	<SpecialEvent id="159003" name="RockstarMaggie_Promo">
+		<Variable name="Promo_RockstarMaggie_Active" value="true" />
+		<Variable name="RockstarMaggiePromo_Indicator_Active" value="true" />
+		<Variable name="RockstarMaggiePromo_GilPromo" value="true" />
+		<Variable name="PROMO_STARTED" value="true" />
+		<Variable name="PROMO_SHOW_IN_BUILD_MENU" value="false" />
+		<Variable name="RockstarMaggie_PromoSeen" value="false" />
+		<Characters override="true">
+			<Character name="PromoGilPermanent">
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="RockstarMaggiePromo_Indicator_Active" />
+					<Script name="Promo_Display" package="RockstarMaggie_Scripts_Promo" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<Promo eventName="RockstarMaggie_Promo" questID="159500" type="building" object="SpringfieldHyperstadium" file="Promo_SciFiPromo" yes="BTN_160Donuts" visualEndDate="RockstarMaggiePromo_EndDate" />
+	</SpecialEvent>
+	<SpecialEvent id="159004" name="SciFi_SocialHUD_Act1">
+		<FriendHUD useTwoActions="false" tipText="UI_SciFi_FriendTipText_act1" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="SciFi_Scripts:SciFiFriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" icon="ICO_CUR_SciFi2016_DarkMatter_SM.rgb" type="SciFi_PT1Currency" icon2="ICO_CUR_SciFi2016_Time_SM.rgb" type2="SciFi_PT2Currency" icon3="ICO_CUR_SciFi2016_Matter_SM.rgb" type3="SciFi_PT3Currency">
+			<Currency type="SciFi_PT1Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+			</Currency>
+			<Currency type="SciFi_PT2Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+			</Currency>
+			<Currency type="SciFi_PT3Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+			</Currency>
+			<Script name="SciFi_Scripts:SciFiFriendsHUDInfo" />
+		</FriendsMap>
+		<FriendHUDCurrencies buttonType="guide">
+			<Currency type="SciFi_ActivePrizeTrackCurrency" />
+		</FriendHUDCurrencies>
+	</SpecialEvent>
+	<SpecialEvent id="159005" name="SciFi_SocialHUD_Act2">
+		<FriendHUD useTwoActions="false" icon="ICO_SciFi_FriendsTip.rgb" tipText="UI_SciFi_FriendTipText_act2" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="SciFi_Scripts:SciFiFriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" icon="ICO_CUR_SciFi2016_DarkMatter_SM.rgb" type="SciFi_PT1Currency" icon2="ICO_CUR_SciFi2016_Time_SM.rgb" type2="SciFi_PT2Currency" icon3="ICO_CUR_SciFi2016_Matter_SM.rgb" type3="SciFi_PT3Currency">
+			<Currency type="SciFi_PT1Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+			</Currency>
+			<Currency type="SciFi_PT2Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+			</Currency>
+			<Currency type="SciFi_PT3Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+			</Currency>
+			<Script name="SciFi_Scripts:SciFiFriendsHUDInfo" />
+		</FriendsMap>
+		<FriendHUDCurrencies buttonType="guide">
+			<Currency type="SciFi_ActivePrizeTrackCurrency" />
+		</FriendHUDCurrencies>
+	</SpecialEvent>
+	<SpecialEvent id="159006" name="SciFi_SocialHUD_Act3">
+		<FriendHUD useTwoActions="false" icon="ICO_SciFi_FriendsTip.rgb" tipText="UI_SciFi_FriendTipText_act3" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="SciFi_Scripts:SciFiFriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" icon="ICO_CUR_SciFi2016_DarkMatter_SM.rgb" type="SciFi_PT1Currency" icon2="ICO_CUR_SciFi2016_Time_SM.rgb" type2="SciFi_PT2Currency" icon3="ICO_CUR_SciFi2016_Matter_SM.rgb" type3="SciFi_PT3Currency">
+			<Currency type="SciFi_PT1Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+			</Currency>
+			<Currency type="SciFi_PT2Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+			</Currency>
+			<Currency type="SciFi_PT3Currency">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+			</Currency>
+			<Script name="SciFi_Scripts:SciFiFriendsHUDInfo" />
+		</FriendsMap>
+		<FriendHUDCurrencies buttonType="guide">
+			<Currency type="SciFi_ActivePrizeTrackCurrency" />
+		</FriendHUDCurrencies>
+	</SpecialEvent>
+	<SpecialEvent id="159007" name="SciFi_Act1_Crossover">
+		<LoopScript scheduleTime="SciFi_ActTwo" package="SciFi_Scripts" interval="1s" script="Act1_Crossover" loop="false">
+			<Requirement type="gamestate" state="GameState_InGame" />
+		</LoopScript>
+	</SpecialEvent>
+	<SpecialEvent id="159008" name="SciFi_Act2_Crossover">
+		<LoopScript scheduleTime="SciFi_ActThree" package="SciFi_Scripts" interval="1s" script="Act2_Crossover" loop="false">
+			<Requirement type="gamestate" state="GameState_InGame" />
+		</LoopScript>
+	</SpecialEvent>
+	<SpecialEvent id="159010" name="SciFighter">
+		<Variable name="SF_GameLength" value="20" owner="0" />
+		<Variable name="SF_MaxDamage" value="5" owner="0" />
+		<Variable name="SF_VisualDamageThreshold" value="2" owner="0" />
+		<Variable name="SF_HawkMaxDamage" value="10" owner="0" />
+		<Variable name="SF_NextHawkSpawn" value="0" owner="0" />
+		<Variable name="SF_MechaHawkDefeated" value="0" owner="0" />
+		<Variable name="SF_StartingRobots" value="5" owner="0" />
+		<Variable name="LowSpeedBonus" value="0" owner="0" />
+		<Variable name="MediumSpeedBonus" value="0" owner="0" />
+		<Variable name="HighSpeedBonus" value="0" owner="0" />
+		<Variable name="LowHawkSpeedBonus" value="0" owner="0" />
+		<Variable name="MediumHawkSpeedBonus" value="0" owner="0" />
+		<Variable name="HighHawkSpeedBonus" value="0" owner="0" />
+		<Variable name="SF_RobotRewards" value="0" owner="0" />
+		<Variable name="SF_AdvRobotsRewards" value="0" owner="0" />
+		<Variable name="SF_RobotEvent" value="0" owner="0" />
+		<Variable name="SF_AdvRobotEvent" value="0" owner="0" />
+		<Variable name="SF_RobotCraft1" value="0" owner="0" />
+		<Variable name="SF_RobotCraft1Chance" value="0" owner="0" />
+		<Variable name="SF_AdvRobotCraft1" value="0" owner="0" />
+		<Variable name="SF_AdvRobotCraft1Chance" value="0" owner="0" />
+		<Variable name="SF_RobotCraft2" value="0" owner="0" />
+		<Variable name="SF_RobotCraft2Chance" value="0" owner="0" />
+		<Variable name="SF_AdvRobotCraft2" value="0" owner="0" />
+		<Variable name="SF_AdvRobotCraft2Chance" value="0" owner="0" />
+		<Variable name="SF_BaseReward" value="0" owner="0" />
+		<Variable name="SF_CompletionReward" value="0" owner="0" />
+		<Variable name="SF_PerSecondReward" value="0" owner="0" />
+		<Variable name="SF_BaseReward_RP" value="0" owner="0" />
+		<Variable name="SF_CompletionReward_RP" value="0" owner="0" />
+		<Variable name="SF_PerSecondReward_RP" value="0" owner="0" />
+		<Variable name="SF_BaseReward_FB" value="0" owner="0" />
+		<Variable name="SF_CompletionReward_FB" value="0" owner="0" />
+		<Variable name="SF_PerSecondReward_FB" value="0" owner="0" />
+		<Variable name="SF_PAUSED" value="0" />
+		<Variable name="SF_UNPAUSED" value="0" owner="0" />
+		<Variable name="SF_INMAIN" value="0" />
+		<Variable name="SF_GAMELOST" value="0" owner="0" />
+		<Variable name="SF_GAMEWON" value="0" owner="0" />
+		<Variable name="SF_FRAMECNT" value="0" owner="0" />
+		<Variable name="SF_SPEEDBONUS" value="0" owner="0" />
+		<Variable name="SF_HAWKDAMAGE" value="0" owner="0" />
+		<Variable name="SF_MECHAHAWK" value="0" owner="0" />
+		<Variable name="SF_CHARGING" value="0" owner="0" />
+		<Variable name="SF_ATTACKING" value="0" owner="0" />
+		<Variable name="SF_TAPPABLE" value="0" owner="0" />
+		<Variable name="SF_STARTED" value="0" />
+		<Variable name="SF_COUNTDOWN" value="0" owner="0" />
+		<Variable name="SF_PAYOUT1" value="0" owner="0" />
+		<Variable name="SF_PAYOUT2" value="0" owner="0" />
+		<Variable name="SF_PAYOUT3" value="0" owner="0" />
+		<Variable name="SF_REWARD1" value="0" />
+		<Variable name="SF_REWARD2" value="0" />
+		<Variable name="SF_REWARD3" value="0" />
+		<Variable name="SF_DCS_SciFighter_Robots" value="0" />
+		<Variable name="SF_DCS_SciFighter_Plays" value="0" />
+		<Variable name="SF_DCS_SciFighter_Wins" value="0" />
+		<Variable name="SF_DCS_SciFighter_NoDamage" value="0" />
+	</SpecialEvent>
+</SpecialEvents>

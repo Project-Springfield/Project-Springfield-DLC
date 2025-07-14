@@ -1,0 +1,106 @@
+﻿<ScriptPackage>
+	<HeavyCarbRain_1_Start>
+		<Action type="dialogue" character="Marge" text="QST_HeavyCarbRain_1_3_dlg_Start_1_Marge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_HeavyCarbRain_1_3_dlg_Start_2_Lisa" revealSpeed="medium" emotion="curious" />
+		<Action type="dialogue" character="Herman" text="QST_HeavyCarbRain_1_3_dlg_Start_3_Herman" revealSpeed="medium" />
+	</HeavyCarbRain_1_Start>
+	<HeavyCarbRain_1_End>
+		<Action type="setVariable" boolVariable="DonutDayRainEffect" boolValue="true" />
+		<Action type="scheduleScript" mode="create" script="DonutDay_Scripts:StopRain" shouldSave="true" relativeTime="7s" />
+		<Action type="notification" title="UI_DonutDay_Notification_name" button="UI_OK" text="UI_DonutDay_Notification_desc" icon="specialprize_donuts" />
+		<Action type="reward" donuts="15" />
+	</HeavyCarbRain_1_End>
+	<DonutDay_AwardTray_Start>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="processedPurchase" purchaseItem="DonutDayDozen" />
+					<Requirement type="processedPurchase" purchaseItem="DonutDayStack" />
+					<Requirement type="processedPurchase" purchaseItem="DonutDayTray" />
+					<Requirement type="building" building="DonutStore" />
+					<Requirement type="item" item="DonutStore" />
+					<Requirement type="building" building="DonutBoat" />
+					<Requirement type="item" item="DonutBoat" />
+					<Requirement type="building" building="DonutTruck" />
+					<Requirement type="item" item="DonutTruck" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="notification" title="UI_DonutDay_DonutTray_name" button="UI_OK" text="UI_DonutDay_DonutTrayPurchase_desc" icon="TrayOfDonuts_Menu" />
+			</True>
+			<False>
+				<Action type="notification" title="UI_DonutDay_DonutTray_name" button="UI_OK" text="UI_DonutDay_DonutTrayNoPurchase_desc" icon="TrayOfDonuts_Menu" />
+			</False>
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="DonutTray" />
+		</Action>
+	</DonutDay_AwardTray_Start>
+	<DonutDecoUpsell>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="DonutStore" not="true" />
+				<Requirement type="item" item="DonutStore" not="true" />
+				<Requirement type="building" building="DonutBoat" not="true" />
+				<Requirement type="item" item="DonutBoat" not="true" />
+				<Requirement type="building" building="DonutTruck" not="true" />
+				<Requirement type="item" item="DonutTruck" not="true" />
+			</Requirements>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_DonutDay_AwardTray_3_dlg_End_1_Gil" revealSpeed="medium" emotion="selling" />
+				<Action type="focusOnMenuItem" menuCategory="DonutDay" />
+			</True>
+		</Action>
+	</DonutDecoUpsell>
+	<StopRain parallel="true" runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="setVariable" boolVariable="DonutDayRainEffect" boolValue="false" ignoreObject="true" />
+	</StopRain>
+	<CreateGil>
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" />
+		<Action type="pantoobject" time="0" character="PromoGilPermanent" />
+	</CreateGil>
+	<CloseStore runQueueState="RunInAnyState" ignoreHUD="true" parallel="true">
+		<Action type="gotoState" state="GameState_InGame" />
+	</CloseStore>
+	<DisplayPromo>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_DonutDay_TriggerPromo_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Homer" text="QST_DonutDay_TriggerPromo_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="mouthfull" />
+				<Action type="dialogue" character="Gil" text="QST_DonutDay_TriggerPromo_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="surprised" />
+				<Action type="dialogue" character="Homer" text="QST_DonutDay_TriggerPromo_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="sarcastic" />
+				<Action type="dialogue" character="Gil" text="QST_DonutDay_TriggerPromo_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="selling" />
+				<Action type="dialogue" character="Homer" text="QST_DonutDay_TriggerPromo_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="happy" />
+				<Action type="setVariable" boolVariable="DonutDayDisplayPromo" boolValue="true" />
+				<Action type="recommendation" recType="Event" name="DonutDay_OnePanel" eventName="UI_HomersChiliad_MTXCategory_name" />
+				<Action type="recommendation" recType="Event" name="DonutDayBuildDeco_OnePanel" eventName="UI_DonutDay_Title" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="DonutDay_Event" />
+				<Action type="runScript" package="MiscScripts" script="KillGil" />
+			</True>
+		</Action>
+	</DisplayPromo>
+	<EnterCategory_MTX>
+		<Action type="focusOnMenuItem" menuCategory="Currency" />
+	</EnterCategory_MTX>
+	<EnterCategory_DonutDay>
+		<Action type="focusOnMenuItem" menuCategory="DonutDay" />
+	</EnterCategory_DonutDay>
+	<PromoPurchased>
+		<Action type="dialogue" character="Gil" text="QST_DonutDay_Purchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_DonutDay_Purchased_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+	</PromoPurchased>
+	<PromoIgnored>
+		<Action type="dialogue" character="Gil" text="QST_DonutDay_Canceled_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Gil" text="QST_DonutDay_Canceled_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="selling" />
+	</PromoIgnored>
+	<DonutBoat_Tapped_OnTap parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="anim-play" animation="DonutBoatBase">
+			<Sub-Building animation="DonutBoatTop" />
+		</Action>
+	</DonutBoat_Tapped_OnTap>
+</ScriptPackage>

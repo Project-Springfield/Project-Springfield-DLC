@@ -1,0 +1,507 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="278000" name="GoingOnceGoingTwiceSoldToMrBurns" />
+		<DataID id="278001" name="TheGreatBurnsby_1" />
+		<DataID id="278002" name="TheGreatBurnsby_2" />
+		<DataID id="278003" name="TheGreatBurnsby_3" />
+		<DataID id="278004" name="TheGreatBurnsby_4" />
+		<DataID id="278005" name="TheGreatBurnsby_5" />
+		<DataID id="278006" name="BackToTheGrind" />
+		<DataID id="278007" name="TrialAndTerror_1" />
+		<DataID id="278008" name="TrialAndTerror_2" />
+		<DataID id="278009" name="TrialAndTerror_3" />
+		<DataID id="278010" name="MobLaw_1" />
+		<DataID id="278011" name="MobLaw_2" />
+		<DataID id="278012" name="MobLaw_3" />
+		<DataID id="278013" name="MobLaw_4" />
+		<DataID id="278014" name="PersonalLiability_1" />
+		<DataID id="278015" name="PersonalLiability_2" />
+		<DataID id="278016" name="PersonalLiability_3" />
+		<DataID id="278017" name="PersonalLiability_4" />
+		<DataID id="278600" name="TheGreatBurnsby_Completed" />
+		<DataID id="278601" name="TheGreatBurnsby_IntroPanel" />
+		<DataID id="278602" name="TheGreatBurnsby_72HourWarning" onDeprecated="retain" endDate="TheGreatBurnsby_End" />
+		<DataID id="278603" name="TheGreatBurnsby_24HourWarning" onDeprecated="retain" endDate="TheGreatBurnsby_End" />
+		<DataID id="278604" name="TheGreatBurnsby_EventExpired" />
+		<DataID id="278605" name="TheGreatBurnsby_MasterQuest" />
+		<DataID id="278900" name="TheGreatBurnsby_RecommendStore" onDeprecated="delete" endDate="TheGreatBurnsby_End" />
+		<DataID id="278901" name="MoesExpress_NoSamLarry_dummy" />
+	</MasterList>
+	<Quest id="278600" name="TheGreatBurnsby_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="BackToTheGrind" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="278601" name="TheGreatBurnsby_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="GoingOnceGoingTwiceSoldToMrBurns" />
+			<Requirement type="time" end="TheGreatBurnsby_End" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="278602" name="TheGreatBurnsby_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TheGreatBurnsby_End')-fromHours(72)]_" end="_[System::evaluate('Date::TheGreatBurnsby_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="TheGreatBurnsby_Complete" not="true" />
+			<Requirement type="quest" quest="TheGreatBurnsby_IntroPanel" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="278603" name="TheGreatBurnsby_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TheGreatBurnsby_End')-fromHours(24)]_" end="TheGreatBurnsby_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TheGreatBurnsby_Complete" not="true" />
+			<Requirement type="quest" quest="TheGreatBurnsby_IntroPanel" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="278604" name="TheGreatBurnsby_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="TheGreatBurnsby_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TheGreatBurnsby_Complete" not="true" />
+			<Requirement type="quest" quest="TheGreatBurnsby_IntroPanel" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="278605" name="TheGreatBurnsby_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_Expired" not="true" />
+			<Requirement type="variable" variable="TheGreatBurnsby_Complete" not="true" />
+			<Requirement type="reqList" location="TheGreatBurnsby_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheGreatBurnsby_5" />
+					<Requirement type="variable" variable="TheGreatBurnsby_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheGreatBurnsby_1">
+				<Requirement type="quest started" quest="TheGreatBurnsby_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatBurnsby_2">
+				<Requirement type="quest started" quest="TheGreatBurnsby_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatBurnsby_3">
+				<Requirement type="quest started" quest="TheGreatBurnsby_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatBurnsby_4">
+				<Requirement type="quest started" quest="TheGreatBurnsby_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatBurnsby_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="278000" name="GoingOnceGoingTwiceSoldToMrBurns" tags="sidequest" icon="TheGreatBurnsby_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="Moe" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="TheGreatBurnsby_Start" end="TheGreatBurnsby_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="GoingOnceGoingTwiceSoldToMrBurns_Start" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="GoingOnceGoingTwiceSoldToMrBurns_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheRichTexan" job="BidOnTheSeizedYacht" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="TheRichTexan" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Burns" job="BoastAboutTheBlimpousine" quantity="1" />
+			<Objective type="complete job" character="Moe" job="DrinkChampagne" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="TheGreatBurnsby_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="278001" name="TheGreatBurnsby_1" tags="mainquest" icon="TheGreatBurnsby_Currency" sidebarIconScript="TheGreatBurnsby_Scripts:OpenMasterQuest" questMenuConfigPath="TheGreatBurnsby_QuestConfig:TheGreatBurnsby_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheGreatBurnsby_IntroPanel" />
+			<Requirement type="time" start="TheGreatBurnsby_Start" end="TheGreatBurnsby_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_1_Start" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheGreatBurnsby_Currency')" amount="__TheGreatBurnsby_GameConfig:ResourceQuantities:TheGreatBurnsby_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheGreatBurnsby_Scripts:ShowJobList" textpoolName="QST_TheGreatBurnsby_Collect_obj">
+				<HighlightJobList>
+					<Job name="AcquireStolenArtwork" />
+					<Job name="BuyStolenArtworkFromTrustedSource" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Burns" job="ContinueHisTour" quantity="1" />
+			<Objective type="complete job" character="Moe" job="AskHowMuchEachPaintingCosts" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheGreatBurnsby_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheGreatBurnsby_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="278002" name="TheGreatBurnsby_2" tags="mainquest" icon="TheGreatBurnsby_Currency" sidebarIconScript="TheGreatBurnsby_Scripts:OpenMasterQuest" questMenuConfigPath="TheGreatBurnsby_QuestConfig:TheGreatBurnsby_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheGreatBurnsby_1" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_2_Start" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheGreatBurnsby_Currency')" amount="__TheGreatBurnsby_GameConfig:ResourceQuantities:TheGreatBurnsby_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheGreatBurnsby_Scripts:ShowJobList" textpoolName="QST_TheGreatBurnsby_Collect_obj">
+				<HighlightJobList>
+					<Job name="AcquireStolenArtwork" />
+					<Job name="BuyStolenArtworkFromTrustedSource" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Moe" job="BefriendHousemates" quantity="1" />
+			<Objective type="complete job" character="Burns" job="GetJealousOfMoesTimeWithLindsay" quantity="1" />
+			<Objective type="complete job" character="Smithers" job="TrackMoesEveryMove" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Smithers" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheGreatBurnsby_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheGreatBurnsby_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="278003" name="TheGreatBurnsby_3" tags="mainquest" icon="TheGreatBurnsby_Currency" sidebarIconScript="TheGreatBurnsby_Scripts:OpenMasterQuest" questMenuConfigPath="TheGreatBurnsby_QuestConfig:TheGreatBurnsby_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheGreatBurnsby_2" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_3_Start" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheGreatBurnsby_Currency')" amount="__TheGreatBurnsby_GameConfig:ResourceQuantities:TheGreatBurnsby_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheGreatBurnsby_Scripts:ShowJobList" textpoolName="QST_TheGreatBurnsby_Collect_obj">
+				<HighlightJobList>
+					<Job name="AcquireStolenArtwork" />
+					<Job name="BuyStolenArtworkFromTrustedSource" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Burns" job="ShootMoreAntiques" quantity="1" />
+			<Objective type="complete job" character="Moe" job="DrinkMoreChampagne" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheGreatBurnsby_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheGreatBurnsby_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="278004" name="TheGreatBurnsby_4" tags="mainquest" icon="TheGreatBurnsby_Currency" sidebarIconScript="TheGreatBurnsby_Scripts:OpenMasterQuest" questMenuConfigPath="TheGreatBurnsby_QuestConfig:TheGreatBurnsby_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheGreatBurnsby_3" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_4_Start" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheGreatBurnsby_Currency')" amount="__TheGreatBurnsby_GameConfig:ResourceQuantities:TheGreatBurnsby_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheGreatBurnsby_Scripts:ShowJobList" textpoolName="QST_TheGreatBurnsby_Collect_obj">
+				<HighlightJobList>
+					<Job name="AcquireStolenArtwork" />
+					<Job name="BuyStolenArtworkFromTrustedSource" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Moe" job="SpendEveryWakingMomentWithLindsay" quantity="1" />
+			<Objective type="complete job" character="LindseyNaegle" job="SpendEveryWakingMomentWithMoe" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LindseyNaegle" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Smithers" job="WatchOnWithEnvy" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Smithers" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheGreatBurnsby_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheGreatBurnsby_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="278005" name="TheGreatBurnsby_5" tags="mainquest" icon="TheGreatBurnsby_Currency" sidebarIconScript="TheGreatBurnsby_Scripts:OpenMasterQuest" questMenuConfigPath="TheGreatBurnsby_QuestConfig:TheGreatBurnsby_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheGreatBurnsby_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheGreatBurnsby_4" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_5_Start" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TheGreatBurnsby_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheGreatBurnsby_Currency')" amount="__TheGreatBurnsby_GameConfig:ResourceQuantities:TheGreatBurnsby_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheGreatBurnsby_Scripts:ShowJobList" textpoolName="QST_TheGreatBurnsby_Collect_obj">
+				<HighlightJobList>
+					<Job name="AcquireStolenArtwork" />
+					<Job name="BuyStolenArtworkFromTrustedSource" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Moe" job="ListenToTheIncredibleStory" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheGreatBurnsby_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheGreatBurnsby_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="278006" name="BackToTheGrind" tags="sidequest" icon="TheGreatBurnsby_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheGreatBurnsby_5" />
+		</Requirements>
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="BackToTheGrind_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="278007" name="TrialAndTerror_1" tags="sidequest" icon="RobertoDinero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="RobertoDinero" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TrialAndTerror_1_Start" triggerType="character" character="RobertoDinero" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TrialAndTerror_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="RobertoDinero" job="TryToFindNewClients_TEMP" quantity="1" />
+			<Objective type="complete job" character="CarnageDestructicus" job="CountHisMoney_TGB" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CarnageDestructicus" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278008" name="TrialAndTerror_2" tags="sidequest" icon="RobertoDinero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TrialAndTerror_1" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TrialAndTerror_2_Start" triggerType="character" character="RobertoDinero" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TrialAndTerror_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="RobertoDinero" job="GoToTrial" quantity="1" />
+			<Objective type="complete job" character="BlueHairedLawyer" job="PresentArguments" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="BlueHairedLawyer" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="GlareAtRobertoDinero" quantity="1" />
+			<Objective type="complete job" character="JudgeSnyder" job="CheckHisWatch" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="JudgeSnyder" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278009" name="TrialAndTerror_3" tags="sidequest" icon="RobertoDinero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TrialAndTerror_2" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="TrialAndTerror_3_Start" triggerType="character" character="RobertoDinero" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="TrialAndTerror_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="RobertoDinero" job="BadgerTheWitness_TEMP" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="Chuckle" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="278010" name="MobLaw_1" tags="sidequest" icon="MobLawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="MobLawyer" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_1_Start" triggerType="character" character="MobLawyer" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="MobLawyer" job="GoToTheStation" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278011" name="MobLaw_2" tags="sidequest" icon="MobLawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MobLaw_1" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_2_Start" triggerType="character" character="MobLawyer" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="MobLawyer" job="LeaveTheStation_MobLawyer" quantity="1" />
+			<Objective type="complete job" character="Legs" job="LeaveTheStation_Legs" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Legs" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Wiggum" job="WonderWhatJustHappened_TGB" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278012" name="MobLaw_3" tags="sidequest" icon="MobLawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MobLaw_2" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_3_Start" triggerType="character" character="MobLawyer" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="MobLawyer" job="VisitClients_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278013" name="MobLaw_4" tags="sidequest" icon="MobLawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MobLaw_3" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_4_Start" triggerType="character" character="MobLawyer" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="MobLaw_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="MobLawyer" job="GetAGoodNightsSleep_TEMP" quantity="1" />
+			<Objective type="complete job" character="FatTony" job="ShudderNervously" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FatTony" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="DonVittorio" job="ThinkDeeply" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DonVittorio" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="278014" name="PersonalLiability_1" tags="sidequest" icon="MaxwellFlinch">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="MaxwellFlinch" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_1_Start" triggerType="character" character="MaxwellFlinch" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="MaxwellFlinch" job="WonderIfThisIsWorthIt" quantity="1" />
+			<Objective type="complete job" character="CBGuy" job="ContinueRanting" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CBGuy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278015" name="PersonalLiability_2" tags="sidequest" icon="MaxwellFlinch">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PersonalLiability_1" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_2_Start" triggerType="character" character="MaxwellFlinch" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheRichTexan" job="DragMaxwellAlong" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="TheRichTexan" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="MaxwellFlinch" job="RegretUsingNonspecificWishes" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278016" name="PersonalLiability_3" tags="sidequest" icon="MaxwellFlinch">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PersonalLiability_2" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_3_Start" triggerType="character" character="MaxwellFlinch" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="MaxwellFlinch" job="WriteLegalDocuments_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="278017" name="PersonalLiability_4" tags="sidequest" icon="MaxwellFlinch">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PersonalLiability_3" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_4_Start" triggerType="character" character="MaxwellFlinch" />
+		<EndScript package="TheGreatBurnsby_Scripts_Dialogue" name="PersonalLiability_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="MaxwellFlinch" job="AttemptToSellPayments_TEMP" quantity="1" />
+			<Objective type="complete job" character="SeaCaptain" job="CelebrateAtMoes" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SeaCaptain" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="278900" name="TheGreatBurnsby_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TheGreatBurnsby_Requirements:StoreCategory_TheGreatBurnsby_Unlocked" />
+		</Requirements>
+		<StartScript package="TheGreatBurnsby_Scripts" name="RecommendStoreCategory_TheGreatBurnsby" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="278901" name="MoesExpress_NoSamLarry_dummy" tags="dummy">
+		<Requirements>
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="building owned" building="MoesExpress" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="characterunlocked" name="Sam" not="true" />
+					<Requirement type="characterunlocked" name="Larry" not="true" />
+				</Requirement>
+			</Requirement>
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TheGreatBurnsby_Scripts" name="AwardSamLarryFix" />
+	</Quest>
+</Quests>

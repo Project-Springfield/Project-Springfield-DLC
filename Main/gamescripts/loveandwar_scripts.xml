@@ -1,0 +1,608 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="LoveAndWarMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="LoveAndWar_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="LoveAndWar_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="LoveAndWar_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="LoveAndWar_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_LoveAndWar_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_LoveAndWar_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_LoveAndWar_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_LoveAndWar_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_LoveAndWar_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="LoveAndWar_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="LoveAndWar_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="LoveAndWar_LoveAndWar_OnePanel" eventName="UI_LoveAndWar_Title" limitedTime="true" limitedTimeEndDate="LoveAndWar_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="LoveAndWarMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_LoveAndWar_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_LoveAndWar_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_LoveAndWar_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_LoveAndWar_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_LoveAndWar_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="LoveAndWar_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="LoveAndWar_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="LoveAndWar_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="LoveAndWar_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="LoveAndWar_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_LoveAndWar_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="LoveAndWar_OnePanel" />
+		<Action type="runScript" script="LoveAndWar_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="LoveAndWar_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="LoveAndWar_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="LoveAndWar_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="LoveAndWar_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="LoveAndWar_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="LoveAndWar_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="LoveAndWar_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="LoveAndWar_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="LoveAndWar_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="LoveAndWar_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="LoveAndWar_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="LoveAndWar_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="LoveAndWar_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="LoveAndWar_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="LoveAndWar_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="LoveAndWar_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="LoveAndWar_Start" end="LoveAndWar_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="StrangerThanEviction_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week1" />
+									<Attribute name="JobList" value="LoveAndWar_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="StrangerThanEviction_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week1" />
+									<Attribute name="JobList" value="LoveAndWar_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StrangerThanEviction_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week1" />
+									<Attribute name="JobList" value="LoveAndWar_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StrangerThanEviction_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week1" />
+									<Attribute name="JobList" value="LoveAndWar_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StrangerThanEviction_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week1" />
+									<Attribute name="JobList" value="LoveAndWar_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="LoveAndWar_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="LoveAndWar_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="LoveAndWar_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="LoveAndWar_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="LoveAndWar_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="LoveAndWar_Start" end="LoveAndWar_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AmorousAvarice_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week2" />
+									<Attribute name="JobList" value="LoveAndWar_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AmorousAvarice_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week2" />
+									<Attribute name="JobList" value="LoveAndWar_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AmorousAvarice_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week2" />
+									<Attribute name="JobList" value="LoveAndWar_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AmorousAvarice_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week2" />
+									<Attribute name="JobList" value="LoveAndWar_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AmorousAvarice_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week2" />
+									<Attribute name="JobList" value="LoveAndWar_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="LoveAndWar_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="LoveAndWar_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="LoveAndWar_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="LoveAndWar_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="LoveAndWar_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="LoveAndWar_Start" end="LoveAndWar_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="HeavenAndHell_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week3" />
+									<Attribute name="JobList" value="LoveAndWar_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeavenAndHell_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week3" />
+									<Attribute name="JobList" value="LoveAndWar_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeavenAndHell_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week3" />
+									<Attribute name="JobList" value="LoveAndWar_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeavenAndHell_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week3" />
+									<Attribute name="JobList" value="LoveAndWar_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HeavenAndHell_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week3" />
+									<Attribute name="JobList" value="LoveAndWar_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="LoveAndWar_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="LoveAndWar_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="LoveAndWar_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="LoveAndWar_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="LoveAndWar_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="LoveAndWar_Start" end="LoveAndWar_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="InSicknessAndInWealth_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week4" />
+									<Attribute name="JobList" value="LoveAndWar_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="InSicknessAndInWealth_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week4" />
+									<Attribute name="JobList" value="LoveAndWar_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="InSicknessAndInWealth_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week4" />
+									<Attribute name="JobList" value="LoveAndWar_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="InSicknessAndInWealth_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week4" />
+									<Attribute name="JobList" value="LoveAndWar_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="InSicknessAndInWealth_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="LoveAndWar_Event_Week4" />
+									<Attribute name="JobList" value="LoveAndWar_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="LoveAndWar_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="LoveAndWar_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="LoveAndWar_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="LoveAndWar_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="LoveAndWar_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="LoveAndWar_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<RecommendStoreCategory_LoveAndWar ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="LoveAndWar_LoveAndWar_OnePanel" />
+		<Action type="recommendation" recType="Event" name="LoveAndWar_LoveAndWar_OnePanel" eventName="UI_LoveAndWar_Title" limitedTime="true" limitedTimeEndDate="LoveAndWar_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_LoveAndWar>
+	<EnterStoreCategory_LoveAndWar ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="LoveAndWar_Category" />
+	</EnterStoreCategory_LoveAndWar>
+	<LoveAndWarTokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" LoveAndWarToken="1" />
+			<True>
+				<Action type="runScript" script="LoveAndWar_Scripts:GoToLoveAndWarTokenExchange" />
+			</True>
+		</Action>
+	</LoveAndWarTokenForDozenDonuts>
+	<GoToLoveAndWarTokenExchange>
+		<Action type="focusOnMenuItem" itemName="LoveAndWarTokenForDozenDonuts" menuCategory="LoveAndWar_Category" />
+	</GoToLoveAndWarTokenExchange>
+	<RewardOneLoveAndWarToken>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_LoveAndWar_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" LoveAndWarToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="LoveAndWar_Requirements:LoveAndWarBox_Available" />
+			<True>
+				<Action type="consumable" consumable="LoveAndWar_LoveAndWarMysteryBox" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="LoveAndWar_Scripts:GoToLoveAndWarTokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneLoveAndWarToken>
+	<RewardOneLoveAndWarToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_LoveAndWar_MysteryBoxTokenSingular" icon="ICO_PRIZ_LoveAndWar_Act1Prize2_LG" button="UI_OK" />
+		<Action type="reward" save="true" LoveAndWarToken="1" />
+		<Action type="consumable" consumable="LoveAndWar_LoveAndWarMysteryBox" fromInventory="false" />
+	</RewardOneLoveAndWarToken_Store>
+	<RewardFiveLoveAndWarTokens_Store>
+		<Action type="notification" title="UI_MysteryBoxTokensFive" text="UI_LoveAndWar_MysteryBoxTokenPlural" icon="ICO_PRIZ_LoveAndWar_Act1Prize2_LG" button="UI_OK" />
+		<Action type="reward" save="true" LoveAndWarToken="5" />
+		<Action type="consumable" consumable="LoveAndWar_LoveAndWarMysteryBox" fromInventory="false" />
+	</RewardFiveLoveAndWarTokens_Store>
+	<LoveTester_Tapped parallel="true" ignoreHUD="true">
+		<Action type="random">
+			<Action type="anim-play" animation="Tap1" />
+			<Action type="anim-play" animation="Tap2" />
+			<Action type="anim-play" animation="Tap3" />
+		</Action>
+	</LoveTester_Tapped>
+	<Give_Kodos>
+		<Action type="reward">
+			<Item type="character" name="Kodos" useImmediately="true" />
+		</Action>
+	</Give_Kodos>
+</ScriptPackage>

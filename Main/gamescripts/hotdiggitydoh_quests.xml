@@ -1,0 +1,586 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="254000" name="TheUnbearableDarknessOfBeing_1" />
+		<DataID id="254001" name="TheUnbearableDarknessOfBeing_2" />
+		<DataID id="254002" name="ReleaseTheGrease_1" />
+		<DataID id="254003" name="ReleaseTheGrease_2" />
+		<DataID id="254004" name="ReleaseTheGrease_3" />
+		<DataID id="254005" name="ReleaseTheGrease_4" />
+		<DataID id="254006" name="ReleaseTheGrease_5" />
+		<DataID id="254007" name="OffToMexico" />
+		<DataID id="254008" name="DealWithTheDeuce_1" />
+		<DataID id="254009" name="DealWithTheDeuce_2" />
+		<DataID id="254010" name="DealWithTheDeuce_3" />
+		<DataID id="254011" name="DealWithTheDeuce_4" />
+		<DataID id="254012" name="DealWithTheDeuce_5" />
+		<DataID id="254013" name="ThePrinceOfSulphides_1" />
+		<DataID id="254014" name="ThePrinceOfSulphides_2" />
+		<DataID id="254015" name="ThePrinceOfSulphides_3" />
+		<DataID id="254016" name="ThePrinceOfSulphides_4" />
+		<DataID id="254017" name="TheImaginariumOfSgtSausage_1" />
+		<DataID id="254018" name="TheImaginariumOfSgtSausage_2" />
+		<DataID id="254019" name="TheImaginariumOfSgtSausage_3" />
+		<DataID id="254020" name="TheImaginariumOfSgtSausage_4" />
+		<DataID id="254021" name="TheImaginariumOfSgtSausage_5" />
+		<DataID id="254600" name="HotDiggityDoh_Completed" />
+		<DataID id="254601" name="HotDiggityDoh_IntroPanel" />
+		<DataID id="254602" name="HotDiggityDoh_72HourWarning" onDeprecated="retain" endDate="HotDiggityDoh_End" />
+		<DataID id="254603" name="HotDiggityDoh_24HourWarning" onDeprecated="retain" endDate="HotDiggityDoh_End" />
+		<DataID id="254604" name="HotDiggityDoh_EventExpired" />
+		<DataID id="254605" name="HotDiggityDoh_MasterQuest" />
+		<DataID id="254900" name="HotDiggityDoh_RecommendStore" onDeprecated="delete" endDate="HotDiggityDoh_End" />
+	</MasterList>
+	<Quest id="254600" name="HotDiggityDoh_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="OffToMexico" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="254601" name="HotDiggityDoh_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="TheUnbearableDarknessOfBeing_2" />
+			<Requirement type="time" end="HotDiggityDoh_End" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="254602" name="HotDiggityDoh_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::HotDiggityDoh_End')-fromHours(72)]_" end="_[System::evaluate('Date::HotDiggityDoh_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="HotDiggityDoh_Complete" not="true" />
+			<Requirement type="quest" quest="HotDiggityDoh_IntroPanel" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="254603" name="HotDiggityDoh_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::HotDiggityDoh_End')-fromHours(24)]_" end="HotDiggityDoh_End" triggerEvent="true" />
+			<Requirement type="variable" variable="HotDiggityDoh_Complete" not="true" />
+			<Requirement type="quest" quest="HotDiggityDoh_IntroPanel" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="254604" name="HotDiggityDoh_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="HotDiggityDoh_End" triggerEvent="true" />
+			<Requirement type="variable" variable="HotDiggityDoh_Complete" not="true" />
+			<Requirement type="quest" quest="HotDiggityDoh_IntroPanel" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="254605" name="HotDiggityDoh_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_Expired" not="true" />
+			<Requirement type="variable" variable="HotDiggityDoh_Complete" not="true" />
+			<Requirement type="reqList" location="HotDiggityDoh_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ReleaseTheGrease_5" />
+					<Requirement type="variable" variable="HotDiggityDoh_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="ReleaseTheGrease_1">
+				<Requirement type="quest started" quest="ReleaseTheGrease_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ReleaseTheGrease_2">
+				<Requirement type="quest started" quest="ReleaseTheGrease_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ReleaseTheGrease_3">
+				<Requirement type="quest started" quest="ReleaseTheGrease_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ReleaseTheGrease_4">
+				<Requirement type="quest started" quest="ReleaseTheGrease_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ReleaseTheGrease_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="254000" name="TheUnbearableDarknessOfBeing_1" tags="sidequest" icon="HotDiggityDoh_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="HotDiggityDoh_Start" end="HotDiggityDoh_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheUnbearableDarknessOfBeing_1_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="TheUnbearableDarknessOfBeing_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="WatchTheGreatBritishBoilingShow" quantity="1" />
+			<Objective type="complete job" character="Marge" job="SearchForAFlashlight" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254001" name="TheUnbearableDarknessOfBeing_2" tags="sidequest" icon="HotDiggityDoh_Event">
+		<Requirements>
+			<Requirement type="quest" quest="TheUnbearableDarknessOfBeing_1" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheUnbearableDarknessOfBeing_2_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="TheUnbearableDarknessOfBeing_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="HeadToTheSquidport" quantity="1" />
+			<Objective type="complete job" character="Bart" job="HeadToTheSquidport" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="LightMoreCandles" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="EnjoyQuietReadingByCandlelight" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254002" name="ReleaseTheGrease_1" tags="mainquest" icon="HotDiggityDoh_Currency" sidebarIconScript="HotDiggityDoh_Scripts:OpenMasterQuest" questMenuConfigPath="HotDiggityDoh_QuestConfig:HotDiggityDoh_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_Expired" not="true" />
+			<Requirement type="quest" quest="HotDiggityDoh_IntroPanel" />
+			<Requirement type="time" start="HotDiggityDoh_Start" end="HotDiggityDoh_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_1_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::HotDiggityDoh_Currency')" amount="__HotDiggityDoh_GameConfig:ResourceQuantities:HotDiggityDoh_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="HotDiggityDoh_Scripts:ShowJobList" textpoolName="QST_HotDiggityDoh_Collect_obj">
+				<HighlightJobList>
+					<Job name="ScrapeGreaseOffTheCollectionVats" />
+					<Job name="StealUsedGreaseFromRestaurants" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="RageOverGreasePrices" quantity="1" />
+			<Objective type="complete job" character="Bart" job="ThinkThroughTheBusinessPlan" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="GoThroughTheCreditCardStatement" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="HotDiggityDoh_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="HotDiggityDoh_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="254003" name="ReleaseTheGrease_2" tags="mainquest" icon="HotDiggityDoh_Currency" sidebarIconScript="HotDiggityDoh_Scripts:OpenMasterQuest" questMenuConfigPath="HotDiggityDoh_QuestConfig:HotDiggityDoh_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ReleaseTheGrease_1" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_2_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::HotDiggityDoh_Currency') + System::evaluate('Spendable::HotDiggityDoh_Currency_FromRestaurants')" amount="__HotDiggityDoh_GameConfig:ResourceQuantities:HotDiggityDoh_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="HotDiggityDoh_Scripts:ShowJobList" textpoolName="QST_HotDiggityDoh_Collect_obj">
+				<HighlightJobList>
+					<Job name="ScrapeGreaseOffTheCollectionVats" />
+					<Job name="StealUsedGreaseFromRestaurants" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::HotDiggityDoh_Currency') + System::evaluate('Spendable::HotDiggityDoh_Currency_FromRestaurants')" amount="25" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="HotDiggityDoh_Scripts:PanToEatery"></Objective>
+			<Objective type="complete job" character="Homer" job="PrayToSkyFinger" quantity="1" />
+			<Objective type="complete job" character="Bart" job="QuestionTheExistenceOfSkyFinger" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lovejoy" job="DeclareSkyFingerBlasphemous" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lovejoy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="HotDiggityDoh_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="HotDiggityDoh_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="254004" name="ReleaseTheGrease_3" tags="mainquest" icon="HotDiggityDoh_Currency" sidebarIconScript="HotDiggityDoh_Scripts:OpenMasterQuest" questMenuConfigPath="HotDiggityDoh_QuestConfig:HotDiggityDoh_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ReleaseTheGrease_2" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_3_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::HotDiggityDoh_Currency') + System::evaluate('Spendable::HotDiggityDoh_Currency_FromRestaurants')" amount="__HotDiggityDoh_GameConfig:ResourceQuantities:HotDiggityDoh_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="HotDiggityDoh_Scripts:ShowJobList" textpoolName="QST_HotDiggityDoh_Collect_obj">
+				<HighlightJobList>
+					<Job name="ScrapeGreaseOffTheCollectionVats" />
+					<Job name="StealUsedGreaseFromRestaurants" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GoToMarriageCounseling" quantity="1" />
+			<Objective type="complete job" character="Marge" job="GoToMarriageCounseling" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="KeepTheBusinessGoing" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="AskIfThereAreAnyVeganOptions" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="TakeOverAtTheRegister" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="HotDiggityDoh_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="HotDiggityDoh_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="254005" name="ReleaseTheGrease_4" tags="mainquest" icon="HotDiggityDoh_Currency" sidebarIconScript="HotDiggityDoh_Scripts:OpenMasterQuest" questMenuConfigPath="HotDiggityDoh_QuestConfig:HotDiggityDoh_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ReleaseTheGrease_3" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_4_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::HotDiggityDoh_Currency') + System::evaluate('Spendable::HotDiggityDoh_Currency_FromRestaurants')" amount="__HotDiggityDoh_GameConfig:ResourceQuantities:HotDiggityDoh_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="HotDiggityDoh_Scripts:ShowJobList" textpoolName="QST_HotDiggityDoh_Collect_obj">
+				<HighlightJobList>
+					<Job name="ScrapeGreaseOffTheCollectionVats" />
+					<Job name="StealUsedGreaseFromRestaurants" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Grampa" job="ExplainTheScheme" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Grampa" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="ListenIntently_HotDiggityDoh" quantity="1" />
+			<Objective type="complete job" character="Bart" job="GoAlongOutOfMorbidCuriosity" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="ScheduleTheNextCounselingSession" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="HotDiggityDoh_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="HotDiggityDoh_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="254006" name="ReleaseTheGrease_5" tags="mainquest" icon="HotDiggityDoh_Currency" sidebarIconScript="HotDiggityDoh_Scripts:OpenMasterQuest" questMenuConfigPath="HotDiggityDoh_QuestConfig:HotDiggityDoh_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="HotDiggityDoh_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ReleaseTheGrease_4" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_5_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ReleaseTheGrease_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::HotDiggityDoh_Currency') + System::evaluate('Spendable::HotDiggityDoh_Currency_FromRestaurants')" amount="__HotDiggityDoh_GameConfig:ResourceQuantities:HotDiggityDoh_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="HotDiggityDoh_Scripts:ShowJobList" textpoolName="QST_HotDiggityDoh_Collect_obj">
+				<HighlightJobList>
+					<Job name="ScrapeGreaseOffTheCollectionVats" />
+					<Job name="StealUsedGreaseFromRestaurants" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="PullOffTheHeistOfTheCentury" quantity="1" />
+			<Objective type="complete job" character="Deuce" job="PullOffTheHeistOfTheCentury" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Deuce" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="PullOffTheHeistOfTheCentury" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="GetStoodUpAtMarriageCounseling" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="HotDiggityDoh_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="HotDiggityDoh_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="254007" name="OffToMexico" tags="sidequest" icon="HotDiggityDoh_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ReleaseTheGrease_5" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="OffToMexico_Start" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="OffToMexico_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="TryToSellTheGrease" quantity="1" />
+			<Objective type="complete job" character="Grampa" job="MoveToTheCaribbean" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Grampa" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="ShortTheGreaseStock" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Deuce" job="HideTheHeistEvidence" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Deuce" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="254008" name="DealWithTheDeuce_1" tags="sidequest" icon="Deuce">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Deuce" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_1_Start" triggerType="character" character="Deuce" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Deuce" job="EnvisionANonHotDogCareerTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254009" name="DealWithTheDeuce_2" tags="sidequest" icon="Deuce">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DealWithTheDeuce_1" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_2_Start" triggerType="character" character="Deuce" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Deuce" job="FollowTheMoney" quantity="1" />
+			<Objective type="complete job" character="Cletus" job="TryToGetSeedMoney" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Cletus" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254010" name="DealWithTheDeuce_3" tags="sidequest" icon="Deuce">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DealWithTheDeuce_2" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_3_Start" triggerType="character" character="Deuce" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Deuce" job="SignHisLifeAway" quantity="1" />
+			<Objective type="complete job" character="Burns" job="PointToMorePlacesToSign" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Burns" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254011" name="DealWithTheDeuce_4" tags="sidequest" icon="Deuce">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DealWithTheDeuce_3" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_4_Start" triggerType="character" character="Deuce" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Deuce" job="SellOffThatRancidGold" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254012" name="DealWithTheDeuce_5" tags="sidequest" icon="Deuce">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DealWithTheDeuce_4" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="DealWithTheDeuce_5_Start" triggerType="character" character="Deuce" />
+		<Objectives>
+			<Objective type="complete job" character="Deuce" job="GetAJobAtTheGreasePlant" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="254013" name="ThePrinceOfSulphides_1" tags="sidequest" icon="DrHotDog">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="DrHotDog" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_1_Start" triggerType="character" character="DrHotDog" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="HaveANightmare" quantity="1" />
+			<Objective type="complete job" character="DrHotDog" job="VisitHomerInHisDreams" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254014" name="ThePrinceOfSulphides_2" tags="sidequest" icon="DrHotDog">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThePrinceOfSulphides_1" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_2_Start" triggerType="character" character="DrHotDog" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="DrHotDog" job="MakeJudgmentalTherapyNotes" quantity="1" />
+			<Objective type="complete job" character="Homer" job="TryNotToThinkOfTheDrAsAHotDog" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254015" name="ThePrinceOfSulphides_3" tags="sidequest" icon="DrHotDog">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThePrinceOfSulphides_2" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_3_Start" triggerType="character" character="DrHotDog" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="DrHotDog" job="TranscribeHotDogTraumaNotes" quantity="1" />
+			<Objective type="complete job" character="Homer" job="CountToEight" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254016" name="ThePrinceOfSulphides_4" tags="sidequest" icon="DrHotDog">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThePrinceOfSulphides_3" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_4_Start" triggerType="character" character="DrHotDog" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="ThePrinceOfSulphides_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="DrHotDog" job="FumeOverWordsLikeIrregardless" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="254017" name="TheImaginariumOfSgtSausage_1" tags="sidequest" icon="SgtSausage">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="SgtSausage" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_1_Start" triggerType="character" character="SgtSausage" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="SgtSausage" job="FollowHomerToWork_HotDiggityDoh" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254018" name="TheImaginariumOfSgtSausage_2" tags="sidequest" icon="SgtSausage">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheImaginariumOfSgtSausage_1" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_2_Start" triggerType="character" character="SgtSausage" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="SgtSausage" job="ContemplateExistenceTEMP" quantity="1" />
+			<Objective type="complete job" character="StradivariusCain" job="GetMushy" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="StradivariusCain" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254019" name="TheImaginariumOfSgtSausage_3" tags="sidequest" icon="SgtSausage">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheImaginariumOfSgtSausage_2" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_3_Start" triggerType="character" character="SgtSausage" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="SgtSausage" job="CruiseForAFix" quantity="1" />
+			<Objective type="complete job" character="Lovejoy" job="PrayTheImaginaryAway" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lovejoy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254020" name="TheImaginariumOfSgtSausage_4" tags="sidequest" icon="SgtSausage">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheImaginariumOfSgtSausage_3" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_4_Start" triggerType="character" character="SgtSausage" />
+		<EndScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="SgtSausage" job="TakeALongWalk" quantity="1" />
+			<Objective type="complete job" character="Barney" job="CallTheHospital" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="254021" name="TheImaginariumOfSgtSausage_5" tags="sidequest" icon="SgtSausage">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheImaginariumOfSgtSausage_4" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts_Dialogue" name="TheImaginariumOfSgtSausage_5_Start" triggerType="character" character="SgtSausage" />
+		<Objectives>
+			<Objective type="complete job" character="SgtSausage" job="TalkToHisImaginaryFriend" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="254900" name="HotDiggityDoh_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="HotDiggityDoh_Requirements:StoreCategory_HotDiggityDoh_Unlocked" />
+		</Requirements>
+		<StartScript package="HotDiggityDoh_Scripts" name="RecommendStoreCategory_HotDiggityDoh" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

@@ -1,0 +1,756 @@
+﻿<ScriptPackage>
+	<ExitScript>
+		<Action type="gotoFrontend" />
+	</ExitScript>
+	<KillSanta ignoreHUD="true">
+		<Action type="deletecharacter" character="Xmas2014_Santa" />
+	</KillSanta>
+	<WobbleCannonButton parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="lessThan(timesToFire,3)" />
+				<Requirement type="special currency" currency="FullBottles" amount="1" />
+			</Requirements>
+			<True>
+				<Action type="wobbleSpecialEventButton" buttonID="CannonButtonReady" speed="1.5" angle="10" duration="5s" />
+			</True>
+		</Action>
+	</WobbleCannonButton>
+	<Shake parallel="true" cached="true">
+		<Action type="sound" sound="103_drop_building.caf" />
+		<Action type="setVariable" intVariable="cannonShots" intValue="cannonShots+1" />
+		<Action type="floatText">
+			<Attribute name="config">
+				<AttributeSet name="text">
+					<Attribute name="text" value="UI_CannonFiring_FloatText" parameters="messageParams" localise="true">
+						<AttributeSet name="messageParams">
+							<Attribute name="0" formula="cannonShots" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FF0000FF" />
+					<Attribute name="name" value="elfShots" />
+					<Attribute name="duration" value="1s" />
+					<Attribute name="speed" value="1.2" />
+					<Attribute name="resetTime" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="shakeCamera" length="2" magnitude="10" />
+	</Shake>
+	<FireElfCannon cached="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="greaterThan(FullBottles,0)" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="ActualFireElfCannon" package="XMAS2014_Scripts_Pt2" />
+			</True>
+			<False>
+				<Action type="genericMessage">
+					<Attribute name="config">
+						<AttributeSet name="title">
+							<Attribute name="text" value="UI_MiniGame_ElfCannon_errortitle" localise="true" parameters="levelTextData" />
+							<Attribute name="font" value="eFont_LargeBold" />
+							<Attribute name="color" value="FFD51AFF" />
+						</AttributeSet>
+						<AttributeSet name="message">
+							<Attribute name="text" value="UI_MiniGame_ElfCannon_errormessage" localise="true" />
+							<Attribute name="font" value="eFont_Large" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="button_OK">
+							<Attribute name="button_text">
+								<AttributeSet name="text">
+									<Attribute name="text" value="UI_OK" localise="true" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="bg">
+							<Attribute name="image" value="ICO_SuperSecretItem" />
+						</AttributeSet>
+						<AttributeSet name="left">
+							<Attribute name="image" value="ico_xmas2014_elfbottleunlock" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</False>
+		</Action>
+	</FireElfCannon>
+	<ActualFireElfCannon parallel="true" cached="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="ignoreFire==1" />
+			</Requirements>
+			<True>
+				<Action type="setMiniGameState" name="ElfCannonLaunch" state="Playing" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="cannonShots" intValue="1" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(FullBottles,0)" />
+					</Requirements>
+					<True>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="formula" formula="lessThan(timesToFire,3)" />
+							</Requirements>
+							<True>
+								<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_bottle_loaded.caf" />
+								<Action type="anim-play" building="ElfCannon" animation="FireCannonIn" />
+								<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_fired.caf" replayType="playAnyways" />
+								<Action type="sound">
+									<Sound sound="sfx_EA_TSTO_elf_woohoo_1.caf" />
+									<Sound sound="sfx_EA_TSTO_elf_woohoo_2.caf" />
+									<Sound sound="sfx_EA_TSTO_elf_woohoo_3.caf" />
+									<Sound sound="sfx_EA_TSTO_elf_woohoo_4.caf" />
+									<Sound sound="sfx_EA_TSTO_elf_woohoo_5.caf" />
+								</Action>
+								<Action type="anim-play" building="ElfCannon" animation="FireCannon" />
+								<Action type="anim-play" building="ElfCannon" animation="FireCannonOut" />
+								<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_active_out.caf" />
+								<Action type="setVariable" intVariable="timesToFire" intValue="timesToFire+1" />
+								<Action type="reward" ElfBerries="selector CannonRewardFormula" />
+								<Action type="reward" save="true" XMAS2014Score="__XMAS2014_GameConfig:Formulas:CannonCost__" noDrops="true" />
+								<Action type="setVariable" intVariable="TotalElvesFired" intValue="TotalElvesFired+System::evaluate('Selector::CannonCostFormula')" />
+								<Action type="loseResources" FullBottles="__XMAS2014_GameConfig:Formulas:CannonCost__" />
+							</True>
+						</Action>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="formula" formula="lessThan(timesToFire,3)" />
+							</Requirements>
+							<False>
+								<Action type="setMiniGameState" name="ElfCannonLaunch" state="Ready" />
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="genericMessage">
+							<Attribute name="config">
+								<AttributeSet name="title">
+									<Attribute name="text" value="UI_MiniGame_ElfCannon_errortitle" localise="true" parameters="levelTextData" />
+									<Attribute name="font" value="eFont_LargeBold" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet name="message">
+									<Attribute name="text" value="UI_MiniGame_ElfCannon_errormessage" localise="true" />
+									<Attribute name="font" value="eFont_Large" />
+									<Attribute name="color" value="FFFFFFFF" />
+								</AttributeSet>
+								<AttributeSet name="button_OK">
+									<Attribute name="button_text">
+										<AttributeSet name="text">
+											<Attribute name="text" value="UI_OK" localise="true" />
+										</AttributeSet>
+									</Attribute>
+								</AttributeSet>
+								<AttributeSet name="bg">
+									<Attribute name="image" value="ICO_SuperSecretItem" />
+								</AttributeSet>
+								<AttributeSet name="left">
+									<Attribute name="image" value="ICO_XMAS2014_ElfBottle_LG" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+					</False>
+				</Action>
+				<Action type="setVariable" intVariable="totalTimesFired" intValue="totalTimesFired+1" />
+				<Action type="setVariable" intVariable="currentTimesFired" intValue="currentTimesFired+1" />
+			</False>
+		</Action>
+		<Action type="setVariable" intVariable="ignoreFire" intValue="0" />
+	</ActualFireElfCannon>
+	<ResetElfCannon parallel="true" ignoreHud="true">
+		<Action type="setVariable" intVariable="timesToFire" intValue="0" />
+		<Action type="setVariable" intVariable="ignoreFire" intValue="1" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="greaterThan(FullBottles,0)" />
+			<True>
+				<Action type="collectIndicator" building="ElfCannon" />
+			</True>
+		</Action>
+	</ResetElfCannon>
+	<GoToElfCannon>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="ElfCannon" fakeTouch="false" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</GoToElfCannon>
+	<GoToElfCannonControl>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="ElfCannonControl" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</GoToElfCannonControl>
+	<OnFriendTouchesElfCannon parallel="true" cached="true">
+		<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_bottle_loaded.caf" />
+		<Action type="anim-play" building="ElfCannon" animation="FireCannonIn" />
+		<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_fired.caf" />
+		<Action type="sound">
+			<Sound sound="sfx_EA_TSTO_elf_woohoo_1.caf" />
+			<Sound sound="sfx_EA_TSTO_elf_woohoo_2.caf" />
+			<Sound sound="sfx_EA_TSTO_elf_woohoo_3.caf" />
+			<Sound sound="sfx_EA_TSTO_elf_woohoo_4.caf" />
+			<Sound sound="sfx_EA_TSTO_elf_woohoo_5.caf" />
+		</Action>
+		<Action type="anim-play" onBuilding="ElfCannon" animation="FireCannonFromFriendAction" />
+		<Action type="anim-play" onBuilding="ElfCannon" animation="FireCannonOut" />
+		<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_active_out.caf" />
+	</OnFriendTouchesElfCannon>
+	<ShakeFromFriendAction parallel="true" cached="true">
+		<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_fired.caf" replayType="playAnyways" />
+		<Action type="shakeCamera" length="2" magnitude="10" />
+	</ShakeFromFriendAction>
+	<XMASFriendsHUDInfo parallel="true">
+		<Action type="runScript" script="XMASFriendsHUDInfoAux" package="XMAS2014_Scripts_Pt2" />
+	</XMASFriendsHUDInfo>
+	<XMASFriendsHUDInfoAux>
+		<Action type="message" text="UI_XMAS2014_Pt2_FriendMapHelp_text" title="UI_XMAS2014_title" />
+	</XMASFriendsHUDInfoAux>
+	<OnWorldMapLoad parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="ShowLeaderboard" />
+				<Requirement type="variable" variable="OpenLeaderboard" />
+				<Requirement type="config" key="XMAS2014_GameConfig_Pt2:Enable:LeaderboardPopup" value="1" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="OpenLeaderboard" boolValue="false" />
+				<Action type="gotoState" state="WorldState_Leaderboard">
+					<Extras>
+						<Attribute name="MenuConfig" value="XMAS2014_LeaderboardMenuConfig_Pt2:LeaderboardMenu" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</OnWorldMapLoad>
+	<UpdateGunPowderBalance>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friend land" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="GunPowderBalance" intValue="System::evaluate('Spendable::GunPowder')" />
+			</True>
+		</Action>
+	</UpdateGunPowderBalance>
+	<OnFriendButtonPressed>
+		<Action type="setVariable" boolVariable="OpenLeaderboard" boolValue="true" />
+	</OnFriendButtonPressed>
+	<CannonButtonPressed ignoreHUD="true">
+		<Action type="pantoobject" building="ElfCannon" fakeTouch="false" />
+	</CannonButtonPressed>
+	<ElfZapperButtonPressed>
+		<Action type="notification" title="UI_ElflectricSwatter_name" text="UI_ElfSwatter_SystemMessage" button="UI_OK" icon="ICO_MHUD_XMAS14_Teleporter_SE" />
+	</ElfZapperButtonPressed>
+	<SpecialEventButtonInFriendMapPressed>
+		<Action type="gotoState" state="WorldState_Leaderboard">
+			<Extras>
+				<Attribute name="MenuConfig" value="XMAS2014_LeaderboardMenuConfig_Pt2:LeaderboardMenu" />
+			</Extras>
+		</Action>
+	</SpecialEventButtonInFriendMapPressed>
+	<StunBadElf parallel="true" cache="true">
+		<Action type="runScript" script="BadElfStunnedReward" package="XMAS2014_Scripts_Pt2" waitUntilComplete="true" />
+		<Action type="setVariable" intVariable="XMAS2014StunnedBadElves" intValue="XMAS2014StunnedBadElves+1" />
+		<Action type="delay" time="rand(10)/100" />
+		<Action type="stop" character="Xmas014_BadElf" />
+		<Action type="sound" sound="364_bunny_electrocuted.caf" />
+		<Action type="playanimation" character="Xmas014_BadElf" animation="Teleport" />
+		<Action type="deletecharacter" character="Xmas014_BadElf" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character count" name="Xmas014_BadElf" quantity="1" not="true" />
+			</Requirements>
+			<True>
+				<Action type="message" text="UI_ElvesCleared_SystemMessage" dismissOnOKOnly="false" />
+			</True>
+		</Action>
+	</StunBadElf>
+	<ActivateBadElfStunner parallel="true">
+		<Action type="vacuum" config="BadElfStunner" fromSpecialEvent="XMAS2014_Pt2" />
+	</ActivateBadElfStunner>
+	<DoBadElfStun parallel="true" exclusive="true">
+		<Action type="runScript" script="StunBadElf" package="XMAS2014_Scripts_Pt2" waitUntilComplete="true" />
+	</DoBadElfStun>
+	<BadElfTappedReward parallel="true" cache="true">
+		<Action type="rewardchoice">
+			<Reward chance="__XMAS2014_GameConfig:ElfRewards:ElfBottle_Chance__" chanceType="s" FullBottles="__XMAS2014_GameConfig:ElfRewards:ElfBottle_Num__" />
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="ElfCannonControl" />
+			<True>
+				<Action type="rewardchoice">
+					<Reward chance="__XMAS2014_GameConfig:ElfRewards:CannonParts_Chance__" chanceType="s" GunPowder="__XMAS2014_GameConfig:ElfRewards:CannonParts_Num__" />
+				</Action>
+			</True>
+		</Action>
+	</BadElfTappedReward>
+	<BadElfStunnedReward parallel="true" cache="true">
+		<Action type="rewardchoice">
+			<Reward chance="__XMAS2014_GameConfig:ElfRewards:ElfBottle_Chance__" chanceType="s" FullBottles="__XMAS2014_GameConfig:ElfRewards:ElfBottle_Num__" />
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="ElfCannonControl" />
+			<True>
+				<Action type="rewardchoice">
+					<Reward chance="__XMAS2014_GameConfig:ElfRewards:CannonParts_Chance__" chanceType="s" GunPowder="__XMAS2014_GameConfig:ElfRewards:CannonParts_Num__" />
+				</Action>
+			</True>
+		</Action>
+	</BadElfStunnedReward>
+	<SpawnElvesFromCannon cache="true">
+		<Action type="recieveMultipleFriendScripts" scriptToRun="XMAS2014_Scripts_Pt2:SpawnElfFromCannon" />
+	</SpawnElvesFromCannon>
+	<SpawnStartElves>
+		<Action type="createobject" name="Xmas014_BadElf" count="30" save="true" panCamera="false" />
+	</SpawnStartElves>
+	<SpawnReplacementForElves cache="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="SOTElfSessionStartTime==0" />
+			<True>
+				<Action type="setVariable" dateVariable="SOTElfSessionStartTime" />
+			</True>
+		</Action>
+		<Action type="setVariable" dateVariable="SOTElfSessionCurrentTime" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="lessThan(SOTElfSessionCurrentTime - SOTElfSessionStartTime, 10)" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="formula" formula="lessThan(SOTElfSessionSpawnCount, 6)" />
+					</Requirements>
+					<True>
+						<Action type="setVariable" intVariable="SOTElfSpawnCloseToCannon" intValue="1" />
+						<Action type="setVariable" intVariable="SOTElfEffectEnabled" intValue="1" />
+					</True>
+					<False>
+						<Action type="setVariable" intVariable="SOTElfSpawnCloseToCannon" intValue="0" />
+						<Action type="setVariable" intVariable="SOTElfEffectEnabled" intValue="0" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="SOTElfSpawnCloseToCannon" intValue="0" />
+				<Action type="setVariable" intVariable="SOTElfEffectEnabled" intValue="1" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="SOTElfSpawnCloseToCannon==1" />
+			</Requirements>
+			<True>
+				<Action type="createobject" name="Xmas014_BadElf" count="1" save="true" panCamera="false" building="ElfCannon" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" enableCharacterOverlay="true" />
+				<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_bottle_broken.caf" />
+				<Action type="setVariable" intVariable="SOTElfSessionSpawnCount" intValue="SOTElfSessionSpawnCount+1" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="formula" formula="SOTElfEffectEnabled==1" />
+					</Requirements>
+					<True>
+						<Action type="createobject" name="Xmas014_BadElf" count="1" save="true" panCamera="false" enableCharacterOverlay="true" />
+						<Action type="sound" sound="sfx_EA_TSTO_elf_cannon_bottle_broken.caf" />
+					</True>
+					<False>
+						<Action type="createobject" name="Xmas014_BadElf" count="1" save="true" panCamera="false" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</SpawnReplacementForElves>
+	<ResetSOTElfSessionStartTime>
+		<Action type="setVariable" dateVariable="SOTElfSessionStartTime" />
+	</ResetSOTElfSessionStartTime>
+	<SpawnElfFromCannon parallel="true" cache="true">
+		<Action type="createobject" name="Xmas014_BadElf" count="1" save="true" building="SimpsonHome" awayFromSpawnLoc="200.0f" />
+	</SpawnElfFromCannon>
+	<BadElf_Tapped parallel="true">
+		<Action type="runScript" script="BadElfTappedReward" package="XMAS2014_Scripts_Pt2" waitUntilComplete="true" />
+		<Action type="sound">
+			<Sound sound="sfx_EA_TSTO_elf_scared_1.caf" />
+			<Sound sound="sfx_EA_TSTO_elf_scared_2.caf" />
+			<Sound sound="sfx_EA_TSTO_elf_scared_3.caf" />
+		</Action>
+		<Action type="playanimation" character="Xmas014_BadElf" animation="Gets_Squashed" />
+		<Action type="fade" character="Xmas014_BadElf" fade="outmax" />
+		<Action type="deletecharacter" character="Xmas014_BadElf" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character count" name="Xmas014_BadElf" quantity="1" not="true" />
+			</Requirements>
+			<True>
+				<Action type="message" text="UI_ElvesCleared_SystemMessage" dismissOnOKOnly="false" />
+			</True>
+		</Action>
+	</BadElf_Tapped>
+	<BellBonus_Start>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SeenPrestigeSystemMessage" />
+			<False>
+				<Action type="setVariable" boolVariable="SeenPrestigeSystemMessage" boolValue="true" />
+				<Action type="message" text="QST_BellBonus_3_dlg_Start_1_SystemMessage" revealSpeed="medium" />
+			</False>
+		</Action>
+	</BellBonus_Start>
+	<BellBonus_End>
+		<Action type="reward">
+			<Item type="consumable" name="XMAS2014Prestige_Pt2" useImmediately="true" />
+		</Action>
+	</BellBonus_End>
+	<ProjectAfterParty01_Start>
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty01_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty01_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_ProjectAfterParty01_3_dlg_Start_3_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_ProjectAfterParty01_3_dlg_Start_4_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ProjectAfterParty01_3_dlg_Start_5_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ProjectAfterParty01_3_dlg_Start_6_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty01_3_dlg_Start_7_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_ProjectAfterParty01_3_dlg_Start_8_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_ProjectAfterParty01_3_dlg_Start_9_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty01_3_dlg_Start_10_Homer" revealSpeed="medium" />
+		<Action type="recommendation" recType="Event" eventName="SET_Winter2014_name" name="XMAS2014ScriptObject_Pt2" />
+	</ProjectAfterParty01_Start>
+	<ProjectAfterParty01_End>
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_ProjectAfterParty01_3_dlg_End_1_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_ProjectAfterParty01_3_dlg_End_2_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty01_3_dlg_End_3_Homer" revealSpeed="medium" emotion="happy" />
+	</ProjectAfterParty01_End>
+	<ProjectAfterParty01_Alt_Start>
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_3_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_4_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_5_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_6_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_7_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ProjectAfterParty01_Alt_3_dlg_Start_8_Quimby" revealSpeed="medium" />
+	</ProjectAfterParty01_Alt_Start>
+	<ProjectAfterParty02_Start>
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="ProjectAfterParty01" />
+			<True>
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_Start_1_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_Start_2_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty02_3_dlg_Start_3_Homer" revealSpeed="medium" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_Start_4_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty02_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="alarmed" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_Start_6_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_Start_7_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty02_3_dlg_Start_8_Bart" revealSpeed="medium" emotion="laughing" />
+			</True>
+			<False>
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_1_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_2_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_3_Homer" revealSpeed="medium" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_4_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="alarmed" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_Start_6_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_7_Santa" revealSpeed="medium" />
+				<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty02_Alt_3_dlg_Start_8_Bart" revealSpeed="medium" emotion="laughing" />
+			</False>
+		</Action>
+	</ProjectAfterParty02_Start>
+	<ProjectAfterParty02_End>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_ProjectAfterParty02_3_dlg_End_1_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty02_3_dlg_End_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty02_3_dlg_End_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty02_3_dlg_End_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty02_3_dlg_End_5_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ProjectAfterParty02_3_dlg_End_6_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty02_3_dlg_End_7_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty02_3_dlg_End_8_Bart" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty02_3_dlg_End_9_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="ProjectAfterParty01" />
+			<False>
+				<Action type="recommendation" recType="Event" eventName="SET_Winter2014_name" name="XMAS2014ScriptObject_Pt2" />
+			</False>
+		</Action>
+	</ProjectAfterParty02_End>
+	<ChristmasWasHere_Start>
+		<Action type="dialogue" character="Quimby" text="QST_ChristmasWasHere_3_dlg_Start_1_Quiimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ChristmasWasHere_3_dlg_Start_2_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_ChristmasWasHere_3_dlg_Start_3_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_ChristmasWasHere_3_dlg_Start_4_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_ChristmasWasHere_3_dlg_Start_5_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ChristmasWasHere_3_dlg_Start_6_Lisa" revealSpeed="medium" />
+	</ChristmasWasHere_Start>
+	<ProjectAfterParty03_Start>
+		<Action type="runScript" script="SpawnStartElves" package="XMAS2014_Scripts_Pt2" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty03_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_ProjectAfterParty03_3_dlg_Start_2_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_ProjectAfterParty03_3_dlg_Start_3_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_ProjectAfterParty03_3_dlg_Start_4_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Kirk" text="QST_ProjectAfterParty03_3_dlg_Start_5_Kirk" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_ProjectAfterParty03_3_dlg_Start_6_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty03_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="woohoo" />
+		<Action type="dialogue" character="Ned" text="QST_ProjectAfterParty03_3_dlg_Start_8_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty03_3_dlg_Start_9_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_ProjectAfterParty03_3_dlg_Start_10_Ned" revealSpeed="medium" />
+	</ProjectAfterParty03_Start>
+	<ProjectAfterParty03_End>
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty03_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="HappyLittleElf01_Drunk" text="QST_ProjectAfterParty03_3_dlg_End_2_DrunkElf" revealSpeed="medium" />
+		<Action type="dialogue" character="HappyLittleElf01_Drunk" text="QST_ProjectAfterParty03_3_dlg_End_3_DrunkElf" revealSpeed="medium" />
+	</ProjectAfterParty03_End>
+	<OCannonbaum01_Start>
+		<Action type="runScript" script="LaunchGuidePanel" package="XMAS2014_Scripts" />
+		<Action type="dialogue" character="Homer" text="QST_OCannonbaum01_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_OCannonbaum01_3_dlg_Start_2_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_OCannonbaum01_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_OCannonbaum01_3_dlg_Start_4_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_OCannonbaum01_3_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_OCannonbaum01_3_dlg_Start_6_Frink" revealSpeed="medium" />
+	</OCannonbaum01_Start>
+	<ProjectAfterParty04_Start>
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty04_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Frink" text="QST_ProjectAfterParty04_3_dlg_Start_2_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_ProjectAfterParty04_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty04_3_dlg_Start_4_Lisa" revealSpeed="medium" emotion="sad" />
+	</ProjectAfterParty04_Start>
+	<ProjectAfterParty04_End>
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty04_3_dlg_End_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_ProjectAfterParty04_3_dlg_End_2_Frink" revealSpeed="medium" />
+	</ProjectAfterParty04_End>
+	<ProjectAfterParty05_Start>
+		<Action type="dialogue" character="Nelson" text="QST_ProjectAfterParty05_3_dlg_Start_1_Nelson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty05_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty05_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Nelson" text="QST_ProjectAfterParty05_3_dlg_Start_4_Nelson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty05_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</ProjectAfterParty05_Start>
+	<ProjectAfterParty06_Start>
+		<Action type="dialogue" character="Marge" text="QST_ProjectAfterParty06_3_dlg_Start_1_Marge" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_ProjectAfterParty06_3_dlg_Start_2_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_ProjectAfterParty06_3_dlg_Start_3_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty06_3_dlg_Start_4_Homer" revealSpeed="medium" />
+	</ProjectAfterParty06_Start>
+	<ProjectAfterParty06_End>
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty06_3_dlg_End_1_Homer" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_ProjectAfterParty06_3_dlg_End_2_Bismuth" revealSpeed="medium" />
+	</ProjectAfterParty06_End>
+	<ProjectAfterParty07_Start>
+		<Action type="dialogue" character="SuperintendentChalmers" text="QST_ProjectAfterParty07_3_dlg_Start_1_Chalmers" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty07_3_dlg_Start_2_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="SuperintendentChalmers" text="QST_ProjectAfterParty07_3_dlg_Start_3_Chalmers" revealSpeed="medium" />
+		<Action type="dialogue" character="Willie" text="QST_ProjectAfterParty07_3_dlg_Start_4_Willie" revealSpeed="medium" />
+		<Action type="dialogue" character="SuperintendentChalmers" text="QST_ProjectAfterParty07_3_dlg_Start_5_Chalmers" revealSpeed="medium" />
+	</ProjectAfterParty07_Start>
+	<ProjectAfterParty07_End>
+		<Action type="dialogue" character="Willie" text="QST_ProjectAfterParty07_3_dlg_End_1_Willie" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Willie" text="QST_ProjectAfterParty07_3_dlg_End_2_Willie" revealSpeed="medium" />
+		<Action type="dialogue" character="Willie" text="QST_ProjectAfterParty07_3_dlg_End_3_Willie" revealSpeed="medium" />
+	</ProjectAfterParty07_End>
+	<ProjectAfterParty08_Start>
+		<Action type="dialogue" character="Cletus" text="QST_ProjectAfterParty08_3_dlg_Start_1_Cletus" revealSpeed="medium" emotion="elfhat" />
+		<Action type="dialogue" character="Cletus" text="QST_ProjectAfterParty08_3_dlg_Start_2_Cletus" revealSpeed="medium" emotion="elfhat" />
+		<Action type="dialogue" character="Brandine" text="QST_ProjectAfterParty08_3_dlg_Start_3_Brandine" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_ProjectAfterParty08_3_dlg_Start_4_Cletus" revealSpeed="medium" emotion="elfhat" />
+		<Action type="dialogue" character="Brandine" text="QST_ProjectAfterParty08_3_dlg_Start_5_Brandine" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_ProjectAfterParty08_3_dlg_Start_6_Cletus" revealSpeed="medium" emotion="elfhat" />
+	</ProjectAfterParty08_Start>
+	<ProjectAfterParty09_Start>
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty09_3_dlg_Start_1_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty09_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty09_3_dlg_Start_3_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty09_3_dlg_Start_4_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty09_3_dlg_Start_5_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty09_3_dlg_Start_6_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty09_3_dlg_Start_7_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty09_3_dlg_Start_8_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty09_3_dlg_Start_9_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty09_3_dlg_Start_10_Lisa" revealSpeed="medium" emotion="annoyed" />
+	</ProjectAfterParty09_Start>
+	<ProjectAfterParty10_Start>
+		<Action type="setVariable" intVariable="currentTimesFired" intValue="0" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty10_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty10_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ProjectAfterParty10_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty10_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty10_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty10_3_dlg_Start_6_Homer" revealSpeed="medium" />
+	</ProjectAfterParty10_Start>
+	<ProjectAfterParty10_End>
+		<Action type="setVariable" boolVariable="ProjectAfterParty10Complete" boolValue="true" />
+	</ProjectAfterParty10_End>
+	<ProjectAfterParty11_Start>
+		<Action type="setVariable" boolVariable="ProjectAfterParty11Active" boolValue="true" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty11_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty11_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ProjectAfterParty11_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty11_3_dlg_Start_4_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty11_3_dlg_Start_5_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty11_3_dlg_Start_6_Skinner" revealSpeed="medium" />
+	</ProjectAfterParty11_Start>
+	<ProjectAfterParty11EndDummy_Start ignoreHUD="true" parallel="true">
+		<Action type="setVariable" boolVariable="ProjectAfterParty11Active" boolValue="false" />
+	</ProjectAfterParty11EndDummy_Start>
+	<ProjectAfterParty12_Start ignoreHUD="true" parallel="true">
+		<Action type="setVariable" boolVariable="ProjectAfterParty12Active" boolValue="true" />
+		<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty12_3_dlg_Start_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty12_3_dlg_Start_2_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty12_3_dlg_Start_3_Bart" revealSpeed="medium" />
+	</ProjectAfterParty12_Start>
+	<ProjectAfterParty12EndDummy_Start ignoreHUD="true" parallel="true">
+		<Action type="setVariable" boolVariable="ProjectAfterParty12Active" boolValue="false" />
+	</ProjectAfterParty12EndDummy_Start>
+	<ProjectAfterParty13_Start>
+		<Action type="setVariable" boolVariable="ProjectAfterParty13Started" boolValue="true" />
+		<Action type="dialogue" character="Skinner" text="QST_ProjectAfterParty13_3_dlg_Start_1_Skinner" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ProjectAfterParty13_3_dlg_Start_2_Bart" revealSpeed="medium" />
+	</ProjectAfterParty13_Start>
+	<BetterOnesElf01_Start>
+		<Action type="dialogue" character="Frink" text="QST_BetterOnesElf01_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_BetterOnesElf01_3_dlg_Start_2_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_BetterOnesElf01_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_BetterOnesElf01_3_dlg_Start_4_Frink" revealSpeed="medium" />
+	</BetterOnesElf01_Start>
+	<AnnualGiftMan_Start>
+		<Action type="dialogue" character="Bart" text="QST_AnnualGiftMan_3_dlg_Start_1_Bart" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="CBGuy" text="QST_AnnualGiftMan_3_dlg_Start_2_ComicBookGuy" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="CBGuy" text="QST_AnnualGiftMan_3_dlg_Start_3_ComicBookGuy" revealSpeed="medium" />
+		<Action type="dialogue" character="CBGuy" text="QST_AnnualGiftMan_3_dlg_Start_4_ComicBookGuy" revealSpeed="medium" />
+	</AnnualGiftMan_Start>
+	<ElfBottler_Start>
+		<Action type="dialogue" character="Frink" text="QST_JingleBellShock_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Wiggum" text="QST_JingleBellShock_3_dlg_Start_2_Wiggum" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_JingleBellShock_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Wiggum" text="QST_JingleBellShock_3_dlg_Start_4_Wiggum" revealSpeed="medium" />
+		<Action type="runScript" script="ElfZapperButtonPressed" package="XMAS2014_Scripts_Pt2" />
+	</ElfBottler_Start>
+	<OCannonBaum01_Obj_1_Complete>
+		<Action type="gotoState" state="GameState_PrizeTrack" />
+		<Action type="setVariable" boolVariable="ShowLeaderboard" boolValue="true" />
+	</OCannonBaum01_Obj_1_Complete>
+	<AVeryBreweryChristmasPt1_Start>
+		<Action type="dialogue" character="Duffman" text="QST_AVeryBreweryChristmasPt1_3_dlg_Start_1_Duffman" revealSpeed="medium" />
+		<Action type="dialogue" character="Duffman" text="QST_AVeryBreweryChristmasPt1_3_dlg_Start_2_Duffman" revealSpeed="medium" />
+	</AVeryBreweryChristmasPt1_Start>
+	<AVeryBreweryChristmasPt1Reward_Start>
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt1Reward_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt1Reward_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt1Reward_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="Lisa" text="QST_AVeryBreweryChristmasPt1Reward_3_dlg_Start_4_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt1Reward_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt1Reward_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="surprised" />
+		<Action type="notification" title="UI_XMAS_ItemAcquired" button="UI_OK" text="BLD_DuffBeerTree_name" icon="DuffBeerTree_Menu" tooltip="UI_XMAS_ItemAcquiredTip" />
+		<Action type="reward">
+			<Item type="building" name="DuffBeerTree" />
+		</Action>
+	</AVeryBreweryChristmasPt1Reward_Start>
+	<AVeryBreweryChristmasPt2_Start>
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt2_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_AVeryBreweryChristmasPt2_3_dlg_Start_2_Homer" revealSpeed="medium" />
+	</AVeryBreweryChristmasPt2_Start>
+	<DrNoEl_Start>
+		<Action type="dialogue" character="HankScorpio" text="QST_DrNoEl_3_dlg_Start_1_HankScorpio" revealSpeed="medium" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DrNoEl_3_dlg_Start_2_HankScorpio" revealSpeed="medium" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DrNoEl_3_dlg_Start_3_HankScorpio" revealSpeed="medium" />
+	</DrNoEl_Start>
+	<DrNoEl_End>
+		<Action type="dialogue" character="Homer" text="QST_DrNoEl_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DrNoEl_3_dlg_End_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DrNoEl_3_dlg_End_3_Homer" revealSpeed="medium" />
+	</DrNoEl_End>
+	<TheNorthPole_Start>
+		<Action type="dialogue" character="Lisa" text="QST_TheNorthPole_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheNorthPole_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Lisa" text="QST_TheNorthPole_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_TheNorthPole_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="happy" />
+	</TheNorthPole_Start>
+	<TheNorthPole_End>
+		<Action type="dialogue" character="MrsMuntz" text="QST_TheNorthPole_3_dlg_End_1_MrsMuntz" revealSpeed="medium" />
+		<Action type="dialogue" character="MrsMuntz" text="QST_TheNorthPole_3_dlg_End_2_MrsMuntz" revealSpeed="medium" emotion="happy" />
+	</TheNorthPole_End>
+	<AllSequelsArentEqual_Start>
+		<Action type="dialogue" character="Homer" text="QST_AllSequelsArentEqual_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Lisa" text="QST_AllSequelsArentEqual_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_AllSequelsArentEqual_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Lisa" text="QST_AllSequelsArentEqual_3_dlg_Start_4_Lisa" revealSpeed="medium" emotion="deadpan" />
+	</AllSequelsArentEqual_Start>
+	<AllSequelsArentEqual_End>
+		<Action type="dialogue" character="Bart" text="QST_AllSequelsArentEqual_3_dlg_End_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_AllSequelsArentEqual_3_dlg_End_2_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_AllSequelsArentEqual_3_dlg_End_3_Homer" revealSpeed="medium" emotion="sad" />
+	</AllSequelsArentEqual_End>
+	<CabooseontheLoose_Start>
+		<Action type="dialogue" character="Burns" text="QST_CabooseOnTheLoose_3_dlg_Start_1_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_CabooseOnTheLoose_3_dlg_Start_2_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="Smithers" text="QST_CabooseOnTheLoose_3_dlg_Start_3_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_CabooseOnTheLoose_3_dlg_Start_4_Burns" revealSpeed="medium" emotion="diabolical" />
+	</CabooseontheLoose_Start>
+	<CabooseontheLoose_AllObjectivesStarted>
+		<Action type="dialogue" character="Burns" text="QST_CabooseOnTheLoose_3_dlg_All_Obj_Started_1_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="Homer" text="QST_CabooseOnTheLoose_3_dlg_All_Obj_Started_2_Homer" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="Carl" text="QST_CabooseOnTheLoose_3_dlg_All_Obj_Started_3_Carl" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Lenny" text="QST_CabooseOnTheLoose_3_dlg_All_Obj_Started_4_Lenny" revealSpeed="medium" emotion="sad" />
+	</CabooseontheLoose_AllObjectivesStarted>
+	<TropicalIslandNofari_Start>
+		<Action type="dialogue" character="Homer" text="QST_TropicalIslandNofari_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Apu" text="QST_TropicalIslandNofari_3_dlg_Start_2_Apu" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Apu" text="QST_TropicalIslandNofari_3_dlg_Start_3_Apu" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Apu" text="QST_TropicalIslandNofari_3_dlg_Start_4_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TropicalIslandNofari_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TropicalIslandNofari_3_dlg_Start_6_Apu" revealSpeed="medium" />
+	</TropicalIslandNofari_Start>
+	<TropicalIslandNofari_End>
+		<Action type="dialogue" character="Lisa" text="QST_TropicalIslandNofari_3_dlg_End_1_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Lisa" text="QST_TropicalIslandNofari_3_dlg_End_2_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Homer" text="QST_TropicalIslandNofari_3_dlg_End_3_Homer" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_TropicalIslandNofari_3_dlg_End_4_Homer" revealSpeed="medium" emotion="happy" />
+	</TropicalIslandNofari_End>
+	<BestNewYearsDayEver01_Start>
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver01_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="woohoo" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver01_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver01_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver01_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="angry" />
+	</BestNewYearsDayEver01_Start>
+	<BestNewYearsDayEver02_Start>
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver02_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver02_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver02_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="serious" />
+	</BestNewYearsDayEver02_Start>
+	<BestNewYearsDayEver03_Start>
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver03_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="annoyed" />
+	</BestNewYearsDayEver03_Start>
+	<BestNewYearsDayEver04_Start>
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver04_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver04_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver04_3_dlg_Start_3_Homer" revealSpeed="medium" />
+	</BestNewYearsDayEver04_Start>
+	<BestNewYearsDayEver05_Start>
+		<Action type="dialogue" character="Marge" text="QST_BestNewYearsDayEver05_3_dlg_Start_1_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver05_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_BestNewYearsDayEver05_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_BestNewYearsDayEver05_3_dlg_Start_4_Marge" revealSpeed="medium" emotion="sad" />
+	</BestNewYearsDayEver05_Start>
+</ScriptPackage>

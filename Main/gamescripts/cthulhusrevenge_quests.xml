@@ -1,0 +1,434 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="224000" name="IrreSpawnsible" />
+		<DataID id="224001" name="CthulhusRevenge_1" />
+		<DataID id="224002" name="CthulhusRevenge_2" />
+		<DataID id="224003" name="CthulhusRevenge_3" />
+		<DataID id="224004" name="CthulhusRevenge_4" />
+		<DataID id="224005" name="CthulhusRevenge_5" />
+		<DataID id="224006" name="OverSpilledYolk_1" />
+		<DataID id="224007" name="OverSpilledYolk_2" />
+		<DataID id="224008" name="OverSpilledYolk_3" />
+		<DataID id="224009" name="OverSpilledYolk_4" />
+		<DataID id="224010" name="OverSpilledYolk_5" />
+		<DataID id="224011" name="NoRichInEldritch_1" />
+		<DataID id="224012" name="NoRichInEldritch_2" />
+		<DataID id="224013" name="NoRichInEldritch_3" />
+		<DataID id="224014" name="NoRichInEldritch_4" />
+		<DataID id="224015" name="NoRichInEldritch_5" />
+		<DataID id="224016" name="OverSpilledYolk_5_NoMnthster" />
+		<DataID id="224017" name="DeactivateSunkenTemple" />
+		<DataID id="224600" name="CthulhusRevenge_Completed" />
+		<DataID id="224601" name="CthulhusRevenge_IntroPanel" />
+		<DataID id="224602" name="CthulhusRevenge_72HourWarning" onDeprecated="retain" endDate="CthulhusRevenge_End" />
+		<DataID id="224603" name="CthulhusRevenge_24HourWarning" onDeprecated="retain" endDate="CthulhusRevenge_End" />
+		<DataID id="224604" name="CthulhusRevenge_EventExpired" />
+		<DataID id="224605" name="CthulhusRevenge_MasterQuest" />
+		<DataID id="224900" name="CthulhusRevenge_RecommendStore" onDeprecated="delete" endDate="CthulhusRevenge_End" />
+	</MasterList>
+	<Quest id="224600" name="CthulhusRevenge_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="CthulhusRevenge_5" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="224601" name="CthulhusRevenge_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="IrreSpawnsible" />
+			<Requirement type="time" end="CthulhusRevenge_End" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="224602" name="CthulhusRevenge_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::CthulhusRevenge_End')-fromHours(72)]_" end="_[System::evaluate('Date::CthulhusRevenge_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="CthulhusRevenge_Complete" not="true" />
+			<Requirement type="quest" quest="CthulhusRevenge_IntroPanel" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="224603" name="CthulhusRevenge_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::CthulhusRevenge_End')-fromHours(24)]_" end="CthulhusRevenge_End" triggerEvent="true" />
+			<Requirement type="variable" variable="CthulhusRevenge_Complete" not="true" />
+			<Requirement type="quest" quest="CthulhusRevenge_IntroPanel" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="224604" name="CthulhusRevenge_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="CthulhusRevenge_End" triggerEvent="true" />
+			<Requirement type="variable" variable="CthulhusRevenge_Complete" not="true" />
+			<Requirement type="quest" quest="CthulhusRevenge_IntroPanel" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="224605" name="CthulhusRevenge_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_Expired" not="true" />
+			<Requirement type="variable" variable="CthulhusRevenge_Complete" not="true" />
+			<Requirement type="reqList" location="CthulhusRevenge_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="CthulhusRevenge_5" />
+					<Requirement type="variable" variable="CthulhusRevenge_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="CthulhusRevenge_1">
+				<Requirement type="quest started" quest="CthulhusRevenge_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="CthulhusRevenge_2">
+				<Requirement type="quest started" quest="CthulhusRevenge_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="CthulhusRevenge_3">
+				<Requirement type="quest started" quest="CthulhusRevenge_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="CthulhusRevenge_4">
+				<Requirement type="quest started" quest="CthulhusRevenge_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="CthulhusRevenge_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="224000" name="IrreSpawnsible" tags="sidequest" icon="CthulhusRevenge_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="CthulhusRevenge_Start" end="CthulhusRevenge_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="IrreSpawnsible_Start" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="IrreSpawnsible_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="EatMoreOysters" quantity="1" />
+			<Objective type="complete job" character="Moe" job="CheerHomerOn" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="CthulhusRevenge_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="224001" name="CthulhusRevenge_1" tags="mainquest" icon="CthulhusRevenge_Event" sidebarIconScript="CthulhusRevenge_Scripts:OpenMasterQuest" questMenuConfigPath="CthulhusRevenge_QuestConfig:CthulhusRevenge_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="IrreSpawnsible" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_1_Start" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CthulhusRevenge_Currency')" amount="__CthulhusRevenge_GameConfig:ResourceQuantities:CthulhusRevenge_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CthulhusRevenge_Scripts:ShowJobList" textpoolName="QST_CthulhusRevenge_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherAdhesiveAppendages" />
+					<Job name="CollectFreshTentacles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="ScoldCthulhu" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CthulhusRevenge_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CthulhusRevenge_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="224002" name="CthulhusRevenge_2" tags="mainquest" icon="CthulhusRevenge_Event" sidebarIconScript="CthulhusRevenge_Scripts:OpenMasterQuest" questMenuConfigPath="CthulhusRevenge_QuestConfig:CthulhusRevenge_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="CthulhusRevenge_1" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_2_Start" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CthulhusRevenge_Currency')" amount="__CthulhusRevenge_GameConfig:ResourceQuantities:CthulhusRevenge_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CthulhusRevenge_Scripts:ShowJobList" textpoolName="QST_CthulhusRevenge_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherAdhesiveAppendages" />
+					<Job name="CollectFreshTentacles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="TakeCthulhuSunglassesShopping" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CthulhusRevenge_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CthulhusRevenge_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="224003" name="CthulhusRevenge_3" tags="mainquest" icon="CthulhusRevenge_Event" sidebarIconScript="CthulhusRevenge_Scripts:OpenMasterQuest" questMenuConfigPath="CthulhusRevenge_QuestConfig:CthulhusRevenge_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="CthulhusRevenge_2" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_3_Start" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CthulhusRevenge_Currency')" amount="__CthulhusRevenge_GameConfig:ResourceQuantities:CthulhusRevenge_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CthulhusRevenge_Scripts:ShowJobList" textpoolName="QST_CthulhusRevenge_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherAdhesiveAppendages" />
+					<Job name="CollectFreshTentacles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="BeCreepedOut" quantity="1" />
+			<Objective type="complete job" character="Bart" job="DefileGraves" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CthulhusRevenge_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CthulhusRevenge_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="224004" name="CthulhusRevenge_4" tags="mainquest" icon="CthulhusRevenge_Event" sidebarIconScript="CthulhusRevenge_Scripts:OpenMasterQuest" questMenuConfigPath="CthulhusRevenge_QuestConfig:CthulhusRevenge_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="CthulhusRevenge_3" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_4_Start" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CthulhusRevenge_Currency')" amount="__CthulhusRevenge_GameConfig:ResourceQuantities:CthulhusRevenge_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CthulhusRevenge_Scripts:ShowJobList" textpoolName="QST_CthulhusRevenge_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherAdhesiveAppendages" />
+					<Job name="CollectFreshTentacles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="BeAnUnqualifiedFamilyTherapist" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CthulhusRevenge_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CthulhusRevenge_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="224005" name="CthulhusRevenge_5" tags="mainquest" icon="CthulhusRevenge_Event" sidebarIconScript="CthulhusRevenge_Scripts:OpenMasterQuest" questMenuConfigPath="CthulhusRevenge_QuestConfig:CthulhusRevenge_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CthulhusRevenge_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="CthulhusRevenge_4" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_5_Start" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_5_End" />
+		<JobsStartedScript package="CthulhusRevenge_Scripts_Dialogue" name="CthulhusRevenge_5_Obj_2_Completed" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CthulhusRevenge_Currency')" amount="__CthulhusRevenge_GameConfig:ResourceQuantities:CthulhusRevenge_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CthulhusRevenge_Scripts:ShowJobList" textpoolName="QST_CthulhusRevenge_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherAdhesiveAppendages" />
+					<Job name="CollectFreshTentacles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="CelebrateSavingTheWorld" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CthulhusRevenge_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CthulhusRevenge_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="224006" name="OverSpilledYolk_1" tags="sidequest" icon="Cthulhu">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="Cthulhu" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_1_Start" triggerType="character" character="Cthulhu" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Cthulhu" job="HaveDinnerWithTheSimpsons" quantity="1" />
+			<Objective type="complete job" job="HaveDinner" quantity="4" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224007" name="OverSpilledYolk_2" tags="sidequest" icon="Cthulhu">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="OverSpilledYolk_1" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_2_Start" triggerType="character" character="Homer" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="EatDonuts" quantity="1" />
+			<Objective type="complete job" character="Cthulhu" job="FeedHomerDonuts" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224008" name="OverSpilledYolk_3" tags="sidequest" icon="Cthulhu">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="OverSpilledYolk_2" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_3_Start" triggerType="character" character="Cthulhu" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="SicMnthsterOnCthulhu" quantity="1" />
+			<Objective type="complete job" character="Cthulhu" job="GetMargesPun" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224009" name="OverSpilledYolk_4" tags="sidequest" icon="Cthulhu">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="OverSpilledYolk_3" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_4_Start" triggerType="character" character="Homer" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Cthulhu" job="GiveHomerTheCure" quantity="1" />
+			<Objective type="complete job" character="Homer" job="DrinkTheCure" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<QuestBranch>
+		<BranchCondition>
+			<Requirement type="characterunlocked" name="Mnthster" />
+		</BranchCondition>
+		<True>
+			<Quest id="224010" name="OverSpilledYolk_5" tags="sidequest" icon="Cthulhu">
+				<Requirements>
+					<Requirement type="level" level="15" />
+					<Requirement type="quest" quest="OverSpilledYolk_4" />
+				</Requirements>
+				<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_5_Start" triggerType="character" character="Cthulhu" />
+				<Objectives>
+					<Objective type="complete job" character="Cthulhu" job="PlayCatch_Cthulhu" quantity="1" />
+				</Objectives>
+				<Reward money="200" xp="20" />
+				<EndOfQuestline />
+			</Quest>
+		</True>
+		<False>
+			<Quest id="224016" name="OverSpilledYolk_5_NoMnthster" textpoolName="QST_OverSpilledYolk_5_1_name" tags="sidequest" icon="Cthulhu">
+				<Requirements>
+					<Requirement type="level" level="15" />
+					<Requirement type="quest" quest="OverSpilledYolk_4" />
+				</Requirements>
+				<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="OverSpilledYolk_5_Start" triggerType="character" character="Cthulhu" />
+				<Objectives>
+					<Objective type="complete job" character="Cthulhu" job="PlayCatch_NoMnthster" textpoolName="QST_OverSpilledYolk_5_2_obj_1" quantity="1" />
+				</Objectives>
+				<Reward money="200" xp="20" />
+				<EndOfQuestline />
+			</Quest>
+		</False>
+	</QuestBranch>
+	<Quest id="224011" name="NoRichInEldritch_1" tags="sidequest" icon="Mnthster">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Mnthster" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_1_Start" triggerType="character" character="Mnthster" />
+		<Objectives>
+			<Objective type="complete job" character="Mnthster" job="CleanHouse_Mnthster" quantity="1" />
+			<Objective type="complete job" character="WiseGuy" job="JudgeMnthstersLifeStyle" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WiseGuy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224012" name="NoRichInEldritch_2" tags="sidequest" icon="Mnthster">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoRichInEldritch_1" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_2_Start" triggerType="character" character="Mnthster" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mnthster" job="CrashWithUncleDrac" quantity="1" />
+			<Objective type="complete job" character="CountDracula" job="GetCalfImplants" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CountDracula" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224013" name="NoRichInEldritch_3" tags="sidequest" icon="Mnthster">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoRichInEldritch_2" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_3_Start" triggerType="character" character="Mnthster" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mnthster" job="StartATerrorizingBusiness" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224014" name="NoRichInEldritch_4" tags="sidequest" icon="Mnthster">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoRichInEldritch_3" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_4_Start" triggerType="character" character="Mnthster" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mnthster" job="ConquerTheWorld" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="224015" name="NoRichInEldritch_5" tags="sidequest" icon="Mnthster">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoRichInEldritch_4" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_5_Start" triggerType="character" character="Mnthster" />
+		<EndScript package="CthulhusRevenge_Scripts_Dialogue" name="NoRichInEldritch_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mnthster" job="UnpackBachelorPad" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="224017" name="DeactivateSunkenTemple" tags="dummy">
+		<Requirements>
+			<Requirement type="characterunlocked" name="Mnthster" />
+		</Requirements>
+		<StartScript package="THOH2015_Scripts" name="SunkenTemple_ForceOff" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="224900" name="CthulhusRevenge_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="CthulhusRevenge_Requirements:StoreCategory_Unlocked" />
+		</Requirements>
+		<StartScript package="CthulhusRevenge_Scripts" name="RecommendStoreCategory" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>
