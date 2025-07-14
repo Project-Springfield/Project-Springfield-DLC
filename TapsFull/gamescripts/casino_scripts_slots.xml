@@ -1,0 +1,378 @@
+﻿<ScriptPackage>
+	<SlotsMinigame_Start parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" intVariable="Casino_Slots_Reel_1" intValue="rand(5) + 1" />
+		<Action type="setVariable" intVariable="Casino_Slots_Reel_2" intValue="rand(5) + 1" />
+		<Action type="setVariable" intVariable="Casino_Slots_Reel_3" intValue="rand(5) + 1" />
+		<Action type="setVariable" intVariable="Casino_Slots_Seed" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Slots_RewardSeed" intValue="0" />
+		<Action type="setVariable" boolVariable="Casino_Slots_StickerCheat" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="System::evaluate('Minigame::CasinoSlots::Active')" />
+			<True>
+				<Action type="showMenu" menu="slotsminigamemenu" scriptResProvider="slotsminigamemenu.mns" menuConfig="Casino_SlotsConfig:SlotsMenuConfig" buttonsConfig="Casino_SlotsConfig:SlotsButtons" waitUntilDismissed="false" />
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="Casino_Slots_PunchCheat &amp;&amp; Casino_Slots_PunchStep &lt; 3" />
+					<True>
+						<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+					</True>
+					<False>
+						<Action type="runScript" script="Casino_Scripts_Slots:FinishGame" />
+						<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+						<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" script="Casino_Scripts_Slots:CheckTokens" />
+			</False>
+		</Action>
+	</SlotsMinigame_Start>
+	<UpdateState parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="Exit" visible="{showExit}" active="{showExit}">
+			<FormatToken key="showExit" value="_[Casino_ShowHelp == 0 &amp;&amp; System::evaluate('Minigame::CasinoSlots::Active') == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="SwipeIndicator" visible="{showIndicator}" active="{showIndicator}">
+			<FormatToken key="showIndicator" value="_[Casino_ShowHelp == 0 &amp;&amp; System::evaluate('Minigame::CasinoSlots::Active') == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="ReelIndicator" visible="{showIndicator}" active="{showIndicator}">
+			<FormatToken key="showIndicator" value="_[Casino_ShowHelp == 0 &amp;&amp; (Casino_Slots_StickerCheat || Casino_Slots_PunchCheat)]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="CheatButton" visible="{showIndicator}" active="{showIndicator}">
+			<FormatToken key="showIndicator" value="_[Casino_ShowHelp == 0 &amp;&amp; (Casino_Slots_StickerCheat || Casino_Slots_PunchCheat)]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="PullButton" visible="true" active="{leverActive}">
+			<FormatToken key="leverActive" value="_[Casino_ShowHelp == 0 &amp;&amp; Casino_Slots_StickerCheat == 0 &amp;&amp; Casino_Slots_PunchCheat == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="GuidePopup" visible="{showHelp}" active="{showHelp}">
+			<FormatToken key="showHelp" value="_[Casino_ShowHelp]_" />
+		</Action>
+	</UpdateState>
+	<CheckTokens parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_Token &gt; 0" />
+			<True>
+				<Action type="showMenu" menu="slotsminigamemenu" scriptResProvider="slotsminigamemenu.mns" menuConfig="Casino_SlotsConfig:SlotsMenuConfig" buttonsConfig="Casino_SlotsConfig:SlotsButtons" waitUntilDismissed="false" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="Casino_Slots_FirstView" />
+					<True>
+						<Action type="setVariable" boolVariable="Casino_Slots_FirstView" boolValue="false" />
+						<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="true" />
+					</True>
+				</Action>
+				<Action type="sound" sound="Slots_Ambience_Loop" ignoreObject="true" />
+				<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+			</True>
+			<False>
+				<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="PullButton" visible="true" active="false" />
+				<Action type="userConfirmation" text="UI_casino_TokenPurchase_Body" title="UI_casino_TokenPurchase_Title" var="slots_BuyToken" />
+				<Action type="stopSoundKit" sound="Slots_Ambience_Loop" />
+				<Action type="showMenu" clearShownMenu="true" />
+				<Action type="returnToInGameState" waitForState="true" />
+				<Action type="checkExpression" expression="slots_BuyToken">
+					<ExpressionCase value="1">
+						<Action type="focusOnMenuItem" itemName="CasinoTokenPack_Small" menuCategory="Casino" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</CheckTokens>
+	<SlotsMinigame_Spin parallel="true" runQueueState="RunInAnyState" otherScriptsCanRunOnObject="true">
+		<Action type="setMiniGameState" building="GamingMoes" name="CasinoSlots" state="Playing" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act1" />
+				<Then>
+					<Action type="setVariable" selectorVariable="Casino_RewardCraftingPrize_Slots" selectorValue="selector Casino_CraftingChance_Slots_ActOne" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act2" />
+				<Then>
+					<Action type="setVariable" selectorVariable="Casino_RewardCraftingPrize_Slots" selectorValue="selector Casino_CraftingChance_Slots_ActTwo" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act3" />
+				<Then>
+					<Action type="setVariable" selectorVariable="Casino_RewardCraftingPrize_Slots" selectorValue="selector Casino_CraftingChance_Slots_ActThree" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="runScript" script="Casino_Scripts_Slots:CalculateSeed" />
+		<Action type="loseResources" Casino_Token="1" />
+		<Action type="runScript" script="Casino_Scripts_Slots:SetTokenCount" />
+		<Action type="setVariable" intVariable="Casino_Slots_TokenUsed" intValue="Casino_Slots_TokenUsed+1" />
+		<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+		<Action type="runScript" script="SlotsMinigame_StartSpinning" package="Casino_Scripts_Slots" />
+	</SlotsMinigame_Spin>
+	<SlotsMinigame_StartSpinning parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="false" active="false" />
+		<Action type="sound" sound="Casino_Slots_PullLever" replayType="playAnyways" ignoreObject="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="PullButton" visible="true" active="false" />
+		<Action type="runScript" script="SlotsMinigame_LightsOn" package="Casino_Scripts_Slots" />
+		<Action type="sound" sound="Casino_Slots_Spinning" replayType="playAnyways" ignoreObject="true" />
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:out__" waitUntilComplete="false">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_1]_" />
+		</Action>
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:out__" waitUntilComplete="false">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_2]_" />
+		</Action>
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:out__" waitUntilComplete="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_3]_" />
+		</Action>
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="blur" loop="true" waitUntilComplete="false" />
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="blur" loop="true" waitUntilComplete="false" />
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="blur" loop="true" waitUntilComplete="false" />
+		<Action type="delay" time="1" />
+		<Action type="runScript" script="Casino_Scripts_Slots:SlotsMinigame_SetReels" waitUntilComplete="true">
+			<FormattingConfig path="Casino_SlotsConfig:SlotsReelConfig" />
+		</Action>
+		<Action type="runScript" script="SlotsMinigame_StopSpinning" package="Casino_Scripts_Slots" waitUntilComplete="true" />
+		<Action type="runScript" script="SlotsMinigame_LightsOff" package="Casino_Scripts_Slots" />
+		<Action type="if">
+			<If expression="System::evaluate('Minigame::CasinoSlots::RewardIndex') == 2">
+				<Then>
+					<Action type="setVariable" boolVariable="Casino_Slots_StickerCheat" boolValue="true" />
+					<Action type="runScript" script="Casino_Scripts_Slots:ShowStickerCheat" />
+				</Then>
+			</If>
+			<ElseIf expression="System::evaluate('Minigame::CasinoSlots::RewardIndex') == 1">
+				<Then>
+					<Action type="setVariable" boolVariable="Casino_Slots_PunchCheat" boolValue="true" />
+					<Action type="runScript" script="Casino_Scripts_Slots:ShowPunchCheat" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="true" active="false" />
+					<Action type="delay" time="2" />
+					<Action type="runScript" script="Casino_Scripts_Slots:FinishGame" />
+				</Then>
+			</Else>
+		</Action>
+	</SlotsMinigame_StartSpinning>
+	<AdvanceCheat parallel="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="Casino_Slots_StickerCheat">
+				<Then>
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Reel02Cheat" visible="true" active="false" />
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="ReelIndicator" visible="false" active="false" />
+					<Action type="sound" sound="Casino_Slots_Icon5Match" replayType="playAnyways" ignoreObject="true" />
+					<Action type="setMenuText" menu="eMenu_ShowMenuActionMenu" textObject="SpeechText" textAreaObject="SpeechArea" bgGraphicObject="SpeechBubble" text="UI_Casino_Slots_StickerText" localise="true" />
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="true" active="false" />
+					<Action type="delay" time="2" />
+					<Action type="runScript" script="Casino_Scripts_Slots:FinishGame" />
+				</Then>
+			</If>
+			<ElseIf expression="Casino_Slots_PunchCheat">
+				<Then>
+					<Action type="setVariable" intVariable="Casino_Slots_PunchStep" intValue="Casino_Slots_PunchStep + 1" />
+					<Action type="checkExpression" expression="Casino_Slots_PunchStep">
+						<ExpressionCase value="1">
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="blur" waitUntilComplete="false" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="__Casino_SlotsConfig:SlotsReelIcon5:in__" waitUntilComplete="true" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="__Casino_SlotsConfig:SlotsReelIcon5:idle__" loop="true" />
+							<Action type="sound" sound="Casino_Slots_Icon5Match" replayType="playAnyways" ignoreObject="true" />
+						</ExpressionCase>
+						<ExpressionCase value="2">
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="blur" waitUntilComplete="false" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="__Casino_SlotsConfig:SlotsReelIcon5:in__" waitUntilComplete="true" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="__Casino_SlotsConfig:SlotsReelIcon5:idle__" loop="true" />
+							<Action type="sound" sound="Casino_Slots_Icon5Match" replayType="playAnyways" ignoreObject="true" />
+						</ExpressionCase>
+						<ExpressionCase value="3">
+							<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+							<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="ReelIndicator" visible="false" active="false" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="blur" waitUntilComplete="false" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="__Casino_SlotsConfig:SlotsReelIcon5:in__" waitUntilComplete="true" />
+							<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="__Casino_SlotsConfig:SlotsReelIcon5:idle__" loop="true" />
+							<Action type="sound" sound="Casino_Slots_Icon5Match" replayType="playAnyways" ignoreObject="true" />
+							<Action type="setMenuText" menu="eMenu_ShowMenuActionMenu" textObject="SpeechText" textAreaObject="SpeechArea" bgGraphicObject="SpeechBubble" text="UI_Casino_Slots_PunchText" localise="true" />
+							<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="true" active="false" />
+							<Action type="delay" time="2" />
+							<Action type="runScript" script="Casino_Scripts_Slots:FinishGame" />
+						</ExpressionCase>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</AdvanceCheat>
+	<ShowStickerCheat runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="message" text="UI_Casino_CheatTutorial_Sticker" dismissOnOKOnly="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+		<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+	</ShowStickerCheat>
+	<ShowPunchCheat runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="message" text="UI_Casino_CheatTutorial_Punch" dismissOnOKOnly="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+		<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+	</ShowPunchCheat>
+	<FinishGame ignoreHUD="true" runQueueState="RunInAnyState">
+		<Action type="sound" sound="{sound}" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormattingConfig path="Casino_SlotsConfig:FinalSoundConfig" />
+		</Action>
+		<Action type="sound" sound="{sound}" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormattingConfig path="Casino_SlotsConfig:MoeSoundConfig" />
+		</Action>
+		<Action type="minigameRewardConfirmation" formatMe="root" text="{rewardText}" title="{rewardTitle}" var="Casino_Slots_PlayAgain" text_yes="UI_PlayAgain" text_no="GEN_Exit" minigame="CasinoSlots" useBackButtonAsCancel="true">
+			<FormattingConfig path="Casino_SlotsConfig:RewardConfig" />
+		</Action>
+		<Action type="setVariable" intVariable="Temp_Currency_S1" intValue="System::evaluate('Spendable::Casino_ActivePrizeTrackCurrency')" addTempIfNotExisting="true" />
+		<Action type="setMiniGameState" building="GamingMoes" name="CasinoSlots" state="Ready" />
+		<Action type="setVariable" intVariable="PrizeTrackCurrencyFromGamesInAct" intValue="PrizeTrackCurrencyFromGamesInAct + System::evaluate('Spendable::Casino_ActivePrizeTrackCurrency')-Temp_Currency_S1" />
+		<Action type="setVariable" intVariable="Casino_Slots_RoundsPlayed" intValue="Casino_Slots_RoundsPlayed+1" />
+		<Action type="setVariable" intVariable="SlotsGamesPlayed" intValue="SlotsGamesPlayed+1" />
+		<Action type="setVariable" intVariable="SlotsGamesPlayed_DCS" intValue="SlotsGamesPlayed_DCS+1" />
+		<Action type="setVariable" intVariable="CasinoGamesPlayed" intValue="CasinoGamesPlayed+1" />
+		<Action type="setVariable" intVariable="CasinoGamesPlayedInAct" intValue="CasinoGamesPlayedInAct+1" />
+		<Action type="setVariable" intVariable="Casino_Slots_Seed" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Slots_RewardSeed" intValue="0" />
+		<Action type="setVariable" boolVariable="Casino_Slots_StickerCheat" boolValue="false" />
+		<Action type="setVariable" boolVariable="Casino_Slots_PunchCheat" boolValue="false" />
+		<Action type="setVariable" intVariable="Casino_Slots_PunchStep" intValue="0" />
+		<Action type="checkRequirements">
+			<Requirement type="config" key="Casino_GameConfig:Enable:PlayCasinoGamePN" value="1" />
+			<True>
+				<Action type="scheduleLocalNotification" blueprint="PlayCasinoGamePN" scheduleTime="24h" />
+			</True>
+		</Action>
+		<Action type="runScript" script="Casino_Scripts_Slots:CheckPlayAgain" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="PullButton" visible="true" active="true" />
+	</FinishGame>
+	<CheckPlayAgain parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_Prestige == 0" />
+			<True>
+				<Action type="checkExpression" expression="Casino_Slots_PlayAgain &amp;&amp; SlotsGamesPlayed != 1">
+					<ExpressionCase value="0">
+						<Action type="checkRequirements">
+							<Requirement type="formula" formula="Casino_Slots_PlayAgain" />
+							<False>
+								<Action type="sound" sound="Casino_Slot_MoeExit" replayType="playAnyways" ignoreObject="true" />
+							</False>
+						</Action>
+						<Action type="runScript" script="Casino_Scripts_Slots:SlotsMinigame_Complete" />
+					</ExpressionCase>
+					<ExpressionCase value="1">
+						<Action type="runScript" script="Casino_Scripts_Slots:CheckTokens" />
+					</ExpressionCase>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" package="Casino_Scripts_Slots" script="SlotsMinigame_SendTelemetry" />
+				<Action type="stopSoundKit" sound="Slots_Ambience_Loop" />
+				<Action type="showMenu" clearShownMenu="true" />
+			</False>
+		</Action>
+		<Action type="setVariable" intVariable="Casino_Slots_PlayAgain" intValue="0" />
+	</CheckPlayAgain>
+	<SetTokenCount parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuText" formatMe="root" menu="eMenu_ShowMenuActionMenu" textObject="RoundsCountText" text="{balance}">
+			<FormatToken key="balance" value="_[System::evaluate('Spendable::Casino_Token')]_" />
+		</Action>
+	</SetTokenCount>
+	<CalculateSeed parallel="true" runQueueState="RunInAnyState" otherScriptsCanRunOnObject="true">
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Slots_RewardSeed" intValue="rand({rewardOptions})">
+			<FormattingConfig path="Casino_SlotsConfig:CalculateSeed" />
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="System::evaluate('Minigame::CasinoSlots::RewardIndex') == 2" />
+			<False>
+				<Action type="setVariable" intVariable="Casino_Slots_Seed" intValue="rand(3)" />
+			</False>
+		</Action>
+	</CalculateSeed>
+	<SlotsMinigame_LightsOn parallel="true" runQueueState="RunInAnyState">
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Lights" anim="LightsIn" waitUntilComplete="true" />
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Lights" anim="LightsOn" loop="true" />
+	</SlotsMinigame_LightsOn>
+	<SlotsMinigame_LightsOff parallel="true" runQueueState="RunInAnyState">
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Lights" anim="LightsOut" waitUntilComplete="true" />
+		<Action type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Lights" anim="LightsOff" loop="true" />
+	</SlotsMinigame_LightsOff>
+	<SlotsMinigame_SetReels parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" formatMe="true" intVariable="Casino_Slots_Reel_1" intValue="{reel1}" />
+		<Action type="setVariable" formatMe="true" intVariable="Casino_Slots_Reel_2" intValue="{reel2}" />
+		<Action type="setVariable" formatMe="true" intVariable="Casino_Slots_Reel_3" intValue="{reel3}" />
+		<Action type="setMenuText" formatMe="true" menu="eMenu_ShowMenuActionMenu" textObject="SpeechText" textAreaObject="SpeechArea" bgGraphicObject="SpeechBubble" text="{dialogueText}" />
+		<Action type="setMenuGraphic" formatMe="true" menu="eMenu_ShowMenuActionMenu" graphicObject="CharacterAvatar" image="{dialogueAvatar}" />
+	</SlotsMinigame_SetReels>
+	<SlotsMinigame_StopSpinning parallel="true" runQueueState="RunInAnyState">
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:in__" waitUntilComplete="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_1]_" />
+		</Action>
+		<Action type="sound" sound="Casino_Slots_Icon{currIcon}Match" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_1]_" />
+		</Action>
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel01Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:idle__" loop="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_1]_" />
+		</Action>
+		<Action type="delay" time="0.3" />
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:in__" waitUntilComplete="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_2]_" />
+		</Action>
+		<Action type="sound" sound="Casino_Slots_Icon{currIcon}Match" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_2]_" />
+		</Action>
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel02Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:idle__" loop="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_2]_" />
+		</Action>
+		<Action type="delay" time="0.9" />
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:in__" waitUntilComplete="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_3]_" />
+		</Action>
+		<Action type="sound" sound="Casino_Slots_Icon{currIcon}Match" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_3]_" />
+		</Action>
+		<Action type="stopSoundKit" sound="Casino_Slots_Spinning" />
+		<Action formatMe="root" type="playMenuSpriteAnimation" menu="eMenu_ShowMenuActionMenu" sprite="Reel03Anim" anim="__Casino_SlotsConfig:SlotsReelIcon{currIcon}:idle__" loop="true">
+			<FormatToken key="currIcon" value="_[Casino_Slots_Reel_3]_" />
+		</Action>
+	</SlotsMinigame_StopSpinning>
+	<SlotsMinigame_Complete ignoreHUD="true">
+		<Action type="runScript" package="Casino_Scripts_Slots" script="SlotsMinigame_SendTelemetry" />
+		<Action type="stopSoundKit" sound="Slots_Ambience_Loop" />
+		<Action type="showMenu" clearShownMenu="true" />
+		<Action type="returnToInGameState" />
+	</SlotsMinigame_Complete>
+	<SlotsMinigame_SendTelemetry>
+		<Action type="logevent" param1Type="Enumeration" param1="CasinoSlots" param2Type="Enumeration" param2AsFormula="Casino_Slots_RoundsPlayed" param3Type="Enumeration" param3AsFormula="Casino_Slots_TokenUsed" eventId="3581" />
+		<Action type="setVariable" intVariable="Casino_Slots_RoundsPlayed" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Slots_TokenUsed" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_RewardCraftingPrize_Slots" intValue="0" />
+	</SlotsMinigame_SendTelemetry>
+	<ShowGuide parallel="true" runQueueState="RunInAnyState">
+		<Action type="sound" sound="UIButton" />
+		<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="false" active="false" />
+		<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+	</ShowGuide>
+	<BackPressed parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_ShowHelp" />
+			<True>
+				<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="false" />
+				<Action type="sound" sound="UIClose" />
+				<Action type="runScript" script="Casino_Scripts_Slots:UpdateState" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="System::evaluate('Minigame::CasinoSlots::Active') == 0" />
+					<True>
+						<Action type="sound" sound="UIClose" />
+						<Action type="runScript" script="Casino_Scripts_Slots:SlotsMinigame_Complete" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+	</BackPressed>
+	<SlotsMinigame_Exit parallel="true" runQueueState="RunInAnyState">
+		<Action type="sound" sound="UIClose" />
+		<Action type="stopSoundKit" sound="Slots_Ambience_Loop" />
+		<Action type="showMenu" clearShownMenu="true" />
+		<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+	</SlotsMinigame_Exit>
+</ScriptPackage>

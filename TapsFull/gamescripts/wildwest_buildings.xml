@@ -1,0 +1,281 @@
+﻿<Buildings>
+	<MasterList>
+		<DataID id="145000" name="TownPlaza" />
+		<DataID id="145001" name="GeneralStore" />
+		<DataID id="145002" name="SwellCargo" />
+		<DataID id="145003" name="Corral" />
+		<DataID id="145004" name="TopChopBarberShop" />
+		<DataID id="145005" name="OrdnanceExpress" />
+		<DataID id="145006" name="PartandParcelPostal" />
+		<DataID id="145007" name="WiltedRose" />
+		<DataID id="145008" name="HootenannyBarn" />
+		<DataID id="145009" name="Blacksmith" />
+		<DataID id="145010" name="SneedsFeedandSeed" />
+		<DataID id="145011" name="WesDoobnersWorldFamousRibHut" />
+		<DataID id="145012" name="WildWestFilmSet" />
+	</MasterList>
+	<BuildingDefaults>
+		<LoadBuilding value="true" />
+		<Cost money="0" donuts="0" />
+		<Sell money="0.25" donuts="25" allowed="true" />
+		<Unique value="true" />
+		<Falls value="true" />
+		<MultiPlace value="false" />
+		<LoadBuilding value="true" />
+		<ApplyLevelMultiplier value="true" />
+		<BuildFromInventory value="true" />
+		<TaxJobPackage value="WildWest_Jobs" />
+	</BuildingDefaults>
+	<Building id="145000" name="TownPlaza" type="Building" xpValue="100">
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<CustomMenu useMenuConfig="WildWest_MenuConfig:TownPlazaMenu" />
+		<Farm name="TownPlazaFarm" />
+		<Unique value="true" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="6s" />
+		<Group name="Shop" />
+		<Group name="Bars" />
+		<RatingElem shopping="10" />
+		<GridType type="grass|dirtpavement|pavement" />
+		<BSv2 name="TownPlaza01" />
+		<Cost donuts="100" />
+		<!--<UnityBuildingInfo type="ObjectVariable" param="BuildingLevel">
+			<ExpectedValue skinIndex="1" minValue="0" maxValue="0" />
+			<ExpectedValue skinIndex="2" minValue="1" maxValue="1" />
+			<ExpectedValue skinIndex="3" minValue="2" maxValue="2" />
+		</UnityBuildingInfo>-->
+		<StatusMenuReorder>
+			<BeforeJobs type="Header1Line" />
+			<BeforeJobs type="GotoWTitle" />
+			<BeforeJobs type="ReadyToPlant" />
+			<BeforeJobs type="BuildingJobRewardStatus" />
+			<BeforeJobs type="ScriptTrigger" />
+			<AfterJobs type="LockedFarmJobList" />
+		</StatusMenuReorder>
+		<ScriptTrigger title="UI_WildWestFinale_ScriptTriggerName" description="UI_WildWestFinale_ScriptTriggerDesc" buttonLabel="UI_GoTo" buttonColor="0091F6FF">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="WildWest_Scene1" />
+					<Requirement type="variable" variable="WildWest_Scene2" />
+					<Requirement type="variable" variable="WildWest_Scene3" />
+					<Requirement type="variable" variable="WildWest2016_CollectedAct1Scene" />
+					<Requirement type="variable" variable="WildWest2016_CollectedAct2Scene" />
+					<Requirement type="variable" variable="WildWest2016_CollectedAct3Scene" />
+				</Requirement>
+			</Requirements>
+			<Script onButtonPressed="WildWest_Scripts:TabPressed_Scenes" />
+		</ScriptTrigger>
+		<SoundKit event="BuildingTouched" name="Town_Plaza_State" />
+		<OnEvent event="BuildingPlaced" onObject="TownPlaza" user="local">
+			<Requirement type="variable" variable="NorthwardBound_TownPlazaUpgrades" />
+			<Script name="TownPlaza_Init" package="NorthwardBound_Scripts" />
+		</OnEvent>
+		<EffectOverlays>
+			<EffectOverlay bsv3="TownPlaza_InstigateLawlessness" anim="Active01" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="and(System::evaluate('Job::WW_InstigateChaos_Dual::Active'), WildWest_ScenePlaying == 0)" />
+			<EffectOverlay bsv3="TownPlaza_OminouslyWarn" anim="Active" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="and(System::evaluate('Job::WW_OminouslyWarn_Dual::Active'), WildWest_ScenePlaying == 0)" />
+			<EffectOverlay bsv3="TownPlaza_StageCoach" anim="Part01" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="false" registerVariableEvent="true" formulaRequirement="WildWest_Scene1Switch == 1" />
+			<EffectOverlay bsv3="TownPlaza_StageCoach" anim="Part02" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="false" registerVariableEvent="true" formulaRequirement="WildWest_Scene1Switch == 2" />
+			<EffectOverlay bsv3="TownPlaza_Faceoff" anim="Part01" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="WildWest_Scene2Switch == 1" />
+			<EffectOverlay bsv3="TownPlaza_Faceoff" anim="Part02" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="WildWest_Scene2Switch == 2" />
+			<EffectOverlay bsv3="TownPlaza_Faceoff" anim="Part03" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="WildWest_Scene2Switch == 3" />
+			<EffectOverlay bsv3="TownPlaza_DefendTheMission" flippedbsv3="TownPlaza_DefendTheMissionFlipped" anim="Part01" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="false" registerVariableEvent="true" formulaRequirement="WildWest_Scene3Switch == 1" />
+			<EffectOverlay bsv3="TownPlaza_DefendTheMission" flippedbsv3="TownPlaza_DefendTheMissionFlipped" anim="Part02" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="WildWest_Scene3Switch == 2" />
+			<EffectOverlay bsv3="TownPlaza_DefendTheMission" flippedbsv3="TownPlaza_DefendTheMissionFlipped" anim="Part03" randomStartFrame="false" rooted="rooted" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="WildWest_Scene3Switch == 3" />
+		</EffectOverlays>
+	</Building>
+	<Building id="145001" name="GeneralStore" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="6s" />
+		<BSv2 name="GeneralStore" flippedname="GeneralStoreFlipped" />
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Job id="145321" name="WatchingObsoleteGoodsGatherDust" time="8h" />
+		<SoundKit event="BuildingTouched" name="General_Store" />
+		<RatingElem shopping="10" />
+		<Cost donuts="70" />
+	</Building>
+	<Building id="145002" name="SwellCargo" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<Sell allowed="false" storeoverride="true" />
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<BuildTime time="4h" />
+		<Group name="Shop" />
+		<Group name="BanditHideouts" />
+		<BSv2 name="Bank" flippedname="BankFlipped" />
+		<Job id="145229" name="InstallingNewVaultDoor" time="12h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Swell_Cargo" />
+		<Cost donuts="60" />
+	</Building>
+	<Building id="145003" name="Corral" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="4h" />
+		<Group name="MiscCash" />
+		<BSv2 name="Corral" flippedname="CorralFlipped" />
+		<Job id="145230" name="WalkingAnimalsInCircles" time="4h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Corral" />
+		<Cost donuts="90" />
+	</Building>
+	<Building id="145004" name="TopChopBarberShop" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<Sell allowed="false" storeoverride="true" />
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Group name="Shop" />
+		<BuildTime time="4h" />
+		<BSv2 name="TopChopBarberShop" flippedname="TopChopBarberShopFlipped" />
+		<Job id="145231" name="SweepingUpTrimmings" time="4h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Top_Chop_Barber_Shop" />
+		<Cost donuts="85" />
+	</Building>
+	<Building id="145005" name="OrdnanceExpress" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="4h" />
+		<Group name="Shop" />
+		<Group name="BanditHideouts" />
+		<BSv2 name="OrdnanceExpress" flippedname="OrdnanceExpressFlipped" />
+		<Job id="145232" name="FillingBandoliers" time="8h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Ordnance_Express" />
+		<Cost donuts="80" />
+	</Building>
+	<Building id="145006" name="PartandParcelPostal" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="4h" />
+		<Group name="Shop" />
+		<Group name="BanditHideouts" />
+		<BSv2 name="PartAndParcelPostal" flippedname="PartAndParcelPostalFlipped" />
+		<Job id="145233" name="SendingImportantMessages" time="24h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Part_Parcel_Post" />
+		<Cost donuts="60" />
+	</Building>
+	<Building id="145007" name="WiltedRose" type="Building" xpValue="60">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Cost donuts="60" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="6s" />
+		<Group name="MiscCash" />
+		<BSv2 name="WiltedRose" flippedname="WiltedRoseFlipped" />
+		<Job id="145234" name="FulfillingFantasiesandNightmares" time="8h" premiumJob="true" />
+		<RatingElem shopping="10" />
+	</Building>
+	<Building id="145008" name="HootenannyBarn" type="Building" xpValue="100">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="6s" />
+		<Group name="MiscCash" />
+		<BSv2 name="HootenannyBarn" />
+		<RatingElem decoration="100" />
+		<Characters>
+			<Character name="LukeStetson" />
+		</Characters>
+		<Cost donuts="100" />
+		<Job id="145235" name="SwingingPartners" time="4h" premiumJob="true" />
+		<SoundKit event="BuildingTouched" name="Hootenanny_Barn" />
+	</Building>
+	<Building id="145009" name="Blacksmith" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="8h" />
+		<Group name="MiscCash" />
+		<Group name="BanditHideouts" />
+		<BSv2 name="Blacksmith" flippedname="BlacksmithFlipped" />
+		<Job id="145236" name="ForgingSimpleThingsDramatically" time="12h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Blacksmith" />
+		<Cost donuts="80" />
+	</Building>
+	<Building id="145010" name="SneedsFeedandSeed" type="Building" xpValue="90">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Cost donuts="70" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="6s" />
+		<Group name="Shop" />
+		<BSv2 name="SneedsFeedAndSeed" flippedname="SneedsFeedAndSeedFlipped" />
+		<Job id="145237" name="ScoopingSeedandFeed" time="4h" premiumJob="true" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Sneeds_Feed_Seed" />
+	</Building>
+	<Building id="145011" name="WesDoobnersWorldFamousRibHut" type="Building" xpValue="10">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Sell allowed="false" storeoverride="true" />
+		<Cost donuts="70" />
+		<BuildTime time="8h" />
+		<Group name="Shop" />
+		<BSv2 name="WesDoobnerRibHuts" flippedname="WesDoobnerRibHutsFlipped" />
+		<Characters>
+			<Character name="WesDoobner_SideshowBob" />
+		</Characters>
+		<Job id="145238" name="SlatheringSauces" time="8h" />
+		<RatingElem shopping="10" />
+		<SoundKit event="BuildingTouched" name="Wes_Doobner_Famous_Ribs" />
+		<StorePositioningRule rule="WesDoobnersWorldFamousRibHutRule" />
+	</Building>
+	<Building id="145012" name="WildWestFilmSet" type="Building" xpValue="150">
+		<BuildFromInventory value="true" />
+		<Requirements>
+			<Requirement type="level" level="5" hideFromInfo="true" />
+		</Requirements>
+		<GridType type="grass|dirtpavement|pavement|boardwalk|boardwalkedge|pier|pieredge" />
+		<Cost donuts="125" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="6s" />
+		<BSv2 name="WildWestFilmSet" />
+		<Group name="MiscCash" />
+		<Group name="BanditHideouts" />
+		<Characters>
+			<Character name="BuckMcCoy" />
+		</Characters>
+		<RatingElem decoration="500" />
+		<Job id="145239" name="TrippingHorsesWithWires" time="4h" premiumJob="true" />
+		<SoundKit event="BuildingTouched" name="Wild_West_Film_Set" />
+	</Building>
+</Buildings>

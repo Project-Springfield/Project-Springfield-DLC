@@ -1,0 +1,1013 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="257000" name="DogDays_Event" />
+		<DataID id="257001" name="DogDays_Event_Week1" />
+		<DataID id="257002" name="DogDays_Event_Week2" />
+		<DataID id="257003" name="DogDays_Event_Week3" />
+		<DataID id="257004" name="DogDays_Event_Week4" />
+	</MasterList>
+	<SpecialEvent id="257000" name="DogDays_Event">
+		<Variable name="DogDays_PreExpiryDisplayed24" value="false" />
+		<Variable name="DogDays_PreExpiryDisplayed72" value="false" />
+		<Variable name="DogDays_IntroSeen" value="false" />
+		<Variable name="DogDays_EventHubTabValue" value="false" />
+		<Variable name="DogDays_Store" value="false" />
+		<Variable name="DogDays_TrayOfDonuts_Purchased" value="false" />
+		<onExit destroyHUD="true" />
+		<Promo eventName="DogDays_SpringfieldPetFairGilPromo" questID="257800" type="gameObjectBundle" object="SpringfieldPetFairGOB" yes="BTN_200Donuts" visualEndDate="DogDays_SpringfieldPetFair_OUT" menu="DogDaysDynamicTextPromo" menuConfig="DogDays_GameConfig:SpringfieldPetFair_PromoMenuConfig">
+			<Cost donuts="200" />
+		</Promo>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_DogDays_Event">
+				<Requirements>
+					<Requirement type="reqList" location="DogDays_Requirements:EventCompleted" not="true" />
+					<Requirement type="reqList" location="DogDays_Requirements:EventMasterQuestsStarted" />
+					<Requirement type="time" start="DogDays_Start" end="DogDays_End" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="time" end="DogDays_End" />
+				</Requirements>
+				<RunScript>
+					<Script name="OpenEventHub" package="DogDays_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<EventHub menuConfig="Config_EventHub:Default">
+			<Tabs>
+				<Tab name="Tab_DogDays_Questline1" icon="ICO_CUR_DogDays_Act1Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="NewDogsOnTheBlock_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="DogDays_EventHubTabValue==0" />
+					</HighlightRequirements>
+					<Script name="Tab_Week1" package="DogDays_Scripts" />
+				</Tab>
+				<Tab name="Tab_DogDays_Questline2" icon="ICO_CUR_DogDays_Act2Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="GoneToTheDogs_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="DogDays_EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="Tab_Week2" package="DogDays_Scripts" />
+				</Tab>
+				<Tab name="Tab_DogDays_Questline3" icon="ICO_CUR_DogDays_Act3Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="AllBarkAndEvenMoreBite_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="DogDays_EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="Tab_Week3" package="DogDays_Scripts" />
+				</Tab>
+				<Tab name="Tab_DogDays_Questline4" icon="ICO_CUR_DogDays_Act4Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="AllTheWorldsACage_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="DogDays_EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="Tab_Week4" package="DogDays_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="DogDays_Act1PrizeTrackCurrency">
+					<Requirement type="reqList" location="DogDays_Requirements:MasterQuestActive1" />
+				</Resource>
+				<Resource type="DogDays_Act2PrizeTrackCurrency">
+					<Requirement type="reqList" location="DogDays_Requirements:MasterQuestActive2" />
+				</Resource>
+				<Resource type="DogDays_Act3PrizeTrackCurrency">
+					<Requirement type="reqList" location="DogDays_Requirements:MasterQuestActive3" />
+				</Resource>
+				<Resource type="DogDays_Act4PrizeTrackCurrency">
+					<Requirement type="reqList" location="DogDays_Requirements:MasterQuestActive4" />
+				</Resource>
+			</ResourceTypes>
+		</EventHub>
+		<Buildings override="true">
+			<Building id="257000" name="EmilyWinthropsCanineCollege">
+				<BuildMenuText text="__DogDays_GameConfig:EarnsCurrency:GenericCurrency__" />
+			</Building>
+			<Building id="257001" name="DognitiveBehavioralTherapyInstitute">
+				<BuildMenuText text="__DogDays_GameConfig:EarnsCurrency:GenericCurrency__" />
+			</Building>
+			<Building id="257002" name="NoKillKennel">
+				<BuildMenuText text="__DogDays_GameConfig:EarnsCurrency:GenericCurrency__" />
+			</Building>
+			<Building id="257003" name="LionelBudgieDVM">
+				<BuildMenuText text="__DogDays_GameConfig:EarnsCurrency:GenericCurrency__" />
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="257001" name="DogDays_Event_Week1">
+		<EventCurrencyJobLists>
+			<JobList name="DogDays_Questline1_JL_1">
+				<Title value="QST_NewDogsOnTheBlock_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline1_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PayTopDollarForDesignerDogBones" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="UnearthOldDogBones" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline1_JL_2">
+				<Title value="QST_NewDogsOnTheBlock_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline1_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PayTopDollarForDesignerDogBones" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="UnearthOldDogBones" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline1_JL_3">
+				<Title value="QST_NewDogsOnTheBlock_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline1_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PayTopDollarForDesignerDogBones" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="UnearthOldDogBones" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline1_JL_4">
+				<Title value="QST_NewDogsOnTheBlock_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline1_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PayTopDollarForDesignerDogBones" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="UnearthOldDogBones" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline1_JL_5">
+				<Title value="QST_NewDogsOnTheBlock_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline1_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PayTopDollarForDesignerDogBones" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="UnearthOldDogBones" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="DistractDogsAndStealTheirDogBones" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="257040" name="DistractDogsAndStealTheirDogBones">
+				<Reward DogDays_Act1PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:RegularJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="257199" name="UnearthOldDogBones">
+				<Reward DogDays_Act1PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumReturningJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+			<Job id="257041" name="PayTopDollarForDesignerDogBones">
+				<Reward DogDays_Act1PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="257002" name="DogDays_Event_Week2">
+		<EventCurrencyJobLists>
+			<JobList name="DogDays_Questline2_JL_1">
+				<Title value="QST_GoneToTheDogs_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline2_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="RescueOldCollarsFromTheTrash" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline2_JL_2">
+				<Title value="QST_GoneToTheDogs_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline2_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="RescueOldCollarsFromTheTrash" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline2_JL_3">
+				<Title value="QST_GoneToTheDogs_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline2_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="RescueOldCollarsFromTheTrash" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline2_JL_4">
+				<Title value="QST_GoneToTheDogs_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline2_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="RescueOldCollarsFromTheTrash" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline2_JL_5">
+				<Title value="QST_GoneToTheDogs_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline2_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ConvertTinyBeltsIntoDogCollars" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="RescueOldCollarsFromTheTrash" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SwipeDogCollarsFromSleepingDogs" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="257042" name="SwipeDogCollarsFromSleepingDogs">
+				<Reward DogDays_Act2PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:RegularJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="257200" name="RescueOldCollarsFromTheTrash">
+				<Reward DogDays_Act2PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumReturningJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+			<Job id="257043" name="ConvertTinyBeltsIntoDogCollars">
+				<Reward DogDays_Act2PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="257003" name="DogDays_Event_Week3">
+		<EventCurrencyJobLists>
+			<JobList name="DogDays_Questline3_JL_1">
+				<Title value="QST_AllBarkAndEvenMoreBite_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline3_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffAndMarkFireHydrants" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline3_JL_2">
+				<Title value="QST_AllBarkAndEvenMoreBite_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline3_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffAndMarkFireHydrants" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline3_JL_3">
+				<Title value="QST_AllBarkAndEvenMoreBite_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline3_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffAndMarkFireHydrants" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline3_JL_4">
+				<Title value="QST_AllBarkAndEvenMoreBite_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline3_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffAndMarkFireHydrants" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline3_JL_5">
+				<Title value="QST_AllBarkAndEvenMoreBite_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline3_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintFireHydrants" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffAndMarkFireHydrants" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="PryFireHydrantsFromStreetCorners" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="257044" name="PryFireHydrantsFromStreetCorners">
+				<Reward DogDays_Act3PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:RegularJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="257201" name="SniffAndMarkFireHydrants">
+				<Reward DogDays_Act3PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumReturningJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+			<Job id="257045" name="3DPrintFireHydrants">
+				<Reward DogDays_Act3PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="257004" name="DogDays_Event_Week4">
+		<EventCurrencyJobLists>
+			<JobList name="DogDays_Questline4_JL_1">
+				<Title value="QST_AllTheWorldsACage_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline4_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LionelBudgie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BegForDogFood" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline4_JL_2">
+				<Title value="QST_AllTheWorldsACage_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline4_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LionelBudgie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BegForDogFood" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline4_JL_3">
+				<Title value="QST_AllTheWorldsACage_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline4_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LionelBudgie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BegForDogFood" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline4_JL_4">
+				<Title value="QST_AllTheWorldsACage_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline4_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LionelBudgie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BegForDogFood" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="DogDays_Questline4_JL_5">
+				<Title value="QST_AllTheWorldsACage_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__DogDays_GameConfig:ResourceQuantities:DogDays_Questline4_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="DogDays_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="DogDays_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LionelBudgie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="LesMoore" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="ElaineWolff" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="PickUpFancyDogFoodFromFancyStores" character="EmilyWinthrop" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BegForDogFood" character="SantasLittleHelper" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Eddie" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="KentBrockman" />
+					</Slot>
+					<Slot>
+						<Job name="SalvageDogFoodFromDumpsters" character="Ralph" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="257046" name="SalvageDogFoodFromDumpsters">
+				<Reward DogDays_Act4PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:RegularJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="257202" name="BegForDogFood">
+				<Reward DogDays_Act4PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumReturningJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+			<Job id="257047" name="PickUpFancyDogFoodFromFancyStores">
+				<Reward DogDays_Act4PrizeTrackCurrency="__DogDays_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__DogDays_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>

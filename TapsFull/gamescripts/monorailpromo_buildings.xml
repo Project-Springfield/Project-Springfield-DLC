@@ -1,0 +1,75 @@
+﻿<Buildings>
+	<MasterList>
+		<DataID id="189000" name="OldEnglishStation" />
+		<DataID id="189001" name="OldEnglishStationBase" />
+		<DataID id="189002" name="OldEnglishStationTop" />
+	</MasterList>
+	<BuildingDefaults>
+		<LoadBuilding value="true" />
+		<Cost money="0" donuts="0" />
+		<Sell money="0.25" donuts="25" allowed="true" />
+		<Unique value="false" />
+		<Falls value="true" />
+		<MultiPlace value="false" />
+		<LoadBuilding value="true" />
+		<ApplyLevelMultiplier value="true" />
+		<BuildFromInventory value="false" />
+		<TaxJobPackage value="MonorailPromo_Jobs" />
+		<MoveColour R="1.0" G="1.0" B="1.0" A="0.7" />
+		<BadColour R="1.0" G="0.8" B="0.8" A="0.7" />
+		<GoodColour R="1.0" G="1.0" B="1.0" A="0.7" />
+	</BuildingDefaults>
+	<Building id="189000" name="OldEnglishStation" type="Building" xpValue="80" renderTag="monorail" preventTransMode="true">
+		<BuildFromInventory value="true" />
+		<Sell allowed="false" storeoverride="true" />
+		<Unique value="true" />
+		<RatingElem shopping="10" />
+		<BuildTime time="6s" />
+		<Cost donuts="80" />
+		<ScriptTrigger title="UI_Monorail_RideTitle" description="UI_Monorail_RideBody" buttonLabel="UI_Ride" buttonColor="b73affff" allowedInFriendLand="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="players land" />
+						<Requirement type="variable" variable="Monorail_Broken" not="true" />
+					</Requirement>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="players land" not="true" />
+						<Requirement type="objectVariable" name="OldEnglishStation" objectType="building" formula="greaterThan(Object::TrackLength, PiecesToRideTrain - 1)" allowInFriendLand="true" />
+					</Requirement>
+				</Requirement>
+			</Requirements>
+			<Script onButtonPressed="MonorailPromo_Scripts_Dialogue:RideMonorailOldEnglishStation" />
+		</ScriptTrigger>
+		<NeutralAnimationController name="Empty" />
+		<ActiveAnimationController name="Empty" />
+		<AnimatesBuilding name="OldEnglishStationTop" />
+		<MultiBuildingPlace config="Monorail_Config:TrackPieceList" />
+		<Group name="MonorailStations" />
+		<Job id="189002" name="OverchargingForNoveltyRides" time="8h" premiumJob="true" />
+		<SubFootprints>
+			<Footprint name="OldEnglishStationBase" />
+			<Footprint name="OldEnglishStationTop" />
+		</SubFootprints>
+		<BuildMenuText text="BLD_NorthPoleStation_buildmenu" />
+		<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+		<BSv2 name="OldEnglishStation" flippedname="OldEnglishStationFlipped" disableWhenFalling="true" />
+		<OnEvent onObject="OldEnglishStation" event="BuildingTouched">
+			<Script name="OldEnglishStation_Tapped" package="THOH2017_Scripts" />
+		</OnEvent>
+	</Building>
+	<Building id="189001" name="OldEnglishStationBase" type="Building" xpValue="0" renderTag="monorail">
+		<BuildTime time="6s" />
+		<NeutralAnimationController name="NeutralBase" />
+		<Proxy value="true" hasTrans="true" />
+		<TrackInfo trackType="Monorail" trackConfig="Monorail_TrainConfig:StationConfig" trackStart="true" />
+		<BSv2 name="OldEnglishStation" flippedname="OldEnglishStationFlipped" />
+	</Building>
+	<Building id="189002" name="OldEnglishStationTop" type="Building" xpValue="0" renderTag="monorail" animated="true">
+		<BuildTime time="6s" />
+		<NeutralAnimationController name="NeutralTop" />
+		<ActiveAnimationController name="ActiveTop" />
+		<Proxy value="true" hasTrans="true" />
+		<BSv2 name="OldEnglishStation" flippedname="OldEnglishStationFlipped" />
+	</Building>
+</Buildings>

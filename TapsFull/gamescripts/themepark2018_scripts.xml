@@ -1,0 +1,3054 @@
+﻿<ScriptPackage>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="ThemePark2018_EventHubTabValue">
+			<ExpressionCase value="0">
+				<Action type="runScript" script="ThemePark2018_Scripts:Tab_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="runScript" script="ThemePark2018_Scripts:Tab_BuildingFinder" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="ThemePark2018_Scripts:Tab_Crafting" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<GuidePanel_Event>
+		<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+		<Action type="updateVariable" variable="ThemePark2018_EventGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="ThemePark2018_GuidePanelsConfig:PrizeTrackGuide_Config" />
+	</GuidePanel_Event>
+	<Tab_PrizeTrack>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf expression="ThemePark2018_EventGuideSeen">
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" not="true" />
+							<Then>
+								<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+								<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+									<Extras>
+										<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+										<Attribute name="specialEvent" value="ThemePark2018_Event" />
+										<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+									</Extras>
+								</Action>
+							</Then>
+						</If>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="ThemePark2018_Scripts:GuidePanel_Event" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_PrizeTrack>
+	<ActOnePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_ThemePark2018_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_ThemePark2018_Act2Prize6_LG" darken="true" />
+	</ActOnePrizeTrackTab>
+	<ActTwoPrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_ThemePark2018_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_ThemePark2018_Act3Prize6_LG" darken="true" />
+	</ActTwoPrizeTrackTab>
+	<GuidePanel_BuildingFinder ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="ThemePark2018_Scripts:GuidePanel_BuildingFinder_NoSound" />
+	</GuidePanel_BuildingFinder>
+	<GuidePanel_BuildingFinder_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="1" />
+		<Action type="updateVariable" variable="ThemePark2018_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="ThemePark2018_GuidePanelsConfig:BuildingFinderGuide_Config" />
+	</GuidePanel_BuildingFinder_NoSound>
+	<GuidePanel_BuildingFinder_Center>
+		<Action type="updateVariable" variable="ThemePark2018_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="ThemePark2018_GuidePanelsConfig:BuildingFinderGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_BuildingFinder_Center>
+	<OpenMenu_BuildingFinder>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="gamestate" state="GameState_BuildingFinder" not="true" />
+						<Then>
+							<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="1" />
+							<Action type="markBadgeViewed" badgeName="ThemePark2018_BuildingFinderBadge" />
+							<Action type="gotoState" state="GameState_BuildingFinder">
+								<Extras>
+									<Attribute name="menuConfig" value="ThemePark2018_MenuConfig:ThemePark2018_BuildingFinder" />
+									<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+									<Attribute name="specialEvent" value="ThemePark2018_Event" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMenu_BuildingFinder>
+	<Tab_BuildingFinder>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="ThemePark2018_Requirements:BuildingFinder_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If expression="ThemePark2018_BuildingFinderGuideSeen">
+							<Then>
+								<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="1" />
+								<Action type="actionSequence" script="ThemePark2018_Scripts:OpenMenu_BuildingFinder" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="actionSequence" script="ThemePark2018_Scripts:GuidePanel_BuildingFinder" />
+								<Action type="updateVariable" variable="ThemePark2018_BuildingFinderGuideSeen" value="1" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_BuildingFinder>
+	<GuidePanel_Crafting>
+		<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="2" />
+		<Action type="updateVariable" variable="ThemePark2018_CraftingGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="ThemePark2018_GuidePanelsConfig:CraftingGuide_Config" />
+	</GuidePanel_Crafting>
+	<GuidePanel_Crafting_Center>
+		<Action type="updateVariable" variable="ThemePark2018_CraftingGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="ThemePark2018_GuidePanelsConfig:CraftingGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_Crafting_Center>
+	<Tab_Crafting>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf expression="ThemePark2018_CraftingGuideSeen">
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="gamestate" state="GameState_HubCraftingMenu" not="true" />
+							<Then>
+								<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="2" />
+								<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+									<Extras>
+										<Attribute name="MenuConfig" value="ThemePark2018_CraftingConfig:CraftingMenu" />
+										<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+										<Attribute name="onLoadScript" value="ThemePark2018_Scripts_Crafting:UpdateCrafting" />
+										<Attribute name="specialEvent" value="ThemePark2018_Event" />
+									</Extras>
+								</Action>
+							</Then>
+						</If>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="ThemePark2018_CraftingBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="ThemePark2018_Scripts:GuidePanel_Crafting" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_Crafting>
+	<Tab_Crafting_ScrollTo>
+		<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="2" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false" formatMe="deep">
+			<Extras>
+				<Attribute name="MenuConfig" value="ThemePark2018_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="onLoadScript" value="ThemePark2018_Scripts_Crafting:UpdateCrafting" />
+				<Attribute name="specialEvent" value="ThemePark2018" />
+				<Attribute name="ItemToScrollTo" value="{ItemToScrollTo}" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="ThemePark2018_CraftingBadge" />
+	</Tab_Crafting_ScrollTo>
+	<GetMoreCraftingCurrency>
+		<Action type="if">
+			<If>
+				<Requirement type="JobState" job="TestWeightLimits" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Homer" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="JobState" job="StockImpulsePurchaseShelves" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Apu" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="BlessTheRides" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Ned" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="JuryRigSafetyHarnesses" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Cletus" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="MonitorAttractionQueue" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Skinner" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="MopUpTheVomit" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Willy" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="RecordRiderReactions" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Diane" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="SearchForScratchy" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Itchy" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="CheckSeatsForLooseChange" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Moe" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="OfferRefreshments" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Marge" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="AvoidItchy" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Scratchy" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="OversellTheFun" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="Jeremy" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="NarrateRides" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="JuneBellamy" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="AppeaseConcernedGuests" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="ParkEngineer" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="EntertainRideQueue" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="TinaBallerina" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="OfferCartoonMotelDiscounts" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="MsMouse" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="RecycleRideTickets" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="SqueakyVoiceTeen" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="JobState" job="RecordScreamsForParkCommercial" state="WaitingOnAwards" />
+				<Then>
+					<Action type="pantoobject" character="LTSmash" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#program;                 if(User::getVariable('BankedParkVisitors') &gt; 0)                 {                     return true;                 }                 else                 {                     var character = Character::find('ParkVisitor');                     var characterInstanceList = Land::getAllInstancesOfObject(character);                     foreach(characterInstanceList as instance)                     {                         if(!Object::getDelete(instance))                         {                             return true;                         }                     }                 }                 return false;">
+				<Then>
+					<Action type="pantoobject" time="0" character="ParkVisitor" flagsToAvoid="delete" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="ThemePark2018_Requirements:HasStaffRidesJobsAvailable" />
+				<Then>
+					<Action type="actionSequence" script="ThemePark2018_Scripts:GoToStaffRides_ItchyAndScratchyLandGate" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+				</Then>
+			</Else>
+		</Action>
+	</GetMoreCraftingCurrency>
+	<GoTo_DestroyKrustyland ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="gotoland" land="Krustyland" showPopup="true" />
+			</True>
+			<False>
+				<Action type="runScript" script="ThemePark2018_Scripts:ShowInfoPanel" />
+			</False>
+		</Action>
+	</GoTo_DestroyKrustyland>
+	<ShowInfoPanel ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="State_HubEventGuidePanel" not="true" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="State_HubEventGuidePanel" extras="ThemePark2018_MenuConfig:KrustylandInfoScreen_Config" />
+				<Action type="setVariable" intVariable="Krustyland_HasSeenInfoPanel" intValue="1" />
+			</True>
+		</Action>
+	</ShowInfoPanel>
+	<TriggerAutoNuke>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Krustyland_Destroyed == 0" />
+			<True>
+				<Action type="setVariable" intVariable="Krustyland_NukeInProgress" intValue="1" />
+				<Action type="setVariable" intVariable="Krustyland_AutoNuke" intValue="1" />
+				<Action type="runScript" script="ThemePark2018_Scripts:KrustylandNukeIt" />
+			</True>
+		</Action>
+	</TriggerAutoNuke>
+	<KrustylandNukeItWarn ignoreHUD="true">
+		<Action type="genericConfirmation">
+			<Attribute name="config">
+				<AttributeSet name="onOK">
+					<Attribute name="script" value="ThemePark2018_Scripts:KrustylandNukeIt" />
+				</AttributeSet>
+				<AttributeSet name="onCancel"></AttributeSet>
+				<AttributeSet name="onBackButton">
+					<Attribute name="mapTo" value="onCancel" />
+				</AttributeSet>
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_ThemePark2018_NukingScreen_Title" localise="true" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_ThemePark2018_NukeKrustylandWarning" localise="true" />
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_Cancel">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_NotYet_button" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="BB0310FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_NukeIt_button" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="0091F1FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="exitButton">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="showTwoButtons">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</KrustylandNukeItWarn>
+	<KrustylandNukeIt ignoreHUD="true">
+		<Action type="gotoState" state="GameState_FakeFriendMap">
+			<Extras>
+				<Attribute name="reloadGameScript" value="ThemePark2018_Scripts:FriendsMapCutsceneDone" />
+				<Attribute name="runReloadScriptImmediately" value="true" />
+			</Extras>
+		</Action>
+	</KrustylandNukeIt>
+	<AutoNuke_Recovery>
+		<Action type="setVariable" intVariable="Krustyland_NukeInProgress" intValue="1" />
+		<Action type="scheduleScript" mode="delete" script="ThemePark2018_Scripts:AutoNuke_Recovery" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="formula" formula="User::getVariable('Krustyland_Destroyed')==0" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="ThemePark2018_Scripts:TriggerAutoNuke" />
+					</True>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" script="ThemePark2018_Scripts:FriendsMapCutsceneDone" />
+			</False>
+		</Action>
+	</AutoNuke_Recovery>
+	<FriendsMapCutsceneDone>
+		<Action type="setVariable" intVariable="Krustyland_Destroyed" intValue="1" />
+		<Action type="scheduleScript" mode="delete" script="ThemePark2018_Scripts:TriggerAutoNuke" />
+		<Action type="setVariable" intVariable="Krustyland_LandTokensUnlocked" intValue="1" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var krustylandSublandId = 2;
+                    var blocks =  (Land::countOwnedBlocksInSubland(krustylandSublandId) - 2);
+                    if(blocks > 0)
+                    {
+                    User::setVariable('Krustyland_LandTokensUnlocked', blocks, true);
+                    }
+                ]]></Program>
+		</Action>
+		<Action type="actionSequence" script="MiscScripts:GoToInGame" />
+		<Action type="if">
+			<If>
+				<Requirement type="formula" formula="Krustyland_AutoNuke == 1" />
+				<Then>
+					<Action type="logevent" eventId="9953" param1Type="Enumeration" param1="Automatic" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="logevent" eventId="9953" param1Type="Enumeration" param1="Player" />
+				</Then>
+			</Else>
+		</Action>
+	</FriendsMapCutsceneDone>
+	<GoToSpringfield>
+		<Action type="gotoland" land="Springfield" showPopup="false" force="true" />
+	</GoToSpringfield>
+	<TeleportToKrustylandShuttleToKrustyland>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="KrustylandShuttleToKrustyland" />
+			<True>
+				<Action type="pantoobject" building="KrustylandShuttleToKrustyland" blockTouches="true" time="0" />
+				<Action type="flashScreen" colour="White" speed="6" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="KrustylandShuttleToKrustyland" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToKrustylandShuttleToKrustyland>
+	<TeleportToKrustylandShuttleToSpringfield>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="KrustylandShuttleToSpringfield" />
+			<True>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" blockTouches="true" time="0" />
+				<Action type="flashScreen" colour="White" speed="6" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="KrustylandShuttleToSpringfield" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToKrustylandShuttleToSpringfield>
+	<KrustylandParkingLot_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="KrustylandParkingLot" value="0" />
+	</KrustylandParkingLot_Init>
+	<KrustylandParkingLot_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="KrustylandParkingLot" value="mod(Object::KrustylandParkingLot+1,4)" asExpression="true" />
+	</KrustylandParkingLot_Tapped>
+	<ItchyParkingLot_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ItchyParkingLot" value="0" />
+	</ItchyParkingLot_Init>
+	<ItchyParkingLot_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="ItchyParkingLot" value="mod(Object::ItchyParkingLot+1,3)" asExpression="true" />
+	</ItchyParkingLot_Tapped>
+	<ScratchyParkingLot_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ScratchyParkingLot" value="0" />
+	</ScratchyParkingLot_Init>
+	<ScratchyParkingLot_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="ScratchyParkingLot" value="mod(Object::ScratchyParkingLot+1,3)" asExpression="true" />
+	</ScratchyParkingLot_Tapped>
+	<ItchyAndScratchyHelicopter_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</ItchyAndScratchyHelicopter_Tapped>
+	<RollerCoasterWeirdos_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="0" />
+	</RollerCoasterWeirdos_Init>
+	<RollerCoasterWeirdos_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="mod(Object::CrowdState+1,3)" asExpression="true" />
+	</RollerCoasterWeirdos_Tapped>
+	<SetUpLogRide ignoreHUD="true" cache="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  
+                  Object::setVariable(startBuilding, 'Forward', '0', 0, true);
+                  Object::setVariable(startBuilding, 'Reverse', '0', 0, true);
+                  Object::setVariable(startBuilding, 'LogRideIndex', '-1', 0, true);
+                  Object::deleteVariable(startBuilding, 'LogRideStartBuilding');
+                  
+                  var stillIterating = true;
+                  var oldListCount = 0;
+                  while(stillIterating)
+                  {
+                        var buildingServerId = Object::getVariable(startBuilding, 'LogRideBuilding'+toString(oldListCount));
+                        if(isNULL(buildingServerId) || strlen(buildingServerId) == 0)
+                        {
+                            stillIterating = false;
+                        }
+                        else
+                        {
+                            Object::deleteVariable(startBuilding, 'LogRideBuilding'+toString(oldListCount));
+                            
+                            var oldInstance = Land::getBuildingInstanceFromServerID(toDouble(buildingServerId));
+                            if(!isNULL(oldInstance))
+                            {
+                                Object::setVariable(oldInstance, 'Forward', '0', 0, true);
+                                Object::setVariable(oldInstance, 'Reverse', '0', 0, true);
+                                Object::setVariable(newInstance, 'LogRideIndex', '-1', 0, true);
+                                Object::deleteVariable(oldInstance, 'LogRideStartBuilding');
+                            }
+                            oldListCount = oldListCount + 1;
+                        }
+                  }
+              ]]></Program>
+		</Action>
+		<Action type="scheduleScript" mode="replace" script="ThemePark2018_Scripts:ShowDelayedSetUpLogRideList" shouldSave="true" relativeTime="0.1s" />
+	</SetUpLogRide>
+	<ShowDelayedSetUpLogRideList parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+					var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+					Script::runOnObjectInstance('ThemePark2018_Scripts:SetUpLogRideList', startBuilding);
+				]]></Program>
+		</Action>
+	</ShowDelayedSetUpLogRideList>
+	<SetUpLogRideList ignoreHUD="true" cache="true">
+		<Action type="scheduleScript" mode="delete" script="ThemePark2018_Scripts:ShowDelayedSetUpLogRideList" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Script::getObjectInstance();
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  
+                  var freeBuilding = startBuilding;
+                  var freeLocator = 'LogRide_Start';
+                  var newList = Array::create();
+                  var newListAnimationDirection = Array::create();
+                  var lastBuildingInstance = 0;
+                  var validLoop = false;
+                  var currentDirection = 'Forward';
+                  while(!isNULL(freeBuilding) && freeBuilding != 0)
+                  {
+                    var currentBuilding = freeBuilding;
+                    freeBuilding = 0;
+                    var adjacentBuildings = Building::getAdjacentBuildings(currentBuilding);
+                    foreach(adjacentBuildings as adjacentBuildingInstance)
+                    {
+                        var shouldContinue = false;
+                        var buildingIsValid = true;
+                        foreach(newList as newInstance)
+                        {
+                            if(newInstance == adjacentBuildingInstance)
+                            {
+                                buildingIsValid = false;
+                            }
+                        }
+                        
+                        if(!buildingIsValid || lastBuildingInstance == adjacentBuildingInstance)
+                        {
+                            shouldContinue = true;
+                        }
+                        
+                        if(!shouldContinue)
+                        {
+                            var adjacentLocator = Building::getAdjacentCardinalLocator(adjacentBuildingInstance, currentBuilding, freeLocator);
+                            if(isNULL(adjacentLocator))
+                            {
+                                shouldContinue = true;
+                            }
+                            
+                            if(!shouldContinue)
+                            {
+                                if(currentDirection == 'Forward')
+                                {
+                                    if(adjacentLocator == 'LogRide_Start')
+                                    {
+                                        currentDirection = 'Reverse';
+                                    }
+                                }
+                                else
+                                {
+                                    if(adjacentLocator == 'LogRide_End')
+                                    {
+                                        currentDirection = 'Forward';
+                                    }
+                                }
+                            
+                                if(adjacentLocator == 'LogRide_Start')
+                                {
+                                    freeLocator = 'LogRide_End';
+                                }
+                                else
+                                {
+                                    freeLocator = 'LogRide_Start';
+                                }
+                                lastBuildingInstance = currentBuilding;
+                                freeBuilding = adjacentBuildingInstance;
+                                if(freeBuilding == startBuilding)
+                                {
+                                    validLoop = true;
+                                    freeBuilding = 0;
+                                }
+                                else
+                                {
+                                    Array::pushBack(newListAnimationDirection, currentDirection);
+                                    Array::pushBack(newList, adjacentBuildingInstance);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                  }
+                  
+                  if(validLoop)
+                  {
+                      var newListSize = Array::size(newList);
+                      var startBuildingServerID = toString(Object::getProperty(startBuilding, 'UID'));
+                      for(var i = 0; i < newListSize; i++)
+                      {
+                        var newInstance = Array::getValueAtIndex(newList, i);
+                        var newInstanceServerID = Object::getProperty(newInstance, 'UID');
+                        var animationDirection = Array::getValueAtIndex(newListAnimationDirection, i);
+                        Object::setVariable(startBuilding, 'LogRideBuilding'+toString(i), toString(newInstanceServerID), 0, false);
+                        Object::setVariable(newInstance, 'LogRideStartBuilding', startBuildingServerID, 0, false);
+                        Object::setVariable(newInstance, 'LogRideIndex', toString(i), 0, true);
+                        Object::setVariable(newInstance, 'AnimationDirection', animationDirection, 0, true);
+                      }
+                      var rideOff = User::getVariable('LogRide_AnimationOff2');
+                      if(rideOff == 0)
+                      {
+                        Object::setVariable(startBuilding, 'Forward', '1', 0, false);
+                      }
+                      Object::setVariable(startBuilding, 'NextBuildingIndex', '0', 0, false);
+                      Object::setVariable(startBuilding, 'AnimationDirection', 'Forward', 0, false);
+                      Object::setVariable(startBuilding, 'LogRideStartBuilding', startBuildingServerID, 0, false);
+                      Object::setVariable(startBuilding, 'LogRideIndex', '-1', 0, true);
+                  }
+              ]]></Program>
+		</Action>
+	</SetUpLogRideList>
+	<LogRideAnimFinished ignoreHUD="true" cache="true" refreshHUD="false" parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                var animFinishedBuilding = Script::getObjectInstance();
+                var forward = Object::getVariable(animFinishedBuilding, 'Forward');
+                var reserve = Object::getVariable(animFinishedBuilding, 'Reverse');
+                Object::setVariable(animFinishedBuilding, 'Forward', '0', 0, false);
+                Object::setVariable(animFinishedBuilding, 'Reverse', '0', 0, false);
+                if((isNULL(reserve) || reserve == '0') && (isNULL(forward) || forward == '0'))
+                {
+                    return;
+                }
+
+                var startBuildingServerId = Object::getVariable(animFinishedBuilding, 'LogRideStartBuilding');
+                var startBuilding = Land::getBuildingInstanceFromServerID(toDouble(startBuildingServerId));
+                if(isNULL(startBuilding) || startBuilding == 0)
+                {
+                    return;
+                }
+
+                var nextBuildingIndex = toDouble(Object::getVariable(startBuilding, 'NextBuildingIndex'));
+                var nextBuildingServerId = Object::getVariable(startBuilding, 'LogRideBuilding'+toString(nextBuildingIndex));
+                if(isNULL(nextBuildingServerId) || strlen(nextBuildingServerId) == 0)
+                {
+                    nextBuildingServerId = toString(Object::getProperty(startBuilding, 'UID'));
+                    nextBuildingIndex = 0;
+                }
+                else
+                {
+                    nextBuildingIndex = nextBuildingIndex + 1;
+                }
+
+                Object::setVariable(startBuilding, 'NextBuildingIndex', toString(nextBuildingIndex), 0, false);
+                var nextBuildingInstance = Land::getBuildingInstanceFromServerID(toDouble(nextBuildingServerId));
+                if(!isNULL(nextBuildingInstance))
+                {
+                    var buildingAnimDir = Object::getVariable(nextBuildingInstance, 'AnimationDirection');
+                    var nextBuildingName = Object::getProperty(nextBuildingInstance, 'Name');
+                    Object::setVariable(nextBuildingInstance, buildingAnimDir, '1', 0, false);
+                    var homerIsActive = Object::getVariable(startBuilding, 'Homer');
+                    var lisaIsActive = Object::getVariable(startBuilding, 'Lisa');
+                    var margeIsActive = Object::getVariable(startBuilding, 'Marge');
+                    var bartIsActive = Object::getVariable(startBuilding, 'Bart');
+                    Object::setVariable(nextBuildingInstance, 'Homer', homerIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Lisa', lisaIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Marge', margeIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Bart', bartIsActive, 0, false);
+                }
+              ]]></Program>
+		</Action>
+	</LogRideAnimFinished>
+	<LogRideJobStartedHomer>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  Object::setVariable(startBuilding, 'Homer', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobStartedHomer>
+	<LogRideJobDoneHomer>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Homer', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobDoneHomer>
+	<LogRideJobStartedBart>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Bart', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobStartedBart>
+	<LogRideJobDoneBart>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Bart', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobDoneBart>
+	<LogRideJobStartedMarge>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Marge', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobStartedMarge>
+	<LogRideJobDoneMarge>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Marge', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobDoneMarge>
+	<LogRideJobStartedLisa>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Lisa', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobStartedLisa>
+	<LogRideJobDoneLisa>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('LogRideEntrance'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Lisa', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</LogRideJobDoneLisa>
+	<SetUpInjury500 ignoreHUD="true" cache="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  
+                  Object::setVariable(startBuilding, 'Forward', '0', 0, true);
+                  Object::setVariable(startBuilding, 'Reverse', '0', 0, true);
+                  Object::setVariable(startBuilding, 'Injury500Index', '-1', 0, true);
+                  Object::deleteVariable(startBuilding, 'Injury500StartBuilding');
+                  
+                  var stillIterating = true;
+                  var oldListCount = 0;
+                  while(stillIterating)
+                  {
+                        var buildingServerId = Object::getVariable(startBuilding, 'Injury500Building'+toString(oldListCount));
+                        if(isNULL(buildingServerId) || strlen(buildingServerId) == 0)
+                        {
+                            stillIterating = false;
+                        }
+                        else
+                        {
+                            Object::deleteVariable(startBuilding, 'Injury500Building'+toString(oldListCount));
+                            
+                            var oldInstance = Land::getBuildingInstanceFromServerID(toDouble(buildingServerId));
+                            if(!isNULL(oldInstance))
+                            {
+                                Object::setVariable(oldInstance, 'Forward', '0', 0, true);
+                                Object::setVariable(oldInstance, 'Reverse', '0', 0, true);
+                                Object::setVariable(oldinstance, 'Injury500Index', '-1', 0, true);
+                                Object::deleteVariable(oldInstance, 'Injury500StartBuilding');
+                            }
+                            oldListCount = oldListCount + 1;
+                        }
+                  }
+              ]]></Program>
+		</Action>
+		<Action type="scheduleScript" mode="replace" script="ThemePark2018_Scripts:ShowDelayedSetUpInjury500List" shouldSave="true" relativeTime="0.1s" />
+	</SetUpInjury500>
+	<ShowDelayedSetUpInjury500List parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+				  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+				  Script::runOnObjectInstance('ThemePark2018_Scripts:SetUpInjury500List', startBuilding);
+			  ]]></Program>
+		</Action>
+	</ShowDelayedSetUpInjury500List>
+	<SetUpInjury500List ignoreHUD="true" cache="true">
+		<Action type="scheduleScript" mode="delete" script="ThemePark2018_Scripts:ShowDelayedSetUpInjury500List" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Script::getObjectInstance();
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  
+                  var freeBuilding = startBuilding;
+                  var freeLocator = 'Injury500_Start';
+                  var newList = Array::create();
+                  var newListAnimationDirection = Array::create();
+                  var lastBuildingInstance = 0;
+                  var validLoop = false;
+                  var currentDirection = 'Forward';
+                  while(!isNULL(freeBuilding) && freeBuilding != 0)
+                  {
+                    var currentBuilding = freeBuilding;
+                    freeBuilding = 0;
+                    var adjacentBuildings = Building::getAdjacentBuildings(currentBuilding);
+                    foreach(adjacentBuildings as adjacentBuildingInstance)
+                    {
+                        var shouldContinue = false;
+                        var buildingIsValid = true;
+                        foreach(newList as newInstance)
+                        {
+                            if(newInstance == adjacentBuildingInstance)
+                            {
+                                buildingIsValid = false;
+                            }
+                        }
+                        
+                        if(!buildingIsValid || lastBuildingInstance == adjacentBuildingInstance)
+                        {
+                            shouldContinue = true;
+                        }
+                        
+                        if(!shouldContinue)
+                        {
+                            var adjacentLocator = Building::getAdjacentCardinalLocator(adjacentBuildingInstance, currentBuilding, freeLocator);
+                            if(isNULL(adjacentLocator))
+                            {
+                                shouldContinue = true;
+                            }
+                            
+                            if(!shouldContinue)
+                            {
+                                
+                                if(currentDirection == 'Forward')
+                                {
+                                    if(adjacentLocator == 'Injury500_Start')
+                                    {
+                                        currentDirection = 'Reverse';
+                                    }
+                                }
+                                else
+                                {
+                                    if(adjacentLocator == 'Injury500_End')
+                                    {
+                                        currentDirection = 'Forward';
+                                    }
+                                }
+                                
+                                if(adjacentLocator == 'Injury500_Start')
+                                {
+                                    freeLocator = 'Injury500_End';
+                                }
+                                else
+                                {
+                                    freeLocator = 'Injury500_Start';
+                                }
+                                lastBuildingInstance = currentBuilding;
+                                freeBuilding = adjacentBuildingInstance;
+                                if(freeBuilding == startBuilding)
+                                {
+                                    validLoop = true;
+                                    freeBuilding = 0;
+                                }
+                                else
+                                {
+                                    Array::pushBack(newListAnimationDirection, currentDirection);
+                                    Array::pushBack(newList, adjacentBuildingInstance);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                  }
+                  
+                  if(validLoop)
+                  {
+                      var newListSize = Array::size(newList);
+                      var startBuildingServerID = toString(Object::getProperty(startBuilding, 'UID'));
+                      for(var i = 0; i < newListSize; i++)
+                      {
+                        var newInstance = Array::getValueAtIndex(newList, i);
+                        var newInstanceServerID = Object::getProperty(newInstance, 'UID');
+                        var animationDirection = Array::getValueAtIndex(newListAnimationDirection, i);
+                        Object::setVariable(startBuilding, 'Injury500Building'+toString(i), toString(newInstanceServerID), 0, false);
+                        Object::setVariable(newInstance, 'Injury500StartBuilding', startBuildingServerID, 0, false);
+                        Object::setVariable(newInstance, 'Injury500Index', toString(i), 0, true);
+                        Object::setVariable(newInstance, 'AnimationDirection', animationDirection, 0, true);
+                      }
+                      
+                      var rideOff = User::getVariable('Injury500_AnimationOff2');
+                      if(rideOff == 0)
+                      {
+                        Object::setVariable(startBuilding, 'Forward', '1', 0, false);
+                      }
+                      Object::setVariable(startBuilding, 'NextBuildingIndex', '0', 0, false);
+                      Object::setVariable(startBuilding, 'AnimationDirection', 'Forward', 0, false);
+                      Object::setVariable(startBuilding, 'Injury500StartBuilding', startBuildingServerID, 0, false);
+                      Object::setVariable(startBuilding, 'Injury500Index', '-1', 0, true);
+                  }
+              ]]></Program>
+		</Action>
+	</SetUpInjury500List>
+	<Injury500AnimFinished ignoreHUD="true" cache="true" refreshHUD="false" parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                var animFinishedBuilding = Script::getObjectInstance();
+                var forward = Object::getVariable(animFinishedBuilding, 'Forward');
+                var reserve = Object::getVariable(animFinishedBuilding, 'Reverse');
+                Object::setVariable(animFinishedBuilding, 'Forward', '0', 0, false);
+                Object::setVariable(animFinishedBuilding, 'Reverse', '0', 0, false);
+                if((isNULL(reserve) || reserve == '0') && (isNULL(forward) || forward == '0'))
+                {
+                    return;
+                }
+
+                var startBuildingServerId = Object::getVariable(animFinishedBuilding, 'Injury500StartBuilding');
+                var startBuilding = Land::getBuildingInstanceFromServerID(toDouble(startBuildingServerId));
+                if(isNULL(startBuilding) || startBuilding == 0)
+                {
+                    return;
+                }
+
+                var nextBuildingIndex = toDouble(Object::getVariable(startBuilding, 'NextBuildingIndex'));
+                var nextBuildingServerId = Object::getVariable(startBuilding, 'Injury500Building'+toString(nextBuildingIndex));
+                if(isNULL(nextBuildingServerId) || strlen(nextBuildingServerId) == 0)
+                {
+                    nextBuildingServerId = toString(Object::getProperty(startBuilding, 'UID'));
+                    nextBuildingIndex = 0;
+                }
+                else
+                {
+                    nextBuildingIndex = nextBuildingIndex + 1;
+                }
+
+                Object::setVariable(startBuilding, 'NextBuildingIndex', toString(nextBuildingIndex), 0, false);
+                var nextBuildingInstance = Land::getBuildingInstanceFromServerID(toDouble(nextBuildingServerId));
+                if(!isNULL(nextBuildingInstance))
+                {
+                    var buildingAnimDir = Object::getVariable(nextBuildingInstance, 'AnimationDirection');
+                    var nextBuildingName = Object::getProperty(nextBuildingInstance, 'Name');
+                    Object::setVariable(nextBuildingInstance, buildingAnimDir, '1', 0, false);
+                    var homerIsActive = Object::getVariable(startBuilding, 'Homer');
+                    var lisaIsActive = Object::getVariable(startBuilding, 'Lisa');
+                    var margeIsActive = Object::getVariable(startBuilding, 'Marge');
+                    var bartIsActive = Object::getVariable(startBuilding, 'Bart');
+                    Object::setVariable(nextBuildingInstance, 'Homer', homerIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Lisa', lisaIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Marge', margeIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Bart', bartIsActive, 0, false);
+                }
+              ]]></Program>
+		</Action>
+	</Injury500AnimFinished>
+	<Injury500JobStartedHomer>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Homer', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobStartedHomer>
+	<Injury500JobDoneHomer>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Homer', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobDoneHomer>
+	<Injury500JobStartedBart>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Bart', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobStartedBart>
+	<Injury500JobStarted_Dialogue_Bart_Temp>
+		<Action type="dialogue" character="Bart" text="QST_TheItchyEstPlaceOnEarth_3_3_dlg_All_Obj_Started_1_Bart" revealSpeed="medium" emotion="happy" />
+	</Injury500JobStarted_Dialogue_Bart_Temp>
+	<Injury500JobDoneBart>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Bart', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobDoneBart>
+	<Injury500JobStartedMarge>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Marge', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobStartedMarge>
+	<Injury500JobDoneMarge>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Marge', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobDoneMarge>
+	<Injury500JobStartedLisa>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Lisa', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobStartedLisa>
+	<Injury500JobDoneLisa>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Injury500'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Lisa', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</Injury500JobDoneLisa>
+	<SetUpZoominator ignoreHUD="true" cache="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  
+                  Object::setVariable(startBuilding, 'Forward', '0', 0, true);
+                  Object::setVariable(startBuilding, 'Reverse', '0', 0, true);
+                  Object::setVariable(startBuilding, 'ZoominatorIndex', '-1', 0, true);
+                  Object::deleteVariable(startBuilding, 'ZoominatorStartBuilding');
+                  
+                  var stillIterating = true;
+                  var oldListCount = 0;
+                  while(stillIterating)
+                  {
+                        var buildingServerId = Object::getVariable(startBuilding, 'ZoominatorBuilding'+toString(oldListCount));
+                        if(isNULL(buildingServerId) || strlen(buildingServerId) == 0)
+                        {
+                            stillIterating = false;
+                        }
+                        else
+                        {
+                            Object::deleteVariable(startBuilding, 'ZoominatorBuilding'+toString(oldListCount));
+                            
+                            var oldInstance = Land::getBuildingInstanceFromServerID(toDouble(buildingServerId));
+                            if(!isNULL(oldInstance))
+                            {
+                                Object::setVariable(oldInstance, 'Forward', '0', 0, true);
+                                Object::setVariable(oldInstance, 'Reverse', '0', 0, true);
+                                Object::setVariable(oldInstance, 'ZoominatorIndex', '-1', 0, true);
+                                Object::deleteVariable(oldInstance, 'ZoominatorStartBuilding');
+                            }
+                            oldListCount = oldListCount + 1;
+                        }
+                  }
+              ]]></Program>
+		</Action>
+		<Action type="scheduleScript" mode="replace" script="ThemePark2018_Scripts:ShowDelayedSetUpZoominatorList" shouldSave="true" relativeTime="0.1s" />
+	</SetUpZoominator>
+	<ShowDelayedSetUpZoominatorList parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+				  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+				  Script::runOnObjectInstance('ThemePark2018_Scripts:SetUpZoominatorList', startBuilding);
+			  ]]></Program>
+		</Action>
+	</ShowDelayedSetUpZoominatorList>
+	<SetUpZoominatorList ignoreHUD="true" cache="true">
+		<Action type="scheduleScript" mode="delete" script="ThemePark2018_Scripts:ShowDelayedSetUpZoominatorList" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Script::getObjectInstance();
+                  if(isNULL(startBuilding))
+                  {
+                    return;
+                  }
+                  
+                  var freeBuilding = startBuilding;
+                  var freeLocator = 'Zoominator_Start';
+                  var newList = Array::create();
+                  var newListAnimationDirection = Array::create();
+                  var lastBuildingInstance = 0;
+                  var validLoop = false;
+                  var currentDirection = 'Forward';
+                  while(!isNULL(freeBuilding) && freeBuilding != 0)
+                  {
+                    var currentBuilding = freeBuilding;
+                    freeBuilding = 0;
+                    var adjacentBuildings = Building::getAdjacentBuildings(currentBuilding);
+                    foreach(adjacentBuildings as adjacentBuildingInstance)
+                    {
+                        var shouldContinue = false;
+                        var buildingIsValid = true;
+                        foreach(newList as newInstance)
+                        {
+                            if(newInstance == adjacentBuildingInstance)
+                            {
+                                buildingIsValid = false;
+                            }
+                        }
+                        
+                        if(!buildingIsValid || lastBuildingInstance == adjacentBuildingInstance)
+                        {
+                            shouldContinue = true;
+                        }
+                        
+                        if(!shouldContinue)
+                        {
+                            var adjacentLocator = Building::getAdjacentCardinalLocator(adjacentBuildingInstance, currentBuilding, freeLocator);
+                            if(isNULL(adjacentLocator))
+                            {
+                                shouldContinue = true;
+                            }
+                            
+                            if(!shouldContinue)
+                            {
+                                if(currentDirection == 'Forward')
+                                {
+                                    if(adjacentLocator == 'Zoominator_Start')
+                                    {
+                                        currentDirection = 'Reverse';
+                                    }
+                                }
+                                else
+                                {
+                                    if(adjacentLocator == 'Zoominator_End')
+                                    {
+                                        currentDirection = 'Forward';
+                                    }
+                                }
+                                
+                                if(adjacentLocator == 'Zoominator_Start')
+                                {
+                                    freeLocator = 'Zoominator_End';
+                                }
+                                else
+                                {
+                                    freeLocator = 'Zoominator_Start';
+                                }
+                                lastBuildingInstance = currentBuilding;
+                                freeBuilding = adjacentBuildingInstance;
+                                if(freeBuilding == startBuilding)
+                                {
+                                    validLoop = true;
+                                    freeBuilding = 0;
+                                }
+                                else
+                                {
+                                    Array::pushBack(newListAnimationDirection, currentDirection);
+                                    Array::pushBack(newList, adjacentBuildingInstance);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                  }
+                  
+                  if(validLoop)
+                  {
+                      var newListSize = Array::size(newList);
+                      var startBuildingServerID = toString(Object::getProperty(startBuilding, 'UID'));
+                      for(var i = 0; i < newListSize; i++)
+                      {
+                        var newInstance = Array::getValueAtIndex(newList, i);
+                        var newInstanceServerID = Object::getProperty(newInstance, 'UID');
+                        var animationDirection = Array::getValueAtIndex(newListAnimationDirection, i);
+                        Object::setVariable(startBuilding, 'ZoominatorBuilding'+toString(i), toString(newInstanceServerID), 0, false);
+                        Object::setVariable(newInstance, 'ZoominatorStartBuilding', startBuildingServerID, 0, false);
+                        Object::setVariable(newInstance, 'ZoominatorIndex', toString(i), 0, true);
+                        Object::setVariable(newInstance, 'AnimationDirection', animationDirection, 0, true);
+                      }
+                      
+                      var rideOff = User::getVariable('Zoominator_AnimationOff2');
+                      if(rideOff == 0)
+                      {
+                        Object::setVariable(startBuilding, 'Forward', '1', 0, false);
+                      }
+                      Object::setVariable(startBuilding, 'NextBuildingIndex', '0', 0, false);
+                      Object::setVariable(startBuilding, 'AnimationDirection', 'Forward', 0, false);
+                      Object::setVariable(startBuilding, 'ZoominatorStartBuilding', startBuildingServerID, 0, false);
+                      Object::setVariable(startBuilding, 'ZoominatorIndex', '-1', 0, true);
+                  }
+              ]]></Program>
+		</Action>
+	</SetUpZoominatorList>
+	<ZoominatorAnimFinished ignoreHUD="true" cache="true" refreshHUD="false" parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                var animFinishedBuilding = Script::getObjectInstance();
+                var forward = Object::getVariable(animFinishedBuilding, 'Forward');
+                var reserve = Object::getVariable(animFinishedBuilding, 'Reverse');
+                Object::setVariable(animFinishedBuilding, 'Forward', '0', 0, false);
+                Object::setVariable(animFinishedBuilding, 'Reverse', '0', 0, false);
+                if((isNULL(reserve) || reserve == '0') && (isNULL(forward) || forward == '0'))
+                {
+                    return;
+                }
+
+                var startBuildingServerId = Object::getVariable(animFinishedBuilding, 'ZoominatorStartBuilding');
+                var startBuilding = Land::getBuildingInstanceFromServerID(toDouble(startBuildingServerId));
+                if(isNULL(startBuilding) || startBuilding == 0)
+                {
+                    return;
+                }
+
+                var nextBuildingIndex = toDouble(Object::getVariable(startBuilding, 'NextBuildingIndex'));
+                var nextBuildingServerId = Object::getVariable(startBuilding, 'ZoominatorBuilding'+toString(nextBuildingIndex));
+                if(isNULL(nextBuildingServerId) || strlen(nextBuildingServerId) == 0)
+                {
+                    nextBuildingServerId = toString(Object::getProperty(startBuilding, 'UID'));
+                    nextBuildingIndex = 0;
+                }
+                else
+                {
+                    nextBuildingIndex = nextBuildingIndex + 1;
+                }
+
+                Object::setVariable(startBuilding, 'NextBuildingIndex', toString(nextBuildingIndex), 0, false);
+                var nextBuildingInstance = Land::getBuildingInstanceFromServerID(toDouble(nextBuildingServerId));
+                if(!isNULL(nextBuildingInstance))
+                {
+                    var buildingAnimDir = Object::getVariable(nextBuildingInstance, 'AnimationDirection');
+                    var nextBuildingName = Object::getProperty(nextBuildingInstance, 'Name');
+                    Object::setVariable(nextBuildingInstance, buildingAnimDir, '1', 0, false);
+                    var homerIsActive = Object::getVariable(startBuilding, 'Homer');
+                    var lisaIsActive = Object::getVariable(startBuilding, 'Lisa');
+                    var margeIsActive = Object::getVariable(startBuilding, 'Marge');
+                    var bartIsActive = Object::getVariable(startBuilding, 'Bart');
+                    Object::setVariable(nextBuildingInstance, 'Homer', homerIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Lisa', lisaIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Marge', margeIsActive, 0, false);
+                    Object::setVariable(nextBuildingInstance, 'Bart', bartIsActive, 0, false);
+                }
+              ]]></Program>
+		</Action>
+	</ZoominatorAnimFinished>
+	<ZoominatorJobStartedHomer>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Homer', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobStartedHomer>
+	<ZoominatorJobDoneHomer>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Homer', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobDoneHomer>
+	<ZoominatorJobStartedBart>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Bart', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobStartedBart>
+	<ZoominatorJobDoneBart>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Bart', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobDoneBart>
+	<ZoominatorJobStartedMarge>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Marge', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobStartedMarge>
+	<ZoominatorJobDoneMarge>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Marge', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobDoneMarge>
+	<ZoominatorJobStartedLisa>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Lisa', '1', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobStartedLisa>
+	<ZoominatorJobDoneLisa>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                  var startBuilding = Land::getFirstInstanceOfObject(Building::find('Zoominator'));
+                  if(isNULL(startBuilding))
+                  {
+                  return;
+                  }
+                  Object::setVariable(startBuilding, 'Lisa', '0', 0, false);
+              ]]></Program>
+		</Action>
+	</ZoominatorJobDoneLisa>
+	<GoToKrustylandRating ignoreHUD="true">
+		<Action type="gotoState" state="GameState_TownRating">
+			<Extras>
+				<Attribute name="LandID" value="2" />
+			</Extras>
+		</Action>
+	</GoToKrustylandRating>
+	<GoToStaffRides_JobList>
+		<Action type="sound" sound="ThemePark2018_Menu_StaffRide" />
+		<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:StaffRides_JobList" />
+	</GoToStaffRides_JobList>
+	<GoToStaffRides_ItchyAndScratchyLandGate>
+		<Action type="pantoobject" building="ItchyAndScratchyLandGate" time="0" fakeTouch="false" />
+		<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:StaffRides_JobList" />
+	</GoToStaffRides_ItchyAndScratchyLandGate>
+	<GoToLogRide_JobList>
+		<Action type="sound" sound="ThemePark2018_Menu_LogRide" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:IsLogRideComplete" />
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:LogRide_JobList" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="message" text="UI_RideIncomplete_SystemMessage" revealSpeed="medium" />
+			</False>
+		</Action>
+	</GoToLogRide_JobList>
+	<GoToItchyCar_JobList>
+		<Action type="sound" sound="ThemePark2018_Menu_ItchyCar" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:IsInjury500Complete" />
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:ItchyCar_JobList" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="message" text="UI_RideIncomplete_SystemMessage" revealSpeed="medium" />
+			</False>
+		</Action>
+	</GoToItchyCar_JobList>
+	<GoToScratchyCar_JobList>
+		<Action type="sound" sound="ThemePark2018_Menu_ScratchyCar" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:IsInjury500Complete" />
+			<True>
+				<Action type="pantoobject" building="Injury500" fakeTouch="false" time="0" />
+				<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:ScratchyCar_JobList" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="message" text="UI_RideIncomplete_SystemMessage" revealSpeed="medium" />
+			</False>
+		</Action>
+	</GoToScratchyCar_JobList>
+	<GoToZoominator_JobList>
+		<Action type="sound" sound="ThemePark2018_Menu_ZoominatorRide" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:IsZoominatorComplete" />
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:Zoominator_JobList" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="message" text="UI_RideIncomplete_SystemMessage" revealSpeed="medium" />
+			</False>
+		</Action>
+	</GoToZoominator_JobList>
+	<EnterPlacementMode_ArrangementBonus parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="ThemePark2018_Requirements:ArrangementBonus_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="10s" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_ThemePark2018" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_ThemePark2018_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_ThemePark2018_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="ThemePark2018_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_ThemePark2018_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="ThemePark2018_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</EnterPlacementMode_ArrangementBonus>
+	<PlacementConfirm_ItchyAndScratchyLandGate parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="ItchyAndScratchyLandGate_ABDelta != 0" />
+			</Requirements>
+			<True>
+				<Action type="scheduleScript" mode="replace" script="ThemePark2018_Scripts:ShowDelayedArrangementBonusHudTip" shouldSave="false" relativeTime="2s" />
+				<Action type="floatText" building="ItchyAndScratchyLandGate">
+					<Attribute name="config">
+						<AttributeSet name="text">
+							<Attribute name="text" value="{0}% {1}" parameters="textParams">
+								<AttributeSet name="textParams">
+									<Attribute name="0" formula="ItchyAndScratchyLandGate_ABDelta" />
+									<Attribute name="1" value="UI_ThemePark2018_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="1" value="UI_ThemePark2018_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="ThemePark2018_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="1" value="UI_ThemePark2018_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="ThemePark2018_Requirements:ActThree" />
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_XSBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+							<Attribute name="name" value="ItchyAndScratchyLandGate_Delta" />
+							<Attribute name="duration" value="2s" />
+							<Attribute name="speed" value="2" />
+							<Attribute name="resetTime" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="setVariable" intVariable="ItchyAndScratchyLandGate_ABDelta" intValue="0" />
+			</True>
+		</Action>
+	</PlacementConfirm_ItchyAndScratchyLandGate>
+	<ShowDelayedArrangementBonusHudTip parallel="true" runQueueState="RunInAnyState">
+		<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+		<Action type="checkRequirements">
+			<Requirement type="building" building="ItchyAndScratchyLandGate" />
+			<True>
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="3s" />
+							<Attribute name="queue" value="true" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_Adjust_ItchyAndScratchyLandGate" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_ThemePark2018_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_ThemePark2018_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="ThemePark2018_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_ThemePark2018_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="ThemePark2018_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="1" />
+									<Attribute name="text" formula="#program;                                   var object = Land::getFirstInstanceOfObject(Building::find('ItchyAndScratchyLandGate'));                                   return toString(round(((toDouble(Building::getArrangeBonus(object)))*100))/100);" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="2" />
+									<Attribute name="text" value="%" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</ShowDelayedArrangementBonusHudTip>
+	<GoTo_Tappables ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="#program;                     if(User::getVariable('BankedParkVisitors') &gt; 0)                     {                         return false;                     }                     else                     {                         var character = Character::find('ParkVisitor');                         var characterInstanceList = Land::getAllInstancesOfObject(character);                         foreach(characterInstanceList as instance)                         {                             if(!Object::getDelete(instance))                             {                                 return false;                             }                         }                     }                     return true;">
+						<Then>
+							<Action type="hudTip" text="UI_ThemePark2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="pantoobject" time="0" character="ParkVisitor" flagsToAvoid="delete" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Tappables>
+	<SpawnFullHudTip>
+		<Action type="hudTip" text="UI_ThemePark2018_TownFull" time="3s" queue="true" waitForHUD="true" />
+	</SpawnFullHudTip>
+	<TappableTapped parallel="true" cache="true">
+		<Action type="runScriptOnAll" character="ParkVisitor" in_radius="5" radius_delay="0.3" script="ThemePark2018_Scripts:Tappable_Tapped_Single" />
+		<Action type="actionSequence" script="ThemePark2018_Scripts:Tappable_Tapped_Single" />
+	</TappableTapped>
+	<Tappable_Tapped_Single parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="TAPPED" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="actionSequence" script="ThemePark2018_Scripts:Tappable_Reward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="runScript" script="ThemePark2018_Scripts:Tappable_AnimateAndDie_Single" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_Tapped_Single>
+	<Tappable_AnimateAndDie_Single parallel="true" cache="true">
+		<Action type="sound" sound="ParkVisitor_Tap" />
+		<Action type="anim-play" character="ParkVisitor" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="ParkVisitor" />
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="active quest" quest="ThemePark2018_DCS_ClearParkVisitors" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="ThemePark2018_DCS_ParkVisitors" intValue="ThemePark2018_DCS_ParkVisitors+1" />
+			</True>
+		</Action>
+		<Action type="if">
+			<If expression="#program;             if(User::getVariable('BankedParkVisitors') &gt; 0)             {                 return false;             }             else             {                 var character = Character::find('ParkVisitor');                 var characterInstanceList = Land::getAllInstancesOfObject(character);                 foreach(characterInstanceList as instance)                 {                     if(!Object::getDelete(instance))                     {                         return false;                     }                 }             }             return true;">
+				<Then>
+					<Action type="hudTip" text="UI_ThemePark2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_AnimateAndDie_Single>
+	<Tappable_Reward parallel="true" cache="true">
+		<Action type="reward" save="true" ThemePark2018_ActivePrizeTrackCurrency="__ThemePark2018_GameConfig:TappablePrizeReward:Amount__" chance="__ThemePark2018_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" ThemePark2018_CraftingCurrency="__ThemePark2018_GameConfig:TappableCraftReward:Amount__" chance="__ThemePark2018_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="setVariable" intVariable="ParkVisitors_Tapped" intValue="ParkVisitors_Tapped+1" />
+	</Tappable_Reward>
+	<Tappable_Crowd cache="true" parallel="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="building" building="Zoominator" />
+					<Requirement type="formula" formula="greaterThanEQ(ThemePark2018_BaseLocationIndex, 2)" />
+				</Requirements>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="Zoominator" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="building" building="LogRideEntrance" />
+					<Requirement type="formula" formula="greaterThanEQ(ThemePark2018_BaseLocationIndex, 1)" />
+				</Requirements>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="LogRideEntrance" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="building" building="Injury500" />
+				</Requirements>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="Injury500" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="setMovementBehavior">
+						<MovementBehavior mode="RandomRelaxed" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setVariable" intVariable="ThemePark2018_NumBasesActive" intValue="System::evaluate('Building::Zoominator::LandCount') + System::evaluate('Building::LogRideEntrance::LandCount') + System::evaluate('Building::Injury500::LandCount')" />
+		<Action type="setVariable" intVariable="ThemePark2018_BaseLocationIndex" intValue="mod((ThemePark2018_BaseLocationIndex+1), ThemePark2018_NumBasesActive)" />
+	</Tappable_Crowd>
+	<Tappable_RefreshCrowdLocations>
+		<Action type="runScriptOnAll" character="ParkVisitor" script="ThemePark2018_Scripts:Tappable_Crowd" />
+	</Tappable_RefreshCrowdLocations>
+	<SpawnFriendTappables>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="friendlevel" level="15" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="ParkVisitor" count="40" save="true" panCamera="false" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="10" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="ParkVisitor" count="30" save="true" panCamera="false" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="5" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="ParkVisitor" count="20" save="true" panCamera="false" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SpawnFriendTappables>
+	<TappableTapped_Friend>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="ParkVisitors_Tapped_Friend" intValue="ParkVisitors_Tapped_Friend+1" />
+				<Action type="checkRequirements" ignoreObject="false">
+					<Requirements>
+						<Requirement type="active quest" quest="ThemePark2018_DCS_TapParkVisitorsInFriendsTowns" />
+					</Requirements>
+					<True>
+						<Action type="setVariable" intVariable="ThemePark2018_DCS_ParkVisitors_Friends" intValue="ThemePark2018_DCS_ParkVisitors_Friends+1" />
+					</True>
+				</Action>
+				<Action type="actionSequence" script="ThemePark2018_Scripts:Tappable_Reward_Friend" />
+				<Action type="friendActionPerformed" />
+				<Action type="runScript" script="ThemePark2018_Scripts:Tappable_AnimateAndDie_Friend" />
+			</True>
+		</Action>
+	</TappableTapped_Friend>
+	<Tappable_AnimateAndDie_Friend parallel="true" cache="true">
+		<Action type="sound" sound="ParkVisitor_Tap" />
+		<Action type="stop" />
+		<Action type="anim-play" character="ParkVisitor" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="ParkVisitor" />
+	</Tappable_AnimateAndDie_Friend>
+	<Tappable_Reward_Friend parallel="true" cache="true">
+		<Action type="reward" save="true" ThemePark2018_ActivePrizeTrackCurrency="selector ThemePark2018_PTCurrencyPerFriendAction" chance="__ThemePark2018_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" ThemePark2018_CraftingCurrency="selector ThemePark2018_CraftingCurrencyPerFriendAction" chance="__ThemePark2018_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Tappable_Reward_Friend>
+	<SocialLicensePurchased>
+		<Action type="setVariable" boolVariable="ThemePark2018_SocialUpgrade_Purchased" boolValue="true" />
+		<Action type="notification" icon="ICO_STOR_ThemePark2018_License_Popup" title="CON_ThemePark2018_SocialLicense_name" text="CON_ThemePark2018_SocialLicense_desc" button="UI_OK" />
+	</SocialLicensePurchased>
+	<FriendsHUDInfo ignoreHUD="true" parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="ThemePark2018_UpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="ThemePark2018_Scripts:FriendsHUDInfoAux" />
+	</FriendsHUDInfo>
+	<FriendsHUDInfoAux ignoreHUD="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:ActOne" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_ThemePark2018_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_ThemePark2018_PT1" icon="ICO_CUR_ThemePark2018_Act1Currency_LG">
+							<Variable name="ThemePark2018_Act1PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="ThemePark2018_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_ThemePark2018_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="UI_ThemePark2018_OutOfFriendActions_PT1" icon="ICO_CUR_ThemePark2018_Act1Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:ActTwo" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_ThemePark2018_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_ThemePark2018_PT2" icon="ICO_CUR_ThemePark2018_Act2Currency_LG">
+							<Variable name="ThemePark2018_Act2PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="ThemePark2018_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_ThemePark2018_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="UI_ThemePark2018_OutOfFriendActions_PT2" icon="ICO_CUR_ThemePark2018_Act2Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:ActThree" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_ThemePark2018_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_ThemePark2018_PT3" icon="ICO_CUR_ThemePark2018_Act3Currency_LG">
+							<Variable name="ThemePark2018_Act3PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="ThemePark2018_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_ThemePark2018_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="UI_ThemePark2018_OutOfFriendActions_PT3" icon="ICO_CUR_ThemePark2018_Act3Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</FriendsHUDInfoAux>
+	<GoToPurchaseItchyAndScratchyLandGate ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="ItchyAndScratchyLandGate" />
+				<Then>
+					<Action type="pantoobject" building="ItchyAndScratchyLandGate" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="ItchyAndScratchyLandGate" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="ItchyAndScratchyLandGate" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" itemName="ItchyAndScratchyLandGateLandUnlock" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToPurchaseItchyAndScratchyLandGate>
+	<Injury500GOBWithFreeLandToken>
+		<Action type="hudTip" text="UI_HudTip_FreeLandToken" time="10s" requiresActiveHUD="false" />
+		<Action type="reward" FreeLandTokenCurrency="1">
+			<Item type="gameObjectBundle" name="Injury500GOB" useImmediately="true" />
+		</Action>
+	</Injury500GOBWithFreeLandToken>
+	<ItchyAndScratchyLandGateLandUnlock>
+		<Action type="reward">
+			<Item type="building" name="ItchyAndScratchyLandGate" useImmediately="true" />
+		</Action>
+		<Action type="unlockLandForEvent" building="ItchyAndScratchyLandGate" squareSize="3" />
+	</ItchyAndScratchyLandGateLandUnlock>
+	<GoToPurchaseInjury500GOB ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="Injury500" />
+				<Then>
+					<Action type="pantoobject" building="Injury500" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="Injury500" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="Injury500" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="Injury500GOBWithFreeLandToken" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToPurchaseInjury500GOB>
+	<GoToRearrange_ItchyAndScratchyLandGate>
+		<Action type="pantoobject" building="ItchyAndScratchyLandGate" fakeTouch="false" time="0" />
+		<Action type="gotoState" state="GameState_Rearrange" />
+	</GoToRearrange_ItchyAndScratchyLandGate>
+	<GoToNursesStation>
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="NursesStation" />
+				<Then>
+					<Action type="pantoobject" building="NursesStation" fakeTouch="false" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="item" item="NursesStation" checkInventoryOnly="true" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="NursesStation" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+					<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+						<Extras>
+							<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+							<Attribute name="specialEvent" value="ThemePark2018_Event" />
+							<Attribute name="prizeListIndex" value="0" />
+							<Attribute name="selectPrize" value="2" />
+							<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						</Extras>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToNursesStation>
+	<GoToLTSmash>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="ClassifiedRecords" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="ClassifiedRecords" inventory="true" />
+			</True>
+			<False>
+				<Action type="runScript" script="MiscScripts:ReturnToGameStateWithSound" />
+				<Action type="reward">
+					<Item type="consumable" name="ThemePark2018_SummerConcert_MysteryBox" useImmediately="true" />
+				</Action>
+			</False>
+		</Action>
+	</GoToLTSmash>
+	<GoToSqueakyVoiceAttendant>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="SqueakyVoiceAttendant" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="SqueakyVoiceAttendant" inventory="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="SqueakyVoicedAttendantBundle2" menuCategory="ThemePark2018_Category" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="SqueakyVoicedAttendantBundle1" menuCategory="ThemePark2018_Category" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GoToSqueakyVoiceAttendant>
+	<GoToDiane>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Diane" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Diane" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="0" />
+						<Attribute name="selectPrize" value="5" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToDiane>
+	<GoTo_Prestige ignoreHUD="true">
+		<Action type="if">
+			<If expression="#program;      if(User::getVariable('BankedParkVisitor') &gt; 0)      {      return true;      }      else      {      var character = Character::find('ParkVisitor');      var characterInstanceList = Land::getAllInstancesOfObject(character);      foreach(characterInstanceList as instance)      {      if(!Object::getDelete(instance))      {      return true;      }      }      }      return false;">
+				<Then>
+					<Action type="pantoobject" time="0" character="ParkVisitor" flagsToAvoid="delete" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="reqList" location="ThemePark2018_Requirements:HasStaffRidesJobsAvailable" />
+				</Requirements>
+				<Then>
+					<Action type="pantoobject" building="ItchyAndScratchyLandGate" fakeTouch="false" time="0" />
+					<Action type="gotoState" state="GameState_JobList" extras="ThemePark2018_MenuConfig:StaffRides_JobList" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+					<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+				</Requirements>
+				<Then>
+					<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="hudTip" text="UI_ThemePark2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_Prestige>
+	<Prestige_Act1>
+		<Action type="reward">
+			<Item type="consumable" name="ThemePark2018_Prestige_Act1" useImmediately="true" />
+		</Action>
+	</Prestige_Act1>
+	<Prestige_Act2>
+		<Action type="reward">
+			<Item type="consumable" name="ThemePark2018_Prestige_Act2" useImmediately="true" />
+		</Action>
+	</Prestige_Act2>
+	<Prestige_Act3>
+		<Action type="reward">
+			<Item type="consumable" name="ThemePark2018_Prestige_Act3" useImmediately="true" />
+		</Action>
+	</Prestige_Act3>
+	<GoToInjury500Straight_Quest>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Injury500StraightShort" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Injury500StraightShort" inventory="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="Injury500StraightShort" />
+					</Requirements>
+					<True>
+						<Action type="gotoState" state="GameState_Rearrange">
+							<Extras>
+								<Attribute name="building" value="Injury500StraightShort" />
+							</Extras>
+						</Action>
+					</True>
+					<False>
+						<Action type="actionSequence" script="ThemePark2018_Scripts:Tab_Crafting_ScrollTo_Injury500ShortTrack" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GoToInjury500Straight_Quest>
+	<Tab_Crafting_ScrollTo_Injury500ShortTrack>
+		<Action type="actionSequence" script="ThemePark2018_Scripts:Tab_Crafting_ScrollTo">
+			<FormatToken key="ItemToScrollTo" value="BLD_Injury500ShortTrack_name" />
+		</Action>
+	</Tab_Crafting_ScrollTo_Injury500ShortTrack>
+	<GoToLogRideGOB>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="LogRideEntrance" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="LogRideEntrance" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="1" />
+						<Attribute name="selectPrize" value="0" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToLogRideGOB>
+	<GoToLogRideCliff_Quest>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="LogRideCliff" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="LogRideCliff" inventory="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="LogRideCliff" />
+					</Requirements>
+					<True>
+						<Action type="gotoState" state="GameState_Rearrange">
+							<Extras>
+								<Attribute name="building" value="LogRideCliff" />
+							</Extras>
+						</Action>
+					</True>
+					<False>
+						<Action type="actionSequence" script="ThemePark2018_Scripts:Tab_Crafting_ScrollTo_LogRidePlunge" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GoToLogRideCliff_Quest>
+	<Tab_Crafting_ScrollTo_LogRidePlunge>
+		<Action type="actionSequence" script="ThemePark2018_Scripts:Tab_Crafting_ScrollTo">
+			<FormatToken key="ItemToScrollTo" value="BLD_LogRidePlunge_name" />
+		</Action>
+	</Tab_Crafting_ScrollTo_LogRidePlunge>
+	<GoToParadeRollerGOB>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="ParadeRollerStation" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="ParadeRollerStation" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="1" />
+						<Attribute name="selectPrize" value="2" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToParadeRollerGOB>
+	<GoToParade>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="place building" building="ParadeRollerStation" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" time="0" building="ParadeRollerStation" fakeTouch="false" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="place building" building="ParadeTrainStation" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" time="0" building="ParadeTrainStation" fakeTouch="false" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="ParadeRollerStation" inventory="true" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GoToParade>
+	<GoToBort>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Bort" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Bort" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="1" />
+						<Attribute name="selectPrize" value="5" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToBort>
+	<GoToZoominatorGOB>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Zoominator" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Zoominator" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="2" />
+						<Attribute name="selectPrize" value="0" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToZoominatorGOB>
+	<GoToParentsIslandGate>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="ParentsIslandGate" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="ParentsIslandGate" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="2" />
+						<Attribute name="selectPrize" value="2" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToParentsIslandGate>
+	<GoToCorporalPunishment>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="CorporalPunishment" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="CorporalPunishment" inventory="true" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="ThemePark2018_EventHubTabValue" value="0" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="helpButtonScript" value="ThemePark2018_Scripts:GuidePanel_Event" />
+						<Attribute name="specialEvent" value="ThemePark2018_Event" />
+						<Attribute name="prizeListIndex" value="2" />
+						<Attribute name="selectPrize" value="5" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="ThemePark2018_PrizeTrackBadge" />
+			</False>
+		</Action>
+	</GoToCorporalPunishment>
+	<GoToZoominatorPlunge_Quest>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="ZoominatorPlunge" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="ZoominatorPlunge" inventory="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="ZoominatorPlunge" />
+					</Requirements>
+					<True>
+						<Action type="gotoState" state="GameState_Rearrange">
+							<Extras>
+								<Attribute name="building" value="ZoominatorPlunge" />
+							</Extras>
+						</Action>
+					</True>
+					<False>
+						<Action type="actionSequence" script="ThemePark2018_Scripts:Tab_Crafting_ScrollTo_ZoominatorPlunge" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GoToZoominatorPlunge_Quest>
+	<Tab_Crafting_ScrollTo_ZoominatorPlunge>
+		<Action type="actionSequence" script="ThemePark2018_Scripts:Tab_Crafting_ScrollTo">
+			<FormatToken key="ItemToScrollTo" value="BLD_ZoominatorPlunge_name" />
+		</Action>
+	</Tab_Crafting_ScrollTo_ZoominatorPlunge>
+	<ParadeRollerFollowJobStart>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="formula" formula="NextParadeRollerFollowOffset == 0" />
+				</Requirements>
+				<Then>
+					<Action type="setObjectVariable" variable="CaptureOffsetY" value="-3" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="CaptureOffsetX" value="0" allowOrphan="false" />
+					<Action type="setVariable" intVariable="NextParadeRollerFollowOffset" intValue="NextParadeRollerFollowOffset+1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="setObjectVariable" variable="CaptureOffsetY" value="-6" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="CaptureOffsetX" value="0" allowOrphan="false" />
+					<Action type="setVariable" intVariable="NextParadeRollerFollowOffset" intValue="0" />
+				</Then>
+			</Else>
+		</Action>
+	</ParadeRollerFollowJobStart>
+	<ParadeTrainFollowJobStart>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="formula" formula="NextParadeTrainFollowOffset == 0" />
+				</Requirements>
+				<Then>
+					<Action type="setObjectVariable" variable="CaptureOffsetY" value="-4" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="CaptureOffsetX" value="0" allowOrphan="false" />
+					<Action type="setVariable" intVariable="NextParadeTrainFollowOffset" intValue="NextParadeTrainFollowOffset+1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="setObjectVariable" variable="CaptureOffsetY" value="-8" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="CaptureOffsetX" value="0" allowOrphan="false" />
+					<Action type="setVariable" intVariable="NextParadeTrainFollowOffset" intValue="0" />
+				</Then>
+			</Else>
+		</Action>
+	</ParadeTrainFollowJobStart>
+	<GoTo_Injury500Tutorial>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Injury500Straight" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Injury500Straight" inventory="true" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_Rearrange">
+					<Extras>
+						<Attribute name="building" value="Injury500Straight" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</GoTo_Injury500Tutorial>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="ThemePark2018_ThreePanel" />
+		<Action type="recommendation" recType="Event" name="ThemePark2018_ThreePanel" eventName="UI_ThemePark2018_Title" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<RecommendStoreOnePanel ignoreHUD="true">
+		<Action type="clearRecommendations" category="Event" name="ThemePark2018_ThreePanel" />
+		<Action type="clearRecommendations" category="Event" name="ThemePark2018_OnePanel" />
+		<Action type="recommendation" recType="Event" name="ThemePark2018_OnePanel" eventName="UI_ThemePark2018_Title" limitedTime="true" limitedTimeEndDate="ThemePark2018_EndDate" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreOnePanel>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="ThemePark2018_Category" />
+	</EnterStoreCategory>
+	<StoreNotification_CartoonMotel>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="CartoonMotel" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_CartoonMotel_name" text="BLD_CartoonMotel_upsell_desc" icon="ICO_PRIZ_ThemePark2018_CartoonMotel_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="CartoonMotel" menuCategory="ThemePark2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CartoonMotel>
+	<StoreNotification_TGIMcScratchys>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TGIMcScratchys" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TGIMcScratchys_name" text="BLD_TGIMcScratchys_upsell_desc" icon="ICO_PRIZ_ThemePark2018_TGIMcScratchys_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TGIMcScratchys" menuCategory="ThemePark2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TGIMcScratchys>
+	<StoreNotification_SqueakyVoicedAttendantBundle1>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="SoarinOverSpringfield" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="GOB_SqueakyVoicedAttendantBundle1_name" text="GOB_SqueakyVoicedAttendantBundle1_upsell_desc" icon="ICO_STOR_Single_ThemePark2018_SVABundle" button="UI_OK" />
+				<Action type="checkRequirements">
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="SqueakyVoicedAttendantBundle2" menuCategory="ThemePark2018_Category" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="SqueakyVoicedAttendantBundle1" menuCategory="ThemePark2018_Category" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</StoreNotification_SqueakyVoicedAttendantBundle1>
+	<StoreNotification_UPATalentAgency>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="UPATalentAgency" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_UPATalentAgency_name" text="BLD_UPATalentAgency_upsell_desc" icon="ICO_PRIZ_ThemePark2018_UPATalentAgency_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="UPATalentAgency" menuCategory="ThemePark2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_UPATalentAgency>
+	<StoreNotification_ParkEngineer>
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="ParkEngineer" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_ParkEngineer_name" text="CHR_ParkEngineer_upsell_desc" icon="ICO_PRIZ_ThemePark2018_ParkEngineer_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="ParkEngineer" menuCategory="ThemePark2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_ParkEngineer>
+	<StoreNotification_RogerMeyersStory>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="RogerMeyersStory" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_RogerMeyersStory_name" text="BLD_RogerMeyersStory_upsell_desc" icon="ICO_PRIZ_ThemePark2018_RogerMeyersStory_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="RogerMeyersStory" menuCategory="ThemePark2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_RogerMeyersStory>
+	<StoreNotification_Itchys70sDisco>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="Itchys70sDisco" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_Itchys70sDisco_name" text="BLD_Itchys70sDisco_upsell_desc" icon="ICO_PRIZ_ThemePark2018_Itchys70sDisco_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="Itchys70sDisco" menuCategory="ThemePark2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_Itchys70sDisco>
+	<StoreNotification_RonaldReaganReeducationCenter>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="RonaldReaganReeducationCenter" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_RonaldReaganReeducationCenter_name" text="BLD_RonaldReaganReeducationCenter_upsell_desc" icon="ICO_STOR_Single_ThemePark2018_Reagan" button="UI_OK" />
+				<Action type="recommendation" recType="Promoted" name="ThemePark2018_July4th_MysteryBox" limitedTime="true" limitedTimeEndDate="ThemePark2018_EndDate" />
+				<Action type="recommendation" recType="Promoted" name="RonaldReaganReeducationCenter" limitedTime="true" limitedTimeEndDate="ThemePark2018_EndDate" />
+				<Action type="focusOnMenuItem" itemName="RonaldReaganReeducationCenter" />
+			</False>
+		</Action>
+	</StoreNotification_RonaldReaganReeducationCenter>
+	<GoTo_KrustylandEntranceBase>
+		<Action type="focusOnMenuItem" itemName="KrustylandEntranceBase" />
+	</GoTo_KrustylandEntranceBase>
+	<StoreNotification_LastChance>
+		<Action type="reparseBuildMenu" />
+		<Action type="notificationLarge" title="UI_ThemePark2018_LastChance_Notification_Title" text="UI_ThemePark2018_LastChance_Notification_Desc" icon="ICO_PRIZ_ThemePark2018_LastChanceSale_LG" button="UI_OK" />
+		<Action type="focusOnMenuItem" menuCategory="ThemePark2018_Category" />
+	</StoreNotification_LastChance>
+	<StoreNotification_MawSpuckler>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ThemePark2018_Requirements:MawSpuckler_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_MawSpuckler_name" text="CHA_MawSpuckler_upsell_desc" icon="ICO_STOR_Single_ThemePark2018_MawBundle" button="UI_OK" />
+				<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="300" />
+			</True>
+		</Action>
+	</StoreNotification_MawSpuckler>
+	<StoreNotification_DonutDay_Start>
+		<Action type="updateVariable" variable="DonutDayRainEffect" value="true" />
+	</StoreNotification_DonutDay_Start>
+	<StoreNotification_DonutDay_End>
+		<Action type="notification" title="UI_TTT_DonutPopup_name" button="UI_OK" text="UI_TTT_DonutPopup_desc" icon="specialprize_donuts" />
+		<Action type="reward" donuts="15" />
+		<Action type="updateVariable" variable="DonutDayRainEffect" value="false" />
+		<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="12" />
+	</StoreNotification_DonutDay_End>
+	<RecommendPrideMysteryBox>
+		<Action type="recommendation" recType="Promoted" name="ThemePark2018_Pride_MysteryBox" limitedTime="true" limitedTimeEndDate="ThemePark2018_EndDate" />
+		<Action type="reparseBuildMenu" />
+	</RecommendPrideMysteryBox>
+	<AutoApply_SVTAttendantSkin_End>
+		<Action type="scheduleScript" mode="create" script="ThemePark2018_Scripts:AutoApply_SVTAttendantSkin_End_Delayed" relativeTime="3s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SVTAttendantSkin_End>
+	<AutoApply_SVTAttendantSkin_End_Delayed>
+		<Action type="consumable" consumable="SqueakyVoiceAttendantSkin" fromInventory="true" />
+	</AutoApply_SVTAttendantSkin_End_Delayed>
+	<GoTo_ItchyAndScratchyHelicopter parallel="true">
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building" building="ItchyAndScratchyHelicopter" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="ItchyAndScratchyHelicopter" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="pantoobject" time="0" building="ItchyAndScratchyHelicopter" fakeTouch="false" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_ItchyAndScratchyHelicopter>
+	<GoTo_RollerCoasterWeirdos parallel="true">
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building" building="RollerCoasterWeirdos" />
+				<Then>
+					<Action type="pantoobject" time="0" building="RollerCoasterWeirdos" fakeTouch="false" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" itemName="RollerCoasterWeirdos" inventory="true" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_RollerCoasterWeirdos>
+	<ParadeTrainStation_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_BuildingSelected">
+					<Extras>
+						<Attribute name="BuildingName" value="ParadeTrainStation" />
+						<Attribute name="GoToFarmMode" value="true" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</ParadeTrainStation_Tapped>
+	<ParadeRollerStation_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_BuildingSelected">
+					<Extras>
+						<Attribute name="BuildingName" value="ParadeRollerStation" />
+						<Attribute name="GoToFarmMode" value="true" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</ParadeRollerStation_Tapped>
+	<DCS_Reset_Tappables>
+		<Action type="updateVariable" variable="ThemePark2018_DCS_ParkVisitors" value="0" />
+	</DCS_Reset_Tappables>
+	<DestroyKrustyland_End>
+		<Action type="reward" FreeLandTokenCurrency="Krustyland_LandTokensUnlocked">
+			<Item type="gameObjectBundle" name="KLEntrance" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandWall" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="TallShrub01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="TallShrub01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="TallShrub02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="TallShrub02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="TallShrub03" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandParkingLot" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandParkingLot" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandParkingLot" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandParkingLot" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandParkingLot" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KrustylandParkingLot" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Pylon" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Pylon" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Pylon" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Pylon" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="KLCrosswalk" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway01" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reward">
+			<Item type="building" name="Highway02" useImmediately="false" />
+		</Action>
+		<Action type="reparseBuildMenu" />
+	</DestroyKrustyland_End>
+	<ThemePark2018Pet_Tapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</ThemePark2018Pet_Tapped>
+	<ToggleInjury500Animation>
+		<Action type="setVariable" intVariable="Injury500_AnimationOff2" intValue="mod((Injury500_AnimationOff2+1), 2)" />
+		<Action type="runScript" script="ThemePark2018_Scripts:SetUpInjury500" />
+	</ToggleInjury500Animation>
+	<ToggleLogRideAnimation>
+		<Action type="setVariable" intVariable="LogRide_AnimationOff2" intValue="mod((LogRide_AnimationOff2+1), 2)" />
+		<Action type="runScript" script="ThemePark2018_Scripts:SetUpLogRide" />
+	</ToggleLogRideAnimation>
+	<ToggleZoominatorAnimation>
+		<Action type="setVariable" intVariable="Zoominator_AnimationOff2" intValue="mod((Zoominator_AnimationOff2+1), 2)" />
+		<Action type="runScript" script="ThemePark2018_Scripts:SetUpZoominator" />
+	</ToggleZoominatorAnimation>
+	<ParadeRollerStart>
+		<Action type="checkExpression" expression="System::evaluate('Building::ParadeRollerStation::Flip::AsBool')">
+			<ExpressionCase value="0">
+				<Action forceValid="false" type="moveObjectInstance" onType="character" onObject="Mascot_Steamroller" xPos="gridToWorld(System::evaluate('Building::ParadeRollerStation::Object::GridX')-2)" yPos="gridToWorld(System::evaluate('Building::ParadeRollerStation::Object::GridY')+5)" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action forceValid="false" type="moveObjectInstance" onType="character" onObject="Mascot_Steamroller" xPos="gridToWorld(System::evaluate('Building::ParadeRollerStation::Object::GridX')-5)" yPos="gridToWorld(System::evaluate('Building::ParadeRollerStation::Object::GridY')+0)" />
+			</ExpressionCase>
+		</Action>
+	</ParadeRollerStart>
+	<ParadeTrainStart>
+		<Action type="checkExpression" expression="System::evaluate('Building::ParadeTrainStation::Flip::AsBool')">
+			<ExpressionCase value="0">
+				<Action forceValid="false" type="moveObjectInstance" onType="character" onObject="Mascot_Train" xPos="gridToWorld(System::evaluate('Building::ParadeTrainStation::Object::GridX')-2)" yPos="gridToWorld(System::evaluate('Building::ParadeTrainStation::Object::GridY')+5)" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action forceValid="false" type="moveObjectInstance" onType="character" onObject="Mascot_Train" xPos="gridToWorld(System::evaluate('Building::ParadeTrainStation::Object::GridX')-5)" yPos="gridToWorld(System::evaluate('Building::ParadeTrainStation::Object::GridY')+0)" />
+			</ExpressionCase>
+		</Action>
+	</ParadeTrainStart>
+	<RideSwitchInfo>
+		<Action type="actionSequence" script="ThemePark2018_Scripts:SetUpInjury500" />
+		<Action type="actionSequence" script="ThemePark2018_Scripts:SetUpLogRide" />
+		<Action type="actionSequence" script="ThemePark2018_Scripts:SetUpZoominator" />
+		<Action type="message" text="UI_RideSwitchInfo" revealSpeed="medium" />
+		<Action type="if">
+			<If>
+				<Requirement type="building" building="Injury500" />
+				<Then>
+					<Action type="pantoobject" building="Injury500" time="0" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building" building="LogRideEntrance" />
+				<Then>
+					<Action type="pantoobject" building="LogRideEntrance" time="0" fakeTouch="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="building" building="Zoominator" />
+				<Then>
+					<Action type="pantoobject" building="Zoominator" time="0" fakeTouch="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RideSwitchInfo>
+</ScriptPackage>

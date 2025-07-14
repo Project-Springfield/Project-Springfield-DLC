@@ -1,0 +1,491 @@
+﻿<ScriptPackage>
+	<NewLardLad_Inventory>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="NewLardLad" />
+			<True>
+				<Action type="pantoobject" building="NewLardLad" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="NewLardLad" inventory="true" />
+			</False>
+		</Action>
+	</NewLardLad_Inventory>
+	<FancyFix>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="FancyFarms" />
+					<Requirement type="item" item="FancyFarms" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="reward" RealEstateValue="2800000" />
+			</True>
+		</Action>
+	</FancyFix>
+	<KwikEMart_Inventory>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="Kwik-E-Mart" />
+			<True>
+				<Action type="pantoobject" building="Kwik-E-Mart" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="place building" building="Kwik-E-MartFranchise" />
+					<True>
+						<Action type="pantoobject" building="Kwik-E-MartFranchise" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="item" item="Kwik-E-MartFranchise" />
+							<True>
+								<Action type="focusOnMenuItem" itemName="Kwik-E-MartFranchise" inventory="true" />
+							</True>
+							<False>
+								<Action type="focusOnMenuItem" itemName="Kwik-E-Mart" inventory="true" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</KwikEMart_Inventory>
+	<QuimbysBrokenPromises_Bought>
+		<Action type="setObjectVariable" onType="building" onObject="QuimbysBrokenPromisesBillboard" variable="QBPBillboard_Timer" value="floor(serverTime(0))" asExpression="true" allowOrphan="true" preorphan="true" />
+	</QuimbysBrokenPromises_Bought>
+	<SP_GoToCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="SeasonPremiere2016" />
+	</SP_GoToCategory>
+	<HudTipQueue_4X parallel="true">
+		<Action type="scheduleScript" mode="replace" script="SeasonPremiere2016_Scripts:HudTip_4X" shouldSave="true" relativeTime="240s" />
+	</HudTipQueue_4X>
+	<HudTip_4X parallel="true">
+		<Action type="hudTip" text="{4XHudTip}" time="10s" formatMe="root">
+			<FormattingConfig path="SeasonPremiere2016_MenuConfig:FormattedText" />
+		</Action>
+	</HudTip_4X>
+	<UnlockTarpLardLads>
+		<Action type="SilentlyUnlockSkin" skin="NewLardLad_Tarp" />
+		<Action type="setBuildingSkin" building="NewLardLad" skinName="NewLardLad_Tarp" />
+		<Action type="pantoobject" building="NewLardLad" />
+		<Action type="anim-building-oneshot" postdraw="true" requiresInGame="true" onBuilding="NewLardLad">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="-25" y="25" />
+			<OneShot name="flipped" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="-50" y="25" />
+		</Action>
+	</UnlockTarpLardLads>
+	<UnlockNewLardLads>
+		<Action type="setObjectVariable" onType="building" onObject="NewLardLad" variable="State" value="0" allowOrphan="false" />
+		<Action type="SilentlyUnlockSkin" skin="NewLardLad_Statue" />
+		<Action type="setBuildingSkin" building="NewLardLad" skinName="NewLardLad_Statue" />
+		<Action type="pantoobject" building="NewLardLad" fakeTouch="false" />
+		<Action type="anim-building-oneshot" postdraw="true" requiresInGame="true" onBuilding="NewLardLad">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="-25" y="25" />
+			<OneShot name="flipped" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="-50" y="25" />
+		</Action>
+	</UnlockNewLardLads>
+	<TheEvent>
+		<Action type="pantoobject" building="NewLardLad" fakeTouch="false" />
+		<Action type="setObjectVariable" onType="building" onObject="NewLardLad" variable="State" value="mod(Object::State+1, 2)" asExpression="true" allowOrphan="false" />
+		<Action type="anim-play" onBuilding="NewLardLad" animation="Active_In" />
+	</TheEvent>
+	<PT6_BuildingShutdown parallel="true">
+		<Action type="checkExpression" expression="System::evaluate('Building::NewLardLad::Object::State')">
+			<ExpressionCase value="1">
+				<Action type="setObjectVariable" onType="building" onObject="NewLardLad" variable="State" value="0" asExpression="true" allowOrphan="false" />
+				<Action type="anim-play" onBuilding="NewLardLad" animation="Active_Out" nowait="true" />
+			</ExpressionCase>
+		</Action>
+	</PT6_BuildingShutdown>
+	<MoesTeleport_JobDone parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MoesTavern" />
+			<True>
+				<Action type="stop" />
+				<Action type="if">
+					<If expression="!System::evaluate('Building::MoesTavern::Flip::AsBool')">
+						<Then>
+							<Action type="moveObjectInstance" xPos="gridToWorld(System::evaluate('Building::MoesTavern::Object::GridX')+2.5)" yPos="gridToWorld(System::evaluate('Building::MoesTavern::Object::GridY')+1)" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="moveObjectInstance" xPos="gridToWorld(System::evaluate('Building::MoesTavern::Object::GridX')-1)" yPos="gridToWorld(System::evaluate('Building::MoesTavern::Object::GridY')-2.5)" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</MoesTeleport_JobDone>
+	<MoesTeleport_Triggered parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MoesTavern" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+				<Action type="pantoobject" building="MoesTavern" fakeTouch="false" maxSpeed="1000" time="0.1" />
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="checkRequirements">
+								<Requirement type="item" item="MoesTavern" />
+								<True>
+									<Action type="focusOnMenuItem" itemName="MoesTavern" inventory="true" />
+								</True>
+								<False>
+									<Action type="checkRequirements">
+										<Requirement type="place building" building="MoesTavern" />
+										<True>
+											<Action type="returnToInGameState" />
+											<Action type="pantoobject" building="MoesTavern" fakeTouch="false" maxSpeed="1000" time="0.1" />
+										</True>
+										<False>
+											<Action type="focusOnMenuItem" itemName="MoesTavern" menuCategory="Characters" />
+										</False>
+									</Action>
+								</False>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</MoesTeleport_Triggered>
+	<NewLardLad_Tapped parallel="true">
+		<Action type="actionSequence" script="MiscScripts:ReturnToGameState" />
+		<Action type="checkRequirements">
+			<Requirement type="building" building="NewLardLad" skin="NewLardLad_Statue" />
+			<True>
+				<Action type="checkExpression" expression="Object::State">
+					<ExpressionCase value="0">
+						<Action type="anim-play" building="NewLardLad" animation="Active_In" />
+					</ExpressionCase>
+					<ExpressionCase value="1">
+						<Action type="anim-play" building="NewLardLad" animation="Active_Out" />
+					</ExpressionCase>
+				</Action>
+				<Action type="setObjectVariable" variable="State" value="mod(Object::State+1, 2)" asExpression="true" allowOrphan="false" />
+			</True>
+			<False>
+				<Action type="setObjectVariable" variable="State" value="0" asExpression="true" allowOrphan="false" />
+			</False>
+		</Action>
+	</NewLardLad_Tapped>
+	<BurnsLimo_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="BurnsLimo" animation="ActiveNoLoop" />
+	</BurnsLimo_Tapped>
+	<Channel6NewsVan_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="Channel6NewsVan" animation="Tap" />
+	</Channel6NewsVan_Tapped>
+	<IChooChooChooseYouTrain_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="IChooChooChooseYouTrain" animation="ActiveNoLoop" />
+	</IChooChooChooseYouTrain_Tapped>
+	<DevilDonutsCart_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="DevilDonutsCart" animation="ActiveNoLoop" />
+	</DevilDonutsCart_Tapped>
+	<DuffBeerCar_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="DuffBeerCar" animation="ActiveNoLoop" />
+	</DuffBeerCar_Tapped>
+	<DuffPartyBus_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="DuffPartyBus" animation="ActiveNoLoop" />
+	</DuffPartyBus_Tapped>
+	<FleetAPita_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="FleetAPita" animation="ActiveNoLoop" />
+	</FleetAPita_Tapped>
+	<FrinkosonicMHV_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="FrinkosonicMHV" animation="Animation" />
+	</FrinkosonicMHV_Tapped>
+	<HomersCar_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="245_homer_car.caf" />
+		<Action type="anim-play" building="HomersCar" animation="ActiveNoLoop" />
+	</HomersCar_Tapped>
+	<OscarsObstaclesTruck_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="OscarsObstaclesTruck" animation="ActiveNoLoop" />
+	</OscarsObstaclesTruck_Tapped>
+	<VictorianUFO_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="VictorianUFO" animation="Tap" />
+	</VictorianUFO_Tapped>
+	<SWATVan_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="SWATVan" animation="ActiveNoLoop" />
+	</SWATVan_Tapped>
+	<PlowKingsPlow_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="PlowKingsPlow" animation="ActiveNoLoop" />
+	</PlowKingsPlow_Tapped>
+	<TouchBeachHideaway parallel="true">
+		<Action type="pantoobject" building="BeachHideaway" useObjectRef="true" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+	</TouchBeachHideaway>
+	<OpenUpgradeableBuildingWithoutTouching>
+		<Action type="gotoState" state="GameState_BuildingUpgradeTrack">
+			<Extras>
+				<Attribute name="fontConfigPath" value="SeasonPremiere2016_MenuConfig:BuildingUpgradeTrackFontAndColourConfig" />
+			</Extras>
+		</Action>
+	</OpenUpgradeableBuildingWithoutTouching>
+	<ShowUpgradableBuildingUI>
+		<Action type="pantoobject" useObjectRef="true" />
+		<Action type="gotoState" state="GameState_BuildingUpgradeTrack">
+			<Extras>
+				<Attribute name="fontConfigPath" value="SeasonPremiere2016_MenuConfig:BuildingUpgradeTrackFontAndColourConfig" />
+			</Extras>
+		</Action>
+	</ShowUpgradableBuildingUI>
+	<SpringfieldHeightsShowGuidePanel_UpgradableBuilding>
+		<Action type="sound" sound="01_general_button.caf" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="SpringfieldHeights_ThreePanelGuideConfig:GuidePanelConfig">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="SeasonPremiere2016_Scripts:OpenUpgradeableBuildingWithoutTouching" />
+			</Extras>
+		</Action>
+	</SpringfieldHeightsShowGuidePanel_UpgradableBuilding>
+	<UnityBuildingUpgradedTelemetry>
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{Object::Name} {Object::SHLevel}" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+	</UnityBuildingUpgradedTelemetry>
+	<OnBeachHideawayUpgraded>
+		<Action type="setObjectVariable" variableMode="setRetain" variable="dummy" value="1" disableEvents="true" />
+		<Action type="actionSequence" script="SeasonPremiere2016_Scripts:OnBeachHideawayUpgradedReal" parseOnDemand="true" />
+	</OnBeachHideawayUpgraded>
+	<OnBeachHideawayUpgradedReal>
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="reward" formatMe="true" save="true" RealEstateValue="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}__" suppress_sound="true" pauseForScript="true" />
+		<Action type="setObjectVariable" variable="SHLevel" value="Object::SHLevel+1" asExpression="true" />
+		<Action type="runScript" package="SeasonPremiere2016_Scripts" script="UnityBuildingUpgradedTelemetry" />
+		<Action type="loseResources" formatMe="true" Furniture="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:FurnitureCost__" Latte="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:LatteCost__" Pharmaceutical="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:PharmaceuticalCost__" SmartDevice="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:SmartDeviceCost__" YogaMat="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:YogaMatCost__" HollywoodAward="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:HollywoodAwardCost__" Ads="__SeasonPremiere2016_GameConfig:{Object::Name}LevelUpCosts:AdsCost__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+		<Action type="delay" time="2" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="earned">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" stringFormula="{Object::LocalisedName}" />
+							<Attribute name="1" formula="Object::SHLevel+2" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="iconUpgradeInfo">
+					<Attribute name="text" value="UI_ModularUpgradePanel_body" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="rewardGraphic">
+					<Attribute name="image" formatMe="true" value="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1Icon__" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action formatMe="deep" type="reward" ignoreObject="true">
+			<Item type="building" name="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1__" />
+			<Item type="building" name="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward2__" />
+			<Item type="building" name="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward3__" />
+		</Action>
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1__" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward2__" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward3__" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+		<Action formatMe="deep" type="focusOnMenuItem" itemName="__SeasonPremiere2016_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1__" inventory="true" />
+	</OnBeachHideawayUpgradedReal>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="BattleOfTheBrands_Master" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<SeasonPremiere2016_OpenResourceMenu ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="BattleOfTheBrands_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SeasonPremiere2016_Main" />
+									<Attribute name="JobList" value="BattleOfTheBrands_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="BattleOfTheBrands_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SeasonPremiere2016_Main" />
+									<Attribute name="JobList" value="BattleOfTheBrands_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BattleOfTheBrands_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SeasonPremiere2016_Main" />
+									<Attribute name="JobList" value="BattleOfTheBrands_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BattleOfTheBrands_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SeasonPremiere2016_Main" />
+									<Attribute name="JobList" value="BattleOfTheBrands_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BattleOfTheBrands_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SeasonPremiere2016_Main" />
+									<Attribute name="JobList" value="BattleOfTheBrands_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BattleOfTheBrands_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SeasonPremiere2016_Main" />
+									<Attribute name="JobList" value="BattleOfTheBrands_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</SeasonPremiere2016_OpenResourceMenu>
+	<GetLairdLadd parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="RetroLardLad" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="RetroLardLad" fakeTouch="false" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="character" name="LairdLadd" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="RetroLardLad" menuCategory="SeasonPremiere2016" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="RetroLardLad" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GetLairdLadd>
+	<RegisterTelemetry_Regular parallel="true">
+		<Action type="updateVariable" variable="SP2016_RegularGiftCards" value="SP2016_RegularGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="SP2016_TotalGiftCards" value="SP2016_TotalGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="SP2016_JobGiftCards" value="SP2016_JobGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:RegularJobReward__')" />
+	</RegisterTelemetry_Regular>
+	<RegisterTelemetry_Premium parallel="true">
+		<Action type="updateVariable" variable="SP2016_PremiumGiftCards" value="SP2016_PremiumGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SP2016_TotalGiftCards" value="SP2016_TotalGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SP2016_JobGiftCards" value="SP2016_JobGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Premium>
+	<RegisterTelemetry_Building parallel="true">
+		<Action type="updateVariable" variable="SP2016_PremiumGiftCards" value="SP2016_PremiumGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SP2016_TotalGiftCards" value="SP2016_TotalGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SP2016_BuildingGiftCards" value="SP2016_BuildingGiftCards + ConfigValue('__SeasonPremiere2016_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Building>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="TotalGiftCards_{TotalGiftCards}" param3Type="UserLevel" eventId="5100" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="Jobs" param2Type="Enumeration" param2="{JobGiftCards}" param3Type="UserLevel" eventId="5101" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="Buildings" param2Type="Enumeration" param2="{BuildingGiftCards}" param3Type="UserLevel" eventId="5101" />
+		<Action type="setVariable" intVariable="SP2016_JobGiftCards" intValue="0" />
+		<Action type="setVariable" intVariable="SP2016_BuildingGiftCards" intValue="0" />
+	</LogTelemetry>
+	<CheckIfEnd parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SeasonPremiere2016_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="SP2016_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<SP_72HourWarning>
+		<Action type="message" text="{FormattedExpiration72}" formatMe="root">
+			<FormattingConfig path="SeasonPremiere2016_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="SeasonPremiere2016_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="SeasonPremiere2016_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</SP_72HourWarning>
+	<SP_24HourWarning>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="SeasonPremiere2016_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="SeasonPremiere2016_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="SeasonPremiere2016_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</SP_24HourWarning>
+	<SP_Expiration>
+		<Action type="message" text="{FormattedExpiration0}" formatMe="root">
+			<FormattingConfig path="SeasonPremiere2016_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="clearRecommendations" category="Event" name="EnterSpringfieldGamesCategory" />
+		<Action type="setVariable" boolVariable="SeasonPremiere2016_ExpiryDisplayed" boolValue="true" />
+		<Action type="runScript" script="SeasonPremiere2016_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</SP_Expiration>
+</ScriptPackage>

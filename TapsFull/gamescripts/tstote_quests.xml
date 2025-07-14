@@ -1,0 +1,490 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="284000" name="TSTOTEINTROPANEL" />
+		<DataID id="284001" name="TSTOTE_1" />
+		<DataID id="284002" name="TSTOTE_2" />
+		<DataID id="284003" name="TSTOTE_3" />
+		<DataID id="284004" name="TSTOTE_4" />
+		<DataID id="284005" name="TSTOTE_5" />
+		<DataID id="284006" name="TSTOTE_6" />
+		<DataID id="284007" name="TSTOTE_7" />
+		<DataID id="284008" name="Denouement_1" />
+		<DataID id="284009" name="Denouement_2" />
+		<DataID id="284010" name="Denouement_3" />
+		<DataID id="284011" name="Denouement_4" />
+		<DataID id="284012" name="Denouement_5" />
+		<DataID id="284600" name="TSTOTE_Completed" />
+		<DataID id="284601" name="TSTOTE_IntroPanel" />
+		<DataID id="284602" name="TSTOTE_72HourWarning" onDeprecated="retain" endDate="TSTOTE_End" />
+		<DataID id="284603" name="TSTOTE_24HourWarning" onDeprecated="retain" endDate="TSTOTE_End" />
+		<DataID id="284604" name="TSTOTE_EventExpired" />
+		<DataID id="284605" name="TSTOTE_MasterQuest" />
+		<DataID id="284013" name="TSTOTE_DonutReRain" />
+		<DataID id="284900" name="TSTOTE_RecommendStore_Wave1" onDeprecated="delete" endDate="TSTOTE_End" />
+		<DataID id="284901" name="TSTOTE_RecommendStore_Wave2" onDeprecated="delete" endDate="TSTOTE_End" />
+		<DataID id="284902" name="TSTOTE_RecommendStore_Wave3" onDeprecated="delete" endDate="TSTOTE_End" />
+		<DataID id="284903" name="TSTOTE_RecommendStore_Wave4" onDeprecated="delete" endDate="TSTOTE_End" />
+		<DataID id="284904" name="TSTOTE_RecommendStore_Wave5" onDeprecated="delete" endDate="TSTOTE_End" />
+	</MasterList>
+	<Quest id="284600" name="TSTOTE_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="Denouement_5" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="284601" name="TSTOTE_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="TSTOTE_Start" end="TSTOTE_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284602" name="TSTOTE_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TSTOTE_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TSTOTE_End')-fromHours(72)]_" end="_[System::evaluate('Date::TSTOTE_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="TSTOTE_Complete" not="true" />
+			<Requirement type="quest" quest="TSTOTE_IntroPanel" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284603" name="TSTOTE_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TSTOTE_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TSTOTE_End')-fromHours(24)]_" end="TSTOTE_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TSTOTE_Complete" not="true" />
+			<Requirement type="quest" quest="TSTOTE_IntroPanel" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284604" name="TSTOTE_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="TSTOTE_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TSTOTE_Complete" not="true" />
+			<Requirement type="quest" quest="TSTOTE_IntroPanel" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284605" name="TSTOTE_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="TSTOTE_Expired" not="true" />
+			<Requirement type="variable" variable="TSTOTE_Complete" not="true" />
+			<Requirement type="reqList" location="TSTOTE_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="Denouement_5" />
+					<Requirement type="variable" variable="TSTOTE_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="Denouement_1">
+				<Requirement type="conditional" logic="AND">
+          <Requirement type="quest started" quest="Denouement_1"/>
+          <Requirement type="quest" quest="Denouement_1" not="true" />
+        </Requirement>
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="Denouement_2">
+				<Requirement type="conditional" logic="AND">
+          <Requirement type="quest started" quest="Denouement_2"/>
+          <Requirement type="quest" quest="Denouement_2" not="true" />
+        </Requirement>
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="Denouement_3">
+				<Requirement type="conditional" logic="AND">
+          <Requirement type="quest started" quest="Denouement_3"/>
+          <Requirement type="quest" quest="Denouement_3" not="true" />
+        </Requirement>
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="Denouement_4">
+				<Requirement type="conditional" logic="AND">
+          <Requirement type="quest started" quest="Denouement_4"/>
+          <Requirement type="quest" quest="Denouement_4" not="true" />
+        </Requirement>
+			</QuestProgressDelegate>
+      <QuestProgressDelegate delegate="Denouement_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="284000" name="TSTOTEINTROPANEL" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="quest" quest="TSTOTE_IntroPanel" />
+			<Requirement type="time" end="TSTOTE_End" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTEINTROPANEL_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="TellMargeWhatsHappening" quantity="1" />
+			<Objective type="complete job" character="Bart" job="TellHisOnlyMaleRoleModelWhatsHappening" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="AbrahamLincoln" job="SplitRailsToCalmHimselfDown" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AbrahamLincoln" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="TSTOTE_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="284001" name="TSTOTE_1" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTEINTROPANEL" />
+			<Requirement type="time" start="TSTOTE_Start" end="TSTOTE_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_1_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Ned" job="FeelConflictedAboutLeftiesMakingLessThanRighties" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="FeelConflictedAboutThereBeingAGiantAI_Lisa" quantity="1" />
+			<Objective type="complete job" character="Bart" job="FeelConflictedAboutThereBeingAGiantAI_Bart" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="FeelConflictedAboutMenMakingLessThanWomen" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="284002" name="TSTOTE_2" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_1" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_2_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="RealizeHesASuckerJustLikeFutureHumans" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="RealizeTheyreAllSuckersToo" quantity="5" />
+			<Objective type="complete job" group="Senior" job="PointOutThatRetirementIsNotSoBad" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Burns" />
+						<Requirement type="characterunlocked" name="Grampa" />
+						<Requirement type="characterunlocked" name="HansMoleman" />
+						<Requirement type="characterunlocked" name="KentBrockman" />
+						<Requirement type="characterunlocked" name="TomOFlanagan" />
+						<Requirement type="characterunlocked" name="AbrahamLincoln" />
+						<Requirement type="characterunlocked" name="Agnes" />
+						<Requirement type="characterunlocked" name="SuperintendentChalmers" />
+						<Requirement type="characterunlocked" name="Jasper" />
+						<Requirement type="characterunlocked" name="JudgeSnyder" />
+						<Requirement type="characterunlocked" name="OldJewishMan" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="284003" name="TSTOTE_3" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_2" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_3_Start" />
+		<Objectives>
+			<Objective type="complete job" group="NormalSpringfielders" job="ReactInShock" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="284004" name="TSTOTE_4" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_3" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_4_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="TryToSwayTheAIWithMusic" quantity="1" />
+			<Objective type="complete job" character="Homer" job="TryToGrossOutTheAI" quantity="1" />
+			<Objective type="complete job" character="Marge" job="ProtestEndingTheGame" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="PracticeForAShooterGame" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="284005" name="TSTOTE_5" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_4" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_5_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="PutADownPaymentOnANewCar" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="FretForTheFutureOfHumanity" quantity="1" />
+			<Objective type="complete job" character="Marge" job="OpenARothIRA" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="BeConfusedAboutTheGamesAge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="284006" name="TSTOTE_6" tags="sidequest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_5" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_6_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ComplainAboutUnfairnessTowardsThe1%" quantity="1" />
+			<Objective type="complete job" character="Homer" job="EatDrinkAndGamble" quantity="1" />
+			<Objective type="complete job" character="Bart" job="ComplainAboutVideoGamesBeingRuined" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="PlayFreemiumGamesToGetAwayFromItAll" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="284007" name="TSTOTE_7" tags="mainquest" icon="UntroubledVases_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_6" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_7_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="TSTOTE_7_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ReminisceAngrily" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="WorryIfThisWillAffectHerGPA" quantity="1" />
+			<Objective type="complete job" character="Marge" job="ReminisceFondly" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="WishAllVideoGamesDidntHaveCredits" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Maggie" job="SuckSuck" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="284013" name="TSTOTE_DonutReRain" tags="dummy">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_7" />
+			<Requirement type="variable" variable="NoDonutReRain" not="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="DonutReRain" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284008" name="Denouement_1" tags="mainquest" icon="UntroubledVases_Event" sidebarIconScript="TSTOTE_Scripts:OpenMasterQuest" questMenuConfigPath="TSTOTE_QuestConfig:TSTOTE_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TSTOTE_7" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="Denouement_1_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="Denouement_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ChangeTheSubjectWithTheAI" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TSTOTE_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TSTOTE_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="284009" name="Denouement_2" tags="mainquest" icon="UntroubledVases_Event" sidebarIconScript="TSTOTE_Scripts:OpenMasterQuest" questMenuConfigPath="TSTOTE_QuestConfig:TSTOTE_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="Denouement_1" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="Denouement_2_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="Denouement_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ReadABook_UVTEMP" quantity="1" />
+			<Objective type="complete job" character="Marge" job="CleanTheHouse_UVTEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="Skateboard_UVTEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TSTOTE_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TSTOTE_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="284010" name="Denouement_3" tags="mainquest" icon="UntroubledVases_Event" sidebarIconScript="TSTOTE_Scripts:OpenMasterQuest" questMenuConfigPath="TSTOTE_QuestConfig:TSTOTE_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="Denouement_2" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="Denouement_3_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="Denouement_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Frink" job="BuildATimeMachineToExplainFirst" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="HelpFrinkBuildHisTimeMachine" quantity="1" />
+			<Objective type="complete job" character="Bart" job="HelpLisaHelpFrink" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TSTOTE_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TSTOTE_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="284011" name="Denouement_4" tags="mainquest" icon="UntroubledVases_Event" sidebarIconScript="TSTOTE_Scripts:OpenMasterQuest" questMenuConfigPath="TSTOTE_QuestConfig:TSTOTE_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="Denouement_3" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="Denouement_4_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="Denouement_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="WanderOffToAvoidTheAI" quantity="1" />
+			<Objective type="complete job" character="CBGuy" job="FailToGetIntoTheInGameStore" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CBGuy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TSTOTE_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TSTOTE_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="284012" name="Denouement_5" tags="sidequest" icon="UntroubledVases_Event" sidebarIconScript="TSTOTE_Scripts:OpenMasterQuest" questMenuConfigPath="TSTOTE_QuestConfig:TSTOTE_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="Denouement_4" />
+			<Requirement type="quest" quest="TSTOTE_RecommendStore_Wave1" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts_Dialogue" name="Denouement_5_Start" />
+		<EndScript package="TSTOTE_Scripts_Dialogue" name="Denouement_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="StruggleToFindThePerfectEnding" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TSTOTE_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TSTOTE_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="284900" name="TSTOTE_RecommendStore_Wave1" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TSTOTE_Requirements:StoreCategory_TSTOTE_Unlocked" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="RecommendStoreCategory_TSTOTEWave1" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284901" name="TSTOTE_RecommendStore_Wave2" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TSTOTE_Requirements:StoreCategory_TSTOTE_Unlocked" />
+			<Requirement type="time" start="TSTOTE_StoreWave2" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="RecommendStoreCategory_TSTOTEWave2" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284902" name="TSTOTE_RecommendStore_Wave3" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TSTOTE_Requirements:StoreCategory_TSTOTE_Unlocked" />
+			<Requirement type="time" start="TSTOTE_StoreWave3" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="RecommendStoreCategory_TSTOTEWave3" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284903" name="TSTOTE_RecommendStore_Wave4" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TSTOTE_Requirements:StoreCategory_TSTOTE_Unlocked" />
+			<Requirement type="time" start="TSTOTE_StoreWave4" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="RecommendStoreCategory_TSTOTEWave4" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="284904" name="TSTOTE_RecommendStore_Wave5" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TSTOTE_Requirements:StoreCategory_TSTOTE_Unlocked" />
+			<Requirement type="time" start="TSTOTE_StoreWave5" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TSTOTE_Scripts" name="RecommendStoreCategory_TSTOTEWave5" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

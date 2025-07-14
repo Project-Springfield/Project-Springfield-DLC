@@ -1,0 +1,79 @@
+﻿<ScriptPackage>
+	<SoE_SetAnim1 parallel="true" cache="true">
+		<Action type="setObjectVariable" onType="building" onObject="SepulchreOfEvil" variable="SepulchreOfEvil_AnimState" value="1" allowOrphan="false" />
+	</SoE_SetAnim1>
+	<SoE_SetAnim2 parallel="true" cache="true">
+		<Action type="setObjectVariable" onType="building" onObject="SepulchreOfEvil" variable="SepulchreOfEvil_AnimState" value="2" allowOrphan="false" />
+		<Action type="addAttractor" continuous="true" onType="building" onObject="SepulchreOfEvil" group="Senior" duration="5" radius="50" repathInterval="3" />
+	</SoE_SetAnim2>
+	<SoE_SetAnim3 parallel="true" cache="true">
+		<Action type="setObjectVariable" onType="building" onObject="SepulchreOfEvil" variable="SepulchreOfEvil_AnimState" value="3" allowOrphan="false" />
+		<Action type="addAttractor" continuous="true" onType="building" onObject="SepulchreOfEvil" group="Senior" duration="5" radius="50" repathInterval="3" />
+	</SoE_SetAnim3>
+	<SoE_Start parallel="true">
+		<Action type="setObjectVariable" onType="character" onObject="Burns" variable="SepulchreOfEvil_JobActive" value="1" allowOrphan="false" />
+	</SoE_Start>
+	<SoE_End parallel="true" cache="true">
+		<Action type="setObjectVariable" onType="building" onObject="SepulchreOfEvil" variable="SepulchreOfEvil_AnimState" value="0" allowOrphan="false" />
+		<Action type="setObjectVariable" onType="character" onObject="Burns" variable="SepulchreOfEvil_JobActive" value="0" allowOrphan="false" />
+	</SoE_End>
+	<RollUncontrollablyEnd>
+		<Action type="anim-play" character="Wiggum" animation="Wiggum_BigStein_Roll_Uncontrollably_Out" />
+	</RollUncontrollablyEnd>
+	<SoE_TempEnd>
+		<Action type="setObjectVariable" onType="building" onObject="SepulchreOfEvil" variable="SepulchreOfEvil_AnimState" value="0" allowOrphan="false" />
+		<Action type="setObjectVariable" onType="character" onObject="Burns" variable="SepulchreOfEvil_JobActive" value="0" allowOrphan="false" />
+	</SoE_TempEnd>
+	<SoE_JobInterupted ignoreHUD="true">
+		<Action type="setObjectVariable" onType="character" onObject="Burns" variable="SepulchreOfEvil_JobActive" value="0" allowOrphan="false" />
+	</SoE_JobInterupted>
+	<Halloween2015_Gained parallel="true">
+		<Action type="random">
+			<Action type="skin-set" skin="HW2015_Zombie" />
+			<Action type="skin-set" skin="HW2015_Zombie" />
+			<Action type="skin-set" skin="HW2015_Skeleton" />
+			<Action type="skin-set" skin="HW2015_Skeleton" />
+			<Action type="skin-set" skin="HW2015_Skeleton" />
+			<Action type="skin-set" skin="HW2015_Skeleton" />
+			<Action type="skin-set" skin="HW2015_Skeleton" />
+			<Action type="skin-set" skin="HW2015_Skeleton" />
+			<Action type="random">
+				<Action type="skin-set" skin="HW2015_Rabbit" />
+				<Action type="skin-set" skin="HW2015_Rabbit2" />
+			</Action>
+			<Action type="random">
+				<Action type="skin-set" skin="HW2015_Snake" />
+				<Action type="skin-set" skin="HW2015_Snake2" />
+			</Action>
+		</Action>
+	</Halloween2015_Gained>
+	<Halloween2015_Tapped parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="sfx_THOH15_Kill_Tap_01.caf" />
+			<Action type="sound" sound="sfx_THOH15_Kill_Tap_02.caf" />
+			<Action type="sound" sound="sfx_THOH15_Kill_Tap_03.caf" />
+			<Action type="sound" sound="sfx_THOH15_Kill_Tap_04.caf" />
+			<Action type="sound" sound="sfx_THOH15_Kill_Tap_05.caf" />
+		</Action>
+		<Action type="playCharacterAnimation" animation="Squish" />
+		<Action type="fade" fade="outmax" />
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="0.5" xp="5" />
+		</Action>
+		<Action type="reward" save="true" xp="5" suppress_sound="true" />
+		<Action type="deletecharacter" character="Halloween2015_MasterTappable" />
+	</Halloween2015_Tapped>
+	<SepulchreOfEvil_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="or(System::evaluate('Job::ReadFromtheNecronomicon_SOE::Active'), System::evaluate('Job::SummonAForgottenGod::Active'))" />
+			<True>
+				<Action type="sound" sound="sfx_HalloweenPromo_Sepulcher_Of_Evil_Tap_V2.caf" />
+			</True>
+			<False>
+				<Action type="sound" sound="bld_SepulchreOfEvil_tap" />
+			</False>
+		</Action>
+		<Action type="addAttractor" repathInterval="3" continuous="true" group="Senior" duration="8" radius="50" />
+		<Action type="anim-play" building="SepulchreOfEvil" animation="Tap" />
+	</SepulchreOfEvil_Tapped>
+</ScriptPackage>

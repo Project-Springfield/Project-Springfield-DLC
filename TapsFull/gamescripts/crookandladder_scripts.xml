@@ -1,0 +1,397 @@
+﻿<ScriptPackage>
+	<PanToKwikEMart>
+		<Action type="pantoobject" building="Kwik-E-Mart" fakeTouch="true" />
+	</PanToKwikEMart>
+	<PanToElementry>
+		<Action type="pantoobject" building="SpringfieldElementary" fakeTouch="true" />
+	</PanToElementry>
+	<RemoveAllFires parallel="true" runQueueState="RunInAnyState">
+		<Action type="deletecharacter" />
+	</RemoveAllFires>
+	<CrookAndLadder_FireTappable_Tapped parallel="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="formula" formula="Object::Delete==0" />
+			</Requirements>
+			<True>
+				<Action type="setObjectFlag" flags="delete" />
+				<Action type="reward" CrookAndLadder_Medals="10" suppress_sound="true" save="true" />
+				<Action type="setVariable" intVariable="CnL_TappablesReward" intValue="CnL_TappablesReward + 10" />
+				<Action type="setVariable" intVariable="CnL_TotalMedals" intValue="CnL_TotalMedals + 10" />
+				<Action type="setObjectVariable" variable="Bonus" value="rand(100)" asExpression="true" allowOrphan="false" />
+				<Action type="if">
+					<If expression="greaterThanEQ(System::evaluate('Character::Instance::[LAST_TOUCH_CHARACTER_UID]::Object::Bonus'), 80)">
+						<Then>
+							<Action type="reward" CrookAndLadder_Medals="10" suppress_sound="true" save="true" />
+							<Action type="setVariable" intVariable="CnL_TappablesReward" intValue="CnL_TappablesReward + 10" />
+							<Action type="setVariable" intVariable="CnL_TotalMedals" intValue="CnL_TotalMedals + 10" />
+						</Then>
+					</If>
+				</Action>
+				<Action type="setObjectVariable" variable="Delete" value="1" allowOrphan="false" />
+				<Action type="sound" sound="sfx_Crook_Ladder_TapableFire.caf" />
+				<Action type="playCharacterAnimation" animation="Tap" />
+				<Action type="fade" fade="outmax" />
+				<Action type="deletecharacter" character="CrookAndLadder_FireTappable" />
+			</True>
+		</Action>
+	</CrookAndLadder_FireTappable_Tapped>
+	<CrookAndLadder_FireTappable_Spawned parallel="true">
+		<Action type="playCharacterAnimation" animation="Spawn" />
+	</CrookAndLadder_FireTappable_Spawned>
+	<RegisterTelemetry_Regular parallel="true">
+		<Action type="setVariable" intVariable="CnL_RegularReward" intValue="CnL_RegularReward + 50" />
+		<Action type="setVariable" intVariable="CnL_TotalMedals" intValue="CnL_TotalMedals + 50" />
+	</RegisterTelemetry_Regular>
+	<RegisterTelemetry_Premium parallel="true">
+		<Action type="setVariable" intVariable="CnL_PremiumReward" intValue="CnL_PremiumReward + 100" />
+		<Action type="setVariable" intVariable="CnL_TotalMedals" intValue="CnL_TotalMedals + 100" />
+	</RegisterTelemetry_Premium>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Score" param2="{Total}" param3Type="UserLevel" eventId="3789" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Score" param2="{Regular}" param3Type="UserLevel" eventId="3748" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Score" param2="{Premium}" param3Type="UserLevel" eventId="3748" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="TappablesReward{task}" param2Type="Score" param2="{Tappables}" param3Type="UserLevel" eventId="3748" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="SocialReward{task}" param2Type="Score" param2="{Social}" param3Type="UserLevel" eventId="3748" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="CleanReward{task}" param2Type="Score" param2="{Clean}" param3Type="UserLevel" eventId="3748" />
+		<Action type="setVariable" intVariable="CnL_RegularReward" intValue="0" />
+		<Action type="setVariable" intVariable="CnL_PremiumReward" intValue="0" />
+		<Action type="setVariable" intVariable="CnL_TappablesReward" intValue="0" />
+		<Action type="setVariable" intVariable="CnL_SocialMedals" intValue="0" />
+		<Action type="setVariable" intVariable="CnL_CleanMedals" intValue="0" />
+	</LogTelemetry>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="WeDidntStartTheFire_Master" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<Dummy_SpawnFires>
+		<Action type="createobject" name="CrookAndLadder_FireTappable" count="15" showUnlock="false" save="true" panCamera="true" />
+	</Dummy_SpawnFires>
+	<FireHydrant_Tapped ignoreHUD="true" parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</FireHydrant_Tapped>
+	<FireHouse_Tapped ignoreHUD="true" parallel="true">
+		<Action type="sound" sound="SPRINGFIELD_FIRE_DEPT_TAP_Edit.caf" />
+	</FireHouse_Tapped>
+	<FireTruck_Tapped ignoreHUD="true" parallel="true">
+		<Action type="sound" sound="FIRE_TRUCK_TAP_03_EDIT.caf" />
+		<Action type="anim-play" animation="ActiveThree" />
+	</FireTruck_Tapped>
+	<VehiclePileup_Tapped ignoreHUD="true" parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Vehicle_PileUp.caf" />
+	</VehiclePileup_Tapped>
+	<GetFiremanApu parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="Apu" />
+			<True>
+				<Action type="focusOnMenuItem" itemName="Fireman_ApuHomer_Con" menuCategory="CrookAndLadder" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="Kwik-E-Mart" />
+			</False>
+		</Action>
+	</GetFiremanApu>
+	<GetFiremanHomer parallel="true">
+		<Action type="focusOnMenuItem" itemName="Fireman_ApuHomer_Con" menuCategory="CrookAndLadder" />
+	</GetFiremanHomer>
+	<CheckIfEnd parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="CrookAndLadder_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="CrookAndLadder_Expired" boolValue="true" />
+				<Action type="setVariable" boolVariable="CrookAndLadder_KwikEMartOnFire" boolValue="false" />
+				<Action type="setVariable" boolVariable="CrookAndLadder_PoliceStationFire" boolValue="false" />
+				<Action type="setVariable" boolVariable="CrookAndLadder_SchoolOnFire" boolValue="false" />
+				<Action type="runScriptOnAll" character="CrookAndLadder_FireTappable" script="RemoveAllFires" package="CrookAndLadder_Scripts" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<CrookAndLadder_OpenResourceMenu ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_7" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_07" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_8" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_08" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WeDidntStartTheFire_9" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CrookAndLadder_Main" />
+									<Attribute name="JobList" value="Crook_JL_09" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</CrookAndLadder_OpenResourceMenu>
+	<ShowMiniEventPanel>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="playButtonText">
+					<Requirement type="quest" quest="CrookAndLadder_Intro" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="quest" quest="CrookAndLadder_Intro" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="quest" quest="CrookAndLadder_Intro" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="quest" quest="CrookAndLadder_Intro" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_CrookAndLadder_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="" />
+					<Attribute name="text" value="UI_MiniEvent_IntroPanelEndDate" localise="true" parameters="textParams">
+						<Requirements>
+							<Requirement type="timer" name="CrookAndLadder_Timer" state="active" />
+						</Requirements>
+						<AttributeSet name="textParams">
+							<Attribute name="0" ignoreIfSet="true" value="__CrookAndLadder_GameConfig:Dates:CrookAndLadder_End__" postProcessor="localDateTime" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_CrookAndLadder_IntroPanel_text1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn6">
+					<Attribute name="text" value="UI_IntroPanel_text2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_IntroPanel_text3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_CL_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventPanel>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OutroPanel_button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OutroPanel_button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_CrookAndLadder_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value=" " localise="false" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_OutroPanel_text1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_OutroPanel_text2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_CL_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<EnterCrookAndLadderCategory>
+		<Action type="focusOnMenuItem" menuCategory="CrookAndLadder" />
+	</EnterCrookAndLadderCategory>
+	<CrookAndLadder_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Event" limitedTime="true" limitedTimeEndDate="__CrookAndLadder_GameConfig:Dates:CrookAndLadder_End__" eventName="UI_CrookAndLadder_title" name="EnterCrookAndLadderCategory" />
+	</CrookAndLadder_Recommend>
+	<ExpirationMessage72>
+		<Action type="message" text="{FormattedExpiration72}" formatMe="true" />
+	</ExpirationMessage72>
+	<ExpirationMessage24>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="true" />
+	</ExpirationMessage24>
+	<ExpirationMessage0>
+		<Action type="message" text="{FormattedExpiration0}" formatMe="true" />
+	</ExpirationMessage0>
+	<CrookAndLadder_72HourWarning>
+		<Action type="runScript" script="CrookAndLadder_Scripts:ExpirationMessage72">
+			<FormattingConfig path="CrookAndLadder_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="CrookAndLadder_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="OpenMasterQuest" package="CrookAndLadder_Scripts" waitUntilComplete="true" />
+	</CrookAndLadder_72HourWarning>
+	<CrookAndLadder_24HourWarning>
+		<Action type="runScript" script="CrookAndLadder_Scripts:ExpirationMessage24">
+			<FormattingConfig path="CrookAndLadder_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="CrookAndLadder_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="OpenMasterQuest" package="CrookAndLadder_Scripts" waitUntilComplete="true" />
+	</CrookAndLadder_24HourWarning>
+	<CrookAndLadder_Expired>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="WeDidntStartTheFire_9" />
+			<False>
+				<Action type="runScript" script="CrookAndLadder_Scripts:ExpirationMessage0">
+					<FormattingConfig path="CrookAndLadder_MenuConfig:ExpirationFormattedText" />
+				</Action>
+			</False>
+		</Action>
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="setVariable" boolVariable="CrookAndLadder_ExpiryDisplayed" boolValue="true" />
+		<Action type="setVariable" boolVariable="CrookAndLadder_EventExpired" boolValue="true" />
+		<Action type="setVariable" boolVariable="CrookAndLadder_KwikEMartOnFire" boolValue="false" />
+		<Action type="setVariable" boolVariable="CrookAndLadder_PoliceStationFire" boolValue="false" />
+		<Action type="setVariable" boolVariable="CrookAndLadder_SchoolOnFire" boolValue="false" />
+		<Action type="runScriptOnAll" character="CrookAndLadder_FireTappable" script="RemoveAllFires" package="CrookAndLadder_Scripts" />
+		<Action type="runScript" script="OpenMasterQuest" package="CrookAndLadder_Scripts" waitUntilComplete="true" />
+	</CrookAndLadder_Expired>
+	<FightTheKwikEMartFire>
+		<Action type="startJob" name="FightTheKwikEMartFire_PostEvent" character="Moe" />
+		<Action type="startJob" name="FightTheKwikEMartFire_PostEvent_Skinner" character="Skinner" />
+		<Action type="startJob" name="FightTheKwikEMartFire_PostEvent_Premium_Apu" character="Apu" />
+		<Action type="startJob" name="FightTheKwikEMartFire_PostEvent_Premium_Homer" character="Homer" />
+		<Action type="returnToInGameState" />
+		<Action type="pantoobject" building="Kwik-E-Mart" />
+	</FightTheKwikEMartFire>
+	<FightTheSchoolFire>
+		<Action type="startJob" name="FightTheElementarySchoolFire_PostEvent" character="Moe" />
+		<Action type="startJob" name="FightTheElementarySchoolFire_PostEvent_Skinner" character="Skinner" />
+		<Action type="startJob" name="FightTheElementarySchoolFire_PostEvent_Premium_Apu" character="Apu" />
+		<Action type="startJob" name="FightTheElementarySchoolFire_PostEvent_Premium_Homer" character="Homer" />
+		<Action type="returnToInGameState" />
+		<Action type="pantoobject" building="SpringfieldElementary" />
+	</FightTheSchoolFire>
+	<FightTheStationFire>
+		<Action type="startJob" name="FightTheFireDepartmentFire_PostEvent" character="Moe" />
+		<Action type="startJob" name="FightTheFireDepartmentFire_PostEvent_Skinner" character="Skinner" />
+		<Action type="startJob" name="FightTheFireDepartmentFire_PostEvent_Premium_Apu" character="Apu" />
+		<Action type="startJob" name="FightTheFireDepartmentFire_PostEvent_Premium_Homer" character="Homer" />
+		<Action type="returnToInGameState" />
+	</FightTheStationFire>
+	<GoToMoe>
+		<Action type="returnToInGameState" />
+		<Action type="goToGameObject">
+			<Object name="Moe" />
+		</Action>
+	</GoToMoe>
+	<GoToSkinner>
+		<Action type="returnToInGameState" />
+		<Action type="goToGameObject">
+			<Object name="Skinner" />
+		</Action>
+	</GoToSkinner>
+	<GoToApu>
+		<Action type="returnToInGameState" />
+		<Action type="goToGameObject">
+			<Object name="Apu" />
+		</Action>
+	</GoToApu>
+	<GoToHomer>
+		<Action type="returnToInGameState" />
+		<Action type="goToGameObject">
+			<Object name="Homer" />
+		</Action>
+	</GoToHomer>
+</ScriptPackage>

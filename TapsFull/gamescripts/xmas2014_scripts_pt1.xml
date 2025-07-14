@@ -1,0 +1,510 @@
+﻿<ScriptPackage>
+	<CheckOver cache="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="XMASTwentyFourteenPtTwoStart" end="XMASTwentyFourteenPtTwoEnd" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="ExitScript" package="XMAS2014_Scripts_Pt1" />
+			</True>
+		</Action>
+	</CheckOver>
+	<ExitScript>
+		<Action type="message" text="UI_EventTransition_msg" />
+		<Action type="gotoFrontend" />
+	</ExitScript>
+	<WobbleButton parallel="true" cache="true">
+		<Action type="wobbleSpecialEventButton" buttonID="CalendarButton2014" speed="1.5" angle="10" duration="5s" waitForSpecialEventButtons="true" />
+		<Action type="delay" time="5" />
+	</WobbleButton>
+	<PanToBusiestAgent cache="true" parallel="true">
+		<Action type="pantoobject" character="FederalAgent" findMostInRadius="400" time="0" />
+	</PanToBusiestAgent>
+	<PanToBusiestElf cache="true" parallel="true">
+		<Action type="pantoobject" character="Xmas014_Elf" findMostInRadius="400" time="0" />
+	</PanToBusiestElf>
+	<PanToFedsOrElves cache="true" parallel="true">
+		<Requirements>
+			<Requirement type="land" land="Springfield" />
+		</Requirements>
+		<Action type="setVariable" intVariable="FedsClearedCount" intValue="0" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character" name="FederalAgent" allowProxies="false" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="PanToBusiestAgent" package="XMAS2014_Scripts_Pt1" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="character" name="Xmas014_Elf" allowProxies="false" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="PanToBusiestElf" package="XMAS2014_Scripts_Pt1" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+	</PanToFedsOrElves>
+	<XMASFriendsHUDInfo parallel="true">
+		<Action type="runScript" script="XMASFriendsHUDInfoAux" package="XMAS2014_Scripts_Pt1" />
+	</XMASFriendsHUDInfo>
+	<XMASFriendsHUDInfoAux>
+		<Action type="message" text="UI_XMAS2014_FriendMapHelp" title="UI_XMAS2014_title" />
+	</XMASFriendsHUDInfoAux>
+	<OpenSantasDailyTasksList>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="XMASTwentyFourteenPtOneStart" end="XMASTwentyFourteenPtOneEnd" />
+				<Requirement type="building" building="ElfPortal" />
+				<Requirement type="variable" variable="XMAS2014_Pt1" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="activeQuestLot" intValue="-1" />
+				<Action type="gotoState" state="GameState_SacredParchment" />
+			</True>
+		</Action>
+	</OpenSantasDailyTasksList>
+	<ElfPortalButtonPressed>
+		<Action type="runScript" script="OpenSantasDailyTasksList" package="XMAS2014_Scripts_Pt1" />
+	</ElfPortalButtonPressed>
+	<SpawnElfAtPortal parallel="true" cache="true">
+		<Requirements>
+			<Requirement type="building" building="ElfPortal" />
+		</Requirements>
+		<Action type="setVariable" dateVariable="LastElfSeed" />
+		<Action type="anim-play" onBuilding="ElfPortal" animation="ActiveThree" nowait="true" />
+		<Action type="createobject" name="Xmas014_DummyElf" count="1" save="false" panCamera="false" showFadeIn="false" building="ElfPortal" seedFormula="(LastElfSeed-1416000000)*10" />
+		<Action type="playanimation" character="Xmas014_DummyElf" animation="Spawn_Active_In" />
+		<Action type="deletecharacter" character="Xmas014_DummyElf" />
+		<Action type="createobject" name="Xmas014_Elf" count="1" save="true" panCamera="false" showFadeIn="false" building="ElfPortal" seedFormula="(LastElfSeed-1416000000)*10" />
+		<Action type="setVariable" intVariable="PartOneElfCount" intValue="PartOneElfCount+1" />
+	</SpawnElfAtPortal>
+	<AwardDailyBonusElf>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="dailyBonusElfPending" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="dailyBonusElfPending" boolValue="false" />
+				<Action type="runScript" script="SpawnElfAtPortal" package="XMAS2014_Scripts_Pt1" />
+			</True>
+		</Action>
+	</AwardDailyBonusElf>
+	<FederalAgentTapped parallel="true" cache="true">
+		<Action type="stop" character="FederalAgent" />
+		<Action type="rewardchoice">
+			<Reward chance="1.0" chanceType="s" Presents="__XMAS2014_GameConfig:FedsValues:PresentsPayoutPerTap__" FriendPoint="selector friendPointsRewardOwner" money="15" xp="1" />
+		</Action>
+		<Action type="sound" sound="sfx_EA_TSTO_federal_agent.caf" />
+		<Action type="anim-play" animation="Tap" />
+		<Action type="removetimedcharacter" character="FederalAgent" text="UI_Feds_FloatingText" event="4193" />
+		<Action type="deletecharacter" character="FederalAgent" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="FedsClearedCount" quantity="1" not="true" />
+				<Requirement type="character" name="FederalAgent" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="FedsClearedCount" intValue="1" />
+				<Action type="message" text="UI_FedsCleared_SystemMessage" />
+			</True>
+		</Action>
+	</FederalAgentTapped>
+	<FedBlockingScript>
+		<Action type="message" text="UI_FedsCleared_SystemMessage" />
+	</FedBlockingScript>
+	<SpawnLocalFed parallel="true">
+		<Action type="setVariable" intVariable="FedSentSocialCount" intValue="FedSentSocialCount+1" />
+		<Action type="sound" sound="50_police_station_1.caf" />
+		<Action type="addlocaltimedcharacter" character="FederalAgent" event="4193" />
+		<Action type="friendActionPerformed" />
+		<Action type="createobject" name="FederalAgent" count="1" save="false" panCamera="true" teleportCamera="false" showFadeIn="false">
+			<Reward Presents="selector XMASPresentsPerFriendAction" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+		</Action>
+	</SpawnLocalFed>
+	<SpawnFriendFed parallel="true">
+		<Action type="setVariable" boolVariable="FedLocalHasSpawned" boolValue="true" />
+		<Action type="sound" sound="50_police_station_1.caf" />
+		<Action type="addfriendtimedcharacter" character="FederalAgent" event="4193" />
+	</SpawnFriendFed>
+	<FedsFound_Start>
+		<Action type="setVariable" boolVariable="FirstFed_Sent" boolValue="true" />
+	</FedsFound_Start>
+	<FedsToSend_Start>
+		<Action type="message" text="UI_FedsButton_SystemMessage" />
+	</FedsToSend_Start>
+	<XMAS2014PrestigeReward_Pt1>
+		<Action type="reward">
+			<Item type="consumable" name="XMAS2014Prestige_Pt1" useImmediately="true" />
+		</Action>
+	</XMAS2014PrestigeReward_Pt1>
+	<ZutroyWarning>
+		<Action type="setVariable" boolVariable="ZutroyWarning_Sent" boolValue="true" />
+		<Action type="notification" button="UI_OK" title="UI_DECEMBERTWENTYFIRSTPOPUP_title" text="UI_DECEMBERTWENTYFIRSTPOPUP_body" icon="Zutroy_Menu" />
+	</ZutroyWarning>
+	<JingleBellWreck01_Start>
+		<Action type="runScript" package="XMAS2014_Scripts_Pt1" script="SetJingleBellWreck01Started" />
+		<Action type="runScript" package="XMAS2014_Scripts_Pt1" script="IntroDialogue" />
+	</JingleBellWreck01_Start>
+	<IntroDialogue>
+		<Action type="createobject" name="Xmas2014_Santa" save="true" showUnlock="false" panCamera="true" />
+		<Action type="waitforpan" />
+		<Action type="dialogue" character="Quimby" text="QST_JingleBellWreck01_3_dlg_Start_1_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_JingleBellWreck01_3_dlg_Start_2_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_JingleBellWreck01_3_dlg_Start_3_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_JingleBellWreck01_3_dlg_Start_4_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_JingleBellWreck01_3_dlg_Start_5_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck01_3_dlg_Start_6_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck01_3_dlg_Start_7_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck01_3_dlg_Start_8_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck01_3_dlg_Start_9_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck01_3_dlg_Start_10_Santa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck01_3_dlg_Start_11_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck01_3_dlg_Start_12_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck01_3_dlg_Start_13_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck01_3_dlg_Start_14_Santa" revealSpeed="medium" emotion="thinking" />
+		<Action type="dialogue" character="Quimby" text="QST_JingleBellWreck01_3_dlg_Start_15_Quimby" revealSpeed="medium" />
+	</IntroDialogue>
+	<JingleBellWreck01_End>
+		<Action type="setVariable" boolVariable="JingleBellWreck01Complete" boolValue="true" />
+	</JingleBellWreck01_End>
+	<ElfRegulation_SpawnElves>
+		<Action type="pantoobject" building="ElfPortal" />
+		<Action type="runScript" script="SpawnElfAtPortal" package="XMAS2014_Scripts_Pt1" />
+		<Action type="runScript" script="SpawnElfAtPortal" package="XMAS2014_Scripts_Pt1" />
+		<Action type="runScript" script="SpawnElfAtPortal" package="XMAS2014_Scripts_Pt1" />
+		<Action type="runScript" script="SpawnElfAtPortal" package="XMAS2014_Scripts_Pt1" />
+		<Action type="notification" button="UI_OK" title="UI_OfflineReward_title" text="UI_Reward_Elves" icon="ICO_XMAS2014_Prize_4Elves_LG" />
+	</ElfRegulation_SpawnElves>
+	<RecomendationToyWorkshopDone>
+		<Action type="recommendation" recType="Event" eventName="SET_Winter2014_name" name="XMAS2014ScriptObject" />
+	</RecomendationToyWorkshopDone>
+	<JingleBellWreck02_Start>
+		<Action type="runScript" script="LaunchGuidePanel" package="XMAS2014_Scripts" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_1_Santa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_2_Santa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_3_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck02_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck02_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_6_Santa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Moe" text="QST_JingleBellWreck02_3_dlg_Start_7_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_8_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Moe" text="QST_JingleBellWreck02_3_dlg_Start_9_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_10_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_JingleBellWreck02_3_dlg_Start_11_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck02_3_dlg_Start_12_Santa" revealSpeed="medium" emotion="sad" />
+	</JingleBellWreck02_Start>
+	<JingleBellWreck02_End>
+		<Action type="gotoState" state="GameState_PrizeTrack" />
+	</JingleBellWreck02_End>
+	<JingleBellWreck03_Start>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck03_3_dlg_Start_1_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck03_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck03_3_dlg_Start_3_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck03_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck03_3_dlg_Start_5_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck03_3_dlg_Start_6_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck03_3_dlg_Start_7_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck03_3_dlg_Start_8_Santa" revealSpeed="medium" />
+	</JingleBellWreck03_Start>
+	<JingleBellWreck04_Start>
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck04_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck04_3_dlg_Start_2_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck04_3_dlg_Start_3_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck04_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_JingleBellWreck04_3_dlg_Start_5_Bismuth" revealSpeed="medium" emotion="shouting" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_JingleBellWreck04_3_dlg_Start_6_Leopold" revealSpeed="medium" emotion="shouting" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck04_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="doh" />
+	</JingleBellWreck04_Start>
+	<JingleBellWreck05_Start>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_Start_1_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_Start_2_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_Start_3_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck05_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_Start_5_Santa" revealSpeed="medium" emotion="thinking" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck05_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck05_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="happy" />
+	</JingleBellWreck05_Start>
+	<JingleBellWreck05_End>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_End_1_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_End_2_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_End_3_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck05_3_dlg_End_4_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck05_3_dlg_End_5_Homer" revealSpeed="medium" emotion="mouthfull" />
+	</JingleBellWreck05_End>
+	<JingleBellWreck06_Start>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck06_3_dlg_Start_1_Santa" revealSpeed="medium" emotion="thinking" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck06_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck06_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck06_3_dlg_Start_4_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck06_3_dlg_Start_5_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck06_3_dlg_Start_6_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck06_3_dlg_Start_7_Santa" revealSpeed="medium" emotion="worried" />
+	</JingleBellWreck06_Start>
+	<JingleBellWreck07_Start>
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_JingleBellWreck07_3_dlg_Start_1_Bismuth" revealSpeed="medium" emotion="Shouting" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_JingleBellWreck07_3_dlg_Start_2_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck07_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_JingleBellWreck07_3_dlg_Start_4_Bismuth" revealSpeed="medium" emotion="Shouting" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck07_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck07_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck07_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck07_3_dlg_Start_8_Homer" revealSpeed="medium" />
+	</JingleBellWreck07_Start>
+	<JingleBellWreck08_Start>
+		<Action type="dialogue" character="MrBurns" text="QST_JingleBellWreck08_3_dlg_Start_1_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck08_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="MrBurns" text="QST_JingleBellWreck08_3_dlg_Start_3_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_JingleBellWreck08_3_dlg_Start_4_Bismuth" revealSpeed="medium" emotion="Shouting" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_JingleBellWreck08_3_dlg_Start_5_Leopold" revealSpeed="medium" emotion="Shouting" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck08_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="doh" />
+		<Action type="dialogue" character="MrBurns" text="QST_JingleBellWreck08_3_dlg_Start_7_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck08_3_dlg_Start_8_Homer" revealSpeed="medium" emotion="scared" />
+	</JingleBellWreck08_Start>
+	<JingleBellWreck09_Start>
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck09_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck09_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck09_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="alarmed" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck09_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Apu" text="QST_JingleBellWreck09_3_dlg_Start_5_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck09_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="Apu" text="QST_JingleBellWreck09_3_dlg_Start_7_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck09_3_dlg_Start_8_Homer" revealSpeed="medium" emotion="happy" />
+	</JingleBellWreck09_Start>
+	<JingleBellWreck10_Start>
+		<Action type="dialogue" character="RussCargill" text="QST_JingleBellWreck10_3_dlg_Start_1_RussCargill" revealSpeed="medium" />
+		<Action type="dialogue" character="RussCargill" text="QST_JingleBellWreck10_3_dlg_Start_2_RussCargill" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck10_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="RussCargill" text="QST_JingleBellWreck10_3_dlg_Start_4_RussCargill" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck10_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="RussCargill" text="QST_JingleBellWreck10_3_dlg_Start_6_RussCargill" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck10_3_dlg_Start_7_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="RussCargill" text="QST_JingleBellWreck10_3_dlg_Start_8_RussCargill" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck10_3_dlg_Start_9_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="RussCargill" text="QST_JingleBellWreck10_3_dlg_Start_10_RussCargill" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck10_3_dlg_Start_11_Homer" revealSpeed="medium" emotion="scared" />
+	</JingleBellWreck10_Start>
+	<JingleBellWreck11_Start>
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck11_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck11_3_dlg_Start_2_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck11_3_dlg_Start_3_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck11_3_dlg_Start_4_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck11_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck11_3_dlg_Start_6_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_JingleBellWreck11_3_dlg_Start_7_Santa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Moe" text="QST_JingleBellWreck11_3_dlg_Start_8_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_JingleBellWreck11_3_dlg_Start_9_Moe" revealSpeed="medium" />
+	</JingleBellWreck11_Start>
+	<JingleBellWreck12_Start>
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck12_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck12_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck12_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck12_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck12_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="checkRequirements">
+			<Requirement type="time" end="JingleBellWreckPtThirteenStart" />
+			<True>
+				<Action type="message" text="QST_JingleBellWreck12_3_dlg_Start_6_SystemMessage" revealSpeed="medium" dismissOnOKOnly="true" />
+			</True>
+		</Action>
+	</JingleBellWreck12_Start>
+	<JingleBellWreck13_Start>
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck13_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck13_3_dlg_Start_2_Lisa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Bart" text="QST_JingleBellWreck13_3_dlg_Start_3_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck13_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck13_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck13_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_JingleBellWreck13_3_dlg_Start_7_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck13_3_dlg_Start_8_Homer" revealSpeed="medium" />
+	</JingleBellWreck13_Start>
+	<JingleBellWreck14_Start>
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck14_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_JingleBellWreck14_3_dlg_Start_2_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="happylittleelf_leopold" text="QST_JingleBellWreck14_3_dlg_Start_3_Leopold" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck14_3_dlg_Start_4_Homer" revealSpeed="medium" />
+	</JingleBellWreck14_Start>
+	<JingleBellWreck14_All_Obj_Started>
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck14_3_dlg_All_Obj_Started_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_JingleBellWreck14_3_dlg_All_Obj_Started_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck14_3_dlg_All_Obj_Started_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_JingleBellWreck14_3_dlg_All_Obj_Started_4_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="DrHibbert" text="QST_JingleBellWreck14_3_dlg_All_Obj_Started_5_Hibbert" revealSpeed="medium" />
+	</JingleBellWreck14_All_Obj_Started>
+	<JingleBellWreck15_Start>
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck15_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck15_3_dlg_Start_2_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Bart" text="QST_JingleBellWreck15_3_dlg_Start_3_Bart" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Bart" text="QST_JingleBellWreck15_3_dlg_Start_4_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_JingleBellWreck15_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_JingleBellWreck15_3_dlg_Start_6_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Barney" text="QST_JingleBellWreck15_3_dlg_Start_7_Barney" revealSpeed="medium" />
+	</JingleBellWreck15_Start>
+	<JingleBellWreck15_End>
+		<Action type="dialogue" character="Lisa" text="QST_JingleBellWreck15_3_dlg_End_1_Lisa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="DrHibbert" text="QST_JingleBellWreck15_3_dlg_End_2_Hibbert" revealSpeed="medium" />
+		<Action type="dialogue" character="DrHibbert" text="QST_JingleBellWreck15_3_dlg_End_3_Hibbert" revealSpeed="medium" />
+		<Action type="dialogue" character="DrHibbert" text="QST_JingleBellWreck15_3_dlg_End_4_Hibbert" revealSpeed="medium" emotion="happy" />
+	</JingleBellWreck15_End>
+	<SantasList01_Start>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_Start_2_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_Start_3_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_Start_4_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_SantasList01_3_dlg_Start_5_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_Start_6_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_Start_7_Santa" revealSpeed="medium" />
+		<Action type="message" text="QST_SantasList01_3_dlg_Start_4_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_SantasList01_3_dlg_Start_5_SystemMessage" revealSpeed="medium" />
+	</SantasList01_Start>
+	<SantasList01_Obj1_Done>
+		<Action type="message" text="QST_SantasList01_3_dlg_Start_4_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_SantasList01_3_dlg_Start_5_SystemMessage" revealSpeed="medium" />
+	</SantasList01_Obj1_Done>
+	<SantasList01_End>
+		<Action type="dialogue" character="Homer" text="QST_SantasList01_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_End_2_Santa" revealSpeed="medium" emotion="thinking" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_End_3_Santa" revealSpeed="medium" emotion="thinking" />
+		<Action type="dialogue" character="Homer" text="QST_SantasList01_3_dlg_End_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList01_3_dlg_End_5_Santa" revealSpeed="medium" emotion="happy" />
+	</SantasList01_End>
+	<SantasList02_Start>
+		<Action type="setVariable" intVariable="WasPortalBonusCollected" intValue="0" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList02_3_dlg_Start_1_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Homer" text="QST_SantasList02_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_SantasList02_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList02_3_dlg_Start_4_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_SantasList02_3_dlg_Start_5_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_SantasList02_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_SantasList02_3_dlg_Start_7_Homer" revealSpeed="medium" />
+	</SantasList02_Start>
+	<RedirectingFeds_Start>
+		<Action type="message" text="QST_RedirectingFeds_3_dlg_Start_1_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_RedirectingFeds_3_dlg_Start_2_SystemMessage" revealSpeed="medium" />
+	</RedirectingFeds_Start>
+	<PixiePlight_Start>
+		<Action type="dialogue" character="FederalAgent" text="QST_PixiePlight_3_dlg_Start_1_Fed" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_PixiePlight_3_dlg_Start_2_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="FederalAgent" text="QST_PixiePlight_3_dlg_Start_3_Fed" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_PixiePlight_3_dlg_Start_4_Santa" revealSpeed="medium" emotion="thinking" />
+		<Action type="dialogue" character="happylittleelf_bismuth" text="QST_PixiePlight_3_dlg_Start_5_Bismuth" revealSpeed="medium" />
+		<Action type="dialogue" character="FederalAgent" text="QST_PixiePlight_3_dlg_Start_6_Fed" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_PixiePlight_3_dlg_Start_7_Santa" revealSpeed="medium" emotion="worried" />
+	</PixiePlight_Start>
+	<GreenIsGoodGreenWorks01_Start>
+		<Action type="dialogue" character="Homer" text="QST_GreenIsGoodGreenWorks01_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks01_3_dlg_Start_2_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks01_3_dlg_Start_3_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks01_3_dlg_Start_4_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks01_3_dlg_Start_5_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_GreenIsGoodGreenWorks01_3_dlg_Start_6_Homer" revealSpeed="medium" />
+	</GreenIsGoodGreenWorks01_Start>
+	<GreenIsGoodGreenWorks02_Start>
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_1_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_3_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_4_Santa" revealSpeed="medium" emotion="worried" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Xmas2014_Santa" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_6_Santa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_GreenIsGoodGreenWorks02_3_dlg_Start_7_Homer" revealSpeed="medium" />
+	</GreenIsGoodGreenWorks02_Start>
+	<ChristmasFloat_Start>
+		<Action type="dialogue" character="Homer" text="QST_ChristmasFloat_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="Bart" text="QST_ChristmasFloat_3_dlg_Start_2_Bart" revealSpeed="medium" emotion="laughing" />
+		<Action type="dialogue" character="Homer" text="QST_ChristmasFloat_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Lisa" text="QST_ChristmasFloat_3_dlg_Start_4_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Homer" text="QST_ChristmasFloat_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ChristmasFloat_3_dlg_Start_6_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_ChristmasFloat_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_ChristmasFloat_3_dlg_Start_8_Lisa" revealSpeed="medium" emotion="angry" />
+	</ChristmasFloat_Start>
+	<ChristmasFloat_End>
+		<Action type="dialogue" character="Homer" text="QST_ChristmasFloat_3_dlg_End_1_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Lisa" text="QST_ChristmasFloat_3_dlg_End_2_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Lisa" text="QST_ChristmasFloat_3_dlg_End_3_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_ChristmasFloat_3_dlg_End_4_Homer" revealSpeed="medium" emotion="mouthfull" />
+	</ChristmasFloat_End>
+	<FrostyTheHitman_Start>
+		<Action type="dialogue" character="Homer" text="QST_FrostyTheHitman_3_dlg_Start_1_Homer" revealSpeed="medium" />
+	</FrostyTheHitman_Start>
+	<FrostyTheHitman_End>
+		<Action type="dialogue" character="Wiggum" text="QST_FrostyTheHitman_3_dlg_End_1_Wiggum" revealSpeed="medium" />
+		<Action type="dialogue" character="FrostyTheHitman" text="QST_FrostyTheHitman_3_dlg_End_2_FrostyTheHitman" revealSpeed="medium" />
+		<Action type="dialogue" character="Wiggum" text="QST_FrostyTheHitman_3_dlg_End_3_Wiggum" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="FrostyTheHitman" text="QST_FrostyTheHitman_3_dlg_End_4_FrostyTheHitman" revealSpeed="medium" />
+	</FrostyTheHitman_End>
+	<APunchBelowTheBell_Start>
+		<Action type="dialogue" character="Homer" text="QST_APunchBelowTheBell_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Lisa" text="QST_APunchBelowTheBell_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_APunchBelowTheBell_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="Lisa" text="QST_APunchBelowTheBell_3_dlg_Start_4_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_APunchBelowTheBell_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="furious" />
+	</APunchBelowTheBell_Start>
+	<APunchBelowTheBell_End>
+		<Action type="dialogue" character="Lisa" text="QST_APunchBelowTheBell_3_dlg_End_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_APunchBelowTheBell_3_dlg_End_2_Homer" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_APunchBelowTheBell_3_dlg_End_3_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_APunchBelowTheBell_3_dlg_End_4_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Homer" text="QST_APunchBelowTheBell_3_dlg_End_5_Homer" revealSpeed="medium" emotion="annoyed" />
+	</APunchBelowTheBell_End>
+	<ThisGodBroughtToYouBy_Start>
+		<Action type="dialogue" character="Homer" text="QST_ThisGodBroughtToYouBy_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="Homer" text="QST_ThisGodBroughtToYouBy_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lisa" text="QST_ThisGodBroughtToYouBy_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Homer" text="QST_ThisGodBroughtToYouBy_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="serious" />
+	</ThisGodBroughtToYouBy_Start>
+	<TakingthePlunge_Start>
+		<Action type="dialogue" character="Homer" text="QST_TakingThePlunge_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="ooh" />
+	</TakingthePlunge_Start>
+	<TakingthePlunge_End>
+		<Action type="dialogue" character="Homer" text="QST_TakingThePlunge_3_dlg_End_1_Homer" revealSpeed="medium" emotion="happy" />
+	</TakingthePlunge_End>
+	<FirstEverChristmasTree_Start>
+		<Action type="dialogue" character="Lisa" text="QST_FirstEverChristmasTree_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_FirstEverChristmasTree_3_dlg_Start_2_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_FirstEverChristmasTree_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="HankScorpio" text="QST_FirstEverChristmasTree_3_dlg_Start_4_HankScorpio" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_FirstEverChristmasTree_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="sad" />
+	</FirstEverChristmasTree_Start>
+	<FirstEverChristmasTree_End>
+		<Action type="dialogue" character="LittleHelperRalph" text="QST_FirstEverChristmasTree_3_dlg_All_Obj_Started_1_LittleHelperRalph" revealSpeed="medium" />
+	</FirstEverChristmasTree_End>
+	<BadToTheBone_Start>
+		<Action type="dialogue" character="Ned" text="QST_BadToTheBone_3_dlg_Start_1_Ned" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Bart" text="QST_BadToTheBone_3_dlg_Start_2_Bart" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Ned" text="QST_BadToTheBone_3_dlg_Start_3_Ned" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Ned" text="QST_BadToTheBone_3_dlg_Start_4_Ned" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Bart" text="QST_BadToTheBone_3_dlg_Start_5_Bart" revealSpeed="medium" emotion="rollingeyes" />
+	</BadToTheBone_Start>
+	<OurHomeandNativityLand_Start>
+		<Action type="dialogue" character="Homer" text="QST_OurHomeAndNativityLand_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_OurHomeAndNativityLand_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_OurHomeAndNativityLand_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Lisa" text="QST_OurHomeAndNativityLand_3_dlg_Start_4_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_OurHomeAndNativityLand_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="annoyed" />
+	</OurHomeandNativityLand_Start>
+	<Part1_PrizeTrackComplete_Start>
+		<Action type="message" text="QST_PresentBonus_3_dlg_Start_1_SystemMessage" />
+	</Part1_PrizeTrackComplete_Start>
+	<GhostofChristmasPast_Start>
+		<Action type="dialogue" character="Krusty" text="QST_GhostofChristmasPast_3_dlg_Start_1_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_GhostofChristmasPast_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_GhostofChristmasPast_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="furious" />
+	</GhostofChristmasPast_Start>
+	<GhostofChristmasPast_End>
+		<Action type="dialogue" character="Homer" text="QST_GhostofChristmasPast_3_dlg_End_1_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Krusty" text="QST_GhostofChristmasPast_3_dlg_End_2_Krusty" revealSpeed="medium" emotion="sad" />
+	</GhostofChristmasPast_End>
+	<SetJingleBellWreck01Started>
+		<Action type="setVariable" boolVariable="JingleBellWreck01Started" boolValue="true" />
+	</SetJingleBellWreck01Started>
+	<SetJingleBellWreck01Complete>
+		<Action type="setVariable" boolVariable="JingleBellWreck01Complete" boolValue="true" />
+	</SetJingleBellWreck01Complete>
+	<FirstTimeVisit>
+		<Action type="setVariable" boolVariable="FirstFriendTownVisit" boolValue="true" />
+		<Action type="message" text="QST_PixiePlightA_3_dlg_End_1_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_PixiePlightB_3_dlg_End_1_SystemMessage" revealSpeed="medium" />
+	</FirstTimeVisit>
+</ScriptPackage>

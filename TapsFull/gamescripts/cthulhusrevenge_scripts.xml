@@ -1,0 +1,240 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="CthulhusRevengeMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="CthulhusRevenge_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="CthulhusRevenge_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="CthulhusRevenge_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="CthulhusRevenge_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_CthulhusRevenge_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_CthulhusRevenge_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_CthulhusRevenge_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_CthulhusRevenge_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_CthulhusRevenge_IntroPanel_3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_CthulhusRevenge_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="CthulhusRevenge_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="CthulhusRevenge_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="CthulhusRevenge_OnePanel" eventName="UI_CthulhusRevenge_Title" limitedTime="true" limitedTimeEndDate="CthulhusRevenge_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="CthulhusRevengeMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_CthulhusRevenge_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_CthulhusRevenge_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_CthulhusRevenge_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_CthulhusRevenge_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_CthulhusRevenge_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="CthulhusRevenge_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="CthulhusRevenge_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="CthulhusRevenge_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="CthulhusRevenge_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="CthulhusRevenge_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_CthulhusRevenge_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="CthulhusRevenge_OnePanel" />
+		<Action type="runScript" script="CthulhusRevenge_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="CthulhusRevenge_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="CthulhusRevenge_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="CthulhusRevenge_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="CthulhusRevenge_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CthulhusRevenge_Event" />
+									<Attribute name="JobList" value="CthulhusRevenge_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="CthulhusRevenge_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CthulhusRevenge_Event" />
+									<Attribute name="JobList" value="CthulhusRevenge_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CthulhusRevenge_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CthulhusRevenge_Event" />
+									<Attribute name="JobList" value="CthulhusRevenge_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CthulhusRevenge_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CthulhusRevenge_Event" />
+									<Attribute name="JobList" value="CthulhusRevenge_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CthulhusRevenge_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CthulhusRevenge_Event" />
+									<Attribute name="JobList" value="CthulhusRevenge_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="CthulhusRevenge_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="CthulhusRevenge_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="CthulhusRevenge_OnePanel" />
+		<Action type="recommendation" recType="Event" name="CthulhusRevenge_OnePanel" eventName="UI_CthulhusRevenge_Title" limitedTime="true" limitedTimeEndDate="CthulhusRevenge_End" />
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="SunkenTemple" />
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+			</True>
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_RlyehBermudaTriangleLair_name" text="BLD_MnthsterBundle_upsell_desc" icon="ICO_PRIZ_CthulhusRevenge_MnthsterBundle_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MnthsterBundle" menuCategory="CthulhusRevenge_Category" />
+			</False>
+		</Action>
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="CthulhusRevenge_Category" />
+	</EnterStoreCategory>
+	<MnthsterFloat_In ignoreHUD="true" parallel="true" cache="true">
+		<Action type="setCharacterController" controller="MnthsterFloat" />
+	</MnthsterFloat_In>
+	<MnthsterFloat_Out ignoreHUD="true" parallel="true" cache="true">
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" />
+		</Action>
+	</MnthsterFloat_Out>
+	<TeleportMnthsterToSquidport>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="SquidportEntrance" />
+			<True>
+				<Action type="moveObjectInstance" onType="character" onObject="Mnthster" xPos="gridToWorld(System::evaluate('Building::SquidportEntrance::Object::GridX'))" yPos="gridToWorld(System::evaluate('Building::SquidportEntrance::Object::GridY'))" />
+			</True>
+			<False>
+				<Action type="moveObjectInstance" onType="character" onObject="Mnthster" xPos="gridToWorld(System::evaluate('Building::SimpsonHome::Object::GridX'))" yPos="gridToWorld(System::evaluate('Building::SimpsonHome::Object::GridY'))" />
+			</False>
+		</Action>
+		<Action type="pantoobject" character="Mnthster" />
+	</TeleportMnthsterToSquidport>
+</ScriptPackage>

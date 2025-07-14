@@ -1,0 +1,54 @@
+﻿<ScriptPackage>
+	<OutdoorHalfCourt_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="SuccessRate" value="max(Object::SuccessRate - (floor((time() - Object::LastShot) / 60) * 5), 25)" asExpression="true" allowOrphan="false" />
+		<Action type="if">
+			<If expression="greaterThanEQ(Object::SuccessRate, rand(100))">
+				<Then>
+					<Action type="sound" sound="HalfCourt_Sink" replayType="playAnyways" />
+					<Action type="anim-play" animation="Active_02" />
+					<Action type="updateVariable" variable="DC_OutdoorHalfCourtBaskets" value="DC_OutdoorHalfCourtBaskets + 1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="sound" sound="HalfCourt_Miss" replayType="playAnyways" />
+					<Action type="anim-play" animation="Active_03" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setObjectVariable" variable="SuccessRate" value="min(Object::SuccessRate + 5, 100)" asExpression="true" allowOrphan="false" />
+		<Action type="setObjectVariable" variable="LastShot" value="time()" asExpression="true" allowOrphan="false" />
+	</OutdoorHalfCourt_Tapped>
+	<SeventyTwoHundredOunceSquishee_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</SeventyTwoHundredOunceSquishee_Tapped>
+	<Recommend22For30 ignoreHUD="true">
+		<Action type="recommendation" recType="Event" eventName="UI_22For30_name" name="22For30_OnePanel" />
+	</Recommend22For30>
+	<Enter22For30Category>
+		<Action type="focusOnMenuItem" menuCategory="22For30" />
+	</Enter22For30Category>
+	<DC_OutdoorHalfCourt_Reset parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="DC_OutdoorHalfCourtBaskets" value="0" />
+	</DC_OutdoorHalfCourt_Reset>
+	<DC_GoToOutdoorHalfCourt>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="OutdoorHalfCourt" />
+					<True>
+						<Action type="pantoobject" building="OutdoorHalfCourt" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="OutdoorHalfCourt" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="returnToInGameState" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</DC_GoToOutdoorHalfCourt>
+</ScriptPackage>

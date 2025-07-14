@@ -1,0 +1,347 @@
+﻿<ScriptPackage>
+	<FiveAlarmChili_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="FiveAlarmChili" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</FiveAlarmChili_Tapped>
+	<ALittleBitOfLenny_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="ALittleBitOfLenny" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</ALittleBitOfLenny_Tapped>
+	<HellfirePepperCactus_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="HellfirePepperCactus" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</HellfirePepperCactus_Tapped>
+	<KingChiliTent_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="KingChiliTent" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</KingChiliTent_Tapped>
+	<DonutTruck_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="DonutTruck" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</DonutTruck_Tapped>
+	<DonutBoat_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="DonutBoat" />
+		<Action type="runScript" package="DonutDay_Scripts" script="DonutBoat_Tapped_OnTap" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="variable" variable="DonutDayRainEffect" not="true" />
+					<Requirement type="players land" />
+				</Requirements>
+				<Then>
+					<Action type="setVariable" boolVariable="DonutDayRainEffect" boolValue="true" />
+					<Action type="scheduleScript" mode="replace" script="DonutDay_Scripts:StopRain" shouldSave="true" relativeTime="7s" persistUntilComplete="true" localLandOnly="true" />
+				</Then>
+			</If>
+		</Action>
+	</DonutBoat_Tapped>
+	<IntroSeen>
+		<Action type="reparseBuildMenu" />
+		<Action type="recommendation" recType="Event" name="HomersChiliad_OnePanel" eventName="UI_HomersChiliad_Title" />
+		<Action type="setVariable" boolVariable="HomersChiliad_IntroSeen" boolValue="true" />
+		<Action type="notification" title="CHA_SpaceCoyote_name" button="UI_GoTo" text="UI_HomersChiliad_SystemMessage_SpaceCoyoteUpsell" icon="ICO_InstructionsPopUp_SpaceCoyote" />
+		<Action type="focusOnMenuItem" itemName="HomersChiliad_ProShop" menuCategory="HomersChiliadCategory" />
+	</IntroSeen>
+	<CON_ProShop>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="ProShop" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_60" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="60" />
+	</CON_ProShop>
+	<CON_AjaxSteelMill>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="AjaxSteelMill" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_50" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="50" />
+	</CON_AjaxSteelMill>
+	<CON_FiveAlarmChiliBundle>
+		<Action type="reward">
+			<Item type="consumable" name="DevilFlanders" useImmediately="true" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="FiveAlarmChili" />
+		</Action>
+	</CON_FiveAlarmChiliBundle>
+	<CON_HellfirePepperCactus>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="HellfirePepperCactus" />
+		</Action>
+	</CON_HellfirePepperCactus>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="ItsNotTheHeatItsTheHumidity_MASTER2" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<RegisterTelemetry_Farm parallel="true">
+		<Action type="setVariable" intVariable="HomersChiliad_FarmReward" intValue="HomersChiliad_FarmReward + 6" />
+		<Action type="setVariable" intVariable="HomersChiliad_TotalPeppers" intValue="HomersChiliad_TotalPeppers + 6" />
+	</RegisterTelemetry_Farm>
+	<RegisterTelemetry_FiveAlarmChili parallel="true">
+		<Action type="setVariable" intVariable="HomersChiliad_GeneratorReward" intValue="HomersChiliad_GeneratorReward + 6" />
+		<Action type="setVariable" intVariable="HomersChiliad_TotalPeppers" intValue="HomersChiliad_TotalPeppers + 6" />
+	</RegisterTelemetry_FiveAlarmChili>
+	<RegisterTelemetry_Regular parallel="true">
+		<Action type="setVariable" intVariable="HomersChiliad_RegularReward" intValue="HomersChiliad_RegularReward + 2" />
+		<Action type="setVariable" intVariable="HomersChiliad_TotalPeppers" intValue="HomersChiliad_TotalPeppers + 2" />
+	</RegisterTelemetry_Regular>
+	<RegisterTelemetry_Premium parallel="true">
+		<Action type="setVariable" intVariable="HomersChiliad_PremiumReward" intValue="HomersChiliad_PremiumReward + 4" />
+		<Action type="setVariable" intVariable="HomersChiliad_TotalPeppers" intValue="HomersChiliad_TotalPeppers + 4" />
+	</RegisterTelemetry_Premium>
+	<RegisterTelemetry_InsanityPlaythroughs parallel="true">
+		<Action type="setVariable" intVariable="InsanityPlaythroughs" intValue="InsanityPlaythroughs + 1" />
+	</RegisterTelemetry_InsanityPlaythroughs>
+	<LogTelemetry_InsanityMode parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{playthroughs}" eventId="3659" />
+	</LogTelemetry_InsanityMode>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Score" param2="{Total}" param3Type="UserLevel" eventId="3699" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Score" param2="{Regular}" param3Type="UserLevel" eventId="3658" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Score" param2="{Premium}" param3Type="UserLevel" eventId="3658" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="GeneratorReward{task}" param2Type="Score" param2="{Generator}" param3Type="UserLevel" eventId="3658" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="FarmReward{task}" param2Type="Score" param2="{Farm}" param3Type="UserLevel" eventId="3658" />
+		<Action type="setVariable" intVariable="HomersChiliad_RegularReward" intValue="0" />
+		<Action type="setVariable" intVariable="HomersChiliad_PremiumReward" intValue="0" />
+		<Action type="setVariable" intVariable="HomersChiliad_GeneratorReward" intValue="0" />
+		<Action type="setVariable" intVariable="HomersChiliad_FarmReward" intValue="0" />
+	</LogTelemetry>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="HomersChiliad_Event" />
+									<Attribute name="JobList" value="HomersChiliad_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="HomersChiliad_Event" />
+									<Attribute name="JobList" value="HomersChiliad_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="HomersChiliad_Event" />
+									<Attribute name="JobList" value="HomersChiliad_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="HomersChiliad_Event" />
+									<Attribute name="JobList" value="HomersChiliad_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="HomersChiliad_Event" />
+									<Attribute name="JobList" value="HomersChiliad_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="HomersChiliad_Event" />
+									<Attribute name="JobList" value="HomersChiliad_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="HomersChiliadMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="HomersChiliad_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="HomersChiliad_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="HomersChiliad_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="HomersChiliad_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_HomersChiliad_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_HomersChiliad_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn6">
+					<Attribute name="text" value="UI_HomersChiliad_IntroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_HomersChiliad_IntroPanel_BottomRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_HomersChiliad_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="HomersChiliadMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_MiniEvents_OutroPanel_Button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_MiniEvents_OutroPanel_Button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_HomersChiliad_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value=" " localise="false" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_HomersChiliad_OutroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_HomersChiliad_OutroPanel_BottomRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_HomersChiliad_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<OnLandLoad ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirements>
+							<Requirement type="quest started" quest="ItsNotTheHeatItsTheHumidity_1" />
+							<Requirement type="variable" variable="HomersChiliad_PreExpiryDisplayed72" not="true" />
+							<Requirement type="time" start="_[System::evaluate('Date::HomersChiliad_End')-fromHours(72)]_" end="_[System::evaluate('Date::HomersChiliad_End')-fromHours(24)]_" />
+							<Requirement type="variable" variable="HomersChiliad_Complete" not="true" />
+						</Requirements>
+						<Then>
+							<Action type="message" text="UI_HomersChiliad_Expiration72" />
+							<Action type="setVariable" boolVariable="HomersChiliad_PreExpiryDisplayed72" boolValue="true" />
+							<Action type="runScript" script="OpenMasterQuest" package="HomersChiliad_Scripts" waitUntilComplete="true" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="quest started" quest="ItsNotTheHeatItsTheHumidity_1" />
+							<Requirement type="variable" variable="HomersChiliad_PreExpiryDisplayed24" not="true" />
+							<Requirement type="time" start="_[System::evaluate('Date::HomersChiliad_End')-fromHours(24)]_" end="HomersChiliad_End" />
+							<Requirement type="variable" variable="Valentines2016_Complete" not="true" />
+						</Requirements>
+						<Then>
+							<Action type="message" text="UI_HomersChiliad_Expiration24" />
+							<Action type="setVariable" boolVariable="HomersChiliad_PreExpiryDisplayed24" boolValue="true" />
+							<Action type="runScript" script="OpenMasterQuest" package="HomersChiliad_Scripts" waitUntilComplete="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="quest started" quest="ItsNotTheHeatItsTheHumidity_1" />
+							<Requirement type="variable" variable="HomersChiliad_ExpiryDisplayed" not="true" />
+							<Requirement type="time" start="HomersChiliad_End" />
+							<Requirement type="variable" variable="HomersChiliad_Complete" not="true" />
+						</Requirements>
+						<Then>
+							<Action type="checkRequirements">
+								<Requirement type="active quest" quest="ItsNotTheHeatItsTheHumidity_6" />
+								<False>
+									<Action type="message" text="UI_HomersChiliad_Expired" />
+								</False>
+							</Action>
+							<Action type="clearRecommendations" category="Event" />
+							<Action type="setVariable" boolVariable="HomersChiliad_ExpiryDisplayed" boolValue="true" />
+							<Action type="setVariable" boolVariable="HomersChiliad_EventExpired" boolValue="true" />
+							<Action type="runScript" script="OpenMasterQuest" package="HomersChiliad_Scripts" waitUntilComplete="true" />
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+		</Action>
+	</OnLandLoad>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="HomersChiliad_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="HomersChiliad_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+</ScriptPackage>

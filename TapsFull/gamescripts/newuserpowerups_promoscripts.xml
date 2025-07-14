@@ -1,0 +1,264 @@
+﻿<ScriptPackage>
+	<NewUserPowerUps_CreateFrink parallel="true">
+		<Action type="createobject" name="UserConversionFrink" save="true" showUnlock="false" panCamera="true" />
+		<Action type="setVariable" intVariable="NewUserPowerUps_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="NewUserPowerUps_ResurfaceTime" intValue="serverTime(0) + 86400" />
+		<Action type="setVariable" boolVariable="FrinkPromo_ClockStarted" boolValue="true" />
+	</NewUserPowerUps_CreateFrink>
+	<NewUserPowerUps_KillFrink parallel="true">
+		<Action type="clearRecommendations" category="Promoted" name="StarterPackStorePanel" />
+		<Action type="deletecharacter" character="UserConversionFrink" />
+		<Action type="setVariable" boolVariable="FrinkPromoComplete" boolValue="true" />
+	</NewUserPowerUps_KillFrink>
+	<NewUserPowerUps_DisplayFirst>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="setVariable" boolVariable="NewUserPowerUps_PromoTriggered" boolValue="true" />
+				<Action type="setVariable" boolVariable="NewUserPowerUps_INDICATOR_ACTIVE" boolValue="false" />
+				<Action type="displayPromo" event="NewUserPowerUps_PromoEvent" />
+				<Action type="deletecharacter" character="UserConversionFrink" />
+				<Action type="recommendation" recType="Promoted" limitedTime="true" limitedTimeEndDate="__NewUserPowerUps_GameConfig:Times:StarterPack_EndDate_ForTimer__" name="StarterPackStorePanel" />
+			</True>
+		</Action>
+	</NewUserPowerUps_DisplayFirst>
+	<NewUserPowerUps_Display>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="NewUserPowerUps_PromoEvent" />
+	</NewUserPowerUps_Display>
+	<NewUserPowerUps_PromoTimeRanOut parallel="true">
+		<Action type="clearRecommendations" category="Promoted" name="StarterPackStorePanel" />
+		<Action type="deletecharacter" character="UserConversionFrink" />
+		<Action type="setVariable" boolVariable="FrinkPromoComplete" boolValue="true" />
+	</NewUserPowerUps_PromoTimeRanOut>
+	<NewUserPromoBought ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="setVariable" boolVariable="FrinkPromoComplete" boolValue="true" />
+		<Action type="clearRecommendations" category="Promoted" name="StarterPackStorePanel" />
+		<Action type="deletecharacter" character="UserConversionFrink" />
+		<Action type="setVariable" boolVariable="StarterPackPurchased" boolValue="true" />
+	</NewUserPromoBought>
+	<NewUserPromoPurchaseItemIsConsumed parallel="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="setVariable" boolVariable="StarterPackMTXConsumed" boolValue="true" />
+	</NewUserPromoPurchaseItemIsConsumed>
+	<NewUserPowerUpsPromoRewardFlowStageOne ignoreHUD="true">
+		<Action type="setVariable" boolVariable="NewUserPowerUps_PromoFlow_StageOneComplete" boolValue="true" />
+		<Action type="reward" money="250000" ignoreObject="true">
+			<Item type="consumable" name="XPBonus10DayPromo" useImmediately="true" />
+		</Action>
+	</NewUserPowerUpsPromoRewardFlowStageOne>
+	<NewUserPowerUpsPromoRewardFlowStageTwo ignoreHUD="true">
+		<Action type="setVariable" boolVariable="NewUserPowerUps_PromoFlow_StageTwoComplete" boolValue="true" />
+		<Action type="message" text="UI_FrinkPromoPurchased_systemmessage" revealSpeed="medium" />
+	</NewUserPowerUpsPromoRewardFlowStageTwo>
+	<NewUserPowerUpsPromoRewardFlowStageThree ignoreHUD="true">
+		<Action type="setVariable" boolVariable="NewUserPowerUps_PromoFlow_StageThreeComplete" boolValue="true" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_Premium_Character_Mystery_Box_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_STOR_MysteryBox_Character" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_Premium_Character_Mystery_Box_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_SP_OPEN" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</NewUserPowerUpsPromoRewardFlowStageThree>
+	<NewUserPowerUpsPromoRewardFlowStageFive ignoreHUD="true">
+		<Action type="setVariable" boolVariable="NewUserPowerUps_PromoFlow_StageFiveComplete" boolValue="true" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_Premium_Building_Mystery_Box_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_STOR_MysteryBox_Building" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_Premium_Building_Mystery_Box_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_SP_OPEN" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</NewUserPowerUpsPromoRewardFlowStageFive>
+	<NewUserPowerUpsPromoRewardFlowStageSeven ignoreHUD="true">
+		<Action type="focusOnMenuItem" itemName="DuffStadium" inventory="true" />
+		<Action type="focusOnMenuItem" itemName="TryNSave" inventory="true" />
+		<Action type="focusOnMenuItem" itemName="AztecTheatre" inventory="true" />
+		<Action type="focusOnMenuItem" itemName="SchoolBus" inventory="true" />
+		<Action type="focusOnMenuItem" itemName="FrinksLab" inventory="true" />
+		<Action type="focusOnMenuItem" itemName="DuffBrewery" inventory="true" />
+		<Action type="setVariable" boolVariable="StarterPackRewardFlowCompleted" boolValue="true" />
+	</NewUserPowerUpsPromoRewardFlowStageSeven>
+	<NewUserPowerUps_ResurfaceFrinkPromo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="FrinkPromoCompleted" />
+			<False>
+				<Action type="createobject" name="UserConversionFrink" save="true" showUnlock="false" panCamera="true" />
+				<Action type="setVariable" boolVariable="NewUserPowerUps_INDICATOR_ACTIVE" boolValue="true" />
+			</False>
+		</Action>
+	</NewUserPowerUps_ResurfaceFrinkPromo>
+	<StarterPack_QuimbyKey_Purchase>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="KeyToTheCity" />
+		</Action>
+		<Action type="updateVariable" variable="StarterPack_QuimbyKey_Purchased" value="true" />
+	</StarterPack_QuimbyKey_Purchase>
+	<StarterPack_Bowlarama_Purchase>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="Bowlarama" />
+		</Action>
+		<Action type="updateVariable" variable="StarterPack_Bowlarama_Purchased" value="true" />
+	</StarterPack_Bowlarama_Purchase>
+	<KeyToTheCityCreateQuimby parallel="true">
+		<Action type="createobject" name="QuimbyPromoTemp" save="true" showUnlock="false" panCamera="true" />
+		<Action type="updateVariable" variable="NewUserPowerUps_QuimbyKey_A_StartTime" value="serverTime(0)" />
+		<Action type="updateVariable" variable="NewUserPowerUps_QuimbyKey_A_EndTime" value="serverTime(0) + 172800" />
+		<Action type="updateVariable" variable="NewUserPowerUps_QuimbyKey_B_StartTime" value="serverTime(0) + 345600" />
+		<Action type="updateVariable" variable="NewUserPowerUps_Bowlarama_StartTime" value="serverTime(0) + 540000" />
+		<Action type="updateVariable" variable="QuimbyKeyPromo_A_ClockStarted" value="true" />
+	</KeyToTheCityCreateQuimby>
+	<KeyToTheCity_A_Display>
+		<Action type="dialogue" character="KentBrockman" text="QST_QuimbyStarterPack_1_dlg_Start_1_Brockman" revealSpeed="medium" emotion="TV" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_2_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="KentBrockman" text="QST_QuimbyStarterPack_1_dlg_Start_3_Brockman" revealSpeed="medium" emotion="TV" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_4_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_QuimbyStarterPack_1_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_6_Quimby" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Frink" text="QST_QuimbyStarterPack_1_dlg_Start_7_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_8_Quimby" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Frink" text="QST_QuimbyStarterPack_1_dlg_Start_9_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_10_Quimby" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Frink" text="QST_QuimbyStarterPack_1_dlg_Start_11_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_12_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_QuimbyStarterPack_1_dlg_Start_13_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_14_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_QuimbyStarterPack_1_dlg_Start_15_Frink" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Quimby" text="QST_QuimbyStarterPack_1_dlg_Start_16_Quimby" revealSpeed="medium" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="KeyToTheCity_PromoEvent_A" />
+		<Action type="deletecharacter" character="QuimbyPromoTemp" />
+		<Action type="updateVariable" variable="Promo_KeyToTheCity_A_Active" value="true" />
+	</KeyToTheCity_A_Display>
+	<KeyToTheCity_A_Display_Button>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="KeyToTheCity_PromoEvent_A" />
+	</KeyToTheCity_A_Display_Button>
+	<KeyToTheCity_B_Display>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="KeyToTheCity_PromoEvent_B" />
+		<Action type="updateVariable" variable="Promo_KeyToTheCity_B_Active" value="true" />
+		<Action type="updateVariable" variable="NewUserPowerUps_QuimbyKey_B_EndTime" value="serverTime(0) + 172800" />
+		<Action type="updateVariable" variable="QuimbyKeyPromo_B_ClockStarted" value="true" />
+		<Action type="updateVariable" variable="NewUserPowerUps_Bowlarama_StartTime" value="serverTime(0) + 345600" />
+	</KeyToTheCity_B_Display>
+	<KeyToTheCity_B_Display_Button>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="KeyToTheCity_PromoEvent_B" />
+	</KeyToTheCity_B_Display_Button>
+	<KeyToTheCity_PromoBought ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Promo_KeyToTheCity_A_Active" />
+			<True>
+				<Action type="updateVariable" variable="Promo_KeyToTheCity_A_Active" value="false" />
+				<Action type="clearRecommendations" category="Promoted" name="KeyToTheCity_Promo_A" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Promo_KeyToTheCity_B_Active" />
+			<True>
+				<Action type="updateVariable" variable="Promo_KeyToTheCity_B_Active" value="false" />
+				<Action type="clearRecommendations" category="Promoted" name="KeyToTheCity_Promo_B" />
+			</True>
+		</Action>
+	</KeyToTheCity_PromoBought>
+	<KeyToTheCity_A_Promo_Cancel>
+		<Action type="recommendation" recType="Promoted" name="KeyToTheCity_Promo_A" />
+	</KeyToTheCity_A_Promo_Cancel>
+	<KeyToTheCity_B_Promo_Cancel>
+		<Action type="recommendation" recType="Promoted" name="KeyToTheCity_Promo_B" />
+	</KeyToTheCity_B_Promo_Cancel>
+	<KeyToTheCity_A_PromoTimeRanOut parallel="true">
+		<Action type="updateVariable" variable="Promo_KeyToTheCity_A_Active" value="false" />
+		<Action type="clearRecommendations" category="Promoted" name="KeyToTheCity_Promo_A" />
+	</KeyToTheCity_A_PromoTimeRanOut>
+	<KeyToTheCity_B_PromoTimeRanOut parallel="true">
+		<Action type="updateVariable" variable="Promo_KeyToTheCity_B_Active" value="false" />
+		<Action type="clearRecommendations" category="Promoted" name="KeyToTheCity_Promo_B" />
+	</KeyToTheCity_B_PromoTimeRanOut>
+	<Bowlarama_MoeTimer parallel="true">
+		<Action type="delay" time="20" />
+		<Action type="updateVariable" variable="Moes_Aquired" value="true" />
+	</Bowlarama_MoeTimer>
+	<Bowlarama_Display>
+		<Action type="dialogue" character="Marge" text="QST_BarneyStarterPack_1_dlg_Start_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_BarneyStarterPack_1_dlg_Start_2_Homer" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Marge" text="QST_BarneyStarterPack_1_dlg_Start_3_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_BarneyStarterPack_1_dlg_Start_4_Homer" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Homer" text="QST_BarneyStarterPack_1_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_BarneyStarterPack_1_dlg_Start_6_Homer" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Marge" text="QST_BarneyStarterPack_1_dlg_Start_7_Marge" revealSpeed="medium" emotion="Annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_BarneyStarterPack_1_dlg_Start_8_Homer" revealSpeed="medium" emotion="Happy" />
+		<Action type="message" text="QST_BarneyStarterPack_1_dlg_Start_9_GameMessage" />
+		<Action type="dialogue" character="Homer" text="QST_BarneyStarterPack_1_dlg_Start_10_Homer" revealSpeed="medium" emotion="Happy" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="Bowlarama_PromoEvent" />
+		<Action type="updateVariable" variable="Promo_Bowlarama_Active" value="true" />
+		<Action type="updateVariable" variable="NewUserPowerUps_Bowlarama_EndTime" value="serverTime(0) + 172800" />
+		<Action type="updateVariable" variable="BowlaramaPromo_ClockStarted" value="true" />
+	</Bowlarama_Display>
+	<Bowlarama_Display_Button>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="Bowlarama_PromoEvent" />
+	</Bowlarama_Display_Button>
+	<Bowlarama_Promo_Cancel>
+		<Action type="recommendation" recType="Promoted" name="Bowlarama_Promo" />
+	</Bowlarama_Promo_Cancel>
+	<Bowlarama_PromoTimeRanOut parallel="true">
+		<Action type="updateVariable" variable="Promo_Bowlarama_Active" value="false" />
+		<Action type="clearRecommendations" category="Promoted" name="Bowlarama_Promo" />
+	</Bowlarama_PromoTimeRanOut>
+	<Bowlarama_PromoBought ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="updateVariable" variable="Promo_Bowlarama_Active" value="false" />
+		<Action type="clearRecommendations" category="Promoted" name="Bowlarama_Promo" />
+	</Bowlarama_PromoBought>
+</ScriptPackage>

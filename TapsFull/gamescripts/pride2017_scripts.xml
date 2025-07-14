@@ -1,0 +1,449 @@
+﻿<ScriptPackage>
+	<EnterPride2017Category>
+		<Action type="focusOnMenuItem" menuCategory="Pride2017" />
+	</EnterPride2017Category>
+	<HydrantPackPurchased>
+		<Action type="message" text="UI_EoS2015_ItemInInventory" />
+		<Action type="focusOnMenuItem" itemName="RedPrideHydrant" inventory="true" />
+	</HydrantPackPurchased>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="PrideMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Pride2017_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Pride2017_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Pride2017_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Pride2017_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Pride2017_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_Pride2017_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_Pride2017_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_Pride2017_IntroPanel_BottomRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Pride2017_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventIntro>
+	<IntroSeen parallel="true">
+		<Action type="updateVariable" variable="Pride2017_IntroSeen" value="true" />
+		<Action type="updateVariable" variable="Pride2017_StoreActive" value="true" />
+		<Action type="recommendation" recType="Event" name="Pride2017_OnePanel" eventName="UI_Pride2017_Title" limitedTime="true" limitedTimeEndDate="Pride2017_End" />
+		<Action type="reparseBuildMenu" />
+	</IntroSeen>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="PrideMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Pride2017_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value=" " localise="false" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_Pride2017_OutroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_Pride2017_OutroPanel_BottomRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Pride2017_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="PrideAndPrejudices_Master" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="PrideAndPrejudices_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2017_Event" />
+									<Attribute name="JobList" value="Pride2017_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPrejudices_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2017_Event" />
+									<Attribute name="JobList" value="Pride2017_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPrejudices_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2017_Event" />
+									<Attribute name="JobList" value="Pride2017_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPrejudices_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2017_Event" />
+									<Attribute name="JobList" value="Pride2017_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPrejudices_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Pride2017_Event" />
+									<Attribute name="JobList" value="Pride2017_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<RegisterTelemetry_Job_Regular parallel="true">
+		<Action type="updateVariable" variable="Pride2017_Badges_RegularJob" value="Pride2017_Badges_RegularJob + ConfigValue('__Pride2017_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="Pride2017_Badges_Total" value="Pride2017_Badges_Total + ConfigValue('__Pride2017_GameConfig:CurrencyRewards:RegularJobReward__')" />
+	</RegisterTelemetry_Job_Regular>
+	<RegisterTelemetry_Job_Premium parallel="true">
+		<Action type="updateVariable" variable="Pride2017_Badges_PremiumJob" value="Pride2017_Badges_PremiumJob + ConfigValue('__Pride2017_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="Pride2017_Badges_Total" value="Pride2017_Badges_Total + ConfigValue('__Pride2017_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Job_Premium>
+	<RegisterTelemetry_Job_Building parallel="true">
+		<Action type="updateVariable" variable="Pride2017_Badges_Building" value="Pride2017_Badges_Building + ConfigValue('__Pride2017_GameConfig:CurrencyRewards:BuildingJobReward__')" />
+		<Action type="updateVariable" variable="Pride2017_Badges_Total" value="Pride2017_Badges_Total + ConfigValue('__Pride2017_GameConfig:CurrencyRewards:BuildingJobReward__')" />
+	</RegisterTelemetry_Job_Building>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="{Total}" param3Type="Enumeration" param3="Pride2017" eventId="9501" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Enumeration" param2="{Regular}" param3Type="Enumeration" param3="Pride2017" eventId="9502" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Enumeration" param2="{Premium}" param3Type="Enumeration" param3="Pride2017" eventId="9502" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="GeneratorReward{task}" param2Type="Enumeration" param2="{Generator}" param3Type="Enumeration" param3="Pride2017" eventId="9502" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="TappableReward{task}" param2Type="Enumeration" param2="{Tappables}" param3Type="Enumeration" param3="Pride2017" eventId="9502" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="CrosswalkReward{task}" param2Type="Enumeration" param2="{Crosswalks}" param3Type="Enumeration" param3="Pride2017" eventId="9502" />
+		<Action type="setVariable" intVariable="Pride2017_Badges_RegularJob" intValue="0" />
+		<Action type="setVariable" intVariable="Pride2017_Badges_PremiumJob" intValue="0" />
+		<Action type="setVariable" intVariable="Pride2017_Badges_Building" intValue="0" />
+		<Action type="setVariable" intVariable="Pride2017_Badges_Tappables" intValue="0" />
+		<Action type="setVariable" intVariable="Pride2017_Badges_Crosswalks" intValue="0" />
+		<Action type="setVariable" intVariable="Pride2017_Badges_Total" intValue="0" />
+	</LogTelemetry>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_Pride2017_72HourExpiry_text" />
+		<Action type="runScript" script="Pride2017_Scripts:OpenMasterQuest" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="Pride2017_MenuConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="runScript" script="Pride2017_Scripts:OpenMasterQuest" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_Pride2017_Expired_text" />
+		<Action type="setVariable" boolVariable="Pride2017_ExpiryDisplayed" boolValue="true" />
+		<Action type="runScript" script="Pride2017_Scripts:OpenMasterQuest" />
+	</DisplayExpiry>
+	<ExpireStore parallel="true">
+		<Action type="clearRecommendations" category="Event" name="Pride2017_OnePanel" />
+		<Action type="updateVariable" variable="Pride2017_StoreActive" value="false" />
+		<Action type="reparseBuildMenu" />
+	</ExpireStore>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Pride2017_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="Pride2017_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<GoTo_Tappables parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="#program;       var character = Character::find('Pride2017_Tappable');       var characterInstanceList = Land::getAllInstancesOfObject(character);       foreach(characterInstanceList as instance)       {        if(!Object::getDelete(instance))        {         return false;        }       }       return true;">
+						<Then>
+							<Action type="hudTip" text="UI_Pride2017_Tappable_Cleared" time="10s" requiresActiveHUD="false" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="pantoobject" time="0" character="Pride2017_Tappable" flagsToAvoid="delete" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Tappables>
+	<TappableTapped_Radius parallel="true" cache="true">
+		<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+		<Action type="runScriptOnAll" character="Pride2017_Tappable" in_radius="5" radius_delay="0.3" script="Pride2017_Scripts:Tappable_Tapped" />
+		<Action type="runScript" script="Pride2017_Scripts:Tappable_Tapped" />
+	</TappableTapped_Radius>
+	<Tappable_Tapped parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0" asObjectExpression="true">
+				<Then>
+					<Action type="actionSequence" script="Pride2017_Scripts:Tappable_Reward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="sound" sound="Pride2017_Balloon_Tapped" />
+					<Action type="anim-play" animation="Float_Out" />
+					<Action type="anim-waitforend" />
+					<Action type="deletecharacter" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="deletecharacter" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="if">
+			<If expression="#program;     var character = Character::find('Pride2017_Tappable');     var characterInstanceList = Land::getAllInstancesOfObject(character);     foreach(characterInstanceList as instance)     {      if(!Object::getDelete(instance))      {       return false;      }     }     return true;">
+				<Then>
+					<Action type="hudTip" text="UI_Pride2017_Tappable_Cleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_Tapped>
+	<Tappable_Remove parallel="true">
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="anim-play" animation="Float_Out" />
+		<Action type="anim-waitforend" />
+		<Action type="deletecharacter" />
+	</Tappable_Remove>
+	<Tappable_Reward parallel="true" cache="true">
+		<Action type="if">
+			<If>
+				<Requirement type="quest" quest="PrideAndPrejudices_5" not="true" />
+				<Then>
+					<Action type="reward" save="true" Pride2017_Badges="toDouble(System::getConfigValue('__Pride2017_GameConfig:Tappables:CurrencyAward__'))" suppress_sound="true" />
+					<Action type="updateVariable" variable="Pride2017_Badges_Tappables" value="Pride2017_Badges_Tappables + ConfigValue('__Pride2017_GameConfig:Tappables:CurrencyAward__')" />
+					<Action type="updateVariable" variable="Pride2017_Badges_Total" value="Pride2017_Badges_Total + ConfigValue('__Pride2017_GameConfig:Tappables:CurrencyAward__')" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="Pride2017_End" />
+				<Then>
+					<Action type="updateVariable" variable="Pride2017_TappablesTapped" value="Pride2017_TappablesTapped+1" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_Reward>
+	<GoTo_Crosswalk>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="PrideCrosswalk_White" />
+			<True>
+				<Action type="pantoobject" building="PrideCrosswalk_White" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="PrideCrosswalk_White" inventory="true" />
+			</False>
+		</Action>
+	</GoTo_Crosswalk>
+	<Crosswalk_Completed parallel="true">
+		<Action type="hudTip" text="UI_Crosswalk_PieceCreated" time="10s" />
+	</Crosswalk_Completed>
+	<Crosswalk_Intro parallel="true">
+		<Action type="sound" sound="TownPlaza_Upgrade" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="false" requiresInGame="true" panCamera="true">
+			<OneShot name="regular" file="CannonUpGrade" animation="Castle_upGrade_4x5" x="-25" y="75" />
+		</Action>
+		<Action type="setObjectVariable" variable="DryTime" value="serverTime(0) + toDouble(System::getConfigValue('__Pride2017_GameConfig:Crosswalks:DryTimeSeconds__'))" asExpression="true" allowOrphan="true" />
+		<Action type="updateVariable" variable="PrideCrosswalksTapped" value="PrideCrosswalksTapped + 1" />
+		<Action type="if">
+			<If>
+				<Requirement type="quest" quest="PrideAndPrejudices_5" not="true" />
+				<Then>
+					<Action type="reward" save="true" Pride2017_Badges="toDouble(System::getConfigValue('__Pride2017_GameConfig:Crosswalks:UpgradeReward__'))" suppress_sound="true" />
+					<Action type="updateVariable" variable="Pride2017_Badges_Crosswalks" value="Pride2017_Badges_Crosswalks + ConfigValue('__Pride2017_GameConfig:Crosswalks:UpgradeReward__')" />
+					<Action type="updateVariable" variable="Pride2017_Badges_Total" value="Pride2017_Badges_Total + ConfigValue('__Pride2017_GameConfig:Crosswalks:UpgradeReward__')" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_Intro>
+	<Crosswalk_White_Tapped parallel="true">
+		<Action type="if">
+			<If expression="return Object::DryTime &lt;= serverTime(0);">
+				<Requirement type="quest" quest="CelebrationCrosswalks_1" />
+				<Then>
+					<Action type="deleteObjectVariable" variable="DryTime" />
+					<Action type="replaceobject" to="PrideCrosswalk_Red" ignoreObject="false" postReplaceScript="Pride2017_Scripts:Crosswalk_Intro" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_White_Tapped>
+	<Crosswalk_Red_Tapped parallel="true">
+		<Action type="if">
+			<If expression="return Object::DryTime &lt;= serverTime(0);">
+				<Then>
+					<Action type="deleteObjectVariable" variable="DryTime" />
+					<Action type="replaceobject" to="PrideCrosswalk_Orange" ignoreObject="false" postReplaceScript="Pride2017_Scripts:Crosswalk_Intro" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_Red_Tapped>
+	<Crosswalk_Orange_Tapped parallel="true">
+		<Action type="if">
+			<If expression="return Object::DryTime &lt;= serverTime(0);">
+				<Then>
+					<Action type="deleteObjectVariable" variable="DryTime" />
+					<Action type="replaceobject" to="PrideCrosswalk_Yellow" ignoreObject="false" postReplaceScript="Pride2017_Scripts:Crosswalk_Intro" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_Orange_Tapped>
+	<Crosswalk_Yellow_Tapped parallel="true">
+		<Action type="if">
+			<If expression="return Object::DryTime &lt;= serverTime(0);">
+				<Then>
+					<Action type="deleteObjectVariable" variable="DryTime" />
+					<Action type="replaceobject" to="PrideCrosswalk_Green" ignoreObject="false" postReplaceScript="Pride2017_Scripts:Crosswalk_Intro" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_Yellow_Tapped>
+	<Crosswalk_Green_Tapped parallel="true">
+		<Action type="if">
+			<If expression="return Object::DryTime &lt;= serverTime(0);">
+				<Then>
+					<Action type="deleteObjectVariable" variable="DryTime" />
+					<Action type="replaceobject" to="PrideCrosswalk_Blue" ignoreObject="false" postReplaceScript="Pride2017_Scripts:Crosswalk_Intro" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_Green_Tapped>
+	<Crosswalk_Blue_Tapped parallel="true">
+		<Action type="if">
+			<If expression="return Object::DryTime &lt;= serverTime(0);">
+				<Then>
+					<Action type="deleteObjectVariable" variable="DryTime" />
+					<Action type="replaceobject" to="PrideCrosswalk" ignoreObject="false" postReplaceScript="Pride2017_Scripts:PrideCrosswalk_Intro" />
+				</Then>
+			</If>
+		</Action>
+	</Crosswalk_Blue_Tapped>
+	<PrideCrosswalk_Intro parallel="true">
+		<Action type="sound" sound="TownPlaza_Upgrade" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="false" requiresInGame="true" panCamera="true">
+			<OneShot name="regular" file="CannonUpGrade" animation="Castle_upGrade_4x5" x="-25" y="75" />
+		</Action>
+		<Action type="updateVariable" variable="PrideCrosswalksTapped" value="PrideCrosswalksTapped + 1" />
+		<Action type="if">
+			<If>
+				<Requirement type="quest" quest="PrideAndPrejudices_5" not="true" />
+				<Then>
+					<Action type="reward" save="true" Pride2017_Badges="toDouble(System::getConfigValue('__Pride2017_GameConfig:Crosswalks:UpgradeReward__'))" suppress_sound="true" />
+					<Action type="updateVariable" variable="Pride2017_Badges_Crosswalks" value="Pride2017_Badges_Crosswalks + ConfigValue('__Pride2017_GameConfig:Crosswalks:UpgradeReward__')" />
+					<Action type="updateVariable" variable="Pride2017_Badges_Total" value="Pride2017_Badges_Total + ConfigValue('__Pride2017_GameConfig:Crosswalks:UpgradeReward__')" />
+				</Then>
+			</If>
+		</Action>
+	</PrideCrosswalk_Intro>
+	<RedPrideHydrant_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</RedPrideHydrant_Tapped>
+	<OrangePrideHydrant_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="Active_OrangeNoLoop" />
+	</OrangePrideHydrant_Tapped>
+	<YellowPrideHydrant_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="Active_YellowNoLoop" />
+	</YellowPrideHydrant_Tapped>
+	<GreenPrideHydrant_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="Active_GreenNoLoop" />
+	</GreenPrideHydrant_Tapped>
+	<BluePrideHydrant_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="Active_BlueNoLoop" />
+	</BluePrideHydrant_Tapped>
+	<PurplePrideHydrant_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Crook_Ladder_Fire_Hydrant.caf" />
+		<Action type="anim-play" animation="Active_PurpleNoLoop" />
+	</PurplePrideHydrant_Tapped>
+</ScriptPackage>

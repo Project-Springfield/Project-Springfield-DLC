@@ -1,0 +1,753 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="4050" name="Medieval">
+		<TimedAttack attributes="MedievalTimes_AttackConfig:MedievalAttack" />
+		<GuideData title="UI_MedievalGuide_name" tip="UI_MedievalGuide_tip" step1="UI_MedievalGuide_panel01" step2="UI_MedievalGuide_panel02" step3="UI_MedievalGuide_panel03" img1="ICO_HELP_MID_Step1Image" img2="ICO_HELP_MID_Step2Image" img3="ICO_HELP_MID_Step3Image" countdownText="UI_THOH2013Guide_countdown" endDate="MedievalEndDate" />
+		<HUDCurrencies buttonType="guide">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Currency type="Troops" />
+			<Currency type="Elixir" />
+			<Currency type="Gold" />
+		</HUDCurrencies>
+		<FriendHUDCurrencies buttonType="guide">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest" quest="ThePrinceAndThePremise02" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="Medieval" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+			<Currency type="Troops" />
+			<Currency type="Elixir" />
+			<Currency type="Gold" />
+		</FriendHUDCurrencies>
+		<OpponentHUDCurrencies buttonType="guide">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest" quest="ThePrinceAndThePremise02" />
+			</Requirements>
+			<Currency type="Troops" />
+			<Currency type="Elixir" />
+			<Currency type="Gold" />
+		</OpponentHUDCurrencies>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="1" icon="ICO_MedievalTimes_DuffTabs_SM.rgb" type="Gold" type1FakeFriend="true">
+			<Currency type="Troops" />
+			<Currency type="Elixir" />
+			<Currency type="Gold" />
+			<Requirements>
+				<Requirement type="quest" quest="ThePrinceAndThePremise02" />
+			</Requirements>
+			<Script package="MedievalTimes_Scripts" name="CoCFriendsHUDInfo" />
+		</FriendsMap>
+		<CustomGetMore>
+			<GetMoreRule mode="any" file="MedievalTimes_TroopPackBuildMenu.xml" getMorePromptTitle="UI_GetMoreTroops_name" getMorePromptDescription="UI_GetMoreTroops_msg" getMoreReason="">
+				<SpendableCurrency name="Troops" />
+			</GetMoreRule>
+			<GetMoreRule mode="any" file="MedievalTimes_Natural20PackBuildMenu.xml" getMorePromptTitle="UI_GetMoreD20_name" getMorePromptDescription="UI_GetMoreD20_msg" getMoreReason="">
+				<Consumable name="Natural20" />
+			</GetMoreRule>
+			<GetMoreRule mode="any" file="MedievalTimes_LightningPackBuildMenu.xml" getMorePromptTitle="UI_notEnoughTitleTextLightning_name" getMorePromptDescription="UI_getMoreMessageTextLightning_name" getMoreReason="">
+				<SpendableCurrency name="Elixir" />
+			</GetMoreRule>
+			<GetMoreRule mode="any" file="MedievalTimes_TroopPackOnlyBuildMenu.xml" getMorePromptTitle="UI_GetMoreTroops_name" getMorePromptDescription="UI_GetMoreTroops_msg" getMoreReason="">
+				<SpendableCurrency name="TroopsOnly" />
+			</GetMoreRule>
+		</CustomGetMore>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="ResetDefenseEnabled" package="MedievalTimes_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="EnableTroopMessage" package="MedievalTimes_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="MaxTroopCheck" package="MedievalTimes_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="variable" variable="Medieval" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script name="FirstTimeVisit" package="MedievalTimes_Scripts" />
+			<Script name="CheckToSpawnRemoteNPCTroops" package="MedievalTimes_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="variable" variable="Medieval" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script name="CheckToSpawnLocalNPCTroops" package="MedievalTimes_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="variable" variable="Medieval" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script name="GoToBuildingThatCanBeAttacked" package="MedievalTimes_Scripts" />
+		</OnEvent>
+		<SpecialButtons>
+			<Button mode="any" icon="ICO_MHUD_Attack_SE" identifier="AttackOpponent">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+					<Requirement type="quest started" quest="ThePrinceAndThePremise03" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="config" key="MedievalTimes_GameConfig:Enable:MatchMaking" value="1" />
+				</Requirements>
+				<RunScript>
+					<Script name="ConfirmMatchmaking" package="MedievalTimes_Scripts" />
+				</RunScript>
+			</Button>
+			<Button mode="game" icon="ICO_MHUD_D20_SE" counter="true" identifier="Natural20" varForToggleHighlight="Natural20DefenseInUse">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+					<Requirement type="quest" quest="ThePrinceAndThePremise02" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest started" quest="RollingWithIt" />
+						<Requirement type="quest started" quest="RollingWithIt2" />
+					</Requirement>
+					<Requirement type="land" land="Springfield" />
+				</Requirements>
+				<RunScript>
+					<Script name="Natural20DefensePressed" package="MedievalTimes_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<TouchOverrides>
+			<TouchOverride onEvent="Release">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+					<Requirement type="players land" />
+					<Requirement type="variable" variable="Natural20DefenseInUse" />
+				</Requirements>
+				<Script name="UseNatural20Defense" package="MedievalTimes_Scripts" />
+			</TouchOverride>
+		</TouchOverrides>
+		<PrizeListButton icon="ICO_MHUD_Trophy">
+			<Requirements>
+				<Requirement type="variable" variable="enablePrizeList" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest" quest="ThePrinceAndThePremise02" />
+			</Requirements>
+			<Script name="DisplayTabPrizePanel" package="MedievalTimes_Scripts" />
+		</PrizeListButton>
+		<PrizeListButtonBar>
+			<BarButton icon="ICO_MHUD_CastlePanel">
+				<Highlight>
+					<Requirements>
+						<Requirement type="gamestate" state="GameState_BuildingsInfoMenu" />
+					</Requirements>
+				</Highlight>
+				<Requirements>
+					<Requirement type="variable" variable="enablePrizeList" />
+					<Requirement type="land" land="Springfield" />
+				</Requirements>
+				<Script name="DisplayCastlePanel" package="MedievalTimes_Scripts" />
+			</BarButton>
+			<BarButton icon="ICO_MHUD_Trophy">
+				<Highlight>
+					<Requirements>
+						<Requirement type="gamestate" state="GameState_SpecialEventPrizeList" />
+					</Requirements>
+				</Highlight>
+				<Requirements>
+					<Requirement type="variable" variable="enablePrizeList" />
+					<Requirement type="land" land="Springfield" />
+				</Requirements>
+				<Script name="DisplayTabPrizePanel" package="MedievalTimes_Scripts" />
+			</BarButton>
+			<BarButton icon="ICO_STOR_MedievalTimes">
+				<Highlight>
+					<Requirements>
+						<Requirement type="gamestate" state="GameState_SpecialEventBoxPanel" />
+					</Requirements>
+				</Highlight>
+				<Requirements>
+					<Requirement type="variable" variable="enablePrizeList" />
+					<Requirement type="land" land="Springfield" />
+				</Requirements>
+				<Script name="DisplaySpecialEventStore" package="MedievalTimes_Scripts" />
+			</BarButton>
+		</PrizeListButtonBar>
+		<BuildingGroupNames>
+			<Group name="AttackableBuildings" />
+			<Group name="AttackableNonCastleBuildings" />
+		</BuildingGroupNames>
+		<Buildings override="true" list="CastleBuildings">
+			<Building>
+				<AttackData enable="true">
+					<AttackConfig value="Castles" />
+				</AttackData>
+				<EffectOverlay bsv3="smoke" anim="Smoke_{Object::Footprint}" randomStartFrame="true" vboCache="__MedievalTimes_GameConfig:Enable:VBOCache__" rooted="true" allowInNormal="false" allowInWrecked="true" formulaRequirement="and(IsSet(Object::Attacked),Object::Attacked==0)" />
+				<AllowLevelUp value="true" useLevelUpMenuConfig="MedievalTimes_BuildingUpgradeConfig:CastleLevelUpMenu" />
+			</Building>
+		</Buildings>
+		<Buildings override="true" list="AttackableBuildings">
+			<Building>
+				<Group name="AttackableBuildings" />
+				<Vandalism disabled="true" />
+				<DisableFriendTaxJobs value="true" />
+				<FriendTouchIcon value="Indicator_Attack.rgb" />
+				<FriendTouchRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="friendvariable" variable="Medieval" />
+						<Requirement type="fakefriend" />
+					</Requirement>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="friend land" not="true" />
+							<Requirement type="timegate" timegate="Medieval:RandomAttacks" instanceIdSource="peerId" />
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="friend land" />
+							<Requirement type="timegate" timegate="Medieval:FriendAttacks" instanceIdSource="friendId" />
+						</Requirement>
+					</Requirement>
+				</FriendTouchRequirements>
+				<AttackData enable="true">
+					<AttackMenuConfig value="MedievalTimes_MenusConfig:AttackMenu" />
+					<ViewAttackMenuConfig value="MedievalTimes_MenusConfig:ViewAttackMenu" />
+					<AttackVariableName value="Attacked" />
+					<LastAttackedVariableName value="LastAttackedBy" />
+					<SelectorNameForNonWreckedAttackVariable value="selector NonWreckedValueForAttackedVar" />
+				</AttackData>
+				<Locators>
+					<Locator name="Pos1" x="1" z="1" />
+					<Locator name="Pos2" x="2" z="1" />
+					<Locator name="Pos3" x="3" z="1" />
+					<Locator name="Pos4" x="4" z="1" />
+					<Locator name="Pos5" x="5" z="1" />
+				</Locators>
+				<OnEvent onObject="${NAME}" event="BuildingTouched" user="local">
+					<Script name="ThwartAttack" package="MedievalTimes_Scripts" />
+				</OnEvent>
+				<OnEvent onObject="${NAME}" event="BuildingTouched" user="remote">
+					<Script name="AttackBuilding" package="MedievalTimes_Scripts" />
+				</OnEvent>
+			</Building>
+		</Buildings>
+		<Buildings override="true" list="AttackableNonCastleBuildings">
+			<Building>
+				<Group name="AttackableNonCastleBuildings" />
+				<AttackData enable="true">
+					<AttackConfig value="Default" />
+				</AttackData>
+				<EffectOverlay bsv3="smoke" anim="Smoke_{Object::Footprint}" randomStartFrame="true" vboCache="__MedievalTimes_GameConfig:Enable:VBOCache__" rooted="true" allowInNormal="true" allowInWrecked="true" formulaRequirement="or(and(System::evaluate('Land::Local'),and(IsSet(Object::Attacked),Object::Attacked==0)),and(!System::evaluate('Land::Local'),and(IsSet(Object::Attacked),Object::Attacked&gt;=0)))" />
+			</Building>
+		</Buildings>
+		<Buildings override="true">
+			<Building name="BurnsCastle">
+				<Requirements>
+					<Requirement type="quest started" quest="ThePrinceAndThePremise02" />
+				</Requirements>
+			</Building>
+			<Building name="FortSensible">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+				</Requirements>
+				<Cost donuts="65" />
+				<BuildTime time="6" />
+				<Sell allowed="false" storeoverride="true" />
+			</Building>
+			<Building name="CrateOfFireworks">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+				</Requirements>
+				<Cost donuts="50" />
+				<Sell allowed="false" storeoverride="true" />
+			</Building>
+			<Building name="FreakShowTent">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+				</Requirements>
+				<Cost donuts="80" />
+				<Sell allowed="false" storeoverride="true" />
+			</Building>
+			<Building name="SatansAnvil">
+				<Requirements>
+					<Requirement type="variable" variable="Medieval" />
+				</Requirements>
+				<Cost donuts="225 " />
+				<Sell allowed="false" storeoverride="true" />
+			</Building>
+		</Buildings>
+		<List name="CastleBuildings">
+			<String name="BurnsCastle" />
+			<String name="BetterhamPalace" />
+			<String name="BoxinghamPalace" />
+		</List>
+		<List name="AttackableBuildings">
+			<String name="BoxinghamPalace" />
+			<String name="BetterhamPalace" />
+			<String name="BurnsCastle" />
+			<String name="FlandersHome" />
+			<String name="BlueHouse" />
+			<String name="WhiteHouse" />
+			<String name="OrangeHouse" />
+			<String name="PurpleHouse" />
+			<String name="PinkHouse" />
+			<String name="BrownHouse" />
+			<String name="SkinnerHouse" />
+			<String name="VanHoutenHome" />
+			<String name="WilliesShack" />
+			<String name="WiggumHouse" />
+			<String name="MuntzHouse" />
+			<String name="SanjaysHouse" />
+			<String name="PumpkinHouse" />
+			<String name="GingerbreadHouse" />
+			<String name="CrazyCatHouse" />
+		</List>
+		<List name="AttackableNonCastleBuildings">
+			<String name="FlandersHome" />
+			<String name="BlueHouse" />
+			<String name="WhiteHouse" />
+			<String name="OrangeHouse" />
+			<String name="PurpleHouse" />
+			<String name="PinkHouse" />
+			<String name="BrownHouse" />
+			<String name="SkinnerHouse" />
+			<String name="VanHoutenHome" />
+			<String name="WilliesShack" />
+			<String name="WiggumHouse" />
+			<String name="MuntzHouse" />
+			<String name="SanjaysHouse" />
+			<String name="PumpkinHouse" />
+			<String name="GingerbreadHouse" />
+			<String name="CrazyCatHouse" />
+		</List>
+		<CharacterGroupNames>
+			<Group name="NPCTroops" />
+		</CharacterGroupNames>
+		<List name="NPCTroops">
+			<String name="GenericTroop_Red" />
+			<String name="GenericTroop_Blue" />
+		</List>
+		<Characters override="true" list="NPCTroops">
+			<Character>
+				<Group name="NPCTroops" />
+			</Character>
+		</Characters>
+		<Jobs>
+			<Job name="AttackBarbarian">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise04" />
+				</Requirements>
+			</Job>
+			<Job name="DrinkAtMoesBarbarian">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise06" />
+				</Requirements>
+			</Job>
+			<Job name="DrinkWithBarbarian">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise06B" />
+				</Requirements>
+			</Job>
+			<Job name="BarbarianDrinkWithHomer">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise06B" />
+				</Requirements>
+			</Job>
+			<Job name="DrinkTenMoreBeer">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise07" />
+				</Requirements>
+			</Job>
+			<Job name="DrinkTenMoreBeerAtCastle">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise07B" />
+				</Requirements>
+			</Job>
+			<Job name="BulkUp">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="ThePrinceAndThePremise08" />
+						<Requirement type="active quest" quest="ThePrinceAndThePremise08B" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="SwitchPlacesWithBarbarian">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="ThePrinceAndThePremise08" />
+						<Requirement type="active quest" quest="ThePrinceAndThePremise08B" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="SwitchPlacesWithHomer">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="ThePrinceAndThePremise08" />
+						<Requirement type="active quest" quest="ThePrinceAndThePremise08B" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="GetAHairCutBarbarian">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise08" />
+				</Requirements>
+			</Job>
+			<Job name="GetAHairCutBarbarianAtCastle">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise08B" />
+				</Requirements>
+			</Job>
+			<Job name="ChaseHomerWithAnAxeTEMP">
+				<Requirement type="active quest" quest="ThePrinceAndThePremise05" />
+			</Job>
+			<Job name="ChaseBullyWithAnAxeAtSchool">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise10B" />
+				</Requirements>
+			</Job>
+			<Job name="PlayInTheRecital">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise11" />
+				</Requirements>
+			</Job>
+			<Job name="MakeSpringfieldersAttendTheRecital">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise11" />
+				</Requirements>
+			</Job>
+			<Job name="AttendTheRecitalUnderThreatOfDeath">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise11" />
+				</Requirements>
+			</Job>
+			<Job name="AttackTheSimpsonHouseHomer">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise13" />
+				</Requirements>
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR01__" xp="17" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="HideUnconsciousBarbarianInBrownHouse">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise14" />
+				</Requirements>
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR04__" xp="45" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="PoseAsTheBarbarianPosingAsHomer">
+				<Requirements>
+					<Requirement type="active quest" quest="ThePrinceAndThePremise16" />
+				</Requirements>
+			</Job>
+			<Job name="ThinkAboutTheImpactsOfRaiding">
+				<Requirements>
+					<Requirement type="active quest" quest="PrinceAndThePremise19" />
+				</Requirements>
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR08__" xp="70" Elixir_Bonus="selector COCLevelBonusLisa" />
+			</Job>
+			<Job name="BlowLisasMind">
+				<Requirements>
+					<Requirement type="active quest" quest="PrinceAndThePremise20" />
+				</Requirements>
+			</Job>
+			<Job name="StealPremiumCurrency">
+				<Requirements>
+					<Requirement type="active quest" quest="PrinceAndThePremise21" />
+				</Requirements>
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR24__" xp="150" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="ReluctantlySingKaraoke">
+				<Requirements>
+					<Requirement type="active quest" quest="PrinceAndThePremise22" />
+				</Requirements>
+			</Job>
+			<Job name="GoOnADateWithSmithers">
+				<Requirements>
+					<Requirement type="active quest" quest="PrinceAndThePremise23" />
+				</Requirements>
+			</Job>
+			<Job name="RaidFlandersHouse">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR01__" xp="17" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="AdmireHisBarbaricPhysique">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR04__" xp="45" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="PillageTheBrownHouse">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR08__" xp="70" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="ExpressHisWrathAgainstNoobs">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR12__" xp="100" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="ConfrontGoldFarmers">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR16__" xp="150" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="GoOnAnElixirBender">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR24__" xp="150" Elixir_Bonus="selector COCLevelBonusHomer" />
+			</Job>
+			<Job name="MakeArrows">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR01__" xp="17" Elixir_Bonus="selector COCLevelBonusLisa" />
+			</Job>
+			<Job name="ReadYoungAdultDystopianFiction">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR04__" xp="45" Elixir_Bonus="selector COCLevelBonusLisa" />
+			</Job>
+			<Job name="ShootArrows">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR08__" xp="70" Elixir_Bonus="selector COCLevelBonusLisa" />
+			</Job>
+			<Job name="PickUpOldArrows">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR12__" xp="100" Elixir_Bonus="selector COCLevelBonusLisa" />
+			</Job>
+			<Job name="JudgePeopleFromAbove">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR24__" xp="150" Elixir_Bonus="selector COCLevelBonusLisa" />
+			</Job>
+			<Job name="ShopliftButCallItPillaging">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR01__" xp="17" Elixir_Bonus="selector COCLevelBonusBart" />
+			</Job>
+			<Job name="CheckForTraps">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR04__" xp="45" Elixir_Bonus="selector COCLevelBonusBart" />
+			</Job>
+			<Job name="PillageTeachersFridge">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR08__" xp="70" Elixir_Bonus="selector COCLevelBonusBart" />
+			</Job>
+			<Job name="Loot">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR12__" xp="100" Elixir_Bonus="selector COCLevelBonusBart" />
+			</Job>
+			<Job name="CountHisGold">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR24__" xp="150" Elixir_Bonus="selector COCLevelBonusBart" />
+			</Job>
+			<Job name="MagicallyCleanTheHouse">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR01__" xp="17" Elixir_Bonus="selector COCLevelBonusMarge" />
+			</Job>
+			<Job name="ThrowFireballs">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR04__" xp="45" Elixir_Bonus="selector COCLevelBonusMarge" />
+			</Job>
+			<Job name="UseCouponsToBuySpellComponents">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR08__" xp="70" Elixir_Bonus="selector COCLevelBonusMarge" />
+			</Job>
+			<Job name="PutOnAMagicShow">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR12__" xp="100" Elixir_Bonus="selector COCLevelBonusMarge" />
+			</Job>
+			<Job name="EnjoyMagicalNightWithHomer">
+				<Reward Elixir="__MedievalTimes_GameConfig:SkinJobElixirRewards:JobHR24__" xp="150" Elixir_Bonus="selector COCLevelBonusMarge" />
+			</Job>
+		</Jobs>
+		<PrizeLists>
+			<PrizeList id="0" type="local">
+				<Attributes>
+					<Attribute name="nameText" value="UI_PersonalPrizePanelTitle_name" />
+					<Attribute name="completeText" value="UI_PersonalPrizePanelMidAllUnlock_msg" />
+					<Attribute name="messageText" value="UI_Medieval_PersonalPrizesAwardDesc" />
+					<Attribute name="countText" value="UI_PersonalPrizePanelMidAllUnlock_msg" />
+					<Attribute name="getnowText" value="UI_WhackingDayPrizes_getnow" />
+					<Attribute name="backgroundRewardIcon" value="ICO_PRIZ_AWRD_MedievalTimes_MenuBaseImage" />
+					<Attribute name="tipText" value="UI_MedievalGuide_tip" />
+					<Attribute name="currency1" value="Gold" />
+					<Attribute name="currency2" value="donuts" />
+					<Attribute name="resourceType" value="Gold" />
+				</Attributes>
+				<Prize name="UI_Medieval_PersonalPrizes01_name" listIcon="ICO_MedievalTimes_BarbarianHomer_MD" rewardIcon="ICO_MedievalTimes_BarbarianHomer_LG" showInventoryPopup="true" checkIfInventoryPopupIsNeeded="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate01__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem1__" />
+					<Reward>
+						<Item type="consumable" name="HomerBarbarian" />
+						<Item type="consumable" name="FakeHomer" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Medieval_PersonalPrizes02_name" listIcon="ICO_MedievalTimes_BetterhamPalace_MD" rewardIcon="ICO_MedievalTimes_BetterhamPalace_LG" showInventoryPopup="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate02__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem2__" />
+					<Reward>
+						<Item type="building" name="BetterhamPalace" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Medieval_PersonalPrizes03_name" listIcon="ICO_MedievalTimes_AwardD20_MD" rewardIcon="ICO_MedievalTimes_AwardD20_LG" useImmediately="true" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate03__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem3__" />
+					<Reward>
+						<Item type="consumable" name="Natural20_FIVE" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Medieval_PersonalPrizes04_name" listIcon="ICO_MedievalTimes_GoblinBart_MD" rewardIcon="ICO_MedievalTimes_GoblinBart_LG" showInventoryPopup="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate04__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem4__" />
+					<Reward>
+						<Item type="building" name="BoxinghamPalace" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MargeWizard_name" listIcon="ICO_MedievalTimes_WizardMarge_MD" rewardIcon="ICO_MedievalTimes_WizardMarge_LG" showInventoryPopup="true" checkIfInventoryPopupIsNeeded="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate05__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem5__" />
+					<Reward>
+						<Item type="consumable" name="MargeWizard" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Medieval_PersonalPrizes06_name" listIcon="ICO_MedievalTimes_LightningBonus_MD" rewardIcon="ICO_MedievalTimes_LightningBonus_LG" useImmediately="true" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate06__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem6__" />
+					<Reward>
+						<Item type="consumable" name="DuffLightning_FIVEHUNDRED" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_HotAirBalloon_name" listIcon="ICO_MedievalTimes_HotAirBalloon_MD" rewardIcon="ICO_MedievalTimes_HotAirBalloon_LG" showInventoryPopup="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate07__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem7__" />
+					<Reward>
+						<Item type="building" name="HotAirBalloon" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Medieval_PersonalPrizes08_name" listIcon="ICO_MedievalTimes_3Tower_MD" rewardIcon="ICO_MedievalTimes_3Tower_LG" showInventoryPopup="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate08__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem8__" />
+					<Reward>
+						<Item type="building" name="CastleTower" />
+						<Item type="building" name="DIYTower" />
+						<Item type="building" name="CardboardTower" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_Catapult_name" listIcon="ICO_MedievalTimes_Catapult_MD" rewardIcon="ICO_MedievalTimes_Catapult_LG" showInventoryPopup="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate09__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem9__" />
+					<Reward>
+						<Item type="building" name="Catapult" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Medieval_PersonalPrizes09_name" listIcon="ICO_MedievalTimes_BarbarianStatue_MD" rewardIcon="ICO_MedievalTimes_BarbarianStatue_LG" showInventoryPopup="true" useImmediately="false" rush_rate="__MedievalTimes_GameConfig:Prizes:RushRate10__">
+					<Requirement type="special currency" currency="Gold" amount="__MedievalTimes_GameConfig:Prizes:RequireAmountItem10__" />
+					<Reward>
+						<Item type="building" name="BarbarianStatue" />
+						<Item type="building" name="Banner1" />
+						<Item type="building" name="Banner2" />
+						<Item type="building" name="Banner3" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<BuildingInfoLists>
+			<BuildingInfoList id="0">
+				<Attributes>
+					<Attribute name="nameText" value="UI_CastleInfoPanel_title" />
+					<Attribute name="infoText" value="UI_CastleSummary_tip" />
+					<Attribute name="viewText" value="UI_View" />
+					<Attribute name="buyText" value="UI_View" />
+					<Attribute name="restoreText" value="UI_View" />
+					<Attribute name="proxyText" value="UI_View" />
+					<Attribute name="barType" value="RatingBar" />
+					<Attribute name="headerCurrencies">
+						<AttributeSet>
+							<Attribute name="currency" value="Troops" />
+						</AttributeSet>
+						<AttributeSet>
+							<Attribute name="currency" value="Elixir" />
+						</AttributeSet>
+						<AttributeSet>
+							<Attribute name="currency" value="Gold" />
+						</AttributeSet>
+						<AttributeSet>
+							<Attribute name="currency" value="D20" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="barSecondaryRatingIcon" value="ico_medievaltimes_defend_sm" />
+					<Attribute name="barSecondaryRatingSelector" value="selector {Object::Name}DefensePerLevel" />
+					<Attribute name="buildings" value="CastleBuildings" />
+					<Attribute name="buildingRatingVarName" value="CastleLevel" />
+					<Attribute name="buildingRatingText" value="UI_buildingRatingText_name" />
+					<Attribute name="buttonColorBuyMoney" value="0091F6FF" />
+					<Attribute name="buttonColorBuyPremium" value="D03484FF" />
+					<Attribute name="buttonColorInventory" value="0091F6FF" />
+					<Attribute name="buttonColorProxy" value="ED4F00FF" />
+					<Attribute name="useInfoButton" value="true" />
+					<Attribute name="useCountIcon" value="false" />
+				</Attributes>
+				<InfoPanels>
+					<InfoPanel>
+						<Attributes>
+							<Attribute name="name" value="BLD_BurnsCastle_name" />
+							<Attribute name="enabledScript" value="MedievalTimes_Scripts:GoToCastle3" />
+							<Attribute name="notOwnedScript" value="MedievalTimes_Scripts:DisplayTabPrizePanel" />
+							<Attribute name="storedScript" value="MedievalTimes_Scripts:GoToInventory" />
+							<Attribute name="proxyScript" value="MedievalTimes_Scripts:PromptToSwitchLand" />
+						</Attributes>
+						<Button icon="BarbarianCastle_Menu" text="UI_view" />
+					</InfoPanel>
+					<InfoPanel>
+						<Attributes>
+							<Attribute name="name" value="BLD_BetterhamPalace_name" />
+							<Attribute name="enabledScript" value="MedievalTimes_Scripts:GoToCastle2" />
+							<Attribute name="notOwnedScript" value="MedievalTimes_Scripts:DisplayTabPrizePanel" />
+							<Attribute name="storedScript" value="MedievalTimes_Scripts:GoToInventory" />
+							<Attribute name="proxyScript" value="MedievalTimes_Scripts:PromptToSwitchLand" />
+						</Attributes>
+						<Button icon="RecycledCastle_Menu" text="UI_View" />
+					</InfoPanel>
+					<InfoPanel>
+						<Attributes>
+							<Attribute name="name" value="BLD_BoxinghamPalace_name" />
+							<Attribute name="enabledScript" value="MedievalTimes_Scripts:GoToCastle1" />
+							<Attribute name="notOwnedScript" value="MedievalTimes_Scripts:DisplayTabPrizePanel" />
+							<Attribute name="storedScript" value="MedievalTimes_Scripts:GoToInventory" />
+							<Attribute name="proxyScript" value="MedievalTimes_Scripts:PromptToSwitchLand" />
+						</Attributes>
+						<Button icon="BoxinghamPalace_Menu" text="UI_View" />
+					</InfoPanel>
+				</InfoPanels>
+			</BuildingInfoList>
+		</BuildingInfoLists>
+		<Matchmaking>
+			<Category attributes="MedievalTimes_MatchmakingConfig:MainCategory" />
+		</Matchmaking>
+		<Variable name="MaxAttackTroops" type="int" value="5" />
+		<Variable name="Medieval" value="true" />
+		<Variable name="enablePrizeList" value="true" />
+		<Variable name="MaxTroops" type="int" value="40" />
+		<Variable name="CastleBonus" type="int" value="0" />
+		<Variable name="DisplayMaxTroopMessage" value="true" />
+		<Variable name="Natural20DefenseInUse" value="false" />
+		<Variable name="NumOfTimedAttacks" type="int" value="0" />
+		<Variable name="NumOfInstantAttacks" type="int" value="0" />
+		<Variable name="MatchMaking_UsesRemaining" type="int" value="0" />
+		<Variable name="HasConfirmedAMedievalAttack" value="false" />
+		<Variable name="HasConfirmedAMedievalD20Attack" value="false" />
+		<Variable name="BuildingDefendCount" value="0" />
+		<Variable name="BuildingRepairCount" value="0" />
+		<Variable name="MyTownIsUnderAttack" value="false" />
+		<Variable name="MyBuildingWasWrecked" value="false" />
+		<Variable name="BannerCount" value="0" />
+		<Variable name="CyclicalViolenceMessage" value="true" />
+		<Variable name="D20DefendedTown" value="0" />
+		<Variable name="WednesdayElixirMessage" value="false" />
+		<Variable name="FirstFriendTownVisit" value="false" />
+		<Variable name="BetterhamPalaceLevel" value="1" />
+		<Variable name="BoxinghamPalaceLevel" value="1" />
+		<Variable name="BurnsCastleLevel" value="1" />
+		<Variable name="BurnsCastleDecUnlocked" value="false" />
+		<Variable name="BetterhamDecUnlocked" value="false" />
+		<Variable name="BoxinghamDecUnlocked" value="false" />
+		<Variable name="HomerBarbLevel" value="1" />
+		<Variable name="WizardMargeLevel" value="1" />
+		<Variable name="ArcherLisaLevel" value="1" />
+		<Variable name="GoblinBartLevel" value="1" />
+		<Variable name="CurBeingAttacked" value="0" />
+		<Variable name="CurBuildingsDestroyed" value="0" />
+		<Variable name="CurTotalAttacked" value="0" />
+		<Variable name="RevengeCount" value="0" />
+		<Variable name="AttackCount" value="0" />
+		<Overrides>
+			<Override what="Object::Footprint" from="8x5" to="8x4" />
+			<Override what="Object::Footprint" from="7x6" to="5x5" />
+			<Override what="Object::Footprint" from="13x9" to="8x6" />
+			<Override what="Object::Footprint" from="6x7" to="5x7" />
+			<Override what="Object::Footprint" from="6x5" to="6x4" />
+			<Override what="Object::Footprint" from="11x6" to="8x6" />
+			<Override what="Object::Footprint" from="7x4" to="8x4" />
+		</Overrides>
+		<Notifications location="MedievalTimes_Notifications:Notifications">
+			<Notification name="MaxTroops" />
+			<Notification name="SaturdayRush1" />
+			<Notification name="SaturdayRush2" />
+			<Notification name="SaturdayRush3" />
+			<Notification name="SaturdayRush4" />
+			<Notification name="SaturdayRush5" />
+			<Notification name="SaturdayRush6" />
+			<Notification name="SaturdayRush7" />
+			<Notification name="InactivityPN" />
+		</Notifications>
+		<TimeGates>
+			<TimeGate name="FriendAttacks" id="2" cooldown="__MedievalTimes_GameConfig:FriendTimeGate:CoolDown__" maxUses="__MedievalTimes_GameConfig:FriendTimeGate:MaxUses__" enabled="__MedievalTimes_GameConfig:FriendTimeGate:Enabled__" />
+			<TimeGate name="RandomAttacks" id="3" persists="false" cooldown="__MedievalTimes_GameConfig:RandomTimeGate:CoolDown__" maxUses="__MedievalTimes_GameConfig:RandomTimeGate:MaxUses__" enabled="__MedievalTimes_GameConfig:RandomTimeGate:Enabled__" />
+		</TimeGates>
+	</SpecialEvent>
+	<SpecialEvent id="4051" name="MedievalGuide">
+		<GuideData title="UI_MedievalGuide_name" tip="UI_MedievalGuide_tip" step1="UI_MedievalGuide_panel01" step2="UI_MedievalGuide_panel02" step3="UI_MedievalGuide_panel03" img1="ICO_HELP_MID_Step1Image" img2="ICO_HELP_MID_Step2Image" img3="ICO_HELP_MID_Step3Image" countdownText="UI_THOH2013Guide_countdown" endDate="MedievalEndDate" />
+	</SpecialEvent>
+	<SpecialEvent id="4052" name="FourTenClient">
+		<Variable name="EarlyDonutGiveAway" value="false" />
+		<Variable name="CoCEventStarted" value="true" />
+		<Notifications location="MedievalTimes_Notifications:Notifications">
+			<Notification name="DonutGiveAway" />
+			<Notification name="LastChance" />
+		</Notifications>
+	</SpecialEvent>
+</SpecialEvents>

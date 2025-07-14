@@ -1,0 +1,150 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="144000" name="StarterPack_Promo_Trigger" onDeprecated="delete" startDate="XMASFifteen_StarterPack_Start" endDate="XMASFifteen_StarterPack_End" />
+		<DataID id="144001" name="StarterPack_Promo_Buy" onDeprecated="delete" startDate="XMASFifteen_StarterPack_Start" endDate="XMASFifteen_StarterPack_End" />
+		<DataID id="144002" name="StarterPack_Promo_PostBuy" onDeprecated="delete" startDate="XMASFifteen_StarterPack_Start" endDate="XMASFifteen_StarterPack_End" />
+		<DataID id="144003" name="StarterPack_LevelCheck" onDeprecated="delete" startDate="XMASFifteen_StarterPack_Start" endDate="XMASFifteen_StarterPack_End" />
+		<DataID id="144004" name="XMAS2015SnowGlobe_Quest_CreateGil" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_Start" endDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144005" name="XMAS2015SnowGlobe_Quest_Trigger" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_Start" endDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144006" name="XMAS2015_SnowGlobe_Quest" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_Start" endDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144007" name="XMAS2015_SnowGlobe_Quest_KillGil" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144008" name="XMAS2015_SnowGlobe_Quest_Dummy" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_Start" endDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144009" name="XMAS2015_SnowGlobe_EndDummy01" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_Start" endDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144010" name="XMAS2015_SnowGlobe_Quest_CompleteDummy" onDeprecated="delete" startDate="XMASFifteen_SnowGlobePromo_Start" endDate="XMASFifteen_SnowGlobePromo_End" />
+		<DataID id="144011" name="StarterPack_Promo_PostBuy_Message" onDeprecated="delete" startDate="XMASFifteen_StarterPack_Start" endDate="XMASFifteen_StarterPack_End" />
+	</MasterList>
+	<Quest id="144000" name="StarterPack_Promo_Trigger" tags="sidequest">
+		<Requirements>
+			<Requirement type="time" start="XMASFifteen_StarterPack_Start" end="XMASFifteen_StarterPack_End" />
+			<Requirement type="variable" variable="XMAS2015_StarterPackPurchased" not="true" />
+			<Requirement type="level" level="6" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="quest" quest="StarterPack_LevelCheck" />
+		</Requirements>
+		<StartScript package="XMAS2015_StarterPackPromo_Scripts" name="Intro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="144001" name="StarterPack_Promo_Buy" tags="sidequest">
+		<Requirements>
+			<Requirement type="time" start="XMASFifteen_StarterPack_Start" end="XMASFifteen_StarterPack_End" />
+			<Requirement type="variable" variable="XMAS2015_StarterPackPurchased" not="true" />
+			<Requirement type="quest" quest="StarterPack_Promo_Trigger" />
+		</Requirements>
+		<StartScript package="XMAS2015_StarterPackPromo_Scripts" name="DisplayPromo" />
+		<Objectives>
+			<Objective type="requirement list">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="processedPurchase" purchaseItem="XMAS2015_StarterPack" />
+					<Requirement type="variable" variable="XMAS2015_StarterPackPurchased" />
+				</Requirement>
+				<DoneScript package="XMAS2015_StarterPackPromo_Scripts" name="Purchased" />
+			</Objective>
+			<Objective type="cancel promo">
+				<DoneScript package="XMAS2015_StarterPackPromo_Scripts" name="NotPurchased" />
+			</Objective>
+		</Objectives>
+	</Quest>
+	<Quest id="144002" name="StarterPack_Promo_PostBuy" tags="sidequest">
+		<Requirements>
+			<Requirement type="time" start="XMASFifteen_StarterPack_Start" end="XMASFifteen_StarterPack_End" />
+			<Requirement type="variable" variable="XMAS2015_StarterPackPurchased" />
+			<Requirement type="consumableCount" name="GoldScratcherReward" requireCountMin="1" onlyInventory="true" />
+			<Requirement type="gamestate" state="GameState_InGame" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="XMAS2015_StarterPackPromo_Scripts" name="PostPurchase" />
+	</Quest>
+	<Quest id="144011" name="StarterPack_Promo_PostBuy_Message" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="StarterPack_Promo_PostBuy" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="XMAS2015_StarterPackPromo_Scripts" name="PostPurchase_Message" />
+	</Quest>
+	<Quest id="144003" name="StarterPack_LevelCheck" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="XMASFifteen_StarterPack_Start" end="XMASFifteen_StarterPack_End" />
+			<Requirement type="level" level="5" />
+			<Requirement type="level" level="6" not="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="144004" name="XMAS2015SnowGlobe_Quest_CreateGil" tags="mainquest">
+		<Requirements>
+			<Requirement type="time" end="XMASFifteen_SnowGlobePromo_End" />
+			<Requirement type="variable" variable="Promo_XMAS2015_SnowGlobe_Active" />
+		</Requirements>
+		<StartScript package="XMAS2015_StarterPackPromo_Scripts" name="XMAS2015_SnowGlobe_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="144005" name="XMAS2015SnowGlobe_Quest_Trigger" tags="mainquest" preventSuspend="true" repeatable="true" customIcon="indicator_SnowGlobe2015.rgb">
+		<Requirements>
+			<Requirement type="quest" quest="XMAS2015SnowGlobe_Quest_CreateGil" />
+			<Requirement type="variable" variable="Promo_XMAS2015_SnowGlobe_Active" />
+			<Requirement type="variable" variable="XMAS2015_SnowGlobe_INDICATOR_ACTIVE" value="true" />
+			<Requirement type="land" land="Springfield" />
+		</Requirements>
+		<StartScript package="XMAS2015_StarterPackPromo_Scripts" name="XMAS2015_SnowGlobe_Display" triggerType="character" character="PromoGilPermanent" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="144006" name="XMAS2015_SnowGlobe_Quest" type="promo">
+		<Requirements>
+			<Requirement type="variable" variable="XMAS2015_SnowGlobe_INDICATOR_ACTIVE" not="true" />
+			<Requirement type="variable" variable="Promo_XMAS2015_SnowGlobe_Active" />
+		</Requirements>
+		<StartScript package="Quests_Dynamic_Scripts" name="DQ_Starter" />
+		<Objectives>
+			<Objective type="place building" building="GiantSnowGlobe" quantity="1" />
+			<Objective type="cancel promo" optional="true" />
+		</Objectives>
+		<EndScript package="XMAS2015_StarterPackPromo_Scripts" name="KillGil_XMAS2015_SnowGlobe" />
+	</Quest>
+	<Quest id="144007" name="XMAS2015_SnowGlobe_Quest_KillGil" start_waits_idle="false" end_waits_idle="false">
+		<StartScript package="XMAS2015_StarterPackPromo_Scripts" name="KillGil_XMAS2015_SnowGlobe" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="144008" name="XMAS2015_SnowGlobe_Quest_Dummy" type="Promo">
+		<Requirements>
+			<Requirement type="active quest" quest="XMAS2015_SnowGlobe_Quest" />
+			<Requirement type="item" item="GiantSnowGlobe" checkInventoryOnly="false" not="true" />
+			<Requirement type="place building" building="GiantSnowGlobe" not="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="XMAS2015_StarterPackPromo_Scripts" name="XMAS2015_SnowGlobe_Cancel" />
+	</Quest>
+	<Quest id="144009" name="XMAS2015_SnowGlobe_EndDummy01" tags="dummy">
+		<Requirements>
+			<Requirement type="building" building="GiantSnowGlobe" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="XMAS2015_StarterPackPromo_Scripts" name="XMAS2015_SnowGlobe_StoreEnd" />
+	</Quest>
+	<Quest id="144010" name="XMAS2015_SnowGlobe_Quest_CompleteDummy" type="Promo">
+		<Requirements>
+			<Requirement type="quest started" quest="XMAS2015SnowGlobe_Quest_CreateGil" />
+			<Requirement type="building" building="GiantSnowGlobe" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="XMAS2015_StarterPackPromo_Scripts" name="XMAS2015_SnowGlobe_Purchase" />
+	</Quest>
+</Quests>

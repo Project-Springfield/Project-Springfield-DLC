@@ -1,0 +1,285 @@
+﻿<ScriptPackage>
+	<Promo_NatureBundlePopup>
+		<Action type="notification" title="CON_NatureBundle_name" button="UI_OK" text="QST_GreenhousePurchased_3_dlg_Start_5_SystemMessage" icon="SpringfieldGreenhouse_Menu" />
+		<Action type="focusOnMenuItem" itemName="Promo_NatureBundle" menuCategory="SpringCleaning" />
+	</Promo_NatureBundlePopup>
+	<Promo_SpringCleaning_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" />
+		<Action type="pantoobject" time="0" character="PromoGilPermanent" />
+		<Action type="setVariable" boolVariable="PROMO_STARTED" boolValue="false" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_SummonGil" boolValue="false" />
+	</Promo_SpringCleaning_Start>
+	<Promo_SpringCleaning_SummonGil>
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_PromoSeen" boolValue="false" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_SummonGil" boolValue="true" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_PurchasedSeen" boolValue="false" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_CanceledSeen" boolValue="false" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_PromoIgnored" boolValue="true" />
+	</Promo_SpringCleaning_SummonGil>
+	<EnterCategory>
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_PromoIgnored" boolValue="false" />
+		<Action type="focusOnMenuItem" menuCategory="SpringCleaning" />
+	</EnterCategory>
+	<Promo_SpringCleaning_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="recommendation" recType="Promoted" name="SpringCleaning_OnePanel" />
+				<Action type="setVariable" boolVariable="Promo_SpringCleaning_StoreCategory" boolValue="true" />
+				<Action type="checkRequirements">
+					<Requirement type="time" start="Promo_SpringCleaning_Wave_1" end="Promo_SpringCleaning_Wave_2" />
+					<True>
+						<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+						<Action type="dialogue" character="Moe" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_2_Moe" revealSpeed="medium" />
+						<Action type="dialogue" character="Moe" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_3_Moe" revealSpeed="medium" />
+						<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="selling" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="time" start="Promo_SpringCleaning_Wave_2" end="Promo_SpringCleaning_Wave_3" />
+							<True>
+								<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="happy" />
+								<Action type="dialogue" character="Marge" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_6_Marge" revealSpeed="medium" emotion="annoyed" />
+								<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_7_Gil" revealSpeed="medium" />
+								<Action type="dialogue" character="Marge" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_8_Marge" revealSpeed="medium" emotion="happy" />
+								<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_9_Gil" revealSpeed="medium" emotion="selling" />
+							</True>
+							<False>
+								<Action type="checkRequirements">
+									<Requirement type="time" start="Promo_SpringCleaning_Wave_3" end="Promo_SpringCleaning_End" />
+									<True>
+										<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_10_Gil" revealSpeed="medium" />
+										<Action type="dialogue" character="Wiggum" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_11_Wiggum" revealSpeed="medium" emotion="eyeswide" />
+										<Action type="dialogue" character="Wiggum" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_12_Wiggum" revealSpeed="medium" />
+										<Action type="dialogue" character="Wiggum" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_13_Wiggum" revealSpeed="medium" />
+										<Action type="dialogue" character="Wiggum" text="QST_SpringCleaningPromoStartDialogue_3_dlg_Start_14_Wiggum" revealSpeed="medium" emotion="eyeswide" />
+									</True>
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="Promo_SpringCleaning_Event" />
+				<Action type="runScript" script="SpringCleaning_KillGil" package="SpringCleaning_Scripts_Promo" />
+				<Action type="setVariable" boolVariable="Promo_SpringCleaning_PromoSeen" boolValue="true" />
+				<Action type="setVariable" boolVariable="Promo_SpringCleaning_PromoIgnored" boolValue="true" />
+			</True>
+		</Action>
+	</Promo_SpringCleaning_Display>
+	<Promo_SpringCleaning_Purchased>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="Promo_SpringCleaning_PurchasedSeen1" not="true" />
+				<Requirement type="time" start="Promo_SpringCleaning_Wave_1" end="Promo_SpringCleaning_Wave_2" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="Promo_SpringCleaning_PurchasedSeen1" boolValue="true" />
+				<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoPurchasedDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoPurchasedDialogue_3_dlg_Start_2_Gil" revealSpeed="medium" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="variable" variable="Promo_SpringCleaning_PurchasedSeen2" not="true" />
+						<Requirement type="time" start="Promo_SpringCleaning_Wave_2" end="Promo_SpringCleaning_Wave_3" />
+					</Requirements>
+					<True>
+						<Action type="setVariable" boolVariable="Promo_SpringCleaning_PurchasedSeen2" boolValue="true" />
+						<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoPurchasedDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="happy" />
+						<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoPurchasedDialogue_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="selling" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="variable" variable="Promo_SpringCleaning_PurchasedSeen3" not="true" />
+								<Requirement type="time" start="Promo_SpringCleaning_Wave_3" end="Promo_SpringCleaning_End" />
+							</Requirements>
+							<True>
+								<Action type="setVariable" boolVariable="Promo_SpringCleaning_PurchasedSeen3" boolValue="true" />
+								<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoPurchasedDialogue_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="happy" />
+								<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoPurchasedDialogue_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="selling" />
+							</True>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Promo_SpringCleaning_Purchased>
+	<CheckCanceled>
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_CheckCanceled" boolValue="true" />
+	</CheckCanceled>
+	<Promo_SpringCleaning_Canceled>
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_CanceledSeen" boolValue="true" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_PromoIgnored" boolValue="false" />
+		<Action type="setVariable" boolVariable="Promo_SpringCleaning_CheckCanceled" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="Promo_SpringCleaning_Wave_1" end="Promo_SpringCleaning_Wave_2" />
+				<Requirement type="consumable" name="Promo_Wave1_MrSparkle" not="true" />
+				<Requirement type="consumable" name="Promo_Wave1_SpecialDumpster" not="true" />
+				<Requirement type="consumable" name="Promo_Wave1_SimpsonsLaserTag" not="true" />
+				<Requirement type="consumable" name="Promo_Wave1_MoesHouse" not="true" />
+			</Requirements>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoNotPurchasedDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="annoyed" />
+				<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoNotPurchasedDialogue_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+				<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoNotPurchasedDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="Promo_SpringCleaning_Wave_2" end="Promo_SpringCleaning_Wave_3" />
+						<Requirement type="consumable" name="Promo_Wave1_MoesHouse" not="true" />
+						<Requirement type="consumable" name="Promo_Wave2_FlowerPlanter" not="true" />
+						<Requirement type="consumable" name="Promo_Wave2_NightmarePile" not="true" />
+						<Requirement type="consumable" name="Promo_Wave2_MuseumOfSwordfish" not="true" />
+					</Requirements>
+					<True>
+						<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoNotPurchasedDialogue_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="sad" />
+						<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoNotPurchasedDialogue_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="annoyed" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="time" start="Promo_SpringCleaning_Wave_3" end="Promo_SpringCleaning_End" />
+								<Requirement type="consumable" name="Promo_Wave2_StreetCleaner" not="true" />
+								<Requirement type="consumable" name="Promo_Wave3_WaverlyHillsElementarySchool" not="true" />
+								<Requirement type="consumable" name="Promo_Wave3_SpecialPlayTree" not="true" />
+								<Requirement type="consumable" name="Promo_Wave3_TheShinningMaze" not="true" />
+							</Requirements>
+							<True>
+								<Action type="dialogue" character="Gil" text="QST_SpringCleaningPromoNotPurchasedDialogue_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="sad" />
+							</True>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Promo_SpringCleaning_Canceled>
+	<SpringCleaning_KillGil ignoreHUD="true">
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</SpringCleaning_KillGil>
+	<Promo_NatureBundle>
+		<Action type="reward">
+			<Item type="building" name="SpringfieldGreenhouse" />
+			<Item type="building" name="KangTopiary" />
+			<Item type="building" name="KodosTopiary" />
+			<Item type="building" name="SpecialAppleTree" />
+			<Item type="building" name="SpecialAppleTree" />
+			<Item type="building" name="SpecialAppleTree" />
+			<Item type="building" name="SpecialAppleTree" />
+			<Item type="building" name="SpecialAppleTree" />
+			<Item type="building" name="SpecialOrangeTree" />
+			<Item type="building" name="SpecialOrangeTree" />
+			<Item type="building" name="SpecialOrangeTree" />
+			<Item type="building" name="SpecialOrangeTree" />
+			<Item type="building" name="SpecialOrangeTree" />
+			<Item type="building" name="CherubBirdBath" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="RoseBush" />
+			<Item type="building" name="SpecialPlayTree" />
+			<Item type="building" name="ButterflyTent" />
+		</Action>
+		<Action type="notificationLarge" title="CON_NatureBundle_name" button="UI_OK" text="QST_NatureBundle_SystemMessage" icon="ICO_STOR_Single_NatureBundle" />
+		<Action type="focusOnMenuItem" itemName="SpringfieldGreenhouse" inventory="true" menuCategory="Inventory_Nature" />
+	</Promo_NatureBundle>
+	<Promo_Wave1_MrSparkle>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="MrSparkleBillboard" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_10" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="10" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave1_MrSparkle>
+	<Promo_Wave1_SpecialDumpster>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SpecialDumpster" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_3" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="3" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave1_SpecialDumpster>
+	<Promo_Wave1_SimpsonsLaserTag>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SimpsonsLaserTag" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_35" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="35" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave1_SimpsonsLaserTag>
+	<Promo_Wave1_MoesHouse>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="MoesHouse" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_40" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="40" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave1_MoesHouse>
+	<Promo_Wave2_FlowerPlanter>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SpecialPlanter" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_3" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="3" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave2_FlowerPlanter>
+	<Promo_Wave2_NightmarePile>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="NightmarePile" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_35" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="35" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave2_NightmarePile>
+	<Promo_Wave2_MuseumOfSwordfish>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="MuseumOfSwordfish" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_25" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="25" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave2_MuseumOfSwordfish>
+	<Promo_Wave2_StreetCleaner>
+		<Action type="createobject" name="StreetCleaner" count="1" save="true" showUnlock="false" />
+		<Action type="pantoobject" time="0" character="StreetCleaner" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_35" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="35" />
+	</Promo_Wave2_StreetCleaner>
+	<Promo_Wave3_WaverlyHillsElementarySchool>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="WaverlyHillsElementarySchool" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_40" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="40" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave3_WaverlyHillsElementarySchool>
+	<Promo_Wave3_SpecialPlayTree>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SpecialPlayTree" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_8" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="8" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave3_SpecialPlayTree>
+	<Promo_Wave3_TheShinningMaze>
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="TheShinningMaze" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateAwardMessage_15" dismissOnOKOnly="true" />
+		<Action type="reward" donuts="15" />
+		<Action type="runScript" package="SpringCleaning_Scripts_Promo" script="Promo_SpringCleaning_Purchased" />
+	</Promo_Wave3_TheShinningMaze>
+</ScriptPackage>

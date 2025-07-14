@@ -1,0 +1,803 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="274000" name="TheHuntingHomer" />
+		<DataID id="274001" name="TalkingTurkey_1" />
+		<DataID id="274002" name="TalkingTurkey_2" />
+		<DataID id="274003" name="TalkingTurkey_3" />
+		<DataID id="274004" name="TalkingTurkey_4" />
+		<DataID id="274005" name="TalkingTurkey_5" />
+		<DataID id="274006" name="ThemsTheBreaks" />
+		<DataID id="274007" name="GoldenTokens2023_1" />
+		<DataID id="274008" name="GoldenTokens2023_2" />
+		<DataID id="274009" name="WhaleOfAGoodTime" />
+		<DataID id="274010" name="HedgingYourBets" />
+		<DataID id="274011" name="HittingTheRoof" />
+		<DataID id="274012" name="DollarsAndDonuts" />
+		<DataID id="274013" name="TwoWeekBogus_1" />
+		<DataID id="274014" name="TwoWeekBogus_2" />
+		<DataID id="274015" name="TwoWeekBogus_3" />
+		<DataID id="274016" name="CookingTheBooks_1" />
+		<DataID id="274017" name="CookingTheBooks_2" />
+		<DataID id="274018" name="CookingTheBooks_3" />
+		<DataID id="274600" name="ColdTurkey_Completed" />
+		<DataID id="274601" name="ColdTurkey_IntroPanel" />
+		<DataID id="274602" name="ColdTurkey_72HourWarning" onDeprecated="retain" endDate="ColdTurkey_End" />
+		<DataID id="274603" name="ColdTurkey_24HourWarning" onDeprecated="retain" endDate="ColdTurkey_End" />
+		<DataID id="274604" name="ColdTurkey_EventExpired" />
+		<DataID id="274605" name="ColdTurkey_MasterQuest" />
+		<DataID id="274606" name="BlackFriday2023_1" />
+		<DataID id="274607" name="BlackFriday2023_2" />
+		<DataID id="274608" name="BlackFriday2023_3" />
+		<DataID id="274609" name="BlackFriday2023_4" />
+		<DataID id="274610" name="BlackFriday2023_5" />
+		<DataID id="274611" name="BlackFriday2023_6" />
+		<DataID id="274612" name="BlackFriday2023_7" />
+		<DataID id="274613" name="BlackFriday2023_8" />
+		<DataID id="274614" name="BlackFriday2023_MasterQuest" />
+		<DataID id="274615" name="ColdTurkey_ShowBFGuidePanel" />
+		<DataID id="274900" name="ColdTurkey_RecommendStore" onDeprecated="delete" endDate="ColdTurkey_End" />
+	</MasterList>
+	<Quest id="274600" name="ColdTurkey_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="ThemsTheBreaks" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274601" name="ColdTurkey_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="TheHuntingHomer" />
+			<Requirement type="time" end="ColdTurkey_End" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="274602" name="ColdTurkey_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ColdTurkey_End')-fromHours(72)]_" end="_[System::evaluate('Date::ColdTurkey_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="ColdTurkey_Complete" not="true" />
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="274603" name="ColdTurkey_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ColdTurkey_End')-fromHours(24)]_" end="ColdTurkey_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ColdTurkey_Complete" not="true" />
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="274604" name="ColdTurkey_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ColdTurkey_Complete" not="true" />
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="274605" name="ColdTurkey_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_Expired" not="true" />
+			<Requirement type="variable" variable="ColdTurkey_Complete" not="true" />
+			<Requirement type="reqList" location="ColdTurkey_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ThemsTheBreaks" />
+					<Requirement type="variable" variable="ColdTurkey_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TalkingTurkey_1">
+				<Requirement type="quest started" quest="TalkingTurkey_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TalkingTurkey_2">
+				<Requirement type="quest started" quest="TalkingTurkey_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TalkingTurkey_3">
+				<Requirement type="quest started" quest="TalkingTurkey_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TalkingTurkey_4">
+				<Requirement type="quest started" quest="TalkingTurkey_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TalkingTurkey_5">
+				<Requirement type="quest started" quest="ThemsTheBreaks" not="true" />
+			</QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="274000" name="TheHuntingHomer" tags="sidequest" icon="ColdTurkey_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TheHuntingHomer_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TheHuntingHomer_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="RollHerEyes_CT" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="ContinueToBrag" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="274001" name="TalkingTurkey_1" tags="mainquest" icon="ColdTurkey_Currency" sidebarIconScript="ColdTurkey_Scripts:OpenMasterQuest" questMenuConfigPath="ColdTurkey_QuestConfig:ColdTurkey_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_1_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ColdTurkey_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:ColdTurkey_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:ShowJobList" textpoolName="QST_ColdTurkey_Collect_obj">
+				<HighlightJobList>
+					<Job name="LookForUsedGravyBoats" />
+					<Job name="OrderHighEndGravyBoats" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Apu" job="FinallySellSomeTurkeyChili" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ColdTurkey_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ColdTurkey_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="274002" name="TalkingTurkey_2" tags="mainquest" icon="ColdTurkey_Currency" sidebarIconScript="ColdTurkey_Scripts:OpenMasterQuest" questMenuConfigPath="ColdTurkey_QuestConfig:ColdTurkey_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TalkingTurkey_1" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_2_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ColdTurkey_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:ColdTurkey_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:ShowJobList" textpoolName="QST_ColdTurkey_Collect_obj">
+				<HighlightJobList>
+					<Job name="LookForUsedGravyBoats" />
+					<Job name="OrderHighEndGravyBoats" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Mendoza" job="TakeHomerHostage" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Mendoza" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GetTakenHostage" quantity="1" />
+			<Objective type="complete job" character="Wolfcastle" job="ShakeHisHead" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wolfcastle" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ColdTurkey_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ColdTurkey_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="274003" name="TalkingTurkey_3" tags="mainquest" icon="ColdTurkey_Currency" sidebarIconScript="ColdTurkey_Scripts:OpenMasterQuest" questMenuConfigPath="ColdTurkey_QuestConfig:ColdTurkey_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TalkingTurkey_2" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_3_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ColdTurkey_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:ColdTurkey_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:ShowJobList" textpoolName="QST_ColdTurkey_Collect_obj">
+				<HighlightJobList>
+					<Job name="LookForUsedGravyBoats" />
+					<Job name="OrderHighEndGravyBoats" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="Escape" quantity="1" />
+			<Objective type="complete job" character="Wolfcastle" job="ComplainAboutSoreness" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wolfcastle" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Cletus" job="SignAwayHisTurkeyFarm" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Cletus" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Brandine" job="StartThinkingOfNames" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Brandine" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ColdTurkey_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ColdTurkey_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="274004" name="TalkingTurkey_4" tags="mainquest" icon="ColdTurkey_Currency" sidebarIconScript="ColdTurkey_Scripts:OpenMasterQuest" questMenuConfigPath="ColdTurkey_QuestConfig:ColdTurkey_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TalkingTurkey_3" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_4_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ColdTurkey_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:ColdTurkey_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:ShowJobList" textpoolName="QST_ColdTurkey_Collect_obj">
+				<HighlightJobList>
+					<Job name="LookForUsedGravyBoats" />
+					<Job name="OrderHighEndGravyBoats" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="FollowPoliceInstructions" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="PoutAboutHisSandwich" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Mendoza" job="SearchForHomer_CT" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Mendoza" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ColdTurkey_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ColdTurkey_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="274005" name="TalkingTurkey_5" tags="mainquest" icon="ColdTurkey_Currency" sidebarIconScript="ColdTurkey_Scripts:OpenMasterQuest" questMenuConfigPath="ColdTurkey_QuestConfig:ColdTurkey_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ColdTurkey_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TalkingTurkey_4" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_5_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TalkingTurkey_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ColdTurkey_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:ColdTurkey_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:ShowJobList" textpoolName="QST_ColdTurkey_Collect_obj">
+				<HighlightJobList>
+					<Job name="LookForUsedGravyBoats" />
+					<Job name="OrderHighEndGravyBoats" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="SignAwayRightsToWolfcastle" quantity="1" />
+			<Objective type="complete job" character="Wolfcastle" job="BuyHomersOneLiner" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wolfcastle" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Wiggum" job="ArrestMendoza" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Mendoza" job="GetArrested_CT" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Mendoza" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ColdTurkey_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ColdTurkey_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="274006" name="ThemsTheBreaks" tags="sidequest" icon="ColdTurkey_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TalkingTurkey_5" />
+		</Requirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="ThemsTheBreaks_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274615" name="ColdTurkey_ShowBFGuidePanel" tags="dummy">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_RecommendStore" allowDeprecate="true" />
+		</Requirements>
+		<EndScript package="ColdTurkey_Scripts" name="ShowBlackFriday2023GuidePanel" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="274007" name="GoldenTokens2023_1" tags="sidequest" textpoolName="QST_DDaySalesExtravaganza01_3_dlg_Start_1_Gil" icon="AnimalFriendlyThanksgiving_CurrencyMysteryBox">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="reqList" location="ColdTurkey_Requirements:GoldMysteryBox2023_Available" />
+			<Requirement type="quest" quest="ColdTurkey_ShowBFGuidePanel" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="GoldenTokens2023_1_Start" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="GoldenTokens2023_1_End" />
+		<Objectives>
+			<Objective type="use consumable" consumable="ColdTurkey_GoldMysteryBox2023" quantity="1" suppressCompleteSound="true" textpoolName="QST_BlackFriday2019_1_2_obj_1" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:GoToGoldMysteryBox2023" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274008" name="GoldenTokens2023_2" tags="sidequest" textpoolName="PROMO_DayOldDonuts_dlg_Start_2_Gil" icon="AnimalFriendlyThanksgiving_CurrencyMysteryBox">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_GMB_End" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="time" start="ColdTurkey_End" />
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="quest" quest="ColdTurkey_Completed" />
+					<Requirement type="reqList" location="ColdTurkey_Requirements:GoldMysteryBox2023_Available" not="true" />
+				</Requirement>
+			</Requirement>
+			<Requirement type="currency" GoldBoxTokens="1" />
+			<Requirement type="quest" quest="MyPad" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="GoldenTokens2023_2_Start" />
+		<Objectives>
+			<Objective type="lose special currency" currency="GoldBoxTokens" quantity="1" textpoolName="QST_BlackFriday2019_2_2_obj_1" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:GoToColdTurkeyTokenExchange" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274009" name="WhaleOfAGoodTime" tags="sidequest" icon="ColdTurkey_HomerWhale">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="HomerWhale" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="WhaleOfAGoodTime_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="AdmireHomerWhale" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="SwearShesNotJealous" quantity="1" />
+			<Objective type="complete job" character="Bart" job="WishForLaserEyes" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274010" name="HedgingYourBets" tags="sidequest" icon="ColdTurkey_HomersHedge">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="HomersHedge" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="HedgingYourBets_Start" triggerType="character" character="Homer" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="HedgingYourBets_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="UseTheHedgeBush" quantity="1" />
+			<Objective type="complete job" character="Marge" job="RegretAsking" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274011" name="HittingTheRoof" tags="sidequest" icon="ColdTurkey_SimpsonsMountainHome">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="SimpsonsMountainHome" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="HittingTheRoof_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="FleeFromTheMountainHome_Homer" quantity="1" />
+			<Objective type="complete job" character="Marge" job="FleeFromTheMountainHome_Marge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="FleeFromTheMountainHome_Lisa" quantity="1" />
+			<Objective type="complete job" character="Bart" job="FleeFromTheMountainHome_Bart" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274012" name="DollarsAndDonuts" tags="sidequest" icon="ColdTurkey_LardLand">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="LardLandShop" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="DollarsAndDonuts_Start" triggerType="character" character="Homer" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="DollarsAndDonuts_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="GoToDonutJail" quantity="1" />
+			<Objective type="complete job" character="Marge" job="BailHomerOut" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274013" name="TwoWeekBogus_1" tags="sidequest" icon="Scoey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Scoey" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TwoWeekBogus_1_Start" triggerType="character" character="Scoey" />
+		<Objectives>
+			<Objective type="complete job" character="Scoey" job="FillOutPaperwork" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="ReflectFondly" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="MagnesiumMan" job="ShowHisLicense" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MagnesiumMan" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274014" name="TwoWeekBogus_2" tags="sidequest" icon="Scoey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TwoWeekBogus_1" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TwoWeekBogus_2_Start" triggerType="character" character="Scoey" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TwoWeekBogus_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Scoey" job="WalkHisOldBeat_Scoey" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="RollHisEyes_Wiggum" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lou" job="RollHisEyes_Lou" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lou" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274015" name="TwoWeekBogus_3" tags="sidequest" icon="Scoey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TwoWeekBogus_2" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="TwoWeekBogus_3_Start" triggerType="character" character="Scoey" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="TwoWeekBogus_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Scoey" job="CountTheDaysTilRetirement" quantity="1" />
+			<Objective type="complete job" character="Eddie" job="Shrug" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Eddie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274016" name="CookingTheBooks_1" tags="sidequest" icon="Mendoza">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Mendoza" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="CookingTheBooks_1_Start" triggerType="character" character="Mendoza" />
+		<Objectives>
+			<Objective type="complete job" character="Mendoza" job="TryWeaponlessCrime_TEMP" quantity="1" />
+			<Objective type="complete job" character="Louie" job="WatchForRaccoons" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Louie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274017" name="CookingTheBooks_2" tags="sidequest" icon="Mendoza">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CookingTheBooks_1" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="CookingTheBooks_2_Start" triggerType="character" character="Mendoza" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="CookingTheBooks_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Legs" job="VouchForMendoza" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Legs" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Mendoza" job="RecruitEvilHenchmen" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274018" name="CookingTheBooks_3" tags="sidequest" icon="Mendoza">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CookingTheBooks_2" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts_Dialogue" name="CookingTheBooks_3_Start" triggerType="character" character="Mendoza" />
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="CookingTheBooks_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mendoza" job="EnjoyTheBakedZiti_Mendoza" quantity="1" />
+			<Objective type="complete job" character="FatTony" job="EnjoyTheBakedZiti_FatTony" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FatTony" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="274900" name="ColdTurkey_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="ColdTurkey_Requirements:StoreCategory_ColdTurkey_Unlocked" />
+		</Requirements>
+		<StartScript package="ColdTurkey_Scripts" name="RecommendStoreCategory_ColdTurkey" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="274614" name="BlackFriday2023_MasterQuest" tags="sidequest" repeatable="true" icon="AnimalFriendlyThanksgiving_CurrencyMysteryBox">
+		<Requirements>
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="BlackFriday2023_1" />
+				<Requirement type="active quest" quest="BlackFriday2023_2" />
+				<Requirement type="active quest" quest="BlackFriday2023_3" />
+				<Requirement type="active quest" quest="BlackFriday2023_4" />
+				<Requirement type="active quest" quest="BlackFriday2023_5" />
+				<Requirement type="active quest" quest="BlackFriday2023_6" />
+				<Requirement type="active quest" quest="BlackFriday2023_7" />
+				<Requirement type="active quest" quest="BlackFriday2023_8" />
+			</Requirement>
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="quest" quest="BlackFriday2023_8" />
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="BlackFriday2023_1">
+				<Requirement type="quest" quest="BlackFriday2023_1" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_2">
+				<Requirement type="quest" quest="BlackFriday2023_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_3">
+				<Requirement type="quest" quest="BlackFriday2023_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_4">
+				<Requirement type="quest" quest="BlackFriday2023_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_5">
+				<Requirement type="quest" quest="BlackFriday2023_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_6">
+				<Requirement type="quest" quest="BlackFriday2023_6" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_7">
+				<Requirement type="quest" quest="BlackFriday2023_7" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2023_8">
+				<Requirement type="quest" quest="BlackFriday2023_8" not="true" />
+			</QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="274606" name="BlackFriday2023_1" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" triggerEvent="true" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_1_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274607" name="BlackFriday2023_2" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_1" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_2_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_2_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274608" name="BlackFriday2023_3" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_2" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_3_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274609" name="BlackFriday2023_4" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_3" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_4_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_4_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274610" name="BlackFriday2023_5" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_4" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_5_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_5_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274611" name="BlackFriday2023_6" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item6_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_5" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList6__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_6_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_6_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274612" name="BlackFriday2023_7" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item7_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_6" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList7__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_7_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_7_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="274613" name="BlackFriday2023_8" questMenuConfigPath="ColdTurkey_QuestConfig:BlackFriday2023_Item8_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="ColdTurkey_IntroPanel" />
+			<Requirement type="quest" quest="BlackFriday2023_7" />
+			<Requirement type="time" start="ColdTurkey_Start" end="ColdTurkey_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="ColdTurkey_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2023_Currency')" amount="__ColdTurkey_GameConfig:ResourceQuantities:BlackFriday_ResourceList8__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2020_8_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="ColdTurkey_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="ColdTurkey_Scripts_Dialogue" name="BlackFriday2023_8_End" />
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+</Quests>

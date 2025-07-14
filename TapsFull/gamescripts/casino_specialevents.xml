@@ -1,0 +1,1142 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="138000" name="Casino_Event" status="deprecated" onDeprecated="delete" enabled="FLAG_CASINO" />
+		<DataID id="138001" name="Casino_Social" status="deprecated" onDeprecated="delete" enabled="FLAG_CASINO" />
+		<DataID id="138002" name="Casino_EventLevel" status="deprecated" onDeprecated="delete" enabled="FLAG_CASINO" />
+	</MasterList>
+	<SpecialEvent id="138000" name="Casino_Event">
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="BurnsCasino" />
+			</LandInfo>
+		</LandInfos>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUB_Casino_Crafting">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="quest" quest="CraftPunk" />
+				</Requirements>
+				<RunScript>
+					<Script name="Casino_Scripts:TabPressed_CasinoCrafting" />
+				</RunScript>
+				<ExclamationMark>
+					<Requirements>
+						<Requirement type="checkBadge" badgeName="Crafting" />
+					</Requirements>
+				</ExclamationMark>
+			</Button>
+		</SpecialButtons>
+		<HUDCurrencies buttonType="guide" guideButtonScript="Casino_Scripts:TabPressed_CasinoPrizeTrack_Help">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Currency type="Casino_ActivePrizeTrackCurrency" />
+			<Currency type="Casino_Token" />
+			<Currency type="Casino_EventLevel_Points">
+				<Requirement type="quest started" quest="TakeTheirMoneyThenFun" />
+			</Currency>
+		</HUDCurrencies>
+		<PrizeListButton icon="ICO_MHUD_Casino_Event">
+			<Requirement type="land" land="Springfield" />
+			<BadgeRequirements>
+				<Requirement type="checkBadge" badgeName="PrizeTrack" />
+			</BadgeRequirements>
+			<Script package="Casino_Scripts" name="TabPressed_CasinoPrizeTrack" />
+		</PrizeListButton>
+		<Notifications location="Casino_Notifications:Notifications">
+			<Notification name="MaxGamblersPN" />
+			<Notification name="MaxGamblers24HPN" />
+		</Notifications>
+		<Badges>
+			<Badge name="PrizeTrack">
+				<Condition variable="PrizeTrack1_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act1" />
+				</Condition>
+				<Condition variable="PrizeTrack2_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act2" />
+				</Condition>
+				<Condition variable="PrizeTrack3_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act3" />
+				</Condition>
+			</Badge>
+			<Badge name="Crafting">
+				<Condition variable="Crafting_NewItem" repeatable="true">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="variable" variable="WalkOfFameStar_New" />
+						<Requirement type="variable" variable="FicusPlant_New" />
+						<Requirement type="variable" variable="WhiteSpotlight_New" />
+						<Requirement type="variable" variable="CyclingSpotlight_New" />
+						<Requirement type="variable" variable="Fountain1_New" />
+						<Requirement type="variable" variable="Fountain2_New" />
+						<Requirement type="variable" variable="Woodstock_New" />
+						<Requirement type="variable" variable="CowgirlSign_New" />
+						<Requirement type="variable" variable="ExoticTree_New" />
+						<Requirement type="variable" variable="Fountain3_New" />
+						<Requirement type="variable" variable="Fountain4_New" />
+						<Requirement type="variable" variable="LifeSizedSpruceMoose_New" />
+						<Requirement type="variable" variable="DupesSign_New" />
+						<Requirement type="variable" variable="NerosFountain_New" />
+						<Requirement type="variable" variable="MultiColoredSpotlight_New" />
+						<Requirement type="variable" variable="Fountain5_New" />
+						<Requirement type="variable" variable="SafariCasino_New" />
+					</Requirement>
+				</Condition>
+				<Condition variable="Crafting_UniqueReady" repeatable="true">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="formula" formula="Casino_CraftLevel&gt;=2" />
+							<Requirement type="formula" formula="LifeSizedSpruceMoose_TotalCrafted==0" />
+							<Requirement type="special currency" currency="Casino_Keychain" amount="__Casino_Spreadsheet_Config:Crafting:SpruceMoose_Keychain__" />
+							<Requirement type="special currency" currency="Casino_Coaster" amount="__Casino_Spreadsheet_Config:Crafting:SpruceMoose_Coaster__" />
+							<Requirement type="special currency" currency="Casino_Martini" amount="__Casino_Spreadsheet_Config:Crafting:SpruceMoose_Martini__" />
+							<Requirement type="special currency" currency="Casino_ShowTicket" amount="__Casino_Spreadsheet_Config:Crafting:SpruceMoose_ShowTicket__" />
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="formula" formula="Casino_CraftLevel==3" />
+							<Requirement type="formula" formula="DupesSign_TotalCrafted==0" />
+							<Requirement type="special currency" currency="Casino_Keychain" amount="__Casino_Spreadsheet_Config:Crafting:DupesSign_Keychain__" />
+							<Requirement type="special currency" currency="Casino_Coaster" amount="__Casino_Spreadsheet_Config:Crafting:DupesSign_Coaster__" />
+							<Requirement type="special currency" currency="Casino_Martini" amount="__Casino_Spreadsheet_Config:Crafting:DupesSign_Martini__" />
+							<Requirement type="special currency" currency="Casino_ShowTicket" amount="__Casino_Spreadsheet_Config:Crafting:DupesSign_ShowTicket__" />
+						</Requirement>
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="formula" formula="Casino_CraftLevel==3" />
+							<Requirement type="formula" formula="SafariCasino_TotalCrafted==0" />
+							<Requirement type="special currency" currency="Casino_Keychain" amount="__Casino_Spreadsheet_Config:Crafting:SafariCasino_Keychain__" />
+							<Requirement type="special currency" currency="Casino_Coaster" amount="__Casino_Spreadsheet_Config:Crafting:SafariCasino_Coaster__" />
+							<Requirement type="special currency" currency="Casino_Martini" amount="__Casino_Spreadsheet_Config:Crafting:SafariCasino_Martini__" />
+							<Requirement type="special currency" currency="Casino_ShowTicket" amount="__Casino_Spreadsheet_Config:Crafting:SafariCasino_ShowTicket__" />
+						</Requirement>
+					</Requirement>
+				</Condition>
+			</Badge>
+		</Badges>
+		<EventHub menuConfig="June2015_EventHubMenuConfig:EventHub">
+			<Tabs>
+				<Tab name="Tab_CasinoPrizeTrack" icon="ICO_MHUB_Casino_PrizeTrack">
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="PrizeTrack" />
+					</BadgeRequirements>
+					<Script name="TabPressed_CasinoPrizeTrack" package="Casino_Scripts" />
+				</Tab>
+				<Tab name="Tab_CasinoCrafting" icon="ICO_MHUB_Casino_Crafting">
+					<DisplayRequirements>
+						<Requirement type="quest" quest="CraftPunk" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="Crafting" />
+					</BadgeRequirements>
+					<Script name="TabPressed_CasinoCrafting" package="Casino_Scripts" />
+				</Tab>
+				<Tab name="Tab_EventLevel" icon="ICO_MHUB_Casino_EventLevel">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="TakeTheirMoneyThenFun" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==4" />
+					</HighlightRequirements>
+					<Script name="TabPressed_CasinoEventLevel" package="Casino_Scripts" />
+				</Tab>
+				<Tab name="Tab_BuildingFinder" icon="ICO_MHUB_Casino_FindBuilding">
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="TabPressed_CasinoBuildings" package="Casino_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="Casino_CourtesyChip"></Resource>
+				<Resource type="Casino_Keychain"></Resource>
+				<Resource type="Casino_Coaster"></Resource>
+				<Resource type="Casino_Martini"></Resource>
+				<Resource type="Casino_ShowTicket"></Resource>
+			</ResourceTypes>
+		</EventHub>
+		<Buildings override="true">
+			<Building name="BurnsCasino">
+				<JobCensusData enable="true" gotoOtherLandColour="CE7901FF" premiumBackgroundColour="000000D9" premiumToolTip="UI_THOH2015_Act2Census_SimpsonHome_PremiumTip">
+					<VisibilityRequirements>
+						<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+					</VisibilityRequirements>
+					<Job name="GoBigOrGoHome" />
+					<Job name="EntertainGamblers" />
+					<Job name="DeliverAThreat" />
+					<Job name="BlowMoneyWithStyle" />
+					<Job name="FeelSuperiorToGamblers" />
+					<Job name="HitOnCocktailWaitresses" />
+					<Job name="TakeGaneshaGambling" />
+					<Job name="ActivelyAbstainFromGambling" />
+					<Job name="PutMathToActualUse" />
+					<Job name="CountCardsForTheCollectionPlate" />
+					<Job name="ApplyForWork_Casino" />
+					<Job name="SampleTheBuffet" />
+					<Job name="FeelGoodAboutHimself" />
+					<Job name="WorryAboutMoney" />
+					<Job name="WorryAboutTheCasino" />
+					<Job name="SurrenderControlOfAmerica" />
+					<Job name="RemainSilent" />
+					<Job name="GoMoreGreen" />
+					<Job name="DrinkAbsinthe" />
+					<Job name="WatchASexyFloorShow" />
+					<Job name="GorgeOnWhaleSushi" />
+					<Job name="HallucinateOnAbsinthe" />
+					<Job name="SnoopAround" />
+					<Job name="ConsiderHiringHomer" />
+					<Job name="NotRecognizeMrBurns" />
+					<Job name="SnoopAround" />
+					<Job name="InterviewMoreEntertainers" />
+					<Job name="DoStuntsInTheCafeteria" />
+					<Job name="EntertainGamblersWithTerribleImpressions" />
+					<Job name="InvestigateInsideTheCasino" />
+					<Job name="StartGamblingAnonymous" />
+					<Job name="BleedOutInTheGiftShop" />
+					<Job name="DealCards" />
+					<Job name="HostAnAwardsCeremonyAtCasino" />
+					<Job name="Attend" />
+					<Job name="GambleWithoutEnd" />
+					<Job name="PerformUntilHeBleeds" />
+					<Job name="WearASuitMadeOfDollars" />
+					<Job name="EnjoyAnExoticDance" />
+					<Job name="GoToWar_StraightArrows" />
+					<Job name="FillJarsOfUrine" />
+					<Job name="ClipToenails" />
+					<Job name="HideFromTheWorld" />
+					<Job name="MopeWithEnnui" />
+					<Job name="FadeFromThePublicEye" />
+					<Job name="DenyRequestsForAccess" />
+					<Job name="DoAllTheWork" />
+					<Job name="WatchIceStationZebra" />
+					<Job name="SinkIntoObscurity" />
+				</JobCensusData>
+				<TouchIcon value="indicator_casino_GameToken.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+						<Requirement type="players land" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="IdleCharacter" character="TheRichTexan" />
+							<Requirement type="IdleCharacter" character="PrincessKashmir" />
+							<Requirement type="IdleCharacter" character="JohnnyTightlips" />
+							<Requirement type="IdleCharacter" character="ParisTexan" />
+							<Requirement type="IdleCharacter" character="Lisa" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Krusty" />
+								<Requirement type="character" name="Krusty" unlockedskin="Tuxedo" />
+							</Requirement>
+							<Requirement type="IdleCharacter" character="Apu" />
+							<Requirement type="IdleCharacter" character="Ned" />
+							<Requirement type="IdleCharacter" character="Skinner" />
+							<Requirement type="IdleCharacter" character="Lovejoy" />
+						</Requirement>
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building name="GamingMoes">
+				<ConstructionReward Casino_Token="1" />
+			</Building>
+			<Building name="ImpulseWeddingChapel">
+				<ConstructionReward Casino_EventLevel_Points="240" />
+			</Building>
+			<Building name="LuckyCasino">
+				<ConstructionReward Casino_EventLevel_Points="300" />
+			</Building>
+			<Building name="NerosPalaceCasino">
+				<ConstructionReward Casino_EventLevel_Points="240" />
+			</Building>
+			<Building name="SafariCasino">
+				<ConstructionReward Casino_EventLevel_Points="480" />
+			</Building>
+			<Building name="ChineseAcrobaticTheatre">
+				<ConstructionReward Casino_EventLevel_Points="240" />
+			</Building>
+			<Building name="Britannia">
+				<ConstructionReward Casino_EventLevel_Points="240" />
+			</Building>
+			<Building name="Woodstock">
+				<ConstructionReward Casino_EventLevel_Points="240" />
+			</Building>
+			<Building name="PeacockLounge">
+				<BuildMenuText text="UI_Casino_BCPCC_Peacock" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward Casino_EventLevel_Points="480" />
+			</Building>
+			<Building name="LaBelleFrottage">
+				<BuildMenuText text="UI_Casino_BCPCC_LaBelle" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward Casino_EventLevel_Points="480" />
+			</Building>
+			<Building name="WaterShowFountain">
+				<BuildMenuText text="UI_Casino_BCPCC_WaterShow" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward Casino_EventLevel_Points="180" />
+			</Building>
+			<Building name="NerosFountain">
+				<ConstructionReward Casino_EventLevel_Points="selector NerosFountain_BCPCC" />
+			</Building>
+			<Building name="BurnsFountain">
+				<ConstructionReward Casino_EventLevel_Points="120" />
+			</Building>
+			<Building name="NerosPalaceArch">
+				<ConstructionReward Casino_EventLevel_Points="120" />
+			</Building>
+			<Building name="WalkOfFameStar">
+				<ConstructionReward Casino_EventLevel_Points="selector WalkOfFameStar_BCPCC" />
+			</Building>
+			<Building name="CyclingSpotlight">
+				<ConstructionReward Casino_EventLevel_Points="selector CyclingSpotlight_BCPCC" />
+			</Building>
+			<Building name="MultiColoredSpotlight">
+				<ConstructionReward Casino_EventLevel_Points="selector MultiColoredSpotlight_BCPCC" />
+			</Building>
+			<Building name="AnimatedFountain1">
+				<ConstructionReward Casino_EventLevel_Points="selector Fountain1_BCPCC" />
+			</Building>
+			<Building name="AnimatedFountain2">
+				<ConstructionReward Casino_EventLevel_Points="selector Fountain2_BCPCC" />
+			</Building>
+			<Building name="AnimatedFountain3">
+				<ConstructionReward Casino_EventLevel_Points="selector Fountain3_BCPCC" />
+			</Building>
+			<Building name="AnimatedFountain4">
+				<ConstructionReward Casino_EventLevel_Points="selector Fountain4_BCPCC" />
+			</Building>
+			<Building name="AnimatedFountain5">
+				<ConstructionReward Casino_EventLevel_Points="selector Fountain5_BCPCC" />
+			</Building>
+			<Building name="FicusPlant">
+				<ConstructionReward Casino_EventLevel_Points="selector FicusPlant_BCPCC" />
+			</Building>
+			<Building name="ExoticTree">
+				<ConstructionReward Casino_EventLevel_Points="selector ExoticTree_BCPCC" />
+			</Building>
+			<Building name="NewarkNewarkSign">
+				<ConstructionReward Casino_EventLevel_Points="120" />
+			</Building>
+			<Building name="DupesSign">
+				<ConstructionReward Casino_EventLevel_Points="120" />
+			</Building>
+			<Building name="CowgirlSign">
+				<ConstructionReward Casino_EventLevel_Points="selector CowgirlSign_BCPCC" />
+			</Building>
+			<Building name="LifeSizedSpruceMoose">
+				<ConstructionReward Casino_EventLevel_Points="420" />
+			</Building>
+			<Building name="WelcomeToSpringfieldSign">
+				<BuildMenuText text="UI_Casino_BCPCC_Welcome" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward Casino_EventLevel_Points="240" />
+			</Building>
+			<Building name="CasinoConciergeKiosk">
+				<OnEvent event="BuildingTouched" onObject="CasinoConciergeKiosk">
+					<Script name="TabPressed_CasinoEventLevel" package="Casino_Scripts" />
+				</OnEvent>
+			</Building>
+			<Building name="CasinoVIP"></Building>
+		</Buildings>
+		<Characters override="true">
+			<Character name="Gambler">
+				<OnEvent onObject="Gambler" event="CharacterTouched" user="local">
+					<Script name="Casino_Scripts:GamblerTapped_Local_Radius" />
+				</OnEvent>
+				<OnEvent onObject="Gambler" event="CharacterTouched" user="remote">
+					<Requirement type="variable" variable="Casino_Social" />
+					<Script name="GamblerTapped_Social" package="Casino_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="Casino_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+					</Requirements>
+					<Script name="SpawnGamblers_LowLevelFriend" package="Casino_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="Casino_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+					</Requirements>
+					<Script name="SpawnGamblers_MidLevelFriend" package="Casino_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="Casino_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+					</Requirements>
+					<Script name="SpawnGamblers_HighLevelFriend" package="Casino_Scripts" />
+				</OnEvent>
+			</Character>
+			<Character name="Chippy">
+				<BuildMenuText text="UI_Casino_BCPCC_Golddiggers" />
+			</Character>
+		</Characters>
+		<Jobs>
+			<Job name="LeavingSomeThingsBestLeftUntranslated" time="4h">
+				<Reward Casino_ActivePrizeTrackCurrency="110" xp="15" />
+			</Job>
+			<Job name="GoBigOrGoHome" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="EntertainGamblers" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="DeliverAThreat" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="BlowMoneyWithStyle" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="FeelSuperiorToGamblers" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="HitOnCocktailWaitresses" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="TakeGaneshaGambling" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="ActivelyAbstainFromGambling" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="PutMathToActualUse" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="CountCardsForTheCollectionPlate" time="__Casino_Spreadsheet_Config:Jobs:Time__" customRushCost="4,4">
+				<Requirement type="quest started" quest="TheOldManAndTheSino_7" />
+				<Reward Casino_ActivePrizeTrackCurrency="__Casino_Spreadsheet_Config:Jobs:Reward_PTCurrency__" Casino_Token="__Casino_Spreadsheet_Config:Jobs:Reward_GameToken__" />
+			</Job>
+			<Job name="ChippyGenerator" time="24h">
+				<TieredReward>
+					<Reward time="24h" Casino_Token="1" />
+				</TieredReward>
+				<CompleteIcon file="Indicator_Casino_GameToken" />
+			</Job>
+			<Job name="ApplyForWork_Casino">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="TheOldManAndTheSino_3" />
+					<Requirement type="active quest" quest="TheOldManAndTheSino_3_NoMoe" />
+				</Requirement>
+			</Job>
+			<Job name="SampleTheBuffet">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="TheOldManAndTheSino_3" />
+					<Requirement type="active quest" quest="TheOldManAndTheSino_3_NoMoe" />
+				</Requirement>
+			</Job>
+			<Job name="GetGamblersDrunk">
+				<Requirement type="active quest" quest="TheOldManAndTheSino_4" />
+			</Job>
+			<Job name="PlayItSafe">
+				<Requirement type="active quest" quest="CraftPunk" />
+				<Reward Casino_Keychain="5" Casino_Coaster="5" />
+			</Job>
+			<Job name="FeelGoodAboutHimself">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="TheOldManAndTheSino_8" />
+					<Requirement type="active quest" quest="TheOldManAndTheSino_8_NoSmithers" />
+				</Requirement>
+			</Job>
+			<Job name="WorryAboutMoney">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="TheOldManAndTheSino_8" />
+					<Requirement type="active quest" quest="TheOldManAndTheSino_8_NoSmithers" />
+				</Requirement>
+			</Job>
+			<Job name="WorryAboutTheCasino">
+				<Requirement type="active quest" quest="TheOldManAndTheSino_9" />
+			</Job>
+			<Job name="SurrenderControlOfAmerica">
+				<Requirement type="active quest" quest="TheOldManAndTheSino_10" />
+			</Job>
+			<Job name="GoMoreGreen">
+				<Requirement type="active quest" quest="HaveAViceDay_1" />
+			</Job>
+			<Job name="DrinkAbsinthe">
+				<Requirement type="active quest" quest="HaveAViceDay_2" />
+			</Job>
+			<Job name="WatchASexyFloorShow">
+				<Requirement type="active quest" quest="HaveAViceDay_2" />
+			</Job>
+			<Job name="GorgeOnWhaleSushi">
+				<Requirement type="active quest" quest="HaveAViceDay_2" />
+			</Job>
+			<Job name="HallucinateOnAbsinthe">
+				<Requirement type="active quest" quest="HaveAViceDay_3" />
+			</Job>
+			<Job name="SnoopAround">
+				<Requirement type="active quest" quest="HaveAViceDay_3" />
+			</Job>
+			<Job name="InterviewMoreEntertainers">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="HaveAViceDay_5" />
+					<Requirement type="active quest" quest="HaveAViceDay_5_NoMurdock" />
+				</Requirement>
+			</Job>
+			<Job name="DoStuntsInTheCafeteria">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="HaveAViceDay_5" />
+					<Requirement type="active quest" quest="HaveAViceDay_5_NoMurdock" />
+				</Requirement>
+			</Job>
+			<Job name="ConsiderHiringHomer">
+				<Requirement type="active quest" quest="HaveAViceDay_4" />
+			</Job>
+			<Job name="NotRecognizeMrBurns">
+				<Requirement type="active quest" quest="HaveAViceDay_4" />
+			</Job>
+			<Job name="EntertainGamblersWithTerribleImpressions">
+				<Requirement type="active quest" quest="HaveAViceDay_6" />
+			</Job>
+			<Job name="InvestigateInsideTheCasino">
+				<Requirement type="active quest" quest="HaveAViceDay_7" />
+			</Job>
+			<Job name="StartGamblingAnonymous">
+				<Requirement type="active quest" quest="HaveAViceDay_8" />
+			</Job>
+			<Job name="BleedOutInTheGiftShop">
+				<Requirement type="active quest" quest="HaveAViceDay_9" />
+			</Job>
+			<Job name="DealCards">
+				<Requirements>
+					<Requirement type="active quest" quest="HaveAViceDay_10" />
+					<Requirement type="building" building="HomersHouseOfCards" />
+				</Requirements>
+			</Job>
+			<Job name="HostAnAwardsCeremonyAtCasino">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_1" />
+				</Requirements>
+			</Job>
+			<Job name="Attend">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_1" />
+				</Requirements>
+			</Job>
+			<Job name="HoldACandleLightVigil">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_2" />
+				</Requirements>
+			</Job>
+			<Job name="SearchForAMeetingSpace">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_3" />
+				</Requirements>
+			</Job>
+			<Job name="GambleWithoutEnd">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_4" />
+				</Requirements>
+			</Job>
+			<Job name="PerformUntilHeBleeds">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_4" />
+				</Requirements>
+			</Job>
+			<Job name="WearASuitMadeOfDollars">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_4" />
+				</Requirements>
+			</Job>
+			<Job name="EnjoyAnExoticDance">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_5" />
+				</Requirements>
+			</Job>
+			<Job name="CookGravy">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_6" />
+				</Requirements>
+			</Job>
+			<Job name="ReadLibertarianWebsites">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_6" />
+				</Requirements>
+			</Job>
+			<Job name="PlantShift_Casino">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="TheWagesOfSin_7" />
+						<Requirement type="active quest" quest="TheWagesOfSin_7_NoSmithers" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="AlmostCauseAMeltdown">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_8" />
+				</Requirements>
+			</Job>
+			<Job name="ReplaceBulbs">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_8" />
+				</Requirements>
+			</Job>
+			<Job name="EatBurnsLunch">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_9" />
+				</Requirements>
+			</Job>
+			<Job name="GoHungry">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_9" />
+				</Requirements>
+			</Job>
+			<Job name="EnjoyBathingBeauties">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="TheWagesOfSin_10" />
+						<Requirement type="active quest" quest="TheWagesOfSin_10_NoSmithers" />
+						<Requirement type="active quest" quest="TheWagesOfSin_12" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="PushRandomButtons">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="TheWagesOfSin_10" />
+						<Requirement type="active quest" quest="TheWagesOfSin_10_NoSmithers" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="Panic_Smithers">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_10" />
+				</Requirements>
+			</Job>
+			<Job name="GoToWar_Degenerates">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_11" />
+				</Requirements>
+			</Job>
+			<Job name="GoToWar_StraightArrows">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSin_11" />
+				</Requirements>
+			</Job>
+			<Job name="KnitASofaThrow">
+				<Requirements>
+					<Requirement type="active quest" quest="TheWagesOfSinEpilogue" />
+				</Requirements>
+			</Job>
+			<Job name="RemainSilent">
+				<Requirements>
+					<Requirement type="active quest" quest="TheSoundOfSilence_2" />
+				</Requirements>
+			</Job>
+		</Jobs>
+		<SpawnOverTime character="Gambler" loggedOnSpawnTime="__Casino_GameConfig:Gamblers:GamblersRate__" loggedOffSpawnTime="__Casino_GameConfig:Gamblers:GamblersRate__" maxAllowedInTown="__Casino_GameConfig:Gamblers:GamblersMax__" regularBankMax="__Casino_GameConfig:Gamblers:GamblersBankMax__" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedGamblers" errorTitle="UI_June2015_BallFull_title" errorBody="UI_Casino_TownFull">
+			<Requirement type="quest started" quest="TheOldManAndTheSino_6" />
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="Casino_MenuConfig:PrizeTrack0">
+				<Prize name="BLD_BurnsFountain_name" infoTitleText="UI_Casino_BCPCC_BurnFountain" listIcon="ICO_PRIZ_CASINO_BurnsFountain_MD" rewardIcon="ICO_PRIZ_CASINO_BurnsFountain_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack1:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT1Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack1:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="BurnsFountain" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_ImpulseWeddingChapel_name" infoTitleText="UI_Casino_BCPCC_Wedding" listIcon="ICO_PRIZ_CASINO_ImpulseWedding_MD" rewardIcon="ICO_PRIZ_CASINO_ImpulseWedding_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack1:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT1Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack1:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="ImpulseWeddingChapel" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MagicActMilhouse_name" infoTitleText="UI_Casino_BCPCC_MagicMilhouse" listIcon="ICO_PRIZ_CASINO_MilhouseMagicAct_MD" rewardIcon="ICO_PRIZ_CASINO_MilhouseMagicAct_LG.rgb" useImmediately="true" showInventoryPopup="false" itemDoneOverrideText="UI_Casino_MagicActMilhouse_PrizeUnlock" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack1:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT1Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack1:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MagicActMilhouse" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_Britannia_name" infoTitleText="UI_Casino_BCPCC_Brittania" listIcon="ICO_PRIZ_CASINO_Britannia_MD" rewardIcon="ICO_PRIZ_CASINO_Britannia_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack1:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT1Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack1:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="Britannia" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_LuciusSweet_name" infoTitleText="UI_Casino_BCPCC_Lucius" listIcon="ICO_PRIZ_CASINO_LuciusSweet_MD" rewardIcon="ICO_PRIZ_CASINO_LuciusSweet_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack1:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT1Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack1:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="LuciusSweet" useImmediately="false" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="Casino_MenuConfig:PrizeTrack1">
+				<Prize name="BLD_NewarkNewarkSign_name" infoTitleText="UI_Casino_BCPCC_Newark" listIcon="ICO_PRIZ_CASINO_NewarkNewark_MD" rewardIcon="ICO_PRIZ_CASINO_NewarkNewark_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack2:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT2Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack2:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="NewarkNewarkSign" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_LuckyCasino_name" infoTitleText="UI_Casino_BCPCC_Lucky" listIcon="ICO_PRIZ_CASINO_LuckyCasino_MD" rewardIcon="ICO_PRIZ_CASINO_LuckyCasino_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack2:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT2Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack2:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="LuckyCasino" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_CasinoNessie_name" infoTitleText="UI_Casino_BCPCC_Nessie" listIcon="ICO_PRIZ_CASINO_CasinoNessie_MD" rewardIcon="ICO_PRIZ_CASINO_CasinoNessie_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack2:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT2Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack2:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="CasinoNessie" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_Woodstock_name" infoTitleText="UI_Casino_BCPCC_Woodstock" listIcon="ICO_PRIZ_CASINO_Woodstock_MD" rewardIcon="ICO_PRIZ_CASINO_Woodstock_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack2:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT2Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack2:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="Woodstock" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_CreggDemon_name" infoTitleText="UI_Casino_BCPCC_Cregg" listIcon="ICO_PRIZ_CASINO_CreggDemon_MD" rewardIcon="ICO_PRIZ_CASINO_CreggDemon_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack2:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT2Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack2:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="CreggDemon" useImmediately="false" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="2" type="local" menuConfig="Casino_MenuConfig:PrizeTrack2">
+				<Prize name="BLD_NerosPalaceArch_name" infoTitleText="UI_Casino_BCPCC_NeroArch" listIcon="ICO_PRIZ_CASINO_NerosPalaceArch_MD" rewardIcon="ICO_PRIZ_CASINO_NerosPalaceArch_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack3:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT3Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack3:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="NerosPalaceArch" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_NerosPalaceCasino_name" infoTitleText="UI_Casino_BCPCC_Palace" listIcon="ICO_PRIZ_CASINO_NerosPalace_MD" rewardIcon="ICO_PRIZ_CASINO_NerosPalace_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack3:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT3Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack3:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="NerosPalaceCasino" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_ReclusiveMrBurns_name" infoTitleText="UI_Casino_BCPCC_ReclusiveBurns" listIcon="ICO_PRIZ_CASINO_MrBurnsReclusive_MD" rewardIcon="ICO_PRIZ_CASINO_MrBurnsReclusive_LG.rgb" useImmediately="true" showInventoryPopup="false" itemDoneOverrideText="UI_Casino_ReclusiveMrBUrns_PrizeUnlock" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack3:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT3Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack3:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="ReclusiveMrBurns" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_ChineseAcrobaticTheatre_name" infoTitleText="UI_Casino_BCPCC_Chinese" listIcon="ICO_PRIZ_CASINO_AcrobaticTheater_MD" rewardIcon="ICO_PRIZ_CASINO_AcrobaticTheater_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack3:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT3Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack3:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="ChineseAcrobaticTheatre" useImmediately="false" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_GabboAndArthur_name" infoTitleText="UI_Casino_BCPCC_Gabbo" listIcon="ICO_PRIZ_CASINO_GabboAndArthur_MD" rewardIcon="ICO_PRIZ_CASINO_GabboAndArthur_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__Casino_Spreadsheet_Config:PrizeTrack3:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="Casino_PT3Currency" amount="__Casino_Spreadsheet_Config:PrizeTrack3:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="GabboAndArthur" useImmediately="false" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<Variable name="Casino_Event" value="true" />
+		<Variable name="PlatScratcher_Window1" value="false" />
+		<Variable name="BankedGamblers" value="0" />
+		<Variable name="GamblersTapped" value="0" />
+		<Variable name="GamblersTapped_DCS" value="0" />
+		<Variable name="GamblersTapped_Social" value="0" />
+		<Variable name="EventHubTabValue" value="1" owner="0" />
+		<Variable name="CardsGamesPlayed" value="0" />
+		<Variable name="DiceGamesPlayed" value="0" />
+		<Variable name="SlotsGamesPlayed" value="0" />
+		<Variable name="CardsGamesPlayed_DCS" value="0" />
+		<Variable name="DiceGamesPlayed_DCS" value="0" />
+		<Variable name="SlotsGamesPlayed_DCS" value="0" />
+		<Variable name="CasinoGamesPlayed" value="0" />
+		<Variable name="Casino_Prestige" value="false" />
+		<Variable name="CasinoGamesPlayedInAct" value="0" />
+		<Variable name="PrizeTrackCurrencyFromGamesInAct" value="0" />
+		<Variable name="Casino_HostessBundleBought" value="0" />
+		<Variable name="EventLevelWalker" value="0" />
+		<Variable name="Casino_Minigame_5x_Unlocked" value="false" />
+		<Variable name="PrizeTrack1_Unlocked" value="0" />
+		<Variable name="PrizeTrack2_Unlocked" value="0" />
+		<Variable name="PrizeTrack3_Unlocked" value="0" />
+		<Variable name="Crafting_NewItem" value="0" />
+		<Variable name="Crafting_UniqueReady" value="0" />
+		<Variable name="PlatScratcherPurchased_Window1" value="0" />
+		<Variable name="PlatScratcherPurchased_Window2" value="0" />
+		<Variable name="Casino_CraftLevel" value="1" />
+		<Variable name="Casino_CraftProgress" value="0" />
+		<Variable name="Casino_MaxCraftLevel" value="3" owner="0" />
+		<Variable name="Casino_MaxCraftProgress" value="10" owner="0" />
+		<Variable name="WalkOfFameStar_New" value="true" />
+		<Variable name="WalkOfFameStar_Crafted" value="false" />
+		<Variable name="WalkOfFameStar_TotalCrafted" value="0" />
+		<Variable name="FicusPlant_New" value="true" />
+		<Variable name="FicusPlant_Crafted" value="false" />
+		<Variable name="FicusPlant_TotalCrafted" value="0" />
+		<Variable name="WhiteSpotlight_New" value="true" />
+		<Variable name="WhiteSpotlight_Crafted" value="false" />
+		<Variable name="WhiteSpotlight_TotalCrafted" value="0" />
+		<Variable name="CyclingSpotlight_New" value="true" />
+		<Variable name="CyclingSpotlight_Crafted" value="false" />
+		<Variable name="CyclingSpotlight_TotalCrafted" value="0" />
+		<Variable name="Fountain1_New" value="true" />
+		<Variable name="Fountain1_Crafted" value="false" />
+		<Variable name="Fountain1_TotalCrafted" value="0" />
+		<Variable name="Fountain2_New" value="true" />
+		<Variable name="Fountain2_Crafted" value="false" />
+		<Variable name="Fountain2_TotalCrafted" value="0" />
+		<Variable name="Woodstock_New" value="true" />
+		<Variable name="Woodstock_Crafted" value="false" />
+		<Variable name="Woodstock_TotalCrafted" value="0" />
+		<Variable name="CowgirlSign_New" value="false" />
+		<Variable name="CowgirlSign_Crafted" value="false" />
+		<Variable name="CowgirlSign_TotalCrafted" value="0" />
+		<Variable name="ExoticTree_New" value="false" />
+		<Variable name="ExoticTree_Crafted" value="false" />
+		<Variable name="ExoticTree_TotalCrafted" value="0" />
+		<Variable name="Fountain3_New" value="false" />
+		<Variable name="Fountain3_Crafted" value="false" />
+		<Variable name="Fountain3_TotalCrafted" value="0" />
+		<Variable name="Fountain4_New" value="false" />
+		<Variable name="Fountain4_Crafted" value="false" />
+		<Variable name="Fountain4_TotalCrafted" value="0" />
+		<Variable name="LifeSizedSpruceMoose_New" value="false" />
+		<Variable name="LifeSizedSpruceMoose_Crafted" value="false" />
+		<Variable name="LifeSizedSpruceMoose_TotalCrafted" value="0" />
+		<Variable name="DupesSign_New" value="false" />
+		<Variable name="DupesSign_Crafted" value="false" />
+		<Variable name="DupesSign_TotalCrafted" value="0" />
+		<Variable name="NerosFountain_New" value="false" />
+		<Variable name="NerosFountain_Crafted" value="false" />
+		<Variable name="NerosFountain_TotalCrafted" value="0" />
+		<Variable name="MultiColoredSpotlight_New" value="false" />
+		<Variable name="MultiColoredSpotlight_Crafted" value="false" />
+		<Variable name="MultiColoredSpotlight_TotalCrafted" value="0" />
+		<Variable name="Fountain5_New" value="false" />
+		<Variable name="Fountain5_Crafted" value="false" />
+		<Variable name="Fountain5_TotalCrafted" value="0" />
+		<Variable name="SafariCasino_New" value="false" />
+		<Variable name="SafariCasino_Crafted" value="false" />
+		<Variable name="SafariCasino_TotalCrafted" value="0" />
+		<Variable name="Casino_Cards_Unlocked" value="false" />
+		<Variable name="Casino_Dice_Unlocked" value="false" />
+		<Variable name="Casino_Slots_Unlocked" value="false" />
+		<Variable name="Casino_ShowHelp" value="false" owner="0" />
+		<Variable name="Casino_Cards_Seed" value="0" />
+		<Variable name="Casino_Cards_RewardSeed" value="0" />
+		<Variable name="Casino_Cards_Step" value="0" />
+		<Variable name="Casino_Cards_Flip1" value="0" />
+		<Variable name="Casino_Cards_Flip2" value="0" />
+		<Variable name="Casino_Cards_Flip3" value="0" />
+		<Variable name="Casino_Cards_Flip4" value="0" />
+		<Variable name="Casino_Cards_Flip5" value="0" />
+		<Variable name="Casino_Cards_Flip6" value="0" />
+		<Variable name="Casino_Cards_Flip7" value="0" />
+		<Variable name="Casino_Cards_Flip8" value="0" />
+		<Variable name="Casino_Cards_Flip9" value="0" />
+		<Variable name="Casino_Cards_Flip10" value="0" />
+		<Variable name="Casino_Cards_CheatActive" value="0" />
+		<Variable name="Casino_Cards_FirstView" value="true" />
+		<Variable name="Casino_Cards_PlayAgain" value="0" />
+		<Variable name="Casino_Cards_CheatPopup" value="true" />
+		<Variable name="Casino_Slots_Reel_1" value="0" />
+		<Variable name="Casino_Slots_Reel_2" value="0" />
+		<Variable name="Casino_Slots_Reel_3" value="0" />
+		<Variable name="Casino_Slots_RewardSeed" value="0" />
+		<Variable name="Casino_Slots_Seed" value="0" />
+		<Variable name="Casino_Slots_StickerCheat" value="false" />
+		<Variable name="Casino_Slots_PunchCheat" value="false" />
+		<Variable name="Casino_Slots_PunchStep" value="0" />
+		<Variable name="Casino_Slots_FirstView" value="true" />
+		<Variable name="Casino_Slots_PlayAgain" value="0" />
+		<Variable name="Casino_Dice_Step" value="0" />
+		<Variable name="Casino_Dice_Seed" value="0" />
+		<Variable name="Casino_Dice_LuckyNumber" value="0" />
+		<Variable name="Casino_Dice_Roll1Value" value="0" />
+		<Variable name="Casino_Dice_Roll2Value" value="0" />
+		<Variable name="Casino_Dice_Roll3Value" value="0" />
+		<Variable name="Casino_Dice_Roll1Rand" value="0" />
+		<Variable name="Casino_Dice_Roll2Rand" value="0" />
+		<Variable name="Casino_Dice_Roll3Rand" value="0" />
+		<Variable name="Casino_Dice_CheatActive" value="0" />
+		<Variable name="Casino_Dice_TrickDieCheat" value="0" />
+		<Variable name="Casino_Dice_FirstView" value="true" />
+		<Variable name="Casino_Dice_PlayAgain" value="0" />
+		<Variable name="Casino_Dice_Win" value="0" />
+		<Variable name="Casino_Cards_RoundsPlayed" value="0" />
+		<Variable name="Casino_Cards_TokenUsed" value="0" />
+		<Variable name="Casino_Slots_RoundsPlayed" value="0" />
+		<Variable name="Casino_Slots_TokenUsed" value="0" />
+		<Variable name="Casino_Slots_TokensBought" value="0" />
+		<Variable name="Casino_Slots_DonutsSpent" value="0" />
+		<Variable name="Casino_Dice_RoundsPlayed" value="0" />
+		<Variable name="Casino_Dice_TokenUsed" value="0" />
+		<Variable name="Casino_Dice_TokensBought" value="0" />
+		<Variable name="Casino_Dice_DonutsSpent" value="0" />
+		<Variable name="Casino_RewardCraftingPrize_Cards" value="0" />
+		<Variable name="Casino_RewardCraftingPrize_Slots" value="0" />
+		<Variable name="Casino_RewardCraftingPrize_Dice" value="0" />
+	</SpecialEvent>
+	<SpecialEvent id="138001" name="Casino_Social">
+		<SuppressFriendActions shop="true" farm="true" pushnotes="false" vandalism="true"></SuppressFriendActions>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" icon="ico_casino_redchip_sm.rgb" type="Casino_PT1Currency" icon2="ico_casino_greenchip_sm.rgb" type2="Casino_PT2Currency" icon3="ico_casino_bluechip_sm.rgb" type3="Casino_PT3Currency">
+			<Currency type="Casino_PT1Currency">
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act1" />
+			</Currency>
+			<Currency type="Casino_PT2Currency">
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act2" />
+			</Currency>
+			<Currency type="Casino_PT3Currency">
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act3" />
+			</Currency>
+			<Script name="Casino_Scripts:CasinoFriendsHUDInfo" />
+		</FriendsMap>
+		<FriendHUDCurrencies buttonType="guide">
+			<Currency type="Casino_ActivePrizeTrackCurrency" />
+		</FriendHUDCurrencies>
+		<FriendHUD useTwoActions="false" icon="ICO_Casino_FriendsTip.rgb" tipText="UI_Casino_FriendTipText" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="Casino_Scripts:CasinoFriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+		<Variable name="Casino_Social" value="true" />
+		<Variable name="ReferAFriendCard_Purchased" value="false" />
+	</SpecialEvent>
+	<SpecialEvent id="138002" name="Casino_EventLevel">
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="Casino_MenuConfig:EventLevelConfig">
+				<Prize name="UI_Casino_EventLevel_Prize1_name" listIcon="ICO_Casino_MultiChips_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc1" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level1_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize2_name" listIcon="ICO_Casino_GameToken_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level2_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize3_name" listIcon="ICO_Casino_Keychain_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level3_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize4_name" listIcon="ICO_Casino_Coaster_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level4_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize5_name" listIcon="ICO_PRIZ_Casino_VIPSign01_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc4" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level5_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize6_name" listIcon="ICO_Casino_MultiChips_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc1" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level6_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize7_name" listIcon="ICO_Casino_GameToken_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level7_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize8_name" listIcon="ICO_Casino_Coaster_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level8_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize9_name" listIcon="ICO_Casino_Martini_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level9_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize10_name" listIcon="ICO_PRIZ_Casino_VIPSign02_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc5" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level10_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize11_name" listIcon="ICO_Casino_MultiChips_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc1" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level11_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize12_name" listIcon="ICO_Casino_GameToken_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level12_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize13_name" listIcon="ICO_Casino_Martini_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level13_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize14_name" listIcon="ICO_Casino_ShowTicket_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level14_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize15_name" listIcon="ICO_PRIZ_Casino_VIPSign03_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc5" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level15_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize16_name" listIcon="ICO_Casino_MultiChips_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc1" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level16_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize17_name" listIcon="ICO_Casino_GameToken_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level17_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize18_name" listIcon="ICO_Casino_Martini_Pack03" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level18_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize19_name" listIcon="ICO_Casino_ShowTicket_Pack02" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level19_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Casino_EventLevel_Prize20_name" listIcon="ICO_PRIZ_Casino_VIPSign04_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_Casino_EventLevel_Prize_desc5" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="Casino_EventLevel_Points" amount="__Casino_Spreadsheet_Config:EventLevel:Level20_Target__" />
+					<Reward>
+						<Item type="consumable" name="Casino_EventLevelUp" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+	</SpecialEvent>
+</SpecialEvents>

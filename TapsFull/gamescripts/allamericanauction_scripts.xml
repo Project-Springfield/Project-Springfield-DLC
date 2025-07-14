@@ -1,0 +1,266 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="AllAmericanAuctionMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="AllAmericanAuction_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="AllAmericanAuction_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="AllAmericanAuction_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="AllAmericanAuction_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_AllAmericanAuction_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_AllAmericanAuction_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_AllAmericanAuction_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_AllAmericanAuction_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_AllAmericanAuction_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="AllAmericanAuction_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="AllAmericanAuction_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="AllAmericanAuction_OnePanel" eventName="UI_AllAmericanAuction_IntroPanelTitle" limitedTime="true" limitedTimeEndDate="AllAmericanAuction_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="AllAmericanAuctionMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_AllAmericanAuction_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_AllAmericanAuction_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_AllAmericanAuction_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_AllAmericanAuction_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_AllAmericanAuction_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="AllAmericanAuction_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="AllAmericanAuction_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="AllAmericanAuction_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="AllAmericanAuction_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="AllAmericanAuction_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_AllAmericanAuction_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="BlackFriday2019_OnePanel" />
+		<Action type="clearRecommendations" category="Event" name="AllAmericanAuction_OnePanel" />
+		<Action type="runScript" script="AllAmericanAuction_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="AllAmericanAuction_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="AllAmericanAuction_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="AllAmericanAuction_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AllAmericanAuction_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AllAmericanAuction_Event" />
+									<Attribute name="JobList" value="AllAmericanAuction_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AllAmericanAuction_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AllAmericanAuction_Event" />
+									<Attribute name="JobList" value="AllAmericanAuction_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AllAmericanAuction_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AllAmericanAuction_Event" />
+									<Attribute name="JobList" value="AllAmericanAuction_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AllAmericanAuction_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AllAmericanAuction_Event" />
+									<Attribute name="JobList" value="AllAmericanAuction_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AllAmericanAuction_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AllAmericanAuction_Event" />
+									<Attribute name="JobList" value="AllAmericanAuction_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="AllAmericanAuction_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="AllAmericanAuction_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<SwapMeetStage_Tapped parallel="true" ignoreHUD="true"></SwapMeetStage_Tapped>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="BlackFriday2019_OnePanel" />
+		<Action type="recommendation" recType="Event" name="BlackFriday2019_OnePanel" eventName="UI_AllAmericanAuction_BlackFridayStoreTitle" limitedTime="true" limitedTimeEndDate="AllAmericanAuction_End" />
+		<Action type="clearRecommendations" category="Event" name="AllAmericanAuction_OnePanel" />
+		<Action type="recommendation" recType="Event" name="AllAmericanAuction_OnePanel" eventName="UI_AllAmericanAuction_IntroPanelTitle" limitedTime="true" limitedTimeEndDate="AllAmericanAuction_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="AllAmericanAuction_Category" />
+	</EnterStoreCategory>
+	<EnterBlackFriday2019StoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2019_Category" />
+	</EnterBlackFriday2019StoreCategory>
+	<OpenDonutStore>
+		<Action type="actionSequence" script="MiscScripts:OpenMTXStore">
+			<FormatToken key="onLeaveScript" value="AllAmericanAuction_Scripts:OpenMasterQuest_BlackFriday" />
+		</Action>
+	</OpenDonutStore>
+	<GoToGoldenTokenForDozenDonuts>
+		<Action type="focusOnMenuItem" menuCategory="Currency" itemName="GoldenTokenForDozenDonuts" />
+	</GoToGoldenTokenForDozenDonuts>
+	<GoToGoldMysteryBox>
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2019_Category" itemName="Thanksgiving2018_Gold_MysteryBox" />
+	</GoToGoldMysteryBox>
+	<OpenMasterQuest_BlackFriday>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="BlackFriday2019_MasterQuest" />
+						<Attribute name="specialEvent" value="AllAmericanAuction" />
+						<Attribute name="showEventProgressMenu" value="true" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest_BlackFriday>
+	<ShowBlackFridayGuidePanel>
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="AllAmericanAuction_GameConfig:BlackFridayGuide_Config" />
+	</ShowBlackFridayGuidePanel>
+	<TwoGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="2" />
+	</TwoGoldenTokens>
+	<TwentyFiveGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="25" />
+	</TwentyFiveGoldenTokens>
+	<MagicalMaggie_Notification_Start>
+		<Action type="setVariable" boolVariable="ConfettiRainEffect" boolValue="true" />
+		<Action type="scheduleScript" mode="create" script="Poochie_Scripts:ConfettiRain_End" shouldSave="true" relativeTime="7s" />
+		<Action type="notification" title="UI_MagicalMaggie_Title" button="UI_OK" text="UI_MagicalMaggie_Desc" icon="CharacterSets_Maggie_Magical" />
+		<Action type="setVariable" boolVariable="ConfettiRainEffect" boolValue="false" />
+	</MagicalMaggie_Notification_Start>
+	<MagicalMaggie_Notification_End>
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="Maggie" />
+			<False>
+				<Action type="reward">
+					<Item type="consumable" name="636_MaggieReward" useImmediately="true" />
+				</Action>
+			</False>
+		</Action>
+	</MagicalMaggie_Notification_End>
+</ScriptPackage>

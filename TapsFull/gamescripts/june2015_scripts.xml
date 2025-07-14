@@ -1,0 +1,3228 @@
+﻿<ScriptPackage>
+	<LandEntered parallel="true">
+		<Action type="runScript" script="RecommendJune2015" package="June2015_Scripts" />
+		<Action type="runScript" script="UpdatePlayersReady" package="June2015_Scripts" />
+		<Action type="runScript" script="UpdateDailyWinQuest" package="June2015_Scripts" />
+		<Action type="runScriptOnAll" character="HomerballFan" script="RemovedDeletedFans" package="June2015_Scripts" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="HBHas_Apu" not="true" />
+				<Requirement type="quest" quest="HasApu" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="HasApu" package="June2015_Scripts" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="HBHas_Ned" not="true" />
+				<Requirement type="quest" quest="HasNed" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="HasNed" package="June2015_Scripts" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_Store" />
+				<Requirement type="character" name="HomerballPlayer" />
+			</Requirements>
+			<True>
+				<Action type="ReloadLand" />
+			</True>
+		</Action>
+	</LandEntered>
+	<RemoteLandEntered parallel="true">
+		<Action type="runScript" script="AcknowledgePeerPendingMatches" package="June2015_Scripts" />
+		<Action type="runScript" script="CheckPeerMatchmakingExhaustion" package="June2015_Scripts" />
+	</RemoteLandEntered>
+	<UpdateDailyWinQuest parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="greaterThan(NextReset, serverTime(0))" />
+			<False>
+				<Action type="setVariable" boolVariable="DailyWinComplete" boolValue="false" />
+				<Action type="setVariable" boolVariable="DailyWinReady" boolValue="true" />
+			</False>
+		</Action>
+	</UpdateDailyWinQuest>
+	<DailyWinAct1EndScript>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_DailyWinBonus_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_bonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Rewards:DailyWinAct2AmateurBucks__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Rewards:DailyWinAct1FoamFingers__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ico_june2015_kentbrockman_win" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_DailyWinBonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="reward" FoamFingers="__June2015_GameConfig:Rewards:DailyWinAct1FoamFingers__" HBTicketStubs="__June2015_GameConfig:Rewards:DailyWinAct1AmateurBucks__" />
+		<Action type="setVariable" boolVariable="DailyWinReady" boolValue="false" />
+		<Action type="setVariable" intVariable="NextReset" intValue="serverTime(86400)" />
+	</DailyWinAct1EndScript>
+	<DailyWinAct2EndScript>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_DailyWinBonus_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_bonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Rewards:DailyWinAct3AmateurBucks__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Rewards:DailyWinAct2Hats__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ico_june2015_kentbrockman_win" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_DailyWinBonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="reward" Hats="__June2015_GameConfig:Rewards:DailyWinAct2Hats__" HBTicketStubs="__June2015_GameConfig:Rewards:DailyWinAct2AmateurBucks__" />
+		<Action type="setVariable" boolVariable="DailyWinReady" boolValue="false" />
+		<Action type="setVariable" intVariable="NextReset" intValue="serverTime(86400)" />
+	</DailyWinAct2EndScript>
+	<DailyWinAct3EndScript>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_DailyWinBonus_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_bonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Rewards:DailyWinAct3AmateurBucks__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Rewards:DailyWinAct3Pennants__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ico_june2015_kentbrockman_win" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_DailyWinBonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="reward" Pennants="__June2015_GameConfig:Rewards:DailyWinAct3Pennants__" HBTicketStubs="__June2015_GameConfig:Rewards:DailyWinAct3AmateurBucks__" />
+		<Action type="setVariable" boolVariable="DailyWinReady" boolValue="false" />
+		<Action type="setVariable" intVariable="NextReset" intValue="serverTime(86400)" />
+	</DailyWinAct3EndScript>
+	<AcknowledgePeerPendingMatches ignoreHud="true">
+		<Action type="setVariable" intVariable="totalPendingMatchesInPeerLand" intValue="initialPendingMatchesInPeerLand" />
+		<Action type="setVariable" intVariable="initialPendingMatchesInPeerLand" intValue="0" />
+	</AcknowledgePeerPendingMatches>
+	<GrantOfflineRewards>
+		<Action type="if">
+			<If expression="pendingOfflineVictories + pendingOfflineDefeats + pendingOfflineDraws">
+				<Then>
+					<Action type="setVariable" intVariable="PassiveWinAmateurBucksAwarded" intValue="__June2015_GameConfig:Rewards:PassiveWinAmateurBuckReward__" />
+					<Action type="setVariable" intVariable="PassiveWinAmateurBucksAwarded" intValue="PassiveWinAmateurBucksAwarded*pendingOfflineVictories*RewardMultiplier" />
+					<Action type="setVariable" intVariable="PassiveLoseAmateurBucksAwarded" intValue="__June2015_GameConfig:Rewards:PassiveLoseAmateurBuckReward__" />
+					<Action type="setVariable" intVariable="PassiveLoseAmateurBucksAwarded" intValue="PassiveLoseAmateurBucksAwarded*pendingOfflineDefeats*RewardMultiplier" />
+					<Action type="setVariable" intVariable="PassiveDrawAmateurBucksAwarded" intValue="__June2015_GameConfig:Rewards:PassiveDrawAmateurBuckReward__" />
+					<Action type="setVariable" intVariable="PassiveDrawAmateurBucksAwarded" intValue="PassiveDrawAmateurBucksAwarded*pendingOfflineDraws*RewardMultiplier" />
+					<Action type="setVariable" intVariable="AmateurBucksTotalAwarded" intValue="PassiveWinAmateurBucksAwarded+PassiveLoseAmateurBucksAwarded+PassiveDrawAmateurBucksAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_TicketsFromWinningGames" increment="PassiveWinAmateurBucksAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_TicketsFromLosingGames" increment="PassiveLoseAmateurBucksAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_TicketsFromDrawingGames" increment="PassiveDrawAmateurBucksAwarded" />
+					<Action type="if">
+						<If>
+							<Requirement type="time" end="HomerballActTwo" />
+							<Then>
+								<Action type="setVariable" intVariable="Act1WinMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveWinPrizeTrack1Reward__" />
+								<Action type="setVariable" intVariable="Act1WinMerchandiseAwarded" intValue="Act1WinMerchandiseAwarded*pendingOfflineVictories" />
+								<Action type="setVariable" intVariable="Act1LoseMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveLosePrizeTrack1Reward__" />
+								<Action type="setVariable" intVariable="Act1LoseMerchandiseAwarded" intValue="Act1LoseMerchandiseAwarded*pendingOfflineDefeats" />
+								<Action type="setVariable" intVariable="Act1DrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveDrawPrizeTrack1Reward__" />
+								<Action type="setVariable" intVariable="Act1DrawMerchandiseAwarded" intValue="Act1DrawMerchandiseAwarded*pendingOfflineDraws" />
+								<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="Act1WinMerchandiseAwarded+Act1LoseMerchandiseAwarded+Act1DrawMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_FoamFingersFromWinningGames" increment="Act1WinMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_FoamFingersFromLosingGames" increment="Act1LoseMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_FoamFingersFromDrawingGames" increment="Act1DrawMerchandiseAwarded" />
+							</Then>
+						</If>
+						<ElseIf>
+							<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+							<Then>
+								<Action type="setVariable" intVariable="Act2WinMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveWinPrizeTrack2Reward__" />
+								<Action type="setVariable" intVariable="Act2WinMerchandiseAwarded" intValue="Act2WinMerchandiseAwarded*pendingOfflineVictories" />
+								<Action type="setVariable" intVariable="Act2LoseMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveLosePrizeTrack2Reward__" />
+								<Action type="setVariable" intVariable="Act2LoseMerchandiseAwarded" intValue="Act2LoseMerchandiseAwarded*pendingOfflineDefeats" />
+								<Action type="setVariable" intVariable="Act2DrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveDrawPrizeTrack2Reward__" />
+								<Action type="setVariable" intVariable="Act2DrawMerchandiseAwarded" intValue="Act2DrawMerchandiseAwarded*pendingOfflineDraws" />
+								<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="Act2WinMerchandiseAwarded+Act2LoseMerchandiseAwarded+Act2DrawMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_HatsFromWinningGames" increment="Act2WinMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_HatsFromLosingGames" increment="Act2LoseMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_HatsFromDrawingGames" increment="Act2DrawMerchandiseAwarded" />
+							</Then>
+						</ElseIf>
+						<ElseIf>
+							<Requirement type="time" start="HomerballActThree" />
+							<Then>
+								<Action type="setVariable" intVariable="Act3WinMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveWinPrizeTrack3Reward__" />
+								<Action type="setVariable" intVariable="Act3WinMerchandiseAwarded" intValue="Act3WinMerchandiseAwarded*pendingOfflineVictories" />
+								<Action type="setVariable" intVariable="Act3LoseMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveLosePrizeTrack3Reward__" />
+								<Action type="setVariable" intVariable="Act3LoseMerchandiseAwarded" intValue="Act3LoseMerchandiseAwarded*pendingOfflineDefeats" />
+								<Action type="setVariable" intVariable="Act3DrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:PassiveDrawPrizeTrack3Reward__" />
+								<Action type="setVariable" intVariable="Act3DrawMerchandiseAwarded" intValue="Act3DrawMerchandiseAwarded*pendingOfflineDraws" />
+								<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="Act3WinMerchandiseAwarded+Act3LoseMerchandiseAwarded+Act3DrawMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_PennantsFromWinningGames" increment="Act3WinMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_PennantsFromLosingGames" increment="Act3LoseMerchandiseAwarded" />
+								<Action type="incrementSessionCounter" counter="HB_PennantsFromDrawingGames" increment="Act3DrawMerchandiseAwarded" />
+							</Then>
+						</ElseIf>
+					</Action>
+					<Action type="reward" HBTicketStubs="PassiveWinAmateurBucksAwarded+PassiveLoseAmateurBucksAwarded+PassiveDrawAmateurBucksAwarded" />
+					<Action type="reward" FoamFingers="Act1WinMerchandiseAwarded+Act1LoseMerchandiseAwarded+Act1DrawMerchandiseAwarded" />
+					<Action type="reward" Hats="Act2WinMerchandiseAwarded+Act2LoseMerchandiseAwarded+Act2DrawMerchandiseAwarded" />
+					<Action type="reward" Pennants="Act3WinMerchandiseAwarded+Act3LoseMerchandiseAwarded+Act3DrawMerchandiseAwarded" />
+					<Action type="reward" HomerballWins="pendingOfflineVictories" save="true" suppress_sound="true" noDrops="true" />
+					<Action type="setVariable" intVariable="TotalWinsVisual" intValue="pendingOfflineVictories" />
+					<Action type="setVariable" intVariable="TotalLossesVisual" intValue="pendingOfflineDefeats" />
+					<Action type="setVariable" intVariable="TotalDrawsVisual" intValue="pendingOfflineDraws" />
+					<Action type="runScript" package="June2015_Scripts" script="ShowOfflineRewardsPopUp" />
+					<Action type="setVariable" intVariable="passiveGamesWon" intValue="passiveGamesWon + pendingOfflineVictories" />
+					<Action type="setVariable" intVariable="passiveGamesLost" intValue="passiveGamesLost + pendingOfflineDefeats" />
+					<Action type="setVariable" intVariable="passiveGamesTied" intValue="passiveGamesTied + pendingOfflineDraws" />
+					<Action type="setVariable" intVariable="pendingOfflineVictories" intValue="0" />
+					<Action type="setVariable" intVariable="pendingOfflineDefeats" intValue="0" />
+					<Action type="setVariable" intVariable="pendingOfflineDraws" intValue="0" />
+					<Action type="setVariable" intVariable="PassiveWinAmateurBucksAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="PassiveLoseAmateurBucksAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="PassiveDrawAmateurBucksAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act1WinMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act1LoseMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act1DrawMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act2WinMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act2LoseMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act2DrawMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act3WinMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act3LoseMerchandiseAwarded" intValue="0" />
+					<Action type="setVariable" intVariable="Act3DrawMerchandiseAwarded" intValue="0" />
+				</Then>
+			</If>
+		</Action>
+	</GrantOfflineRewards>
+	<ShowOfflineRewardsPopUp>
+		<Action type="offlineRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_June2015_Results_title" localise="true" />
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="prompt1">
+					<Attribute name="text" value="UI_June2015_Results_wins" localise="true" />
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="prompt1Value">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="TotalWinsVisual" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_SmallBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="prompt2">
+					<Attribute name="text" value="UI_June2015_Results_losses" localise="true" />
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="prompt2Value">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="TotalLossesVisual" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_SmallBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="prompt3">
+					<Attribute name="text" value="UI_June2015_Results_draws" localise="true" />
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="prompt3Value">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="TotalDrawsVisual" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_SmallBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward_title">
+					<Attribute name="text" value="UI_June2015_Results_reward_title" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward1_text">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="AmateurBucksTotalAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward2_text">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="reward2_image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowOfflineRewardsPopUp>
+	<June2015Prestige1Reward>
+		<Action type="reward">
+			<Item type="consumable" name="June2015Prestige1" useImmediately="true" />
+		</Action>
+	</June2015Prestige1Reward>
+	<June2015Prestige2Reward>
+		<Action type="reward">
+			<Item type="consumable" name="June2015Prestige2" useImmediately="true" />
+		</Action>
+	</June2015Prestige2Reward>
+	<June2015Prestige3Reward>
+		<Action type="reward">
+			<Item type="consumable" name="June2015Prestige3" useImmediately="true" />
+		</Action>
+	</June2015Prestige3Reward>
+	<RemovedDeletedFans parallel="true">
+		<Action type="checkExpression" expression="Object::Delete">
+			<ExpressionCase value="1">
+				<Action type="deletecharacter" character="HomerballFan" />
+			</ExpressionCase>
+		</Action>
+	</RemovedDeletedFans>
+	<Fan_AreaTap parallel="true">
+		<Action type="runScriptOnAll" character="HomerballFan" in_radius="min(3+(HomerHBXP+LisaHBXP+BurnsHBXP+NelsonHBXP+ApuHBXP+BartHBXP+MargeHBXP+GrampaHBXP+CBGuyHBXP+RalphHBXP+DrederickTatumHBXP+JasperHBXP+FuriousDHBXP)/3, 23)" radius_delay="0.6" script="Fan_Tapped" package="June2015_Scripts" />
+		<Action type="playflyby" flybyName="BlastEffect" radius="min(3+(HomerHBXP+LisaHBXP+BurnsHBXP+NelsonHBXP+ApuHBXP+BartHBXP+MargeHBXP+GrampaHBXP+CBGuyHBXP+RalphHBXP+DrederickTatumHBXP+JasperHBXP+FuriousDHBXP)/3, 16)" unitScale="0.13" playbackFPS="50" />
+		<Action type="runScript" script="Fan_Tapped" package="June2015_Scripts" />
+	</Fan_AreaTap>
+	<Fan_Tapped parallel="true" cache="true">
+		<Action type="runScript" script="Fan_Reward" package="June2015_Scripts" />
+		<Action type="anim-play" character="HomerballFan" animation="Tap" nowait="true" />
+		<Action type="sound" sound="sfx_Sports_Tap_Fan" />
+		<Action type="anim-waitforend" />
+		<Action type="setObjectVariable" variable="PowEffect" value="1" />
+		<Action type="sound" sound="sfx_Tapball_Fan_Tap_Cloud_Poof" />
+		<Action type="playCharacterEffect" />
+		<Action type="deletecharacter" character="HomerballFan" />
+	</Fan_Tapped>
+	<Fan_Reward parallel="true" cache="true">
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="HomerballActTwo" />
+				<Then>
+					<Action type="reward" save="true" FoamFingers="__June2015_GameConfig:Drop:SponsorDropAct1__" suppress_sound="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+				<Then>
+					<Action type="reward" save="true" Hats="__June2015_GameConfig:Drop:SponsorDropAct2__" suppress_sound="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActThree" />
+				<Then>
+					<Action type="reward" save="true" Pennants="__June2015_GameConfig:Drop:SponsorDropAct3__" suppress_sound="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="reward" save="true" HBTicketStubs="__June2015_GameConfig:Drop:SponsorDropAmateurBucks__" suppress_sound="true" />
+		<Action type="reward" save="true" FanTap="1" suppress_sound="true" noDrops="true" />
+		<Action type="reward" save="true" MatchPowerUps="__June2015_GameConfig:Drop:BrainTonicDrop__" chance="__June2015_GameConfig:Drop:BrainTonicChance__" chanceType="s" />
+		<Action type="setObjectVariable" variable="Delete" value="1" />
+	</Fan_Reward>
+	<Fan_TappedFriend parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="runScript" script="Fan_RewardFriend" package="June2015_Scripts" />
+				<Action type="anim-play" character="HomerballFan" animation="Tap" />
+				<Action type="sound" sound="sfx_Sports_Tap_Fan.caf" />
+				<Action type="anim-waitforend" />
+				<Action type="setObjectVariable" variable="PowEffect" value="1" />
+				<Action type="playCharacterEffect" />
+				<Action type="deletecharacter" character="HomerballFan" />
+			</True>
+		</Action>
+	</Fan_TappedFriend>
+	<Fan_RewardFriend parallel="true" cache="true">
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+		<Action type="reward" save="true" HomerballActivePrizeTrackCurrency="selector JuneCurrencyPerFriendAction" suppress_sound="true" />
+		<Action type="reward" save="true" HBTicketStubs="selector JuneAmateurBucksPerFriendAction" suppress_sound="true" />
+		<Action type="reward" save="true" FriendFanTap="1" suppress_sound="true" noDrops="true" />
+	</Fan_RewardFriend>
+	<GoToFan>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" character="HomerballFan" />
+			</True>
+		</Action>
+	</GoToFan>
+	<SpawnFirstFriendHomerballFans>
+		<Action type="createobject" name="HomerballFan" count="10" save="true" panCamera="false" />
+	</SpawnFirstFriendHomerballFans>
+	<SpawnSecondFriendHomerballFans>
+		<Action type="createobject" name="HomerballFan" count="20" save="true" panCamera="false" />
+	</SpawnSecondFriendHomerballFans>
+	<SpawnThirdFriendHomerballFans>
+		<Action type="createobject" name="HomerballFan" count="30" save="true" panCamera="false" />
+	</SpawnThirdFriendHomerballFans>
+	<DropBallLocal parallel="true">
+		<Action type="sound" sound="drop_ball" />
+		<Action type="addlocaltimedcharacter" character="SportsBall" event="108000" />
+		<Action type="createobject" name="SportsBall" count="1" save="false" panCamera="true" showFadeIn="false" />
+		<Action type="reward" CommunitySoccerBalls="__June2015_GameConfig:SportsBalls:CommunityPointsDropReward__" save="true" suppress_sound="true" noDrops="true" />
+		<Action type="setVariable" intVariable="BallsDropped" intValue="BallsDropped+1" />
+		<Action type="incrementSessionCounter" counter="HB_SoccerBallsDropped" increment="1" />
+	</DropBallLocal>
+	<DropBallFriend parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="MeetMyTrophyLife09" />
+			</Requirements>
+			<True>
+				<Action type="addfriendtimedcharacter" character="SportsBall" event="108000" />
+				<Action type="checkRequirements">
+					<Requirement type="config" key="June2015_GameConfig:Enable:DropTheBallPN" value="1" />
+					<True>
+						<Action type="sendPeerNotification" blueprint="DropTheBall" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</DropBallFriend>
+	<DropBallTapped parallel="true">
+		<Action type="sound" sound="collect_ball" />
+		<Action type="reward" CommunitySoccerBalls="__June2015_GameConfig:SportsBalls:CommunityPointsCollectReward__" save="true" suppress_sound="true" noDrops="true" />
+		<Action type="reward" save="true" chance="__June2015_GameConfig:Drop:SoccerBallChance__" chanceType="s" SoccerBalls="__June2015_GameConfig:Drop:SoccerBallDrop__" suppress_sound="true" />
+		<Action type="removetimedcharacter" character="SportsBall" text="UI_June2015_BallFloatingText" event="108000" />
+		<Action type="deletecharacter" character="SportsBall" />
+		<Action type="incrementSessionCounter" counter="HB_SoccerBallsTapped" increment="1" />
+	</DropBallTapped>
+	<LaunchSinglePlayer>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="HasGottenFreeTonic" not="true" />
+				<Requirement type="active quest" quest="BallsOfGlory02" />
+			</Requirements>
+			<True>
+				<Action type="reward" MatchPowerUps="__June2015_GameConfig:Rewards:TutorialPowerUps__" suppress_sound="true" save="true" />
+				<Action type="setVariable" boolVariable="HasGottenFreeTonic" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="true" />
+		<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="true" />
+		<Action type="setVariable" boolVariable="EnableBoostButton" boolValue="true" />
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory01" />
+			<True>
+				<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="true" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="false" />
+				<Action type="setVariable" boolVariable="EnableBoostButton" boolValue="false" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="BallsOfGlory02" not="true" />
+				<Requirement type="quest" quest="BallsOfGlory01" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="true" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="true" />
+				<Action type="setVariable" boolVariable="EnableBoostButton" boolValue="false" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory02" />
+			<True>
+				<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="true" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="false" />
+				<Action type="setVariable" boolVariable="EnableBoostButton" boolValue="false" />
+			</True>
+		</Action>
+		<Action type="gotoState" state="GameState_TeamManagement">
+			<Extras>
+				<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+				<Attribute name="menuConfig" value="June2015_HomerballConfig:MenuConfig" />
+				<Attribute name="away" value="true" />
+				<Attribute name="singlePlayer" value="true" />
+			</Extras>
+		</Action>
+	</LaunchSinglePlayer>
+	<LaunchMatchmaking>
+		<Action type="setVariable" intVariable="ReadyPlayers" intValue="0" />
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="false" />
+		<Action type="if">
+			<If expression="and(or(HomerHBCooldownEnd==0, lessThan(HomerHBCooldownEnd, serverTime(0))), and(HBCanUse_Homer, HBHas_Homer))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(LisaHBCooldownEnd==0, lessThan(LisaHBCooldownEnd, serverTime(0))), and(HBCanUse_Lisa, HBHas_Lisa))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(BurnsHBCooldownEnd==0, lessThan(BurnsHBCooldownEnd, serverTime(0))), and(HBCanUse_Burns, HBHas_Burns))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(NelsonHBCooldownEnd==0, lessThan(NelsonHBCooldownEnd, serverTime(0))), and(HBCanUse_Nelson, HBHas_Nelson))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(ApuHBCooldownEnd==0, lessThan(ApuHBCooldownEnd, serverTime(0))), and(HBCanUse_Apu, HBHas_Apu))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(BartHBCooldownEnd==0, lessThan(BartHBCooldownEnd, serverTime(0))), and(HBCanUse_Bart, HBHas_Bart))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(MargeHBCooldownEnd==0, lessThan(MargeHBCooldownEnd, serverTime(0))), and(HBCanUse_Marge, HBHas_Marge))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(GrampaHBCooldownEnd==0, lessThan(GrampaHBCooldownEnd, serverTime(0))), and(HBCanUse_Grampa, HBHas_Grampa))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(CBGuyHBCooldownEnd==0, lessThan(CBGuyHBCooldownEnd, serverTime(0))), and(HBCanUse_CBGuy, HBHas_CBGuy))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(RalphHBCooldownEnd==0, lessThan(RalphHBCooldownEnd, serverTime(0))), and(HBCanUse_Ralph, HBHas_Ralph))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(DrederickTatumHBCooldownEnd==0, lessThan(DrederickTatumHBCooldownEnd, serverTime(0))), and(HBCanUse_DrederickTatum, HBHas_DrederickTatum))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(JasperHBCooldownEnd==0, lessThan(JasperHBCooldownEnd, serverTime(0))), and(HBCanUse_Jasper, HBHas_Jasper))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(NedHBCooldownEnd==0, lessThan(NedHBCooldownEnd, serverTime(0))), and(HBCanUse_Ned, HBHas_Ned))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(CrazyCatLadyHBCooldownEnd==0, lessThan(CrazyCatLadyHBCooldownEnd, time(0))), and(HBCanUse_CrazyCatLady, HBHas_CrazyCatLady))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(LugashHBCooldownEnd==0, lessThan(LugashHBCooldownEnd, serverTime(0))), and(HBCanUse_Lugash, HBHas_Lugash))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(MilhouseHBCooldownEnd==0, lessThan(MilhouseHBCooldownEnd, serverTime(0))), and(HBCanUse_Milhouse, HBHas_Milhouse))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(FuriousDHBCooldownEnd==0, lessThan(FuriousDHBCooldownEnd, serverTime(0))), and(HBCanUse_Bart, HBHas_FuriousD))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="lessThan(ReadyPlayers, 4)" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="special currency" currency="AthleteRecharge" amount="(4 - ReadyPlayers)" />
+					</Requirements>
+					<False>
+						<Action type="genericConfirmation">
+							<Attribute name="config">
+								<AttributeSet name="onOK">
+									<Attribute name="variable" value="OKPressed" />
+									<Attribute name="variableValue" value="1" />
+								</AttributeSet>
+								<AttributeSet name="onCancel">
+									<Attribute name="variable" value="OKPressed" />
+									<Attribute name="variableValue" value="0" />
+								</AttributeSet>
+								<AttributeSet name="onExit">
+									<Attribute name="variable" value="OKPressed" />
+									<Attribute name="variableValue" value="2" />
+								</AttributeSet>
+								<AttributeSet name="onBackButton">
+									<Attribute name="mapTo" value="onExit" />
+								</AttributeSet>
+								<AttributeSet name="title">
+									<Attribute name="text" value="UI_June2015_TooFewReadyPlayers_title" localise="true" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet name="message">
+									<Attribute name="text" value="UI_June2015_TooFewReadyPlayers_body" localise="true" />\
+                                    <Attribute name="font" value="eFont_Small" /><Attribute name="color" value="FFFFFFFF" /></AttributeSet>
+								<AttributeSet name="button_Cancel">
+									<Attribute name="button_text">
+										<AttributeSet name="text">
+											<Attribute name="text" value="UI_Continue" localise="true" />
+										</AttributeSet>
+									</Attribute>
+									<Attribute name="button_back">
+										<AttributeSet name="button">
+											<Attribute name="color" value="0091F1FF" />
+										</AttributeSet>
+									</Attribute>
+								</AttributeSet>
+								<AttributeSet name="button_OK">
+									<Attribute name="button_text">
+										<AttributeSet name="text">
+											<Attribute name="text" value="GEN_GetMore" localise="true" />
+										</AttributeSet>
+									</Attribute>
+									<Attribute name="button_back">
+										<AttributeSet name="button">
+											<Attribute name="color" value="BB0310FF" />
+										</AttributeSet>
+									</Attribute>
+									<Attribute name="button_icon">
+										<AttributeSet name="button_icon_left_Branch">
+											<Attribute name="active" value="true" />
+										</AttributeSet>
+										<AttributeSet name="button_icon_left">
+											<Attribute name="image" value="ICO_June2015_Obesitade_SM" />
+										</AttributeSet>
+									</Attribute>
+								</AttributeSet>
+								<AttributeSet name="exitButton">
+									<Attribute name="active" value="true" />
+								</AttributeSet>
+								<AttributeSet name="showTwoButtons">
+									<Attribute name="active" value="true" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+						<Action type="if">
+							<If expression="OKPressed==0">
+								<Then>
+									<Action type="checkRequirements">
+										<Requirement type="active quest" quest="BallsOfGlory04" />
+										<True>
+											<Action type="setVariable" boolVariable="AwayGameStarted" boolValue="true" />
+										</True>
+									</Action>
+									<Action type="findMatch" category="Homerball2015" subland="Springfield" />
+								</Then>
+							</If>
+							<ElseIf expression="OKPressed==1">
+								<Then>
+									<Action type="runScript" script="TabPressed_HomerballCrafting" package="June2015_Scripts" />
+								</Then>
+							</ElseIf>
+						</Action>
+					</False>
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="active quest" quest="BallsOfGlory04" />
+							<True>
+								<Action type="setVariable" boolVariable="AwayGameStarted" boolValue="true" />
+							</True>
+						</Action>
+						<Action type="findMatch" category="Homerball2015" subland="Springfield" />
+					</True>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="active quest" quest="BallsOfGlory04" />
+					<True>
+						<Action type="setVariable" boolVariable="AwayGameStarted" boolValue="true" />
+					</True>
+				</Action>
+				<Action type="findMatch" category="Homerball2015" subland="Springfield" />
+			</False>
+		</Action>
+	</LaunchMatchmaking>
+	<ChallengeUnvisitableFriend>
+		<Action type="message" text="UI_RevengeError_Body" />
+	</ChallengeUnvisitableFriend>
+	<RevengeMatch>
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="true" />
+		<Action type="runScript" script="ChallengeFriend" package="June2015_Scripts" />
+	</RevengeMatch>
+	<FriendMatch>
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="false" />
+		<Action type="runScript" script="ChallengeFriend" package="June2015_Scripts" />
+	</FriendMatch>
+	<ChallengeFriend>
+		<Action type="setVariable" intVariable="ReadyPlayers" intValue="0" />
+		<Action type="if">
+			<If expression="and(or(HomerHBCooldownEnd==0, lessThan(HomerHBCooldownEnd, serverTime(0))), and(HBCanUse_Homer, HBHas_Homer))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(LisaHBCooldownEnd==0, lessThan(LisaHBCooldownEnd, serverTime(0))), and(HBCanUse_Lisa, HBHas_Lisa))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(BurnsHBCooldownEnd==0, lessThan(BurnsHBCooldownEnd, serverTime(0))), and(HBCanUse_Burns, HBHas_Burns))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(NelsonHBCooldownEnd==0, lessThan(NelsonHBCooldownEnd, serverTime(0))), and(HBCanUse_Nelson, HBHas_Nelson))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(ApuHBCooldownEnd==0, lessThan(ApuHBCooldownEnd, serverTime(0))), and(HBCanUse_Apu, HBHas_Apu))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(BartHBCooldownEnd==0, lessThan(BartHBCooldownEnd, serverTime(0))), and(HBCanUse_Bart, HBHas_Bart))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(MargeHBCooldownEnd==0, lessThan(MargeHBCooldownEnd, serverTime(0))), and(HBCanUse_Marge, HBHas_Marge))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(GrampaHBCooldownEnd==0, lessThan(GrampaHBCooldownEnd, serverTime(0))), and(HBCanUse_Grampa, HBHas_Grampa))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(CBGuyHBCooldownEnd==0, lessThan(CBGuyHBCooldownEnd, serverTime(0))), and(HBCanUse_CBGuy, HBHas_CBGuy))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(RalphHBCooldownEnd==0, lessThan(RalphHBCooldownEnd, serverTime(0))), and(HBCanUse_Ralph, HBHas_Ralph))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(DrederickTatumHBCooldownEnd==0, lessThan(DrederickTatumHBCooldownEnd, serverTime(0))), and(HBCanUse_DrederickTatum, HBHas_DrederickTatum))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(JasperHBCooldownEnd==0, lessThan(JasperHBCooldownEnd, serverTime(0))), and(HBCanUse_Jasper, HBHas_Jasper))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(NedHBCooldownEnd==0, lessThan(NedHBCooldownEnd, serverTime(0))), and(HBCanUse_Ned, HBHas_Ned))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(CrazyCatLadyHBCooldownEnd==0, lessThan(CrazyCatLadyHBCooldownEnd, serverTime(0))), and(HBCanUse_CrazyCatLady, HBHas_CrazyCatLady))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(LugashHBCooldownEnd==0, lessThan(LugashHBCooldownEnd, serverTime(0))), and(HBCanUse_Lugash, HBHas_Lugash))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(MilhouseHBCooldownEnd==0, lessThan(MilhouseHBCooldownEnd, serverTime(0))), and(HBCanUse_Milhouse, HBHas_Milhouse))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(FuriousDHBCooldownEnd==0, lessThan(FuriousDHBCooldownEnd, serverTime(0))), and(HBCanUse_Bart, HBHas_FuriousD))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="lessThan(ReadyPlayers, 4)" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="special currency" currency="AthleteRecharge" amount="(4 - ReadyPlayers)" />
+					</Requirements>
+					<False>
+						<Action type="genericConfirmation">
+							<Attribute name="config">
+								<AttributeSet name="onOK">
+									<Attribute name="variable" value="OKPressed" />
+									<Attribute name="variableValue" value="1" />
+								</AttributeSet>
+								<AttributeSet name="onCancel">
+									<Attribute name="variable" value="OKPressed" />
+									<Attribute name="variableValue" value="0" />
+								</AttributeSet>
+								<AttributeSet name="onExit">
+									<Attribute name="variable" value="OKPressed" />
+									<Attribute name="variableValue" value="2" />
+								</AttributeSet>
+								<AttributeSet name="onBackButton">
+									<Attribute name="mapTo" value="onExit" />
+								</AttributeSet>
+								<AttributeSet name="title">
+									<Attribute name="text" value="UI_June2015_TooFewReadyPlayers_title" localise="true" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet name="message">
+									<Attribute name="text" value="UI_June2015_TooFewReadyPlayers_body" localise="true" />\
+                                    <Attribute name="font" value="eFont_Small" /><Attribute name="color" value="FFFFFFFF" /></AttributeSet>
+								<AttributeSet name="button_Cancel">
+									<Attribute name="button_text">
+										<AttributeSet name="text">
+											<Attribute name="text" value="UI_Continue" localise="true" />
+										</AttributeSet>
+									</Attribute>
+									<Attribute name="button_back">
+										<AttributeSet name="button">
+											<Attribute name="color" value="0091F1FF" />
+										</AttributeSet>
+									</Attribute>
+								</AttributeSet>
+								<AttributeSet name="button_OK">
+									<Attribute name="button_text">
+										<AttributeSet name="text">
+											<Attribute name="text" value="GEN_GetMore" localise="true" />
+										</AttributeSet>
+									</Attribute>
+									<Attribute name="button_back">
+										<AttributeSet name="button">
+											<Attribute name="color" value="BB0310FF" />
+										</AttributeSet>
+									</Attribute>
+									<Attribute name="button_icon">
+										<AttributeSet name="button_icon_left_Branch">
+											<Attribute name="active" value="true" />
+										</AttributeSet>
+										<AttributeSet name="button_icon_left">
+											<Attribute name="image" value="ICO_June2015_Obesitade_SM" />
+										</AttributeSet>
+									</Attribute>
+								</AttributeSet>
+								<AttributeSet name="exitButton">
+									<Attribute name="active" value="true" />
+								</AttributeSet>
+								<AttributeSet name="showTwoButtons">
+									<Attribute name="active" value="true" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+						<Action type="checkExpression" expression="OKPressed">
+							<ExpressionCase value="0">
+								<Action type="checkRequirements">
+									<Requirement type="active quest" quest="BallsOfGlory04" />
+									<True>
+										<Action type="setVariable" boolVariable="AwayGameStarted" boolValue="true" />
+									</True>
+								</Action>
+								<Action type="visitPeer" />
+							</ExpressionCase>
+							<ExpressionCase value="1">
+								<Action type="runScript" script="TabPressed_HomerballCrafting" package="June2015_Scripts" />
+							</ExpressionCase>
+						</Action>
+					</False>
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="active quest" quest="BallsOfGlory04" />
+							<True>
+								<Action type="setVariable" boolVariable="AwayGameStarted" boolValue="true" />
+							</True>
+						</Action>
+						<Action type="visitPeer" />
+					</True>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="active quest" quest="BallsOfGlory04" />
+					<True>
+						<Action type="setVariable" boolVariable="AwayGameStarted" boolValue="true" />
+					</True>
+				</Action>
+				<Action type="visitPeer" />
+			</False>
+		</Action>
+	</ChallengeFriend>
+	<BeginHomerballMatch>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="totalPendingMatchesInPeerLand" count="__June2015_GameConfig:Caps:PendingMatchesHard__" not="true" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="State_TeamMatch">
+					<Extras>
+						<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+						<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+						<Attribute name="matchConfig" value="June2015_HomerballConfig:StandardMatchConfig" />
+						<Attribute name="matchMenuConfig" value="June2015_HomerballConfig:MatchMenuConfig" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</BeginHomerballMatch>
+	<BeginHomerballSinglePlayer>
+		<Action type="gotoState" state="State_TeamMatch">
+			<Extras>
+				<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+				<Attribute name="matchConfig" value="June2015_HomerballConfig:StandardMatchConfig" />
+				<Attribute name="matchMenuConfig" value="June2015_HomerballConfig:MatchMenuConfig" />
+				<Attribute name="singlePlayer" value="true" />
+			</Extras>
+		</Action>
+	</BeginHomerballSinglePlayer>
+	<ChooseActiveTeam>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="totalPendingMatchesInPeerLand" count="__June2015_GameConfig:Caps:PendingMatchesHard__" not="true" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="TabPressed_TeamManagement" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</ChooseActiveTeam>
+	<ReceiveMatchResult parallel="true" ignoreHud="true">
+		<Action type="setVariable" intVariable="DailyGamesCap" intValue="__June2015_GameConfig:Caps:GamesRewarded__" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="or(greaterThan(dateYday(serverTime(0)), DayCollected), DayCollected==0)" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="DayCollected" intValue="dateYday(serverTime(0))" />
+				<Action type="setVariable" intVariable="GamesCollectedToday" intValue="0" />
+				<Action type="setVariable" boolVariable="HasBeenWarnedOfCapToday" boolValue="false" />
+				<Action type="setVariable" boolVariable="CapReachedToday" boolValue="false" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="lessThan(GamesCollectedToday, DailyGamesCap)" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="players land" />
+					</Requirements>
+					<True>
+						<Action type="receiveTeamMatchResult" victoriesVariable="pendingOfflineVictories" defeatsVariable="pendingOfflineDefeats" drawsVariable="pendingOfflineDraws" />
+						<Action type="saveFriendAction" specialEvent="Homerball" buffer="PassiveMatches" maxActionsInBuffer="__June2015_GameConfig:Caps:MatchHistorySize__" />
+						<Action type="setVariable" intVariable="GamesCollectedToday" intValue="GamesCollectedToday + 1" />
+					</True>
+					<False>
+						<Action type="setVariable" intVariable="initialPendingMatchesInPeerLand" intValue="initialPendingMatchesInPeerLand + 1" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="setVariable" boolVariable="CapReachedToday" boolValue="true" />
+			</False>
+		</Action>
+	</ReceiveMatchResult>
+	<InformPlayerOfCap>
+		<Action type="setVariable" boolVariable="HasBeenWarnedOfCapToday" boolValue="true" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_June2015_TooManyRewardsMessage" parameters="textParams" localise="true">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="__June2015_GameConfig:Caps:GamesRewarded__" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_Large" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</InformPlayerOfCap>
+	<BeginFPOHomerballMatch>
+		<Action type="gotoState" state="State_TeamMatch">
+			<Extras>
+				<Attribute name="AthleteBlueprint" value="HomerballPlayer" />
+				<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+				<Attribute name="matchConfig" value="June2015_HomerballConfig:StandardMatchConfig" />
+				<Attribute name="matchMenuConfig" value="June2015_HomerballConfig:MatchMenuConfig" />
+			</Extras>
+		</Action>
+	</BeginFPOHomerballMatch>
+	<CheckPeerMatchmakingExhaustion ignoreHud="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendvariable" variable="CanPlayHomerball" />
+				<Requirement type="friendvariable" variable="Homerball" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="pendingMatchesSoftLimit" intValue="__June2015_GameConfig:Caps:PendingMatchesSoft__" />
+				<Action type="if">
+					<If expression="totalPendingMatchesInPeerLand &gt;= pendingMatchesSoftLimit">
+						<Then>
+							<Action type="removePeerFromMatchmaking" category="Homerball2015" />
+						</Then>
+					</If>
+				</Action>
+			</True>
+			<False>
+				<Action type="removePeerFromMatchmaking" category="Homerball2015" />
+			</False>
+		</Action>
+	</CheckPeerMatchmakingExhaustion>
+	<Guide_Main>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:HubGuidePanelConfig" />
+	</Guide_Main>
+	<Guide_MainCenter>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:HubGuidePanelConfig">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+			</Extras>
+		</Action>
+	</Guide_MainCenter>
+	<Guide_TeamManagement>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TeamManagementGuideConfig" />
+	</Guide_TeamManagement>
+	<Guide_TeamManagementCenter>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TeamManagementGuideConfig">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+			</Extras>
+		</Action>
+	</Guide_TeamManagementCenter>
+	<Guide_TapBall>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig" />
+	</Guide_TapBall>
+	<Guide_TapBall_ReturnToCorrectTab ignoreHUD="true">
+		<Action type="checkExpression" expression="EventHubTabValue">
+			<ExpressionCase value="3">
+				<Action type="runScript" script="Guide_TapBall_ReturnToRosterSelect" package="June2015_Scripts" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="runScript" script="Guide_TapBall_ReturnToTeamManagement" package="June2015_Scripts" />
+			</ExpressionCase>
+		</Action>
+	</Guide_TapBall_ReturnToCorrectTab>
+	<Guide_TapBall_ReturnToTeamManagement ignoreHUD="true">
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="June2015_Scripts:TabPressed_TeamManagement" />
+			</Extras>
+		</Action>
+	</Guide_TapBall_ReturnToTeamManagement>
+	<Guide_TapBall_ReturnToRosterSelect ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig" forceState="false">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="June2015_Scripts:GoToSinglePlayerTeamRosterSelect" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig" forceState="false">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="June2015_Scripts:GoToTeamRosterSelect" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Guide_TapBall_ReturnToRosterSelect>
+	<Guide_TapBallCenter>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+			</Extras>
+		</Action>
+	</Guide_TapBallCenter>
+	<Guide_TapBallCenter_ReturnToRosterSelect>
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig" forceState="false">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="June2015_Scripts:GoToSinglePlayerTeamRosterSelect" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="June2015_HubGuidePanelConfig:TapBallGuideConfig" forceState="false">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="June2015_Scripts:GoToTeamRosterSelect" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Guide_TapBallCenter_ReturnToRosterSelect>
+	<GoToTeamRosterSelect>
+		<Action type="gotoState" state="GameState_TeamManagement" forceState="false">
+			<Extras>
+				<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+				<Attribute name="menuConfig" value="June2015_HomerballConfig:MenuConfig" />
+				<Attribute name="away" value="true" />
+			</Extras>
+		</Action>
+	</GoToTeamRosterSelect>
+	<GoToSinglePlayerTeamRosterSelect>
+		<Action type="gotoState" state="GameState_TeamManagement" forceState="false">
+			<Extras>
+				<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+				<Attribute name="menuConfig" value="June2015_HomerballConfig:MenuConfig" />
+				<Attribute name="away" value="true" />
+				<Attribute name="singlePlayer" value="true" />
+			</Extras>
+		</Action>
+	</GoToSinglePlayerTeamRosterSelect>
+	<TabPressed_PrizeTrack>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="false">
+			<Extras>
+				<Attribute name="helpButtonScript" value="June2015_Scripts:Guide_Main" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="PrizeTrackBadge" />
+	</TabPressed_PrizeTrack>
+	<TabPressed_TeamManagement>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="GameState_TeamManagement" forceState="false">
+			<Extras>
+				<Attribute name="generalConfig" value="June2015_HomerballConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="June2015_HomerballConfig:PotentialRosterConfig" />
+				<Attribute name="menuConfig" value="June2015_HomerballConfig:MenuConfig" />
+				<Attribute name="away" value="true">
+					<Requirement type="reqList" location="June2015_Requirements:TeamManagementMode" />
+				</Attribute>
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="TeamManagementBadge" />
+	</TabPressed_TeamManagement>
+	<TabPressed_HomerballChallenge>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_HubFriendList" forceState="false">
+			<Extras>
+				<Attribute name="menuConfig" value="June2015_HubFriendListConfig:MenuConfig" />
+				<Attribute name="dataConfig" value="June2015_HubFriendListConfig:DataConfig" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="helpButtonScript" value="June2015_Scripts:Guide_TapBall" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="HomerballChallengeBadge" />
+	</TabPressed_HomerballChallenge>
+	<TabPressed_HomerballResults>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="6" />
+		<Action type="gotoState" state="GameState_HubFriendActionHistory" forceState="false">
+			<Extras>
+				<Attribute name="menuConfig" value="June2015_CareerScreenConfig:MenuConfig" />
+				<Attribute name="dataConfig" value="June2015_CareerScreenConfig:DataConfig" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+	</TabPressed_HomerballResults>
+	<TabPressed_HomerballCrafting>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="5" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+			<Extras>
+				<Attribute name="MenuConfig" value="June2015_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="CraftingBadge" />
+	</TabPressed_HomerballCrafting>
+	<TabPressed_DailyTasks ignoreHUD="true">
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="runScript" script="OpenQuestLot" package="June2015_QuestLotScripts" />
+		<Action type="markBadgeViewed" badgeName="DailyTasksBadge" />
+	</TabPressed_DailyTasks>
+	<TabPressed_Community ignoreHUD="true">
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="7" />
+		<Action type="gotoState" state="GameState_HubCommunityPrizeTrack" forceState="false">
+			<Extras>
+				<Attribute name="helpButtonScript" value="June2015_Scripts:Guide_Main" />
+				<Attribute name="prizeTrackType" value="community" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="CommunityPrizeBadge" />
+	</TabPressed_Community>
+	<DoItButton_DailyTasks>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="runScript" script="TabPressed_DailyTasks" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</DoItButton_DailyTasks>
+	<DoItButton_TabBall>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="TapBallGuideSeen" />
+					<True>
+						<Action type="runScript" script="TabPressed_HomerballChallenge" package="June2015_Scripts" />
+					</True>
+					<False>
+						<Action type="setVariable" boolVariable="TapBallGuideSeen" boolValue="true" />
+						<Action type="runScript" script="Guide_TapBall" package="June2015_Scripts" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</DoItButton_TabBall>
+	<DoItButton_ProShop>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="runScript" script="TabPressed_HomerballCrafting" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</DoItButton_ProShop>
+	<DoItButton_TeamManagement>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="runScript" script="TabPressed_TeamManagement" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</DoItButton_TeamManagement>
+	<DoItButton_Results>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="runScript" script="TabPressed_HomerballResults" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</DoItButton_Results>
+	<PrizeListButtonPressed>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="MainGuideSeen" />
+			<True>
+				<Action type="checkExpression" expression="EventHubTabValue">
+					<ExpressionCase value="1">
+						<Action type="runScript" script="TabPressed_PrizeTrack" package="June2015_Scripts" />
+					</ExpressionCase>
+					<ExpressionCase value="2">
+						<Action type="runScript" script="TabPressed_DailyTasks" package="June2015_Scripts" />
+					</ExpressionCase>
+					<ExpressionCase value="3">
+						<Action type="runScript" script="TabPressed_HomerballChallenge" package="June2015_Scripts" />
+					</ExpressionCase>
+					<ExpressionCase value="4">
+						<Action type="runScript" script="TabPressed_TeamManagement" package="June2015_Scripts" />
+					</ExpressionCase>
+					<ExpressionCase value="5">
+						<Action type="runScript" script="TabPressed_HomerballCrafting" package="June2015_Scripts" />
+					</ExpressionCase>
+					<ExpressionCase value="6">
+						<Action type="runScript" script="TabPressed_HomerballResults" package="June2015_Scripts" />
+					</ExpressionCase>
+					<ExpressionCase value="7">
+						<Action type="runScript" script="TabPressed_Community" package="June2015_Scripts" />
+					</ExpressionCase>
+				</Action>
+			</True>
+			<False>
+				<Action type="setVariable" boolVariable="MainGuideSeen" boolValue="true" />
+				<Action type="runScript" script="Guide_Main" package="June2015_Scripts" />
+			</False>
+		</Action>
+	</PrizeListButtonPressed>
+	<MakeUpRulesJobDone>
+		<Action type="checkExpression" expression="MakeUpRulesCount">
+			<ExpressionCase value="0">
+				<Action type="runScript" script="MeetMyTrophyLife04_Obj1" package="June2015_Scripts_Dialogue" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="runScript" script="MeetMyTrophyLife04_Obj2" package="June2015_Scripts_Dialogue" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="MeetMyTrophyLife04_Obj3" package="June2015_Scripts_Dialogue" />
+			</ExpressionCase>
+		</Action>
+		<Action type="setVariable" intVariable="MakeUpRulesCount" intValue="MakeUpRulesCount+1" />
+	</MakeUpRulesJobDone>
+	<MatchGameTie>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="June2015_Requirements:SaveActiveMatch" />
+			<True>
+				<Action type="saveFriendAction" specialEvent="Homerball" buffer="PassiveMatches" maxActionsInBuffer="__June2015_GameConfig:Caps:MatchHistorySize__" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="totalPendingMatchesInPeerLand" intValue="totalPendingMatchesInPeerLand + 1" />
+		<Action type="setVariable" intVariable="activeGamesTied" intValue="activeGamesTied+1" />
+		<Action type="runScript" script="CheckPeerMatchmakingExhaustion" package="June2015_Scripts" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveBonusAmateurBucksAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct1WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct1BonusMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct2WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct2BonusMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct3WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct3BonusMerchandiseAwarded" intValue="0" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="RematchGameStarted" />
+			<True>
+				<Action type="setVariable" boolVariable="RematchGamePlayed" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirement type="config" key="June2015_GameConfig:Enable:PlayedOpponentPN" value="1" />
+			<True>
+				<Action type="sendPeerNotification" blueprint="PlayedOpponent" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory02" />
+			<True>
+				<Action type="setVariable" boolVariable="HB_MatchTutorial" boolValue="false" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="activeOpponentLevel" intValue="{PassiveTeamRating}" formatMe="true" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="__June2015_GameConfig:Rewards:ActiveDrawAmateurBuckReward__" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="ActiveWinLoseDrawAmateurBucksAwarded * RewardMultiplier" />
+		<Action type="setVariable" intVariable="ActiveBonusAmateurBucksAwarded" intValue="System::evaluate('Selector::ActiveGameBonusAmateurBucksAward')" />
+		<Action type="setVariable" intVariable="AmateurBucksTotalAwarded" intValue="ActiveWinLoseDrawAmateurBucksAwarded+ActiveBonusAmateurBucksAwarded" />
+		<Action type="incrementSessionCounter" counter="HB_TicketsFromDrawingGames" increment="ActiveWinLoseDrawAmateurBucksAwarded+ActiveBonusAmateurBucksAwarded" />
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="HomerballActTwo" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct1WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveDrawPrizeTrack1Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct1BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct1WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct1BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_FoamFingersFromDrawingGames" increment="ActiveAct1WinLoseDrawMerchandiseAwarded+ActiveAct1BonusMerchandiseAwarded" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct2WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveDrawPrizeTrack2Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct2BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct2WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct2BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_HatsFromDrawingGames" increment="ActiveAct2WinLoseDrawMerchandiseAwarded+ActiveAct2BonusMerchandiseAwarded" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActThree" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct3WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveDrawPrizeTrack3Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct3BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct3WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct3BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_PennantsFromDrawingGames" increment="ActiveAct3WinLoseDrawMerchandiseAwarded+ActiveAct3BonusMerchandiseAwarded" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="reward" HBTicketStubs="AmateurBucksTotalAwarded" />
+		<Action type="reward" FoamFingers="ActiveAct1WinLoseDrawMerchandiseAwarded+ActiveAct1BonusMerchandiseAwarded" />
+		<Action type="reward" Hats="ActiveAct2WinLoseDrawMerchandiseAwarded+ActiveAct2BonusMerchandiseAwarded" />
+		<Action type="reward" Pennants="ActiveAct3WinLoseDrawMerchandiseAwarded+ActiveAct3BonusMerchandiseAwarded" />
+		<Action type="setVariable" intVariable="PowerUpsToRefund" intValue="0" />
+		<Action type="runScript" script="TieGameMessage" package="June2015_Scripts" />
+		<Action type="runScript" script="ResetReadyPlayersBadge" package="June2015_Scripts" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="BallsOfGlory04" />
+				<Requirement type="variable" variable="AwayGameStarted" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="AwayGamePlayed" boolValue="true" />
+			</True>
+		</Action>
+	</MatchGameTie>
+	<ResetReadyPlayersBadge ignoreHUD="true">
+		<Action type="runScript" script="UpdatePlayersReady" package="June2015_Scripts" waitUntilComplete="true" />
+		<Action type="setVariable" intVariable="HomerballChallengePlayersReady" intValue="0" />
+	</ResetReadyPlayersBadge>
+	<TieGameMessage ignoreHUD="true">
+		<Action type="sound" sound="mu_Sports_TapBall_GameEnd.caf" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_June2015_Results_underline_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="resultText">
+					<Attribute name="text" value="UI_June2015_Results_tie_text" localise="true" />
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="ratingText">
+					<Attribute name="text" value="UI_June2015_Results_difficulty" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="rewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_bonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="ActiveWinLoseDrawAmateurBucksAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="ActiveBonusAmateurBucksAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalBonusAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ico_june2015_kentbrockman_draw" />
+				</AttributeSet>
+				<AttributeSet name="ratingSystem">
+					<Attribute name="config" value="June2015_HomerballConfig:LargeStarRating" />
+					<Attribute name="bsv2" value="ICO_June15_RatingStar_SM" />
+					<Attribute name="animIndex" value="1" />
+					<Attribute name="rating" formula="activeOpponentLevel" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+	</TieGameMessage>
+	<MatchGameWin>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="June2015_Requirements:SaveActiveMatch" />
+			<True>
+				<Action type="saveFriendAction" specialEvent="Homerball" buffer="PassiveMatches" maxActionsInBuffer="__June2015_GameConfig:Caps:MatchHistorySize__" />
+			</True>
+		</Action>
+		<Action type="reward" HomerballWins="1" save="true" suppress_sound="true" noDrops="true" />
+		<Action type="setVariable" intVariable="activeGamesWon" intValue="activeGamesWon+1" />
+		<Action type="setVariable" boolVariable="DailyWinComplete" boolValue="true" />
+		<Action type="setVariable" intVariable="totalPendingMatchesInPeerLand" intValue="totalPendingMatchesInPeerLand + 1" />
+		<Action type="runScript" script="CheckPeerMatchmakingExhaustion" package="June2015_Scripts" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveBonusAmateurBucksAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct1WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct1BonusMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct2WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct2BonusMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct3WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct3BonusMerchandiseAwarded" intValue="0" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="RematchGameStarted" />
+			<True>
+				<Action type="setVariable" boolVariable="RematchGamePlayed" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirement type="config" key="June2015_GameConfig:Enable:PlayedOpponentPN" value="1" />
+			<True>
+				<Action type="sendPeerNotification" blueprint="PlayedOpponent" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory02" />
+			<True>
+				<Action type="setVariable" boolVariable="HB_MatchTutorial" boolValue="false" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="activeOpponentLevel" intValue="{PassiveTeamRating}" formatMe="true" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="__June2015_GameConfig:Rewards:ActiveWinAmateurBuckReward__" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="ActiveWinLoseDrawAmateurBucksAwarded * RewardMultiplier" />
+		<Action type="setVariable" intVariable="ActiveBonusAmateurBucksAwarded" intValue="System::evaluate('Selector::ActiveGameBonusAmateurBucksAward')" />
+		<Action type="setVariable" intVariable="AmateurBucksTotalAwarded" intValue="ActiveWinLoseDrawAmateurBucksAwarded+ActiveBonusAmateurBucksAwarded" />
+		<Action type="incrementSessionCounter" counter="HB_TicketsFromWinningGames" increment="ActiveWinLoseDrawAmateurBucksAwarded+ActiveBonusAmateurBucksAwarded" />
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="HomerballActTwo" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct1WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveWinPrizeTrack1Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct1BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct1WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct1BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_FoamFingersFromWinningGames" increment="ActiveAct1WinLoseDrawMerchandiseAwarded+ActiveAct1BonusMerchandiseAwarded" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct2WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveWinPrizeTrack2Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct2BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct2WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct2BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_HatsFromWinningGames" increment="ActiveAct2WinLoseDrawMerchandiseAwarded+ActiveAct2BonusMerchandiseAwarded" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActThree" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct3WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveWinPrizeTrack3Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct3BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct3WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct3BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_PennantsFromWinningGames" increment="ActiveAct3WinLoseDrawMerchandiseAwarded+ActiveAct3BonusMerchandiseAwarded" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="reward" HBTicketStubs="AmateurBucksTotalAwarded" />
+		<Action type="reward" FoamFingers="ActiveAct1WinLoseDrawMerchandiseAwarded+ActiveAct1BonusMerchandiseAwarded" />
+		<Action type="reward" Hats="ActiveAct2WinLoseDrawMerchandiseAwarded+ActiveAct2BonusMerchandiseAwarded" />
+		<Action type="reward" Pennants="ActiveAct3WinLoseDrawMerchandiseAwarded+ActiveAct3BonusMerchandiseAwarded" />
+		<Action type="setVariable" intVariable="PowerUpsToRefund" intValue="0" />
+		<Action type="runScript" script="WinGameMessage" package="June2015_Scripts" />
+		<Action type="runScript" script="ResetReadyPlayersBadge" package="June2015_Scripts" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="BallsOfGlory04" />
+				<Requirement type="variable" variable="AwayGameStarted" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="AwayGamePlayed" boolValue="true" />
+			</True>
+		</Action>
+	</MatchGameWin>
+	<WinGameMessage ignoreHUD="true">
+		<Action type="sound" sound="mu_Sports_TapBall_GameEnd.caf" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_June2015_Results_underline_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="resultText">
+					<Attribute name="text" value="UI_June2015_Results_won_text" localise="true" />
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="ratingText">
+					<Attribute name="text" value="UI_June2015_Results_difficulty" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="rewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_bonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="ActiveWinLoseDrawAmateurBucksAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="ActiveBonusAmateurBucksAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalBonusAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ico_june2015_kentbrockman_win" />
+				</AttributeSet>
+				<AttributeSet name="ratingSystem">
+					<Attribute name="config" value="June2015_HomerballConfig:LargeStarRating" />
+					<Attribute name="bsv2" value="ICO_June15_RatingStar_SM" />
+					<Attribute name="animIndex" value="1" />
+					<Attribute name="rating" formula="activeOpponentLevel" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+	</WinGameMessage>
+	<MatchGameLose>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="June2015_Requirements:SaveActiveMatch" />
+			<True>
+				<Action type="saveFriendAction" specialEvent="Homerball" buffer="PassiveMatches" maxActionsInBuffer="__June2015_GameConfig:Caps:MatchHistorySize__" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="totalPendingMatchesInPeerLand" intValue="totalPendingMatchesInPeerLand + 1" />
+		<Action type="setVariable" intVariable="activeGamesLost" intValue="activeGamesLost+1" />
+		<Action type="runScript" script="CheckPeerMatchmakingExhaustion" package="June2015_Scripts" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveBonusAmateurBucksAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct1WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct1BonusMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct2WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct2BonusMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct3WinLoseDrawMerchandiseAwarded" intValue="0" />
+		<Action type="setVariable" intVariable="ActiveAct3BonusMerchandiseAwarded" intValue="0" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="RematchGameStarted" />
+			<True>
+				<Action type="setVariable" boolVariable="RematchGamePlayed" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirement type="config" key="June2015_GameConfig:Enable:PlayedOpponentPN" value="1" />
+			<True>
+				<Action type="sendPeerNotification" blueprint="PlayedOpponent" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory02" />
+			<True>
+				<Action type="setVariable" boolVariable="HB_MatchTutorial" boolValue="false" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="activeOpponentLevel" intValue="{PassiveTeamRating}" formatMe="true" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="__June2015_GameConfig:Rewards:ActiveLoseAmateurBuckReward__" />
+		<Action type="setVariable" intVariable="ActiveWinLoseDrawAmateurBucksAwarded" intValue="ActiveWinLoseDrawAmateurBucksAwarded * RewardMultiplier" />
+		<Action type="setVariable" intVariable="ActiveBonusAmateurBucksAwarded" intValue="System::evaluate('Selector::ActiveGameBonusAmateurBucksAward')" />
+		<Action type="setVariable" intVariable="AmateurBucksTotalAwarded" intValue="ActiveWinLoseDrawAmateurBucksAwarded+ActiveBonusAmateurBucksAwarded" />
+		<Action type="incrementSessionCounter" counter="HB_TicketsFromLosingGames" increment="ActiveWinLoseDrawAmateurBucksAwarded+ActiveBonusAmateurBucksAwarded" />
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="HomerballActTwo" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct1WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveLosePrizeTrack1Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct1BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct1WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct1BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_FoamFingersFromLosingGames" increment="ActiveAct1WinLoseDrawMerchandiseAwarded+ActiveAct1BonusMerchandiseAwarded" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct2WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveLosePrizeTrack2Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct2BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct2WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct2BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_HatsFromLosingGames" increment="ActiveAct2WinLoseDrawMerchandiseAwarded+ActiveAct2BonusMerchandiseAwarded" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="time" start="HomerballActThree" />
+				<Then>
+					<Action type="setVariable" intVariable="ActiveAct3WinLoseDrawMerchandiseAwarded" intValue="__June2015_GameConfig:Rewards:ActiveLosePrizeTrack3Reward__" />
+					<Action type="setVariable" intVariable="ActiveAct3BonusMerchandiseAwarded" intValue="System::evaluate('Selector::ActiveGameBonusMerchandiseAward')" />
+					<Action type="setVariable" intVariable="MerchandiseTotalAwarded" intValue="ActiveAct3WinLoseDrawMerchandiseAwarded" />
+					<Action type="setVariable" intVariable="MerchandiseTotalBonusAwarded" intValue="ActiveAct3BonusMerchandiseAwarded" />
+					<Action type="incrementSessionCounter" counter="HB_PennantsFromLosingGames" increment="ActiveAct3WinLoseDrawMerchandiseAwarded+ActiveAct3BonusMerchandiseAwarded" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="reward" HBTicketStubs="AmateurBucksTotalAwarded" />
+		<Action type="reward" FoamFingers="ActiveAct1WinLoseDrawMerchandiseAwarded+ActiveAct1BonusMerchandiseAwarded" />
+		<Action type="reward" Hats="ActiveAct2WinLoseDrawMerchandiseAwarded+ActiveAct2BonusMerchandiseAwarded" />
+		<Action type="reward" Pennants="ActiveAct3WinLoseDrawMerchandiseAwarded+ActiveAct3BonusMerchandiseAwarded" />
+		<Action type="setVariable" intVariable="PowerUpsToRefund" intValue="0" />
+		<Action type="runScript" script="LoseGameMessage" package="June2015_Scripts" />
+		<Action type="runScript" script="ResetReadyPlayersBadge" package="June2015_Scripts" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="BallsOfGlory04" />
+				<Requirement type="variable" variable="AwayGameStarted" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="AwayGamePlayed" boolValue="true" />
+			</True>
+		</Action>
+	</MatchGameLose>
+	<LoseGameMessage ignoreHUD="true">
+		<Action type="sound" sound="mu_Sports_TapBall_GameEnd.caf" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_June2015_Results_underline_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="resultText">
+					<Attribute name="text" value="UI_June2015_Results_loss_text" localise="true" />
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="ratingText">
+					<Attribute name="text" value="UI_June2015_Results_difficulty" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="rewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_June2015_Results_reward_bonus_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="ActiveWinLoseDrawAmateurBucksAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="ActiveBonusAmateurBucksAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="MerchandiseTotalBonusAwarded" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="reward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_June2015_AmateurBucks_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="reward2_Image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" end="HomerballActTwo" />
+					<Attribute name="image" value="ICO_June2015_FoamFinger_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Hat_SM" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Requirement type="time" start="HomerballActThree" />
+					<Attribute name="image" value="ICO_June2015_Pennant_SM" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ico_june2015_kentbrockman_loss" />
+				</AttributeSet>
+				<AttributeSet name="ratingSystem">
+					<Attribute name="config" value="June2015_HomerballConfig:LargeStarRating" />
+					<Attribute name="bsv2" value="ICO_June15_RatingStar_SM" />
+					<Attribute name="animIndex" value="1" />
+					<Attribute name="rating" formula="activeOpponentLevel" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+	</LoseGameMessage>
+	<MatchStart>
+		<Action type="sound" sound="mu_Sports_TapBall_GameStart.caf" />
+		<Action type="pantoobject" building="__June2015_HomerballConfig:StandardMatchConfig:pitchName__" offsetX="_[gridToWorld(1.5)]_" offsetZ="_[gridToWorld(-1.5)]_" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="platform" assetTier="25" device="ios" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="__June2015_HomerballConfig:StandardMatchConfig:pitchName__" offsetX="_[gridToWorld(1.5)]_" offsetZ="_[gridToWorld(-1.5)]_" zoom="1.25" />
+			</True>
+		</Action>
+	</MatchStart>
+	<MatchPowerUpScript ignoreHUD="true">
+		<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="true" />
+		<Action type="playCharacterEffect" resetBeforeStart="false" />
+	</MatchPowerUpScript>
+	<MatchSwitchScript ignoreHUD="true">
+		<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="true" />
+	</MatchSwitchScript>
+	<OnAthleteUpgraded ignoreHUD="true">
+		<Action type="setVariable" intVariable="upgradesPerformed" intValue="upgradesPerformed + 1" />
+		<Action type="if" formatMe="deep">
+			<If expression="{NewLevel}==2">
+				<Then>
+					<Action type="setVariable" intVariable="levelTwoCharacters" intValue="levelTwoCharacters+1" />
+				</Then>
+			</If>
+			<ElseIf expression="{NewLevel}==3">
+				<Then>
+					<Action type="setVariable" intVariable="levelThreeCharacters" intValue="levelThreeCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==4">
+				<Then>
+					<Action type="setVariable" intVariable="levelFourCharacters" intValue="levelFourCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==5">
+				<Then>
+					<Action type="setVariable" intVariable="levelFiveCharacters" intValue="levelFiveCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==6">
+				<Then>
+					<Action type="setVariable" intVariable="levelSixCharacters" intValue="levelSixCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==7">
+				<Then>
+					<Action type="setVariable" intVariable="levelSevenCharacters" intValue="levelSevenCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==8">
+				<Then>
+					<Action type="setVariable" intVariable="levelEightCharacters" intValue="levelEightCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==9">
+				<Then>
+					<Action type="setVariable" intVariable="levelNineCharacters" intValue="levelNineCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel}==10">
+				<Then>
+					<Action type="setVariable" intVariable="levelTenCharacters" intValue="levelTenCharacters+1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="if" formatMe="deep">
+			<If expression="{NewLevel} == TopAthleteOne+1">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteOne" intValue="TopAthleteOne+1" />
+				</Then>
+			</If>
+			<ElseIf expression="{NewLevel} == TopAthleteTwo+1">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteTwo" intValue="TopAthleteTwo+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel} == TopAthleteThree+1">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteThree" intValue="TopAthleteThree+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{NewLevel} == TopAthleteFour+1">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteFour" intValue="TopAthleteFour+1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="runScript" script="UpdateTeamAverage" package="June2015_Scripts" />
+	</OnAthleteUpgraded>
+	<UpdateTeamAverage ignoreHUD="true">
+		<Action type="if">
+			<If expression="greaterThan(NumAvailableAthletes,3)">
+				<Then>
+					<Action type="setVariable" intVariable="TopAverage" intValue="floor((TopAthleteOne+TopAthleteTwo+TopAthleteThree+TopAthleteFour)/4)" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="setVariable" intVariable="TopAverage" intValue="0" />
+				</Then>
+			</Else>
+		</Action>
+	</UpdateTeamAverage>
+	<RoundTieScript>
+		<Action type="sound" sound="UIMatchSuddenDeath" />
+		<Action type="playFullScreenAnimation" formatMe="deep">
+			<AnimationSequence>
+				<Anim file="ICO_June15_Draw_ScreenBars" name="neutral" alwaysDraw="true" />
+				<Anim file="ICO_June15_Coin_Exclamation" name="exclamationmark" />
+				<Anim file="ICO_June15_Coin_Exclamation" name="coinstatic_tails" />
+				<Anim file="ICO_June15_Draw_CharacterAnim_Left" name="homer_slidein" />
+				<Anim file="ICO_June15_Draw_CharacterAnim_Right" name="homer_slidein" />
+				<Anim file="ICO_June15_Draw_PlayerCoin_Left" name="coinstatic_heads" />
+				<Anim file="ICO_June15_Draw_PlayerCoin_Right" name="coinstatic_tails" />
+				<Anim file="ICO_June15_Coin_Exclamation" name="coinflip_{WinCoinFlip}" />
+				<Anim file="ICO_June15_Draw_CharacterAnim_{LoserSide}" name="homer_slideout" />
+				<Anim file="ICO_June15_Draw_CharacterAnim_{WinnerSide}" name="homer_slidetocenter" />
+			</AnimationSequence>
+		</Action>
+	</RoundTieScript>
+	<MatchGameTutorial1>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory01" />
+			<True>
+				<Action type="runScript" script="GoButtonTutorialMessage" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</MatchGameTutorial1>
+	<MatchGameTutorial2>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory01" />
+			<True>
+				<Action type="runScript" script="SwitchButtonTutorialMessage" package="June2015_Scripts" />
+				<Action type="setVariable" boolVariable="EnableSwitchButton" boolValue="true" />
+				<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="false" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory02" />
+			<True>
+				<Action type="runScript" script="BoostButtonTutorialMessage" package="June2015_Scripts" />
+				<Action type="setVariable" boolVariable="EnableBoostButton" boolValue="true" />
+				<Action type="setVariable" boolVariable="EnablePlayButton" boolValue="false" />
+			</True>
+		</Action>
+	</MatchGameTutorial2>
+	<MatchGameTutorial3>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="BallsOfGlory01" />
+			<True>
+				<Action type="runScript" script="DrawTutorialMessage" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</MatchGameTutorial3>
+	<GoButtonTutorialMessage>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_June2015_Tutorial_GoButton_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_June2015_Tutorial_GoButton_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_June2015_Tutorial_Go" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_June2015_Tutorial_GoButton_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_June2015_Tutorial_GoButton_2_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_June2015_Tutorial_Go" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</GoButtonTutorialMessage>
+	<SwitchButtonTutorialMessage>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_June2015_Tutorial_Switch_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_June2015_Tutorial_Switch_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_June2015_Tutorial_Switch" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</SwitchButtonTutorialMessage>
+	<BoostButtonTutorialMessage>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_June2015_Tutorial_Boost_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_June2015_Tutorial_Boost_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_June2015_Tutorial_Tonic" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</BoostButtonTutorialMessage>
+	<DrawTutorialMessage>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_June2015_Tutorial_Draw_title" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_June2015_Tutorial_Draw_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_June2015_Tutorial_Tie" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</DrawTutorialMessage>
+	<OnWorldMapLoad parallel="true">
+		<Action type="checkRequirements" parallel="true">
+			<Requirements>
+				<Requirement type="variable" variable="OpenLeaderboard" />
+				<Requirement type="config" key="June2015_GameConfig:Enable:LeaderboardPopup" value="1" />
+				<Requirement type="quest started" quest="BallsOfGlory04" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="OpenLeaderboard" boolValue="false" />
+				<Action type="gotoState" state="WorldState_Leaderboard" parentState="MapState">
+					<Extras>
+						<Attribute name="MenuConfig" value="June2015_LeaderboardMenuConfig:LeaderboardMenu" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="RematchGameStarted" boolValue="false" />
+	</OnWorldMapLoad>
+	<SpecialEventButtonInFriendMapPressed ignoreHUD="true">
+		<Action type="gotoState" state="WorldState_Leaderboard">
+			<Extras>
+				<Attribute name="MenuConfig" value="June2015_LeaderboardMenuConfig:LeaderboardMenu" />
+			</Extras>
+		</Action>
+	</SpecialEventButtonInFriendMapPressed>
+	<OnFriendButtonPressed>
+		<Action type="setVariable" boolVariable="OpenLeaderboard" boolValue="true" />
+	</OnFriendButtonPressed>
+	<EnterJune2015Category>
+		<Action type="focusOnMenuItem" menuCategory="June2015" />
+	</EnterJune2015Category>
+	<RecommendJune2015 parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" end="SoccerCupStart" />
+			</Requirements>
+			<True>
+				<Action type="clearRecommendations" category="Event" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="4thJuly2015_Event" />
+					<True>
+						<Action type="runScript" script="July4th2015_StoreRecommend_Start" package="July4th2015_Scripts" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="reqList" location="June2015_Requirements:EventKickOff" />
+					<True>
+						<Action type="recommendation" recType="Event" eventName="UI_June2015_EventName" name="EnterJune2015CategoryTriple" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="4thJuly2015_Event" />
+					<True>
+						<Action type="recommendation" recType="Promoted" name="ScandalgateHotel" />
+					</True>
+				</Action>
+			</True>
+			<False>
+				<Action type="clearRecommendations" category="Event" />
+				<Action type="clearRecommendations" category="Promoted" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="4thJuly2015_Event" />
+					<True>
+						<Action type="runScript" script="July4th2015_StoreRecommend_Start" package="July4th2015_Scripts" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="reqList" location="June2015_Requirements:EventKickOff" />
+					<True>
+						<Action type="recommendation" recType="Event" eventName="UI_June2015_EventName" name="EnterJune2015CategorySingle" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="quest" quest="FlagsAvailable" />
+					<True>
+						<Action type="recommendation" recType="Promoted" eventName="UI_June2015_EventName" name="EnterFlagsCategory" />
+					</True>
+				</Action>
+				<Action type="runScript" script="RecommendLadyDuff" package="SoccerCup2015_Scripts" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="4thJuly2015_Event" />
+					<True>
+						<Action type="recommendation" recType="Promoted" name="ScandalgateHotel" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+	</RecommendJune2015>
+	<SwitchJasperToNormalSkin>
+		<Action type="skin-restore" />
+	</SwitchJasperToNormalSkin>
+	<BowlingLane_Tapped parallel="true">
+		<Action type="anim-play" building="BowlingLane" animation="ActiveNoLoop" />
+	</BowlingLane_Tapped>
+	<TennisMachine_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_Tennis_Machine_Tap.caf" />
+		<Action type="anim-play" building="TennisMachine" animation="ActiveNoLoop" />
+	</TennisMachine_Tapped>
+	<LowBlowBoxing_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_LowBlow_Boxing_Tap.caf" />
+		<Action type="anim-play" building="LowBlowBoxing" animation="ActiveNoLoop" />
+	</LowBlowBoxing_Tapped>
+	<FootballTarget_Tapped parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="sfx_sports_Football_Target_tap_01.caf" />
+			<Action type="sound" sound="sfx_sports_Football_Target_tap_02.caf" />
+			<Action type="sound" sound="sfx_sports_Football_Target_tap_03.caf" />
+		</Action>
+		<Action type="anim-play" building="FootballTarget" animation="ActiveNoLoop" />
+	</FootballTarget_Tapped>
+	<Springy_Tapped parallel="true">
+		<Action type="sound" sound="char_Springy_Tap_Boing" />
+		<Action type="anim-play" character="Springy" animation="Tap" />
+	</Springy_Tapped>
+	<StadiumLightsTapped parallel="true">
+		<Action type="setObjectVariable" variable="Toggle" value="!(Object::Toggle)" asExpression="true" />
+		<Action type="checkExpression" expression="Object::Toggle">
+			<ExpressionCase value="1">
+				<Action type="sound" sound="sfx_Sports_Stadium_Lights_Switch_On.caf" />
+			</ExpressionCase>
+		</Action>
+	</StadiumLightsTapped>
+	<UpdateStadiumLight parallel="true">
+		<Action type="checkExpression" expression="Object::Toggle">
+			<ExpressionCase value="1">
+				<Action type="anim-play" building="StadiumLights" animation="Active" nowait="true" />
+			</ExpressionCase>
+			<ExpressionCase value="0">
+				<Action type="anim-play" building="StadiumLights" animation="Neutral" nowait="true" />
+			</ExpressionCase>
+		</Action>
+	</UpdateStadiumLight>
+	<StadiumEntrance_Tapped parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="sfx_Sports_Stadium_Entrance_Tap_01.caf" />
+			<Action type="sound" sound="sfx_Sports_Stadium_Entrance_Tap_02.caf" />
+		</Action>
+	</StadiumEntrance_Tapped>
+	<Testosterzone_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_Testosterzone_Tap.caf" />
+	</Testosterzone_Tapped>
+	<Sportacus_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_Sportacus_Tap.caf" />
+	</Sportacus_Tapped>
+	<BurnsBasketBallStadium_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_MrBurns_Basketball_Stadium_Tap.caf" />
+	</BurnsBasketBallStadium_Tapped>
+	<AlleyMcBalls_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_Alley_McBalls_Tap.caf" />
+	</AlleyMcBalls_Tapped>
+	<Gauntlet01Tapped parallel="true">
+		<Action type="runScript" script="Play_Gauntlet_Sound" package="June2015_Scripts" />
+		<Action type="anim-play" building="Gauntlet01" animation="ActiveNoLoop" />
+	</Gauntlet01Tapped>
+	<Gauntlet02Tapped parallel="true">
+		<Action type="runScript" script="Play_Gauntlet_Sound" package="June2015_Scripts" />
+		<Action type="anim-play" building="Gauntlet02" animation="ActiveNoLoop" />
+	</Gauntlet02Tapped>
+	<Gauntlet03Tapped parallel="true">
+		<Action type="runScript" script="Play_Gauntlet_Sound" package="June2015_Scripts" />
+		<Action type="anim-play" building="Gauntlet03" animation="ActiveNoLoop" />
+	</Gauntlet03Tapped>
+	<Gauntlet04Tapped parallel="true">
+		<Action type="runScript" script="Play_Gauntlet_Sound" package="June2015_Scripts" />
+		<Action type="anim-play" building="Gauntlet04" animation="ActiveNoLoop" />
+	</Gauntlet04Tapped>
+	<Play_Gauntlet_Sound parallel="true">
+		<Action type="sound" sound="sfx_Sports_Gauntlet_Tap.caf" />
+	</Play_Gauntlet_Sound>
+	<TasteOfDuffTruckTapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_Duff_Beer_Truck_Hose_Spray_Tap.caf" />
+		<Action type="anim-play" building="TasteOfDuffTruck" animation="ActiveNoLoop" />
+	</TasteOfDuffTruckTapped>
+	<Murderhorn_Tapped parallel="true">
+		<Action type="sound" sound="sfx_Sports_Murderhorn_Yodel_Tap.caf" />
+	</Murderhorn_Tapped>
+	<WeekendBonusStart>
+		<Action type="message" text="QST_WeekendBonus_1" />
+		<Action type="message" text="QST_WeekendBonus_2" />
+		<Action type="setVariable" intVariable="RewardMultiplier" intValue="2" />
+	</WeekendBonusStart>
+	<WeekendBonusEnd ignoreHUD="true">
+		<Action type="setVariable" intVariable="RewardMultiplier" intValue="1" />
+	</WeekendBonusEnd>
+	<RefereeHomerUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Homer" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Referee_Homer" />
+		</Action>
+	</RefereeHomerUnlock>
+	<SoccerLisaUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Lisa" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Soccer_Lisa" />
+		</Action>
+	</SoccerLisaUnlock>
+	<SoftballBurnsUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Burns" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Softball_MrBurns" />
+			<FormatToken key="icon" value="MrBurns_Softball_menu" />
+		</Action>
+	</SoftballBurnsUnlock>
+	<FootballNelsonUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Nelson" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Football_Nelson" />
+			<FormatToken key="icon" value="Nelson_Football_menu" />
+		</Action>
+	</FootballNelsonUnlock>
+	<PinPalApuUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Apu" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="PinPal_Apu" />
+			<FormatToken key="icon" value="Apu_PinPal_menu" />
+		</Action>
+	</PinPalApuUnlock>
+	<JockeyBartUnlock>
+		<Action type="createobject" name="FuriousD" count="1" save="true" showUnlock="true" panCamera="true" />
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Bart" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Jockey_Bart" />
+			<FormatToken key="icon" value="Bart_Jockey_menu" />
+		</Action>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="FuriousD" />
+			<FormatToken key="unlockSkin" value="0" />
+		</Action>
+	</JockeyBartUnlock>
+	<TennisMargeUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Marge" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Tennis_Marge" />
+			<FormatToken key="icon" value="Marge_Tennis_menu" />
+		</Action>
+	</TennisMargeUnlock>
+	<ToreadorAbeUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Grampa" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Toreador_Grampa" />
+			<FormatToken key="icon" value="Abe_Toreador_menu" />
+		</Action>
+	</ToreadorAbeUnlock>
+	<KungFuCBGuyUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="CBGuy" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="KungFu_CBGuy" />
+			<FormatToken key="icon" value="ComicBookGuy_KungFu_menu" />
+		</Action>
+	</KungFuCBGuyUnlock>
+	<BalletRalphUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Ralph" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Ballet_Ralph" />
+			<FormatToken key="icon" value="Ralph_Ballet_menu" />
+		</Action>
+	</BalletRalphUnlock>
+	<BoxingDrederickTatumUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="DrederickTatum" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Boxing_DrederickTatum" />
+			<FormatToken key="icon" value="DrederickTatum_Boxing_menu" />
+		</Action>
+	</BoxingDrederickTatumUnlock>
+	<SoftballJasperUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Jasper" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="Baseball_Jasper" />
+			<FormatToken key="icon" value="Jasper_Softball_menu" />
+		</Action>
+	</SoftballJasperUnlock>
+	<NedUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Ned" />
+			<FormatToken key="unlockSkin" value="0" />
+		</Action>
+	</NedUnlock>
+	<CrazyCatLadyUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="CrazyCatLady" />
+			<FormatToken key="unlockSkin" value="0" />
+		</Action>
+	</CrazyCatLadyUnlock>
+	<LugashUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Lugash" />
+			<FormatToken key="unlockSkin" value="0" />
+		</Action>
+	</LugashUnlock>
+	<FitMilhouseUnlock>
+		<Action type="runScript" script="AthleteUnlock" package="June2015_Scripts">
+			<FormatToken key="athlete" value="Milhouse" />
+			<FormatToken key="unlockSkin" value="1" />
+			<FormatToken key="skin" value="FitMilhouse_CON" />
+			<FormatToken key="icon" value="Milhouse_FitMilhouse_menu" />
+		</Action>
+	</FitMilhouseUnlock>
+	<AthleteUnlock>
+		<Action type="setVariable" boolVariable="HBCanUse_{athlete}" boolValue="true" formatMe="true" />
+		<Action type="if" formatMe="deep">
+			<If expression="{unlockSkin}">
+				<Then>
+					<Action type="reward">
+						<Item type="consumable" name="{skin}" useImmediately="true" />
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="setVariable" intVariable="{athlete}HBXP" intValue="__June2015_GameConfig:InitialXP:{athlete}__" formatMe="true" />
+		<Action type="setVariable" intVariable="NumAvailableAthletes" intValue="NumAvailableAthletes + 1" />
+		<Action type="if" formatMe="deep">
+			<If expression="{athlete}HBXP==2">
+				<Then>
+					<Action type="setVariable" intVariable="levelTwoCharacters" intValue="levelTwoCharacters+1" />
+				</Then>
+			</If>
+			<ElseIf expression="{athlete}HBXP==3">
+				<Then>
+					<Action type="setVariable" intVariable="levelThreeCharacters" intValue="levelThreeCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==4">
+				<Then>
+					<Action type="setVariable" intVariable="levelFourCharacters" intValue="levelFourCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==5">
+				<Then>
+					<Action type="setVariable" intVariable="levelFiveCharacters" intValue="levelFiveCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==6">
+				<Then>
+					<Action type="setVariable" intVariable="levelSixCharacters" intValue="levelSixCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==7">
+				<Then>
+					<Action type="setVariable" intVariable="levelSevenCharacters" intValue="levelSevenCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==8">
+				<Then>
+					<Action type="setVariable" intVariable="levelEightCharacters" intValue="levelEightCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==9">
+				<Then>
+					<Action type="setVariable" intVariable="levelNineCharacters" intValue="levelNineCharacters+1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="{athlete}HBXP==10">
+				<Then>
+					<Action type="setVariable" intVariable="levelTenCharacters" intValue="levelTenCharacters+1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="if" formatMe="deep">
+			<If expression="and(min(TopAthleteOne, min(TopAthleteTwo, min(TopAthleteThree, TopAthleteFour))) == TopAthleteOne, lessThan(TopAthleteOne, {athlete}HBXP))">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteOne" intValue="{athlete}HBXP" />
+				</Then>
+			</If>
+			<ElseIf expression="and(min(TopAthleteOne, min(TopAthleteTwo, min(TopAthleteThree, TopAthleteFour))) == TopAthleteTwo, lessThan(TopAthleteTwo, {athlete}HBXP))">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteTwo" intValue="{athlete}HBXP" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(min(TopAthleteOne, min(TopAthleteTwo, min(TopAthleteThree, TopAthleteFour))) == TopAthleteThree, lessThan(TopAthleteThree, {athlete}HBXP))">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteThree" intValue="{athlete}HBXP" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(min(TopAthleteOne, min(TopAthleteTwo, min(TopAthleteThree, TopAthleteFour))) == TopAthleteFour, lessThan(TopAthleteFour, {athlete}HBXP))">
+				<Then>
+					<Action type="setVariable" intVariable="TopAthleteFour" intValue="{athlete}HBXP" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="runScript" script="UpdateTeamAverage" package="June2015_Scripts" />
+		<Action type="checkRequirements" formatMe="deep">
+			<Requirements>
+				<Requirement type="character" name="{athlete}" not="true" />
+				<Requirement type="formula" formula="{unlockSkin}" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="CHA_{skin}_name" text="UI_June2015_Inventory_{athlete}" button="UI_OK" icon="{icon}" />
+			</True>
+		</Action>
+	</AthleteUnlock>
+	<HasBurns parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Burns" boolValue="true" />
+	</HasBurns>
+	<HasNelson parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Nelson" boolValue="true" />
+	</HasNelson>
+	<HasApu parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Apu" boolValue="true" />
+	</HasApu>
+	<HasBart parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Bart" boolValue="true" />
+	</HasBart>
+	<HasMarge parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Marge" boolValue="true" />
+	</HasMarge>
+	<HasGrampa parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Grampa" boolValue="true" />
+	</HasGrampa>
+	<HasCBGuy parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_CBGuy" boolValue="true" />
+	</HasCBGuy>
+	<HasRalph parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Ralph" boolValue="true" />
+	</HasRalph>
+	<HasDrederickTatum parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_DrederickTatum" boolValue="true" />
+	</HasDrederickTatum>
+	<HasJasper parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Jasper" boolValue="true" />
+	</HasJasper>
+	<HasNed parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Ned" boolValue="true" />
+	</HasNed>
+	<HasCrazyCatLady parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_CrazyCatLady" boolValue="true" />
+	</HasCrazyCatLady>
+	<HasLugash parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Lugash" boolValue="true" />
+	</HasLugash>
+	<HasMilhouse parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Milhouse" boolValue="true" />
+	</HasMilhouse>
+	<HasFuriousD parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_FuriousD" boolValue="true" />
+	</HasFuriousD>
+	<HasLisa parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Lisa" boolValue="true" />
+	</HasLisa>
+	<HasHomer parallel="true">
+		<Action type="setVariable" boolVariable="HBHas_Homer" boolValue="true" />
+	</HasHomer>
+	<FootballUprightsBuy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="FootballUprights" useImmediately="true" />
+		</Action>
+	</FootballUprightsBuy>
+	<SoccerNetBuy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="SoccerNet" useImmediately="true" />
+		</Action>
+	</SoccerNetBuy>
+	<HomertronBuy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="Homertron" useImmediately="true" />
+		</Action>
+	</HomertronBuy>
+	<StadiumLightsBuy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="StadiumLights" useImmediately="true" />
+		</Action>
+	</StadiumLightsBuy>
+	<StadiumBleachers01Buy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="StadiumBleachers01" useImmediately="true" />
+		</Action>
+	</StadiumBleachers01Buy>
+	<StadiumBleachers02Buy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="StadiumBleachers02" useImmediately="true" />
+		</Action>
+	</StadiumBleachers02Buy>
+	<StadiumBleachers03Buy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="StadiumBleachers03" useImmediately="true" />
+		</Action>
+	</StadiumBleachers03Buy>
+	<StadiumFenceBuy>
+		<Action type="setVariable" intVariable="stadiumUpgrades" intValue="stadiumUpgrades + 1" />
+		<Action type="reward">
+			<Item type="building" name="StadiumFence" useImmediately="true" />
+		</Action>
+	</StadiumFenceBuy>
+	<UpdatePlayersReady parallel="true">
+		<Action type="setVariable" intVariable="ReadyPlayers" intValue="0" />
+		<Action type="if">
+			<If expression="and(or(HomerHBCooldownEnd==0, lessThan(HomerHBCooldownEnd, serverTime(0))), and(HBCanUse_Homer, HBHas_Homer))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(LisaHBCooldownEnd==0, lessThan(LisaHBCooldownEnd, serverTime(0))), and(HBCanUse_Lisa, HBHas_Lisa))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(BurnsHBCooldownEnd==0, lessThan(BurnsHBCooldownEnd, serverTime(0))), and(HBCanUse_Burns, HBHas_Burns))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(NelsonHBCooldownEnd==0, lessThan(NelsonHBCooldownEnd, serverTime(0))), and(HBCanUse_Nelson, HBHas_Nelson))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(ApuHBCooldownEnd==0, lessThan(ApuHBCooldownEnd, serverTime(0))), and(HBCanUse_Apu, HBHas_Apu))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(BartHBCooldownEnd==0, lessThan(BartHBCooldownEnd, serverTime(0))), and(HBCanUse_Bart, HBHas_Bart))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(MargeHBCooldownEnd==0, lessThan(MargeHBCooldownEnd, serverTime(0))), and(HBCanUse_Marge, HBHas_Marge))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(GrampaHBCooldownEnd==0, lessThan(GrampaHBCooldownEnd, serverTime(0))), and(HBCanUse_Grampa, HBHas_Grampa))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(CBGuyHBCooldownEnd==0, lessThan(CBGuyHBCooldownEnd, serverTime(0))), and(HBCanUse_CBGuy, HBHas_CBGuy))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(RalphHBCooldownEnd==0, lessThan(RalphHBCooldownEnd, serverTime(0))), and(HBCanUse_Ralph, HBHas_Ralph))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(DrederickTatumHBCooldownEnd==0, lessThan(DrederickTatumHBCooldownEnd, serverTime(0))), and(HBCanUse_DrederickTatum, HBHas_DrederickTatum))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(JasperHBCooldownEnd==0, lessThan(JasperHBCooldownEnd, serverTime(0))), and(HBCanUse_Jasper, HBHas_Jasper))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(NedHBCooldownEnd==0, lessThan(NedHBCooldownEnd, serverTime(0))), and(HBCanUse_Ned, HBHas_Ned))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(CrazyCatLadyHBCooldownEnd==0, lessThan(CrazyCatLadyHBCooldownEnd, serverTime(0))), and(HBCanUse_CrazyCatLady, HBHas_CrazyCatLady))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(LugashHBCooldownEnd==0, lessThan(LugashHBCooldownEnd, serverTime(0))), and(HBCanUse_Lugash, HBHas_Lugash))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(MilhouseHBCooldownEnd==0, lessThan(MilhouseHBCooldownEnd, serverTime(0))), and(HBCanUse_Milhouse, HBHas_Milhouse))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(or(FuriousDHBCooldownEnd==0, lessThan(FuriousDHBCooldownEnd, serverTime(0))), and(HBCanUse_Bart, HBHas_FuriousD))">
+				<Then>
+					<Action type="setVariable" intVariable="ReadyPlayers" intValue="ReadyPlayers+1" />
+				</Then>
+			</If>
+		</Action>
+	</UpdatePlayersReady>
+	<PrizeTrack2Selected ignoreHUD="true">
+		<Action type="notification" title="UI_June2015_PrizeTrackTitle" button="UI_OK" text="UI_June2015_PrizeTrackEarly_text" tooltip="UI_June2015_PrizeTrackTwo_early" icon="ICO_June2015_Prize_Marge_MD" darken="true" />
+	</PrizeTrack2Selected>
+	<PrizeTrack3Selected ignoreHUD="true">
+		<Action type="notification" title="UI_June2015_PrizeTrackTitle" button="UI_OK" text="UI_June2015_PrizeTrackEarly_text" tooltip="UI_June2015_PrizeTrackThree_early" icon="ICO_June2015_Prize_Ralph_MD" darken="true" />
+	</PrizeTrack3Selected>
+	<OnPrizeTrackLoad ignoreHUD="true">
+		<Action type="markBadgeViewed" badgeName="PrizeTrackBadge" />
+	</OnPrizeTrackLoad>
+	<CheckOver1 cache="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="HomerballActTwo" end="HomerballActThree" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="ExitScript1" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</CheckOver1>
+	<ExitScript1>
+		<Action type="returnToInGameState" />
+		<Action type="message" title="UI_ActTransition_Act2_Title" text="UI_ActTransition_Act2_Body" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</ExitScript1>
+	<CheckOver2 cache="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="HomerballActThree" end="HomerballEnd" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="ExitScript2" package="June2015_Scripts" />
+			</True>
+		</Action>
+	</CheckOver2>
+	<ExitScript2>
+		<Action type="returnToInGameState" />
+		<Action type="message" title="UI_ActTransition_Act3_Title" text="UI_ActTransition_Act3_Body" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</ExitScript2>
+	<RefundPowerUpsScript parallel="true">
+		<Action type="reward" MatchPowerUps="PowerUpsToRefund" />
+		<Action type="setVariable" intVariable="PowerUpsToRefund" intValue="0" />
+	</RefundPowerUpsScript>
+	<StadiumSkinBrownUnlocked>
+		<Action type="SilentlyUnlockSkin" skin="StadiumGrassPitch_Brown" />
+		<Action type="setVariable" boolVariable="StadiumSkinBrownUnlocked" boolValue="true" />
+		<Action type="reward">
+			<Item type="consumable" name="StadiumEntrance_Brown" useImmediately="true" />
+		</Action>
+		<Action type="pantoobject" building="StadiumEntrance" time="0s" />
+		<Action type="notification" title="CON_StadiumEntrance_Brown_Script_name" button="UI_OK" text="QST_StadiumSkin_1_System" icon="StadiumBEntrance_menu" />
+	</StadiumSkinBrownUnlocked>
+	<StadiumSkinGoldUnlocked>
+		<Action type="SilentlyUnlockSkin" skin="StadiumGrassPitch_Gold" />
+		<Action type="setVariable" boolVariable="StadiumSkinGoldUnlocked" boolValue="true" />
+		<Action type="reward">
+			<Item type="consumable" name="StadiumEntrance_Gold" useImmediately="true" />
+		</Action>
+		<Action type="pantoobject" building="StadiumEntrance" time="0s" />
+		<Action type="notification" title="CON_StadiumEntrance_Gold_Script_name" button="UI_OK" text="QST_StadiumSkin_1_System" icon="StadiumGEntrance_menu" />
+	</StadiumSkinGoldUnlocked>
+	<StadiumSkinChecker parallel="true" cache="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="building" building="StadiumEntrance" skin="StadiumEntrance_Brown" not="true" />
+					<Requirement type="building" building="StadiumEntrance" skin="StadiumEntrance_Gold" not="true" />
+					<Requirement type="formula" formula="StadiumSkinValue != 0" />
+				</Requirements>
+				<Then>
+					<Action type="runScript" package="June2015_Scripts" script="Stadium_ApplyNormalSkins" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="building" building="StadiumEntrance" skin="StadiumEntrance_Brown" />
+					<Requirement type="formula" formula="StadiumSkinValue != 1" />
+				</Requirements>
+				<Then>
+					<Action type="runScript" package="June2015_Scripts" script="Stadium_ApplyBrownSkins" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="building" building="StadiumEntrance" skin="StadiumEntrance_Gold" />
+					<Requirement type="formula" formula="StadiumSkinValue != 2" />
+				</Requirements>
+				<Then>
+					<Action type="runScript" package="June2015_Scripts" script="Stadium_ApplyGoldSkins" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</StadiumSkinChecker>
+	<Stadium_ApplyNormalSkins parallel="true" cache="true">
+		<Action type="setVariable" intVariable="StadiumSkinValue" intValue="0" />
+		<Action type="runScriptOnAll" building="HomerballPitch" script="Stadium_PitchApplyNormalSkin" package="June2015_Scripts" />
+	</Stadium_ApplyNormalSkins>
+	<Stadium_PitchApplyNormalSkin parallel="true" cache="true">
+		<Action type="setBuildingSkin" skinName="StadiumGrassPitch_Brown" useDefault="true" />
+	</Stadium_PitchApplyNormalSkin>
+	<Stadium_ApplyBrownSkins parallel="true" cache="true">
+		<Action type="setVariable" intVariable="StadiumSkinValue" intValue="1" />
+		<Action type="runScriptOnAll" building="HomerballPitch" script="Stadium_PitchApplyBrownSkin" package="June2015_Scripts" />
+	</Stadium_ApplyBrownSkins>
+	<Stadium_PitchApplyBrownSkin parallel="true" cache="true">
+		<Action type="setBuildingSkin" skinName="StadiumGrassPitch_Brown" />
+	</Stadium_PitchApplyBrownSkin>
+	<Stadium_ApplyGoldSkins parallel="true" cache="true">
+		<Action type="setVariable" intVariable="StadiumSkinValue" intValue="2" />
+		<Action type="runScriptOnAll" building="HomerballPitch" script="Stadium_PitchApplyGoldSkin" package="June2015_Scripts" />
+	</Stadium_ApplyGoldSkins>
+	<Stadium_PitchApplyGoldSkin parallel="true" cache="true">
+		<Action type="setBuildingSkin" skinName="StadiumGrassPitch_Gold" />
+	</Stadium_PitchApplyGoldSkin>
+	<EnableRechargeScript>
+		<Action type="setVariable" boolVariable="EnableRecharges" boolValue="true" />
+	</EnableRechargeScript>
+	<CommunityPrizeReReward>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="FirstCommunityPrizeUnlocked" />
+			<False>
+				<Action type="reward" donuts="10" />
+				<Action type="setVariable" boolVariable="FirstCommunityPrizeUnlocked" boolValue="true" />
+				<Action type="checkRequirements">
+					<Requirement type="active quest" quest="CommunityPrizeReReward" />
+					<True>
+						<Action type="notification" title="UI_June2015_PrizeTrack_Community_RewardPopup_title" button="UI_OK" text="UI_June2015_CommunityPrize_1" icon="ICO_June2015_Prize_Donuts_MD" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+	</CommunityPrizeReReward>
+</ScriptPackage>

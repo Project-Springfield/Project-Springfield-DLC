@@ -1,0 +1,118 @@
+﻿<Buildings>
+	<MasterList>
+		<DataID id="148500" name="Tailgate" />
+		<DataID id="148501" name="TailgateTop" />
+	</MasterList>
+	<BuildingDefaults>
+		<LoadBuilding value="true" />
+		<Cost money="0" donuts="0" />
+		<Sell money="0.25" donuts="25" allowed="true" />
+		<Unique value="false" />
+		<Falls value="false" />
+		<MultiPlace value="false" />
+		<LoadBuilding value="true" />
+		<ApplyLevelMultiplier value="true" />
+		<BuildFromInventory value="false" />
+		<TaxJobPackage value="Tailgate_Jobs" />
+		<MoveColour R="1.0" G="1.0" B="1.0" A="0.7" />
+		<BadColour R="1.0" G="0.8" B="0.8" A="0.7" />
+		<GoodColour R="1.0" G="1.0" B="1.0" A="0.7" />
+	</BuildingDefaults>
+	<Building id="148500" name="Tailgate" type="AnimatedDecoration" xpValue="1" flatBuilding="true">
+		<VisibilityRequirements>
+			<Requirement type="variable" variable="Tailgate_Indicator_Active" not="true" />
+		</VisibilityRequirements>
+		<Requirements>
+			<Requirement type="level" level="5" />
+		</Requirements>
+		<Unique value="true" />
+		<Cost donuts="200" />
+		<Sell allowed="false" storeoverride="true" />
+		<BuildTime time="0" />
+		<AmbientSound soundKit="dec_BBQ_Pig_amb_Loop" />
+		<GridType type="grass|pavement" />
+		<Bonus money="0.04" exp="0.04" />
+		<RatingElem decoration="1500" />
+		<NeutralAnimationController name="TailgateBottom" />
+		<ActiveAnimationController name="TailgateBottom" />
+		<CustomMenu useMenuConfig="Tailgate_MenuConfig:TailgateInventory" />
+		<ScriptTrigger description="UI_Tailgate_Upgrade_Desc" buttonLabel="UI_June2015_Upgrade" buttonColor="0091F6FF">
+			<Requirements>
+				<Requirement type="quest" quest="UpgradeTailgate_1" />
+				<Requirement type="quest" quest="UpgradeTailgate_4" not="true" />
+			</Requirements>
+			<Script onButtonPressed="Tailgate_Scripts:Tailgate_GoToUpgradeMenu" />
+		</ScriptTrigger>
+		<TouchIcon value="Indicator_DanceAtTailgate.rgb" removeOnTouch="false">
+			<Requirements>
+				<Requirement type="players land" />
+				<Requirement type="quest" quest="UpgradeTailgate_1" />
+				<Requirement type="quest" quest="UpgradeTailgate_4" not="true" />
+				<Requirement type="variable" variable="Tailgate_Level" count="3" />
+				<Requirement type="variable" variable="DisplayTailgateIndicator" />
+			</Requirements>
+		</TouchIcon>
+		<UpgradeRequirements variable="Tailgate_Level">
+			<UpgradeLevel index="0" iconTouchedScript="Tailgate_Scripts:Tailgate_IncrementObjectLevel">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="variable" variable="Tailgate_Level" count="0" not="true" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel index="1" iconTouchedScript="Tailgate_Scripts:Tailgate_SetInitialLevel">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="variable" variable="Tailgate_Level" count="0" not="true" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel index="2" iconTouchedScript="Tailgate_Scripts:Tailgate_IncrementObjectLevel">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="quest" quest="UpgradeTailgate_1" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel index="3" iconTouchedScript="Tailgate_Scripts:Tailgate_IncrementObjectLevel">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="quest" quest="UpgradeTailgate_2" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel index="4" iconTouchedScript="Tailgate_Scripts:Tailgate_IncrementObjectLevel">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="quest" quest="UpgradeTailgate_3" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+			<UpgradeLevel index="5" iconTouchedScript="Tailgate_Scripts:Tailgate_IncrementObjectLevel">
+				<NextUpgradeLevelRequirements>
+					<Requirement type="quest" quest="UpgradeTailgate_4" />
+				</NextUpgradeLevelRequirements>
+			</UpgradeLevel>
+		</UpgradeRequirements>
+		<SubFootprints>
+			<Footprint name="TailgateTop" />
+		</SubFootprints>
+		<Locators>
+			<Locator name="SportsFan_Texting" x="8" z="2" flip="SE" />
+			<Locator name="SportsFan_Cheering" x="8" z="6" flip="SE" />
+			<Locator name="SportsFan_Grill" x="4" z="5" flip="SE" />
+			<Locator name="SportsFan_Finger" x="4" z="8" flip="SE" />
+			<Locator name="SportsFan_Chair" x="13" z="3" flip="SE" />
+			<Locator name="SportsFan_Texting" x="2" z="8" flip="SW" />
+			<Locator name="SportsFan_Cheering" x="6" z="8" flip="SW" />
+			<Locator name="SportsFan_Grill" x="5" z="4" flip="SW" />
+			<Locator name="SportsFan_Finger" x="8" z="4" flip="SW" />
+			<Locator name="SportsFan_Chair" x="3" z="13" flip="SW" />
+		</Locators>
+		<OnEvent onObject="Tailgate" event="BuildingTouched" gamestate="GameState_InGame" user="local">
+			<Requirements>
+				<Requirement type="quest" quest="UpgradeTailgate_1" />
+			</Requirements>
+			<Script name="Tailgate_Tapped" package="Tailgate_Scripts" />
+		</OnEvent>
+		<NotificationYOffset Amount="0.7" />
+		<BSv2 name="Tailgate" />
+	</Building>
+	<Building id="148501" name="TailgateTop" type="AnimatedDecoration" xpValue="1" flatBuilding="false">
+		<BuildTime time="1" />
+		<Proxy value="true" />
+		<Flippable value="true" />
+		<BSv2 name="Tailgate" />
+		<GridType type="grass|pavement" />
+	</Building>
+</Buildings>

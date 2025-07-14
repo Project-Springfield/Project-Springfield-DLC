@@ -1,0 +1,1228 @@
+﻿<ScriptPackage>
+	<MonorailTakedown parallel="true">
+		<Action type="runScript" script="Monorail_Scripts:TrainFix" />
+	</MonorailTakedown>
+	<RewardDepots parallel="true">
+		<Action type="setVariable" boolVariable="MetalResourceAvailable" boolValue="true" />
+		<Action type="reward">
+			<Item type="building" name="MetalDepot" />
+		</Action>
+		<Action type="setVariable" boolVariable="PlasticResourceAvailable" boolValue="true" />
+		<Action type="reward">
+			<Item type="building" name="PlasticDepot" />
+		</Action>
+		<Action type="setVariable" boolVariable="GlassResourceAvailable" boolValue="true" />
+		<Action type="reward">
+			<Item type="building" name="GlassDepot" />
+		</Action>
+	</RewardDepots>
+	<ProtestEatingAnimals_In_End parallel="true">
+		<Action type="runScriptOnAll" building="KrustyBurger" script="Monorail_Scripts:ProtestEatingAnimals_In_End_RunAll" />
+		<Action type="runScriptOnAll" building="KrustyBurgerFranchise" script="Monorail_Scripts:ProtestEatingAnimals_In_End_RunAll" />
+	</ProtestEatingAnimals_In_End>
+	<ProtestEatingAnimals_In_End_RunAll parallel="true">
+		<Action type="checkExpression" expression="Object::Job::ProtestEatingAnimals &gt;= 1">
+			<ExpressionCase value="1">
+				<Action type="setObjectVariable" variable="ProtestAnimState" value="1" />
+			</ExpressionCase>
+		</Action>
+	</ProtestEatingAnimals_In_End_RunAll>
+	<ProtestEatingAnimals_Out_End parallel="true">
+		<Action type="runScriptOnAll" building="KrustyBurger" script="Monorail_Scripts:ProtestEatingAnimals_Out_End_RunAll" />
+		<Action type="runScriptOnAll" building="KrustyBurgerFranchise" script="Monorail_Scripts:ProtestEatingAnimals_Out_End_RunAll" />
+	</ProtestEatingAnimals_Out_End>
+	<ProtestEatingAnimals_Out_End_RunAll parallel="true">
+		<Action type="setObjectVariable" variable="ProtestAnimState" value="0" />
+	</ProtestEatingAnimals_Out_End_RunAll>
+	<EnterMonorailCategory>
+		<Action type="focusOnMenuItem" menuCategory="Monorail" />
+	</EnterMonorailCategory>
+	<ReRecommendMonorail>
+		<Action type="setVariable" boolVariable="Monorail_Store" boolValue="true" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="recommendation" recType="Event" eventName="UI_Monorail_title" name="EnterMonorailCategory" />
+	</ReRecommendMonorail>
+	<ProjectBoard_GoToRailyard>
+		<Action type="notification" title="UI_Monorail_ProjectBoard_RailyardUnlocked_Title" button="UI_OK" text="UI_Monorail_ProjectBoard_RailyardUnlocked_Body" icon="RailYard_menu" />
+		<Action type="pantoobject" building="RailYard" />
+	</ProjectBoard_GoToRailyard>
+	<GarbageTruck_Tapped parallel="true">
+		<Action type="anim-play" building="GarbageTruck" animation="ActiveNoLoop" />
+	</GarbageTruck_Tapped>
+	<PurchasedKrustyStation>
+		<Action type="reward">
+			<Item type="building" name="StraightTrack" />
+			<Item type="building" name="StraightTrack" />
+			<Item type="building" name="StraightTrack" />
+			<Item type="building" name="StraightTrack" />
+			<Item type="building" name="CurveTrack" />
+			<Item type="building" name="CurveTrack" />
+			<Item type="building" name="StraightTrack2x" />
+			<Item type="building" name="StraightTrack2x" />
+			<Item type="building" name="SCurveTrack" />
+			<Item type="building" name="SCurveTrack" />
+		</Action>
+	</PurchasedKrustyStation>
+	<DumpingPermitPurchase>
+		<Action type="notification" title="CON_DumpingPermitV1_name" button="UI_OK" text="UI_DumpingPermit_Purchase" icon="ICO_Mono15_DumpingPermit" />
+	</DumpingPermitPurchase>
+	<Monorail_EventFire>
+		<Action type="setVariable" boolVariable="Monorail_Store" boolValue="true" />
+		<Action type="setVariable" boolVariable="Monorail_DumpOverride" boolValue="true" />
+		<Action type="recommendation" recType="Event" eventName="UI_Monorail_title" name="EnterMonorailCategory" />
+		<Action type="runScript" script="Monorail_Scripts:TabPressed_GuidePanel" />
+	</Monorail_EventFire>
+	<SpawnLyle>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="LyleLanley" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="TownHall" />
+					<True>
+						<Action type="createobject" name="LyleLanley" save="true" showUnlock="false" showFadeIn="false" building="TownHall" />
+					</True>
+					<False>
+						<Action type="createobject" name="LyleLanley" save="true" showUnlock="false" showFadeIn="false" building="BrownHouse" />
+					</False>
+				</Action>
+				<Action type="fade" character="LyleLanley" fade="outmax" />
+				<Action type="waitforpan" />
+				<Action type="fade" character="LyleLanley" fade="inmax" />
+				<Action type="sound" sound="LyleIntro" />
+				<Action type="playanimation" character="LyleLanley" animation="Victory_Pose_In" waitforend="true" />
+				<Action type="playanimation" character="LyleLanley" animation="Victory_Pose" />
+				<Action type="fade" character="LyleLanley" fade="off" />
+			</True>
+		</Action>
+	</SpawnLyle>
+	<DeleteLyle>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="LyleLanley" />
+			<True>
+				<Action type="deletecharacter" character="LyleLanley" fireCharacterLostEvent="false" />
+			</True>
+		</Action>
+	</DeleteLyle>
+	<PurchaseLicense>
+		<Action type="setVariable" boolVariable="Monorail_SocialUpgrade" boolValue="true" />
+	</PurchaseLicense>
+	<ResetProjectsComplete>
+		<Action type="setVariable" intVariable="Monorail_ProjectsComplete" intValue="0" />
+	</ResetProjectsComplete>
+	<GolfCourse_Tapped parallel="true">
+		<Action type="checkExpression" expression="Object::State">
+			<ExpressionCase value="0">
+				<Action type="playanimation" character="GolfCourse" animation="Active_1" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="playanimation" character="GolfCourse" animation="Active_2" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="playanimation" character="GolfCourse" animation="Active_3" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="playanimation" character="GolfCourse" animation="Active_4" />
+			</ExpressionCase>
+		</Action>
+		<Action type="setObjectVariable" variable="State" value="Object::State+1" asExpression="true" />
+		<Action type="checkExpression" expression="Object::State">
+			<ExpressionCase value="4">
+				<Action type="setObjectVariable" variable="State" value="0" />
+			</ExpressionCase>
+		</Action>
+	</GolfCourse_Tapped>
+	<GoToPossum>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="character count" name="Possum" quantity="1" />
+						<Then>
+							<Action type="pantoobject" character="Possum" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="building" building="MonorailStation" />
+						<Then>
+							<Action type="pantoobject" building="MonorailStation" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="TetanusTerminal" />
+						<Then>
+							<Action type="pantoobject" building="TetanusTerminal" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="MallStation" />
+						<Then>
+							<Action type="pantoobject" building="MallStation" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="building" building="KrustyStation" />
+						<Then>
+							<Action type="pantoobject" building="KrustyStation" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="MonorailStation" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="MonorailStation" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="TetanusTerminal" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="TetanusTerminal" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="MallStation" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="MallStation" inventory="true" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="item" item="KrustyStation" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="KrustyStation" inventory="true" />
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+		</Action>
+	</GoToPossum>
+	<Possum_Tapped parallel="true" cache="true">
+		<Action type="delay" object0="1" />
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="runScript" script="Monorail_Scripts:Possum_Reward" waitUntilComplete="true" />
+		<Action type="sound" sound="Possum_Tap" />
+		<Action type="stop" />
+		<Action type="anim-play" character="Possum" animation="Tap" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="Possum" />
+		<Action type="setVariable" intVariable="PossumTap" intValue="PossumTap + 1" />
+	</Possum_Tapped>
+	<Possum_RadiusTap parallel="true">
+		<Action type="runScriptOnAll" character="Possum" in_radius="5" radius_delay="0.6" script="Monorail_Scripts:Possum_Tapped" />
+		<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="runScript" script="Monorail_Scripts:Possum_Reward" waitUntilComplete="true" />
+		<Action type="sound" sound="Possum_Tap" />
+		<Action type="stop" />
+		<Action type="anim-play" character="Possum" animation="Tap" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="Possum" />
+		<Action type="setVariable" intVariable="PossumTap" intValue="PossumTap + 1" />
+	</Possum_RadiusTap>
+	<Possum_Reward parallel="true" cache="true">
+		<Action type="reward" save="true" MonorailActivePrizeTrackCurrency="__Monorail_Config:Possum:CurrencyAmount__" suppress_sound="true" />
+	</Possum_Reward>
+	<SetOverlayAnimPlaying parallel="true" runQueueState="RunInAnyState">
+		<Action type="setObjectVariable" variable="overlayAnimPlaying" value="1" />
+	</SetOverlayAnimPlaying>
+	<ClearOverlayAnimPlaying parallel="true" runQueueState="RunInAnyState">
+		<Action type="deleteObjectVariable" variable="overlayAnimPlaying" />
+	</ClearOverlayAnimPlaying>
+	<SetRobotAntChompyActive parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Chompy_Active" value="1" allowOrphan="false" />
+	</SetRobotAntChompyActive>
+	<SetRobotAntChompyInactive parallel="true">
+		<Action type="deleteObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Chompy_Active" />
+	</SetRobotAntChompyInactive>
+	<SetRobotAntDaffodilActive parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Daffodil_Active" value="1" allowOrphan="false" />
+	</SetRobotAntDaffodilActive>
+	<SetRobotAntDaffodilInactive parallel="true">
+		<Action type="deleteObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Daffodil_Active" />
+	</SetRobotAntDaffodilInactive>
+	<SetRobotAntKillerActive parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Killer_Active" value="1" allowOrphan="false" />
+	</SetRobotAntKillerActive>
+	<SetRobotAntKillerInactive parallel="true">
+		<Action type="deleteObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Killer_Active" />
+	</SetRobotAntKillerInactive>
+	<SetRobotAntNippyActive parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Nippy_Active" value="1" allowOrphan="false" />
+	</SetRobotAntNippyActive>
+	<SetRobotAntNippyInactive parallel="true">
+		<Action type="deleteObjectVariable" onType="building" onObject="SpringfieldElementary" variable="RobotAnt_Nippy_Active" />
+	</SetRobotAntNippyInactive>
+	<AwardPrestigeTrack1>
+		<Action type="random">
+			<Action type="runScript" script="Monorail_Scripts:APT1_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT1_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT1_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT1_Curved" />
+		</Action>
+	</AwardPrestigeTrack1>
+	<APT1_Straight>
+		<Action type="notification" title="BLD_StraightTrack_name" button="UI_OK" text="UI_FabergeEggTip" icon="trackstraight4x2_Menu" />
+		<Action type="setVariable" intVariable="Monorail_Prestige1_Cost" intValue="__Monorail_Config:ExponentialCost:Monorail_PT1__" />
+		<Action type="reward">
+			<Item type="building" name="StraightTrack" />
+		</Action>
+	</APT1_Straight>
+	<APT1_Curved>
+		<Action type="notification" title="BLD_CurveTrack_name" button="UI_OK" text="UI_FabergeEggTip" icon="TrackCurveSE_menu" />
+		<Action type="setVariable" intVariable="Monorail_Prestige1_Cost" intValue="__Monorail_Config:ExponentialCost:Monorail_PT1__" />
+		<Action type="reward">
+			<Item type="building" name="CurveTrack" />
+		</Action>
+	</APT1_Curved>
+	<AwardPrestigeTrack2>
+		<Action type="random">
+			<Action type="runScript" script="Monorail_Scripts:APT2_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT2_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT2_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT2_Curved" />
+		</Action>
+	</AwardPrestigeTrack2>
+	<APT2_Straight>
+		<Action type="notification" title="BLD_StraightTrack_name" button="UI_OK" text="UI_FabergeEggTip" icon="trackstraight4x2_Menu" />
+		<Action type="setVariable" intVariable="Monorail_Prestige2_Cost" intValue="__Monorail_Config:ExponentialCost:Monorail_PT2__" />
+		<Action type="reward">
+			<Item type="building" name="StraightTrack" />
+		</Action>
+	</APT2_Straight>
+	<APT2_Curved>
+		<Action type="notification" title="BLD_CurveTrack_name" button="UI_OK" text="UI_FabergeEggTip" icon="TrackCurveSE_menu" />
+		<Action type="setVariable" intVariable="Monorail_Prestige2_Cost" intValue="__Monorail_Config:ExponentialCost:Monorail_PT2__" />
+		<Action type="reward">
+			<Item type="building" name="CurveTrack" />
+		</Action>
+	</APT2_Curved>
+	<AwardPrestigeTrack3>
+		<Action type="random">
+			<Action type="runScript" script="Monorail_Scripts:APT3_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT3_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT3_Straight" />
+			<Action type="runScript" script="Monorail_Scripts:APT3_Curved" />
+		</Action>
+	</AwardPrestigeTrack3>
+	<APT3_Straight>
+		<Action type="notification" title="BLD_StraightTrack_name" button="UI_OK" text="UI_FabergeEggTip" icon="trackstraight4x2_Menu" />
+		<Action type="setVariable" intVariable="Monorail_Prestige3_Cost" intValue="__Monorail_Config:ExponentialCost:Monorail_PT3__" />
+		<Action type="reward">
+			<Item type="building" name="StraightTrack" />
+		</Action>
+	</APT3_Straight>
+	<APT3_Curved>
+		<Action type="notification" title="BLD_CurveTrack_name" button="UI_OK" text="UI_FabergeEggTip" icon="TrackCurveSE_menu" />
+		<Action type="setVariable" intVariable="Monorail_Prestige3_Cost" intValue="__Monorail_Config:ExponentialCost:Monorail_PT3__" />
+		<Action type="reward">
+			<Item type="building" name="CurveTrack" />
+		</Action>
+	</APT3_Curved>
+	<MonorailPrestige1Reward>
+		<Action type="reward">
+			<Item type="consumable" name="MonorailPrestige1" useImmediately="true" />
+		</Action>
+	</MonorailPrestige1Reward>
+	<MonorailPrestige2Reward>
+		<Action type="reward">
+			<Item type="consumable" name="MonorailPrestige2" useImmediately="true" />
+		</Action>
+	</MonorailPrestige2Reward>
+	<MonorailPrestige3Reward>
+		<Action type="reward">
+			<Item type="consumable" name="MonorailPrestige3" useImmediately="true" />
+		</Action>
+	</MonorailPrestige3Reward>
+	<FindStraightTrackPiece>
+		<Action type="focusOnMenuItem" itemName="StraightTrack" inventory="true" />
+	</FindStraightTrackPiece>
+	<TabPressed_GuidePanel>
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_Config:HubGuidePanelConfig" />
+	</TabPressed_GuidePanel>
+	<TabPressed_ProjectBoardPanel parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="RailYard" not="true" />
+				<Requirement type="item" item="RailYard" not="true" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="variable" variable="Monorail" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="Monorail_Scripts:OpenProjectBoard" />
+					</True>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" script="Monorail_Scripts:ProjectBoard_GoToRailyard" />
+			</False>
+		</Action>
+	</TabPressed_ProjectBoardPanel>
+	<OpenProjectBoard>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="ProjectBoard" checkInventoryOnly="false" />
+					<True>
+						<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+						<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+						<Action type="gotoState" state="GameState_ProjectBoard">
+							<Extras>
+								<Attribute name="menuConfig" value="Monorail_Config:ProjectBoard" />
+								<Attribute name="specialEvent" value="MonorailEvent" />
+								<Attribute name="projectBoard" value="Monorail_ProjectBoardDetails:ProjectBoard" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+								<Attribute name="buffer" value="ProjectBoard" />
+							</Extras>
+						</Action>
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="ProjectBoard" menuCategory="Monorail" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</OpenProjectBoard>
+	<TabPressed_PrizeTrack>
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="markBadgeViewed" badgeName="PrizeTrack" />
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack">
+					<Extras>
+						<Attribute name="specialEvent" value="MonorailEvent" />
+						<Attribute name="helpButtonScript" value="Monorail_Scripts:TabPressed_GuidePanel" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_PrizeTrack>
+	<TabPressed_BuildingFinder>
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+				<Action type="gotoState" state="GameState_BuildingFinder">
+					<Extras>
+						<Attribute name="menuConfig" value="Monorail_Config:BuildingFinder" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="specialEvent" value="MonorailEvent" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_BuildingFinder>
+	<HelpButton_EitherBoard>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost10__" not="true" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Monorail_Scripts:HelpButton_ProjectBoard" />
+			</True>
+			<False>
+				<Action type="runScript" script="Monorail_Scripts:HelpButton_RYProjectBoard" />
+			</False>
+		</Action>
+	</HelpButton_EitherBoard>
+	<HelpButton_ProjectBoard>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_Config:ProjectBoardGuideConfig" />
+	</HelpButton_ProjectBoard>
+	<HelpButton_BuildingFinder_FromBuilding>
+		<Action type="if">
+			<If>
+				<Requirement type="building" building="RailYard" />
+				<Then>
+					<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+					<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+					<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_RailyardConfig:RailyardHubGuidePanelConfig3" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="item" item="RailYard" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="RailYard" inventory="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="variable" variable="Monorail" />
+				<Then>
+					<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+					<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_Config:BuildingFinderGuideConfig" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</HelpButton_BuildingFinder_FromBuilding>
+	<HelpButton_BuildingFinder>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_Config:BuildingFinderGuideConfig" />
+	</HelpButton_BuildingFinder>
+	<ProjectTurnIn parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" intVariable="Monorail_ProjectsComplete" intValue="Monorail_ProjectsComplete + 1" />
+		<Action type="sound" sound="ProjectBoard_JobComplete" />
+	</ProjectTurnIn>
+	<ProjectTurnInDaily parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" intVariable="Monorail_ProjectsComplete" intValue="Monorail_ProjectsComplete + 1" />
+		<Action type="sound" sound="ProjectBoard_DailyComplete" />
+		<Action type="setVariable" intVariable="Monorail_ProjectSaveTime" intValue="serverTime(0)" />
+	</ProjectTurnInDaily>
+	<RideMonorailStandard parallel="true">
+		<Action type="runScript" script="Monorail_Scripts:RideTheMonorail">
+			<FormatToken key="master" value="MonorailStation" />
+			<FormatToken key="station" value="StandardStationBase" />
+		</Action>
+	</RideMonorailStandard>
+	<RideMonorailMall parallel="true">
+		<Action type="runScript" script="Monorail_Scripts:RideTheMonorail">
+			<FormatToken key="master" value="MallStation" />
+			<FormatToken key="station" value="MallStationBase" />
+		</Action>
+	</RideMonorailMall>
+	<RideMonorailKrusty parallel="true">
+		<Action type="runScript" script="Monorail_Scripts:RideTheMonorail">
+			<FormatToken key="master" value="KrustyStation" />
+			<FormatToken key="station" value="KrustyStationBase" />
+		</Action>
+	</RideMonorailKrusty>
+	<RideMonorailTetanus parallel="true">
+		<Action type="runScript" script="Monorail_Scripts:RideTheMonorail">
+			<FormatToken key="master" value="TetanusTerminal" />
+			<FormatToken key="station" value="TetanusTerminalBase" />
+		</Action>
+	</RideMonorailTetanus>
+	<RideTheMonorail parallel="true">
+		<Action type="checkRequirements" ignoreObject="false" formatMe="deep">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="players land" not="true" />
+				<Requirement type="objectVariable" name="{master}" objectType="building" formula="greaterThan(Object::TrackLength, PiecesToRideTrain - 1)" allowInFriendLand="true" />
+			</Requirement>
+			<True>
+				<Action type="runScriptOnAll" building="{station}" script="Monorail_Scripts:RideTheMonorailStation" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="Monorail_TrackPiecesNeeded" intValue="PiecesToRideTrain - Object::TrackLength" addTempIfNotExisting="true" ignoreObject="false" />
+				<Action type="returnToInGameState" waitForState="true" />
+				<Action type="runScript" script="Monorail_Scripts:ShowRideError" />
+			</False>
+		</Action>
+	</RideTheMonorail>
+	<RideTheMonorailStation parallel="true">
+		<Action type="gotoState" state="State_AwaitingTouch" waitForState="true" extras="Monorail_Config:RideMonorailConfig" />
+		<Action type="restartTrack" follow="true" />
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="incrementSessionCounter" counter="MR_MonorailRideHome" increment="1" />
+			</True>
+			<False>
+				<Action type="incrementSessionCounter" counter="MR_MonorailRideFriend" increment="1" />
+			</False>
+		</Action>
+	</RideTheMonorailStation>
+	<RideMonorailEnd>
+		<Action type="stopSoundKit" sound="MonorailRide" fadeoutTime="2.0" />
+		<Action type="stopSoundKit" sound="MonorailStart" fadeoutTime="2.0" />
+		<Action type="stopSoundKit" sound="MonorailStop" fadeoutTime="2.0" />
+		<Action type="returnToInGameState" />
+	</RideMonorailEnd>
+	<TrainSlowdown parallel="true">
+		<Action type="stopSoundKit" sound="MonorailRide" fadeoutTime="2.0" />
+		<Action type="sound" sound="MonorailStop" ignoreObject="true" />
+	</TrainSlowdown>
+	<TrainStartup parallel="true">
+		<Action type="stopSoundKit" sound="MonorailStop" />
+		<Action type="sound" sound="MonorailStart" ignoreObject="true" />
+		<Action type="sound" sound="MonorailRide" ignoreObject="true" />
+	</TrainStartup>
+	<TrainAmbientSlowdown parallel="true" interruptable="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="setObjectVariable" variable="RunningAudio" value="1" allowOrphan="false" disableEvents="true" scope="-1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="Monorail_Broken" />
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="updateAmbientSoundKit" action="fadeout" soundKit="MonorailBrokenLoop" time="2.0" />
+				<Action type="updateAmbientSoundKit" action="remove" soundKit="MonorailAmbientStart" />
+				<Action type="updateAmbientSoundKit" action="add" soundKit="MonorailBrokenStop" />
+			</True>
+			<False>
+				<Action type="updateAmbientSoundKit" action="fadeout" soundKit="MonorailBackground" time="2.0" />
+				<Action type="updateAmbientSoundKit" action="fadeout" soundKit="MonorailAmbientStart" time="1.0" />
+				<Action type="updateAmbientSoundKit" action="add" soundKit="MonorailAmbientStop" />
+			</False>
+		</Action>
+	</TrainAmbientSlowdown>
+	<TrainAmbientStartup parallel="true" interruptable="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="setObjectVariable" variable="RunningAudio" value="2" allowOrphan="false" disableEvents="true" scope="-1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="Monorail_Broken" />
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="updateAmbientSoundKit" action="remove" soundKit="MonorailBrokenStop" />
+				<Action type="updateAmbientSoundKit" action="add" soundKit="MonorailBrokenLoop" />
+			</True>
+			<False>
+				<Action type="updateAmbientSoundKit" action="fadeout" soundKit="MonorailAmbientStop" time="1.0" />
+				<Action type="updateAmbientSoundKit" action="add" soundKit="MonorailAmbientStart" />
+				<Action type="updateAmbientSoundKit" action="add" soundKit="MonorailBackground" />
+			</False>
+		</Action>
+	</TrainAmbientStartup>
+	<TrainBreak parallel="true">
+		<Action type="setVariable" boolVariable="Monorail_Broken" boolValue="true" />
+		<Action type="runScriptOnAll" character="Train" script="FollowHeadWalker" package="Monorail_Scripts" />
+		<Action type="runScriptOnAll" character="EndTrain" script="FollowHeadWalker" package="Monorail_Scripts" />
+		<Action type="setVariable" intVariable="Monorail_FoundHeadWalker" intValue="0" />
+		<Action type="sound" sound="MonorailBreak" />
+		<Action type="runScriptOnAll" character="Carriage" script="PlayBrokenAudio" package="Monorail_Scripts" />
+	</TrainBreak>
+	<PlayBrokenAudio parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::RunningAudio==2" />
+			<True>
+				<Action type="updateAmbientSoundKit" action="remove" soundKit="MonorailAmbientStart" />
+				<Action type="updateAmbientSoundKit" action="remove" soundKit="MonorailBackground" />
+				<Action type="updateAmbientSoundKit" action="add" soundKit="MonorailBrokenLoop" />
+			</True>
+		</Action>
+	</PlayBrokenAudio>
+	<FollowHeadWalker parallel="true">
+		<Action type="playCharacterEffect" resetBeforeStart="true" waitUntilComplete="false" />
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::trainHeadWalker &amp;&amp; (Monorail_FoundHeadWalker == 0)" />
+			<True>
+				<Action type="setVariable" intVariable="Monorail_FoundHeadWalker" intValue="1" />
+				<Action type="pantoobject" follow="true" useObjectRef="true" />
+				<Action type="shakeCamera" length="150" magnitude="3" waitUntilComplete="true" />
+			</True>
+		</Action>
+	</FollowHeadWalker>
+	<TrainFix parallel="true">
+		<Action type="setVariable" boolVariable="Monorail_Broken" boolValue="false" />
+		<Action type="runScriptOnAll" character="Train" script="CharacterUpdateOverlays" package="Monorail_Scripts" />
+		<Action type="runScriptOnAll" character="EndTrain" script="CharacterUpdateOverlays" package="Monorail_Scripts" />
+	</TrainFix>
+	<CharacterUpdateOverlays parallel="true">
+		<Action type="playCharacterEffect" resetBeforeStart="true" waitUntilComplete="false" />
+	</CharacterUpdateOverlays>
+	<ShowRideError>
+		<Action type="notification" title="UI_Monorail_RideTitle" button="UI_OK" text="UI_Monorail_RideError" darken="true" icon="trackstraight4x2_menu">
+			<Variable name="Monorail_TrackPiecesNeeded" type="int" />
+		</Action>
+	</ShowRideError>
+	<DumpReward parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="reward" MonorailActivePrizeTrackCurrency="selector MonorailCurrencyPerFriendAction" FriendPoint="selector friendPointsReward" money="selector socialMoneyReward" xp="1" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+			</True>
+			<False>
+				<Action type="reward" MonorailActivePrizeTrackCurrency="selector MonorailCurrencyPerFriendAction" FriendPoint="selector friendPointsReward" Krustyland_Tickets="selector socialTicketReward" xp="1" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="config" key="Monorail_Config:Social:FriendPushNote" value="1" />
+			<True>
+				<Action type="sendPeerNotification" blueprint="DumpGarbage" />
+			</True>
+		</Action>
+	</DumpReward>
+	<CleanGarbageReward parallel="true">
+		<Action type="reward" MonorailActivePrizeTrackCurrency="1" suppress_sound="true" FriendPoint="selector friendPointsRewardOwner" />
+	</CleanGarbageReward>
+	<MonorailFriendsHUDInfo parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="MonorailUpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="Monorail_Scripts:MonorailFriendsHUDInfoAux" />
+	</MonorailFriendsHUDInfo>
+	<MonorailFriendsHUDInfoAux>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="Monorail_Config:Req_PT1" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="Monorail_SocialUpgrade" count="1" />
+							<True>
+								<Action type="notification" title="RES_Monorail_PT1_plural" button="UI_OK" text="GEN_ResourceListing_Monorail_PT1_DP" icon="ICO_Mono15_Blueprints_LG">
+									<Variable name="MONORAIL_PT1_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="MONORAIL_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_Monorail_PT1_plural" button="UI_OK" text="GEN_ResourceListing_Monorail_PT1" icon="ICO_Mono15_Blueprints_LG">
+									<Variable name="MONORAIL_PT1_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="MONORAIL_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_Monorail_PT1_plural" button="UI_OK" text="UI_Monorail_PT1_FriendActionsDone" icon="ICO_Mono15_Blueprints_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="Monorail_Config:Req_PT2" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="Monorail_SocialUpgrade" count="1" />
+							<True>
+								<Action type="notification" title="RES_Monorail_PT2_plural" button="UI_OK" text="GEN_ResourceListing_Monorail_PT2_DP" icon="ICO_Mono15_Ducttape_LG">
+									<Variable name="MONORAIL_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="MONORAIL_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_Monorail_PT2_plural" button="UI_OK" text="GEN_ResourceListing_Monorail_PT2" icon="ICO_Mono15_Ducttape_LG">
+									<Variable name="MONORAIL_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="MONORAIL_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_Monorail_PT2_plural" button="UI_OK" text="UI_Monorail_PT2_FriendActionsDone" icon="ICO_Mono15_Ducttape_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="Monorail_Config:Req_PT3" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="Monorail_SocialUpgrade" count="1" />
+							<True>
+								<Action type="notification" title="RES_Monorail_PT3_plural" button="UI_OK" text="GEN_ResourceListing_Monorail_PT3_DP" icon="ICO_Mono15_BellsWhistles_LG">
+									<Variable name="MONORAIL_PT3_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="MONORAIL_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_Monorail_PT3_plural" button="UI_OK" text="GEN_ResourceListing_Monorail_PT3" icon="ICO_Mono15_BellsWhistles_LG">
+									<Variable name="MONORAIL_PT3_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="MONORAIL_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_Monorail_PT3_plural" button="UI_OK" text="UI_Monorail_PT3_FriendActionsDone" icon="ICO_Mono15_BellsWhistles_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</MonorailFriendsHUDInfoAux>
+	<PrizeTrack2Selected ignoreHUD="true">
+		<Action type="notification" title="UI_Monorail_PrizeTrack_Title" button="UI_OK" text="UI_Monorail_PrizeTrackBlocked_Body" tooltip="UI_Monorail_PrizeTrack2_Future" icon="ICO_Mono15_HippieUriahHeap" darken="true" />
+	</PrizeTrack2Selected>
+	<PrizeTrack3Selected ignoreHUD="true">
+		<Action type="notification" title="UI_Monorail_PrizeTrack_Title" button="UI_OK" text="UI_Monorail_PrizeTrackBlocked_Body" tooltip="UI_Monorail_PrizeTrack3_Future" icon="ICO_Mono15_CobbRailYard" darken="true" />
+	</PrizeTrack3Selected>
+	<DumpFullPopup>
+		<Action type="runScript" script="Monorail_Scripts:ResourceFullPopup">
+			<FormatToken key="popuptitle" value="UI_Monorail_SpringfieldDump_FullTitle" />
+			<FormatToken key="popuptext" value="UI_Monorail_SpringfieldDump_FullBody" />
+		</Action>
+	</DumpFullPopup>
+	<MetalFullPopup>
+		<Action type="runScript" script="Monorail_Scripts:ResourceFullPopup">
+			<FormatToken key="popuptitle" value="UI_Monorail_MetalDepot_FullTitle" />
+			<FormatToken key="popuptext" value="UI_Monorail_MetalDepot_FullBody" />
+		</Action>
+	</MetalFullPopup>
+	<PlasticFullPopup>
+		<Action type="runScript" script="Monorail_Scripts:ResourceFullPopup">
+			<FormatToken key="popuptitle" value="UI_Monorail_PlasticDepot_FullTitle" />
+			<FormatToken key="popuptext" value="UI_Monorail_PlasticDepot_FullBody" />
+		</Action>
+	</PlasticFullPopup>
+	<GlassFullPopup>
+		<Action type="runScript" script="Monorail_Scripts:ResourceFullPopup">
+			<FormatToken key="popuptitle" value="UI_Monorail_GlassDepot_FullTitle" />
+			<FormatToken key="popuptext" value="UI_Monorail_GlassDepot_FullBody" />
+		</Action>
+	</GlassFullPopup>
+	<ResourceFullPopup>
+		<Action type="genericConfirmation" formatMe="deep">
+			<Attribute name="config">
+				<AttributeSet name="onOK">
+					<Attribute name="variable" value="OKPressed" />
+				</AttributeSet>
+				<AttributeSet name="onCancel">
+					<Attribute name="variable" value="OKPressed" />
+				</AttributeSet>
+				<AttributeSet name="title">
+					<Attribute name="text" value="{popuptitle}" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="{popuptext}" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+					<Attribute name="font" value="eFont_Small" />
+				</AttributeSet>
+				<AttributeSet name="button_Cancel">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_GoTo" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="0091F1FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="GEN_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="0091F1FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="showTwoButtons">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="OKPressed" />
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="RailYard" not="true" />
+						<Requirement type="item" item="RailYard" not="true" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="Railyard_Scripts:TabPressed_DilapidatedProjectBoardPanel" />
+					</True>
+					<False>
+						<Action type="runScript" script="Monorail_Scripts:TabPressed_RailyardProjectBoardPanel" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</ResourceFullPopup>
+	<GoToDump>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="SpringfieldDump" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="SpringfieldDump" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="SpringfieldDump" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToDump>
+	<GoToMetalDepot>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="MetalDepot" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="MetalDepot" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="MetalDepot" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToMetalDepot>
+	<GoToPlasticDepot>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="PlasticDepot" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="PlasticDepot" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="PlasticDepot" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToPlasticDepot>
+	<GoToGlassDepot>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="GlassDepot" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="GlassDepot" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="GlassDepot" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToGlassDepot>
+	<Railyard_Tapped>
+		<Action type="runScript" script="Monorail_Scripts:TabPressed_RailyardProjectBoardPanel" />
+	</Railyard_Tapped>
+	<TabPressed_RailyardGuidePanel ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_RailyardConfig:RailyardHubGuidePanelConfig" />
+	</TabPressed_RailyardGuidePanel>
+	<HelpButton_RYProjectBoard ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_RailyardConfig:RailyardHubGuidePanelConfig2" />
+	</HelpButton_RYProjectBoard>
+	<HelpButton_RYBuildingFinder ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Monorail_RailyardConfig:RailyardHubGuidePanelConfig3" />
+	</HelpButton_RYBuildingFinder>
+	<TabPressed_RailyardProjectBoardPanel ignoreHUD="true">
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_ProjectBoard">
+			<Extras>
+				<Attribute name="menuConfig" value="Monorail_RailyardConfig:RailyardProjectBoard" />
+				<Attribute name="specialEvent" value="Railyard_RepeatableEvent" />
+				<Attribute name="projectBoard" value="Monorail_RailyardConfig:ProjectBoard" />
+				<Attribute name="buffer" value="RailyardProjectBoard" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+	</TabPressed_RailyardProjectBoardPanel>
+	<TabPressed_RailyardPrizeTrack ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_HubPrizeTrack">
+					<Extras>
+						<Attribute name="specialEvent" value="Railyard_RepeatableEvent" />
+						<Attribute name="prizelistType" value="PRIZELIST_REPEATABLE" />
+						<Attribute name="helpButtonScript" value="Monorail_Scripts:TabPressed_RailyardGuidePanel" />
+						<Attribute name="exitButtonScript" value="Monorail_Scripts:TabPressed_RailyardProjectBoardPanel" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_RailyardPrizeTrack>
+	<TabPressed_RailyardBuildingFinder ignoreHUD="true">
+		<Action type="actionSequence" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Monorail_Scripts:TabPressed_RailyardBuildingFinder_Impl" />
+		</Action>
+	</TabPressed_RailyardBuildingFinder>
+	<TabPressed_RailyardBuildingFinder_Impl ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_BuildingFinder">
+			<Extras>
+				<Attribute name="menuConfig" value="Monorail_RailyardConfig:BuildingFinder" />
+				<Attribute name="specialEvent" value="Railyard_RepeatableEvent" />
+				<Attribute name="exitButtonScript" value="Monorail_Scripts:TabPressed_RailyardProjectBoardPanel" />
+			</Extras>
+		</Action>
+	</TabPressed_RailyardBuildingFinder_Impl>
+	<RailYard_Prize1>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+		</Action>
+	</RailYard_Prize1>
+	<RailYard_Prize2>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+		</Action>
+	</RailYard_Prize2>
+	<RailYard_Prize3>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+	</RailYard_Prize3>
+	<RailYard_Prize4>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+	</RailYard_Prize4>
+	<RailYard_Prize5>
+		<Action type="reward" donuts="5" />
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+	</RailYard_Prize5>
+	<ClearExtraVariables parallel="true">
+		<Action type="deleteObjectVariable" variable="trainHeadWalker" removeAllWithName="true" ignoreObject="true" />
+		<Action type="deleteObjectVariable" variable="trainAtStation" removeAllWithName="true" ignoreObject="true" />
+		<Action type="deleteObjectVariable" variable="RunningAudio" removeAllWithName="true" ignoreObject="true" />
+	</ClearExtraVariables>
+</ScriptPackage>

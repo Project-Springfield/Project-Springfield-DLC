@@ -1,0 +1,972 @@
+﻿<ScriptPackage>
+	<LateCommunityRewardOne>
+		<Action type="reward">
+			<Item type="building" name="FirstChurchOfLardLad" />
+		</Action>
+	</LateCommunityRewardOne>
+	<LateCommunityRewardTwo>
+		<Action type="reward">
+			<Item type="character" name="ClawingZombie" useImmediately="true" />
+		</Action>
+	</LateCommunityRewardTwo>
+	<LateCommunityRewardFour>
+		<Action type="reward">
+			<Item type="character" name="FrogPrince" useImmediately="true" />
+		</Action>
+	</LateCommunityRewardFour>
+	<LateCommunityRewardFive>
+		<Action type="reward">
+			<Item type="building" name="KingHomersSkyscraper" />
+		</Action>
+	</LateCommunityRewardFive>
+	<GoToCommunityPrizes>
+		<Action type="gotoState" state="GameState_SpecialEventCommunityPrizeList" />
+	</GoToCommunityPrizes>
+	<GoToPersonalPrizes>
+		<Action type="gotoState" state="GameState_SpecialEventPrizeList" />
+	</GoToPersonalPrizes>
+	<BeachOnly>
+		<Action type="message" text="UI_BeachOnly_text" />
+	</BeachOnly>
+	<ConfessionScript>
+		<Action type="message" text="QST_BurnsConfession_3_dlg_End_1_SystemMessage" />
+		<Action type="dialogue" character="Lisa" text="QST_BurnsConfession_3_Dlg_End_2_Lisa" revealSpeed="medium" emotion="sad" />
+	</ConfessionScript>
+	<Zombie_Tapped parallel="true">
+		<Action type="random">
+			<Action type="runScript" script="ZombieExplode" package="THOH2013_Scripts" />
+			<Action type="runScript" script="ZombieAttack" package="THOH2013_Scripts" />
+		</Action>
+	</Zombie_Tapped>
+	<ZombiePet_Tapped parallel="true">
+		<Action type="random">
+			<Action type="runScript" script="ZombiePetExplode" package="THOH2013_Scripts" />
+			<Action type="runScript" script="ZombieAttack" package="THOH2013_Scripts" />
+		</Action>
+	</ZombiePet_Tapped>
+	<ZombieExplode parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="134_Human_Zombie_Squish_1.caf" />
+			<Action type="sound" sound="135_Human_Zombie_Squish_2.caf" />
+			<Action type="sound" sound="136_Human_Zombie_Squish_3.caf" />
+		</Action>
+		<Action type="anim-play" animation="Squished" shadow="false" />
+		<Action type="anim-play" animation="Break_Out_Of_Ground" />
+	</ZombieExplode>
+	<ZombiePetExplode parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="137_Pet_Zombie_Squish_1.caf" />
+			<Action type="sound" sound="138_Pet_Zombie_Squish_2.caf" />
+			<Action type="sound" sound="139_Pet_Zombie_Squish_3.caf" />
+		</Action>
+		<Action type="anim-play" animation="Squished" shadow="false" />
+		<Action type="anim-play" animation="Break_Out_Of_Ground" />
+	</ZombiePetExplode>
+	<ZombieAttack parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="131_zombie_spawn_1.caf" />
+			<Action type="sound" sound="132_zombie_spawn_2.caf" />
+			<Action type="sound" sound="133_zombie_spawn_3.caf" />
+		</Action>
+		<Action type="anim-play" animation="Attack" appendLeftRight="false" invertFlip="true" />
+	</ZombieAttack>
+	<GrantKangScript>
+		<Action type="reward">
+			<Item type="character" name="Kang" useImmediately="true" />
+		</Action>
+	</GrantKangScript>
+	<OffLineReward>
+		<Action type="notification" title="UI_THOH2013_GremlinBooty_Friend_Title" button="UI_OK" text="UI_THOH2013_GremlinBooty_Friend_Desc" icon="ICO_THOH_FMAP_Gremlin">
+			<Variable name="SPECIAL_EVENT_OFFLINE_AMOUNT" type="int" />
+		</Action>
+	</OffLineReward>
+	<THOHPrestigeReward>
+		<Action type="reward">
+			<Item type="consumable" name="THOHPrestige" useImmediately="true" />
+		</Action>
+	</THOHPrestigeReward>
+	<DehauntReward parallel="true">
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" />
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" />
+	</DehauntReward>
+	<UnlockGhostBomb>
+		<Action type="reward">
+			<Item type="consumable" name="GhostBomb" />
+			<Item type="consumable" name="GhostBomb" />
+			<Item type="consumable" name="GhostBomb" />
+			<Item type="consumable" name="GhostBomb" />
+			<Item type="consumable" name="GhostBomb" />
+		</Action>
+		<Action type="setVariable" boolVariable="GhostBombToolUnlocked" boolValue="true" />
+		<Action type="refreshHUD" />
+	</UnlockGhostBomb>
+	<UnlockVacuum>
+		<Action type="setVariable" boolVariable="VacuumToolUnlocked" boolValue="true" />
+		<Action type="refreshHUD" />
+	</UnlockVacuum>
+	<GhostReward parallel="true">
+		<Action type="reward" save="true" Ectoplasm="1" suppress_sound="true" />
+		<Action type="reward" save="true" chance="0.1" chanceType="s" Gremlins="1" suppress_sound="true" />
+		<Action type="checkExpression" expression="GhostBombToolUnlocked">
+			<ExpressionCase value="1">
+				<Action type="rewardchoice" save="true" forceReward="GhostBombForced" forceRewardCount="100" suppress_sound="true">
+					<Reward chance="0.01">
+						<Item type="consumable" name="GhostBomb" />
+					</Reward>
+				</Action>
+			</ExpressionCase>
+		</Action>
+		<Action type="reward" save="true" chance="0.001" chanceType="d" donuts="1" forceReward="GhostDonut" forceRewardCount="1000" suppress_sound="true" />
+	</GhostReward>
+	<BustGhost parallel="true">
+		<Action type="sound" sound="277_ghost_sucked_revised.caf" />
+		<Action type="stop" character="Ghost" />
+		<Action type="playanimation" character="Ghost" animation="Squish" />
+		<Action type="fade" character="Ghost" fade="outmax" />
+		<Action type="reward" save="true" suppress_sound="true">
+			<Item type="collection" name="FreaksNoGeeks" />
+		</Action>
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="deletecharacter" character="Ghost" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</BustGhost>
+	<BustGhostFriend parallel="true">
+		<Action type="specialactionlimitinc" />
+		<Action type="sound" sound="277_ghost_sucked.caf" />
+		<Action type="stop" character="Ghost" />
+		<Action type="playanimation" character="Ghost" animation="Squish" />
+		<Action type="fade" character="Ghost" fade="outmax" />
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="deletecharacter" character="Ghost" />
+	</BustGhostFriend>
+	<GhostPossess parallel="true" interruptable="true" lastinterruptableaction="5">
+		<Action type="anim-remap" character="Ghost">
+			<AnimationRemap Front_Walk="Front_Attack" Back_Walk="Back_Attack" Idle="Front_Attack" />
+		</Action>
+		<Action type="move" speed="3" panCamera="false" />
+		<Action type="anim-remap" character="Ghost" />
+		<Action type="stop" />
+		<Action type="anim-play" animation="Dispersal_Down" />
+		<Action type="deletecharacter" character="Ghost" />
+		<Action type="skin-backup" object0="1" />
+		<Action type="skin-set" object0="1" skin=".*Haunted" />
+		<Action type="anim-play" object0="1" animation="Attacked" autodetectFlip="true" />
+	</GhostPossess>
+	<GhostExcorcism parallel="true" exclusive="true" requiresSkin=".*Haunted">
+		<Action type="sound" sound="273_exorcising_character_revison2.caf" />
+		<Action type="reward" save="true" suppress_sound="true">
+			<Item type="collection" name="FreaksNoGeeks" />
+		</Action>
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="stop" />
+		<Action type="anim-play" animation="Released" autodetectFlip="true" />
+		<Action type="skin-restore" animation="Idle" autodetectFlip="true" />
+		<Action type="movement-restore" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</GhostExcorcism>
+	<GhostBomb>
+		<Action type="shakeCamera" length="10" magnitude="10" />
+		<Action type="bankExchange" character="Ghost">
+			<Action type="reward" save="true" suppress_sound="true">
+				<Item type="collection" name="FreaksNoGeeks" />
+			</Action>
+			<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" />
+		</Action>
+		<Action type="runScriptOnAll" character="Ghost" script="BombGhost" package="THOH2013_Scripts" />
+		<Action type="runScriptOnAll" character="any" withSkin=".*Haunted" script="BombExcorcism" package="THOH2013_Scripts" />
+		<Action type="sound" sound="278_ghost_bomb_revison2.caf" />
+		<Action type="flashScreen" colour="White" speed="2" />
+	</GhostBomb>
+	<BombGhost parallel="true">
+		<Action type="stop" character="Ghost" />
+		<Action type="playanimation" character="Ghost" animation="Squish" />
+		<Action type="fade" character="Ghost" fade="outmax" />
+		<Action type="reward" save="true" suppress_sound="true">
+			<Item type="collection" name="FreaksNoGeeks" />
+		</Action>
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="deletecharacter" character="Ghost" />
+		<Action type="setVariable" intVariable="GhostsBombed" intValue="GhostsBombed+1" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</BombGhost>
+	<BombExcorcism parallel="true" exclusive="true" requiresSkin=".*Haunted">
+		<Action type="reward" save="true" suppress_sound="true">
+			<Item type="collection" name="FreaksNoGeeks" />
+		</Action>
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="stop" />
+		<Action type="anim-play" animation="Released" autodetectFlip="true" />
+		<Action type="skin-restore" animation="Idle" autodetectFlip="true" />
+		<Action type="movement-restore" />
+		<Action type="setVariable" intVariable="GhostsBombed" intValue="GhostsBombed+1" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</BombExcorcism>
+	<GhostBombTap>
+		<Action type="consumable" consumable="GhostBomb" fromInventory="true" />
+		<Action type="setVariable" boolVariable="THOHToolBasic" boolValue="true" />
+		<Action type="setVariable" boolVariable="THOHToolVacuum" boolValue="false" />
+		<Action type="setVariable" boolVariable="THOHToolBomb" boolValue="false" />
+		<Action type="refreshHUD" />
+	</GhostBombTap>
+	<ActivateGhostVacuum parallel="true">
+		<Action type="vacuum" config="GhostVacuum" fromSpecialEvent="THOH2013" />
+	</ActivateGhostVacuum>
+	<SuckGhost parallel="true">
+		<Action type="sound" sound="277_ghost_sucked.caf" />
+		<Action type="stop" character="Ghost" />
+		<Action type="playanimation" character="Ghost" animation="Squish" />
+		<Action type="fade" character="Ghost" fade="outmax" />
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="deletecharacter" character="Ghost" />
+		<Action type="setVariable" intVariable="GhostsVacuumed" intValue="GhostsVacuumed+1" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</SuckGhost>
+	<HauntStart>
+		<Action type="vandalize" building="SimpsonHome" />
+		<Action type="vandalize" building="FlandersHome" />
+		<Action type="vandalize" building="Kwik-E-Mart" />
+	</HauntStart>
+	<SquishGremlin parallel="true">
+		<Action type="sound" sound="Gremlin_Audio_Cut5.caf" />
+		<Action type="stop" character="Gremlin" />
+		<Action type="playanimation" character="Gremlin" animation="Tap" />
+		<Action type="reward" save="true" Ectoplasm="2" suppress_sound="true" />
+		<Action type="removetimedcharacter" script="FriendHasSquishedGremlin" package="THOH2013_Scripts" character="Gremlin" text="UI_THOH2013_SquishGremlin" event="4006" />
+		<Action type="deletecharacter" character="Gremlin" />
+	</SquishGremlin>
+	<FriendHasSquishedGremlin parallel="true">
+		<Action type="removefriendstimedcharacter" character="Gremlin" event="4006" />
+	</FriendHasSquishedGremlin>
+	<PlaySpookySound parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="279_ambient_sfx_1.caf" />
+			<Action type="sound" sound="280_ambient_sfx_2.caf" />
+			<Action type="sound" sound="281_ambient_sfx_3.caf" />
+		</Action>
+	</PlaySpookySound>
+	<SpawnLocalGremlin parallel="true">
+		<Action type="sound" sound="Gremlin_Audio_Cut2.caf" />
+		<Action type="addlocaltimedcharacter" character="Gremlin" event="4006" />
+		<Action type="createobject" name="Gremlin" count="1" save="true" panCamera="true" showFadeIn="false" animation="Coming_Out_Of_Ground" />
+	</SpawnLocalGremlin>
+	<SpawnFriendGremlin parallel="true">
+		<Action type="sound" sound="Gremlin_Audio_Cut2.caf" />
+		<Action type="addfriendtimedcharacter" character="Gremlin" event="4006" />
+	</SpawnFriendGremlin>
+	<SpawnGhosts>
+		<Action type="createobject" name="Ghost" count="40" save="true" panCamera="false" />
+	</SpawnGhosts>
+	<SpawnFirstFriendGhosts>
+		<Action type="createobject" name="Ghost" count="5-specialactionlimit" save="true" panCamera="false" />
+	</SpawnFirstFriendGhosts>
+	<SpawnSecondFriendGhosts>
+		<Action type="createobject" name="Ghost" count="10-specialactionlimit" save="true" panCamera="false" />
+	</SpawnSecondFriendGhosts>
+	<SpawnThirdFriendGhosts>
+		<Action type="createobject" name="Ghost" count="15-specialactionlimit" save="true" panCamera="false" />
+	</SpawnThirdFriendGhosts>
+	<SpawnFourthFriendGhosts>
+		<Action type="createobject" name="Ghost" count="20-specialactionlimit" save="true" panCamera="false" />
+	</SpawnFourthFriendGhosts>
+	<EnableTHOHFriendActions>
+		<Action type="setVariable" boolVariable="THOH24" boolValue="true" />
+	</EnableTHOHFriendActions>
+	<DisableTHOHFriendActions>
+		<Action type="setVariable" boolVariable="THOH24" boolValue="false" />
+	</DisableTHOHFriendActions>
+	<ActivateGhostZapper parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" nowait="true" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true">
+			<OneShot name="regular" file="GhostZapperShockwave" animation="Active" x="0" y="0" />
+			<OneShot name="flipped" file="GhostZapperShockwaveFlipped" animation="Active" x="0" y="0" />
+		</Action>
+		<Action type="sound" sound="267_ghost_zapper.caf" />
+		<Action type="delay" time="0.95" />
+		<Action type="sound" sound="268_ghost_zapper_zap.caf" />
+		<Action type="runScriptOnAll" character="Ghost" in_radius="25" radius_delay="0.8" script="ZapGhost" package="THOH2013_Scripts" />
+		<Action type="runScriptOnAll" character="any" withSkin=".*Haunted" in_radius="25" radius_delay="0.8" script="ZapExcorcism" package="THOH2013_Scripts" />
+		<Action type="delay" time="0.7" />
+	</ActivateGhostZapper>
+	<ActivateGhostZapperFriendTown parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" nowait="true" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true">
+			<OneShot name="regular" file="GhostZapperShockwave" animation="Active" x="0" y="0" />
+			<OneShot name="flipped" file="GhostZapperShockwaveFlipped" animation="Active" x="0" y="0" />
+		</Action>
+		<Action type="sound" sound="267_ghost_zapper.caf" />
+		<Action type="delay" time="0.95" />
+		<Action type="sound" sound="268_ghost_zapper_zap.caf" />
+		<Action type="delay" time="0.7" />
+	</ActivateGhostZapperFriendTown>
+	<ZapExcorcism parallel="true" exclusive="true" requiresSkin=".*Haunted">
+		<Action type="reward" save="true" suppress_sound="true">
+			<Item type="collection" name="FreaksNoGeeks" />
+		</Action>
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="stop" />
+		<Action type="anim-play" animation="Released" autodetectFlip="true" />
+		<Action type="skin-restore" animation="Idle" autodetectFlip="true" />
+		<Action type="movement-restore" />
+		<Action type="setVariable" intVariable="GhostsZapped" intValue="GhostsZapped+1" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</ZapExcorcism>
+	<ZapGhost parallel="true">
+		<Action type="stop" character="Ghost" />
+		<Action type="delay" object0="1" />
+		<Action type="playanimation" character="Ghost" animation="Squish" />
+		<Action type="fade" character="Ghost" fade="outmax" />
+		<Action type="reward" save="true" suppress_sound="true">
+			<Item type="collection" name="FreaksNoGeeks" />
+		</Action>
+		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
+		<Action type="deletecharacter" character="Ghost" />
+		<Action type="setVariable" intVariable="GhostsZapped" intValue="GhostsZapped+1" />
+		<Action type="setVariable" intVariable="GhostsBusted" intValue="GhostsBusted+1" />
+	</ZapGhost>
+	<Freakmobile_Tapped parallel="true">
+		<Action type="playanimation" building="Freakmobile" animation="ActiveNoLoop" />
+	</Freakmobile_Tapped>
+	<KingHomersSkyscraper_Tapped parallel="true">
+		<Action type="sound" sound="263_King_Homer_Skyscraper.caf" />
+		<Action type="anim-building-oneshot">
+			<OneShot name="regular" file="KingHomersSkyscraper" animation="ACTIVE" x="0" y="0" />
+		</Action>
+	</KingHomersSkyscraper_Tapped>
+	<KingSnorky_Tapped parallel="true">
+		<Action type="sound" sound="261_snorky.caf" />
+		<Action type="playanimation" character="KingSnorky" animation="Tap" />
+	</KingSnorky_Tapped>
+	<FrogPrince_Tapped>
+		<Action type="sound" sound="FrogPrince_Vomit.caf" />
+		<Action type="playanimation" character="FrogPrince" animation="Vomits" />
+		<Action type="random">
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_1_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_2_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_3_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_4_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_5_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_6_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_7_FrogPrince" revealSpeed="medium" />
+			<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince02_3_dlg_Tapped_8_FrogPrince" revealSpeed="medium" />
+			<Action type="returnToInGameState" />
+			<Action type="returnToInGameState" />
+			<Action type="returnToInGameState" />
+		</Action>
+	</FrogPrince_Tapped>
+	<ActivateToolBasic>
+		<Action type="setVariable" boolVariable="THOHToolBasic" boolValue="true" />
+		<Action type="setVariable" boolVariable="THOHToolVacuum" boolValue="false" />
+		<Action type="setVariable" boolVariable="THOHToolBomb" boolValue="false" />
+	</ActivateToolBasic>
+	<ActivateToolVacuum>
+		<Action type="setVariable" boolVariable="THOHToolBasic" boolValue="false" />
+		<Action type="setVariable" boolVariable="THOHToolVacuum" boolValue="true" />
+		<Action type="setVariable" boolVariable="THOHToolBomb" boolValue="false" />
+	</ActivateToolVacuum>
+	<ActivateToolBomb>
+		<Action type="setVariable" boolVariable="THOHToolBasic" boolValue="false" />
+		<Action type="setVariable" boolVariable="THOHToolVacuum" boolValue="false" />
+		<Action type="setVariable" boolVariable="THOHToolBomb" boolValue="true" />
+	</ActivateToolBomb>
+	<FreakNoGeeksTrivia parallel="true">
+		<Action type="trivia" activeVar="TRIVIA_ACTIVE" wrongCountVar="TRIVIA_WRONGCOUNT" title="UI_THOH2013_TriviaTitle" question="UI_THOH2013_TriviaQuestion" right="UI_THOH2013_TriviaRight" wrong1="UI_THOH2013_TriviaWrong1" wrong2="UI_THOH2013_TriviaWRong2" rightImage="ICO_THOH_EmeraldRing" wrong1Image="ICO_THOH_SapphireTieClip" wrong2Image="ICO_THOH_RubyNippleStud" tip="THOH_Trivia_Tip">
+			<Reward>
+				<Item type="consumable" name="Strongman" useImmediately="true" />
+			</Reward>
+			<BonusReward donuts="10" />
+		</Action>
+	</FreakNoGeeksTrivia>
+	<LateStartPanel>
+		<Action type="createobject" name="Ghost" count="40" save="true" panCamera="false" />
+		<Action type="gotoState" state="GameState_SpecialEventPrizeList" />
+	</LateStartPanel>
+	<FriendGremlins_Start>
+		<Action type="message" text="QST_FriendGremlins_3_dlg_Start_1_SystemMessage" />
+	</FriendGremlins_Start>
+	<FriendHaunting_Start>
+		<Action type="message" text="QST_FriendHaunting_3_dlg_Start_1_SystemMessage" />
+	</FriendHaunting_Start>
+	<TheGhostInTheMachineBasedApp01_Start>
+		<Action type="dialogue" character="Bart" text="QST_TheGhostInTheMachineBasedApp01_3_dlg_Start_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp01_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp01_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp01_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp01_3_dlg_Start_5_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp01_3_dlg_Start_6_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp01_Start>
+	<TheGhostInTheMachineBasedApp02_Start>
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_1_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_2_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_3_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_4_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_5_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_7_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_8_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_9_Lisa" revealSpeed="medium" />
+		<Action type="show guide" event="guide" />
+	</TheGhostInTheMachineBasedApp02_Start>
+	<TheGhostInTheMachineBasedApp02_End>
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_End_2_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_End_3_Homer" revealSpeed="medium" />
+		<Action type="gotoState" state="GameState_SpecialEventCommunityPrizeList" />
+	</TheGhostInTheMachineBasedApp02_End>
+	<TheGhostInTheMachineBasedApp03_Start>
+		<Action type="vandalize" building="FlandersHome" />
+		<Action type="pantoobject" building="FlandersHome" />
+		<Action type="dialogue" character="Ned" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_1_Ned" revealSpeed="medium" />
+		<Action type="vandalize" building="Kwik-E-Mart" />
+		<Action type="pantoobject" building="Kwik-E-Mart" />
+		<Action type="dialogue" character="Apu" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_2_Apu" revealSpeed="medium" />
+		<Action type="vandalize" building="SimpsonHome" />
+		<Action type="pantoobject" building="SimpsonHome" />
+		<Action type="dialogue" character="Bart" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_3_Bart" revealSpeed="medium" />
+		<Action type="message" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_4_SystemMessage" />
+	</TheGhostInTheMachineBasedApp03_Start>
+	<TheGhostInTheMachineBasedApp03_End>
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_End_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_End_2_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp03_End>
+	<TheGhostInTheMachineBasedApp04_Start>
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_1_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_2_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_3_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_4_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_5_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_6_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_7_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp04_Start>
+	<TheGhostInTheMachineBasedApp04_End>
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_End_1_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="MaudeFlanders" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_End_2_MaudeFlanders" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_End_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="MaudeFlanders" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_End_4_MaudeFlanders" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_End_5_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp04_End>
+	<TheGhostInTheMachineBasedApp05_Start>
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_Start_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="MaudeFlanders" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_Start_2_MaudeFlanders" revealSpeed="medium" />
+		<Action type="dialogue" character="MaudeFlanders" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_Start_3_MaudeFlanders" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_Start_4_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="MaudeFlanders" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_Start_5_MaudeFlanders" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_Start_6_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp05_Start>
+	<TheGhostInTheMachineBasedApp05_End>
+		<Action type="dialogue" character="Ned" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_End_1_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="MaudeFlanders" text="QST_TheGhostInTheMachineBasedApp05_3_dlg_End_2_MaudeFlanders" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp05_End>
+	<TheGhostInTheMachineBasedApp06_Start>
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp06_3_dlg_Start_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp06_3_dlg_Start_2_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp06_Start>
+	<TheGhostInTheMachineBasedApp06_End>
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp06_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_TheGhostInTheMachineBasedApp06_3_dlg_End_2_Bart" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp06_End>
+	<TheGhostInTheMachineBasedApp07_JobStart>
+		<Action type="vandalize" building="PowerPlantLot" />
+		<Action type="pantoobject" building="PowerPlantLot" />
+	</TheGhostInTheMachineBasedApp07_JobStart>
+	<TheGhostInTheMachineBasedApp07_Start>
+		<Action type="dialogue" character="FrankGrimesSpirit" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_Start_1_FrankGrimes" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankGrimesSpirit" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_Start_3_FrankGrimes" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankGrimesSpirit" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_Start_5_FrankGrimes" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp07_Start>
+	<TheGhostInTheMachineBasedApp07_End>
+		<Action type="dialogue" character="Lenny" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_End_1_Lenny" revealSpeed="medium" />
+		<Action type="dialogue" character="Carl" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_End_2_Carl" revealSpeed="medium" />
+		<Action type="dialogue" character="FrankGrimesSpirit" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_End_3_FrankGrimes" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp07_End>
+	<TheGhostInTheMachineBasedApp08Frink_Start>
+		<Action type="dialogue" character="Apu" text="QST_TheGhostInTheMachineBasedApp08Frink_3_dlg_Start_1_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheGhostInTheMachineBasedApp08Frink_3_dlg_Start_2_Apu2" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_TheGhostInTheMachineBasedApp08Frink_3_dlg_Start_3_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_TheGhostInTheMachineBasedApp08Frink_3_dlg_Start_4_Frink" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp08Frink_Start>
+	<TheGhostInTheMachineBasedApp08_Start>
+		<Action type="dialogue" character="Apu" text="QST_TheGhostInTheMachineBasedApp08_3_dlg_Start_1_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheGhostInTheMachineBasedApp08_3_dlg_Start_2_Apu2" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_TheGhostInTheMachineBasedApp08_3_dlg_Start_3_Ned" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp08_Start>
+	<TheGhostInTheMachineBasedApp09_Start>
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp09_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="JamesBontSpirit" text="QST_TheGhostInTheMachineBasedApp09_3_dlg_Start_2_JamesBont" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp09_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="JamesBontSpirit" text="QST_TheGhostInTheMachineBasedApp09_3_dlg_Start_4_JamesBont" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp09_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp09_Start>
+	<TheGhostInTheMachineBasedApp10_Start>
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp10_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp10_3_dlg_Start_2_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp10_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp10_3_dlg_Start_4_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp10_3_dlg_Start_5_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp10_3_dlg_Start_6_Lisa" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp10_Start>
+	<TheGhostInTheMachineBasedApp11_Start>
+		<Action type="dialogue" character="JamesBontSpirit" text="QST_TheGhostInTheMachineBasedApp11_3_dlg_Start_1_JamesBont" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp11_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="JamesBontSpirit" text="QST_TheGhostInTheMachineBasedApp11_3_dlg_Start_3_JamesBont" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp11_Start>
+	<TheGhostInTheMachineBasedApp11_End>
+		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp11_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp11_3_dlg_End_2_Marge" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp11_End>
+	<TheGhostInTheMachineBasedApp12_Start>
+		<Action type="dialogue" character="Moe" text="QST_TheGhostInTheMachineBasedApp12_3_dlg_Start_1_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp12_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_TheGhostInTheMachineBasedApp12_3_dlg_Start_3_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_TheGhostInTheMachineBasedApp12_3_dlg_Start_4_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp12_3_dlg_Start_5_Lisa" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp12_Start>
+	<TheGhostInTheMachineBasedApp13_Start>
+		<Action type="dialogue" character="PinheadLenny" text="QST_TheGhostInTheMachineBasedApp13_3_dlg_Start_1_PinheadLenny" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp13_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="PinheadCarl" text="QST_TheGhostInTheMachineBasedApp13_3_dlg_Start_3_PinheadCarl" revealSpeed="medium" />
+		<Action type="dialogue" character="PinheadLenny" text="QST_TheGhostInTheMachineBasedApp13_3_dlg_Start_4_PinheadLenny" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp13_Start>
+	<TheGhostInTheMachineBasedApp14_Start>
+		<Action type="dialogue" character="Moe" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_Start_1_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="PinheadLenny" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_Start_3_PinheadLenny" revealSpeed="medium" />
+		<Action type="dialogue" character="PinheadCarl" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_Start_4_PinheadCarl" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_Start_5_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="PinheadLenny" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_Start_6_PinheadLenny" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp14_Start>
+	<TheGhostInTheMachineBasedApp14_JobStarted>
+		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_JobStarted_1_GypsyFortuneTeller" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_JobStarted_2_Lisa" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp14_JobStarted>
+	<TheGhostInTheMachineBasedApp14_End></TheGhostInTheMachineBasedApp14_End>
+	<TheGhostInTheMachineBasedApp15_Start>
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_1_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_2_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_4_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="PinheadCarl" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_5_PinheadCarl" revealSpeed="medium" />
+		<Action type="vandalize" building="PowerPlantLot" />
+		<Action type="pantoobject" building="PowerPlantLot" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_1_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_2_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_3_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_4_Burns" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp15_Start>
+	<TheGhostInTheMachineBasedApp15_End>
+		<Action type="dialogue" character="Smithers" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_End_1_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_End_2_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_End_3_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_End_4_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_End_5_Burns" revealSpeed="medium" />
+	</TheGhostInTheMachineBasedApp15_End>
+	<DontFeedAfterMidnight_Start>
+		<Action type="dialogue" character="Homer" text="QST_DontFeedAfterMidnight_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_DontFeedAfterMidnight_3_dlg_Start_2_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_DontFeedAfterMidnight_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DontFeedAfterMidnight_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_DontFeedAfterMidnight_3_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DontFeedAfterMidnight_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="message" text="QST_DontFeedAfterMidnight_3_dlg_Start_7_SystemMessage" />
+	</DontFeedAfterMidnight_Start>
+	<TheGirlsJustWantToHaveFun01_Start>
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun01_3_dlg_Start_1_Booberella" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun01_3_dlg_Start_2_Booberella" revealSpeed="medium" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun01_3_dlg_Start_3_Booberella" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_TheGirlsJustWantToHaveFun01_3_dlg_Start_4_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun01_3_dlg_Start_5_Booberella" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_TheGirlsJustWantToHaveFun01_3_dlg_Start_6_Cletus" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun01_Start>
+	<TheGirlsJustWantToHaveFun02_Start>
+		<Action type="dialogue" character="ComicBookGuy" text="QST_TheGirlsJustWantToHaveFun02_3_dlg_Start_1_ComicBookGuy" revealSpeed="medium" />
+		<Action type="dialogue" character="ComicBookGuy" text="QST_TheGirlsJustWantToHaveFun02_3_dlg_Start_2_ComicBookGuy" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun02_Start>
+	<TheGirlsJustWantToHaveFun02_End>
+		<Action type="dialogue" character="ComicBookGuy" text="QST_TheGirlsJustWantToHaveFun02_3_dlg_End_1_ComicBookGuy" revealSpeed="medium" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun02_3_dlg_End_2_Booberella" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun02_End>
+	<TheGirlsJustWantToHaveFun03_Start>
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun03_3_dlg_Start_1_Booberella" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun03_3_dlg_Start_2_Booberella" revealSpeed="medium" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun03_3_dlg_Start_3_Booberella" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun03_Start>
+	<TheGirlsJustWantToHaveFun04_Start>
+		<Action type="dialogue" character="Apu" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_Start_1_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_Start_2_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Wiggum" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_Start_3_Wiggum" revealSpeed="medium" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_Start_4_Booberella" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Wiggum" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_Start_5_Wiggum" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun04_Start>
+	<TheGirlsJustWantToHaveFun04_End>
+		<Action type="dialogue" character="Wiggum" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_End_1_Wiggum" revealSpeed="medium" />
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun04_3_dlg_End_2_Booberella" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun04_End>
+	<TheGirlsJustWantToHaveFun05_Start>
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun05_3_dlg_Start_1_Booberella" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun05_Start>
+	<TheGirlsJustWantToHaveFun05_End>
+		<Action type="dialogue" character="Booberella" text="QST_TheGirlsJustWantToHaveFun05_3_dlg_End_1_Booberella" revealSpeed="medium" />
+	</TheGirlsJustWantToHaveFun05_End>
+	<JustTheTwoOfUs_Start>
+		<Action type="dialogue" character="Kodos" text="QST_JustTheTwoOfUs_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_JustTheTwoOfUs_3_dlg_Start_2_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_JustTheTwoOfUs_3_dlg_Start_3_Kodos" revealSpeed="medium" />
+	</JustTheTwoOfUs_Start>
+	<PumpkinHouse_Start>
+		<Action type="dialogue" character="Homer" text="QST_PumpkinHouse_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_PumpkinHouse_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_PumpkinHouse_3_dlg_Start_3_Homer" revealSpeed="medium" />
+	</PumpkinHouse_Start>
+	<PumpkinHouse_End>
+		<Action type="dialogue" character="Homer" text="QST_PumpkinHouse_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_PumpkinHouse_3_dlg_End_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_PumpkinHouse_3_dlg_End_3_Homer" revealSpeed="medium" />
+	</PumpkinHouse_End>
+	<AncientBurialGround01_Start>
+		<Action type="dialogue" character="Lisa" text="QST_AncientBurialGround01_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_AncientBurialGround01_3_dlg_Start_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_AncientBurialGround01_3_dlg_Start_3_Lisa" revealSpeed="medium" />
+	</AncientBurialGround01_Start>
+	<AncientBurialGround02_Start>
+		<Action type="dialogue" character="Lisa" text="QST_AncientBurialGround02_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="NativeAmericanSpirit" text="QST_AncientBurialGround02_3_dlg_Start_2_NativeAmericanSpirit" revealSpeed="medium" />
+		<Action type="dialogue" character="CavemanSpirit" text="QST_AncientBurialGround02_3_dlg_Start_3_CavemanSpirit" revealSpeed="medium" />
+		<Action type="dialogue" character="MastodonGhost" text="QST_AncientBurialGround02_3_dlg_Start_4_MastodonSpirit" revealSpeed="medium" />
+		<Action type="dialogue" character="CavemanSpirit" text="QST_AncientBurialGround02_3_dlg_Start_5_CavemanSpirit" revealSpeed="medium" />
+	</AncientBurialGround02_Start>
+	<AncientBurialGround02_End>
+		<Action type="dialogue" character="Lisa" text="QST_AncientBurialGround02_3_dlg_End_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="MastodonGhost" text="QST_AncientBurialGround02_3_dlg_End_2_MastodonSpirit" revealSpeed="medium" />
+		<Action type="message" text="QST_AncientBurialGround02_3_dlg_End_3_SystemMessage" />
+		<Action type="SilentlyUnlockSkin" skin="MastodonGhost" characterSkin="true" />
+	</AncientBurialGround02_End>
+	<KingSnorky_Start>
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="KingSnorky" text="QST_KingSnorky_3_dlg_Start_2_KingSnorky" revealSpeed="medium" />
+		<Action type="dialogue" character="KingSnorky" text="QST_KingSnorky_3_dlg_Start_3_KingSnorky" revealSpeed="medium" />
+		<Action type="message" text="QST_KingSnorky_3_dlg_Start_4_SystemMessage" revealSpeed="medium" />
+	</KingSnorky_Start>
+	<KingSnorky01_Start>
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky01_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_KingSnorky01_3_dlg_Start_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky01_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_KingSnorky01_3_dlg_Start_4_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky01_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</KingSnorky01_Start>
+	<KingSnorky01_End>
+		<Action type="dialogue" character="Apu" text="QST_KingSnorky01_3_dlg_End_1_Apu" revealSpeed="medium" />
+	</KingSnorky01_End>
+	<KingSnorky02_Start>
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky02_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="KingSnorky" text="QST_KingSnorky02_3_dlg_Start_2_KingSnorky" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky02_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="KingSnorky" text="QST_KingSnorky02_3_dlg_Start_4_KingSnorky" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky02_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</KingSnorky02_Start>
+	<KingSnorky03_Start>
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky03_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="KingSnorky" text="QST_KingSnorky03_3_dlg_Start_2_KingSnorky" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky03_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="KingSnorky" text="QST_KingSnorky03_3_dlg_Start_4_KingSnorky" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky03_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_KingSnorky03_3_dlg_Start_6_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_KingSnorky03_3_dlg_Start_7_Homer" revealSpeed="medium" />
+	</KingSnorky03_Start>
+	<TheSpacePoweredGhostInhalator_Start>
+		<Action type="dialogue" character="Frink" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="message" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_7_SystemMessage" />
+	</TheSpacePoweredGhostInhalator_Start>
+	<Ultrahouse2_Start>
+		<Action type="dialogue" character="Frink" text="QST_Ultrahouse2_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_Ultrahouse2_3_dlg_Start_2_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_Ultrahouse2_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_Ultrahouse2_3_dlg_Start_4_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Ultrahouse3000_Avatar" text="QST_Ultrahouse2_3_dlg_Start_5_Ultrahouse" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_Ultrahouse2_3_dlg_Start_6_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_Ultrahouse2_3_dlg_Start_7_Homer" revealSpeed="medium" />
+	</Ultrahouse2_Start>
+	<Ultrahouse2_End>
+		<Action type="dialogue" character="Bart" text="QST_Ultrahouse2_3_dlg_End_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_Ultrahouse2_3_dlg_End_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_Ultrahouse2_3_dlg_End_3_Bart" revealSpeed="medium" />
+	</Ultrahouse2_End>
+	<TwirlNHurl_Start>
+		<Action type="dialogue" character="Bart" text="QST_TwirlNHurl_3_dlg_Start_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_TwirlNHurl_3_dlg_Start_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_TwirlNHurl_3_dlg_Start_3_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_TwirlNHurl_3_dlg_Start_4_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_TwirlNHurl_3_dlg_Start_5_Kang" revealSpeed="medium" />
+	</TwirlNHurl_Start>
+	<TwirlNHurl_End>
+		<Action type="dialogue" character="Krusty" text="QST_TwirlNHurl_3_dlg_End_1_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_TwirlNHurl_3_dlg_End_2_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_TwirlNHurl_3_dlg_End_3_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_TwirlNHurl_3_dlg_End_4_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_TwirlNHurl_3_dlg_End_5_Krusty" revealSpeed="medium" />
+	</TwirlNHurl_End>
+	<CountBurns01_Start>
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns01_3_dlg_Start_1_CountBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns01_3_dlg_Start_2_CountBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns01_3_dlg_Start_3_CountBurns" revealSpeed="medium" emotion="sad" />
+	</CountBurns01_Start>
+	<CountBurns02_Start>
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns02_3_dlg_Start_1_CountBurns" revealSpeed="medium" />
+	</CountBurns02_Start>
+	<CountBurns03_Start>
+		<Action type="dialogue" character="Homer" text="QST_CountBurns03_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns03_3_dlg_Start_2_CountBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns03_3_dlg_Start_3_CountBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_CountBurns03_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns03_3_dlg_Start_5_CountBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_CountBurns03_3_dlg_Start_6_Homer" revealSpeed="medium" />
+	</CountBurns03_Start>
+	<CountBurns03_End>
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns03_3_dlg_End_1_CountBurns" revealSpeed="medium" emotion="sad" />
+	</CountBurns03_End>
+	<CountBurns04_Start>
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns04_3_dlg_Start_1_CountBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns04_3_dlg_Start_2_CountBurns" revealSpeed="medium" />
+	</CountBurns04_Start>
+	<CountBurns04_End>
+		<Action type="dialogue" character="Otto" text="QST_CountBurns04_3_dlg_End_1_Otto" revealSpeed="medium" />
+		<Action type="dialogue" character="Otto" text="QST_CountBurns04_3_dlg_End_2_Otto" revealSpeed="medium" />
+	</CountBurns04_End>
+	<CountBurns05_Start>
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns05_3_dlg_Start_1_CountBurns" revealSpeed="medium" />
+	</CountBurns05_Start>
+	<CountBurns06_Start>
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns06_3_dlg_Start_1_CountBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns06_3_dlg_Start_2_CountBurns" revealSpeed="medium" />
+	</CountBurns06_Start>
+	<CountBurns06_End>
+		<Action type="dialogue" character="DrHibbert" text="QST_CountBurns06_3_dlg_End_1_DrHibbert" revealSpeed="medium" />
+		<Action type="dialogue" character="DrHibbert" text="QST_CountBurns06_3_dlg_End_2_DrHibbert" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns06_3_dlg_End_3_CountBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="DrHibbert" text="QST_CountBurns06_3_dlg_End_4_DrHibbert" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns_CountBurns" text="QST_CountBurns06_3_dlg_End_5_CountBurns" revealSpeed="medium" />
+	</CountBurns06_End>
+	<HexInTheCity01_Start>
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity01_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_HexInTheCity01_3_dlg_Start_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity01_3_dlg_Start_3_SuzanneTheWitch" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity01_3_dlg_Start_4_SuzanneTheWitch" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity01_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</HexInTheCity01_Start>
+	<HexInTheCity01_End>
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity01_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_HexInTheCity01_3_dlg_End_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity01_3_dlg_End_3_Homer" revealSpeed="medium" />
+	</HexInTheCity01_End>
+	<HexInTheCity02_Start>
+		<Action type="dialogue" character="Marge" text="QST_HexInTheCity02_3_dlg_Start_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity02_3_dlg_Start_2_SuzanneTheWitch" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity02_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity02_3_dlg_Start_4_SuzanneTheWitch" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity02_3_dlg_Start_5_Homer" revealSpeed="medium" />
+	</HexInTheCity02_Start>
+	<HexInTheCity03_Start>
+		<Action type="dialogue" character="Bart" text="QST_HexInTheCity03_3_dlg_Start_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity03_3_dlg_Start_2_SuzanneTheWitch" revealSpeed="medium" />
+	</HexInTheCity03_Start>
+	<HexInTheCity03_End>
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity03_3_dlg_End_1_SuzanneTheWitch" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity03_3_dlg_End_2_SuzanneTheWitch" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_HexInTheCity03_3_dlg_End_3_Bart" revealSpeed="medium" />
+	</HexInTheCity03_End>
+	<HexInTheCity04_Start>
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity04_3_dlg_Start_1_SuzanneTheWitch" revealSpeed="medium" emotion="sad" />
+	</HexInTheCity04_Start>
+	<HexInTheCity05_Start>
+		<Action type="dialogue" character="Lisa" text="QST_HexInTheCity05_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity05_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity05_3_dlg_Start_3_SuzanneTheWitch" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity05_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity05_3_dlg_Start_5_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity05_3_dlg_Start_6_SuzanneTheWitch" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity05_3_dlg_Start_7_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HexInTheCity05_3_dlg_Start_8_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="SuzanneTheWitch" text="QST_HexInTheCity05_3_dlg_Start_9_SuzanneTheWitch" revealSpeed="medium" />
+	</HexInTheCity05_Start>
+	<TheDaySpringfieldStoodStill01_Start>
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill01_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_TheDaySpringfieldStoodStill01_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill01_3_dlg_Start_3_Kodos" revealSpeed="medium" />
+	</TheDaySpringfieldStoodStill01_Start>
+	<TheDaySpringfieldStoodStill02_Start>
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_2_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_3_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_4_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_5_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_6_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Cletus" text="QST_TheDaySpringfieldStoodStill02_3_dlg_Start_7_Cletus" revealSpeed="medium" />
+	</TheDaySpringfieldStoodStill02_Start>
+	<TheDaySpringfieldStoodStill03_Start>
+		<Action type="dialogue" character="Bart" text="QST_TheDaySpringfieldStoodStill03_3_dlg_Start_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill03_3_dlg_Start_2_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill03_3_dlg_Start_3_Kodos" revealSpeed="medium" />
+	</TheDaySpringfieldStoodStill03_Start>
+	<TheDaySpringfieldStoodStill03_End>
+		<Action type="dialogue" character="Bart" text="QST_TheDaySpringfieldStoodStill03_3_dlg_End_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill03_3_dlg_End_2_Kodos" revealSpeed="medium" />
+	</TheDaySpringfieldStoodStill03_End>
+	<TheDaySpringfieldStoodStill04_Start>
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill04_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_TheDaySpringfieldStoodStill04_3_dlg_Start_2_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill04_3_dlg_Start_3_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_TheDaySpringfieldStoodStill04_3_dlg_Start_4_Kodos" revealSpeed="medium" />
+	</TheDaySpringfieldStoodStill04_Start>
+	<FirstChurchOfLardLad01_Start>
+		<Action type="dialogue" character="Homer" text="QST_FirstChurchOfLardLad01_3_dlg_Start_1_Homer" revealSpeed="medium" />
+	</FirstChurchOfLardLad01_Start>
+	<FirstChurchOfLardLad01_End>
+		<Action type="dialogue" character="Homer" text="QST_FirstChurchOfLardLad01_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="LardLadPriest" text="QST_FirstChurchOfLardLad01_3_dlg_End_2_LardLadPriest" revealSpeed="medium" />
+	</FirstChurchOfLardLad01_End>
+	<FirstChurchOfLardLad02_Start>
+		<Action type="dialogue" character="LardLadPriest" text="QST_FirstChurchOfLardLad02_3_dlg_Start_1_LardLadPriest" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_FirstChurchOfLardLad02_3_dlg_Start_2_Homer" revealSpeed="medium" />
+	</FirstChurchOfLardLad02_Start>
+	<FirstChurchOfLardLad02_End>
+		<Action type="dialogue" character="LardLadPriest" text="QST_FirstChurchOfLardLad02_3_dlg_End_1_LardLadPriest" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_FirstChurchOfLardLad02_3_dlg_End_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="LardLadPriest" text="QST_FirstChurchOfLardLad02_3_dlg_End_3_LardLadPriest" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_FirstChurchOfLardLad02_3_dlg_End_4_Homer" revealSpeed="medium" />
+	</FirstChurchOfLardLad02_End>
+	<FirstChurchOfLardLad03_Start>
+		<Action type="dialogue" character="LardLadPriest" text="QST_FirstChurchOfLardLad03_3_dlg_Start_1_LardLadPriest" revealSpeed="medium" />
+	</FirstChurchOfLardLad03_Start>
+	<FirstChurchOfLardLad03_End>
+		<Action type="dialogue" character="Homer" text="QST_FirstChurchOfLardLad03_3_dlg_End_1_Homer" revealSpeed="medium" />
+	</FirstChurchOfLardLad03_End>
+	<GhostBomb_Start>
+		<Action type="dialogue" character="Frink" text="QST_GhostBomb_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_GhostBomb_3_dlg_Start_2_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_GhostBomb_3_dlg_Start_3_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_GhostBomb_3_dlg_Start_4_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_GhostBomb_3_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_GhostBomb_3_dlg_Start_6_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_GhostBomb_3_dlg_Start_7_Frink" revealSpeed="medium" />
+		<Action type="message" text="QST_GhostBomb_3_dlg_Start_8_SystemMessage" />
+	</GhostBomb_Start>
+	<FrogPrince01_Start>
+		<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince01_3_dlg_Start_1_FrogPrince" revealSpeed="medium" />
+		<Action type="dialogue" character="FrogPrince" text="QST_FrogPrince01_3_dlg_Start_2_FrogPrince" revealSpeed="medium" />
+	</FrogPrince01_Start>
+	<KingHomer_Start>
+		<Action type="dialogue" character="Burns" text="QST_KingHomer_3_dlg_Start_1_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_KingHomer_3_dlg_Start_2_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_KingHomer_3_dlg_Start_3_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_KingHomer_3_dlg_Start_4_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_KingHomer_3_dlg_Start_5_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_KingHomer_3_dlg_Start_6_Burns" revealSpeed="medium" />
+	</KingHomer_Start>
+	<KingHomer_End>
+		<Action type="dialogue" character="Burns" text="QST_KingHomer_3_dlg_End_1_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_KingHomer_3_dlg_End_2_Marge" revealSpeed="medium" />
+	</KingHomer_End>
+	<KrustylandTHOH_End>
+		<Action type="dialogue" character="Homer" text="QST_KrustylandTHOH_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_KrustylandTHOH_3_dlg_End_2_Krusty" revealSpeed="medium" />
+	</KrustylandTHOH_End>
+	<ShootDownKodos01_Start>
+		<Action type="dialogue" character="Cletus" text="QST_ShootDownKodos01_3_dlg_Start_1_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_ShootDownKodos01_3_dlg_Start_2_Frink" revealSpeed="medium" />
+	</ShootDownKodos01_Start>
+	<ShootDownKodos01_Buy>
+		<Action type="dialogue" character="Frink" text="QST_ShootDownKodos01_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_ShootDownKodos01_3_dlg_Start_5_Kodos" revealSpeed="medium" />
+		<Action type="message" text="QST_ShootDownKodos01_3_dlg_Start_4_SystemMessage" />
+	</ShootDownKodos01_Buy>
+	<ShootDownKodos01_Place>
+		<Action type="dialogue" character="Frink" text="QST_ShootDownKodos01_3_dlg_Start_6_Frink" revealSpeed="medium" />
+		<Action type="message" text="QST_ShootDownKodos01_3_dlg_Start_7_SystemMessage" />
+	</ShootDownKodos01_Place>
+	<ShootDownKodos01_Placed>
+		<Action type="message" text="QST_ShootDownKodos01_3_dlg_Start_8_SystemMessage" />
+		<Action type="dialogue" character="Kodos" text="QST_ShootDownKodos01_3_dlg_Start_9_Kodos" revealSpeed="medium" />
+	</ShootDownKodos01_Placed>
+	<ShootDownKodos02_Start>
+		<Action type="dialogue" character="Kodos" text="QST_ShootDownKodos02_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+	</ShootDownKodos02_Start>
+	<ShootDownKodos03_Start>
+		<Action type="dialogue" character="Kodos" text="QST_ShootDownKodos03_3_dlg_Start_2_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_ShootDownKodos03_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_ShootDownKodos03_3_dlg_Start_4_Frink" revealSpeed="medium" />
+	</ShootDownKodos03_Start>
+	<JustTheTwoOfUs_Start>
+		<Action type="dialogue" character="Kodos" text="QST_JustTheTwoOfUs_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+		<Action type="dialogue" character="Kang" text="QST_JustTheTwoOfUs_3_dlg_Start_2_Kang" revealSpeed="medium" />
+		<Action type="dialogue" character="Kodos" text="QST_JustTheTwoOfUs_3_dlg_Start_3_Kodos" revealSpeed="medium" />
+	</JustTheTwoOfUs_Start>
+	<FlamingHoop_Start>
+		<Action type="dialogue" character="Homer" text="QST_FlamingHoop_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="message" text="QST_FlamingHoop_3_dlg_Start_2_SystemMessage" />
+	</FlamingHoop_Start>
+	<Barbell_Start>
+		<Action type="dialogue" character="Homer" text="QST_Barbell_3_dlg_Start_1_Homer" revealSpeed="medium" />
+	</Barbell_Start>
+	<Leotard_Start>
+		<Action type="dialogue" character="Homer" text="QST_Leotard_3_dlg_Start_1_Homer" revealSpeed="medium" />
+	</Leotard_Start>
+	<RingMasterTopHat_Start>
+		<Action type="dialogue" character="Homer" text="QST_RingMasterTopHat_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="message" text="QST_RingMasterTopHat_3_dlg_Start_2_SystemMessage" />
+	</RingMasterTopHat_Start>
+	<TheLardOfTheRings01_Start>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings01_3_dlg_Start_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings01_3_dlg_Start_2_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings01_3_dlg_Start_3_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings01_3_dlg_Start_4_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings01_3_dlg_Start_5_StrongmanHomer" revealSpeed="medium" />
+	</TheLardOfTheRings01_Start>
+	<TheLardOfTheRings02_Start>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings02_3_dlg_Start_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings02_3_dlg_Start_2_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheLardOfTheRings02_3_dlg_Start_3_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings02_3_dlg_Start_4_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheLardOfTheRings02_3_dlg_Start_5_Apu" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheLardOfTheRings02_3_dlg_Start_6_Apu" revealSpeed="medium" />
+	</TheLardOfTheRings02_Start>
+	<TheLardOfTheRings02_End>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings02_3_dlg_End_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Apu" text="QST_TheLardOfTheRings02_3_dlg_End_2_Apu" revealSpeed="medium" />
+	</TheLardOfTheRings02_End>
+	<TheLardOfTheRings03_Start>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings03_3_dlg_Start_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_TheLardOfTheRings03_3_dlg_Start_2_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_TheLardOfTheRings03_3_dlg_Start_3_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings03_3_dlg_Start_4_StrongmanHomer" revealSpeed="medium" />
+	</TheLardOfTheRings03_Start>
+	<TheLardOfTheRings03_End>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings03_3_dlg_End_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_TheLardOfTheRings03_3_dlg_End_2_Krusty" revealSpeed="medium" />
+	</TheLardOfTheRings03_End>
+	<TheLardOfTheRings04_Start>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings04_3_dlg_Start_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns" text="QST_TheLardOfTheRings04_3_dlg_Start_2_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings04_3_dlg_Start_3_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns" text="QST_TheLardOfTheRings04_3_dlg_Start_4_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="MrBurns" text="QST_TheLardOfTheRings04_3_dlg_Start_5_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings04_3_dlg_Start_6_StrongmanHomer" revealSpeed="medium" />
+	</TheLardOfTheRings04_Start>
+	<TheLardOfTheRings04_End>
+		<Action type="dialogue" character="MrBurns" text="QST_TheLardOfTheRings04_3_dlg_End_1_MrBurns" revealSpeed="medium" />
+	</TheLardOfTheRings04_End>
+	<TheLardOfTheRings05_Start>
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings05_3_dlg_Start_1_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_TheLardOfTheRings05_3_dlg_Start_2_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings05_3_dlg_Start_3_StrongmanHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_TheLardOfTheRings05_3_dlg_Start_4_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings05_3_dlg_Start_5_StrongmanHomer" revealSpeed="medium" />
+	</TheLardOfTheRings05_Start>
+	<TheLardOfTheRings05_End>
+		<Action type="dialogue" character="Moe" text="QST_TheLardOfTheRings05_3_dlg_End_1_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings05_3_dlg_End_2_StrongmanHomer" revealSpeed="medium" />
+	</TheLardOfTheRings05_End>
+</ScriptPackage>

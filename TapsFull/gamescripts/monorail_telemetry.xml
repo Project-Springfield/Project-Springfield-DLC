@@ -1,0 +1,109 @@
+﻿<TelemetryFamilies>
+	<Monorail_Permanent>
+		<SessionCounters>
+			<Counter name="JunkFromJob" />
+			<Counter name="JunkFromPurchase" />
+			<Counter name="MetalFromJob" />
+			<Counter name="MetalFromPurchase" />
+			<Counter name="PlasticFromJob" />
+			<Counter name="PlasticFromPurchase" />
+			<Counter name="GlassFromJob" />
+			<Counter name="GlassFromPurchase" />
+			<Counter name="MR_MonorailRideHome" />
+			<Counter name="MR_MonorailRideFriend" />
+		</SessionCounters>
+		<SessionEvents>
+			<Event id="3394">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Junk" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Junk" />
+				<Parameter2 type="UserLevel" source="UserLevel" />
+			</Event>
+			<Event id="3394">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Metal" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Metal" />
+				<Parameter2 type="UserLevel" source="UserLevel" />
+			</Event>
+			<Event id="3394">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Plastic" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Plastic" />
+				<Parameter2 type="UserLevel" source="UserLevel" />
+			</Event>
+			<Event id="3394">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Glass" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Glass" />
+				<Parameter2 type="UserLevel" source="UserLevel" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Junk" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Dump" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="JunkFromJob" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Junk" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Purchase" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="JunkFromPurchase" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Metal" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Recycle" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="MetalFromJob" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Metal" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Purchase" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="MetalFromPurchase" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Plastic" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Recycle" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="PlasticFromJob" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Plastic" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Purchase" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="PlasticFromPurchase" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Glass" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Recycle" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="GlassFromJob" />
+			</Event>
+			<Event id="3395">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Glass" />
+				<Parameter1 type="Enumeration" source="FixedString" extra="Purchase" />
+				<Parameter2 type="Score" source="StrictlyPositiveCounter" extra="GlassFromPurchase" />
+			</Event>
+			<Event id="3397">
+				<Parameter0 type="Score" source="Counter" extra="MR_MonorailRideHome" />
+				<Parameter1 type="Score" source="Counter" extra="MR_MonorailRideFriend" />
+				<Parameter2 type="UserLevel" source="UserLevel" />
+			</Event>
+		</SessionEvents>
+		<TriggerEffects>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnSpecialCurrencyGainedFromIndicator" />
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="IndicatoryHistoryType" string="Job" />
+					<Filter type="matching" key="IndicatoryHistoryType" string="Character" />
+				</Filter>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="SpendableName" string="Junk" />
+					<Filter type="matching" key="SpendableName" string="Metal" />
+					<Filter type="matching" key="SpendableName" string="Plastic" />
+					<Filter type="matching" key="SpendableName" string="Glass" />
+				</Filter>
+				<Response type="incrementCounter" counter="{Trigger::SpendableName}FromJob" increment="{Trigger::Amount}" />
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnSpecialCurrencyGainedFromTopup" />
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="SpendableName" string="Junk" />
+					<Filter type="matching" key="SpendableName" string="Metal" />
+					<Filter type="matching" key="SpendableName" string="Plastic" />
+					<Filter type="matching" key="SpendableName" string="Glass" />
+				</Filter>
+				<Response type="incrementCounter" counter="{Trigger::SpendableName}FromPurchase" increment="{Trigger::Amount}" />
+			</TriggerEffect>
+		</TriggerEffects>
+	</Monorail_Permanent>
+</TelemetryFamilies>

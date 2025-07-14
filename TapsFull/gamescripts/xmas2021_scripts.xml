@@ -1,0 +1,1710 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2021MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="XMAS2021_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="XMAS2021_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="XMAS2021_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="XMAS2021_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_XMAS2021_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_XMAS2021_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_XMAS2021_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_XMAS2021_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2021_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="XMAS2021_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="XMAS2021_Store" value="true" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2021MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_XMAS2021_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_XMAS2021_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_XMAS2021_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2021_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_XMAS2021_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="XMAS2021_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="XMAS2021_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="XMAS2021_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="XMAS2021_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="XMAS2021_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_XMAS2021_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2021_HolidayWhodunnit_OnePanel" />
+		<Action type="runScript" script="XMAS2021_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="XMAS2021_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="XMAS2021_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="XMAS2021_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="XMAS2021_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="XMAS2021_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="XMAS2021_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="XMAS2021_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="XMAS2021_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="XMAS2021_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="XMAS2021_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="XMAS2021_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="XMAS2021_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="XMAS2021_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2021_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2021_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2021_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2021_Start" end="XMAS2021_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="OutCold_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2021_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="OutCold_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2021_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="OutCold_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2021_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="OutCold_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2021_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="OutCold_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2021_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2021_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="XMAS2021_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2021_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2021_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2021_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2021_Start" end="XMAS2021_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="NoBusinessLikeSnowBusiness_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2021_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBusinessLikeSnowBusiness_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2021_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBusinessLikeSnowBusiness_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2021_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBusinessLikeSnowBusiness_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2021_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBusinessLikeSnowBusiness_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2021_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2021_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="XMAS2021_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2021_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2021_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2021_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2021_Start" end="XMAS2021_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="HoHoDoh_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2021_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="HoHoDoh_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2021_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HoHoDoh_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2021_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HoHoDoh_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2021_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HoHoDoh_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2021_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2021_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="XMAS2021_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2021_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2021_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2021_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2021_Start" end="XMAS2021_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="SleighingIt_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2021_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="SleighingIt_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2021_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SleighingIt_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2021_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SleighingIt_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2021_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SleighingIt_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2021_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2021_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2021_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2021_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2021_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2021_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2021_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2021_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<AutoApply_SantaSideshowBobSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="XMAS2021_Scripts:AutoApply_SantaSideshowBobSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SantaSideshowBobSkin_End>
+	<AutoApply_SantaSideshowBobSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="SantaSideshowBob" fromInventory="true" />
+	</AutoApply_SantaSideshowBobSkin_Delayed>
+	<AutoApply_ElfMoeSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="XMAS2021_Scripts:AutoApply_ElfMoeSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_ElfMoeSkin_End>
+	<AutoApply_ElfMoeSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="ElfMoe" fromInventory="true" />
+	</AutoApply_ElfMoeSkin_Delayed>
+	<AutoApply_SantaSnakeSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="XMAS2021_Scripts:AutoApply_SantaSnakeSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SantaSnakeSkin_End>
+	<AutoApply_SantaSnakeSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="SantaSnake" fromInventory="true" />
+	</AutoApply_SantaSnakeSkin_Delayed>
+	<AutoApply_SnakesHouseDecorated parallel="true">
+		<Action type="scheduleScript" mode="create" script="XMAS2021_Scripts:AutoApply_SnakesHouseDecorated_Delayed" relativeTime="1s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SnakesHouseDecorated>
+	<AutoApply_SnakesHouseDecorated_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="SnakesHouseDecorated" fromInventory="true" />
+		<Action type="pantoobject" building="SnakesHouse" fakeTouch="true" />
+	</AutoApply_SnakesHouseDecorated_Delayed>
+	<RecommendStoreCategory_HolidayWhodunnit ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2021_HolidayWhodunnit_OnePanel" />
+		<Action type="recommendation" recType="Event" name="XMAS2021_HolidayWhodunnit_OnePanel" eventName="UI_XMAS2021_Title" limitedTime="true" limitedTimeEndDate="XMAS2021_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_HolidayWhodunnit>
+	<EnterStoreCategory_HolidayWhodunnit ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="HolidayWhodunnit_Category" />
+	</EnterStoreCategory_HolidayWhodunnit>
+	<EnterStoreCategory_HolidayFacades ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="HolidayFacades_Category" />
+	</EnterStoreCategory_HolidayFacades>
+	<GoToCurrencyStore ignoreHUD="true">
+		<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="12" />
+	</GoToCurrencyStore>
+	<AcquireGoldenPickaxe ignoreHUD="true">
+		<Action type="updateVariable" variable="GoldenPickaxeBonus" value="2" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="sound" sound="AcquirePickaxe" />
+		<Action type="notificationLarge" title="CON_GoldenPickaxe_name" button="UI_OK" text="UI_GoldenPickaxe_notif" icon="ICO_STOR_Single_XMAS2021_GoldenPickaxe" />
+	</AcquireGoldenPickaxe>
+	<XMAS2021TokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" XMAS2021MysteryBoxToken="1" />
+			<True>
+				<Action type="runScript" script="XMAS2021_Scripts:GoToXMAS2021TokenExchange" />
+			</True>
+		</Action>
+	</XMAS2021TokenForDozenDonuts>
+	<GoToXMAS2021TokenExchange>
+		<Action type="focusOnMenuItem" itemName="XMAS2021TokenForDozenDonuts" menuCategory="HolidayWhodunnit_Category" />
+	</GoToXMAS2021TokenExchange>
+	<XMAS2021GiftCardForThreeDonuts>
+		<Action type="notification" title="CON_OfferingBoard_DonutBonus_name" text="UI_Prestige_ThreeDonuts" icon="ICO_PRIZ_Donuts_3" button="UI_OK" />
+		<Action type="reward" save="true" donuts="3" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" XMAS2021GiftCard="1" />
+			<True>
+				<Action type="runScript" script="XMAS2021_Scripts:GoToXMAS2021GiftCardExchange" />
+			</True>
+		</Action>
+	</XMAS2021GiftCardForThreeDonuts>
+	<GoToXMAS2021GiftCardExchange>
+		<Action type="focusOnMenuItem" itemName="XMAS2021GiftCardForThreeDonuts" menuCategory="HolidayWhodunnit_Category" />
+	</GoToXMAS2021GiftCardExchange>
+	<RewardOneXMAS2021Token>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_XMAS2021_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken_Blue" button="UI_OK" />
+		<Action type="reward" save="true" XMAS2021MysteryBoxToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2021_Requirements:XMAS2021_HolidayWhodunnitMysteryBox_Available" />
+			<True>
+				<Action type="consumable" consumable="XMAS2021_HolidayWhodunnitMysteryBox" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="XMAS2021_Scripts:GoToXMAS2021TokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneXMAS2021Token>
+	<RewardOneHolidayWhodunnitMysteryBoxToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_XMAS2021_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken_Blue" button="UI_OK" />
+		<Action type="reward" save="true" XMAS2021MysteryBoxToken="1" />
+		<Action type="consumable" consumable="XMAS2021_HolidayWhodunnitMysteryBox" fromInventory="false" />
+	</RewardOneHolidayWhodunnitMysteryBoxToken_Store>
+	<RewardFiveHolidayWhodunnitMysteryBoxTokens_Store>
+		<Action type="notification" title="UI_MysteryBoxTokensFive" text="UI_XMAS2021_MysteryBoxTokenPlural" icon="ICO_STOR_MysteryBoxToken_Blue_5" button="UI_OK" />
+		<Action type="reward" save="true" XMAS2021MysteryBoxToken="5" />
+		<Action type="consumable" consumable="XMAS2021_HolidayWhodunnitMysteryBox" fromInventory="false" />
+	</RewardFiveHolidayWhodunnitMysteryBoxTokens_Store>
+	<GoToInventory_ChristmasFenceBundle>
+		<Action type="focusOnMenuItem" itemName="ChristmasFence" inventory="true" />
+	</GoToInventory_ChristmasFenceBundle>
+	<LastMinuteGifts_FlipToNonUniques>
+		<Action type="updateVariable" variable="XMAS2021_LastMinuteGifts_NonUniquesActive" value="true" />
+		<Action type="notificationLarge" title="CON_XMAS2021_LastMinuteGifts_name" button="UI_OK" text="UI_LastMinuteGifts_UniqueSwap_notif" icon="ICO_STOR_Single_XMAS2021_LastMinuteGifts" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2021_Requirements:EventQuestsActive" />
+			<True>
+				<Action type="consumable" consumable="XMAS2021_LastMinuteGifts" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="consumable" consumable="XMAS2021_LastMinuteGifts_alt" fromInventory="false" />
+			</False>
+		</Action>
+	</LastMinuteGifts_FlipToNonUniques>
+	<BurnsSleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var burnsInstance = Land::getFirstInstanceOfObject(Character::find('Burns'));
+                    
+                    Character::fadeOut(burnsInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="WhiteWitchBurnsSleigh" />
+	</BurnsSleigh_start>
+	<BurnsSleigh_end>
+		<Action type="setFlyByVelocity" flyBy="Burns_FlyHisSleigh" x="1250" y="30" />
+		<Action type="pantoobject" building="WhiteWitchBurnsSleigh" />
+		<Action type="delay" time="2" />
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var burnsInstance = Land::getFirstInstanceOfObject(Character::find('Burns'));
+                    
+                    var sleighInstance = Land::getFirstInstanceOfObject(Building::find('WhiteWitchBurnsSleigh'));
+                    var sleighX = toDouble(Building::getProperty(sleighInstance, 'X'));
+                    var sleighZ = toDouble(Building::getProperty(sleighInstance, 'Z'));
+                    
+                    Character::snapToPosition(burnsInstance, sleighX, sleighZ);
+                    
+                    Character::fadeIn(burnsInstance);
+                ]]></Program>
+		</Action>
+	</BurnsSleigh_end>
+	<KrustySleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var krustyInstance = Land::getFirstInstanceOfObject(Character::find('Krusty'));
+                    
+                    Character::fadeOut(krustyInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="KrustySleigh" />
+	</KrustySleigh_start>
+	<KrustySleigh_end>
+		<Action type="setFlyByVelocity" flyBy="Krusty_FlyHisSleigh" x="1250" y="30" />
+		<Action type="pantoobject" building="KrustySleigh" />
+		<Action type="delay" time="2" />
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var krustyInstance = Land::getFirstInstanceOfObject(Character::find('Krusty'));
+                    
+                    var sleighInstance = Land::getFirstInstanceOfObject(Building::find('KrustySleigh'));
+                    var sleighX = toDouble(Building::getProperty(sleighInstance, 'X'));
+                    var sleighZ = toDouble(Building::getProperty(sleighInstance, 'Z'));
+                    
+                    Character::snapToPosition(krustyInstance, sleighX, sleighZ);
+                    
+                    Character::fadeIn(krustyInstance);
+                ]]></Program>
+		</Action>
+	</KrustySleigh_end>
+	<SideshowMelSleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var sideshowMelInstance = Land::getFirstInstanceOfObject(Character::find('SideshowMel'));
+                    
+                    Character::fadeOut(sideshowMelInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="SideshowMelSleigh" />
+	</SideshowMelSleigh_start>
+	<SideshowMelSleigh_end>
+		<Action type="setFlyByVelocity" flyBy="SideshowMel_FlyHisSleigh" x="1250" y="30" />
+		<Action type="pantoobject" building="SideshowMelSleigh" />
+		<Action type="delay" time="2" />
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var sideshowMelInstance = Land::getFirstInstanceOfObject(Character::find('SideshowMel'));
+                    
+                    var sleighInstance = Land::getFirstInstanceOfObject(Building::find('SideshowMelSleigh'));
+                    var sleighX = toDouble(Building::getProperty(sleighInstance, 'X'));
+                    var sleighZ = toDouble(Building::getProperty(sleighInstance, 'Z'));
+                    
+                    Character::snapToPosition(sideshowMelInstance, sleighX, sleighZ);
+                    
+                    Character::fadeIn(sideshowMelInstance);
+                ]]></Program>
+		</Action>
+	</SideshowMelSleigh_end>
+	<TheRichTexanSleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var theRichTexanInstance = Land::getFirstInstanceOfObject(Character::find('TheRichTexan'));
+                    
+                    Character::fadeOut(theRichTexanInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="TheRichTexanSleigh" />
+	</TheRichTexanSleigh_start>
+	<TheRichTexanSleigh_end>
+		<Action type="setFlyByVelocity" flyBy="TheRichTexan_FlyHisSleigh" x="1250" y="30" />
+		<Action type="pantoobject" building="TheRichTexanSleigh" />
+		<Action type="delay" time="2" />
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var theRichTexanInstance = Land::getFirstInstanceOfObject(Character::find('TheRichTexan'));
+                    
+                    var sleighInstance = Land::getFirstInstanceOfObject(Building::find('TheRichTexanSleigh'));
+                    var sleighX = toDouble(Building::getProperty(sleighInstance, 'X'));
+                    var sleighZ = toDouble(Building::getProperty(sleighInstance, 'Z'));
+                    
+                    Character::snapToPosition(theRichTexanInstance, sleighX, sleighZ);
+                    
+                    Character::fadeIn(theRichTexanInstance);
+                ]]></Program>
+		</Action>
+	</TheRichTexanSleigh_end>
+	<HomerRidingSnowmobile parallel="true">
+		<Action type="setObjectVariable" variable="HomerRidingSnowmobileActive" value="1" allowOrphan="false" onType="building" onObject="HomersSnowmobile" />
+		<Action type="anim-play" onBuilding="HomersSnowmobile" animation="Neutral" />
+	</HomerRidingSnowmobile>
+	<HomerRidingSnowmobileDone parallel="true">
+		<Action type="setObjectVariable" variable="HomerRidingSnowmobileActive" value="0" allowOrphan="false" onType="building" onObject="HomersSnowmobile" />
+		<Action type="anim-play" onBuilding="HomersSnowmobile" animation="Neutral" />
+	</HomerRidingSnowmobileDone>
+	<XMAS2021_Event_Variable_SetFalse ignoreHUD="true">
+		<Action type="setVariable" boolVariable="XMAS2021_Event" boolValue="false" />
+	</XMAS2021_Event_Variable_SetFalse>
+	<SH_step04_fix>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="active quest" quest="SpringfieldHeights04" objective="1" />
+				<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::Furniture'), 8)" />
+			</Requirement>
+			<True>
+				<Action type="loseResources" Furniture="2" />
+				<Action type="reward" save="true" Furniture="2" />
+			</True>
+		</Action>
+	</SH_step04_fix>
+	<SH_step05_fix>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="active quest" quest="SpringfieldHeights05" objective="2" />
+				<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::Latte'), 9)" />
+			</Requirement>
+			<True>
+				<Action type="loseResources" Latte="1" />
+				<Action type="reward" save="true" Latte="1" />
+			</True>
+		</Action>
+	</SH_step05_fix>
+	<SH_step06_fix>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="active quest" quest="SpringfieldHeights06" objective="2" />
+				<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::SmartDevice'), 8)" />
+			</Requirement>
+			<True>
+				<Action type="loseResources" SmartDevice="2" />
+				<Action type="reward" save="true" SmartDevice="2" />
+			</True>
+		</Action>
+	</SH_step06_fix>
+	<SH_step07_fix>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="active quest" quest="SpringfieldHeights07" objective="2" />
+				<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::YogaMat'), 5)" />
+			</Requirement>
+			<True>
+				<Action type="loseResources" YogaMat="5" />
+				<Action type="reward" save="true" YogaMat="5" />
+			</True>
+		</Action>
+	</SH_step07_fix>
+	<SH_step08_fix>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="active quest" quest="SpringfieldHeights08" objective="2" />
+				<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::Pharmaceutical'), 5)" />
+			</Requirement>
+			<True>
+				<Action type="loseResources" Pharmaceutical="5" />
+				<Action type="reward" save="true" Pharmaceutical="5" />
+			</True>
+		</Action>
+	</SH_step08_fix>
+	<SH_step09_fix>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="active quest" quest="SpringfieldHeights09" objective="2" />
+				<Requirement type="formula" formula="greaterThan(System::evaluate('Spendable::HollywoodAward'), 5)" />
+			</Requirement>
+			<True>
+				<Action type="loseResources" HollywoodAward="5" />
+				<Action type="reward" save="true" HollywoodAward="5" />
+			</True>
+		</Action>
+	</SH_step09_fix>
+	<OpenLastMinuteGifts>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="reqList" location="XMAS2021_Requirements:EventQuestsActive" />
+				<Requirement type="quest started" quest="OutCold_1" not="true" />
+			</Requirement>
+			<True>
+				<Action type="consumable" consumable="XMAS2021_LastMinuteGifts" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="consumable" consumable="XMAS2021_LastMinuteGifts_alt" fromInventory="false" />
+			</False>
+		</Action>
+	</OpenLastMinuteGifts>
+	<Trivia_Correct_Act1_OneGiftCard>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+			<True>
+				<Action type="reward" save="true" XMAS2021GiftCard="1" />
+				<Action type="sound" sound="UIUpgradeCharacter" />
+				<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+				<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_Correct_Act1_OneGiftCard>
+	<Trivia_Correct_Act2_OneGiftCard>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+			<True>
+				<Action type="reward" save="true" XMAS2021GiftCard="1" />
+				<Action type="sound" sound="UIUpgradeCharacter" />
+				<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+				<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_WrongCount" value="0" />
+	</Trivia_Correct_Act2_OneGiftCard>
+	<Trivia_Correct_Act3_OneGiftCard>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act3_WrongCount')==0" />
+			<True>
+				<Action type="reward" save="true" XMAS2021GiftCard="1" />
+				<Action type="sound" sound="UIUpgradeCharacter" />
+				<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+				<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_WrongCount" value="0" />
+	</Trivia_Correct_Act3_OneGiftCard>
+	<Trivia_Correct_Act4_OneGiftCard>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+			<True>
+				<Action type="reward" save="true" XMAS2021GiftCard="1" />
+				<Action type="sound" sound="UIUpgradeCharacter" />
+				<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+				<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_WrongCount" value="0" />
+	</Trivia_Correct_Act4_OneGiftCard>
+	<Trivia_act1_1>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act1_1_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_1_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_1" right="XMAS2021_Trivia_act1_1_right" wrong1="XMAS2021_Trivia_act1_1_wrong1" wrong2="XMAS2021_Trivia_act1_1_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Reward_Act1_1" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act1_1_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_1_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Reward_Act1_1" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_act1_1>
+	<Trivia_Reward_Act1_1>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+			<True>
+				<Action type="updateVariable" variable="Trivia_1_1_AnsweredCorrectly" value="true" />
+				<Action type="reward" save="true" XMAS2021GiftCard="1" />
+				<Action type="sound" sound="UIUpgradeCharacter" />
+				<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+				<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_Reward_Act1_1>
+	<Trivia_act1_2>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act1_2_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_2_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_2" right="XMAS2021_Trivia_act1_2_right" wrong1="XMAS2021_Trivia_act1_2_wrong1" wrong2="XMAS2021_Trivia_act1_2_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act1_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act1_2_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_2_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act1_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_act1_2>
+	<Trivia_act1_3>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act1_3_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_3_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_3" right="XMAS2021_Trivia_act1_3_right" wrong1="XMAS2021_Trivia_act1_3_wrong1" wrong2="XMAS2021_Trivia_act1_3_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act1_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act1_3_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_3_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act1_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_act1_3>
+	<Trivia_act1_4>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act1_4_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_4_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_4" right="XMAS2021_Trivia_act1_4_right" wrong1="XMAS2021_Trivia_act1_4_wrong1" wrong2="XMAS2021_Trivia_act1_4_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act1_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act1_4_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_4_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act1_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_act1_4>
+	<Trivia_act1_5>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act1_5_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_5_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_5" right="XMAS2021_Trivia_act1_5_right" wrong1="XMAS2021_Trivia_act1_5_wrong1" wrong2="XMAS2021_Trivia_act1_5_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Secondary_Act1_5b" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" package="XMAS2021_Scripts" script="Trivia_Secondary_Act1_5b" />
+			</False>
+		</Action>
+	</Trivia_act1_5>
+	<Trivia_Secondary_Act1_5b>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act1_5_RewardGiven" not="true" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="delay" time="0.25" />
+						<Action type="reward" save="true" XMAS2021GiftCard="1" />
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_5_RewardGiven" value="true" />
+						<Action type="sound" sound="UIUpgradeCharacter" />
+						<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act1_5b_Active" />
+					<True>
+						<Action type="delay" time="0.25" />
+						<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_5b_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_5b" right="XMAS2021_Trivia_act1_5b_right" wrong1="XMAS2021_Trivia_act1_5b_wrong1" wrong2="XMAS2021_Trivia_act1_5b_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+							<Reward>
+								<Item type="script" name="XMAS2021_Scripts:Trivia_Secondary_Act1_5c" useImmediately="true" />
+							</Reward>
+						</Action>
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+				<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+			</False>
+		</Action>
+	</Trivia_Secondary_Act1_5b>
+	<Trivia_Secondary_Act1_5c>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act1_5b_RewardGiven" not="true" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="delay" time="0.25" />
+						<Action type="reward" save="true" XMAS2021GiftCard="1" />
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_5b_RewardGiven" value="true" />
+						<Action type="sound" sound="UIUpgradeCharacter" />
+						<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act1_5c_Active" />
+					<True>
+						<Action type="delay" time="0.25" />
+						<Action type="trivia" activeVar="XMAS2021_Trivia_Act1_5c_Active" wrongCountVar="XMAS2021_Trivia_Act1_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act1_5c" right="XMAS2021_Trivia_act1_5c_right" wrong1="XMAS2021_Trivia_act1_5c_wrong1" wrong2="XMAS2021_Trivia_act1_5c_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+							<Reward>
+								<Item type="script" name="XMAS2021_Scripts:Trivia_Secondary_Act1_5_end" useImmediately="true" />
+							</Reward>
+						</Action>
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+				<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+			</False>
+		</Action>
+	</Trivia_Secondary_Act1_5c>
+	<Trivia_Secondary_Act1_5_end>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act1_WrongCount')==0" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="delay" time="0.25" />
+				<Action type="reward" save="true" XMAS2021GiftCard="1" />
+				<Action type="sound" sound="UIUpgradeCharacter" />
+				<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+				<Action type="delay" time="0.15" />
+				<Action type="message" text="XMAS2021_Trivia_act1_5d_message" />
+				<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="TriviaCompletedAct1" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act1_WrongCount" value="0" />
+	</Trivia_Secondary_Act1_5_end>
+	<Trivia_act2_1>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act2_1_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act2_1_Active" wrongCountVar="XMAS2021_Trivia_Act2_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act2_1" right="XMAS2021_Trivia_act2_1_right" wrong1="XMAS2021_Trivia_act2_1_wrong1" wrong2="XMAS2021_Trivia_act2_1_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act2_1_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_1_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_WrongCount" value="0" />
+	</Trivia_act2_1>
+	<Trivia_act2_2>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act2_2_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act2_2_Active" wrongCountVar="XMAS2021_Trivia_Act2_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act2_2" right="XMAS2021_Trivia_act2_2_right" wrong1="XMAS2021_Trivia_act2_2_wrong1" wrong2="XMAS2021_Trivia_act2_2_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Secondary_Act2_2b" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" package="XMAS2021_Scripts" script="Trivia_Secondary_Act2_2b" />
+			</False>
+		</Action>
+	</Trivia_act2_2>
+	<Trivia_Secondary_Act2_2b>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act2_2_RewardGiven" not="true" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="delay" time="0.25" />
+						<Action type="reward" save="true" XMAS2021GiftCard="1" />
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_2_RewardGiven" value="true" />
+						<Action type="sound" sound="UIUpgradeCharacter" />
+						<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act2_2b_Active" />
+					<True>
+						<Action type="delay" time="0.25" />
+						<Action type="trivia" activeVar="XMAS2021_Trivia_Act2_2b_Active" wrongCountVar="XMAS2021_Trivia_Act2_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act2_2b" right="XMAS2021_Trivia_act2_2b_right" wrong1="XMAS2021_Trivia_act2_2b_wrong1" wrong2="XMAS2021_Trivia_act2_2b_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+							<Reward>
+								<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" useImmediately="true" />
+							</Reward>
+						</Action>
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+								<Requirement type="variable" variable="XMAS2021_Trivia_Act2_2b_RewardGiven" not="true" />
+							</Requirement>
+							<True>
+								<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_2b_RewardGiven" value="true" />
+								<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" />
+							</True>
+							<False>
+								<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+							</False>
+						</Action>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_WrongCount" value="0" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+				<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_WrongCount" value="0" />
+			</False>
+		</Action>
+	</Trivia_Secondary_Act2_2b>
+	<Trivia_act2_3>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act2_3_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act2_3_Active" wrongCountVar="XMAS2021_Trivia_Act2_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act2_3" right="XMAS2021_Trivia_act2_3_right" wrong1="XMAS2021_Trivia_act2_3_wrong1" wrong2="XMAS2021_Trivia_act2_3_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act2_3_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_3_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act2_3>
+	<Trivia_act2_4>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act2_4_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act2_4_Active" wrongCountVar="XMAS2021_Trivia_Act2_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act2_4" right="XMAS2021_Trivia_act2_4_right" wrong1="XMAS2021_Trivia_act2_4_wrong1" wrong2="XMAS2021_Trivia_act2_4_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act2_4_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_4_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act2_4>
+	<Trivia_act2_5>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act2_5_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act2_5_Active" wrongCountVar="XMAS2021_Trivia_Act2_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act2_5" right="XMAS2021_Trivia_act2_5_right" wrong1="XMAS2021_Trivia_act2_5_wrong1" wrong2="XMAS2021_Trivia_act2_5_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act2_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act2_5_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act2_5_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act2_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct2" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act2_5>
+	<Trivia_act3_1>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act3_1_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act3_1_Active" wrongCountVar="XMAS2021_Trivia_Act3_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act3_1" right="XMAS2021_Trivia_act3_1_right" wrong1="XMAS2021_Trivia_act3_1_wrong1" wrong2="XMAS2021_Trivia_act3_1_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act3_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act3_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act3_1_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_1_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act3_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act3_1>
+	<Trivia_act3_2>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act3_2_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act3_2_Active" wrongCountVar="XMAS2021_Trivia_Act3_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act3_2" right="XMAS2021_Trivia_act3_2_answer" wrong1="XMAS2021_Trivia_act3_2_answer" wrong2="XMAS2021_Trivia_act3_2_answer" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Reward_Act3_2" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act3_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act3_2_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_2_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Reward_Act3_2" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act3_2>
+	<Trivia_Reward_Act3_2>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="message" text="XMAS2021_Trivia_act3_2b_message" />
+		<Action type="reward" save="true" XMAS2021GiftCard="1" />
+		<Action type="sound" sound="UIUpgradeCharacter" />
+		<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+		<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+		<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_WrongCount" value="0" />
+	</Trivia_Reward_Act3_2>
+	<Trivia_act3_3>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act3_3_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act3_3_Active" wrongCountVar="XMAS2021_Trivia_Act3_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act3_3" right="XMAS2021_Trivia_act3_3_right" wrong1="XMAS2021_Trivia_act3_3_wrong1" wrong2="XMAS2021_Trivia_act3_3_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act3_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act3_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act3_3_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_3_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act3_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act3_3>
+	<Trivia_act3_4>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act3_4_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act3_4_Active" wrongCountVar="XMAS2021_Trivia_Act3_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act3_4" right="XMAS2021_Trivia_act3_4_right" wrong1="XMAS2021_Trivia_act3_4_wrong1" wrong2="XMAS2021_Trivia_act3_4_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act3_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act3_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act3_4_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_4_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act3_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act3_4>
+	<Trivia_act3_5>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act3_5_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act3_5_Active" wrongCountVar="XMAS2021_Trivia_Act3_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act3_5" right="XMAS2021_Trivia_act3_5_right" wrong1="XMAS2021_Trivia_act3_5_wrong1" wrong2="XMAS2021_Trivia_act3_5_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Reward_Act3_5" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act3_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act3_5_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_5_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Reward_Act3_5" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act3_5>
+	<Trivia_Reward_Act3_5>
+		<Action type="delay" time="0.25" />
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="message" text="XMAS2021_Trivia_act3_5b_message" />
+		<Action type="reward" save="true" XMAS2021GiftCard="1" />
+		<Action type="sound" sound="UIUpgradeCharacter" />
+		<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+		<Action type="runScript" script="XMAS2021_Scripts:OpenLastMinuteGifts" />
+		<Action type="updateVariable" variable="TriviaCompletedAct3" value="1" />
+		<Action type="updateVariable" variable="XMAS2021_Trivia_Act3_WrongCount" value="0" />
+	</Trivia_Reward_Act3_5>
+	<Trivia_act4_1>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act4_1_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_1_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_1" right="XMAS2021_Trivia_act4_1_right" wrong1="XMAS2021_Trivia_act4_1_wrong1" wrong2="XMAS2021_Trivia_act4_1_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act4_1_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_1_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act4_1>
+	<Trivia_act4_2>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act4_2_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_2_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_2" right="XMAS2021_Trivia_act4_2_right" wrong1="XMAS2021_Trivia_act4_2_wrong1" wrong2="XMAS2021_Trivia_act4_2_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Secondary_Act4_2b" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" package="XMAS2021_Scripts" script="Trivia_Secondary_Act4_2b" />
+			</False>
+		</Action>
+	</Trivia_act4_2>
+	<Trivia_Secondary_Act4_2b>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act4_2_RewardGiven" not="true" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="delay" time="0.25" />
+						<Action type="reward" save="true" XMAS2021GiftCard="1" />
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_2_RewardGiven" value="true" />
+						<Action type="sound" sound="UIUpgradeCharacter" />
+						<Action type="notification" title="UI_TriviaReward_title" button="UI_OK" text="UI_XMAS2021_GiftCardSingular" icon="ICO_PRIZ_XMAS2021_GiftCards" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="XMAS2021_Trivia_Act4_2b_Active" />
+					<True>
+						<Action type="delay" time="0.25" />
+						<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_2b_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_2b" right="XMAS2021_Trivia_act4_2b_right" wrong1="XMAS2021_Trivia_act4_2b_wrong1" wrong2="XMAS2021_Trivia_act4_2b_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+							<Reward>
+								<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" useImmediately="true" />
+							</Reward>
+						</Action>
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+								<Requirement type="variable" variable="XMAS2021_Trivia_Act4_2b_RewardGiven" not="true" />
+							</Requirement>
+							<True>
+								<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_2b_RewardGiven" value="true" />
+								<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" />
+							</True>
+							<False>
+								<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+							</False>
+						</Action>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_WrongCount" value="0" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+				<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_WrongCount" value="0" />
+			</False>
+		</Action>
+	</Trivia_Secondary_Act4_2b>
+	<Trivia_act4_3>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act4_3_Active" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="Trivia_1_1_AnsweredCorrectly" />
+					<True>
+						<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_3_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_3" right="XMAS2021_Trivia_act4_3_answer_yes" wrong1="XMAS2021_Trivia_act4_3_answer_no" wrong2="XMAS2021_Trivia_act4_3_answer_alt" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+							<Reward>
+								<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" useImmediately="true" />
+							</Reward>
+						</Action>
+					</True>
+					<False>
+						<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_3_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_3" right="XMAS2021_Trivia_act4_3_answer_no" wrong1="XMAS2021_Trivia_act4_3_answer_yes" wrong2="XMAS2021_Trivia_act4_3_answer_alt" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+							<Reward>
+								<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" useImmediately="true" />
+							</Reward>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act4_3_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_3_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act4_3>
+	<Trivia_act4_4>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act4_4_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_4_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_4" right="XMAS2021_Trivia_act4_4_right" wrong1="XMAS2021_Trivia_act4_4_wrong1" wrong2="XMAS2021_Trivia_act4_4_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act4_4_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_4_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act4_4>
+	<Trivia_act4_5>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2021_Trivia_Act4_5_Active" />
+			<True>
+				<Action type="trivia" activeVar="XMAS2021_Trivia_Act4_5_Active" wrongCountVar="XMAS2021_Trivia_Act4_WrongCount" title="UI_ChristmasTrivia_title" question="XMAS2021_Trivia_act4_5" right="XMAS2021_Trivia_act4_5_right" wrong1="XMAS2021_Trivia_act4_5_wrong1" wrong2="XMAS2021_Trivia_act4_5_wrong2" tip="UI_ChristmasTrivia_tip" characterImage="Trivia_CharacterSets_Homer_Santa">
+					<Reward>
+						<Item type="script" name="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" useImmediately="true" />
+					</Reward>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="formula" formula="User::getVariable('XMAS2021_Trivia_Act4_WrongCount')==0" />
+						<Requirement type="variable" variable="XMAS2021_Trivia_Act4_5_RewardGiven" not="true" />
+					</Requirement>
+					<True>
+						<Action type="updateVariable" variable="XMAS2021_Trivia_Act4_5_RewardGiven" value="true" />
+						<Action type="runScript" script="XMAS2021_Scripts:Trivia_Correct_Act4_OneGiftCard" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="TriviaCompletedAct4" value="1" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</Trivia_act4_5>
+	<Give_Herb>
+		<Action type="reward">
+			<Item type="character" name="HerbTannenbaum" useImmediately="true" />
+		</Action>
+	</Give_Herb>
+</ScriptPackage>

@@ -1,0 +1,658 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="THoHXXXIMiniEventPopup" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="THoHXXXI_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="THoHXXXI_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="THoHXXXI_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="THoHXXXI_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_THoHXXXI_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_THoHXXXI_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_THoHXXXI_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_THoHXXXI_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_THoHXXXI_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="THoHXXXI_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="THoHXXXI_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="THoHXXXI_TreehouseOfHorrorXXXI_OnePanel" eventName="UI_THoHXXXI_Title" limitedTime="true" limitedTimeEndDate="THoHXXXI_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="THoHXXXIMiniEventPopup" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_THoHXXXI_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_THoHXXXI_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_THoHXXXI_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_THoHXXXI_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_THoHXXXI_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="THoHXXXI_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="THoHXXXI_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="THoHXXXI_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="THoHXXXI_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="THoHXXXI_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_THoHXXXI_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="THoHXXXI_OnePanel" />
+		<Action type="runScript" script="THoHXXXI_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="THoHXXXI_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="THoHXXXI_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="THoHXXXI_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="THoHXXXI_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="THoHXXXI_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="THoHXXXI_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="THoHXXXI_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="THoHXXXI_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="THoHXXXI_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="THoHXXXI_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="THoHXXXI_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="THoHXXXI_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<CheckForHellementarySchool>
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="SchoolDaysHellDaze_2" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building owned" building="HellementarySchool" />
+					<True>
+						<Action type="updateVariable" variable="THOHXXXI_ShowMysteryBoxToken" value="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="THOHXXXI_ShowMysteryBoxToken" value="false" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</CheckForHellementarySchool>
+	<Tab_Week1>
+		<Action type="actionSequence" script="THoHXXXI_Scripts:CheckForHellementarySchool" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="THoHXXXI_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THoHXXXI_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THoHXXXI_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="THoHXXXI_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THoHXXXI_Start" end="THoHXXXI_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="SchoolDaysHellDaze_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week1" />
+									<Attribute name="JobList" value="THoHXXXI_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="SchoolDaysHellDaze_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week1" />
+									<Attribute name="JobList" value="THoHXXXI_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SchoolDaysHellDaze_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week1" />
+									<Attribute name="JobList" value="THoHXXXI_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SchoolDaysHellDaze_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week1" />
+									<Attribute name="JobList" value="THoHXXXI_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SchoolDaysHellDaze_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week1" />
+									<Attribute name="JobList" value="THoHXXXI_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THoHXXXI_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="actionSequence" script="THoHXXXI_Scripts:CheckForHellementarySchool" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="THoHXXXI_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THoHXXXI_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THoHXXXI_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="THoHXXXI_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THoHXXXI_Start" end="THoHXXXI_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="HellIsOtherStudents_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week2" />
+									<Attribute name="JobList" value="THoHXXXI_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="HellIsOtherStudents_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week2" />
+									<Attribute name="JobList" value="THoHXXXI_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HellIsOtherStudents_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week2" />
+									<Attribute name="JobList" value="THoHXXXI_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HellIsOtherStudents_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week2" />
+									<Attribute name="JobList" value="THoHXXXI_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HellIsOtherStudents_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week2" />
+									<Attribute name="JobList" value="THoHXXXI_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THoHXXXI_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="actionSequence" script="THoHXXXI_Scripts:CheckForHellementarySchool" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="THoHXXXI_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THoHXXXI_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THoHXXXI_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="THoHXXXI_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THoHXXXI_Start" end="THoHXXXI_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="StairwayToHell_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week3" />
+									<Attribute name="JobList" value="THoHXXXI_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="StairwayToHell_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week3" />
+									<Attribute name="JobList" value="THoHXXXI_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StairwayToHell_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week3" />
+									<Attribute name="JobList" value="THoHXXXI_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StairwayToHell_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week3" />
+									<Attribute name="JobList" value="THoHXXXI_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StairwayToHell_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week3" />
+									<Attribute name="JobList" value="THoHXXXI_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THoHXXXI_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="actionSequence" script="THoHXXXI_Scripts:CheckForHellementarySchool" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="THoHXXXI_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THoHXXXI_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THoHXXXI_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="THoHXXXI_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THoHXXXI_Start" end="THoHXXXI_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TheHellOfTheClass_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week4" />
+									<Attribute name="JobList" value="THoHXXXI_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheHellOfTheClass_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week4" />
+									<Attribute name="JobList" value="THoHXXXI_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheHellOfTheClass_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week4" />
+									<Attribute name="JobList" value="THoHXXXI_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheHellOfTheClass_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week4" />
+									<Attribute name="JobList" value="THoHXXXI_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheHellOfTheClass_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THoHXXXI_Event_Week4" />
+									<Attribute name="JobList" value="THoHXXXI_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THoHXXXI_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THoHXXXI_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THoHXXXI_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THoHXXXI_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THoHXXXI_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THoHXXXI_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<AutoApply_BeelzebartSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THoHXXXI_Scripts:AutoApply_BeelzebartSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_BeelzebartSkin_End>
+	<AutoApply_BeelzebartSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="Beelzebart" fromInventory="true" />
+	</AutoApply_BeelzebartSkin_Delayed>
+	<AutoApply_LisaferSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THoHXXXI_Scripts:AutoApply_LisaferSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_LisaferSkin_End>
+	<AutoApply_LisaferSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="Lisafer" fromInventory="true" />
+	</AutoApply_LisaferSkin_Delayed>
+	<AutoApply_DonutHomerSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THoHXXXI_Scripts:AutoApply_DonutHomerSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_DonutHomerSkin_End>
+	<AutoApply_DonutHomerSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="DonutHomer" fromInventory="true" />
+	</AutoApply_DonutHomerSkin_Delayed>
+	<RecommendStoreCategory_TreehouseOfHorrorXXXI ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="THoHXXXI_TreehouseOfHorrorXXXI_OnePanel" />
+		<Action type="recommendation" recType="Event" name="THoHXXXI_TreehouseOfHorrorXXXI_OnePanel" eventName="UI_THoHXXXI_Title" limitedTime="true" limitedTimeEndDate="THoHXXXI_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TreehouseOfHorrorXXXI>
+	<EnterStoreCategory_TreehouseOfHorrorXXXI ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TreehouseOfHorrorXXXI_Category" />
+	</EnterStoreCategory_TreehouseOfHorrorXXXI>
+	<THoHXXXITokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" THoHXXXIToken="1" />
+			<True>
+				<Action type="runScript" script="THoHXXXI_Scripts:THoHXXXITokenExchange" />
+			</True>
+		</Action>
+	</THoHXXXITokenForDozenDonuts>
+	<RewardOneTHoHXXXIToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_THoHXXXI_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" THoHXXXIToken="1" />
+		<Action type="consumable" consumable="THoHXXXI_THoHXXXIMysteryBox" fromInventory="false" />
+	</RewardOneTHoHXXXIToken_Store>
+	<RewardFiveTHoHXXXIToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_THoHXXXI_MysteryBoxTokenPlural" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" THoHXXXIToken="5" />
+		<Action type="consumable" consumable="THoHXXXI_THoHXXXIMysteryBox" fromInventory="false" />
+	</RewardFiveTHoHXXXIToken_Store>
+	<THoHXXXITokenExchange>
+		<Action type="focusOnMenuItem" itemName="THoHXXXITokenForDozenDonuts" menuCategory="THoHXXXI_Category" />
+	</THoHXXXITokenExchange>
+	<RewardOneTHoHXXXIToken>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_THoHXXXI_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" THoHXXXIToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THoHXXXI_Requirements:THoHXXXIMysteryBox_Available" />
+			<True>
+				<Action type="consumable" consumable="THoHXXXI_THoHXXXIMysteryBox" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="THoHXXXI_Scripts:THoHXXXITokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneTHoHXXXIToken>
+	<TortureStand_TortureHomer parallel="true">
+		<Action type="setObjectVariable" variable="LisaferTortureHomer" value="1" allowOrphan="false" onType="building" onObject="TortureStand" />
+		<Action type="anim-play" onBuilding="TortureStand" animation="Neutral" />
+	</TortureStand_TortureHomer>
+	<TortureStand_TortureHomerDone parallel="true">
+		<Action type="setObjectVariable" variable="LisaferTortureHomer" value="0" allowOrphan="false" onType="building" onObject="TortureStand" />
+		<Action type="anim-play" onBuilding="TortureStand" animation="Neutral" />
+	</TortureStand_TortureHomerDone>
+	<TortureConveyorBelt_DoWhatHeDoesBest parallel="true">
+		<Action type="setObjectVariable" variable="DemonTechnicianDoWhatHeDoesBest" value="1" allowOrphan="false" onType="building" onObject="TortureConveyorBelt" />
+		<Action type="anim-play" onBuilding="TortureConveyorBelt" animation="Neutral" />
+	</TortureConveyorBelt_DoWhatHeDoesBest>
+	<TortureConveyorBelt_DoWhatHeDoesBestDone parallel="true">
+		<Action type="setObjectVariable" variable="DemonTechnicianDoWhatHeDoesBest" value="0" allowOrphan="false" onType="building" onObject="TortureConveyorBelt" />
+		<Action type="anim-play" onBuilding="TortureConveyorBelt" animation="Neutral" />
+	</TortureConveyorBelt_DoWhatHeDoesBestDone>
+	<CursedDesk_LisaGrabbed parallel="true">
+		<Action type="setObjectVariable" variable="LisaGrabbed" value="1" allowOrphan="false" onType="building" onObject="CursedDesk" />
+		<Action type="anim-play" onBuilding="CursedDesk" animation="Neutral" />
+	</CursedDesk_LisaGrabbed>
+	<CursedDesk_LisaGrabbedDone parallel="true">
+		<Action type="setObjectVariable" variable="LisaGrabbed" value="0" allowOrphan="false" onType="building" onObject="CursedDesk" />
+		<Action type="anim-play" onBuilding="CursedDesk" animation="Neutral" />
+	</CursedDesk_LisaGrabbedDone>
+</ScriptPackage>

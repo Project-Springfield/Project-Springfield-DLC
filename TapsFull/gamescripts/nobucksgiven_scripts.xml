@@ -1,0 +1,206 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NoBucksGivenMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NoBucksGiven_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NoBucksGiven_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NoBucksGiven_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NoBucksGiven_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NoBucksGiven_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_NoBucksGiven_IntroPanel_Footer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_NoBucksGiven_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_NoBucksGiven_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NoBucksGiven_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="NoBucksGiven_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="NoBucksGiven_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="NoBucksGiven_NoBucksGiven_OnePanel" eventName="UI_NoBucksGiven_Title" limitedTime="true" limitedTimeEndDate="NoBucksGiven_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NoBucksGivenMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NoBucksGiven_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_NoBucksGiven_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_NoBucksGiven_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NoBucksGiven_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_NoBucksGiven_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="NoBucksGiven_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="NoBucksGiven_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="NoBucksGiven_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="NoBucksGiven_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="NoBucksGiven_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_NoBucksGiven_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="NoBucksGiven_OnePanel" />
+		<Action type="runScript" script="NoBucksGiven_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="NoBucksGiven_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="NoBucksGiven_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="NoBucksGiven_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="NoBucksGiven_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NoBucksGiven_Event" />
+									<Attribute name="JobList" value="NoBucksGiven_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBucksGiven_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NoBucksGiven_Event" />
+									<Attribute name="JobList" value="NoBucksGiven_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBucksGiven_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NoBucksGiven_Event" />
+									<Attribute name="JobList" value="NoBucksGiven_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBucksGiven_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NoBucksGiven_Event" />
+									<Attribute name="JobList" value="NoBucksGiven_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="NoBucksGiven_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NoBucksGiven_Event" />
+									<Attribute name="JobList" value="NoBucksGiven_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="NoBucksGiven_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="NoBucksGiven_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<RecommendStoreCategory_NoBucksGiven ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="NoBucksGiven_NoBucksGiven_OnePanel" />
+		<Action type="recommendation" recType="Event" name="NoBucksGiven_NoBucksGiven_OnePanel" eventName="UI_NoBucksGiven_Title" limitedTime="true" limitedTimeEndDate="NoBucksGiven_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_NoBucksGiven>
+	<EnterStoreCategory_NoBucksGiven ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="NoBucksGiven_Category" />
+	</EnterStoreCategory_NoBucksGiven>
+</ScriptPackage>

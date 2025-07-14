@@ -1,0 +1,433 @@
+﻿<ScriptPackage>
+	<IncrementNextMoneyMountainLevel parallel="true">
+		<Action type="setVariable" intVariable="NextMoneyMountainLevel" intValue="MoneyMountainLevel+1" />
+		<Action type="completeJob" name="ThrowPocketfulsOfMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="ShovelMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="DumpLoadsOfMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+	</IncrementNextMoneyMountainLevel>
+	<MoneyMountainLevelUp>
+		<Action type="setVariable" intVariable="MoneyMountainLevel" intValue="MoneyMountainLevel+1" />
+		<Action type="sound" sound="MoneyMountain_Upgrade01.caf" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="MoneyMountainUpGrade" animation="Castle_upGrade_11x11" x="0" y="0" />
+		</Action>
+		<Action type="delay" time="2" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="and(greaterThan(MoneyMountainLevel,0),lessThan(MoneyMountainLevel,11))" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="MoneyMountainLevelUpPanel" package="MoneyMountain_Scripts" />
+			</True>
+		</Action>
+	</MoneyMountainLevelUp>
+	<CompleteMoneyMountainJobs>
+		<Action type="completeJob" name="ThrowPocketfulsOfMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="ShovelMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="DumpLoadsOfMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+	</CompleteMoneyMountainJobs>
+	<ShowCurrentMoneyMountainQuest>
+		<Action type="gotoState" state="GameState_QuestProgress">
+			<Extras>
+				<Attribute name="questParentDelegate" value="MoneyMountainMaster" />
+			</Extras>
+		</Action>
+	</ShowCurrentMoneyMountainQuest>
+	<MoneyMountainCollectCurrencyGoTo>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="MoneyMountain" not="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="MoneyMountain" inventory="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="building" building="PowerPlant" not="true" />
+							</Requirements>
+							<True>
+								<Action type="focusOnMenuItem" itemName="PowerPlant" inventory="true" />
+							</True>
+							<False>
+								<Action type="pantoobject" character="Burns" time="0.0" fakeTouch="false" blockTouches="false" />
+								<Action type="touchCharacter" character="Burns" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</MoneyMountainCollectCurrencyGoTo>
+	<MoneyMountainLevelUpPanel>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_MM_UPGRADEPANEL_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" formula="MoneyMountainLevel+1" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="font" value="eFont_Large" />
+					<Attribute name="color" value="FFFFFFFF" />
+					<Attribute name="text" value="UI_MM_UPGRADEPANEL_message01" localise="true" />
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==2" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message02" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==3" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message03" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==4" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message04" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==5" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message05" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==6" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message06" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==7" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message07" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==8" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message08" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==9" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message09" localise="true" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==10" />
+						</Requirements>
+						<Attribute name="text" value="UI_MM_UPGRADEPANEL_message10" localise="true" />
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="bg">
+					<Attribute name="image" value="ICO_SuperSecretItem" />
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_MoneyMountian_01_LG" />
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==2" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_02_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==3" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_03_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==4" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_04_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==5" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_05_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==6" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_06_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==7" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_07_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==8" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_08_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==9" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_09_LG" />
+					</Attribute>
+					<Attribute>
+						<Requirements>
+							<Requirement type="formula" formula="MoneyMountainLevel==10" />
+						</Requirements>
+						<Attribute name="image" value="ICO_MoneyMountian_10_LG" />
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</MoneyMountainLevelUpPanel>
+	<ThrowPocketfulsOfMoneyReward parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="reward" noDrops="true" MoneyMountainDollars="System::evaluate('Selector::ThrowPocketfulsOfMoneyAmountPerLevel')" />
+			</True>
+		</Action>
+	</ThrowPocketfulsOfMoneyReward>
+	<ShovelMoneyReward parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="reward" noDrops="true" MoneyMountainDollars="System::evaluate('Selector::ShovelMoneyAmountPerLevel')" />
+			</True>
+		</Action>
+	</ShovelMoneyReward>
+	<DumpLoadsOfMoneyReward parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="reward" noDrops="true" MoneyMountainDollars="System::evaluate('Selector::DumpLoadsOfMoneyAmountPerLevel')" />
+			</True>
+		</Action>
+	</DumpLoadsOfMoneyReward>
+	<MoneyMountainShowThreePanelGuide>
+		<Action type="gotoState" state="State_ThreePanelGuide" extras="MoneyMountain_ThreePanelGuideConfig:MoneyMountainThreePanelGuideConfig">
+			<Extras>
+				<Attribute name="exitButtonScript" value="MoneyMountain_Scripts:ShowCurrentMoneyMountainQuest" />
+			</Extras>
+		</Action>
+	</MoneyMountainShowThreePanelGuide>
+	<RollingInIt_Start>
+		<Action type="dialogue" character="Smithers" text="QST_RollingInIt_3_dlg_Start_1_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_2_MrBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_3_MrBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Smithers" text="QST_RollingInIt_3_dlg_Start_4_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_5_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_RollingInIt_3_dlg_Start_6_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_7_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_RollingInIt_3_dlg_Start_8_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_9_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_RollingInIt_3_dlg_Start_10_Homer" revealSpeed="medium" emotion="woohoo" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_11_MrBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_Start_12_MrBurns" revealSpeed="medium" emotion="annoyed" />
+	</RollingInIt_Start>
+	<RollingInIt_End>
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_End_1_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_End_2_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Burns" text="QST_RollingInIt_3_dlg_End_3_MrBurns" revealSpeed="medium" emotion="surprised" />
+	</RollingInIt_End>
+	<AintNoMountainHighEnough01_Start>
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough01_3_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough01_3_dlg_Start_2_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough01_3_dlg_Start_3_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough01_3_dlg_Start_4_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough01_3_dlg_Start_5_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough01_3_dlg_Start_6_Lisa" revealSpeed="medium" emotion="shocked" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough01_3_dlg_Start_7_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough01_3_dlg_Start_8_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough01_3_dlg_Start_9_MrBurns" revealSpeed="medium" />
+	</AintNoMountainHighEnough01_Start>
+	<AintNoMountainHighEnough01_End>
+		<Action type="completeJob" name="ThrowPocketfulsOfMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="ShovelMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="DumpLoadsOfMoney" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="gotoState" state="State_ThreePanelGuide" extras="MoneyMountain_ThreePanelGuideConfig:MoneyMountainThreePanelGuideConfig" />
+	</AintNoMountainHighEnough01_End>
+	<AintNoMountainHighEnough02_Start>
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough02_3_dlg_Start_1_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough02_3_dlg_Start_2_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough02_3_dlg_Start_3_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough02_3_dlg_Start_4_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough02_3_dlg_Start_5_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough02_3_dlg_Start_6_MrBurns" revealSpeed="medium" />
+	</AintNoMountainHighEnough02_Start>
+	<AintNoMountainHighEnough03_Start>
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough03_3_dlg_Start_1_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough03_3_dlg_Start_2_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough03_3_dlg_Start_3_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough03_3_dlg_Start_4_Lisa" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough03_3_dlg_Start_5_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough03_3_dlg_Start_6_MrBurns" revealSpeed="medium" emotion="annoyed" />
+	</AintNoMountainHighEnough03_Start>
+	<AintNoMountainHighEnough04_Start>
+		<Action type="dialogue" character="KentBrockman" text="QST_AintNoMountainHighEnough04_3_dlg_Start_1_Brockman" revealSpeed="medium" />
+		<Action type="dialogue" character="KentBrockman" text="QST_AintNoMountainHighEnough04_3_dlg_Start_2_Brockman" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough04_3_dlg_Start_3_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="KentBrockman" text="QST_AintNoMountainHighEnough04_3_dlg_Start_4_Brockman" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="KentBrockman" text="QST_AintNoMountainHighEnough04_3_dlg_Start_5_Brockman" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough04_3_dlg_Start_6_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="KentBrockman" text="QST_AintNoMountainHighEnough04_3_dlg_Start_7_Brockman" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough04_3_dlg_Start_8_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="KentBrockman" text="QST_AintNoMountainHighEnough04_3_dlg_Start_9_Brockman" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough04_3_dlg_Start_10_MrBurns" revealSpeed="medium" />
+	</AintNoMountainHighEnough04_Start>
+	<AintNoMountainHighEnough05_Start>
+		<Action type="dialogue" character="Wolfcastle" text="QST_AintNoMountainHighEnough05_3_dlg_Start_1_Wolfcastle" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough05_3_dlg_Start_2_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough05_3_dlg_Start_3_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Wolfcastle" text="QST_AintNoMountainHighEnough05_3_dlg_Start_4_Wolfcastle" revealSpeed="medium" />
+		<Action type="dialogue" character="Wolfcastle" text="QST_AintNoMountainHighEnough05_3_dlg_Start_5_Wolfcastle" revealSpeed="medium" />
+	</AintNoMountainHighEnough05_Start>
+	<AintNoMountainHighEnough06_Start>
+		<Action type="dialogue" character="Quimby" text="QST_AintNoMountainHighEnough06_3_dlg_Start_1_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough06_3_dlg_Start_2_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Quimby" text="QST_AintNoMountainHighEnough06_3_dlg_Start_3_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough06_3_dlg_Start_4_MrBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Quimby" text="QST_AintNoMountainHighEnough06_3_dlg_Start_5_Quimby" revealSpeed="medium" />
+	</AintNoMountainHighEnough06_Start>
+	<AintNoMountainHighEnough07_Start>
+		<Action type="dialogue" character="Homer" text="QST_AintNoMountainHighEnough07_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough07_3_dlg_Start_2_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_AintNoMountainHighEnough07_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Homer" text="QST_AintNoMountainHighEnough07_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Homer" text="QST_AintNoMountainHighEnough07_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough07_3_dlg_Start_6_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_AintNoMountainHighEnough07_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough07_3_dlg_Start_8_MrBurns" revealSpeed="medium" emotion="annoyed" />
+	</AintNoMountainHighEnough07_Start>
+	<AintNoMountainHighEnough08_Start>
+		<Action type="dialogue" character="RevLovejoy" text="QST_AintNoMountainHighEnough08_3_dlg_Start_1_RevLovejoy" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough08_3_dlg_Start_2_MrBurns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough08_3_dlg_Start_3_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="RevLovejoy" text="QST_AintNoMountainHighEnough08_3_dlg_Start_4_RevLovejoy" revealSpeed="medium" />
+		<Action type="dialogue" character="RevLovejoy" text="QST_AintNoMountainHighEnough08_3_dlg_Start_5_RevLovejoy" revealSpeed="medium" />
+		<Action type="dialogue" character="RevLovejoy" text="QST_AintNoMountainHighEnough08_3_dlg_Start_6_RevLovejoy" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough08_3_dlg_Start_7_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="RevLovejoy" text="QST_AintNoMountainHighEnough08_3_dlg_Start_8_RevLovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough08_3_dlg_Start_9_MrBurns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="RevLovejoy" text="QST_AintNoMountainHighEnough08_3_dlg_Start_10_RevLovejoy" revealSpeed="medium" />
+	</AintNoMountainHighEnough08_Start>
+	<AintNoMountainHighEnough09_Start>
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough09_3_dlg_Start_1_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_2_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough09_3_dlg_Start_3_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_4_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_5_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough09_3_dlg_Start_6_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_7_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_8_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough09_3_dlg_Start_9_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_10_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough09_3_dlg_Start_11_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_AintNoMountainHighEnough09_3_dlg_Start_12_Smithers" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough09_3_dlg_Start_13_MrBurns" revealSpeed="medium" emotion="annoyed" />
+	</AintNoMountainHighEnough09_Start>
+	<AintNoMountainHighEnough10_Start>
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough10_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough10_3_dlg_Start_2_MrBurns" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough10_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough10_3_dlg_Start_4_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lisa" text="QST_AintNoMountainHighEnough10_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="happy" />
+	</AintNoMountainHighEnough10_Start>
+	<AintNoMountainHighEnough11_Start>
+		<Action type="dialogue" character="Krusty" text="QST_AintNoMountainHighEnough11_3_dlg_Start_1_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_AintNoMountainHighEnough11_3_dlg_Start_2_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="Snake" text="QST_AintNoMountainHighEnough11_3_dlg_Start_3_Snake" revealSpeed="medium" />
+		<Action type="dialogue" character="HansMoleman" text="QST_AintNoMountainHighEnough11_3_dlg_Start_4_Moleman" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_AintNoMountainHighEnough11_3_dlg_Start_5_MrBurns" revealSpeed="medium" emotion="annoyed" />
+	</AintNoMountainHighEnough11_Start>
+	<AwardMontyMoneyBags>
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AintNoMountainHighEnough11" />
+				<Requirement type="quest" quest="AintNoMountainHighEnough11" />
+			</Requirement>
+		</Requirements>
+		<Action type="reward" noDrops="true">
+			<Item type="consumable" name="MontyMoneybags" />
+		</Action>
+	</AwardMontyMoneyBags>
+	<MrMoneybags01_Start>
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_1_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_2_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags01_3_dlg_Start_3_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_4_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags01_3_dlg_Start_5_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_6_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags01_3_dlg_Start_7_Smithers" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_8_MrBurns" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_9_MrBurns" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_10_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_MrMoneybags01_3_dlg_Start_11_MrBurns" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags01_3_dlg_Start_12_Smithers" revealSpeed="medium" />
+		<Action type="message" text="QST_MrMoneybags01_3_dlg_Start_15_SystemMessage" revealSpeed="medium" />
+		<Action type="reward" noDrops="true">
+			<Item type="consumable" name="MontyMoneybags" />
+		</Action>
+	</MrMoneybags01_Start>
+	<MrMoneybags02_Start>
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags02_3_dlg_Start_1_MontyMoneybags" revealSpeed="medium" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags02_3_dlg_Start_2_Smithers" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags02_3_dlg_Start_3_MontyMoneybags" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags02_3_dlg_Start_4_MontyMoneybags" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags02_3_dlg_Start_5_Smithers" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags02_3_dlg_Start_6_MontyMoneybags" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Smithers" text="QST_MrMoneybags02_3_dlg_Start_7_Smithers" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags02_3_dlg_Start_8_MontyMoneybags" revealSpeed="medium" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags02_3_dlg_Start_9_MontyMoneybags" revealSpeed="medium" />
+	</MrMoneybags02_Start>
+	<MrMoneybags03_Start>
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags03_3_dlg_Start_1_MontyMoneybags" revealSpeed="medium" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags03_3_dlg_Start_2_MontyMoneybags" revealSpeed="medium" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags03_3_dlg_Start_3_MontyMoneybags" revealSpeed="medium" emotion="angry" />
+	</MrMoneybags03_Start>
+	<MrMoneybags03_End>
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags03_3_dlg_End_1_MontyMoneybags" revealSpeed="medium" />
+	</MrMoneybags03_End>
+	<MrMoneybags04_Start>
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags04_3_dlg_Start_1_MontyMoneybags" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags04_3_dlg_Start_2_MontyMoneybags" revealSpeed="medium" />
+		<Action type="dialogue" character="MontyMoneybags" text="QST_MrMoneybags04_3_dlg_Start_3_MontyMoneybags" revealSpeed="medium" />
+	</MrMoneybags04_Start>
+</ScriptPackage>

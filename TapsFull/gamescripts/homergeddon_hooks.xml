@@ -1,0 +1,958 @@
+﻿<Attributes>
+	<Attribute name="FortifyFort"><![CDATA[
+            #program;
+            var points = User::getVariable(pointsVarName);
+            
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            var decoCount = 0;
+            
+            for(var i = 0;i<numPieces;i++)
+            {
+                if( (pieces & (1<<i)) )
+                {
+                    decoCount++;
+
+                    if(buildingName == 'MegaPlayscape')
+                    {
+                        Audio::playSingle('PlayscapeWallBuilt');
+                    }
+                    elseif(buildingName == 'JunkBase')
+                    {
+                        Audio::playSingle('JunkWallBuilt');
+                    }
+                    elseif(buildingName == 'RuffianFort')
+                    {
+                        Audio::playSingle('RuffianWallBuilt');
+                    }
+                }
+            }
+            
+            if(decoCount < 15)
+            {
+                if(Requirements::checkRequirementList('Homergeddon_Requirements:ActOne'))
+                {
+                    points = points + toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Fortify_PointStandard_Act1__'));
+                }
+                elseif(Requirements::checkRequirementList('Homergeddon_Requirements:ActTwo'))
+                {
+                    points = points + toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Fortify_PointStandard_Act2__'));
+                }
+                else
+                {
+                    points = points + toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Fortify_PointStandard_Act3__'));
+                }
+            
+                var tier1NumDecorations = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier1_Count__'));
+                var tier2NumDecorations = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier2_Count__')) + tier1NumDecorations;
+                var tier3NumDecorations = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier3_Count__')) + tier2NumDecorations;
+                
+                var tier1NumPoints = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier1_DecoCost__'));
+                var tier2NumPoints = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier2_DecoCost__'));
+                var tier3NumPoints = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier3_DecoCost__'));
+            
+                while(points > 0)
+                {
+                    if(decoCount < tier1NumDecorations)
+                    {
+                        if(points >= tier1NumPoints)
+                        {
+                            points = points - tier1NumPoints;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    elseif(decoCount < tier2NumDecorations)
+                    {
+                        if(points >= tier2NumPoints)
+                        {
+                            points = points - tier2NumPoints;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    elseif(decoCount < tier3NumDecorations)
+                    {
+                        if(points >= tier3NumPoints)
+                        {
+                            points = points - tier3NumPoints;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
+                    Script::runImmediately('Homergeddon_Scripts:'+fortifyScriptName);
+                }
+                
+                User::setVariable(pointsVarName, points, true);
+            }
+        ]]></Attribute>
+	<Attribute name="TurnOnRandomFortPiece"><![CDATA[
+            #program;
+            {
+                var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+                var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+                
+                var obstacleOneNotOn = !(pieces & (1<<0));
+                var obstacleTwoNotOn = !(pieces & (1<<1));
+                var pieceNumber = -1;
+                if(obstacleOneNotOn || obstacleTwoNotOn)
+                {
+                    if(obstacleOneNotOn && obstacleTwoNotOn)
+                    {
+                        var randomPiece = rand(1);
+                        pieces = pieces | (1<<randomPiece);
+                        pieceNumber = randomPiece;
+                    }
+                    elseif(obstacleOneNotOn)
+                    {
+                        pieces = pieces | (1<<0);
+                        pieceNumber = 0;
+                    }
+                    else
+                    {
+                        pieces = pieces | (1<<1);
+                        pieceNumber = 1;
+                    }
+                    
+                    Object::setVariable(fort, 'Pieces', toString(pieces), 0, true);
+                    Object::setVariableForAdHoc(adHocObjectName,'piece' + toString(pieceNumber) + 'Damage', toString(0), 0, true);
+
+                }
+                
+                var piecesNotOn = Array::create();
+                
+                for(var i = 2;i<numPieces;i++)
+                {
+                    if( !(pieces & (1<<i)) )
+                    {
+                        Array::pushBack(piecesNotOn, i);
+                    }
+                }
+                
+                if(!obstacleOneNotOn && !obstacleTwoNotOn && Array::size(piecesNotOn) > 0)
+                {
+                    var randomPiece = Array::getRandomValue(piecesNotOn);
+                    pieces = pieces | (1<<randomPiece);
+                    Object::setVariable(fort, 'Pieces', toString(pieces), 0, true);
+
+                    if(Array::size(piecesNotOn) == 1)
+                    {
+                        Object::setVariable(fort, 'HasAnExternalWall', '1', 0, true);
+                    }
+                    pieceNumber = randomPiece;
+                    
+                    Object::setVariableForAdHoc(adHocObjectName,'piece' + toString(pieceNumber) + 'Damage', toString(0), 0, true);
+                }
+                
+                if(pieceNumber >= 0)
+                {
+                    var hook = 'Homergeddon_Hooks';
+                    Hook::load(hook,false);
+                    var compiledHook = Parser::compile(Hook::toString(hook+':'+vfxScriptName));
+                    Hook::unload(hook,false);
+                    
+                    Parser::evaluate(compiledHook);
+
+                    if(buildingName == 'MegaPlayscape')
+                    {
+                        Audio::playSingle('PlayscapeWallBuilt');
+                    }
+                    elseif(buildingName == 'JunkBase')
+                    {
+                        Audio::playSingle('JunkWallBuilt');
+                    }
+                    elseif(buildingName == 'RuffianFort')
+                    {
+                        Audio::playSingle('RuffianWallBuilt');
+                    }
+                }
+            }
+        ]]></Attribute>
+	<Attribute name="PlayPieceVFX"><![CDATA[
+        var pieceX = 0;
+        var pieceZ = 0;
+        if(pieceNumber == 0)
+        {
+            pieceX = 6;
+            pieceZ = -3;
+        }
+        elseif(pieceNumber == 1)
+        {
+            pieceX = 3;
+            pieceZ = -6;
+        }
+        elseif(pieceNumber == 2)
+        {
+            pieceX = 2;
+            pieceZ = -2;
+        }
+        elseif(pieceNumber == 3)
+        {
+            pieceX = 10;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 4)
+        {
+            pieceX = 1;
+            pieceZ = -10;
+        }
+        elseif(pieceNumber == 5)
+        {
+            pieceX = 4;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 6)
+        {
+            pieceX = 6;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 7)
+        {
+            pieceX = 8;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 8)
+        {
+            pieceX = 1;
+            pieceZ = -8;
+        }
+        elseif(pieceNumber == 9)
+        {
+            pieceX = 1;
+            pieceZ = -6;
+        }
+        elseif(pieceNumber == 10)
+        {
+            pieceX = 1;
+            pieceZ = -4;
+        }
+        elseif(pieceNumber == 11)
+        {
+            pieceX = 3;
+            pieceZ = -10;
+        }
+        elseif(pieceNumber == 12)
+        {
+            pieceX = 5;
+            pieceZ = -10;
+        }
+        elseif(pieceNumber == 13)
+        {
+            pieceX = 10;
+            pieceZ = -5;
+        }
+        elseif(pieceNumber == 14)
+        {
+            pieceX = 10;
+            pieceZ = -3;
+        }
+       
+        var xx = gridToWorld(toGrid(Building::getProperty(fort, 'X')) + pieceX);
+        var zz = gridToWorld(toGrid(Building::getProperty(fort, 'Z')) + pieceZ);
+        FlyBy::PlayAtPosition('FortressDamage'+toString(pieceNumber), 10, 0.13, 24, xx, zz);
+        ]]></Attribute>
+	<Attribute name="PlayPieceVFXJunkBase"><![CDATA[
+        var pieceX = 0;
+        var pieceZ = 0;
+        if(pieceNumber == 0)
+        {
+            pieceX = 6;
+            pieceZ = -3;
+        }
+        elseif(pieceNumber == 1)
+        {
+            pieceX = 3;
+            pieceZ = -6;
+        }
+        elseif(pieceNumber == 2)
+        {
+            pieceX = 2;
+            pieceZ = -2;
+        }
+        elseif(pieceNumber == 3)
+        {
+            pieceX = 10;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 4)
+        {
+            pieceX = 1;
+            pieceZ = -10;
+        }
+        elseif(pieceNumber == 5)
+        {
+            pieceX = 4;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 6)
+        {
+            pieceX = 6;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 7)
+        {
+            pieceX = 8;
+            pieceZ = -1;
+        }
+        elseif(pieceNumber == 8)
+        {
+            pieceX = 1;
+            pieceZ = -8;
+        }
+        elseif(pieceNumber == 9)
+        {
+            pieceX = 1;
+            pieceZ = -6;
+        }
+        elseif(pieceNumber == 10)
+        {
+            pieceX = 1;
+            pieceZ = -4;
+        }
+        elseif(pieceNumber == 11)
+        {
+            pieceX = 10;
+            pieceZ = -3;
+        }
+        elseif(pieceNumber == 12)
+        {
+            pieceX = 10;
+            pieceZ = -5;
+        }
+        elseif(pieceNumber == 13)
+        {
+            pieceX = 5;
+            pieceZ = -10;
+        }
+        elseif(pieceNumber == 14)
+        {
+            pieceX = 3;
+            pieceZ = -10;
+        }
+       
+        var xx = gridToWorld(toGrid(Building::getProperty(fort, 'X')) + pieceX);
+        var zz = gridToWorld(toGrid(Building::getProperty(fort, 'Z')) + pieceZ);
+        FlyBy::PlayAtPosition('FortressDamage'+toString(pieceNumber), 10, 0.13, 24, xx, zz);
+        ]]></Attribute>
+	<Attribute name="TurnOnRandomDamagePiece"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            
+            var piecesOn = Array::create();
+            
+            for(var i = 0;i<numPieces;i++)
+            {
+                if( (pieces & (1<<i)) )
+                {
+                    Array::pushBack(piecesOn, i);
+                }
+            }
+            
+            if(Array::size(piecesOn) > 0)
+            {
+                var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+                
+                var piecesNotDamaged = Array::create();
+                
+                foreach(piecesOn as piece)
+                {
+                    if( !(piecesDamaged & (1<<piece)) )
+                    {
+                        Array::pushBack(piecesNotDamaged, piece);
+                    }
+                }
+                
+                if(Array::size(piecesNotDamaged) > 0)
+                {
+                    var randomPiece = Array::getRandomValue(piecesNotDamaged);
+                    piecesDamaged = piecesDamaged | (1<<randomPiece);
+                    Object::setVariable(fort, 'PiecesDamaged', toString(piecesDamaged), 0, true);
+                }
+            }
+        ]]></Attribute>
+	<Attribute name="TurnOnRandomRubblePiece"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            
+            var piecesOn = Array::create();
+            
+            for(var i = 0;i<numPieces;i++)
+            {
+                if( (pieces & (1<<i)) )
+                {
+                    Array::pushBack(piecesOn, i);
+                }
+            }
+                
+            if(Array::size(piecesOn) > 0)
+            {
+                var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+                
+                var piecesDamagedOn = Array::create();
+                
+                foreach(piecesOn as piece)
+                {
+                    if( piecesDamaged & (1<<piece) )
+                    {
+                        Array::pushBack(piecesDamagedOn, piece);
+                    }
+                }
+                
+                if(Array::size(piecesDamagedOn) > 0)
+                {
+                    var piecesRubble = Object::getVariableAsNumber(fort, 'PiecesRubble');
+                
+                    var piecesNotRubble = Array::create();
+                
+                    foreach(piecesDamagedOn as pieceDamaged)
+                    {
+                        if( !(piecesRubble & (1<<pieceDamaged)) )
+                        {
+                            Array::pushBack(piecesNotRubble, pieceDamaged);
+                        }
+                    }
+                
+                    if(Array::size(piecesNotRubble) > 0)
+                    {
+                        var randomPiece = Array::getRandomValue(piecesNotRubble);
+                        if(randomPiece > 1)
+                        {
+                            Object::setVariable(fort, 'HasAnExternalWall', '0', 0, true);
+                        }
+                        piecesRubble = piecesRubble | (1<<randomPiece);
+                        Object::setVariable(fort, 'PiecesRubble', toString(piecesRubble), 0, true);
+                    }
+                }
+            }
+        ]]></Attribute>
+	<Attribute name="TurnOnAllRubblePieces"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var maxString = toString( (1<<numPieces) - 1 );
+            Object::setVariable(fort, 'Pieces', maxString, 0, true);
+            Object::setVariable(fort, 'PiecesDamaged', maxString, 0, true);
+            Object::setVariable(fort, 'PiecesRubble', maxString, 0, true);
+        ]]></Attribute>
+	<Attribute name="TurnOnAllDamagePieces"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var maxString = toString( (1<<numPieces) - 1 );
+            Object::setVariable(fort, 'Pieces', maxString, 0, true);
+            Object::setVariable(fort, 'PiecesDamaged', maxString, 0, true);
+            Object::setVariable(fort, 'PiecesRubble', '0', 0, true);
+        ]]></Attribute>
+	<Attribute name="TurnOnAllPieces"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var maxString = toString( (1<<numPieces) - 1 );
+            Object::setVariable(fort, 'Pieces', maxString, 0, true);
+            Object::setVariable(fort, 'PiecesDamaged', '0', 0, true);
+            Object::setVariable(fort, 'PiecesRubble', '0', 0, true);
+        ]]></Attribute>
+	<Attribute name="TurnOffAllPieces"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            Object::setVariable(fort, 'Pieces', '0', 0, true);
+            Object::setVariable(fort, 'PiecesDamaged', '0', 0, true);
+            Object::setVariable(fort, 'PiecesRubble', '0', 0, true);
+        ]]></Attribute>
+	<Attribute name="AnyLocatorReady"><![CDATA[
+            #program;
+            var buildingInstance = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            
+            if(isNULL(buildingInstance))
+            {
+                return false;
+            }
+            
+            var numLocatorStrings = numLocators + 1;
+            for(var i = 1; i < numLocatorStrings; i++)
+            {
+                if(Building::isLocatorReady(buildingInstance,'Pos' + toString(i)))
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        ]]></Attribute>
+	<Attribute name="TurnOnDamagePieceFromLocator"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            
+            if(pieceNumber >= numPieces)
+            {
+                // No piece to damage/destroy, they are probably assaulting the main building
+                return;
+            }
+            
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            
+            if((pieces & (1<<pieceNumber)))
+            {
+                var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+            
+                if((piecesDamaged & (1<<pieceNumber)))
+                {
+                    var decoCount = 0;
+                    
+                    for(var i = 0;i<numPieces;i++)
+                    {
+                        if( (pieces & (1<<i)) )
+                        {
+                            decoCount++;
+                        }
+                    }
+                
+                    var tier1NumDecorations = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier1_Count__'));
+                    var tier2NumDecorations = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier2_Count__')) + tier1NumDecorations;
+                    var tier3NumDecorations = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier3_Count__')) + tier2NumDecorations;
+                    
+                    var rubbleChance = 0;
+                    if(decoCount <= tier1NumDecorations)
+                    {
+                        rubbleChance = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier1_AssaultChance__'));
+                    }
+                    elseif(decoCount <= tier2NumDecorations)
+                    {
+                        rubbleChance = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier2_AssaultChance__'));
+                    }
+                    elseif(decoCount <= tier3NumDecorations)
+                    {
+                        rubbleChance = toDouble(System::getConfigValue('__Homergeddon_Spreadsheet_Config:Forts:Tier3_AssaultChance__'));
+                    }
+                    
+                    var randomValue = rand(100);
+                    
+                    var alwaysDestroyCheatOn = User::getVariable('AlwaysDestroyCheat');
+                    if(randomValue <= rubbleChance || alwaysDestroyCheatOn != 0)
+                    {
+                        Script::run('Homergeddon_Scripts:' + destroyScriptPrefix + toString(pieceNumber));
+                    }
+                }
+                else
+                {
+                    // Set piece to damaged
+                    piecesDamaged = (piecesDamaged | (1<<pieceNumber));
+                    Object::setVariable(fort, 'PiecesDamaged', toString(piecesDamaged), 0, true);
+                }
+            }
+        ]]></Attribute>
+	<Attribute name="IncrementDamageOnPieceFromLocator"><![CDATA[
+            #program;
+            var playedDestroyScripts = false;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            
+            if(buildingName == 'MegaPlayscape' || buildingName == 'JunkBase')
+            {
+                if(pieceNumber == 0 || pieceNumber == 1)
+                {
+                    var piecesRubble = Object::getVariableAsNumber(fort, 'PiecesRubble');
+                    var exteriorWall = Object::getVariableAsNumber(fort, 'HasAnExternalWall');
+                    
+                    var notDamaged = (pieces & (1<<pieceNumber));
+                    var rubble =  (piecesRubble & (1<<pieceNumber));
+                    if((notDamaged == 0)  || (rubble != 0) )
+                    {
+                        pieceNumber = numPieces;
+                    }
+                }
+            }
+            
+            if(pieceNumber >= numPieces)
+            {
+                var piecesOn = Array::create();
+                
+                for(var i = 0;i<numPieces;i++)
+                {
+                    if( (pieces & (1<<i)) )
+                    {
+                        Array::pushBack(piecesOn, i);
+                    }
+                }
+                
+                if(Array::size(piecesOn) > 0)
+                {
+                    var piecesRubble = Object::getVariableAsNumber(fort, 'PiecesRubble');
+                    
+                    var piecesNotRubble = Array::create();
+                    
+                    foreach(piecesOn as piece)
+                    {
+                        if( !(piecesRubble & (1<<piece)) )
+                        {
+                            var pieceDamage = ObjectVars::getVariableInt(adHocObjectName, 'piece' + toString(piece) + 'Damage');
+                            
+                            var locatorIsReady = Building::isLocatorFree(fort, 'Pos' + toString(piece+1));
+                            var pieceCanBeDamaged = (pieceDamage < maxDamage-damageToApply) || (destroyFromUnderCharacter && (pieceDamage < maxDamage));
+                            var locatorExists = Building::doesLocatorExist(fort, 'Pos' + toString(piece+1));
+                            if( pieceCanBeDamaged || locatorIsReady || !locatorExists)
+                            {
+                                Array::pushBack(piecesNotRubble, piece);
+                            }
+                        }
+                    }
+                    
+                    if(Array::size(piecesNotRubble) > 0)
+                    {
+                        pieceNumber = Array::getRandomValue(piecesNotRubble);
+                    }
+                    else
+                    {
+                        // Get out, we have no valid piece to damage
+                        return;
+                    }
+                }
+            }
+            
+            if((pieces & (1<<pieceNumber)))
+            {
+                var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+                piecesDamaged = (piecesDamaged | (1<<pieceNumber));
+                Object::setVariable(fort, 'PiecesDamaged', toString(piecesDamaged), 0, true);
+            
+                var pieceDamage = ObjectVars::getVariableInt(adHocObjectName, 'piece' + toString(pieceNumber) + 'Damage');
+                if(pieceDamage < maxDamage)
+                {
+                    pieceDamage = pieceDamage + damageToApply;
+                    if(pieceDamage > maxDamage)
+                    {
+                        pieceDamage = maxDamage;
+                    }
+                    
+                    Object::setVariableForAdHoc(adHocObjectName,'piece' + toString(pieceNumber) + 'Damage', toString(pieceDamage), 0, true);
+
+                    if(pieceDamage >= maxDamage)
+                    {
+                        if(buildingName == 'MegaPlayscape')
+                        {
+                            Audio::playSingle('PlayscapeWallDestroyed');
+                        }
+                        elseif(buildingName == 'JunkBase')
+                        {
+                            Audio::playSingle('JunkWallDestroyed');
+                        }
+                        elseif(buildingName == 'RuffianFort')
+                        {
+                            Audio::playSingle('RuffianWallDestroyed');
+                        }
+
+                        playedDestroyScripts = true;
+                        if(runDestroyImmediately == false)
+                        {
+                            Script::run('Homergeddon_Scripts:' + destroyScriptPrefix + toString(pieceNumber));
+                        }
+                        else
+                        {
+                            Script::runImmediately('Homergeddon_Scripts:' + destroyScriptPrefix + toString(pieceNumber));
+                        }
+                    }
+                    else
+                    {
+                        if(buildingName == 'MegaPlayscape')
+                        {
+                            Audio::playSingle('PlayscapeWallDamaged');
+                        }
+                        elseif(buildingName == 'JunkBase')
+                        {
+                            Audio::playSingle('JunkWallDamaged');
+                        }
+                        elseif(buildingName == 'RuffianFort')
+                        {
+                            Audio::playSingle('RuffianWallDamaged');
+                        }
+                    }
+                }
+            }
+            
+            return playedDestroyScripts;
+        ]]></Attribute>
+	<Attribute name="CheckForDestroyed"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+
+            for(var i = 0;i<numPieces;i++)
+            {
+                if( (pieces & (1<<i)) )
+                {
+                    // There is still a piece on, so get out
+                    return;
+                }
+            }
+            
+            Object::setVariableForAdHoc(adHocObjectName,'state', toString(1), 0, true);
+            
+            Script::run('Homergeddon_Scripts:' + destroyedScript);
+        ]]></Attribute>
+	<Attribute name="SwitchOnLocator"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            if(isNULL(fort))
+            {
+                return false;
+            }
+            
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            var piecesRubble = Object::getVariableAsNumber(fort, 'PiecesRubble');
+            var exteriorWall = Object::getVariableAsNumber(fort, 'HasAnExternalWall');
+
+            var notDamaged = (pieces & (1<<pieceNum));
+            var rubble =  (piecesRubble & (1<<pieceNum));
+            if((notDamaged != 0)  && (rubble == 0) )
+            {
+                if(isObstacle)
+                {
+                    if(!exteriorWall)
+                    {
+                     return true;
+                    }
+                }
+                else
+                {
+                     return true;
+                }
+            }
+            
+            return false;
+            
+        ]]></Attribute>
+	<Attribute name="SwitchOnLocatorMainFort"><![CDATA[
+            #program;
+            
+            function checkJobs(jobName, locatorNum)
+            {
+                var locatorName = 'Pos'+toString(locatorNum);
+                var assaultJob = Job::find(jobName);
+                
+                if(!isNULL(assaultJob))
+                {
+                    var assaultJobInstances = Land::getAllInstancesOfJob(assaultJob);
+                    if(!isNULL(assaultJobInstances))
+                    {
+                        foreach(assaultJobInstances as assaultJobInstance)
+                        {
+                            var jobLocator = JobInstance::getLocator(assaultJobInstance);
+                            if(jobLocator == 0 || jobLocator == locatorName)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                
+                return false;
+            }
+            
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            
+            if(isNULL(fort))
+            {
+                return false;
+            }
+            
+            var locatorNum = pieceNum + 1;
+            if(checkJobs(jobName, locatorNum))
+            {
+                return true;
+            }
+            
+            if(jobName2 != '')
+            {
+                if(checkJobs(jobName2, locatorNum))
+                {
+                    return true;
+                }
+            }
+            
+            for(var i = 3; i <= 11; i++)
+            {
+                if(Building::isLocatorReady(fort,'Pos' + toString(i)))
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        ]]></Attribute>
+	<Attribute name="IsJobLocatorForPieceValid"><![CDATA[
+            #program;
+            var locatorName = 'Pos'+toString(locatorNum);
+            var assaultJob = Job::find(jobName);
+            
+            if(!isNULL(assaultJob))
+            {
+                var assaultJobInstances = Land::getAllInstancesOfJob(assaultJob);
+                if(!isNULL(assaultJobInstances))
+                {
+                    foreach(assaultJobInstances as assaultJobInstance)
+                    {
+                        var jobLocator = JobInstance::getLocator(assaultJobInstance);
+                        if(jobLocator == 0 || jobLocator == locatorName)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            return false;
+            ]]></Attribute>
+	<Attribute name="TurnOffPiece"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            
+            if((pieces & (1<<pieceNumber)))
+            {
+                pieces = bitwiseXOr(pieces, (1<<pieceNumber));
+                Object::setVariable(fort, 'Pieces', toString(pieces), 0, true);
+            }
+            
+            var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+            
+            if((piecesDamaged & (1<<pieceNumber)))
+            {
+                piecesDamaged = bitwiseXOr(piecesDamaged, (1<<pieceNumber));
+                Object::setVariable(fort, 'PiecesDamaged', toString(piecesDamaged), 0, true);
+            }
+            
+            var piecesRubble = Object::getVariableAsNumber(fort, 'PiecesRubble');
+            
+            if((piecesRubble & (1<<pieceNumber)))
+            {
+                piecesRubble = bitwiseXOr(piecesRubble, (1<<pieceNumber));
+                Object::setVariable(fort, 'PiecesRubble', toString(piecesRubble), 0, true);
+            }
+            
+            if(pieceNumber > 1)
+            {
+                Object::setVariable(fort, 'HasAnExternalWall', '0', 0, true);
+            }
+        ]]></Attribute>
+	<Attribute name="TurnOnRubblePiece"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            
+            var piecesRubble = Object::getVariableAsNumber(fort, 'PiecesRubble');
+            
+            piecesRubble = piecesRubble | (1<<pieceNumber);
+            Object::setVariable(fort, 'PiecesRubble', toString(piecesRubble), 0, true);
+            
+            var hook = 'Homergeddon_Hooks';
+            Hook::load(hook,false);
+            var compiledHook = Parser::compile(Hook::toString(hook+':'+vfxScriptName));
+            Hook::unload(hook,false);
+            
+            Parser::evaluate(compiledHook);
+
+        ]]></Attribute>
+	<Attribute name="PlayRuffianPieceVFX"><![CDATA[
+        var pieceX = 0;
+        var pieceZ = 0;
+        if(pieceNumber == 0)
+        {
+            pieceX = 2;
+            pieceZ = -2;
+        }
+        elseif(pieceNumber == 1)
+        {
+            pieceX = 4;
+            pieceZ = -2;
+        }
+        elseif(pieceNumber == 2)
+        {
+            pieceX = 6;
+            pieceZ = -2;
+        }
+        elseif(pieceNumber == 3)
+        {
+            pieceX = 8;
+            pieceZ = -2;
+        }
+        elseif(pieceNumber == 4)
+        {
+            pieceX = 10;
+            pieceZ = -2;
+        }
+        
+        var xx = gridToWorld(toGrid(Building::getProperty(fort, 'X')) + pieceX);
+        var zz = gridToWorld(toGrid(Building::getProperty(fort, 'Z')) + pieceZ);
+        FlyBy::PlayAtPosition('FortressDamage'+toString(pieceNumber), 10, 0.13, 24, xx, zz);
+        ]]></Attribute>
+	<Attribute name="HasAllPieces"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            if(isNULL(fort))
+            {
+                return false;
+            }
+
+            var pieces = Object::getVariableAsNumber(fort, 'Pieces');
+            var maxPieces = (1<<numPieces) - 1;
+            return pieces == maxPieces;
+        ]]></Attribute>
+	<Attribute name="HasDamagedPieces"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            if(isNULL(fort))
+            {
+                return false;
+            }
+
+            var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+            return piecesDamaged > 0;
+        ]]></Attribute>
+	<Attribute name="RepairFort"><![CDATA[
+            #program;
+            var fort = Land::getFirstInstanceOfObject(Building::find(buildingName));
+            if(isNULL(fort))
+            {
+                return false;
+            }
+
+            if(buildingName == 'MegaPlayscape')
+            {
+                Audio::playSingle('PlayscapeWallBuilt');
+            }
+            elseif(buildingName == 'JunkBase')
+            {
+                Audio::playSingle('JunkWallBuilt');
+            }
+            elseif(buildingName == 'RuffianFort')
+            {
+                Audio::playSingle('RuffianWallBuilt');
+            }
+
+            var piecesDamaged = Object::getVariableAsNumber(fort, 'PiecesDamaged');
+            var damagedBits = Array::create();
+
+            for(var i = 0;i<numPieces;i++)
+            {
+                if( (piecesDamaged & (1<<i)) )
+                {
+                    Array::pushBack(damagedBits, i);
+                }
+            }
+
+            var randomPiece = Array::getRandomValue(damagedBits);
+            piecesDamaged = bitwiseXOr(piecesDamaged, (1<<randomPiece));
+            Object::setVariable(fort, 'PiecesDamaged', toString(piecesDamaged), 0, true);
+            Object::setVariableForAdHoc(adHocObjectName,'piece' + toString(randomPiece) + 'Damage', toString(0), 0, true);
+        ]]></Attribute>
+</Attributes>

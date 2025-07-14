@@ -1,0 +1,174 @@
+﻿<ScriptPackage>
+	<Submersible_SendJobNotification parallel="true">
+		<Action type="hudTip" text="UI_YellowSubmersible_ReturnFromSurvey_tip" time="10s" />
+		<Action type="setVariable" boolVariable="Submersible_HUDMessage_Sent" boolValue="true" />
+	</Submersible_SendJobNotification>
+	<Submersible_JobStarted ignoreHUD="true" parallel="true">
+		<Action type="sound" sound="sfx_MargianChronicles_YellowSub_01.caf" />
+		<Action type="setVariable" boolVariable="Submersible_InJob" boolValue="true" addTempIfNotExisting="true" />
+		<Action type="setVariable" boolVariable="Submersible_Intro" boolValue="true" addTempIfNotExisting="true" />
+		<Action type="anim-play" building="YellowSubmersible_Top" animation="SubmersibleBottom" nowait="true">
+			<Sub-Building animation="submersibletop" />
+		</Action>
+	</Submersible_JobStarted>
+	<Submersible_Intro_Done ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" boolVariable="Submersible_Intro" boolValue="false" addTempIfNotExisting="true" />
+	</Submersible_Intro_Done>
+	<Submersible_Outro_Done ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" boolVariable="Submersible_Outro" boolValue="false" addTempIfNotExisting="true" />
+	</Submersible_Outro_Done>
+	<Submersible_JobComplete ignoreHUD="true" otherScriptsCanRunOnObject="true">
+		<Action type="setObjectVariable" onType="building" onObject="YellowSubmersible" variable="Random" value="rand(100)" asExpression="true" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="quest" quest="SpringfieldHeights_12" />
+					<Requirement type="quest" quest="Squidport02" />
+				</Requirements>
+				<Then>
+					<Action type="if">
+						<If expression="lessThan(System::evaluate('Building::YellowSubmersible::Object::Random'), 10)">
+							<Then>
+								<Action type="reward" save="true" ignoreObject="true">
+									<Item type="consumable" name="PierDrawing" />
+								</Action>
+								<Action type="setVariable" boolVariable="Submersible_HUDMessage_Sent" boolValue="false" />
+								<Action type="notification" title="UI_YellowSubmerisble_PierTileReward_title" button="UI_OK" text="UI_Margeian_TileReward_text" icon="MENU_ICO_DECR_OrnatePierTile_SM" />
+							</Then>
+						</If>
+						<ElseIf expression="lessThan(System::evaluate('Building::YellowSubmersible::Object::Random'), 40)">
+							<Then>
+								<Action type="reward" save="true" ignoreObject="true">
+									<Item type="consumable" name="BoardwalkDrawing" />
+								</Action>
+								<Action type="setVariable" boolVariable="Submersible_HUDMessage_Sent" boolValue="false" />
+								<Action type="notification" title="UI_YellowSubmerisble_BoardwalkTileReward_title" button="UI_OK" text="UI_Margeian_TileReward_text" icon="icon_boardwalktile" />
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="setVariable" boolVariable="Submersible_HUDMessage_Sent" boolValue="false" />
+								<Action type="notification" title="BLD_YellowSubmersible_name" button="UI_OK" text="UI_YellowSubmersible_ReturnFromSurvey_Empty" icon="Menu_YellowSubmersible" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="quest" quest="Squidport02" />
+				<Then>
+					<Action type="if">
+						<If expression="lessThan(System::evaluate('Building::YellowSubmersible::Object::Random'), 40)">
+							<Then>
+								<Action type="reward" save="true" ignoreObject="true">
+									<Item type="consumable" name="BoardwalkDrawing" />
+								</Action>
+								<Action type="setVariable" boolVariable="Submersible_HUDMessage_Sent" boolValue="false" />
+								<Action type="notification" title="UI_YellowSubmerisble_BoardwalkTileReward_title" button="UI_OK" text="UI_Margeian_TileReward_text" icon="icon_boardwalktile" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="setVariable" boolVariable="Submersible_HUDMessage_Sent" boolValue="false" />
+								<Action type="notification" title="BLD_YellowSubmersible_name" button="UI_OK" text="UI_YellowSubmersible_ReturnFromSurvey_Empty" icon="Menu_YellowSubmersible" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="sound" sound="sfx_MargianChronicles_YellowSub_02.caf" />
+		<Action type="setVariable" boolVariable="Submersible_Outro" boolValue="true" addTempIfNotExisting="true" />
+		<Action type="setVariable" boolVariable="Submersible_InJob" boolValue="false" addTempIfNotExisting="true" />
+		<Action type="anim-play" building="YellowSubmersible_Top" animation="SubmersibleBottom" nowait="true">
+			<Sub-Building animation="submersibletop" />
+		</Action>
+	</Submersible_JobComplete>
+	<Submersible_Reset ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="anim-play" animation="SubmersibleBottom" nowait="true">
+            <Sub-Building animation="submersibletop" /></Action>
+	</Submersible_Reset>
+	<Submersible_ResetWrapper ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" boolVariable="Submersible_Outro" boolValue="false" addTempIfNotExisting="true" />
+		<Action type="setVariable" boolVariable="Submersible_Intro" boolValue="false" addTempIfNotExisting="true" />
+		<Action type="setVariable" intVariable="Submersible_InJob" intValue="System::evaluate('Job::DiveForBooty::Active')" />
+		<Action type="runScriptOnAll" building="YellowSubmersible" script="Margeian_Scripts:Submersible_Reset" />
+	</Submersible_ResetWrapper>
+	<MarsColony_OpenMenu ignoreHUD="true">
+		<Action type="pantoobject" building="MarsColony" time="0" />
+		<Action type="if">
+			<If expression="System::evaluate('Quest::UpgradeMarsColony_1::CurrentProgress') != 2">
+				<Then>
+					<Action type="runScript" script="MiscScripts:ForceSpringfield">
+						<FormatToken key="script" value="Margeian_Scripts:MarsColony_Tapped" />
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</MarsColony_OpenMenu>
+	<MarsColony_Tapped ignoreHUD="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="AColonyForAnts_2" />
+				<Requirement type="quest" quest="UpgradeMarsColony_3" not="true" />
+			</Requirements>
+			<True>
+				<Action type="sound" sound="sfx_EA_TSTO_SuperHeroes_Takedown_RedBlazerRealty_Tap.caf" />
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="MarsColonyMaster" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="sound" sound="sfx_MargeianChronicles_MarsColony_Tap2.caf" />
+				<Action type="anim-play" building="MarsColony" animation="ActiveNoLoop" />
+			</False>
+		</Action>
+	</MarsColony_Tapped>
+	<MarsColony_FriendTapped parallel="true">
+		<Action type="sound" sound="sfx_MargeianChronicles_MarsColony_Tap2.caf" />
+		<Action type="anim-play" building="MarsColony" animation="ActiveNoLoop" />
+	</MarsColony_FriendTapped>
+	<MarsColony_Upgrade_1 ignoreHUD="true">
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="MarsColony">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="40" y="40" />
+			<OneShot name="flipped" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="40" y="40" />
+		</Action>
+		<Action type="setVariable" intVariable="MarsColonyLevel" intValue="1" />
+		<Action type="sound" sound="MoneyMountain_Upgrade01.caf" />
+		<Action type="completeJob" name="SecureSponsorships" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+	</MarsColony_Upgrade_1>
+	<MarsColony_Upgrade_2 ignoreHUD="true">
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="MarsColony">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="40" y="40" />
+			<OneShot name="flipped" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="40" y="40" />
+		</Action>
+		<Action type="setVariable" intVariable="MarsColonyLevel" intValue="2" />
+		<Action type="sound" sound="MoneyMountain_Upgrade01.caf" />
+		<Action type="completeJob" name="SecureSponsorships" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+	</MarsColony_Upgrade_2>
+	<MarsColony_Upgrade_3 ignoreHUD="true">
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="MarsColony">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="40" y="40" />
+			<OneShot name="flipped" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="40" y="40" />
+		</Action>
+		<Action type="setVariable" intVariable="MarsColonyLevel" intValue="3" />
+		<Action type="sound" sound="MoneyMountain_Upgrade01.caf" />
+		<Action type="completeJob" name="SecureSponsorships" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+	</MarsColony_Upgrade_3>
+	<ExplorationInc_Tapped ignoreHUD="true" parallel="true">
+		<Action type="sound" sound="sfx_MargianChronicles_Exploration_Inc.caf" />
+	</ExplorationInc_Tapped>
+	<YellowSubmersible_Touched>
+		<Action type="gotoState" state="GameState_BuildingSelected">
+			<Extras>
+				<Attribute name="BuildingName" value="YellowSubmersible" />
+				<Attribute name="GoToFarmMode" value="true" />
+			</Extras>
+		</Action>
+	</YellowSubmersible_Touched>
+	<MarsColony_OpenMTXStore>
+		<Action type="focusOnMenuItem" menuCategory="Businesses" />
+	</MarsColony_OpenMTXStore>
+</ScriptPackage>

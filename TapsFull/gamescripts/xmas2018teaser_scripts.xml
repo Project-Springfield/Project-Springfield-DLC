@@ -1,0 +1,38 @@
+﻿<ScriptPackage>
+	<AutoApply_MsClawsSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="XMAS2018Teaser_Scripts:AutoApply_MsClawsSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_MsClawsSkin_End>
+	<AutoApply_MsClawsSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="MsClaws" fromInventory="true" />
+	</AutoApply_MsClawsSkin_Delayed>
+	<CrazyCatSleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var crazyCatLadyInstance = Land::getFirstInstanceOfObject(Character::find('CrazyCatLady'));
+                    
+                    Character::fadeOut(crazyCatLadyInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="CrazyCatSleigh" />
+	</CrazyCatSleigh_start>
+	<CrazyCatSleigh_end>
+		<Action type="setFlyByVelocity" flyBy="CrazyCatLady_DriveCatSleigh" x="1250" y="30" />
+		<Action type="pantoobject" building="CrazyCatSleigh" />
+		<Action type="delay" time="1" />
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var crazyCatLadyInstance = Land::getFirstInstanceOfObject(Character::find('CrazyCatLady'));
+                    
+                    var sleighInstance = Land::getFirstInstanceOfObject(Building::find('CrazyCatSleigh'));
+                    var sleighX = toDouble(Building::getProperty(sleighInstance, 'X'));
+                    var sleighZ = toDouble(Building::getProperty(sleighInstance, 'Z'));
+                    
+                    Character::snapToPosition(crazyCatLadyInstance, sleighX, sleighZ);
+                    
+                    Character::fadeIn(crazyCatLadyInstance);
+                ]]></Program>
+		</Action>
+	</CrazyCatSleigh_end>
+</ScriptPackage>

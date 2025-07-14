@@ -1,0 +1,900 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="4310" name="Terwilligers">
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirement type="quest" quest="CecilsRedemption03" />
+			<Script package="Terwilligers_Scripts" name="LandEntered" />
+		</OnEvent>
+		<EventHub menuConfig="Terwilligers_EventHubMenuConfig:EventHub">
+			<Tabs>
+				<Tab name="Tab_Guide" icon="ICO_Terwilligers_GuidePanelTab">
+					<DisplayRequirements>
+						<Requirement type="variable" variable="GuidePanelTabAvailable" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="gamestate" state="State_HubGuidePanel" />
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="TabPressed_GuidePanel" package="Terwilligers_Scripts" />
+				</Tab>
+				<Tab name="Tab_PrizeTrack" icon="ICO_Terwilligers_TrophyTab">
+					<DisplayRequirements>
+						<Requirement type="variable" variable="Terwilligers" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+					</HighlightRequirements>
+					<Script name="TabPressed_PrizeTrack" package="Terwilligers_Scripts" />
+				</Tab>
+				<Tab name="Tab_Crafting" icon="ICO_Terwilligers_CraftingTab">
+					<DisplayRequirements>
+						<Requirement type="variable" variable="Terwilligers" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="gamestate" state="GameState_HubCraftingMenu" />
+					</HighlightRequirements>
+					<Script name="TabPressed_CraftingMenu" package="Terwilligers_Scripts" />
+				</Tab>
+				<Tab name="Tab_CecilsTasks" icon="ICO_Terwilligers_CecilTaskTab">
+					<DisplayRequirements>
+						<Requirement type="variable" variable="Terwilligers" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="gamestate" state="GameState_CharacterTasks" />
+					</HighlightRequirements>
+					<Script name="CecilTasksButtonPressed" package="Terwilligers_Scripts" />
+				</Tab>
+				<Tab name="Tab_Herbicide" icon="ICO_Terwilligers_FrinkHerbicideTab">
+					<DisplayRequirements>
+						<Requirement type="variable" variable="FrinksHerbLevel" count="1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubCraftItem" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==5" />
+					</HighlightRequirements>
+					<Script name="TabPressed_FrinksHerbicide" package="Terwilligers_Scripts" />
+				</Tab>
+				<Tab name="Tab_Monsarno" icon="ICO_Terwilligers_MonsarnoTab">
+					<DisplayRequirements>
+						<Requirement type="building" building="Monsarno" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubCraftItem" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==6" />
+					</HighlightRequirements>
+					<Script name="TabPressed_MonsarnoUpgrade" package="Terwilligers_Scripts" />
+				</Tab>
+				<Tab name="Tab_OperaHouse" icon="ICO_Terwilligers_OperaTab">
+					<DisplayRequirements>
+						<Requirement type="building" building="SpringfieldOperaHouse" />
+						<Requirement type="quest" quest="PhantomOfTheOpera01" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubCraftItem" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==7" />
+					</HighlightRequirements>
+					<Script name="TabPressed_OperaUpgrade" package="Terwilligers_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="Fertilizer">
+					<Requirement type="time" start="TerwilligersActOne" />
+				</Resource>
+				<Resource type="Corn">
+					<Requirement type="time" start="TerwilligersActOne" />
+				</Resource>
+				<Resource type="DNA">
+					<Requirement type="time" start="TerwilligersActTwo" />
+				</Resource>
+				<Resource type="TheatreMasks">
+					<Requirement type="time" start="TerwilligersActThree" />
+				</Resource>
+			</ResourceTypes>
+		</EventHub>
+		<PrizeListButton icon="ICO_Terwilligers_TrophyAnimation" animate="true" interval="20s">
+			<Script package="Terwilligers_Scripts" name="PrizeListButtonPressed" />
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+		</PrizeListButton>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="Terwilligers_MenuConfig:PrizeTrack0">
+				<Prize name="BLD_MonsarnoFounderStatue_name" listIcon="ICO_Terwilligers_Prize_FounderStatue_MD" rewardIcon="ICO_Terwilligers_FounderStatue_Unlock.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem1__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem1__" />
+					<Reward>
+						<Item type="building" name="MonsarnoFounderStatue" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Fertilizer_plural" listIcon="ICO_Terwilligers_Prize_Fertilizer_200" rewardIcon="ICO_STOR_Terwilligers_Fertilizer_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem2__" largeSizeIcon="true" itemDoneOverrideText="UI_FertilizerBundle_unlock">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem2__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_FertilizerBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Corn_plural" listIcon="ICO_Terwilligers_Prize_Corn_200" rewardIcon="ICO_STOR_Terwilligers_Corn_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem3__" largeSizeIcon="true" itemDoneOverrideText="UI_CornBundle_unlock">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem3__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_CornBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_OldSimpsonFarm_name" listIcon="ICO_Terwilligers_Prize_OldSimpsonFarm_MD" rewardIcon="ICO_Terwilligers_OldSimpsonFarm_Unlock.rgb" useImmediately="false" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem4__" largeSizeIcon="true" showInventoryPopup="true">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem4__" />
+					<Reward>
+						<Item type="building" name="OldSimpsonFarm" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_MutantSeeds_plural" listIcon="ICO_Terwilligers_Prize_MutantSeed_50" rewardIcon="ICO_Terwilligers_Prize_MutantSeed_50.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem5__" largeSizeIcon="true" itemDoneOverrideText="UI_MutantSeedsBundle_unlock">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem5__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_MutantSeeds_50" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Fertilizer_plural" listIcon="ICO_Terwilligers_Prize_Fertilizer_200" rewardIcon="ICO_STOR_Terwilligers_Fertilizer_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem6__" largeSizeIcon="true" itemDoneOverrideText="UI_FertilizerBundle_unlock">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem6__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_FertilizerBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Corn_plural" listIcon="ICO_Terwilligers_Prize_Corn_200" rewardIcon="ICO_STOR_Terwilligers_Corn_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem7__" largeSizeIcon="true" itemDoneOverrideText="UI_CornBundle_unlock">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem7__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_CornBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_PetMutantPlant_name" listIcon="ICO_Terwilligers_Prize_PetPlant_MD" showInventoryPopup="true" rewardIcon="ICO_Terwilligers_PetPlant_Unlock.rgb" useImmediately="false" rush_rate="__Terwilligers_GameConfig:Part1Prizes:RushRateItem8__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Spades" amount="__Terwilligers_GameConfig:Part1Prizes:RequireAmountItem8__" />
+					<Reward>
+						<Item type="character" name="PetMutantPlant" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="Terwilligers_MenuConfig:PrizeTrack1">
+				<Prize name="CON_RakeBundle_name" listIcon="ICO_Terwilligers_Prize_Rake3Pack" rewardIcon="ICO_Terwilligers_Rake3Pack_Unlock.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem1__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem1__" />
+					<Reward>
+						<Item type="consumable" name="RakeBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Fertilizer_plural" listIcon="ICO_Terwilligers_Prize_Fertilizer_200" rewardIcon="ICO_STOR_Terwilligers_Fertilizer_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem2__" largeSizeIcon="true" itemDoneOverrideText="UI_FertilizerBundle_unlock">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem2__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_FertilizerBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_DNA_plural" listIcon="ICO_Terwilligers_Prize_DNA_200" rewardIcon="ICO_STOR_Terwilligers_DNA_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem3__" largeSizeIcon="true" itemDoneOverrideText="UI_DNABundle_unlock">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem3__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_DNABundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SpringwoodMinimumSecurityPrison_name" listIcon="ICO_Terwilligers_Prize_MinSecurityPrison_MD" rewardIcon="ICO_Terwilligers_MinSecurityPrison_Unlock.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem4__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem4__" />
+					<Reward>
+						<Item type="building" name="SpringwoodMinimumSecurityPrison" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Corn_plural" listIcon="ICO_Terwilligers_Prize_Corn_200" rewardIcon="ICO_STOR_Terwilligers_Corn_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem5__" largeSizeIcon="true" itemDoneOverrideText="UI_CornBundle_unlock">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem5__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_CornBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_MutantSeeds_plural" listIcon="ICO_Terwilligers_Prize_MutantSeed_50" rewardIcon="ICO_Terwilligers_Prize_MutantSeed_50.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem6__" largeSizeIcon="true" itemDoneOverrideText="UI_MutantSeedsBundle_unlock">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem6__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_MutantSeeds_50" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_DNA_plural" listIcon="ICO_Terwilligers_Prize_DNA_200" rewardIcon="ICO_STOR_Terwilligers_DNA_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem7__" largeSizeIcon="true" itemDoneOverrideText="UI_DNABundle_unlock">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem7__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_DNABundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_RobertTerwilligerSr_name" listIcon="ICO_Terwilligers_Prize_RobertSr_MD" rewardIcon="ICO_Terwilligers_RobertSr_Unlock.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part2Prizes:RushRateItem8__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="GasMasks" amount="__Terwilligers_GameConfig:Part2Prizes:RequireAmountItem8__" />
+					<Reward>
+						<Item type="character" name="RobertTerwilligerSr" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="2" type="local" menuConfig="Terwilligers_MenuConfig:PrizeTrack2">
+				<Prize name="BLD_SPDBlimp_name" listIcon="ICO_Terwilligers_Prize_SPDBlimp_MD" rewardIcon="ICO_Terwilligers_SPDBlimp_Unlock.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem1__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem1__" />
+					<Reward>
+						<Item type="building" name="SPDBlimp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_DNA_plural" listIcon="ICO_Terwilligers_Prize_DNA_200" rewardIcon="ICO_STOR_Terwilligers_DNA_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem2__" largeSizeIcon="true" itemDoneOverrideText="UI_DNABundle_unlock">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem2__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_DNABundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_TheatreMasks_plural" listIcon="ICO_Terwilligers_Prize_TheatreMask_200" rewardIcon="ICO_STOR_Terwilligers_TheatreMask_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem3__" largeSizeIcon="true" itemDoneOverrideText="UI_TheatreMasksBundle_unlock">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem3__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_TheatreMasksBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_OperaKrusty_name" listIcon="ICO_Terwilligers_Prize_OperaKrusty_MD" rewardIcon="ICO_Terwilligers_OperaKrusty_Unlock.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem4__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem4__" />
+					<Reward>
+						<Item type="consumable" name="OperaKrusty" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Fertilizer_plural" listIcon="ICO_Terwilligers_Prize_Fertilizer_200" rewardIcon="ICO_STOR_Terwilligers_Fertilizer_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem5__" largeSizeIcon="true" itemDoneOverrideText="UI_FertilizerBundle_unlock">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem5__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_FertilizerBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Corn_plural" listIcon="ICO_Terwilligers_Prize_Corn_200" rewardIcon="ICO_STOR_Terwilligers_Corn_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem6__" largeSizeIcon="true" itemDoneOverrideText="UI_CornBundle_unlock">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem6__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_CornBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_TheatreMasks_plural" listIcon="ICO_Terwilligers_Prize_TheatreMask_200" rewardIcon="ICO_STOR_Terwilligers_TheatreMask_200.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem7__" largeSizeIcon="true" itemDoneOverrideText="UI_TheatreMasksBundle_unlock">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem7__" />
+					<Reward>
+						<Item type="consumable" name="Terwilligers_PrizeTrack_TheatreMasksBundle" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_DameJudithUnderdunk_name" listIcon="ICO_Terwilligers_Prize_DameJudith_MD" rewardIcon="ICO_Terwilligers_DameJudith_Unlock.rgb" useImmediately="false" showInventoryPopup="true" rush_rate="__Terwilligers_GameConfig:Part3Prizes:RushRateItem8__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="MusicNotes" amount="__Terwilligers_GameConfig:Part3Prizes:RequireAmountItem8__" />
+					<Reward>
+						<Item type="character" name="DameJudithUnderdunk" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<StaticButtons>
+			<BuildButton></BuildButton>
+			<MoveButton></MoveButton>
+			<FriendButton>
+				<Script package="Terwilligers_Scripts" name="OnFriendButtonPressed" />
+			</FriendButton>
+		</StaticButtons>
+		<SpecialButtons>
+			<Button mode="friendmap" icon="ICO_MHUD_Terwilligers_LeaderBoards.rgb">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+					<Requirement type="quest started" quest="ChaosSheory02" />
+				</Requirements>
+				<RunScript>
+					<Script name="SpecialEventButtonInFriendMapPressed" package="Terwilligers_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<OnEvent event="EnterFriendMap" ignoreTypeCheck="true">
+			<Script package="Terwilligers_Scripts" name="OnWorldMapLoad" />
+		</OnEvent>
+		<FriendHUD useTwoActions="true" regularActionText="UI_FriendsMap_ActionsRemaining" tipText="UI_MutantSeedlingsButton_SystemMessage">
+			<Requirements>
+				<Requirement type="level" level="5" />
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="Terwilligers" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+		</FriendHUD>
+		<SuppressFriendActions>
+			<ShopRequirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+			</ShopRequirements>
+			<FarmRequirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+			</FarmRequirements>
+			<VandalismRequirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+			</VandalismRequirements>
+			<PushNoteRequirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+			</PushNoteRequirements>
+		</SuppressFriendActions>
+		<CustomGetMore>
+			<GetMoreRule mode="any" file="Terwilligers_MutantPlantSeeds" getMorePromptTitle="UI_TERWILLIGERS_GetMoreMutantSeedlingsTitle" getMorePromptDescription="UI_TERWILLIGERS_GetMoreMutantSeedlingsDesc" getMoreButtonColour="DonutPink">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+				</Requirements>
+				<Consumable name="Terwilligers_StoreItem_MutantSeeds_5" />
+			</GetMoreRule>
+		</CustomGetMore>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="GainedBobTerwilliger" />
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="time" start="TerwilligersActOne" end="TerwilligersKillDate" />
+						<Requirement type="quest started" quest="TheSoupThickens01" allowDeprecate="true" />
+					</Requirement>
+				</Requirement>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="character" name="SideshowBob" />
+			</Requirements>
+			<Script name="DeleteSideshowBobFromFriendsTown" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+				<Requirement type="variable" variable="Terwilligers_Act1" />
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="5" />
+				<Requirement type="friendlevel" level="10" not="true" />
+			</Requirements>
+			<Script name="SpawnFirstFriendMutantPlants" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+				<Requirement type="variable" variable="Terwilligers_Act1" />
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="10" />
+				<Requirement type="friendlevel" level="15" not="true" />
+			</Requirements>
+			<Script name="SpawnSecondFriendMutantPlants" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+				<Requirement type="variable" variable="Terwilligers_Act1" />
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="15" />
+			</Requirements>
+			<Script name="SpawnThirdFriendMutantPlants" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<SpawnOverTime character="MutantPlant" loggedOnSpawnTime="10m" loggedOffSpawnTime="10m" maxAllowedInTown="40" regularBankMax="0" premiumBankMax="0" premiumBankingAllowed="false" bankVariable="bankedMutantPlants" errorTitle="UI_TooManyMutantPlants_errortitle" errorBody="UI_TooManyMutantPlants_errorbody" alwaysCheckRequirements="true">
+			<Requirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="quest" quest="ChaosSheory02" not="true" />
+						<Requirement type="time" start="TerwilligersActTwo" />
+					</Requirement>
+					<Requirement type="time" end="TerwilligersActTwo" />
+				</Requirement>
+				<Requirement type="players land" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="Terwilligers_Act2" />
+					<Requirement type="variable" variable="Terwilligers_Act3" />
+				</Requirement>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="5" />
+				<Requirement type="friendlevel" level="10" not="true" />
+			</Requirements>
+			<Script name="SpawnFirstFriendBobClones" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="Terwilligers_Act2" />
+					<Requirement type="variable" variable="Terwilligers_Act3" />
+				</Requirement>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="10" />
+				<Requirement type="friendlevel" level="15" not="true" />
+			</Requirements>
+			<Script name="SpawnSecondFriendBobClones" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="Terwilligers" />
+				</Requirement>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="Terwilligers_Act2" />
+					<Requirement type="variable" variable="Terwilligers_Act3" />
+				</Requirement>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="15" />
+			</Requirements>
+			<Script name="SpawnThirdFriendBobClones" package="Terwilligers_Scripts" />
+		</OnEvent>
+		<SpawnOverTime character="BobClone" loggedOnSpawnTime="10m" loggedOffSpawnTime="10m" maxAllowedInTown="40" regularBankMax="0" premiumBankMax="0" premiumBankingAllowed="false" bankVariable="bankedBobClones" errorTitle="UI_TooManyBobClones_errortitle" errorBody="UI_TooManyBobClones_errorbody" alwaysCheckRequirements="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="Terwilligers_Act2" />
+					<Requirement type="variable" variable="Terwilligers_Act3" />
+				</Requirement>
+				<Requirement type="players land" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<Jobs>
+			<Job name="HideInHisTreehouse">
+				<VisibilityRequirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="PhantomOfTheOpera06" />
+						<Requirement type="active quest" quest="TheSoupThickens03" />
+					</Requirement>
+				</VisibilityRequirements>
+			</Job>
+			<Job name="InterviewAtMonsarno">
+				<Requirement type="active quest" quest="TheSoupThickens02" />
+			</Job>
+			<Job name="AuditionForTheOpera">
+				<Requirement type="active quest" quest="PhantomOfTheOpera08" />
+			</Job>
+			<Job name="RunForCover">
+				<Requirement type="active quest" quest="PhantomOfTheOpera11" />
+			</Job>
+			<Job name="AdvanceFoodScience">
+				<Requirement type="active quest" quest="Scientophagy02" />
+			</Job>
+			<Job name="HideInTheBrownHouse">
+				<Requirement type="active quest" quest="TheSoupThickens04" />
+			</Job>
+			<Job name="AskToughQuestions">
+				<Requirement type="active quest" quest="TheSoupThickens02" />
+			</Job>
+			<Job name="RolePlayCosmicWars">
+				<Requirement type="active quest" quest="Pushback01" />
+			</Job>
+			<Job name="KrabappelGoOnADate">
+				<Requirement type="active quest" quest="Pushback03" />
+			</Job>
+			<Job name="ProtestMonsarnoPlayingGod">
+				<Requirement type="active quest" quest="Scientophagy03" />
+			</Job>
+			<Job name="FreeTheMutantPlants">
+				<Requirement type="active quest" quest="ChaosSheory01" />
+			</Job>
+			<Job name="LearnCopyrightLaw">
+				<Requirement type="active quest" quest="PhantomOfTheOpera03" />
+			</Job>
+			<Job name="PracticeHerOperaPart">
+				<Requirement type="active quest" quest="PhantomOfTheOpera04" />
+			</Job>
+			<Job name="HarassBart">
+				<Requirement type="active quest" quest="PhantomOfTheOpera05" />
+			</Job>
+			<Job name="RiotAndSmashKrustyBurger">
+				<Requirement type="active quest" quest="Pushback06" />
+			</Job>
+			<Job name="RiotAndLootKwikEMart">
+				<Requirement type="active quest" quest="Pushback06" />
+			</Job>
+			<Job name="HideoutInTheBrownHouseQuimby">
+				<Requirement type="active quest" quest="Pushback06" />
+			</Job>
+			<Job name="MarvelAtHisOwnBrilliance">
+				<Requirement type="active quest" quest="PhantomOfTheOpera09" />
+			</Job>
+			<Job name="GetCrushedUnderAChandelier">
+				<Requirement type="active quest" quest="PhantomOfTheOpera10" />
+			</Job>
+			<Job name="MakeADonationForScience">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl1">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;0" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Fertilizer="__Terwilligers_GameConfig:JobRewards:JobReward_MakeADonationForScience__" Fertilizer_Bonus="System::evaluate('Selector::MonsarnoFertilizerInfinite')" xp="70" />
+			</Job>
+			<Job name="HelpFeedTheHunger">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl2">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;1" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Corn="__Terwilligers_GameConfig:JobRewards:JobReward_HelpFeedTheHunger__" Corn_Bonus="System::evaluate('Selector::MonsarnoCornInfinite')" xp="125" />
+			</Job>
+			<Job name="GambleOnTheFuture">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl8">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;7" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward DNA="__Terwilligers_GameConfig:JobRewards:JobReward_GambleOnTheFuture__" DNA_Bonus="System::evaluate('Selector::MonsarnoDNAInfinite')" xp="100" />
+			</Job>
+			<Job name="ConcludeItsAllPointless">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl3">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;2" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Fertilizer="__Terwilligers_GameConfig:JobRewards:JobReward_ConcludeItsAllPointless__" Fertilizer_Bonus="System::evaluate('Selector::MonsarnoFertilizerInfinite')" xp="45" />
+			</Job>
+			<Job name="EatTooMuchCandyCorn">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl4">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;3" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Corn="__Terwilligers_GameConfig:JobRewards:JobReward_EatTooMuchCandyCorn__" Corn_Bonus="System::evaluate('Selector::MonsarnoCornInfinite')" xp="70" />
+			</Job>
+			<Job name="SpoutOffAboutThingsYouDontUnderstand">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl16">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;15" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward DNA="__Terwilligers_GameConfig:JobRewards:JobReward_SpoutOffAboutThingsYouDontUnderstand__" DNA_Bonus="System::evaluate('Selector::MonsarnoDNAInfinite')" xp="35" />
+			</Job>
+			<Job name="TamperWithTheBuildingBlocksOfLife">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl12">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;11" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward DNA="__Terwilligers_GameConfig:JobRewards:JobReward_TamperWithTheBuildingBlocksOfLife__" DNA_Bonus="System::evaluate('Selector::MonsarnoDNAInfinite')" xp="55" />
+			</Job>
+			<Job name="WorkTheLand">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl10">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;9" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Fertilizer="__Terwilligers_GameConfig:JobRewards:JobReward_WorkTheLand__" Fertilizer_Bonus="System::evaluate('Selector::MonsarnoFertilizerInfinite')" xp="17" />
+			</Job>
+			<Job name="DontCareAboutTheFuture">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl5">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;4" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Fertilizer="__Terwilligers_GameConfig:JobRewards:JobReward_DontCareAboutTheFuture__" Fertilizer_Bonus="System::evaluate('Selector::MonsarnoFertilizerInfinite')" xp="27" />
+			</Job>
+			<Job name="WorkForBigBusiness">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl14">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;13" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Corn="__Terwilligers_GameConfig:JobRewards:JobReward_WorkForBigBusiness__" Corn_Bonus="System::evaluate('Selector::MonsarnoCornInfinite')" xp="27" />
+			</Job>
+			<Job name="BeSoldToAPrivateCompany">
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_MonsarnoLvl6">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::Monsarno::Object::MonsarnoLevel')&gt;5" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward Corn="__Terwilligers_GameConfig:JobRewards:JobReward_BeSoldToAPrivateCompany__" Corn_Bonus="System::evaluate('Selector::MonsarnoCornInfinite')" xp="45" />
+			</Job>
+			<Job name="BeInspiredByScience">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PhantomOfTheOpera01" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_OperaLvl1">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::SpringfieldOperaHouse::Object::OperaLevel')&gt;0" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward TheatreMasks="__Terwilligers_GameConfig:JobRewards:JobReward_BeInspiredByScience__" TheatreMasks_Bonus="System::evaluate('Selector::OperaTheatreMasksInfinite')" xp="100" />
+			</Job>
+			<Job name="AdoptForeignChildren">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PhantomOfTheOpera01" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_OperaLvl2">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::SpringfieldOperaHouse::Object::OperaLevel')&gt;1" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward TheatreMasks="__Terwilligers_GameConfig:JobRewards:JobReward_AdoptForeignChildren__" TheatreMasks_Bonus="System::evaluate('Selector::OperaTheatreMasksInfinite')" xp="70" />
+			</Job>
+			<Job name="UnderstudyToTheUndervalued">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PhantomOfTheOpera01" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_OperaLvl4">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::SpringfieldOperaHouse::Object::OperaLevel')&gt;3" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward TheatreMasks="__Terwilligers_GameConfig:JobRewards:JobReward_UnderstudyToTheUndervalued__" TheatreMasks_Bonus="System::evaluate('Selector::OperaTheatreMasksInfinite')" xp="55" />
+			</Job>
+			<Job name="SellSeatCushions">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PhantomOfTheOpera01" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_OperaLvl6">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::SpringfieldOperaHouse::Object::OperaLevel')&gt;5" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward TheatreMasks="__Terwilligers_GameConfig:JobRewards:JobReward_SellSeatCushions__" TheatreMasks_Bonus="System::evaluate('Selector::OperaTheatreMasksInfinite')" xp="45" />
+			</Job>
+			<Job name="HideFromTheLaw">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PhantomOfTheOpera01" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_OperaLvl8">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::SpringfieldOperaHouse::Object::OperaLevel')&gt;7" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward TheatreMasks="__Terwilligers_GameConfig:JobRewards:JobReward_HideFromTheLaw__" TheatreMasks_Bonus="System::evaluate('Selector::OperaTheatreMasksInfinite')" xp="27" />
+			</Job>
+			<Job name="SingLikeAnAngel">
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="PhantomOfTheOpera01" />
+				</VisibilityRequirements>
+				<Requirements>
+					<Requirement type="conditional" logic="OR" typetext="REQ_OperaLvl9">
+						<Requirement type="conditional" logic="AND">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="formula" formula="System::evaluate('Building::SpringfieldOperaHouse::Object::OperaLevel')&gt;8" />
+						</Requirement>
+						<Requirement type="land" land="Krustyland" />
+					</Requirement>
+				</Requirements>
+				<Reward TheatreMasks="__Terwilligers_GameConfig:JobRewards:JobReward_SingLikeAnAngel__" TheatreMasks_Bonus="System::evaluate('Selector::OperaTheatreMasksInfinite')" xp="17" />
+			</Job>
+		</Jobs>
+		<Buildings override="true">
+			<Building name="Monsarno">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="active quest" quest="CecilsRedemption03" />
+				</Requirements>
+				<AllowLevelUp value="true" useLevelUpMenuConfig="Terwilligers_BuildingUpgradeConfig:MonsarnoLevelUpMenu" />
+				<TouchIcon value="Indicator_Super15_UpgradeHQ.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+						<Requirement type="special currency" currency="Fertilizer" amount="__Terwilligers_GameConfig:Monsarno:CraftCost_Fertilizer_Lv19OrMore__" />
+						<Requirement type="special currency" currency="Corn" amount="__Terwilligers_GameConfig:Monsarno:CraftCost_Corn_Lv19OrMore__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="formula" formula="lessThan(System::evaluate('Building::Monsarno::Object::MonsarnoLevel'),7)" />
+								<Requirement type="quest" quest="TheSoupThickens01" not="true" />
+							</Requirement>
+							<Requirement type="quest" quest="TheSoupThickens01" />
+						</Requirement>
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building name="HerbicideDispenser">
+				<Requirements>
+					<Requirement type="active quest" quest="TheScienceOfCooking" />
+				</Requirements>
+				<AllowLevelUp value="true" useLevelUpMenuConfig="Terwilligers_BuildingUpgradeConfig:HerbicideDispenserLevelUpMenu" />
+				<TouchIcon value="Indicator_Super15_UpgradeHQ.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="players land" />
+						<Requirement type="special currency" currency="Corn" amount="__Terwilligers_GameConfig:FrinksHerbicide:CraftCost_Corn_Initial__" />
+						<Requirement type="special currency" currency="Corn" amount="__Terwilligers_GameConfig:FrinksHerbicide:CraftCost_Corn_Lv15OrMore__" />
+						<Requirement type="special currency" currency="DNA" amount="__Terwilligers_GameConfig:FrinksHerbicide:CraftCost_DNA_Initial__" />
+						<Requirement type="special currency" currency="DNA" amount="__Terwilligers_GameConfig:FrinksHerbicide:CraftCost_DNA_Lv15OrMore__" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+		</Buildings>
+		<Overrides>
+			<Requirements>
+				<Requirement type="quest" quest="CecilsRedemption03" />
+			</Requirements>
+			<Override what="menu" from="BuildIcon" to="ICO_MHUD_SpecialBuildIcon.rgb" />
+			<Override what="menu" from="ICO_STOR_Store_SM.rgb" to="ICO_STOR_SpecialBuildIcon_SM.rgb" />
+		</Overrides>
+		<Variable name="TerwilligersNumCecilsTasksCompleted" value="0" owner="0" />
+		<Variable name="GotCecil" value="false" />
+		<Variable name="Terwilligers" value="false" />
+		<Variable name="Terwilligers_Act1" value="false" />
+		<Variable name="Terwilligers_Act2" value="false" />
+		<Variable name="Terwilligers_Act3" value="false" />
+		<Variable name="bankedMutantPlants" value="0" />
+		<Variable name="bankedBobClones" value="0" />
+		<Variable name="KilledMutantPlants" value="0" />
+		<Variable name="KilledBobClones" value="0" />
+		<Variable name="TerwilligersFarmingLicense" value="false" />
+		<Variable name="FrinksHerbBaseRadius" value="3" />
+		<Variable name="EventHubTabValue" value="2" owner="0" />
+		<Variable name="CraftingCounter" value="0" />
+		<Variable name="AllClonesKilled" value="false" owner="0" />
+		<Variable name="PopupCurrentTime" value="0" />
+		<Variable name="OpenLeaderboard" value="0" owner="0" />
+		<Variable name="TerwilligersCecilTasksNextEndTime" value="0" />
+		<Variable name="TerwilligersCecilTasksLastVisitNextEndTime" value="0" />
+		<Variable name="CecilTasksCompleted" value="0" />
+		<Variable name="GuidePanelTabAvailable" value="false" />
+		<Variable name="RakeBundleCrafted" value="0" />
+		<Variable name="Terwilligers_HundredCorn_LimitedTime_Start" value="0" />
+		<Variable name="Terwilligers_HundredDNA_LimitedTime_Start" value="0" />
+		<Variable name="Terwilligers_HundredTheatreMasks_LimitedTime_Start" value="0" />
+		<Variable name="BLD_SpringfieldFarmersMarket_new" value="true" />
+		<Variable name="BLD_SpringfieldFarmersMarket_hasCrafted" value="false" />
+		<Variable name="BLD_SaniJohnSmokehouse_new" value="true" />
+		<Variable name="BLD_SaniJohnSmokehouse_hasCrafted" value="false" />
+		<Variable name="BLD_HomerDecoy_new" value="true" />
+		<Variable name="BLD_HomerDecoy_hasCrafted" value="false" />
+		<Variable name="BLD_SpringfieldWelcomesBobSign_new" value="true" />
+		<Variable name="BLD_SpringfieldWelcomesBobSign_hasCrafted" value="false" />
+		<Variable name="BLD_MonsarnoFounderStatue_new" value="true" />
+		<Variable name="BLD_MonsarnoFounderStatue_hasCrafted" value="false" />
+		<Variable name="BLD_OldSimpsonFarm_new" value="true" />
+		<Variable name="BLD_OldSimpsonFarm_hasCrafted" value="false" />
+		<Variable name="CHA_PetMutantPlant_new" value="true" />
+		<Variable name="CHA_PetMutantPlant_hasCrafted" value="false" />
+		<Variable name="BLD_Rake_new" value="true" />
+		<Variable name="BLD_Rake_hasCrafted" value="false" />
+		<Variable name="BLD_SpringwoodMinimumSecurityPrison_new" value="true" />
+		<Variable name="BLD_SpringwoodMinimumSecurityPrison_hasCrafted" value="false" />
+		<Variable name="BLD_SimpsonsHouseboat_new" value="true" />
+		<Variable name="BLD_SimpsonsHouseboat_hasCrafted" value="false" />
+		<Variable name="BLD_CactusPatch_new" value="true" />
+		<Variable name="BLD_CactusPatch_hasCrafted" value="false" />
+		<Variable name="BLD_CaneField_new" value="true" />
+		<Variable name="BLD_CaneField_hasCrafted" value="false" />
+		<Variable name="BLD_GasAndGo_new" value="true" />
+		<Variable name="BLD_GasAndGo_hasCrafted" value="false" />
+		<Variable name="BLD_FlowerWall_new" value="true" />
+		<Variable name="BLD_FlowerWall_hasCrafted" value="false" />
+		<Variable name="BLD_SimpsonsHouseboat_new" value="true" />
+		<Variable name="BLD_SimpsonsHouseboat_hasCrafted" value="false" />
+		<Variable name="CHA_RobertTerwilligerSr_new" value="true" />
+		<Variable name="CHA_RobertTerwilligerSr_hasCrafted" value="false" />
+		<Variable name="BLD_MonsarnoCafeteria_new" value="true" />
+		<Variable name="BLD_MonsarnoCafeteria_hasCrafted" value="false" />
+		<Variable name="BLD_MonsarnoPrimateResources_new" value="true" />
+		<Variable name="BLD_MonsarnoPrimateResources_hasCrafted" value="false" />
+		<Variable name="BLD_MonsarnoHumanResources_new" value="true" />
+		<Variable name="BLD_MonsarnoHumanResources_hasCrafted" value="false" />
+		<Variable name="BLD_MonsarnoLibrary_new" value="true" />
+		<Variable name="BLD_MonsarnoLibrary_hasCrafted" value="false" />
+		<Variable name="BLD_OutdoorOperaSeats_new" value="true" />
+		<Variable name="BLD_OutdoorOperaSeats_hasCrafted" value="false" />
+		<Variable name="BLD_OutdoorOperaTicketBooth_new" value="true" />
+		<Variable name="BLD_OutdoorOperaTicketBooth_hasCrafted" value="false" />
+		<Notifications location="Terwilligers_Notifications:Notifications">
+			<Notification name="MaxMutantPlants" />
+			<Notification name="MaxMutantClones" />
+			<Notification name="TwentyFourHourMaxMutantClones" />
+			<Notification name="TwentyFourHourMaxMutantPlants" />
+			<Notification name="FriendDeployedMutantSeedling" />
+		</Notifications>
+	</SpecialEvent>
+	<SpecialEvent id="4311" name="TerwilligersCecilOverride">
+		<Characters override="true">
+			<Character name="CecilTerwilliger" ignoredByCensus="true">
+				<IdlePriorityOverride priority="EventExclamation">
+					<Requirements>
+						<Requirement type="variable" variable="Terwilligers" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="CecilTasks" not="true" />
+							<Requirement type="formula" formula="TerwilligersCecilTasksLastVisitNextEndTime==TerwilligersCecilTasksNextEndTime" not="true" />
+						</Requirement>
+						<Requirement type="formula" formula="TerwilligersNumCecilsTasksCompleted==4" not="true" />
+						<Requirement type="quest" quest="CecilsRedemption03" />
+						<Requirement type="level" level="5" />
+					</Requirements>
+				</IdlePriorityOverride>
+				<SpecialIndicator icon="Indicator_Terwilligers_CecilTask" removeWhenBusy="true">
+					<Requirements>
+						<Requirement type="variable" variable="Terwilligers" />
+						<Requirement type="active quest" quest="CecilTasks" />
+						<Requirement type="formula" formula="TerwilligersCecilTasksLastVisitNextEndTime==TerwilligersCecilTasksNextEndTime" not="true" />
+						<Requirement type="formula" formula="TerwilligersNumCecilsTasksCompleted==4" not="true" />
+						<Requirement type="quest" quest="CecilsRedemption03" />
+						<Requirement type="level" level="5" />
+					</Requirements>
+				</SpecialIndicator>
+			</Character>
+		</Characters>
+	</SpecialEvent>
+</SpecialEvents>

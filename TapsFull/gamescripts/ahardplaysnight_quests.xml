@@ -1,0 +1,644 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="272000" name="TheLongStrokesOfSummer" />
+		<DataID id="272001" name="AHardPlaysNight_1" />
+		<DataID id="272002" name="AHardPlaysNight_2" />
+		<DataID id="272003" name="AHardPlaysNight_3" />
+		<DataID id="272004" name="AHardPlaysNight_4" />
+		<DataID id="272005" name="AHardPlaysNight_5" />
+		<DataID id="272006" name="TheFinalCurtain" />
+		<DataID id="272007" name="StageProducer_1" />
+		<DataID id="272008" name="StageProducer_2" />
+		<DataID id="272009" name="StageProducer_3" />
+		<DataID id="272010" name="StageProducer_4" />
+		<DataID id="272011" name="StageProducer_5" />
+		<DataID id="272012" name="AintNothinLikeMe_1" />
+		<DataID id="272013" name="AintNothinLikeMe_2" />
+		<DataID id="272014" name="AintNothinLikeMe_3" />
+		<DataID id="272015" name="AintNothinLikeMe_4" />
+		<DataID id="272016" name="AintNothinLikeMe_5" />
+		<DataID id="272017" name="TurningOverANewLeaf_1" />
+		<DataID id="272018" name="TurningOverANewLeaf_2" />
+		<DataID id="272019" name="TurningOverANewLeaf_3" />
+		<DataID id="272020" name="TurningOverANewLeaf_4" />
+		<DataID id="272600" name="AHardPlaysNight_Completed" />
+		<DataID id="272601" name="AHardPlaysNight_IntroPanel" />
+		<DataID id="272602" name="AHardPlaysNight_72HourWarning" onDeprecated="retain" endDate="AHardPlaysNight_End" />
+		<DataID id="272603" name="AHardPlaysNight_24HourWarning" onDeprecated="retain" endDate="AHardPlaysNight_End" />
+		<DataID id="272604" name="AHardPlaysNight_EventExpired" />
+		<DataID id="272605" name="AHardPlaysNight_MasterQuest" />
+		<DataID id="272700" name="AutoApply_BartSawyerSkin" />
+		<DataID id="272701" name="AutoApply_StageManagerMargeSkin" />
+		<DataID id="272702" name="AutoApply_BroccoliRalphSkin" />
+		<DataID id="272900" name="AHardPlaysNight_RecommendStore" onDeprecated="delete" endDate="AHardPlaysNight_End" />
+		<DataID id="272703" name="ApplySawyer_BuildOwned" />
+	</MasterList>
+	<Quest id="272600" name="AHardPlaysNight_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="TheFinalCurtain" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="272601" name="AHardPlaysNight_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="TheLongStrokesOfSummer" />
+			<Requirement type="time" end="AHardPlaysNight_End" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="272602" name="AHardPlaysNight_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::AHardPlaysNight_End')-fromHours(72)]_" end="_[System::evaluate('Date::AHardPlaysNight_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="AHardPlaysNight_Complete" not="true" />
+			<Requirement type="quest" quest="AHardPlaysNight_IntroPanel" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="272603" name="AHardPlaysNight_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::AHardPlaysNight_End')-fromHours(24)]_" end="AHardPlaysNight_End" triggerEvent="true" />
+			<Requirement type="variable" variable="AHardPlaysNight_Complete" not="true" />
+			<Requirement type="quest" quest="AHardPlaysNight_IntroPanel" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="272604" name="AHardPlaysNight_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="AHardPlaysNight_End" triggerEvent="true" />
+			<Requirement type="variable" variable="AHardPlaysNight_Complete" not="true" />
+			<Requirement type="quest" quest="AHardPlaysNight_IntroPanel" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="272605" name="AHardPlaysNight_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_Expired" not="true" />
+			<Requirement type="variable" variable="AHardPlaysNight_Complete" not="true" />
+			<Requirement type="reqList" location="AHardPlaysNight_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="AHardPlaysNight_5" />
+					<Requirement type="variable" variable="AHardPlaysNight_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="AHardPlaysNight_1">
+				<Requirement type="quest started" quest="AHardPlaysNight_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AHardPlaysNight_2">
+				<Requirement type="quest started" quest="AHardPlaysNight_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AHardPlaysNight_3">
+				<Requirement type="quest started" quest="AHardPlaysNight_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AHardPlaysNight_4">
+				<Requirement type="quest started" quest="AHardPlaysNight_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AHardPlaysNight_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="272000" name="TheLongStrokesOfSummer" tags="sidequest" icon="AHardPlaysNight_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="AHardPlaysNight_Start" end="AHardPlaysNight_End" triggerEvent="true" />
+			<Requirement type="characterunlocked" name="Marge" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="TheLongStrokesOfSummer_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="TheLongStrokesOfSummer_End" />
+		<Objectives>
+			<Objective type="complete job" character="DeweyLargo" job="WakeUp" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DeweyLargo" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ralph" job="StickRandomObjectsInHisMouth" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ralph" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="TellAnotherJoke" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="AHardPlaysNight_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="272001" name="AHardPlaysNight_1" tags="mainquest" icon="AHardPlaysNight_Currency" sidebarIconScript="AHardPlaysNight_Scripts:OpenMasterQuest" questMenuConfigPath="AHardPlaysNight_QuestConfig:AHardPlaysNight_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AHardPlaysNight_IntroPanel" />
+			<Requirement type="time" start="AHardPlaysNight_Start" end="AHardPlaysNight_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_1_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AHardPlaysNight_Currency')" amount="__AHardPlaysNight_GameConfig:ResourceQuantities:AHardPlaysNight_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AHardPlaysNight_Scripts:ShowJobList" textpoolName="QST_AHardPlaysNight_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherPlaybillsFromStageWasteBins" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Bart" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Ralph" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Marge" />
+					<Job name="DesignBrandNewPlaybills" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="MsPeyton" job="ContactParents" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MsPeyton" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="Parents" job="FindTimeToComeToSchool" quantity="5" />
+			<Objective type="complete job" character="Marge" job="HappilyComeToSchool" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AHardPlaysNight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AHardPlaysNight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="272002" name="AHardPlaysNight_2" tags="mainquest" icon="AHardPlaysNight_Currency" sidebarIconScript="AHardPlaysNight_Scripts:OpenMasterQuest" questMenuConfigPath="AHardPlaysNight_QuestConfig:AHardPlaysNight_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AHardPlaysNight_1" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_2_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AHardPlaysNight_Currency')" amount="__AHardPlaysNight_GameConfig:ResourceQuantities:AHardPlaysNight_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AHardPlaysNight_Scripts:ShowJobList" textpoolName="QST_AHardPlaysNight_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherPlaybillsFromStageWasteBins" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Bart" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Ralph" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Marge" />
+					<Job name="DesignBrandNewPlaybills" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="MsPeyton" job="TryToControlTheMeeting" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MsPeyton" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="Parents" job="ContinueToObject" quantity="5" />
+			<Objective type="complete job" character="Marge" job="HappilyPullOutHerStageBinder" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AHardPlaysNight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AHardPlaysNight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="272003" name="AHardPlaysNight_3" tags="mainquest" icon="AHardPlaysNight_Currency" sidebarIconScript="AHardPlaysNight_Scripts:OpenMasterQuest" questMenuConfigPath="AHardPlaysNight_QuestConfig:AHardPlaysNight_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AHardPlaysNight_2" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_3_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AHardPlaysNight_Currency')" amount="__AHardPlaysNight_GameConfig:ResourceQuantities:AHardPlaysNight_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AHardPlaysNight_Scripts:ShowJobList" textpoolName="QST_AHardPlaysNight_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherPlaybillsFromStageWasteBins" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Bart" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Ralph" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Marge" />
+					<Job name="DesignBrandNewPlaybills" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="ChangeIntoHerStageManagerOutfit" quantity="1" />
+			<Objective type="complete job" character="Bart" job="PretendToBeDeaf" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="BraceHerselfForBadNews" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AHardPlaysNight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AHardPlaysNight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="272004" name="AHardPlaysNight_4" tags="mainquest" icon="AHardPlaysNight_Currency" sidebarIconScript="AHardPlaysNight_Scripts:OpenMasterQuest" questMenuConfigPath="AHardPlaysNight_QuestConfig:AHardPlaysNight_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AHardPlaysNight_3" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_4_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AHardPlaysNight_Currency')" amount="__AHardPlaysNight_GameConfig:ResourceQuantities:AHardPlaysNight_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AHardPlaysNight_Scripts:ShowJobList" textpoolName="QST_AHardPlaysNight_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherPlaybillsFromStageWasteBins" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Bart" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Ralph" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Marge" />
+					<Job name="DesignBrandNewPlaybills" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="AttemptToDisappear" quantity="1" />
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="BeExtremelyProud" quantity="1" />
+			<Objective type="complete job" character="MsPeyton" job="TryToHideHerAmusement" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MsPeyton" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Nelson" job="MemorizeHisScript" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Nelson" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="Youngster" job="ProtestThisWholeFiasco" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AHardPlaysNight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AHardPlaysNight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="272005" name="AHardPlaysNight_5" tags="mainquest" icon="AHardPlaysNight_Currency" sidebarIconScript="AHardPlaysNight_Scripts:OpenMasterQuest" questMenuConfigPath="AHardPlaysNight_QuestConfig:AHardPlaysNight_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AHardPlaysNight_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AHardPlaysNight_4" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_5_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AHardPlaysNight_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AHardPlaysNight_Currency')" amount="__AHardPlaysNight_GameConfig:ResourceQuantities:AHardPlaysNight_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AHardPlaysNight_Scripts:ShowJobList" textpoolName="QST_AHardPlaysNight_Collect_obj">
+				<HighlightJobList>
+					<Job name="GatherPlaybillsFromStageWasteBins" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Bart" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Ralph" />
+					<Job name="GatherPlaybillsFromStageWasteBins_Marge" />
+					<Job name="DesignBrandNewPlaybills" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="Teachers" job="StormTheStage" quantity="5" />
+			<Objective type="complete job" character="Bart" job="GetEducatedOnProperPaintingTechnique" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="BartSawyer" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="GetEducatedOnProperPaintingTechnique_BS" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="BartSawyer" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="Youngster" job="WatchWithMorbidFascination" quantity="5" />
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="FinishBuildingTheSet" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AHardPlaysNight_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AHardPlaysNight_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="272006" name="TheFinalCurtain" tags="sidequest" icon="AHardPlaysNight_Currency">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AHardPlaysNight_5" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="TheFinalCurtain_Start" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="TheFinalCurtain_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="FinishThePlay_Bart" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="BartSawyer" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="FinishThePlay" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="BartSawyer" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="BeExtremelyProud_Outro" quantity="1" />
+			<Objective type="complete job" group="Teachers" job="BeConfusedThatThisWorked" quantity="5" />
+			<Objective type="complete job" group="Parents" job="UnexpectedlyEnjoyThePlay" quantity="5" />
+			<Objective type="complete job" character="MsPeyton" job="FinallyRelax" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MsPeyton" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="272007" name="StageProducer_1" tags="sidequest" icon="Marge_StageManager">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Marge" unlockedskin="StageManagerMarge" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="TheFinalCurtain" />
+				<Requirement type="time" start="AHardPlaysNight_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_1_Start" triggerType="character" character="Marge" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="FollowAlongSuspiciously" quantity="1" />
+			<Objective type="complete job" character="SashaReed" job="AttemptToDistractMarge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SashaReed" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="LlewellynSinclair" job="SummarizeHisMasterpiece" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LlewellynSinclair" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272008" name="StageProducer_2" tags="sidequest" icon="Marge_StageManager">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="StageProducer_1" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_2_Start" triggerType="character" character="Marge" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="TalkToTheTheaterManager" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272009" name="StageProducer_3" tags="sidequest" icon="Marge_StageManager">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="StageProducer_2" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_3_Start" triggerType="character" character="Marge" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="RunForCover_HPN" quantity="1" />
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="PrepareToTakeOverThePlay" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272010" name="StageProducer_4" tags="sidequest" icon="Marge_StageManager">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="StageProducer_3" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_4_Start" triggerType="character" character="Marge" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="PromoteHerPlay" quantity="1" />
+			<Objective type="complete job" character="SashaReed" job="ContinueRehearsal" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SashaReed" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="LlewellynSinclair" job="RealizeHeCantStopThis" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LlewellynSinclair" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272011" name="StageProducer_5" tags="sidequest" icon="Marge_StageManager">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="StageProducer_4" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_5_Start" triggerType="character" character="Marge" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="StageProducer_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="StageManagerMarge" job="HandleCostuming" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="WonderWhatTheyreWatching" quantity="5" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="272012" name="AintNothinLikeMe_1" tags="sidequest" icon="Bart_Sawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Bart" unlockedskin="BartSawyer" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_1_Start" triggerType="character" character="Bart" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="PullPranksAroundTown" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272013" name="AintNothinLikeMe_2" tags="sidequest" icon="Bart_Sawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AintNothinLikeMe_1" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_2_Start" triggerType="character" character="Bart" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="ReadAboutTomSawyer" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272014" name="AintNothinLikeMe_3" tags="sidequest" icon="Bart_Sawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AintNothinLikeMe_2" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_3_Start" triggerType="character" character="Bart" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="DoSomeWhitewashing_Fence" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="WhitewashedFence" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="DoSomeWhitewashing_NoFence" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="WhitewashedFence" not="true" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272015" name="AintNothinLikeMe_4" tags="sidequest" icon="Bart_Sawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AintNothinLikeMe_3" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_4_Start" triggerType="character" character="Bart" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="WhitewashSpringfield_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272016" name="AintNothinLikeMe_5" tags="sidequest" icon="Bart_Sawyer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AintNothinLikeMe_4" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_5_Start" triggerType="character" character="Bart" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="AintNothinLikeMe_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="BartSawyer" job="RunFromLiterature" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="ChaseBartWithBooks" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="272017" name="TurningOverANewLeaf_1" tags="sidequest" icon="Ralph_Broccoli">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Ralph" unlockedskin="BroccoliRalph" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="TheFinalCurtain" />
+				<Requirement type="time" start="AHardPlaysNight_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="TurningOverANewLeaf_1_Start" triggerType="character" character="Ralph" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="TurningOverANewLeaf_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="KeepLaughing" quantity="1" />
+			<Objective type="complete job" character="Ralph" skin="BroccoliRalph" job="TellMoreJokes" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272018" name="TurningOverANewLeaf_2" tags="sidequest" icon="Ralph_Broccoli">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TurningOverANewLeaf_1" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="TurningOverANewLeaf_2_Start" triggerType="character" character="Ralph" />
+		<Objectives>
+			<Objective type="complete job" character="Ralph" skin="BroccoliRalph" job="BlendInWithNature_TEMP" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="PatHimselfOnTheBack" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272019" name="TurningOverANewLeaf_3" tags="sidequest" icon="Ralph_Broccoli">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TurningOverANewLeaf_2" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="TurningOverANewLeaf_3_Start" triggerType="character" character="Ralph" />
+		<Objectives>
+			<Objective type="complete job" character="Ralph" skin="BroccoliRalph" job="GoToTheStore" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="RegretHelping" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="272020" name="TurningOverANewLeaf_4" tags="sidequest" icon="Ralph_Broccoli">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TurningOverANewLeaf_3" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts_Dialogue" name="TurningOverANewLeaf_4_Start" triggerType="character" character="Ralph" />
+		<EndScript package="AHardPlaysNight_Scripts_Dialogue" name="TurningOverANewLeaf_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Ralph" skin="BroccoliRalph" job="TryToGrowBigger_TEMP" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="StillBeProud" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="272700" name="AutoApply_BartSawyerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="BartSawyer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Bart" unlockedskin="BartSawyer" not="true" />
+			<Requirement type="characterunlocked" name="Bart" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="AHardPlaysNight_Scripts" name="AutoApply_BartSawyerSkin_End" />
+	</Quest>
+	<Quest id="272701" name="AutoApply_StageManagerMargeSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="StageManagerMarge" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Marge" unlockedskin="StageManagerMarge" not="true" />
+			<Requirement type="characterunlocked" name="Marge" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="AHardPlaysNight_Scripts" name="AutoApply_StageManagerMargeSkin_End" />
+	</Quest>
+	<Quest id="272702" name="AutoApply_BroccoliRalphSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="BroccoliRalph" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Ralph" unlockedskin="BroccoliRalph" not="true" />
+			<Requirement type="characterunlocked" name="Ralph" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="AHardPlaysNight_Scripts" name="AutoApply_BroccoliRalphSkin_End" />
+	</Quest>
+	<Quest id="272900" name="AHardPlaysNight_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="AHardPlaysNight_Requirements:StoreCategory_AHardPlaysNight_Unlocked" />
+		</Requirements>
+		<StartScript package="AHardPlaysNight_Scripts" name="RecommendStoreCategory_AHardPlaysNight" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="272703" name="ApplySawyer_BuildOwned" tags="sidequest">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="building owned" building="StageCabin" />
+				<Requirement type="building" quest="StageCabin" />
+			</Requirement>
+			<Requirement type="characterunlocked" name="Bart" unlockedskin="BartSawyer" not="true" />
+			<Requirement type="characterunlocked" name="Bart" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="ahardplaysnight_Scripts" name="ApplySawyerBuildOwned" />
+	</Quest>
+</Quests>

@@ -1,0 +1,639 @@
+﻿<Attributes>
+	<Attribute name="DigSite_TappedInMinigameInternal"><![CDATA[
+        // returns 0: already dug
+        // returns 1: don't have shovels
+        // returns 2: all good
+        function canTapDigSiteSquare(building, layer, x, z, digCurrencyName)
+        {
+                if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                {
+                    var offsetZ = z;
+                    var offsetX = x;
+                    var anim = ((offsetZ * 6) + offsetX) -1;
+                    
+                    
+                    var dig =  Object::getVariableAsNumber(building,'Dig');
+                    var oldDig = dig;
+                    dig = dig & ~(1<<anim);
+                    // if not already dug
+                    if ((oldDig & (1<<anim)))
+                    {
+                        if (User::getCurrencyAmount(digCurrencyName) > 0)
+                        {
+                            return 2;
+                        }
+                        else
+                        {
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+        }
+        var touchX = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_X'));
+        var touchZ = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_Z'));
+        var building = Land::getFirstInstanceOfObject(Building::find(buildingName));
+        var buildingX = toGrid(Building::getProperty(building,'X'));
+        var buildingZ = toGrid(Building::getProperty(building,'Z'));
+        var digSiteEdgeSize = 2;
+        var digSiteSize = 14;
+        var layer = 1;
+        if (Building::getSkin(building) == buildingSkinName)
+        {
+            digSiteEdgeSize = 1;
+            layer = 2;
+        }
+
+        // what building grid was tapped
+        var buildingTouchX = touchX - buildingX;
+        var buildingTouchZ = touchZ - buildingZ;
+
+        // the dirt grid starts where the edge ends
+        buildingTouchX = buildingTouchX - digSiteEdgeSize;
+        buildingTouchZ = buildingTouchZ + digSiteEdgeSize;
+
+        // top should be z=0
+        buildingTouchZ = buildingTouchZ + (digSiteSize - digSiteEdgeSize);
+
+        // each dirt grid is two world grids
+        buildingTouchX = floor(buildingTouchX / 2);
+        buildingTouchZ = floor(buildingTouchZ / 2);
+
+        // x starts at one for some reason
+        buildingTouchX = buildingTouchX + 1;
+
+        var offsetX = floor((touchX - (buildingX + digSiteEdgeSize)) / 2) + 1;
+        var offsetZ = floor((touchZ - (buildingZ - (digSiteEdgeSize + 12))) / 2);
+        User::setVariable(tapResultVariableName, canTapDigSiteSquare(building, layer, offsetX, offsetZ, digCurrencyName), false);
+    ]]></Attribute>
+	<Attribute name="DigSite_TappedInMinigameNormal"><![CDATA[
+        // returns 0: already dug
+        // returns 1: don't have shovels
+        // returns 2: all good
+        function canTapDigSiteSquare(building, layer, x, z, digCurrencyName)
+        {
+            if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+            {
+                var offsetZ = z;
+                var offsetX = x;
+                var anim = ((offsetZ * 6) + offsetX) -1;
+
+                var dig =  Object::getVariableAsNumber(building,'Dig');
+                var oldDig = dig;
+                dig = dig & ~(1<<anim);
+                // if not already dug
+                if ((oldDig & (1<<anim)))
+                {
+                    if (User::getCurrencyAmount(digCurrencyName) > 0)
+                    {
+                        return 2;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        var touchX = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_X'));
+        var touchZ = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_Z'));
+        var building = Land::getFirstInstanceOfObject(Building::find(buildingName));
+        var buildingX = toGrid(Building::getProperty(building,'X'));
+        var buildingZ = toGrid(Building::getProperty(building,'Z'));
+        var digSiteEdgeSize = 2;
+        var digSiteSize = 14;
+        var layer = 1;
+        if (Building::getSkin(building) == buildingSkinName)
+        {
+            digSiteEdgeSize = 1;
+            layer = 2;
+        }
+
+        // what building grid was tapped
+        var buildingTouchX = touchX - buildingX;
+        var buildingTouchZ = touchZ - buildingZ;
+
+        // the dirt grid starts where the edge ends
+        buildingTouchX = buildingTouchX - digSiteEdgeSize;
+        buildingTouchZ = buildingTouchZ + digSiteEdgeSize;
+
+        // top should be z=0
+        buildingTouchZ = buildingTouchZ + (digSiteSize - digSiteEdgeSize);
+
+        // each dirt grid is two world grids
+        buildingTouchX = floor(buildingTouchX / 2);
+        buildingTouchZ = floor(buildingTouchZ / 2);
+
+        // x starts at one for some reason
+        buildingTouchX = buildingTouchX + 1;
+
+        var x = floor((touchX - (buildingX + digSiteEdgeSize)) / 2) + 1;
+        var z = floor((touchZ - (buildingZ - (digSiteEdgeSize + 12))) / 2);
+
+        //function tapDigSiteSquare(building, layer, x, z)
+        {
+            var canDig = canTapDigSiteSquare(building, layer, x, z, digCurrencyName);
+            if (canDig == 0)
+            {
+                return;
+            }
+            elseif (canDig == 1)
+            {
+                User::setVariable(digSiteFoundState, 2, false);
+                return;
+            }
+            elseif (canDig == 2)
+            {
+                //Debug::printToScreen('tapDigSiteSquare ' + toString(x) + ', ' + toString(z));
+                if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                {
+                    var offsetZ = z;
+                    var offsetX = x;
+                    var anim = ((offsetZ * 6) + offsetX) -1;
+                    
+                    
+                    var dig =  Object::getVariableAsNumber(building,'Dig');
+                    var oldDig = dig;
+                    dig = dig & ~(1<<anim);
+                    // if not already dug
+                    if ((oldDig & (1<<anim)))
+                    {
+                        User::removeCurrencyAmount(digCurrencyName, 1);
+                        // If there is no DCS what do?
+                        User::setVariable(DCS_Excavations_Name, User::getVariable(DCS_Excavations_Name)+1, true);
+                        var rock = Object::getVariableAsNumber(building, 'DigRock');
+                        var treasure = Object::getVariableAsNumber(building, 'DigTreasure');
+                        var nSquares = Object::getVariableAsNumber(building, 'NumSquares');
+
+                        //Debug::print(dig);
+                        Object::setVariable(building,'Dig',toString(dig),0,false);
+                        //Debug::printToScreen(toString(treasure) + ', ' + toString(anim));
+                        // layer 1 - 2, 14
+                        // layer 2 - 1, 13
+                        // the x has -1 and z has +1 to position stuff at the bottom corner rather than the middle
+                        var x = gridToWorld(toGrid(Building::getProperty(building, 'X')) - 1 + (2 - layer) + offsetX * 2);
+                        var z = gridToWorld(toGrid(Building::getProperty(building, 'Z')) + 1 - (14 - layer) + offsetZ * 2);
+                        FlyBy::PlayAtPosition(flyByName, 10, 0.13, 24, x, z);
+                        var playDigSound = '';
+
+                        var reward = Array::create();
+                        if (treasure & (1<<anim))
+                        {
+                            //Debug::printToScreen('treasure!');
+                            //Enable this if we want to see it drop on the land
+                            //var currency = activeTreasuresName;
+                            //Array::addValueForKey(reward, currency, 1);
+                            //User::addCurrencyAmount(activeTreasuresName, 1);
+                            User::setVariable(DCS_TreasuresName, 1, true);
+                            User::setVariable(digSiteFoundState, 1, false);
+                            if (!Requirements::checkRequirementList('THOH2018_Requirements:Event_Active'))
+                            {
+                                User::setVariable('THOH2018_DigSiteFoundItem', rand(100) + 1, true);
+                            }
+                            playDigSound = treasureFoundSoundName;
+
+                            //Check to see if there are extra rewards found with the treasure
+                            var finalXP = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_XPReward__'));
+                            var finalMoney = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_MoneyReward__'));
+                            var finalPrizeTrack = toDouble(System::getConfigValue('__' + balanceConfigLocationName +':MainPrizeFound_PrizeTrackReward__'));
+                            var finalCrafting = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_CraftingReward__'));
+                            var finalRelic = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_TreasureReward__'));
+
+                            if(finalXP > 0)
+                            {
+                                var currency = 'xp';
+                                Array::addValueForKey(reward, currency, finalXP);
+                            }
+                            if(finalMoney > 0)
+                            {
+                                var currency = 'money';
+                                Array::addValueForKey(reward, currency, finalMoney);
+                            }
+                            if(finalPrizeTrack > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                                Array::addValueForKey(reward, currency, finalPrizeTrack);
+                            }
+                            if(finalCrafting > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':CraftingCurrency__');
+                                Array::addValueForKey(reward, currency, finalCrafting);
+                                var currencyLifetime = System::getConfigValue('__' + gameConfigLocationName + ':CraftingCurrencyLifeTime__');
+                                User::addCurrencyAmount(currencyLifetime, round(finalCrafting * toDouble(Selector::getValue(System::getConfigValue('__' + gameConfigLocationName + ':Bonus__')))));
+                            }
+                            if(finalRelic > 0)
+                            {
+                                var currency = activeTreasuresName;
+                                Array::addValueForKey(reward, currency, finalRelic);
+                            }
+                        }
+                        elseif (rock & (1<<anim))
+                        {
+                            //Debug::printToScreen('rock!');
+                            playDigSound = rockFoundSoundName;
+                            Global::setVariable(digSite_CanShowShovelPrompt, 1);
+                            
+                            var notFoundXP = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_XPReward__'));
+                            var notFoundMoney = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_MoneyReward__'));
+                            var notFoundPrizeTrack = toDouble(System::getConfigValue('__' + balanceConfigLocationName +':NotFound_PrizeTrackReward__'));
+                            
+                            if (notFoundXP > 0)
+                            {
+                                var currency = 'xp';
+                                Array::addValueForKey(reward, currency, notFoundXP);
+                            }
+                            if (notFoundMoney > 0)
+                            {
+                                var currency = 'money';
+                                Array::addValueForKey(reward, currency, notFoundMoney);
+                            }
+                            
+                            if (notFoundPrizeTrack > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                                Array::addValueForKey(reward, currency, notFoundPrizeTrack);
+                            }
+                        }
+                        else
+                        {
+                            var notFoundXP = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_XPReward__'));
+                            var notFoundMoney = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_MoneyReward__'));
+                            var notFoundPrizeTrack = toDouble(System::getConfigValue('__' + balanceConfigLocationName +':NotFound_PrizeTrackReward__'));
+                        
+                            if (notFoundXP > 0)
+                            {
+                                var currency = 'xp';
+                                Array::addValueForKey(reward, currency, notFoundXP);
+                            }
+                            if (notFoundMoney > 0)
+                            {
+                                var currency = 'money';
+                                Array::addValueForKey(reward, currency, notFoundMoney);
+                            }
+                            if (notFoundPrizeTrack > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                                Array::addValueForKey(reward, currency, notFoundPrizeTrack);
+                            }
+                        
+                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+                            playDigSound = digSoundName;
+                            Global::setVariable(digSite_CanShowShovelPrompt, 1);
+                        }
+                        var bonus = toDouble(Selector::getValue(System::getConfigValue('__' + gameConfigLocationName + ':Bonus__')));
+                        if (!Requirements::checkRequirementList('THOH2018_Requirements:Event_Active'))
+                        {
+                            //If the event is over set it to 1 otherwise Selector::getvalue will return 0
+                            bonus = 1;
+                        }
+                        var rewardWithBonus = Array::create();
+                        
+                        var prizeTrackCurrencyName = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                        foreach(reward as k,v)
+                        {
+                            var currentBonus = bonus;
+                            if(k == prizeTrackCurrencyName)
+                            {
+                                currentBonus = currentBonus + toDouble(Building::getArrangeBonus(building)) / 100);
+                            }
+                            var prizeAmount = round(v * currentBonus);
+                            Array::addValueForKey(rewardWithBonus, k, prizeAmount);
+                            var variableName = digSiteFoundName + k;
+                            var currentTotal = User::getVariable(variableName);
+                            User::setVariable(variableName, currentTotal + prizeAmount, false);
+                            var cumulativeVariableName = digSiteCumulativeFoundName + k;
+                            var cumulativeTotal = User::getVariable(cumulativeVariableName);
+                            User::setVariable(cumulativeVariableName, cumulativeTotal + prizeAmount, false);
+                        }
+                        Reward::GrantRewardAtWorldPosition(rewardWithBonus, x, z, Array::create('collectTime' => 0.5, 'tappable' => false, 'suppressSound' => true));
+                        if (playDigSound!='')
+                        {
+                            Audio::play(playDigSound);
+                        }
+                    }
+                }
+            }
+        }
+
+                            ]]></Attribute>
+	<Attribute name="TreasureFound"><![CDATA[
+
+        var b = Building::find(buildingName);
+        var building = Land::getFirstInstanceOfObject(b);
+        var layer = 1;
+        if (Building::getSkin(building) == 'OldRuins02')
+        {
+            layer = 2;
+        }
+        
+        // Save 'Dig' variable to 'DigFinal' before we dig everything else up in animation
+        var digFinal = Object::getVariableAsNumber(building,'Dig');
+
+        var treasureFoundSoundPlayed = false;
+        var rockFoundSoundPlayed = false;
+        var prizeFoundSoundPlayed = false;
+        var digSoundPlayed = false;
+        
+        Object::setVariable(building,'DigFinal',toString(digFinal),0,false);
+
+        for (var x = 1; x <= 6; x++)
+        {
+            for (var z = 0; z < 6; z++)
+            {
+                //function tapDigSiteSquare(building, layer, x, z)
+                {
+                //Debug::printToScreen('tapDigSiteSquare ' + toString(x) + ', ' + toString(z));
+                if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                {
+                    var offsetZ = z;
+                    var offsetX = x;
+                    var anim = ((offsetZ * 6) + offsetX) -1;
+                    
+                    var dig =  Object::getVariableAsNumber(building,'Dig');
+                    var oldDig = dig;
+                    dig = dig & ~(1<<anim);
+                    // if not already dug
+                    if ((oldDig & (1<<anim)))
+                    {
+                        var rock = Object::getVariableAsNumber(building, 'DigRock');
+                        var treasure = Object::getVariableAsNumber(building, 'DigTreasure');
+                        var nSquares = Object::getVariableAsNumber(building, 'NumSquares');
+                        
+                        //Debug::print(dig);
+                        Object::setVariable(building,'Dig',toString(dig),0,false);
+                        //Debug::printToScreen(toString(treasure) + ', ' + toString(anim));
+                        // layer 1 - 2, 14
+                        // layer 2 - 1, 13
+                        // the x has -1 and z has +1 to position stuff at the bottom corner rather than the middle
+                        var x = gridToWorld(toGrid(Building::getProperty(building, 'X')) - 1 + (2 - layer) + offsetX * 2);
+                        var z = gridToWorld(toGrid(Building::getProperty(building, 'Z')) + 1 - (14 - layer) + offsetZ * 2);
+                        FlyBy::PlayAtPosition('DigSite_Tap', 10, 0.13, 24, x, z);
+                        var playDigSound = '';
+                        var reward = Array::create();
+                        if (treasure & (1<<anim))
+                        {
+                            //Debug::printToScreen('treasure!');
+                            //Enable this if we want it to drop in the land
+                            //var currency = activeTreasuresName;
+                            //Array::addValueForKey(reward, currency, 1);
+                            //User::addCurrencyAmount(activeTreasuresName, 1);
+                            User::setVariable(DCS_TreasuresName, 1, true);
+                            User::setVariable(digSiteFoundState, 1, false);
+                            if (!Requirements::checkRequirementList('THOH2018_Requirements:Event_Active'))
+                            {
+                                User::setVariable('THOH2018_DigSiteFoundItem', rand(100) + 1, true);
+                            }
+
+                            if(!treasureFoundSoundPlayed)
+                            {
+                                playDigSound = treasureFoundSoundName;
+                                treasureFoundSoundPlayed = true;
+                            }
+                            //Check to see if there are extra rewards found with the treasure
+                            var finalPrizeTrack = toDouble(System::getConfigValue('__' + balanceConfigLocationName +':MainPrizeFound_PrizeTrackReward__'));
+                            var finalCrafting = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_CraftingReward__'));
+                            var finalRelic = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_TreasureReward__'));
+                            var finalXP = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_XPReward__'));
+                            var finalMoney = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':MainPrizeFound_MoneyReward__'));
+
+                            if(finalPrizeTrack > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                                Array::addValueForKey(reward, currency, finalPrizeTrack);
+                            }
+                            if(finalCrafting > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':CraftingCurrency__');
+                                Array::addValueForKey(reward, currency, finalCrafting);
+                                var currencyLifetime = System::getConfigValue('__' + gameConfigLocationName + ':CraftingCurrencyLifeTime__');
+                                User::addCurrencyAmount(currencyLifetime, round(finalCrafting * toDouble(Selector::getValue(System::getConfigValue('__' + gameConfigLocationName + ':Bonus__')))));
+                            }
+                            if(finalXP > 0)
+                            {
+                                var currency = 'xp';
+                                Array::addValueForKey(reward, currency, finalXP);
+                            }
+                            if(finalMoney > 0)
+                            {
+                                var currency = 'money';
+                                Array::addValueForKey(reward, currency, finalMoney);
+                            }
+                            if(finalRelic > 0)
+                            {
+                                var currency = activeTreasuresName;
+                                Array::addValueForKey(reward, currency, finalRelic);
+                            }
+                        }
+                        elseif (rock & (1<<anim))
+                        {
+                            //Debug::printToScreen('rock!');
+                            if(!rockFoundSoundPlayed)
+                            {
+                                playDigSound = rockFoundSoundName;
+                                rockFoundSoundPlayed = true;
+                            }
+                            var notFoundXP = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_XPReward__'));
+                            var notFoundMoney = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_MoneyReward__'));
+                            var notFoundPrizeTrack = toDouble(System::getConfigValue('__' + balanceConfigLocationName +':NotFound_PrizeTrackReward__'));
+                            
+                            if (notFoundXP > 0)
+                            {
+                                var currency = 'xp';
+                                Array::addValueForKey(reward, currency, notFoundXP);
+                            }
+                            if (notFoundMoney > 0)
+                            {
+                                var currency = 'money';
+                                Array::addValueForKey(reward, currency, notFoundMoney);
+                            }
+                            if (notFoundPrizeTrack > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                                Array::addValueForKey(reward, currency, notFoundPrizeTrack);
+                            }
+                        }
+                        else
+                        {
+                            var notFoundXP = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_XPReward__'));
+                            var notFoundMoney = toDouble(System::getConfigValue('__' + balanceConfigLocationName + ':NotFound_MoneyReward__'));
+                            var notFoundPrizeTrack = toDouble(System::getConfigValue('__' + balanceConfigLocationName +':NotFound_PrizeTrackReward__'));
+                            
+                            if (notFoundXP > 0)
+                            {
+                                var currency = 'xp';
+                                Array::addValueForKey(reward, currency, notFoundXP);
+                            }
+                            if (notFoundMoney > 0)
+                            {
+                                var currency = 'money';
+                                Array::addValueForKey(reward, currency, notFoundMoney);
+                            }
+                            if (notFoundPrizeTrack > 0)
+                            {
+                                var currency = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                                Array::addValueForKey(reward, currency, notFoundPrizeTrack);
+                            }
+                            
+                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+                            if(!digSoundPlayed)
+                            {
+                                playDigSound = digSoundName;
+                                digSoundPlayed = true;
+                            }
+                        }
+                        var bonus = toDouble(Selector::getValue(System::getConfigValue('__' + gameConfigLocationName + ':Bonus__')));
+                        if (!Requirements::checkRequirementList('THOH2018_Requirements:Event_Active'))
+                        {
+                            //If the event is over set it to 1 otherwise Selector::getvalue will return 0
+                            bonus = 1;
+                        }                        var rewardWithBonus = Array::create();
+                        var prizeTrackCurrencyName = System::getConfigValue('__' + gameConfigLocationName + ':PrizeTrackCurrency__');
+                        foreach(reward as k,v)
+                        {
+                            var currentBonus = bonus;
+                            if(k == prizeTrackCurrencyName)
+                            {
+                                currentBonus = currentBonus + toDouble(Building::getArrangeBonus(building)) / 100);
+                            }
+                            var prizeAmount = round(v * currentBonus);
+                            Array::addValueForKey(rewardWithBonus, k, prizeAmount);
+                            var variableName = digSiteFoundName + k;
+                            var currentTotal = User::getVariable(variableName);
+                            User::setVariable(variableName, currentTotal + prizeAmount, false);
+                            var cumulativeVariableName = digSiteCumulativeFoundName + k;
+                            var cumulativeTotal = User::getVariable(cumulativeVariableName);
+                            User::setVariable(cumulativeVariableName, cumulativeTotal + prizeAmount, false);
+                        }
+                        Reward::GrantRewardAtWorldPosition(rewardWithBonus, x, z, Array::create('collectTime' => 0.5, 'tappable' => false, 'suppressSound' => true));
+                        if (playDigSound!='')
+                        {
+                            Audio::play(playDigSound);
+                        }
+                    }
+                }
+                }
+            }
+        }
+    ]]></Attribute>
+	<Attribute name="AdvanceDigSite"><![CDATA[
+        var b = Building::find(buildingName);
+        var building = Land::getFirstInstanceOfObject(b);
+        var currentSkin = Building::getSkin(building);
+        var nextSkin = buildingSkinName;
+        var nextLayer = 2;
+        if (currentSkin == nextSkin)
+        {
+            nextSkin = buildingName;
+            nextLayer = 1;
+        }
+        
+        // before advancing, send telemetry
+        var curLayer = (nextLayer == 1) ? 2 : 1;
+        var undugSpots = 0;
+        var dig =  Object::getVariableAsNumber(building,'DigFinal');
+        //Debug::printToScreen(toString(dig));
+        var digStr = '';
+        for (var bitIndex = 0; bitIndex < 36; bitIndex = bitIndex + 1)
+        {
+            // zero bits in dig are spent shovels
+            var curBit = ((dig >> bitIndex) & 0x1);
+            undugSpots = undugSpots + curBit;
+            digStr = (curBit ? '1' : '0') + digStr;
+        }
+		//Debug::printToScreen(toString(digStr));
+		Telemetry::logEvent(66007, 'Enumeration', digStr);
+		
+        var foundPrizeTrack =   User::getVariable('THOH2018_DigSiteFoundTHOH2018_ActivePrizeTrackCurrency');
+        var foundCrafting =   User::getVariable('THOH2018_DigSiteFoundTHOH2018_CurrencyCrafting');
+		var foundXP =   User::getVariable('THOH2018_DigSiteFoundxp');
+		var foundRelics =   User::getVariable('THOH2018_DigSiteFoundTHOH2018_ActivePrizeTrackCurrencyReward');
+		var layersCleared =  User::getVariable('THOH2018_DigSiteLayersCleared');
+		var shovelsSpent =  User::getVariable('THOH2018_DigSitePickaxesSpent');
+		
+		var currencyStr = toString(foundPrizeTrack) + ' prizetrack;' + toString(foundCrafting) + ' crafting;' + toString(foundXP) + ' xp;' + toString(foundRelics) + ' relics';
+		
+		//Debug::printToScreen(toString(currencyStr));
+	
+		User::setVariable('THOH2018_DigSitePickaxesSpent', shovelsSpent + (36 - undugSpots), false);
+		User::setVariable('THOH2018_DigSiteLayersCleared', layersCleared + 1, false);
+		
+		Telemetry::logEvent(66003, 'Enumeration', toString(36 - undugSpots), 'Enumeration', currencyStr, 'Enumeration', toString(curLayer));
+
+        // only do the transition from bottom layer back to top layer
+        if (nextLayer == 1)
+        {
+            var i = 0;
+            for (var x = 1; x <= 6; x++)
+            {
+                for (var z = 0; z < 6; z++)
+                {
+                    var xx = gridToWorld(-1 + toGrid(Building::getProperty(building, 'X')) - 1 + (2 - nextLayer) + x * 2);
+                    var zz = gridToWorld(1 + toGrid(Building::getProperty(building, 'Z')) + 1 - (14 - nextLayer) + z * 2);
+                    var anim = min(trunc(randRange(1, 1)), 5);
+                    FlyBy::PlayAtPosition(flyByName + toString(mod(i, 5) + 1), 10, 0.13, 24, xx, zz);
+                    //i = i + 1;
+                }
+            }
+        }
+        
+        Building::setSkin(building, nextSkin);
+    ]]></Attribute>
+	<Attribute name="ResetDigSite"><![CDATA[
+        var b = Building::find(buildingName);
+        var building = Land::getFirstInstanceOfObject(b);
+        var isLayerOne = Building::getSkin(building) == buildingName;
+        var treasurePos = trunc(randRange(0, 36));
+        var above = treasurePos - 6;
+        var below = treasurePos + 6;
+        var left = treasurePos - 1;
+        var right = treasurePos + 1;
+        var rocks = 0;
+        // above
+        var nRocks = 0;
+
+        var numTilesEmpty = 36 - 1;
+        if (treasurePos > 5)
+        {
+            rocks = rocks | (1 << above);
+            nRocks = nRocks + 1;
+        }
+        // below
+        if (treasurePos < 30)
+        {
+            rocks = rocks | (1 << below);
+            nRocks = nRocks + 1;
+        }
+        // left
+        if (mod(treasurePos, 6) > 0)
+        {
+            rocks = rocks | (1 << left);
+            nRocks = nRocks + 1;
+        }
+        if (mod(treasurePos, 6) < 5)
+        {
+            rocks = rocks | (1 << right);
+            nRocks = nRocks + 1;
+        }
+
+        Object::setVariable(building, 'NumSquares', toString(36 - 1 - nRocks), 0, false);
+        Object::setVariable(building, 'DigTreasure', toString(1<<treasurePos), 0, false);
+        Object::setVariable(building, 'Dig', toString(0xFFFFFFFFFF), 0, false);
+        Object::setVariable(building, 'DigRock', toString(rocks), 0, false);
+    ]]></Attribute>
+</Attributes>

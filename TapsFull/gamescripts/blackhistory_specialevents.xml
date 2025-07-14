@@ -1,0 +1,1303 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="229000" name="BlackHistory_Event" />
+		<DataID id="229001" name="BlackHistory_Event_Week1" />
+		<DataID id="229002" name="BlackHistory_Event_Week2" />
+		<DataID id="229003" name="BlackHistory_Event_Week3" />
+		<DataID id="229004" name="BlackHistory_Event_Week4" />
+	</MasterList>
+	<SpecialEvent id="229000" name="BlackHistory_Event">
+		<Variable name="BlackHistory_PreExpiryDisplayed24" value="false" />
+		<Variable name="BlackHistory_PreExpiryDisplayed72" value="false" />
+		<Variable name="BlackHistory_IntroSeen" value="false" />
+		<Variable name="BlackHistory_EventHubTabValue" value="false" />
+		<Variable name="BlackHistory_Store" value="false" />
+		<Variable name="BlackHistory_300Plus25Percent_Purchased" value="false" />
+		<onExit destroyHUD="true" />
+		<Promo eventName="BlackHistory_MegaChurchGilPromo" questID="229300" type="building" object="MegaChurch" yes="BTN_150Donuts" visualEndDate="BlackHistory_MegaChurch_OUT" menu="HeroesOfSpringfieldDynamicTextPromo" menuConfig="BlackHistory_GameConfig:PromoMenuConfig">
+			<Cost donuts="150" />
+		</Promo>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_HeroesOfSpringfield_Event">
+				<Requirements>
+					<Requirement type="reqList" location="BlackHistory_Requirements:EventCompleted" not="true" />
+					<Requirement type="reqList" location="BlackHistory_Requirements:EventMasterQuestsStarted" />
+					<Requirement type="time" start="BlackHistory_Start" end="BlackHistory_End" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="time" end="BlackHistory_End" />
+				</Requirements>
+				<RunScript>
+					<Script name="OpenEventHub" package="BlackHistory_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<EventHub menuConfig="Config_EventHub:Default">
+			<Tabs>
+				<Tab name="Tab_BlackHistory_Questline1" icon="ICO_CUR_HeroesOfSpringField_Act1Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="NoLaughingMatter_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="BlackHistory_EventHubTabValue==0" />
+					</HighlightRequirements>
+					<Script name="Tab_Week1" package="BlackHistory_Scripts" />
+				</Tab>
+				<Tab name="Tab_BlackHistory_Questline2" icon="ICO_CUR_HeroesOfSpringField_Act2Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="FairWeatherFather_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="BlackHistory_EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="Tab_Week2" package="BlackHistory_Scripts" />
+				</Tab>
+				<Tab name="Tab_BlackHistory_Questline3" icon="ICO_CUR_HeroesOfSpringField_Act3Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="InTheLukewarmOfTheTwilight_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="BlackHistory_EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="Tab_Week3" package="BlackHistory_Scripts" />
+				</Tab>
+				<Tab name="Tab_BlackHistory_Questline4" icon="ICO_CUR_HeroesOfSpringField_Act4Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="FromTheMouthOfAbes_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="BlackHistory_EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="Tab_Week4" package="BlackHistory_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="BlackHistory_Act1PrizeTrackCurrency">
+					<Requirement type="reqList" location="BlackHistory_Requirements:MasterQuestActive1" />
+				</Resource>
+				<Resource type="BlackHistory_Act2PrizeTrackCurrency">
+					<Requirement type="reqList" location="BlackHistory_Requirements:MasterQuestActive2" />
+				</Resource>
+				<Resource type="BlackHistory_Act3PrizeTrackCurrency">
+					<Requirement type="reqList" location="BlackHistory_Requirements:MasterQuestActive3" />
+				</Resource>
+				<Resource type="BlackHistory_Act4PrizeTrackCurrency">
+					<Requirement type="reqList" location="BlackHistory_Requirements:MasterQuestActive4" />
+				</Resource>
+			</ResourceTypes>
+		</EventHub>
+	</SpecialEvent>
+	<SpecialEvent id="229001" name="BlackHistory_Event_Week1">
+		<EventCurrencyJobLists>
+			<JobList name="BlackHistory_Questline1_JL_1">
+				<Title value="QST_NoLaughingMatter_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline1_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintStethoscopes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline1_JL_2">
+				<Title value="QST_NoLaughingMatter_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline1_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintStethoscopes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline1_JL_3">
+				<Title value="QST_NoLaughingMatter_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline1_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintStethoscopes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline1_JL_4">
+				<Title value="QST_NoLaughingMatter_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline1_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintStethoscopes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline1_JL_5">
+				<Title value="QST_NoLaughingMatter_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline1_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintStethoscopes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintStethoscopes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectStethoscopes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Buildings override="true">
+			<Building id="229001" name="MovingOn">
+				<BuildMenuText text="__BlackHistory_GameConfig:EarnsCurrency:Stethoscopes__" />
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job id="229047" name="CollectStethoscopes">
+				<Reward BlackHistory_Act1PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:RegularJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="229048" name="3DPrintStethoscopes">
+				<Reward BlackHistory_Act1PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="229002" name="BlackHistory_Event_Week2">
+		<EventCurrencyJobLists>
+			<JobList name="BlackHistory_Questline2_JL_1">
+				<Title value="QST_FairWeatherFather_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline2_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintHardHats" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline2_JL_2">
+				<Title value="QST_FairWeatherFather_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline2_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintHardHats" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline2_JL_3">
+				<Title value="QST_FairWeatherFather_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline2_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintHardHats" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline2_JL_4">
+				<Title value="QST_FairWeatherFather_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline2_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintHardHats" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline2_JL_5">
+				<Title value="QST_FairWeatherFather_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline2_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintHardHats" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="StealHardHats" character="Moe" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintHardHats" character="Stogie" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Buildings override="true">
+			<Building id="229002" name="HardLadNightclub">
+				<BuildMenuText text="__BlackHistory_GameConfig:EarnsCurrency:HardHats__" />
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job id="229049" name="StealHardHats">
+				<Reward BlackHistory_Act2PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:RegularJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="229050" name="3DPrintHardHats">
+				<Reward BlackHistory_Act2PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="229003" name="BlackHistory_Event_Week3">
+		<EventCurrencyJobLists>
+			<JobList name="BlackHistory_Questline3_JL_1">
+				<Title value="QST_InTheLukewarmOfTheTwilight_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline3_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintPoliceBadges" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline3_JL_2">
+				<Title value="QST_InTheLukewarmOfTheTwilight_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline3_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintPoliceBadges" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline3_JL_3">
+				<Title value="QST_InTheLukewarmOfTheTwilight_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline3_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintPoliceBadges" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline3_JL_4">
+				<Title value="QST_InTheLukewarmOfTheTwilight_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline3_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintPoliceBadges" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline3_JL_5">
+				<Title value="QST_InTheLukewarmOfTheTwilight_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline3_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="3DPrintPoliceBadges" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="3DPrintPoliceBadges" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="FindPoliceBadgesInCereal" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Buildings override="true">
+			<Building id="229003" name="MegaChurch">
+				<BuildMenuText text="__BlackHistory_GameConfig:EarnsCurrency:PoliceBadges__" />
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job id="229051" name="FindPoliceBadgesInCereal">
+				<Reward BlackHistory_Act3PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:RegularJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="229052" name="3DPrintPoliceBadges">
+				<Reward BlackHistory_Act3PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="229004" name="BlackHistory_Event_Week4">
+		<EventCurrencyJobLists>
+			<JobList name="BlackHistory_Questline4_JL_1">
+				<Title value="QST_FromTheMouthOfAbes_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline4_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="BuyIngredientsToMakeWheelCakes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline4_JL_2">
+				<Title value="QST_FromTheMouthOfAbes_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline4_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="BuyIngredientsToMakeWheelCakes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline4_JL_3">
+				<Title value="QST_FromTheMouthOfAbes_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline4_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="BuyIngredientsToMakeWheelCakes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline4_JL_4">
+				<Title value="QST_FromTheMouthOfAbes_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline4_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="BuyIngredientsToMakeWheelCakes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="BlackHistory_Questline4_JL_5">
+				<Title value="QST_FromTheMouthOfAbes_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__BlackHistory_GameConfig:ResourceQuantities:BlackHistory_Questline4_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="BlackHistory_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="BlackHistory_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="HibbertsFather" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="Stogie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="character" name="ThePatriarch" />
+								<Requirement type="time" start="BlackHistory_MegaChurch_IN" end="BlackHistory_MegaChurch_OUT" triggerEvent="true" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="BlackHistory_Scripts_Dialogue" name="DisplayPromo" />
+						<Job name="BuyIngredientsToMakeWheelCakes" character="ThePatriarch" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="BuyIngredientsToMakeWheelCakes" character="MabelSimpson" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lou" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Carl" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Quimby" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="BerniceHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="BakeWheelCakes" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Buildings override="true">
+			<Building id="229004" name="CanadianBorder">
+				<BuildMenuText text="__BlackHistory_GameConfig:EarnsCurrency:WheelCakes__" />
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job id="229053" name="BakeWheelCakes">
+				<Reward BlackHistory_Act4PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:RegularJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="229054" name="BuyIngredientsToMakeWheelCakes">
+				<Reward BlackHistory_Act4PrizeTrackCurrency="__BlackHistory_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__BlackHistory_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>

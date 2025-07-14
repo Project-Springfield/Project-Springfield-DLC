@@ -1,0 +1,50 @@
+﻿<ScriptPackage>
+	<HellfishGilPromoBeginning_Start>
+		<Action type="dialogue" character="Herman" text="QST_HellfishBonanza_3_dlg_Start_1_Herman" revealSpeed="medium" />
+		<Action type="dialogue" character="Abe" text="QST_HellfishBonanza_3_dlg_Start_2_Abe" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Herman" text="QST_HellfishBonanza_3_dlg_Start_3_Herman" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Abe" text="QST_HellfishBonanza_3_dlg_Start_4_Abe" revealSpeed="medium" />
+	</HellfishGilPromoBeginning_Start>
+	<HellfishPromo_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+	</HellfishPromo_Start>
+	<HellfishPromo_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" name="HellfishPromo_Promo" limitedTime="true" limitedTimeEndDate="Hellfish_End" />
+	</HellfishPromo_Recommend>
+	<HellfishPromo_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="actionSequence" script="Rommelwood_Scripts_Promo:HellfishGilPromoStart_Start" />
+				<Action type="actionSequence" script="Rommelwood_Scripts_Promo:HellfishPromo_DisplayPromo" />
+				<Action type="updateVariable" variable="Hellfish_PromoActive" value="true" />
+				<Action type="runScript" script="KillGil" package="MiscScripts" />
+			</True>
+		</Action>
+	</HellfishPromo_Display>
+	<HellfishPromo_DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="Hellfish_Promo" />
+	</HellfishPromo_DisplayPromo>
+	<HellfishPromo_Purchase>
+		<Action type="actionSequence" script="Rommelwood_Scripts_Promo:HellfishGilPromoPurchased_Start" />
+		<Action type="clearRecommendations" category="Promoted" name="HellfishPromo_Promo" />
+	</HellfishPromo_Purchase>
+	<HellfishPromo_Cancel>
+		<Action type="actionSequence" script="Rommelwood_Scripts_Promo:HellfishPromo_Recommend" />
+		<Action type="actionSequence" script="Rommelwood_Scripts_Promo:HellfishGilPromoCancelled_Start" />
+	</HellfishPromo_Cancel>
+	<HellfishGilPromoStart_Start>
+		<Action type="dialogue" character="Gil" text="QST_HellfishBonanza_3_dlg_SpawnGil_1_Gil" revealSpeed="medium" emotion="selling" />
+		<Action type="dialogue" character="Gil" text="QST_HellfishBonanza_3_dlg_SpawnGil_2_Gil" revealSpeed="medium" emotion="sad" />
+	</HellfishGilPromoStart_Start>
+	<HellfishGilPromoPurchased_Start>
+		<Action type="dialogue" character="Gil" text="QST_HellfishBonanza_3_dlg_Purchase_1_Gil" revealSpeed="medium" emotion="happy" />
+	</HellfishGilPromoPurchased_Start>
+	<HellfishGilPromoCancelled_Start>
+		<Action type="dialogue" character="Gil" text="QST_HellfishBonanza_3_dlg_Decline_1_Gil" revealSpeed="medium" emotion="sad" />
+	</HellfishGilPromoCancelled_Start>
+</ScriptPackage>

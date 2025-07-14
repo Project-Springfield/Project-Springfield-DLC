@@ -1,0 +1,452 @@
+﻿<ScriptPackage>
+	<DiceMinigame_ShowMenu parallel="true" runQueueState="RunInAnyState" otherScriptsCanRunOnObject="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Casino_Dice_FirstView" />
+			<True>
+				<Action type="setVariable" boolVariable="Casino_Dice_FirstView" boolValue="false" />
+				<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="runScript" script="Casino_Scripts_Dice:ShowMenu" />
+		<Action type="sound" sound="Dice_Den_Ambience_Loop" ignoreObject="true" />
+	</DiceMinigame_ShowMenu>
+	<ShowMenu parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Casino_Dice_FirstView" />
+			<True>
+				<Action type="setVariable" boolVariable="Casino_Dice_FirstView" boolValue="false" />
+				<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="sound" sound="Dice_Den_Ambience_Loop" ignoreObject="true" />
+		<Action type="showMenu" menu="diceminigamemenu" scriptResProvider="diceminigamemenu.mns" menuConfig="Casino_DiceConfig:DiceMenuConfig" buttonsConfig="Casino_DiceConfig:DiceButtons" waitUntilDismissed="false" />
+		<Action type="runScript" script="Casino_Scripts_Dice:UpdateState" />
+		<Action type="if">
+			<If>
+				<Requirement type="formula" formula="Casino_Dice_Win" />
+				<Then>
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+					<Action type="runScript" script="Casino_Scripts_Dice:DiceMinigame_Complete" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="formula" formula="Casino_Dice_Step &gt; 4 &amp;&amp; Casino_Dice_CheatActive" />
+				<Then>
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+					<Action type="runScript" script="Casino_Scripts_Dice:ChangeNumber" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</ShowMenu>
+	<UpdateState parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="PickLuckyNumberPrompt" visible="{showingLuckyNumbers}" active="{showingLuckyNumbers}">
+			<FormatToken key="showingLuckyNumbers" value="_[Casino_Dice_Step == 0 &amp;&amp; Casino_ShowHelp == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="DiceContainer" visible="true" active="{showingTable}">
+			<FormatToken key="showingTable" value="_[Casino_Dice_Step &gt; 0 &amp;&amp; Casino_ShowHelp == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="LuckyNumber" visible="{showingTable}" active="false">
+			<FormatToken key="showingTable" value="_[Casino_Dice_Step &gt; 0 &amp;&amp; Casino_ShowHelp == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="DiceTapIndicator" visible="{showingTable}" active="false">
+			<FormatToken key="showingTable" value="_[Casino_Dice_Step &gt; 0 &amp;&amp; Casino_Dice_Step &lt; 4 &amp;&amp; Casino_ShowHelp == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="LuckyNumberTapIndicator" visible="{showingNumberIndicator}" active="false">
+			<FormatToken key="showingNumberIndicator" value="_[Casino_Dice_CheatActive &amp;&amp; Casino_Dice_Step == 4 &amp;&amp; Casino_ShowHelp == 0]_" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="GuidePopup" visible="{showHelp}" active="{showHelp}">
+			<FormatToken key="showHelp" value="_[Casino_ShowHelp]_" />
+		</Action>
+	</UpdateState>
+	<LuckyNumber_2 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="2" />
+		</Action>
+	</LuckyNumber_2>
+	<LuckyNumber_3 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="3" />
+		</Action>
+	</LuckyNumber_3>
+	<LuckyNumber_4 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="4" />
+		</Action>
+	</LuckyNumber_4>
+	<LuckyNumber_5 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="5" />
+		</Action>
+	</LuckyNumber_5>
+	<LuckyNumber_6 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="6" />
+		</Action>
+	</LuckyNumber_6>
+	<LuckyNumber_7 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="7" />
+		</Action>
+	</LuckyNumber_7>
+	<LuckyNumber_8 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="8" />
+		</Action>
+	</LuckyNumber_8>
+	<LuckyNumber_9 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="9" />
+		</Action>
+	</LuckyNumber_9>
+	<LuckyNumber_10 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="10" />
+		</Action>
+	</LuckyNumber_10>
+	<LuckyNumber_11 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="11" />
+		</Action>
+	</LuckyNumber_11>
+	<LuckyNumber_12 parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScript" script="Casino_Scripts_Dice:LuckyNumberPicked">
+			<FormatToken key="luckyNumber" value="12" />
+		</Action>
+	</LuckyNumber_12>
+	<LuckyNumberPicked parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+		<Action type="setVariable" formatMe="true" intVariable="Casino_Dice_LuckyNumber" intValue="{luckyNumber}" />
+		<Action type="sound" sound="Casino_Dice_Paper_Rip" replayType="playAnyways" ignoreObject="true" />
+		<Action type="playMenuSpriteAnimation" formatMe="true" menu="eMenu_ShowMenuActionMenu" sprite="PickLuckyNumber{luckyNumber}" anim="PickNumber{luckyNumber}" waitUntilComplete="true" />
+		<Action type="playMenuSpriteAnimation" formatMe="true" menu="eMenu_ShowMenuActionMenu" sprite="LuckyNumber" anim="number{luckyNumber}" />
+		<Action type="setMiniGameState" building="CletussDiceDen" name="CasinoDice" state="Playing" />
+		<Action type="checkExpression" expression="System::evaluate('Minigame::CasinoDice::RewardIndex')">
+			<ExpressionCase value="19">
+				<Action type="setVariable" boolVariable="Casino_Dice_TrickDieCheat" boolValue="true" />
+			</ExpressionCase>
+			<ExpressionCase value="20">
+				<Action type="setVariable" boolVariable="Casino_Dice_CheatActive" boolValue="true" />
+			</ExpressionCase>
+			<ExpressionCase value="21">
+				<Action type="setVariable" boolVariable="Casino_Dice_CheatActive" boolValue="true" />
+			</ExpressionCase>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act1" />
+				<Then>
+					<Action type="setVariable" selectorVariable="Casino_RewardCraftingPrize_Dice" selectorValue="selector Casino_CraftingChance_Dice_ActOne" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act2" />
+				<Then>
+					<Action type="setVariable" selectorVariable="Casino_RewardCraftingPrize_Dice" selectorValue="selector Casino_CraftingChance_Dice_ActTwo" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="Casino_GameConfig:Requirement_Act3" />
+				<Then>
+					<Action type="setVariable" selectorVariable="Casino_RewardCraftingPrize_Dice" selectorValue="selector Casino_CraftingChance_Dice_ActThree" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="loseResources" Casino_Token="1" />
+		<Action type="setVariable" intVariable="Casino_Dice_TokenUsed" intValue="Casino_Dice_TokenUsed+1" />
+		<Action type="runScript" script="Casino_Scripts_Dice:SetTokenCount" />
+		<Action type="setVariable" intVariable="Casino_Dice_Step" intValue="1" />
+		<Action type="runScript" script="DiceMinigame_Initialize" package="Casino_Scripts_Dice" waitUntilComplete="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+		<Action type="runScript" script="Casino_Scripts_Dice:UpdateState" waitUntilComplete="true" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_Dice_TrickDieCheat" />
+			<True>
+				<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+				<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="DiceTapIndicator" visible="false" active="false" />
+				<Action type="runScript" script="Casino_Scripts_Dice:ShowTrickDiceCheat" />
+			</True>
+		</Action>
+	</LuckyNumberPicked>
+	<ShowGuide parallel="true" runQueueState="RunInAnyState">
+		<Action type="sound" sound="UIButton" />
+		<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="false" active="false" />
+		<Action type="runScript" script="Casino_Scripts_Dice:UpdateState" />
+	</ShowGuide>
+	<DiceMinigame_StartGame parallel="true" runQueueState="RunInAnyState" otherScriptsCanRunOnObject="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_Token &gt; 0 || System::evaluate('Minigame::CasinoDice::Active')" />
+			<True>
+				<Action type="runScript" script="Casino_Scripts_Dice:ShowMenu" waitUntilComplete="true" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_casino_TokenPurchase_Body" title="UI_casino_TokenPurchase_Title" var="dice_BuyToken" />
+				<Action type="stopSoundKit" sound="Dice_Den_Ambience_Loop" />
+				<Action type="showMenu" clearShownMenu="true" />
+				<Action type="runScript" package="Casino_Scripts_Dice" script="DiceMinigame_SendTelemetry" />
+				<Action type="returnToInGameState" waitForState="true" />
+				<Action type="checkExpression" expression="dice_BuyToken">
+					<ExpressionCase value="1">
+						<Action type="focusOnMenuItem" itemName="CasinoTokenPack_Small" menuCategory="Casino" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</DiceMinigame_StartGame>
+	<DiceMinigame_ButtonPressed parallel="true" runQueueState="RunInAnyState" otherScriptsCanRunOnObject="true">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="DiceTapIndicator" visible="false" active="false" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_Dice_Step &gt;= 4" />
+			<False>
+				<Action type="runScript" script="DiceMinigame_ShowDice" package="Casino_Scripts_Dice" />
+			</False>
+		</Action>
+		<Action type="setVariable" intVariable="Casino_Dice_Step" intValue="Casino_Dice_Step + 1" />
+		<Action type="checkExpression" expression="Casino_Dice_Step">
+			<ExpressionCase value="2">
+				<Action type="runScript" script="DiceMinigame_AdvanceRoll" package="Casino_Scripts_Dice" waitUntilComplete="true">
+					<FormatToken key="roll" value="1" />
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="runScript" script="DiceMinigame_AdvanceRoll" package="Casino_Scripts_Dice" waitUntilComplete="true">
+					<FormatToken key="roll" value="2" />
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="runScript" script="DiceMinigame_AdvanceRoll" package="Casino_Scripts_Dice" waitUntilComplete="true">
+					<FormatToken key="roll" value="3" />
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="runScript" script="Casino_Scripts_Dice:ChangeNumber" waitUntilComplete="true" />
+			</ExpressionCase>
+		</Action>
+		<Action type="if">
+			<If expression="Casino_Dice_Win || (Casino_Dice_CheatActive == 0 &amp;&amp; Casino_Dice_Step &gt;= 4)">
+				<Then>
+					<Action type="delay" time="2" />
+					<Action type="runScript" script="DiceMinigame_Complete" package="Casino_Scripts_Dice" />
+				</Then>
+			</If>
+			<ElseIf expression="Casino_Dice_CheatActive &amp;&amp; Casino_Dice_Step == 4">
+				<Then>
+					<Action type="runScript" script="Casino_Scripts_Dice:ShowLuckyNumberCheat" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="Casino_Dice_Step &lt; 4">
+				<Then>
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="DiceTapIndicator" visible="true" active="false" />
+					<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</DiceMinigame_ButtonPressed>
+	<ShowLuckyNumberCheat runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="message" text="UI_Casino_CheatTutorial_LuckyNumber" dismissOnOKOnly="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="LuckyNumberTapIndicator" visible="true" active="false" />
+	</ShowLuckyNumberCheat>
+	<ShowTrickDiceCheat runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="message" text="UI_Casino_CheatTutorial_TrickDice" dismissOnOKOnly="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="DiceTapIndicator" visible="true" active="true" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="true" />
+	</ShowTrickDiceCheat>
+	<DiceMinigame_Initialize parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Seed" intValue="rand({rewardOptions})">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateSeed" />
+		</Action>
+		<Action type="runScript" script="DiceMinigame_SetVariables" package="Casino_Scripts_Dice" waitUntilComplete="true" />
+		<Action type="runScript" script="DiceMinigame_SetDiceRolls" package="Casino_Scripts_Dice" waitUntilComplete="true" />
+	</DiceMinigame_Initialize>
+	<DiceMinigame_SetVariables parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Roll1Value" intValue="{Roll1}">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateRoll1" />
+		</Action>
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Roll2Value" intValue="{Roll2}">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateRoll2" />
+		</Action>
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Roll3Value" intValue="{Roll3}">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateRoll3" />
+		</Action>
+	</DiceMinigame_SetVariables>
+	<DiceMinigame_SetDiceRolls parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Roll1Rand" intValue="rand({Rand1})">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateRand1" />
+		</Action>
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Roll2Rand" intValue="rand({Rand2})">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateRand2" />
+		</Action>
+		<Action type="setVariable" formatMe="root" intVariable="Casino_Dice_Roll3Rand" intValue="rand({Rand3})">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_CalculateRand3" />
+		</Action>
+	</DiceMinigame_SetDiceRolls>
+	<DiceMinigame_ShowDice parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die1Standing" visible="false" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die2Standing" visible="false" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die1Animation" visible="true" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die2Animation" visible="true" active="false" />
+	</DiceMinigame_ShowDice>
+	<DiceMinigame_AdvanceRoll parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="false" active="false" />
+		<Action type="sound" sound="Casino_Dice_Roll" replayType="playAnyways" ignoreObject="true" />
+		<Action type="runScript" formatMe="deep" script="DiceMinigame_RollDie" package="Casino_Scripts_Dice">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_Roll{roll}Die1Config" />
+		</Action>
+		<Action type="runScript" formatMe="deep" script="DiceMinigame_RollDie" package="Casino_Scripts_Dice" waitUntilComplete="true">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_Roll{roll}Die2Config" />
+		</Action>
+		<Action type="runScript" formatMe="deep" script="DiceMinigame_FinishRoll" package="Casino_Scripts_Dice" waitUntilComplete="true">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_Roll{roll}CompleteConfig" />
+		</Action>
+	</DiceMinigame_AdvanceRoll>
+	<DiceMinigame_RollDie parallel="true" runQueueState="RunInAnyState">
+		<Action type="playMenuSpriteAnimation" formatMe="true" menu="eMenu_ShowMenuActionMenu" sprite="{spriteName}" anim="{oldRoll}start" waitUntilComplete="true" />
+		<Action type="playMenuSpriteAnimation" formatMe="true" menu="eMenu_ShowMenuActionMenu" sprite="{spriteName}" anim="{rollAnim}" waitUntilComplete="true" />
+		<Action type="playMenuSpriteAnimation" formatMe="true" menu="eMenu_ShowMenuActionMenu" sprite="{spriteName}" anim="{newRoll}end" />
+	</DiceMinigame_RollDie>
+	<DiceMinigame_FinishRoll parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" formatMe="true" boolVariable="showSuccessVar" boolValue="{winningRoll}" addTempIfNotExisting="true" />
+		<Action type="setVariable" formatMe="true" boolVariable="Casino_Dice_Win" boolValue="{winningRoll}" />
+		<Action type="checkRequirements" formatMe="deep">
+			<Requirement type="formula" formula="showSuccessVar == 1" />
+			<True>
+				<Action type="setMenuText" formatMe="true" menu="eMenu_ShowMenuActionMenu" textObject="SpeechText" textAreaObject="SpeechArea" bgGraphicObject="SpeechBubble" text="{successText}" />
+				<Action type="setMenuGraphic" menu="eMenu_ShowMenuActionMenu" graphicObject="CharacterAvatar" image="cletus_smiling.rgb" />
+			</True>
+			<False>
+				<Action type="setMenuText" formatMe="true" menu="eMenu_ShowMenuActionMenu" textObject="SpeechText" textAreaObject="SpeechArea" bgGraphicObject="SpeechBubble" text="{failText}" />
+				<Action type="setMenuGraphic" menu="eMenu_ShowMenuActionMenu" graphicObject="CharacterAvatar" image="cletus_sad.rgb" />
+			</False>
+		</Action>
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="true" active="false" />
+		<Action type="setMenuText" formatMe="true" menu="eMenu_ShowMenuActionMenu" textObject="{counterText}" text="{counterValue}" />
+	</DiceMinigame_FinishRoll>
+	<DiceMinigame_UpdateDice parallel="true" runQueueState="RunInAnyState">
+		<Action type="playMenuSpriteAnimation" formatMe="root" menu="eMenu_ShowMenuActionMenu" sprite="Die1Standing" anim="{newRoll}">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_Roll3Die1Config" />
+		</Action>
+		<Action type="playMenuSpriteAnimation" formatMe="root" menu="eMenu_ShowMenuActionMenu" sprite="Die2Standing" anim="{newRoll}">
+			<FormattingConfig path="Casino_DiceConfig:DiceMinigame_Roll3Die2Config" />
+		</Action>
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die1Standing" visible="true" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die2Standing" visible="true" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die1Animation" visible="false" active="false" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Die2Animation" visible="false" active="false" />
+		<Action type="setMenuText" menu="eMenu_ShowMenuActionMenu" textObject="Roll1Number" text="-" />
+		<Action type="setMenuText" menu="eMenu_ShowMenuActionMenu" textObject="Roll2Number" text="-" />
+		<Action type="setMenuText" menu="eMenu_ShowMenuActionMenu" textObject="Roll3Number" text="-" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="false" active="false" />
+	</DiceMinigame_UpdateDice>
+	<ChangeNumber parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="false" active="false" />
+		<Action type="sound" sound="Casino_Dice_Cheat_Scratch" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="LuckyNumberTapIndicator" visible="false" active="false" />
+		<Action type="setMenuElementActiveVisible" formatMe="root" menu="eMenu_ShowMenuActionMenu" elementName="LuckyNumberCheat" visible="{showLuckyCheat}" active="{showLuckyCheat}">
+			<FormatToken key="showLuckyCheat" value="_[Casino_Dice_Step &gt; 4 &amp;&amp; Casino_Dice_CheatActive &amp;&amp; Casino_ShowHelp == 0]_" />
+		</Action>
+		<Action type="playMenuSpriteAnimation" formatMe="root" menu="eMenu_ShowMenuActionMenu" sprite="LuckyNumberCheat" anim="cheatnumber{newNumber}" waitUntilComplete="true">
+			<FormattingConfig path="Casino_DiceConfig:ChangeLuckyNumber" />
+		</Action>
+		<Action type="setVariable" boolVariable="Casino_Dice_Win" boolValue="true" />
+		<Action type="setMenuText" menu="eMenu_ShowMenuActionMenu" textObject="SpeechText" textAreaObject="SpeechArea" bgGraphicObject="SpeechBubble" text="UI_Casino_Dice_NumberCheatText" localise="true" />
+		<Action type="setMenuGraphic" menu="eMenu_ShowMenuActionMenu" graphicObject="CharacterAvatar" image="cletus_smiling.rgb" />
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="SpeechContainer" visible="true" active="false" />
+		<Action type="delay" time="2" />
+		<Action type="runScript" script="DiceMinigame_Complete" package="Casino_Scripts_Dice" />
+	</ChangeNumber>
+	<DiceMinigame_Complete ignoreHUD="true" runQueueState="RunInAnyState">
+		<Action type="setMenuElementActiveVisible" menu="eMenu_ShowMenuActionMenu" elementName="Objects" visible="true" active="false" />
+		<Action type="sound" sound="{sound}" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormattingConfig path="Casino_DiceConfig:FinalSoundConfig" />
+		</Action>
+		<Action type="sound" sound="{sound}" replayType="playAnyways" ignoreObject="true" formatMe="root">
+			<FormattingConfig path="Casino_DiceConfig:CletusSoundConfig" />
+		</Action>
+		<Action type="minigameRewardConfirmation" formatMe="root" text="{rewardText}" title="{rewardTitle}" var="Casino_Dice_PlayAgain" text_yes="UI_PlayAgain" text_no="GEN_Exit" minigame="CasinoDice" useBackButtonAsCancel="true">
+			<FormattingConfig path="Casino_DiceConfig:RewardConfig" />
+		</Action>
+		<Action type="setVariable" intVariable="Temp_Currency_S1" intValue="System::evaluate('Spendable::Casino_ActivePrizeTrackCurrency')" addTempIfNotExisting="true" />
+		<Action type="setMiniGameState" building="CletussDiceDen" name="CasinoDice" state="Ready" />
+		<Action type="setVariable" intVariable="PrizeTrackCurrencyFromGamesInAct" intValue="PrizeTrackCurrencyFromGamesInAct + System::evaluate('Spendable::Casino_ActivePrizeTrackCurrency')-Temp_Currency_S1" />
+		<Action type="setVariable" intVariable="DiceGamesPlayed" intValue="DiceGamesPlayed+1" />
+		<Action type="setVariable" intVariable="DiceGamesPlayed_DCS" intValue="DiceGamesPlayed_DCS+1" />
+		<Action type="setVariable" intVariable="CasinoGamesPlayed" intValue="CasinoGamesPlayed+1" />
+		<Action type="setVariable" intVariable="CasinoGamesPlayedInAct" intValue="CasinoGamesPlayedInAct+1" />
+		<Action type="setVariable" intVariable="Casino_Dice_RoundsPlayed" intValue="Casino_Dice_RoundsPlayed+1" />
+		<Action type="setVariable" intVariable="Casino_Dice_Step" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Seed" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Roll1Value" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Roll2Value" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Roll3Value" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Roll1Rand" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Roll2Rand" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_Roll3Rand" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_RewardCraftingPrize_Dice" intValue="0" />
+		<Action type="setVariable" boolVariable="Casino_Dice_Win" boolValue="false" />
+		<Action type="setVariable" boolVariable="Casino_Dice_CheatActive" boolValue="false" />
+		<Action type="setVariable" boolVariable="Casino_Dice_TrickDieCheat" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirement type="config" key="Casino_GameConfig:Enable:PlayCasinoGamePN" value="1" />
+			<True>
+				<Action type="scheduleLocalNotification" blueprint="PlayCasinoGamePN" scheduleTime="24h" />
+			</True>
+		</Action>
+		<Action type="runScript" script="Casino_Scripts_Dice:CheckPlayAgain" />
+	</DiceMinigame_Complete>
+	<CheckPlayAgain parallel="true">
+		<Action type="checkExpression" expression="Casino_Dice_PlayAgain &amp;&amp; Casino_Prestige == 0  &amp;&amp; DiceGamesPlayed != 1">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="Casino_Scripts_Dice:DiceMinigame_StartGame" waitUntilComplete="true" />
+			</ExpressionCase>
+			<ExpressionCase value="0">
+				<Action type="stopSoundKit" sound="Dice_Den_Ambience_Loop" />
+				<Action type="showMenu" clearShownMenu="true" />
+				<Action type="runScript" package="Casino_Scripts_Dice" script="DiceMinigame_SendTelemetry" />
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="Casino_Prestige == 0" />
+					<True>
+						<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+					</True>
+				</Action>
+			</ExpressionCase>
+		</Action>
+		<Action type="setVariable" intVariable="Casino_Dice_PlayAgain" intValue="0" />
+	</CheckPlayAgain>
+	<SetTokenCount parallel="true" runQueueState="RunInAnyState">
+		<Action type="setMenuText" formatMe="root" menu="eMenu_ShowMenuActionMenu" textObject="RoundsCountText" text="{balance}">
+			<FormatToken key="balance" value="_[System::evaluate('Spendable::Casino_Token')]_" />
+		</Action>
+	</SetTokenCount>
+	<DiceMinigame_SendTelemetry parallel="true" runQueueState="RunInAnyState">
+		<Action type="logevent" param1Type="Enumeration" param1="CasinoDice" param2Type="Enumeration" param2AsFormula="Casino_Dice_RoundsPlayed" param3Type="Enumeration" param3AsFormula="Casino_Dice_TokenUsed" eventId="3581" />
+		<Action type="setVariable" intVariable="Casino_Dice_RoundsPlayed" intValue="0" />
+		<Action type="setVariable" intVariable="Casino_Dice_TokenUsed" intValue="0" />
+	</DiceMinigame_SendTelemetry>
+	<BackPressed parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_ShowHelp" />
+			<True>
+				<Action type="setVariable" boolVariable="Casino_ShowHelp" boolValue="false" />
+				<Action type="sound" sound="UIClose" />
+				<Action type="runScript" script="Casino_Scripts_Dice:UpdateState" />
+			</True>
+			<False>
+				<Action type="runScript" script="Casino_Scripts_Dice:DiceMinigame_Exit" />
+			</False>
+		</Action>
+	</BackPressed>
+	<DiceMinigame_Exit parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Casino_Dice_Step == 0" />
+			<True>
+				<Action type="sound" sound="UIClose" />
+				<Action type="stopSoundKit" sound="Dice_Den_Ambience_Loop" />
+				<Action type="showMenu" clearShownMenu="true" />
+				<Action type="runScript" package="Casino_Scripts_Dice" script="DiceMinigame_SendTelemetry" />
+				<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+			</True>
+		</Action>
+	</DiceMinigame_Exit>
+</ScriptPackage>

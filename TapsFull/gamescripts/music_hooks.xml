@@ -1,0 +1,332 @@
+﻿<Attributes>
+	<Attribute name="CalculateLevelPoints"><![CDATA[
+            #program;
+            {
+                var level = 0;
+                var objName = '';
+                var newpoints = 0;
+            
+                if(name == 'Homer')
+                    {
+                        objName = 'Obj_Music_Homer';
+                    }
+                    elseif(name == 'Alcatraaaz')
+                    {
+                        objName = 'Obj_Music_Alcatraaaz';
+                    }
+                    elseif(name == 'Apu')
+                    {
+                        objName = 'Obj_Music_Apu';
+                    }
+                    elseif(name == 'DrHibbert')
+                    {
+                        objName = 'Obj_Music_Hibbert';
+                    }
+                    elseif(name == 'Lovejoy')
+                    {
+                        objName = 'Obj_Music_Lovejoy';
+                    }
+                    elseif(name == 'Lisa')
+                    {
+                        objName = 'Obj_Music_Lisa';
+                    }
+                    elseif(name == 'NickDelacourt')
+                    {
+                        objName = 'Obj_Music_Nick';
+                    }
+                    elseif(name == 'PeterDAbbruzio')
+                    {
+                        objName = 'Obj_Music_Peter';
+                    }
+                    elseif(name == 'Otto')
+                    {
+                        objName = 'Obj_Music_Otto';
+                    }
+                    elseif(name == 'FreddyFreeman')
+                    {
+                        objName = 'Obj_Music_Freddy';
+                    }
+                    elseif(name == 'ShredderStevens')
+                    {
+                        objName = 'Obj_Music_Shredder';
+                    }
+                    elseif(name == 'BleedingGumsMurphy')
+                    {
+                        objName = 'Obj_Music_BleedingGumsMurphy';
+                    }
+                    elseif(name == 'Milhouse')
+                    {
+                        objName = 'Obj_Music_Milhouse';
+                    }
+                    elseif(name == 'Ralph')
+                    {
+                        objName = 'Obj_Music_Ralph';
+                    }
+                    elseif(name == 'Nelson')
+                    {
+                        objName = 'Obj_Music_Nelson';
+                    }
+                    elseif(name == 'Bart')
+                    {
+                        objName = 'Obj_Music_Bart';
+                    }
+                    elseif(name == 'AlaskaNebraska')
+                    {
+                        objName = 'Obj_Music_Alaska';
+                    }
+                    elseif(name == 'LeonKompowsky')
+                    {
+                        objName = 'Obj_Music_Leon';
+                    }
+                    elseif(name == 'Krusty')
+                    {
+                        objName = 'Obj_Music_Krusty';
+                    }
+                    elseif(name == 'RockstarMaggie')
+                    {
+                        objName = 'Obj_Music_RockstarMaggie';
+                    }
+                    elseif(name == 'WeirdAlYankovic')
+                    {
+                        objName = 'Obj_Music_WeirdAl';
+                    }
+                    elseif(name == 'Maggie')
+                    {
+                        objName = 'Obj_Music_Maggie';
+                    }
+
+
+                    if(objName != '')
+                    {
+                    
+                        level = ObjectVars::getVariableInt(objName, 'level');
+                        var halfLevel = level / 2;
+                        Telemetry::logEvent(9610,'Enumeration',location,'Enumeration',name,'Enumeration',toString(halfLevel));
+                    
+                    
+                        var starRanks = Attributes::createFromPackage('Music_Spreadsheet_Config:StarRanks');
+                        var xpSession = toDouble(Attributes::getValueFromAttributes(starRanks,'StarXPPerSession'));
+                        newpoints = ObjectVars::getVariableInt(objName, 'points') +xpSession;
+                        Object::setVariableForAdHoc(objName, 'points', toString(newpoints), 0, false);
+                    
+                        for(var iter = 1; iter < toDouble(10); iter++)
+                        {
+                            var rank1 = formatInteger('StarRank%d',iter);
+                            var rank2 = formatInteger('StarRank%d',iter+1);
+                    
+                            var points1 = toDouble(Attributes::getValueFromAttributes(starRanks,rank1));
+                            var points2 = toDouble(Attributes::getValueFromAttributes(starRanks,rank2));
+                    
+                            if(newpoints >= points1 && newpoints < points2)
+                            {
+                                Object::setVariableForAdHoc(objName, 'level', toString(iter), 0, false);
+                            }
+                    
+                        }
+                    
+                        var points10 =toDouble(Attributes::getValueFromAttributes(starRanks,'StarRank10'));
+                        if(newpoints >= points10)
+                        {
+                            Object::setVariableForAdHoc(objName, 'level', toString(10), 0, false);
+                        }
+                    }
+            }
+        ]]></Attribute>
+	<Attribute name="UpdateRewardFromCharacterLost"><![CDATA[#program;
+            {
+                function updateRewards(numSlots, sessionsAdHoc, characterName, sessionsNumCharactersVariable, rewardVariable)
+                {
+                    for(var i = 0; i < numSlots; i++)
+                    {
+                        var nameAndReward = ObjectVars::getVariableString(sessionsAdHoc, toString(i));
+                        if(nameAndReward != '0')
+                        {
+                            var splitNameAndReward = split(nameAndReward, ',');
+                            var name = Array::getValueAtIndex(splitNameAndReward, 0);
+                            var rewardToLose = toDouble(Array::getValueAtIndex(splitNameAndReward, 1));
+                            if(name == characterName)
+                            {
+                                Object::setVariableForAdHoc(sessionsAdHoc, toString(i), '0', 0, false);
+                                                    
+                                var numCharacters = User::getVariable(sessionsNumCharactersVariable);
+                                if(numCharacters == numSlots)
+                                {
+                                    var bonus = toDouble(System::getConfigValue('__Music_GameConfig:PerformerBonusAmount:Amount__'));
+                                    rewardToLose = rewardToLose + bonus;
+                                }
+                                numCharacters = numCharacters - 1;
+                                                    
+                                User::setVariable(sessionsNumCharactersVariable, numCharacters, false);
+                                                    
+                                var sessionReward = User::getVariable(rewardVariable);
+                                User::setVariable(rewardVariable, sessionReward - rewardToLose, false);
+                                                    
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+                
+                function populateNumCharactersArray(numCharactersArray)
+                {
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_RockStageNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_PopStageNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_HipHopStageNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_SimpsonHomeNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_MoesNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_KwikEMartNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_KrustyBurgerNumCharacters'));
+                    Array::pushBack(numCharactersArray, User::getVariable('Session_SpringfieldElementaryNumCharacters'));
+                }
+                
+                var numCharactersBefore = Array::create();
+                populateNumCharactersArray(numCharactersBefore);
+                
+                updateRewards(4, 'Obj_RockStage_Sessions_Characters', scriptCharacterName, 'Session_RockStageNumCharacters', 'Session_RockStageReward');
+                updateRewards(4, 'Obj_PopStage_Sessions_Characters', scriptCharacterName, 'Session_PopStageNumCharacters', 'Session_PopStageReward');
+                updateRewards(4, 'Obj_HipHopStage_Sessions_Characters', scriptCharacterName, 'Session_HipHopStageNumCharacters', 'Session_HipHopStageReward');
+                updateRewards(2, 'Obj_SimpsonHome_Sessions_Characters', scriptCharacterName, 'Session_SimpsonHomeNumCharacters', 'Session_SimpsonHomeReward');
+                updateRewards(2, 'Obj_MoesTavern_Sessions_Characters', scriptCharacterName, 'Session_MoesNumCharacters', 'Session_MoesReward');
+                updateRewards(2, 'Obj_KwikEMart_Sessions_Characters', scriptCharacterName, 'Session_KwikEMartNumCharacters', 'Session_KwikEMartReward');
+                updateRewards(2, 'Obj_KrustyBurger_Sessions_Characters', scriptCharacterName, 'Session_KrustyBurgerNumCharacters', 'Session_KrustyBurgerReward');
+                updateRewards(2, 'Obj_SpringfieldElementary_Sessions_Characters', scriptCharacterName, 'Session_SpringfieldElementaryNumCharacters', 'Session_SpringfieldElementaryReward');
+                
+                var numCharactersAfter = Array::create();
+                populateNumCharactersArray(numCharactersAfter);
+                
+                for(var i = 0; i < 8; i++)
+                {
+                    var before = Array::getValueAtIndex(numCharactersBefore, i);
+                    var after = Array::getValueAtIndex(numCharactersAfter, i);
+                    if(before > 0 && after == 0)
+                    {
+                        Script::run('Music_Scripts:ScheduleRefreshFestivalFanLocations');
+                        break;
+                    }
+                }
+            }
+        ]]></Attribute>
+	<Attribute name="AddCharacterToSessionList"><![CDATA[#program;
+            {
+                var configAmount = '__Music_GameConfig:PerformerRewardAmount:Amount__';
+                var level = 0;
+                var objName = '';
+                
+                if(name == 'Homer')
+                {
+                    objName = 'Obj_Music_Homer';
+                }
+                elseif(name == 'Alcatraaaz')
+                {
+                    objName = 'Obj_Music_Alcatraaaz';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'Apu')
+                {
+                    objName = 'Obj_Music_Apu';
+                }
+                elseif(name == 'DrHibbert')
+                {
+                    objName = 'Obj_Music_Hibbert';
+                }
+                elseif(name == 'Lovejoy')
+                {
+                    objName = 'Obj_Music_Lovejoy';
+                }
+                elseif(name == 'Lisa')
+                {
+                    objName = 'Obj_Music_Lisa';
+                }
+                elseif(name == 'NickDelacourt')
+                {
+                    objName = 'Obj_Music_Nick';
+                }
+                elseif(name == 'PeterDAbbruzio')
+                {
+                    objName = 'Obj_Music_Peter';
+                }
+                elseif(name == 'Otto')
+                {
+                    objName = 'Obj_Music_Otto';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'FreddyFreeman')
+                {
+                    objName = 'Obj_Music_Freddy';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'ShredderStevens')
+                {
+                    objName = 'Obj_Music_Shredder';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'BleedingGumsMurphy')
+                {
+                    objName = 'Obj_Music_BleedingGumsMurphy';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'Milhouse')
+                {
+                    objName = 'Obj_Music_Milhouse';
+                }
+                elseif(name == 'Ralph')
+                {
+                    objName = 'Obj_Music_Ralph';
+                }
+                elseif(name == 'Nelson')
+                {
+                    objName = 'Obj_Music_Nelson';
+                }
+                elseif(name == 'Bart')
+                {
+                    objName = 'Obj_Music_Bart';
+                }
+                elseif(name == 'AlaskaNebraska')
+                {
+                    objName = 'Obj_Music_Alaska';
+                }
+                elseif(name == 'LeonKompowsky')
+                {
+                    objName = 'Obj_Music_Leon';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'Krusty')
+                {
+                    objName = 'Obj_Music_Krusty';
+                }
+                elseif(name == 'RockstarMaggie')
+                {
+                    objName = 'Obj_Music_RockstarMaggie';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                elseif(name == 'WeirdAlYankovic')
+                {
+                    objName = 'Obj_Music_WeirdAl';
+                }
+                elseif(name == 'Maggie')
+                {
+                    objName = 'Obj_Music_Maggie';
+                    configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
+                }
+                
+                if(objName != '')
+                {
+                    level = ObjectVars::getVariableInt(objName, 'level');
+                }
+
+                var rewardAmount = toDouble(System::getConfigValue(configAmount)) * level / 2.0;
+                var newNameAndReward = name + ',' + toString(rewardAmount);
+                for(var i = 0; i < 4; i++)
+                {
+                    var nameAndReward = ObjectVars::getVariableString(sessionCharacters, toString(i));
+                    if(nameAndReward == '0')
+                    {
+                        Object::setVariableForAdHoc(sessionCharacters, toString(i), newNameAndReward, 0, false);
+                        break;
+                    }
+                }
+            }
+
+        ]]></Attribute>
+</Attributes>

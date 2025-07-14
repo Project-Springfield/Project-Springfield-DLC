@@ -1,0 +1,424 @@
+﻿<ScriptPackage>
+	<RandomPrize>
+		<Action type="program">
+			<Program><![CDATA[
+                #program;
+                var eliminator = Land::getFirstInstanceOfObject(Building::find('TheEliminator'));
+                
+                var prize1 = toDouble(System::getConfigValue('__Rommelwood_GameConfig:EliminatorPrizes:Prize1__'));
+                var prize2 = toDouble(System::getConfigValue('__Rommelwood_GameConfig:EliminatorPrizes:Prize2__'));
+                var prize3 = toDouble(System::getConfigValue('__Rommelwood_GameConfig:EliminatorPrizes:Prize3__'));
+                var prize4 = toDouble(System::getConfigValue('__Rommelwood_GameConfig:EliminatorPrizes:Prize4__'));
+                
+                var maxRand = prize1 + prize2 + prize3 + prize4;
+                var newRand = rand(maxRand);
+                
+                if(newRand > prize1)
+                {
+                    newRand -= prize1;
+                    if(newRand > prize2)
+                    {
+                        newRand -= prize2;
+                        if(newRand > prize3)
+                        {
+                            Object::setVariable(eliminator, 'award', toString(3), 0, false);
+                        }
+                        else
+                        {
+                            Object::setVariable(eliminator, 'award', toString(2), 0, false);
+                        }
+                    }
+                    else
+                    {
+                        Object::setVariable(eliminator, 'award', toString(1), 0, false);
+                    }
+                }
+                else
+                {
+                    Object::setVariable(eliminator, 'award', toString(0), 0, false);
+                }
+            ]]></Program>
+		</Action>
+		<Action type="checkExpression" expression="System::evaluate('Building::TheEliminator::Object::award')">
+			<ExpressionCase value="0">
+				<Action type="reward" ignoreObject="true">
+					<Item type="building" name="BarbedWireFence" />
+					<Item type="building" name="BarbedWireFence" />
+					<Item type="building" name="BarbedWireFence" />
+					<Item type="building" name="BarbedWireFence" />
+				</Action>
+				<Action type="rewardWithPlaceStore" attributes="Rommelwood_MenuConfig:RewardWithPlaceStore_Eliminator">
+					<Item type="building" name="BarbedWireFence" />
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="rewardWithPlaceStore" attributes="Rommelwood_MenuConfig:RewardWithPlaceStore_Eliminator">
+					<Item type="building" name="TrainingDummy" />
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="rewardWithPlaceStore" attributes="Rommelwood_MenuConfig:RewardWithPlaceStore_Eliminator">
+					<Item type="building" name="BombShelter" />
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="rewardWithPlaceStore" attributes="Rommelwood_MenuConfig:RewardWithPlaceStore_Eliminator">
+					<Item type="building" name="MiniNuclearWarhead" />
+				</Action>
+			</ExpressionCase>
+		</Action>
+	</RandomPrize>
+	<DuffmanSkinUnlock>
+		<Action type="pantoobject" time="0" character="Duffman" fakeTouch="false" />
+	</DuffmanSkinUnlock>
+	<WWIITank_Tapped parallel="true">
+		<Action type="sound" sound="WWIITank_Tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</WWIITank_Tapped>
+	<PotOGoldFloat_Tapped parallel="true">
+		<Action type="sound" sound="PotOGoldFloat_Tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</PotOGoldFloat_Tapped>
+	<GoTo_WWIITank>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="WWIITank" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="WWIITank" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="WWIITank" fakeTouch="false" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_WWIITank>
+	<GoTo_HellfishTreasureChest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="HellfishTreasureChest" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="HellfishTreasureChest" inventory="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="building" building="HellfishTreasureChest" />
+							<False>
+								<Action type="focusOnMenuItem" menuCategory="TSTOTEWave2_Category" itemName="HellfishTreasureChest" />
+							</False>
+							<True>
+								<Action type="pantoobject" building="HellfishTreasureChest" fakeTouch="false" />
+							</True>
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_HellfishTreasureChest>
+	<HellfishTreasureChest_Tapped parallel="true">
+		<Action type="sound" sound="HellfishTreasureChest_Tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</HellfishTreasureChest_Tapped>
+	<RommelwoodStatue_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</RommelwoodStatue_Tapped>
+	<TrainingPlane_Tapped parallel="true">
+		<Action type="sound" sound="TrainingPlane_Tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</TrainingPlane_Tapped>
+	<HellfishMonument_Tapped parallel="true">
+		<Action type="sound" sound="HellfishMonument_Tap" />
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</HellfishMonument_Tapped>
+	<RebateMessaging runQueueState="QueueIfNotIdle">
+		<Action type="checkRequirements" formatMe="deep">
+			<Requirements>
+				<Requirement type="formula" formula="greaterThan({0CurrencyAmount},49)" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_50orHigher}" icon="ico_priz_donuts_20" formatMe="true" dismissOnOKOnly="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements" formatMe="deep">
+					<Requirements>
+						<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},50), greaterThan({0CurrencyAmount},39))" />
+					</Requirements>
+					<True>
+						<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_40to49}" icon="ico_priz_donuts_20" formatMe="true" dismissOnOKOnly="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements" formatMe="deep">
+							<Requirements>
+								<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},40), greaterThan({0CurrencyAmount},19))" />
+							</Requirements>
+							<True>
+								<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_20to39}" icon="ico_priz_donuts_10" formatMe="true" dismissOnOKOnly="true" />
+							</True>
+							<False>
+								<Action type="checkRequirements" formatMe="deep">
+									<Requirements>
+										<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},20), greaterThan({0CurrencyAmount},9))" />
+									</Requirements>
+									<True>
+										<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_10to19}" icon="specialprize_donuts" formatMe="true" dismissOnOKOnly="true" />
+									</True>
+									<False>
+										<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_1to9}" icon="ico_priz_donuts_1" formatMe="true" dismissOnOKOnly="true" />
+									</False>
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</RebateMessaging>
+	<IntroSeen>
+		<Action type="updateVariable" variable="Rommelwood_IntroSeen" value="true" />
+	</IntroSeen>
+	<SgtSkinnerBundlePurchased>
+		<Action type="notification" icon="WWIITank_Menu" title="CON_SgtSkinnerTankBundle_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="WWIITank" inventory="true" />
+	</SgtSkinnerBundlePurchased>
+	<BundlePurchased>
+		<Action type="message" text="UI_EoS2015_ItemInInventory" />
+	</BundlePurchased>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="LeftRightLeft_MASTER2" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Rommelwood_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="Rommelwood_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_Rommelwood_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="Rommelwood_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="Rommelwood_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="UI_Rommelwood_24HourExpiry_text" />
+		<Action type="setVariable" boolVariable="Rommelwood_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="Rommelwood_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_Rommelwood_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="Rommelwood_OnePanel" />
+		<Action type="setVariable" boolVariable="Rommelwood_ExpiryDisplayed" boolValue="true" />
+		<Action type="runScript" script="Rommelwood_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EnterRommelwoodCategory>
+		<Action type="focusOnMenuItem" menuCategory="RommelwoodAcademy" />
+	</EnterRommelwoodCategory>
+	<EnterStPattys2017Category>
+		<Action type="focusOnMenuItem" menuCategory="StPatrick2017" />
+	</EnterStPattys2017Category>
+	<StPats2017Store_Recommend>
+		<Action type="updateVariable" variable="StPattys2017_Store" value="true" />
+		<Action type="recommendation" recType="Promoted" name="StPattys2017_OnePanel" eventName="UI_StPattys2017_Title" limitedTime="true" limitedTimeEndDate="StPattys2017_Kill" />
+	</StPats2017Store_Recommend>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="LeftRightLeft_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Rommelwood_Event" />
+									<Attribute name="JobList" value="LeftRightLeft_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="LeftRightLeft_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Rommelwood_Event" />
+									<Attribute name="JobList" value="LeftRightLeft_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="LeftRightLeft_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Rommelwood_Event" />
+									<Attribute name="JobList" value="LeftRightLeft_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="LeftRightLeft_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Rommelwood_Event" />
+									<Attribute name="JobList" value="LeftRightLeft_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="LeftRightLeft_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Rommelwood_Event" />
+									<Attribute name="JobList" value="LeftRightLeft_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="LeftRightLeft_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Rommelwood_Event" />
+									<Attribute name="JobList" value="LeftRightLeft_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="RommelwoodAcademyMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Rommelwood_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Rommelwood_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Rommelwood_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Rommelwood_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_RommelwoodAcademy_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_Rommelwood_IntroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_Rommelwood_IntroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_Rommelwood_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Rommelwood_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="RommelwoodAcademyMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_TMDG_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_TMDG_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_RommelwoodAcademy_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_Rommelwood_OutroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_Rommelwood_OutroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Rommelwood_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<RegisterTelemetry_Job_Regular parallel="true">
+		<Action type="updateVariable" variable="Rommelwood_ClassCoins_RegularJob" value="Rommelwood_ClassCoins_RegularJob + ConfigValue('__Rommelwood_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="Rommelwood_ClassCoins_Total" value="Rommelwood_ClassCoins_Total + ConfigValue('__Rommelwood_GameConfig:CurrencyRewards:RegularJobReward__')" />
+	</RegisterTelemetry_Job_Regular>
+	<RegisterTelemetry_Job_Premium parallel="true">
+		<Action type="updateVariable" variable="Rommelwood_ClassCoins_PremiumJob" value="Rommelwood_ClassCoins_PremiumJob + ConfigValue('__Rommelwood_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="Rommelwood_ClassCoins_Total" value="Rommelwood_ClassCoins_Total + ConfigValue('__Rommelwood_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Job_Premium>
+	<RegisterTelemetry_Building parallel="true">
+		<Action type="updateVariable" variable="Rommelwood_ClassCoins_Building" value="Rommelwood_ClassCoins_Building + ConfigValue('__Rommelwood_GameConfig:CurrencyRewards:BuildingJobReward__')" />
+		<Action type="updateVariable" variable="Rommelwood_ClassCoins_Total" value="Rommelwood_ClassCoins_Total + ConfigValue('__Rommelwood_GameConfig:CurrencyRewards:BuildingJobReward__')" />
+	</RegisterTelemetry_Building>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="{Total}" eventId="5210" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Enumeration" param2="{Regular}" eventId="5211" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Enumeration" param2="{Premium}" eventId="5211" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="GeneratorReward{task}" param2Type="Enumeration" param2="{Generator}" eventId="5211" />
+		<Action type="setVariable" intVariable="Rommelwood_ClassCoins_RegularJob" intValue="0" />
+		<Action type="setVariable" intVariable="Rommelwood_ClassCoins_PremiumJob" intValue="0" />
+		<Action type="setVariable" intVariable="Rommelwood_ClassCoins_Building" intValue="0" />
+	</LogTelemetry>
+</ScriptPackage>

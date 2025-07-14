@@ -1,0 +1,84 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="154000" name="DonutDay_HeavyCarbRain_1" onDeprecated="delete" endDate="DonutDay_End" />
+		<DataID id="154001" name="DonutDay_CreateGil" onDeprecated="delete" endDate="DonutDay_End" />
+		<DataID id="154002" name="DonutDay_TriggerPromo" onDeprecated="delete" endDate="DonutDay_End" />
+		<DataID id="154003" name="DonutDay_Canceled" onDeprecated="delete" endDate="DonutDay_End" />
+		<DataID id="154004" name="DonutDay_Purchased" onDeprecated="delete" endDate="DonutDay_Kill" />
+		<DataID id="154005" name="DonutDay_KillGil" onDeprecated="delete" startDate="DonutDay_End" />
+		<DataID id="154006" name="DonutDay_AwardTray" onDeprecated="delete" endDate="DonutDay_End" />
+	</MasterList>
+	<Quest id="154000" name="DonutDay_HeavyCarbRain_1" tags="mainquest">
+		<Requirements>
+			<Requirement type="variable" variable="DonutDayPromoActive" />
+		</Requirements>
+		<StartScript package="DonutDay_Scripts" name="HeavyCarbRain_1_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="DonutDay_Scripts" name="HeavyCarbRain_1_End" />
+	</Quest>
+	<Quest id="154001" name="DonutDay_CreateGil" tags="mainquest">
+		<Requirements>
+			<Requirement type="quest" quest="DonutDay_HeavyCarbRain_1" />
+			<Requirement type="variable" variable="DonutDayPromoActive" />
+		</Requirements>
+		<StartScript package="DonutDay_Scripts" name="CreateGil" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="154002" name="DonutDay_TriggerPromo" tags="mainquest" customIcon="Indicator_DonutDay.rgb" preventSuspend="true" repeatable="true">
+		<Requirements>
+			<Requirement type="quest" quest="DonutDay_CreateGil" />
+			<Requirement type="variable" variable="DonutDayPromoActive" />
+		</Requirements>
+		<StartScript package="DonutDay_Scripts" name="DisplayPromo" triggerType="character" character="PromoGilPermanent" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="154003" name="DonutDay_Canceled" tags="mainquest">
+		<Requirements>
+			<Requirement type="quest" quest="DonutDay_TriggerPromo" />
+			<Requirement type="variable" variable="DonutDayDisplayPromo" />
+			<Requirement type="consumable" name="DonutDay_OpenStore" not="true" />
+		</Requirements>
+		<StartScript package="DonutDay_Scripts" name="PromoIgnored" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="154004" name="DonutDay_Purchased" tags="mainquest">
+		<Requirements>
+			<Requirement type="quest" quest="DonutDay_TriggerPromo" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="processedPurchase" purchaseItem="DonutDayDozen" />
+				<Requirement type="processedPurchase" purchaseItem="DonutDayStack" />
+				<Requirement type="processedPurchase" purchaseItem="DonutDayTray" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="DonutDay_Scripts" name="PromoPurchased" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="154005" name="DonutDay_KillGil" start_waits_idle="false" end_waits_idle="false">
+		<StartScript package="MiscScripts" name="KillGil" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="DonutDay_Scripts" name="StopRain" />
+	</Quest>
+	<Quest id="154006" name="DonutDay_AwardTray" tags="mainquest">
+		<Requirements>
+			<Requirement type="variable" variable="DonutDayDisplayPromo" />
+			<Requirement type="quest" quest="DonutDay_TriggerPromo" />
+		</Requirements>
+		<StartScript package="DonutDay_Scripts" name="DonutDay_AwardTray_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="DonutDay_Scripts" name="DonutDecoUpsell" />
+	</Quest>
+</Quests>

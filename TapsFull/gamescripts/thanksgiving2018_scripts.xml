@@ -1,0 +1,263 @@
+﻿<ScriptPackage>
+	<ShowBlackFridayGuidePanel>
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="Thanksgiving2018_GameConfig:BlackFridayGuide_Config" />
+		<Action type="updateVariable" variable="Thanksgiving2018_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="BlackFriday2018_OnePanel" eventName="UI_BlackFriday2018_Title" limitedTime="true" limitedTimeEndDate="Thanksgiving2018_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowBlackFridayGuidePanel>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="Thanksgiving2018MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Thanksgiving2018_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Thanksgiving2018_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Thanksgiving2018_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Thanksgiving2018_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Thanksgiving2018_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_Thanksgiving2018_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_Thanksgiving2018_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_Thanksgiving2018_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_Thanksgiving2018_IntroPanel_3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Thanksgiving2018_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="Thanksgiving2018_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="Thanksgiving2018_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="Thanksgiving2018_OnePanel" eventName="UI_Thanksgiving2018_Title" limitedTime="true" limitedTimeEndDate="Thanksgiving2018_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="Thanksgiving2018MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Thanksgiving2018_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_Thanksgiving2018_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_Thanksgiving2018_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Thanksgiving2018_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="Thanksgiving2018_Complete" boolValue="true" />
+	</ShowMiniEventOutro>
+	<OpenMasterQuest_BlackFriday>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="BlackFriday2018_MasterQuest" />
+						<Attribute name="specialEvent" value="Thanksgiving2018" />
+						<Attribute name="showEventProgressMenu" value="true" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest_BlackFriday>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Thanksgiving2018_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="Thanksgiving2018_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_Thanksgiving2018_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="Thanksgiving2018_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="Thanksgiving2018_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="Thanksgiving2018_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="Thanksgiving2018_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="Thanksgiving2018_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_Thanksgiving2018_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="Thanksgiving2018_OnePanel" />
+		<Action type="clearRecommendations" category="Event" name="BlackFriday2018_OnePanel" />
+		<Action type="setVariable" boolVariable="Thanksgiving2018_ExpiryDisplayed" boolValue="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="Thanksgiving2018_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="Thanksgiving2018_MasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="BloodIsThinnerThanGravy_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Thanksgiving2018_Event" />
+									<Attribute name="JobList" value="Thanksgiving2018_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="BloodIsThinnerThanGravy_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Thanksgiving2018_Event" />
+									<Attribute name="JobList" value="Thanksgiving2018_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BloodIsThinnerThanGravy_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Thanksgiving2018_Event" />
+									<Attribute name="JobList" value="Thanksgiving2018_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BloodIsThinnerThanGravy_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Thanksgiving2018_Event" />
+									<Attribute name="JobList" value="Thanksgiving2018_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BloodIsThinnerThanGravy_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Thanksgiving2018_Event" />
+									<Attribute name="JobList" value="Thanksgiving2018_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<OneGoldenToken>
+		<Action type="reward" save="true" GoldBoxTokens="1" />
+	</OneGoldenToken>
+	<FiveGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="5" />
+	</FiveGoldenTokens>
+	<TenGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="10" />
+	</TenGoldenTokens>
+	<GoldenTokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" donuts="12" />
+	</GoldenTokenForDozenDonuts>
+	<OpenDonutStore>
+		<Action type="actionSequence" script="MiscScripts:OpenMTXStore">
+			<FormatToken key="onLeaveScript" value="Thanksgiving2018_Scripts:OpenMasterQuest_BlackFriday" />
+		</Action>
+	</OpenDonutStore>
+	<GetMoreGoldenTokens>
+		<Action type="actionSequence" script="MiscScripts:OpenMTXStore">
+			<FormatToken key="onLeaveScript" value="Thanksgiving2018_Scripts:EnterStoreCategory" />
+		</Action>
+	</GetMoreGoldenTokens>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="Thanksgiving2018_Category" />
+	</EnterStoreCategory>
+	<EnterBlackFriday2018StoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2018_Category" />
+	</EnterBlackFriday2018StoreCategory>
+	<GoToGoldenTokenForDozenDonuts>
+		<Action type="focusOnMenuItem" menuCategory="Currency" itemName="GoldenTokenForDozenDonuts" />
+	</GoToGoldenTokenForDozenDonuts>
+	<AutoConsumeReclusiveMrBurnsSkin parallel="true">
+		<Action type="scheduleScript" mode="create" script="Thanksgiving2018_Scripts:AutoConsumeReclusiveMrBurnsSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoConsumeReclusiveMrBurnsSkin>
+	<AutoConsumeReclusiveMrBurnsSkin_Delayed parallel="true">
+		<Action type="consumable" consumable="ReclusiveMrBurns" fromInventory="true" />
+	</AutoConsumeReclusiveMrBurnsSkin_Delayed>
+</ScriptPackage>

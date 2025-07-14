@@ -1,0 +1,150 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="4316" name="Terwilligers_Act2">
+		<LoopScript scheduleTime="TerwilligersActThree" package="Terwilligers_Scripts" interval="0s" script="CheckActTwoOver" loop="false">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+		</LoopScript>
+		<GuideData title="" tip=""></GuideData>
+		<HUDCurrencies buttonType="guide" guideButtonScript="Terwilligers_Scripts:ShowGuidePanel">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<Currency type="GasMasks" />
+			<Currency type="MutantSeeds" />
+		</HUDCurrencies>
+		<FriendHUDCurrencies buttonType="guide" guideButtonScript="Terwilligers_Scripts:ShowGuidePanelFromFriendHUD">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="Terwilligers" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="Terwilligers" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+			</Requirements>
+			<Currency type="GasMasks" />
+			<Currency type="MutantSeeds" />
+		</FriendHUDCurrencies>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="2" type1FakeFriend="true" type2FakeFriend="true" icon="ICO_Terwilligers_GasMask_SM.rgb" type="GasMasks" icon2="ICO_Terwilligers_MutantSeeds_SM.rgb" type2="MutantSeeds" leaveSubStateAfterScript="false">
+			<Currency type="GasMasks">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+				</Requirements>
+			</Currency>
+			<Currency type="MutantSeeds">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+				</Requirements>
+			</Currency>
+			<Requirements>
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<Script name="ShowGuidePanelFromFriendMapHUD" package="Terwilligers_Scripts" />
+		</FriendsMap>
+		<SpecialButtons>
+			<Button mode="friend" icon="ICO_MHUD_MutantTask_SE" counter="true" identifier="MutantSeeds" timecharacter="MutantSeedling">
+				<Requirements>
+					<Requirement type="variable" variable="Terwilligers" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="fakefriend" />
+						<Requirement type="friendvariable" variable="Terwilligers" />
+					</Requirement>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="ChaosSheory02" />
+						<Requirement type="quest" quest="ChaosSheory02" />
+					</Requirement>
+				</Requirements>
+				<CharacterSpawnMode character="MutantSeedling" popup_OutOfCharTitle="UI_TERWILLIGERS_GetMoreMutantSeedlingsTitle" popup_OutOfCharText="UI_TERWILLIGERS_GetMoreMutantSeedlingsDesc" getMoreCurrencyName="Terwilligers_StoreItem_MutantSeeds_1" popup_ExceedAllowedTownMaxTitle="UI_TERWILLIGERS_FriendMaxSeedlingsTitle" popup_ExceedAllowedTownMaxText="UI_TERWILLIGERS_FriendMaxSeedlingsBody">
+					<Cost MutantSeeds="1" />
+					<MaxAllowedInTown default="10" frinkTown="5" />
+					<LocalScript>
+						<Script name="SpawnLocalMutantSeedling_Act2" package="Terwilligers_Scripts" />
+					</LocalScript>
+					<FriendScript>
+						<Script name="SpawnFriendMutantSeedling_Act2" package="Terwilligers_Scripts" />
+					</FriendScript>
+				</CharacterSpawnMode>
+			</Button>
+		</SpecialButtons>
+		<TimedCharacterRule character="MutantSeedling">
+			<TimeLimit default="4h" frinkTown="24h" />
+			<MaxAllowedInTown default="10" frinkTown="5" />
+			<OnOfflineScript>
+				<Script name="OffLineReward" package="Terwilligers_Scripts" />
+			</OnOfflineScript>
+			<SpendableVariables>
+				<Variable Corn="SPECIAL_EVENT_OFFLINE_CORN" />
+				<Variable DNA="SPECIAL_EVENT_OFFLINE_DNA" />
+				<Variable GasMasks="SPECIAL_EVENT_OFFLINE_GASMASKS" />
+			</SpendableVariables>
+			<OnTimeOut>
+				<CreatorReward>
+					<Reward Corn="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendTimeout_Reward1_CornAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendTimeout_Reward1_CornChance__" />
+					<Reward DNA="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendTimeout_Reward1_DNAAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendTimeout_Reward1_DNAChance__" />
+				</CreatorReward>
+				<CreatorReward>
+					<Reward GasMasks="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendTimeout_Reward2_GasAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendTimeout_Reward2_GasChance__" />
+				</CreatorReward>
+			</OnTimeOut>
+			<OnCollected>
+				<CreatorReward>
+					<Reward Corn="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendCollected_Reward1_CornAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendCollected_Reward1_CornChance__" />
+					<Reward DNA="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendCollected_Reward1_DNAAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendCollected_Reward1_DNAChance__" />
+					<Reward TerwilligersScore="5" chance="1" />
+				</CreatorReward>
+				<CreatorReward>
+					<Reward GasMasks="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendCollected_Reward2_GasAmount__" chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_FriendCollected_Reward2_GasChance__" />
+				</CreatorReward>
+			</OnCollected>
+			<Sublands>
+				<Subland value="Springfield" />
+			</Sublands>
+		</TimedCharacterRule>
+		<Jobs>
+			<Job name="ImprovingNature">
+				<Reward TerwilligersActivePrizeTrackCurrency="120" xp="13" />
+			</Job>
+		</Jobs>
+		<Characters override="true">
+			<Character name="CecilTerwilliger" ignoredByCensus="true">
+				<IdlePriorityOverride priority="EventExclamation">
+					<Requirements>
+						<Requirement type="variable" variable="Terwilligers" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="CecilTasks" not="true" />
+							<Requirement type="formula" formula="TerwilligersCecilTasksLastVisitNextEndTime==TerwilligersCecilTasksNextEndTime" not="true" />
+						</Requirement>
+						<Requirement type="formula" formula="TerwilligersNumCecilsTasksCompleted==4" not="true" />
+						<Requirement type="quest" quest="CecilsRedemption03" />
+						<Requirement type="level" level="5" />
+					</Requirements>
+				</IdlePriorityOverride>
+				<SpecialIndicator icon="Indicator_Terwilligers_CecilTask" removeWhenBusy="true">
+					<Requirements>
+						<Requirement type="variable" variable="Terwilligers" />
+						<Requirement type="active quest" quest="CecilTasks" />
+						<Requirement type="formula" formula="TerwilligersCecilTasksLastVisitNextEndTime==TerwilligersCecilTasksNextEndTime" not="true" />
+						<Requirement type="formula" formula="TerwilligersNumCecilsTasksCompleted==4" not="true" />
+						<Requirement type="quest" quest="CecilsRedemption03" />
+						<Requirement type="level" level="5" />
+					</Requirements>
+				</SpecialIndicator>
+			</Character>
+		</Characters>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="Monsarno" />
+			</LandInfo>
+		</LandInfos>
+	</SpecialEvent>
+	<SpecialEvent id="4317" name="Terwilligers_Act3_MonsarnoJob">
+		<Jobs>
+			<Job name="ImprovingNature">
+				<Reward MutantSeeds="8" xp="13" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>

@@ -1,0 +1,548 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="268000" name="AimForTheCzars" />
+		<DataID id="268001" name="TheWasteRace_1" />
+		<DataID id="268002" name="TheWasteRace_2" />
+		<DataID id="268003" name="TheWasteRace_3" />
+		<DataID id="268004" name="TheWasteRace_4" />
+		<DataID id="268005" name="TheWasteRace_5" />
+		<DataID id="268006" name="WriteItOff" />
+		<DataID id="268007" name="MoneyTalks_1" />
+		<DataID id="268008" name="MoneyTalks_2" />
+		<DataID id="268009" name="MoneyTalks_3" />
+		<DataID id="268010" name="FoolsGold_1" />
+		<DataID id="268011" name="FoolsGold_2" />
+		<DataID id="268012" name="FoolsGold_3" />
+		<DataID id="268013" name="CheapSpaceHomer_1_FARM" />
+		<DataID id="268014" name="CheapSpaceHomer_2_FARM" />
+		<DataID id="268015" name="CheapSpaceHomer_3_FARM" />
+		<DataID id="268016" name="CheapSpaceHomer_4_FARM" />
+		<DataID id="268017" name="CheapSpaceHomer_5_FARM" />
+		<DataID id="268018" name="CheapSpaceHomer_6_FARM" />
+		<DataID id="268019" name="CheapSpaceHomer_7_FARM" />
+		<DataID id="268020" name="CheapSpaceHomer_8_FARM" />
+		<DataID id="268021" name="AutoApply_DSHSkin" />
+		<DataID id="268200" name="DowntimeDonuts0523" />
+		<DataID id="268600" name="ForAllRichMankind_Completed" />
+		<DataID id="268601" name="ForAllRichMankind_IntroPanel" />
+		<DataID id="268602" name="ForAllRichMankind_72HourWarning" onDeprecated="retain" endDate="ForAllRichMankind_End" />
+		<DataID id="268603" name="ForAllRichMankind_24HourWarning" onDeprecated="retain" endDate="ForAllRichMankind_End" />
+		<DataID id="268604" name="ForAllRichMankind_EventExpired" />
+		<DataID id="268605" name="ForAllRichMankind_MasterQuest" />
+		<DataID id="268900" name="ForAllRichMankind_RecommendStore" onDeprecated="delete" endDate="ForAllRichMankind_End" />
+	</MasterList>
+	<Quest id="268600" name="ForAllRichMankind_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="WriteItOff" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="268601" name="ForAllRichMankind_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="AimForTheCzars" />
+			<Requirement type="time" end="ForAllRichMankind_End" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="268602" name="ForAllRichMankind_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ForAllRichMankind_End')-fromHours(72)]_" end="_[System::evaluate('Date::ForAllRichMankind_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="ForAllRichMankind_Complete" not="true" />
+			<Requirement type="quest" quest="ForAllRichMankind_IntroPanel" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="268603" name="ForAllRichMankind_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ForAllRichMankind_End')-fromHours(24)]_" end="ForAllRichMankind_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ForAllRichMankind_Complete" not="true" />
+			<Requirement type="quest" quest="ForAllRichMankind_IntroPanel" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="268604" name="ForAllRichMankind_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="ForAllRichMankind_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ForAllRichMankind_Complete" not="true" />
+			<Requirement type="quest" quest="ForAllRichMankind_IntroPanel" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="268605" name="ForAllRichMankind_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_Expired" not="true" />
+			<Requirement type="variable" variable="ForAllRichMankind_Complete" not="true" />
+			<Requirement type="reqList" location="ForAllRichMankind_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheWasteRace_5" />
+					<Requirement type="variable" variable="ForAllRichMankind_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheWasteRace_1">
+				<Requirement type="quest started" quest="TheWasteRace_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheWasteRace_2">
+				<Requirement type="quest started" quest="TheWasteRace_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheWasteRace_3">
+				<Requirement type="quest started" quest="TheWasteRace_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheWasteRace_4">
+				<Requirement type="quest started" quest="TheWasteRace_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheWasteRace_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="268000" name="AimForTheCzars" tags="sidequest" icon="ForAllRichMankind_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="ForAllRichMankind_Start" end="ForAllRichMankind_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="AimForTheCzars_Start" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="AimForTheCzars_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ExcitedlyRetweetRedfieldsTweet" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="ForAllRichMankind_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="268001" name="TheWasteRace_1" tags="mainquest" icon="ForAllRichMankind_Currency" sidebarIconScript="ForAllRichMankind_Scripts:OpenMasterQuest" questMenuConfigPath="ForAllRichMankind_QuestConfig:ForAllRichMankind_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ForAllRichMankind_IntroPanel" />
+			<Requirement type="time" start="ForAllRichMankind_Start" end="ForAllRichMankind_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_1_Start" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ForAllRichMankind_Currency')" amount="__ForAllRichMankind_GameConfig:ResourceQuantities:ForAllRichMankind_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ForAllRichMankind_Scripts:ShowJobList" textpoolName="QST_ForAllRichMankind_Collect_obj">
+				<HighlightJobList>
+					<Job name="TakeTheDramaClubsSpaceHelmets" />
+					<Job name="BeginSpaceHelmetProductionForFun" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="AugustusRedfield" job="LaughAtReworkedYakovSmirnoffJokes" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AugustusRedfield" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="SuspiciouslyEyeRasputin" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ForAllRichMankind_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ForAllRichMankind_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="268002" name="TheWasteRace_2" tags="mainquest" icon="ForAllRichMankind_Currency" sidebarIconScript="ForAllRichMankind_Scripts:OpenMasterQuest" questMenuConfigPath="ForAllRichMankind_QuestConfig:ForAllRichMankind_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheWasteRace_1" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_2_Start" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ForAllRichMankind_Currency')" amount="__ForAllRichMankind_GameConfig:ResourceQuantities:ForAllRichMankind_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ForAllRichMankind_Scripts:ShowJobList" textpoolName="QST_ForAllRichMankind_Collect_obj">
+				<HighlightJobList>
+					<Job name="TakeTheDramaClubsSpaceHelmets" />
+					<Job name="BeginSpaceHelmetProductionForFun" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="PrepAOneSmallStepForWomanSpeech" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ForAllRichMankind_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ForAllRichMankind_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="268003" name="TheWasteRace_3" tags="mainquest" icon="ForAllRichMankind_Currency" sidebarIconScript="ForAllRichMankind_Scripts:OpenMasterQuest" questMenuConfigPath="ForAllRichMankind_QuestConfig:ForAllRichMankind_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheWasteRace_2" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_3_Start" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ForAllRichMankind_Currency')" amount="__ForAllRichMankind_GameConfig:ResourceQuantities:ForAllRichMankind_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ForAllRichMankind_Scripts:ShowJobList" textpoolName="QST_ForAllRichMankind_Collect_obj">
+				<HighlightJobList>
+					<Job name="TakeTheDramaClubsSpaceHelmets" />
+					<Job name="BeginSpaceHelmetProductionForFun" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="FineAugustusForIllegalHiring" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GetABargainOnRasputinsSpacesuit" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ForAllRichMankind_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ForAllRichMankind_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="268004" name="TheWasteRace_4" tags="mainquest" icon="ForAllRichMankind_Currency" sidebarIconScript="ForAllRichMankind_Scripts:OpenMasterQuest" questMenuConfigPath="ForAllRichMankind_QuestConfig:ForAllRichMankind_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheWasteRace_3" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_4_Start" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ForAllRichMankind_Currency')" amount="__ForAllRichMankind_GameConfig:ResourceQuantities:ForAllRichMankind_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ForAllRichMankind_Scripts:ShowJobList" textpoolName="QST_ForAllRichMankind_Collect_obj">
+				<HighlightJobList>
+					<Job name="TakeTheDramaClubsSpaceHelmets" />
+					<Job name="BeginSpaceHelmetProductionForFun" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="SitInDetention" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ForAllRichMankind_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ForAllRichMankind_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="268005" name="TheWasteRace_5" tags="mainquest" icon="ForAllRichMankind_Currency" sidebarIconScript="ForAllRichMankind_Scripts:OpenMasterQuest" questMenuConfigPath="ForAllRichMankind_QuestConfig:ForAllRichMankind_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ForAllRichMankind_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheWasteRace_4" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_5_Start" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="TheWasteRace_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ForAllRichMankind_Currency')" amount="__ForAllRichMankind_GameConfig:ResourceQuantities:ForAllRichMankind_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ForAllRichMankind_Scripts:ShowJobList" textpoolName="QST_ForAllRichMankind_Collect_obj">
+				<HighlightJobList>
+					<Job name="TakeTheDramaClubsSpaceHelmets" />
+					<Job name="BeginSpaceHelmetProductionForFun" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="ArtieZiff" job="RemoveTheClub" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ArtieZiff" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="AugustusRedfield" job="GiveArtieAFreePen" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AugustusRedfield" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="PrepForLaunch" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ForAllRichMankind_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ForAllRichMankind_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="268006" name="WriteItOff" tags="sidequest" icon="ForAllRichMankind_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheWasteRace_5" />
+		</Requirements>
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="WriteItOff_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="268007" name="MoneyTalks_1" tags="sidequest" icon="AugustusRedfield">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="AugustusRedfield" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="MoneyTalks_1_Start" triggerType="character" character="AugustusRedfield" />
+		<Objectives>
+			<Objective type="complete job" character="AugustusRedfield" job="PitchFakeNewsStories" quantity="1" />
+			<Objective type="complete job" character="KentBrockman" job="BadmouthAndersonCooper" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="KentBrockman" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268008" name="MoneyTalks_2" tags="sidequest" icon="AugustusRedfield">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MoneyTalks_1" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="MoneyTalks_2_Start" triggerType="character" character="AugustusRedfield" />
+		<Objectives>
+			<Objective type="complete job" character="AugustusRedfield" job="FixFakeNewsFARM" quantity="1" />
+			<Objective type="complete job" character="KentBrockman" job="CutAugustusExWivesClips" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="KentBrockman" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268009" name="MoneyTalks_3" tags="sidequest" icon="AugustusRedfield">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MoneyTalks_2" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="MoneyTalks_3_Start" triggerType="character" character="AugustusRedfield" />
+		<Objectives>
+			<Objective type="complete job" character="AugustusRedfield" job="ContinueToShowOff" quantity="1" />
+			<Objective type="complete job" character="KentBrockman" job="ShrugFARM" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="KentBrockman" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="268010" name="FoolsGold_1" tags="sidequest" icon="KingHomer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="KingHomer" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="FoolsGold_1_Start" triggerType="character" character="KingHomer" />
+		<Objectives>
+			<Objective type="complete job" character="KingHomer" job="ShowOffHisInflationHedge" quantity="1" />
+			<Objective type="complete job" character="Marge" job="Realize50BuysWayLessGroceriesNow" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268011" name="FoolsGold_2" tags="sidequest" icon="KingHomer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FoolsGold_1" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="FoolsGold_2_Start" triggerType="character" character="KingHomer" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="FoolsGold_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="KingHomer" job="PolishHimselfAfterHisAcidBath" quantity="1" />
+			<Objective type="complete job" character="Bart" job="EditScreamsIntoTheVideo" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268012" name="FoolsGold_3" tags="sidequest" icon="KingHomer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FoolsGold_2" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts_Dialogue" name="FoolsGold_3_Start" triggerType="character" character="KingHomer" />
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="FoolsGold_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="KingHomer" job="CancelHisOrder" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="CheckHisYahooEmailAccount" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="268013" name="CheapSpaceHomer_1_FARM" textpoolName="QST_CheapSpaceHomer_1_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+			<Requirement type="quest" quest="CheapSpaceHomer_1" not="true" />
+			<Requirement type="active quest" quest="CheapSpaceHomer_1" not="true" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_1_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Quimby" job="WorkOutPayments" quantity="1" textpoolName="QST_CheapSpaceHomer_1_2_obj_1" />
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268014" name="CheapSpaceHomer_2_FARM" textpoolName="QST_CheapSpaceHomer_2_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_1_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_1" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_2_Start" triggerType="character" character="Quimby" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="TrainAsAnAstronaut" quantity="1" textpoolName="QST_CheapSpaceHomer_2_2_obj_1" />
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_2_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268015" name="CheapSpaceHomer_3_FARM" textpoolName="QST_CheapSpaceHomer_3_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_2_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_2" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_3_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="tap building" building="SpaceTrainingCenter" quantity="1" GoToEnabled="true" GoToBehaviour="script" GoToScript="DSH_Scripts:DSH_GoToTrainingCentre" textpoolName="QST_CheapSpaceHomer_3_2_obj_1" />
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268016" name="CheapSpaceHomer_4_FARM" textpoolName="QST_CheapSpaceHomer_4_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_3_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_3" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_4_Start" triggerType="character" character="Quimby" />
+		<Objectives>
+			<Objective type="complete job" quantity="3" textpoolName="QST_CheapSpaceHomer_4_2_obj_1">
+				<Job name="CollectPayments" />
+				<Job name="CollectPaymentsPremium" />
+			</Objective>
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_4_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268017" name="CheapSpaceHomer_5_FARM" textpoolName="QST_CheapSpaceHomer_5_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_4_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_4" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_5_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="GatherInsectSpecimens_Event" quantity="1" textpoolName="QST_CheapSpaceHomer_5_2_obj_1" />
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_5_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268018" name="CheapSpaceHomer_6_FARM" textpoolName="QST_CheapSpaceHomer_6_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_5_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_5" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_6_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" job="PutRocketShipTogether" quantity="4" textpoolName="QST_CheapSpaceHomer_6_2_obj_1" />
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_6_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268019" name="CheapSpaceHomer_7_FARM" textpoolName="QST_CheapSpaceHomer_7_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_6_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_6" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_7_Start" triggerType="character" character="Quimby" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="LaunchSpaceShip" quantity="1" textpoolName="QST_CheapSpaceHomer_7_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="268020" name="CheapSpaceHomer_8_FARM" textpoolName="QST_CheapSpaceHomer_8_1_name" tags="sidequest" icon="DeepSpaceHomer">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="CheapSpaceHomer_7_FARM" />
+				<Requirement type="quest" quest="CheapSpaceHomer_7" />
+			</Requirement>
+			<Requirement type="character" name="Homer" unlockedskin="Homer_DeepSpace" />
+		</Requirements>
+		<StartScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_8_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="PutOutRocketFuelFires" quantity="1" textpoolName="QST_CheapSpaceHomer_8_2_obj_1" />
+		</Objectives>
+		<EndScript package="DSH_Scripts_Dialogue" name="CheapSpaceHomer_8_End" />
+		<Reward money="100" xp="10" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="268021" name="AutoApply_DSHSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="Homer_DeepSpace_Con" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="Homer_DeepSpace" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="ForAllRichMankind_Scripts" name="AutoApply_DSHSkin_End" />
+	</Quest>
+	<Quest id="268200" name="DowntimeDonuts0523" tags="dummy">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="ForAllRichMankind_Start" end="DowntimeDonuts0523_End" triggerEvent="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="ForAllRichMankind_Scripts_Dialogue" name="DowntimeDonuts0523_End" />
+		<Reward money="0" xp="0" donuts="60" />
+	</Quest>
+	<Quest id="268900" name="ForAllRichMankind_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="ForAllRichMankind_Requirements:StoreCategory_ForAllRichMankind_Unlocked" />
+		</Requirements>
+		<StartScript package="ForAllRichMankind_Scripts" name="RecommendStoreCategory_ForAllRichMankind" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

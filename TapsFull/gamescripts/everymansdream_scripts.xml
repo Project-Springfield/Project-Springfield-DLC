@@ -1,0 +1,93 @@
+﻿<ScriptPackage>
+	<HomerDogTap parallel="true">
+		<Action type="sound" sound="char_HomerDog_Tap" />
+		<Action type="playanimation" character="HomerDog" animation="Tap" />
+	</HomerDogTap>
+	<StatueOfBurnsTapped parallel="true">
+		<Action type="anim-play" building="StatueOfBurns" animation="ActiveNoLoop" />
+		<Action type="setObjectVariable" variable="State" value="1" allowOrphan="false" />
+		<Action type="setObjectVariable" variable="EMD_StatueTime" value="time(60*5)" asExpression="true" />
+	</StatueOfBurnsTapped>
+	<SetEMDQ1 parallel="true">
+		<Action type="setVariable" boolVariable="EMD_Q1Complete" boolValue="true" />
+	</SetEMDQ1>
+	<SetEMDQ6 parallel="true">
+		<Action type="setVariable" boolVariable="EMD_Q6Complete" boolValue="true" />
+	</SetEMDQ6>
+	<SetOedipus parallel="true">
+		<Action type="setVariable" boolVariable="EveryMansDream_OedipusRx" boolValue="true" />
+	</SetOedipus>
+	<SetBurnsStatue parallel="true">
+		<Action type="setVariable" boolVariable="EveryMansDream_BurnsStatue" boolValue="true" />
+	</SetBurnsStatue>
+	<AwardHomerDog ignoreHUD="true">
+		<Action type="createobject" name="HomerDog" count="1" save="true" showUnlock="true" panCamera="true" teleportCamera="false" />
+	</AwardHomerDog>
+	<EMD7_EmptyScript parallel="true">
+		<Action type="delay" time="3" />
+	</EMD7_EmptyScript>
+	<EveryoneLookAtMe1_GoTo ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="StatueOfBurns" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</EveryoneLookAtMe1_GoTo>
+	<StatueOfBurns_SpillReward parallel="true">
+		<Action type="reward" character="StatueOfBurns" RealEstateValue="800000" />
+	</StatueOfBurns_SpillReward>
+	<StatueOfBurnsReward>
+		<Action type="reward" RealEstateValue="System::evaluate('Building::StatueOfBurns::TotalCount')*800000" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="earned">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_RetroactiveReward_title" localise="true" parameters="levelTextData" />
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="iconUpgradeInfo">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_body" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="iconUpgradeMessage">
+					<Attribute name="text" formatMe="true" abbreviatedNumber="System::evaluate('Building::StatueOfBurns::TotalCount')*800000" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="realEstateValueIcon">
+					<Attribute name="image" value="ICO_Heights_RealEstate_md" />
+				</AttributeSet>
+				<AttributeSet name="rewardGraphic">
+					<Attribute name="image" formatMe="true" value="StatueOfBurns_Menu" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</StatueOfBurnsReward>
+</ScriptPackage>

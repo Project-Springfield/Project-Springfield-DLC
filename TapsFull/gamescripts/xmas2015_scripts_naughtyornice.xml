@@ -1,0 +1,348 @@
+﻿<ScriptPackage>
+	<DropNaughtyPresent>
+		<Action type="runScript" script="DropPresent" package="XMAS2015_Scripts_NaughtyOrNice">
+			<FormatToken key="NaughtyOrNice" value="Naughty" />
+		</Action>
+	</DropNaughtyPresent>
+	<DropNicePresent>
+		<Action type="runScript" script="DropPresent" package="XMAS2015_Scripts_NaughtyOrNice">
+			<FormatToken key="NaughtyOrNice" value="Nice" />
+		</Action>
+	</DropNicePresent>
+	<DropPresent>
+		<Action type="sound" sound="UIButton" />
+		<Action type="spawnBuildingOnFriend" formatMe="deep" nearCenterScreen="true" popup_ExceedAllowedTownMaxTitle="UI_XMAS2015_NaughtyOrNice_TownFull_title" popup_ExceedAllowedTownMaxBody="UI_XMAS2015_NaughtyOrNice_TownFull_text">
+			<Item building="{NaughtyOrNice}Present" gridTypeDropPriorityOrder="none" friendScript="AddFriend{NaughtyOrNice}Present" package="XMAS2015_Scripts_NaughtyOrNice" />
+			<LocalScript>
+				<Script name="PostDrop{NaughtyOrNice}Present" package="XMAS2015_Scripts_NaughtyOrNice" />
+			</LocalScript>
+		</Action>
+	</DropPresent>
+	<PostDropNaughtyPresent>
+		<Action type="checkRequirements">
+			<Requirement type="config" key="XMAS2015_GameConfig:Enable:DropAPresent" value="1" />
+			<True>
+				<Action type="sendPeerNotification" blueprint="DropAPresent" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="TotalNaughtyActions" intValue="TotalNaughtyActions+1" />
+		<Action type="logevent" param1Type="Enumeration" param1="Naughty" param2Type="Empty" param2="" param3Type="UserLevel" eventId="3526" />
+		<Action type="reward" save="true" DroppedPresents="1" noDrops="true" suppress_sound="true" />
+		<Action type="setVariable" boolVariable="PresentDropped" boolValue="true" />
+		<Action type="friendActionPerformed" special="true" ignoreLandCaps="true" />
+		<Action type="runScript" script="CalculateNaughtyNiceRatio" package="XMAS2015_Scripts_NaughtyOrNice" />
+	</PostDropNaughtyPresent>
+	<PostDropNicePresent>
+		<Action type="checkRequirements">
+			<Requirement type="config" key="XMAS2015_GameConfig:Enable:DropAPresent" value="1" />
+			<True>
+				<Action type="sendPeerNotification" blueprint="DropAPresent" />
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="TotalNiceActions" intValue="TotalNiceActions+1" />
+		<Action type="logevent" param1Type="Enumeration" param1="Nice" param2Type="Empty" param2="" param3Type="UserLevel" eventId="3526" />
+		<Action type="reward" save="true" DroppedPresents="1" noDrops="true" suppress_sound="true" />
+		<Action type="setVariable" boolVariable="PresentDropped" boolValue="true" />
+		<Action type="friendActionPerformed" special="true" ignoreLandCaps="true" />
+		<Action type="runScript" script="CalculateNaughtyNiceRatio" package="XMAS2015_Scripts_NaughtyOrNice" />
+	</PostDropNicePresent>
+	<AddFriendNaughtyPresent parallel="true" cache="true">
+		<Action type="runScript" script="AddFriendPresent" package="XMAS2015_Scripts_NaughtyOrNice">
+			<FormatToken key="NaughtyOrNice" value="Naughty" />
+		</Action>
+	</AddFriendNaughtyPresent>
+	<AddFriendNicePresent parallel="true" cache="true">
+		<Action type="runScript" script="AddFriendPresent" package="XMAS2015_Scripts_NaughtyOrNice">
+			<FormatToken key="NaughtyOrNice" value="Nice" />
+		</Action>
+	</AddFriendNicePresent>
+	<AddFriendPresent parallel="true" cache="true">
+		<Action type="createobject" name="{NaughtyOrNice}Present" save="true" formatMe="true">
+			<SpecialEventBufferWriteBehaviour specialEvent="XMAS2015_NaughtyOrNice" bufferSet="PresentData" maxBuffersInSet="__XMAS2015_GameConfig:Caps:PresentDataSize__" removeOldestIfFull="true">
+				<Requirements>
+					<Requirement type="friend land" not="true" />
+				</Requirements>
+			</SpecialEventBufferWriteBehaviour>
+		</Action>
+	</AddFriendPresent>
+	<OpenNaughtyPresent cache="true">
+		<Action type="runScript" script="OpenPresent" package="XMAS2015_Scripts_NaughtyOrNice">
+			<FormatToken key="NaughtyOrNice" value="Naughty" />
+		</Action>
+	</OpenNaughtyPresent>
+	<OpenNicePresent cache="true">
+		<Action type="runScript" script="OpenPresent" package="XMAS2015_Scripts_NaughtyOrNice">
+			<FormatToken key="NaughtyOrNice" value="Nice" />
+		</Action>
+	</OpenNicePresent>
+	<OpenPresent ignoreHUD="false">
+		<Action type="showMenu" formatMe="true" menu="naughtyorniceprompt" menuConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNicePromptMenuConfig" buttonsConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNicePromptButtons_Open{NaughtyOrNice}" />
+	</OpenPresent>
+	<BeNaughtyOnNaughtyPresent parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="TotalNaughtyActions" intValue="TotalNaughtyActions+1" />
+		<Action type="setVariable" intVariable="TotalNaughtyOnNaughty" intValue="TotalNaughtyOnNaughty+1" />
+		<Action type="runScript" script="BeSomethingOnPresent" package="XMAS2015_Scripts_NaughtyOrNice" formatMe="deep">
+			<FormattingConfig path="XMAS2015_NaughtyOrNiceConfig:BeNaughtyOnNaughtyPresentScriptConfig" />
+		</Action>
+	</BeNaughtyOnNaughtyPresent>
+	<BeNiceOnNaughtyPresent parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="TotalNiceActions" intValue="TotalNiceActions+1" />
+		<Action type="setVariable" intVariable="TotalNiceOnNaughty" intValue="TotalNiceOnNaughty+1" />
+		<Action type="runScript" script="BeSomethingOnPresent" package="XMAS2015_Scripts_NaughtyOrNice" formatMe="deep">
+			<FormattingConfig path="XMAS2015_NaughtyOrNiceConfig:BeNiceOnNaughtyPresentScriptConfig" />
+		</Action>
+	</BeNiceOnNaughtyPresent>
+	<BeNaughtyOnNicePresent parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="TotalNaughtyActions" intValue="TotalNaughtyActions+1" />
+		<Action type="setVariable" intVariable="TotalNaughtyOnNice" intValue="TotalNaughtyOnNice+1" />
+		<Action type="runScript" script="BeSomethingOnPresent" package="XMAS2015_Scripts_NaughtyOrNice" formatMe="deep">
+			<FormattingConfig path="XMAS2015_NaughtyOrNiceConfig:BeNaughtyOnNicePresentScriptConfig" />
+		</Action>
+	</BeNaughtyOnNicePresent>
+	<BeNiceOnNicePresent parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="TotalNiceActions" intValue="TotalNiceActions+1" />
+		<Action type="setVariable" intVariable="TotalNiceOnNice" intValue="TotalNiceOnNice+1" />
+		<Action type="runScript" script="BeSomethingOnPresent" package="XMAS2015_Scripts_NaughtyOrNice" formatMe="deep">
+			<FormattingConfig path="XMAS2015_NaughtyOrNiceConfig:BeNiceOnNicePresentScriptConfig" />
+		</Action>
+	</BeNiceOnNicePresent>
+	<BeSomethingOnPresent parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="floatText" formatMe="deep">
+			<Attribute name="config">
+				<AttributeSet name="text">
+					<Attribute name="text" value="{FloatingText}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" value="{Object::VandalName}" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+					<Attribute name="name" value="NaughyOrNice_{Object::UID}" />
+					<Attribute name="duration" value="1s" />
+					<Attribute name="speed" value="1.2" />
+					<Attribute name="resetTime" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="checkRequirements" formatMe="deep">
+			<Requirement type="quest" quest="GonnaFindOutWhosNaughtyOrNice_2" />
+			<True>
+				<Action type="sendResponseToFriend" formatMe="true" script="XMAS2015_Scripts_NaughtyOrNice:FriendChose{Choice}On{Present}" specialEvent="XMAS2015_NaughtyOrNice" bufferSet="PresentData" />
+				<Action type="saveFriendAction" formatMe="deep" specialEvent="XMAS2015_NaughtyOrNice" buffer="PresentData" maxActionsInBuffer="__XMAS2015_GameConfig:Caps:PresentDataSize__">
+					<SpecialEventBufferWriteBehaviour specialEvent="XMAS2015_NaughtyOrNice" bufferSet="NaughtyOrNiceFriendBehaviour" maxBuffersInSet="__XMAS2015_GameConfig:Caps:FriendHistorySize__" removeOldestIfFull="true" />
+					<ExtraFriendParam intKey="RemoteActionType" intValue="{IntPresent}" />
+					<ExtraFriendParam intKey="LocalActionType" intValue="{IntChoice}" />
+					<ExtraFriendParam intKey="Rewards" intValue="__XMAS2015_GameConfig:NaughtyOrRewards:{Choice}On{Present}_Opener__" />
+				</Action>
+				<Action type="removeFromSpecialEventBuffer" specialEvent="XMAS2015_NaughtyOrNice" bufferSet="PresentData" intKey="ObjectInstanceServerID" intValue="{Object::UID}" formatMe="true" />
+			</True>
+		</Action>
+		<Action type="reward" formatMe="true" Bows="__XMAS2015_GameConfig:NaughtyOrRewards:{Choice}On{Present}_Opener__" save="true" />
+		<Action type="reward" formatMe="true" NaughtyOrNiceLeaderboardPoints="__XMAS2015_GameConfig:NaughtyOrRewards:{Choice}On{Present}_Opener__" save="true" suppress_sound="true" noDrops="true" />
+		<Action type="setVariable" boolVariable="PresentOpened" boolValue="true" />
+		<Action type="runScript" script="CalculateNaughtyNiceRatio" package="XMAS2015_Scripts_NaughtyOrNice" />
+		<Action type="anim-play" Building="{Present}Present" animation="Opening_Water_{Present}" requiresGridTileType="ocean" nowait="true" formatMe="true" />
+		<Action type="anim-play" Building="{Present}Present" animation="Opening_Ground_{Present}" requiresGridTileType="!ocean" nowait="true" formatMe="true" />
+		<Action type="deletebuilding" formatMe="true" building="{Present}Present" waitForAnimationToComplete="true" delayRoadCacheRecalc="true" />
+		<Action type="logevent" formatMe="deep" param1Type="Enumeration" param1="{Present}" param2Type="Enumeration" param2="{Choice}" param3Type="UserLevel" eventId="3527" />
+	</BeSomethingOnPresent>
+	<CalculateNaughtyNiceRatio parallel="true">
+		<Action type="setVariable" intVariable="NaughtyNiceRatio" intValue="TotalNiceActions/(TotalNiceActions+TotalNaughtyActions)*100" />
+	</CalculateNaughtyNiceRatio>
+	<FriendChoseNaughtyOnNaughty>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friend land" not="true" />
+			</Requirements>
+			<True>
+				<Action type="saveFriendAction" specialEvent="XMAS2015_NaughtyOrNice" buffer="PresentData" maxActionsInBuffer="__XMAS2015_GameConfig:Caps:PresentDataSize__">
+					<SpecialEventBufferWriteBehaviour specialEvent="XMAS2015_NaughtyOrNice" bufferSet="NaughtyOrNiceFriendBehaviour" maxBuffersInSet="__XMAS2015_GameConfig:Caps:FriendHistorySize__" removeOldestIfFull="true" />
+					<ExtraFriendParam intKey="RemoteActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Naughty__" />
+					<ExtraFriendParam intKey="LocalActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Naughty__" />
+					<ExtraFriendParam intKey="Rewards" intValue="__XMAS2015_GameConfig:NaughtyOrRewards:NaughtyOnNaughty_Dropper__" />
+				</Action>
+				<Action type="setVariable" intVariable="PendingNaughtyOnNaughty" intValue="PendingNaughtyOnNaughty+1" />
+				<Action type="setVariable" intVariable="TotalNaughtyOnNaughty" intValue="TotalNaughtyOnNaughty+1" />
+			</True>
+		</Action>
+	</FriendChoseNaughtyOnNaughty>
+	<FriendChoseNaughtyOnNice>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friend land" not="true" />
+			</Requirements>
+			<True>
+				<Action type="saveFriendAction" specialEvent="XMAS2015_NaughtyOrNice" buffer="PresentData" maxActionsInBuffer="__XMAS2015_GameConfig:Caps:PresentDataSize__">
+					<SpecialEventBufferWriteBehaviour specialEvent="XMAS2015_NaughtyOrNice" bufferSet="NaughtyOrNiceFriendBehaviour" maxBuffersInSet="__XMAS2015_GameConfig:Caps:FriendHistorySize__" removeOldestIfFull="true" />
+					<ExtraFriendParam intKey="RemoteActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Naughty__" />
+					<ExtraFriendParam intKey="LocalActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Nice__" />
+					<ExtraFriendParam intKey="Rewards" intValue="__XMAS2015_GameConfig:NaughtyOrRewards:NaughtyOnNice_Dropper__" />
+				</Action>
+				<Action type="setVariable" intVariable="PendingNaughtyOnNice" intValue="PendingNaughtyOnNice+1" />
+				<Action type="setVariable" intVariable="TotalNiceOnNaughty" intValue="TotalNiceOnNaughty+1" />
+			</True>
+		</Action>
+	</FriendChoseNaughtyOnNice>
+	<FriendChoseNiceOnNaughty>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friend land" not="true" />
+			</Requirements>
+			<True>
+				<Action type="saveFriendAction" specialEvent="XMAS2015_NaughtyOrNice" buffer="PresentData" maxActionsInBuffer="__XMAS2015_GameConfig:Caps:PresentDataSize__">
+					<SpecialEventBufferWriteBehaviour specialEvent="XMAS2015_NaughtyOrNice" bufferSet="NaughtyOrNiceFriendBehaviour" maxBuffersInSet="__XMAS2015_GameConfig:Caps:FriendHistorySize__" removeOldestIfFull="true" />
+					<ExtraFriendParam intKey="RemoteActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Nice__" />
+					<ExtraFriendParam intKey="LocalActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Naughty__" />
+					<ExtraFriendParam intKey="Rewards" intValue="__XMAS2015_GameConfig:NaughtyOrRewards:NiceOnNaughty_Dropper__" />
+				</Action>
+				<Action type="setVariable" intVariable="PendingNiceOnNaughty" intValue="PendingNiceOnNaughty+1" />
+				<Action type="setVariable" intVariable="TotalNaughtyOnNice" intValue="TotalNaughtyOnNice+1" />
+			</True>
+		</Action>
+	</FriendChoseNiceOnNaughty>
+	<FriendChoseNiceOnNice>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friend land" not="true" />
+			</Requirements>
+			<True>
+				<Action type="saveFriendAction" specialEvent="XMAS2015_NaughtyOrNice" buffer="PresentData" maxActionsInBuffer="__XMAS2015_GameConfig:Caps:PresentDataSize__">
+					<SpecialEventBufferWriteBehaviour specialEvent="XMAS2015_NaughtyOrNice" bufferSet="NaughtyOrNiceFriendBehaviour" maxBuffersInSet="__XMAS2015_GameConfig:Caps:FriendHistorySize__" removeOldestIfFull="true" />
+					<ExtraFriendParam intKey="RemoteActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Nice__" />
+					<ExtraFriendParam intKey="LocalActionType" intValue="__XMAS2015_NaughtyOrNiceConfig:NONDef:Nice__" />
+					<ExtraFriendParam intKey="Rewards" intValue="__XMAS2015_GameConfig:NaughtyOrRewards:NiceOnNice_Dropper__" />
+				</Action>
+				<Action type="setVariable" intVariable="PendingNiceOnNice" intValue="PendingNiceOnNice+1" />
+				<Action type="setVariable" intVariable="TotalNiceOnNice" intValue="TotalNiceOnNice+1" />
+			</True>
+		</Action>
+	</FriendChoseNiceOnNice>
+	<PresentSpawnNaughty parallel="true" cache="true">
+		<Action type="sound" sound="310_present_spawn_water.caf" requiresGridTileType="ocean" />
+		<Action type="sound" sound="309_present_spawn_land.caf" requiresGridTileType="!ocean" />
+		<Action type="anim-play" animation="Falling_Water" pauseIfObjectIsCulled="true" requiresGridTileType="ocean" />
+		<Action type="anim-play" animation="Falling_Ground" pauseIfObjectIsCulled="true" requiresGridTileType="!ocean" />
+		<Action type="anim-play" animation="Water" nowait="true" loop="true" requiresGridTileType="ocean" />
+		<Action type="anim-play" animation="Ground" nowait="true" loop="false" requiresGridTileType="!ocean" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="fakefriend" />
+			</Requirements>
+			<True>
+				<Action type="random">
+					<Action type="setVariable" intVariable="PendingNiceOnNaughty" intValue="PendingNiceOnNaughty+1" />
+					<Action type="setVariable" intVariable="PendingNaughtyOnNaughty" intValue="PendingNaughtyOnNaughty+1" />
+				</Action>
+			</True>
+		</Action>
+	</PresentSpawnNaughty>
+	<PresentSpawnNice parallel="true" cache="true">
+		<Action type="sound" sound="310_present_spawn_water.caf" requiresGridTileType="ocean" />
+		<Action type="sound" sound="309_present_spawn_land.caf" requiresGridTileType="!ocean" />
+		<Action type="anim-play" animation="Falling_Water" pauseIfObjectIsCulled="true" requiresGridTileType="ocean" />
+		<Action type="anim-play" animation="Falling_Ground" pauseIfObjectIsCulled="true" requiresGridTileType="!ocean" />
+		<Action type="anim-play" animation="Water" nowait="true" loop="true" requiresGridTileType="ocean" />
+		<Action type="anim-play" animation="Ground" nowait="true" loop="false" requiresGridTileType="!ocean" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="fakefriend" />
+			</Requirements>
+			<True>
+				<Action type="random">
+					<Action type="setVariable" intVariable="PendingNiceOnNice" intValue="PendingNiceOnNice+1" />
+					<Action type="setVariable" intVariable="PendingNaughtyOnNice" intValue="PendingNaughtyOnNice+1" />
+				</Action>
+			</True>
+		</Action>
+	</PresentSpawnNice>
+	<PresentIdle parallel="true" cache="true">
+		<Action type="anim-play" animation="Water" nowait="true" pauseIfObjectIsCulled="true" loop="true" requiresGridTileType="ocean" />
+		<Action type="anim-play" animation="Ground" nowait="true" pauseIfObjectIsCulled="true" loop="false" requiresGridTileType="!ocean" />
+	</PresentIdle>
+	<ShowNaughtyOrNicePrompt ignoreHUD="false">
+		<Action type="if">
+			<If expression="and(greaterThan(System::evaluate('Selector::PresentsDroppedSel'), 0), lessThan(System::evaluate('Building::NicePresent::LandCount')+System::evaluate('Building::NaughtyPresent::LandCount'), 10))">
+				<Then>
+					<Action type="showMenu" menu="naughtyorniceprompt" menuConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNicePromptMenuConfig" buttonsConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNicePromptButtons" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(System::evaluate('Selector::PresentsDroppedSel'), 0)">
+				<Then>
+					<Action type="notification" title="UI_XMAS2015_NaughtyOrNice_TownFull_title" text="UI_XMAS2015_NaughtyOrNice_TownFull_text" button="UI_OK" icon="ICO_FHUD_DropPresent_SE" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="notification" title="UI_XMAS2015_NaughtyOrNice_OutOfPresents_title" text="UI_XMAS2015_NaughtyOrNice_OutOfPresents_text" button="UI_OK" icon="ICO_FHUD_DropPresent_SE" />
+				</Then>
+			</Else>
+		</Action>
+	</ShowNaughtyOrNicePrompt>
+	<HeartbeatLoadComplete>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="PendingNaughtyOnNaughty + PendingNaughtyOnNice + PendingNiceOnNaughty + PendingNiceOnNice" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="PendingNaughtyOrNiceBows" intValue="PendingNaughtyOnNaughty * NaughtyOnNaughty_DropperReward" />
+				<Action type="setVariable" intVariable="PendingNaughtyOrNiceBows" intValue="PendingNaughtyOrNiceBows + PendingNaughtyOnNice * NaughtyOnNice_DropperReward" />
+				<Action type="setVariable" intVariable="PendingNaughtyOrNiceBows" intValue="PendingNaughtyOrNiceBows + PendingNiceOnNaughty * NiceOnNaughty_DropperReward" />
+				<Action type="setVariable" intVariable="PendingNaughtyOrNiceBows" intValue="PendingNaughtyOrNiceBows + PendingNiceOnNice * NiceOnNice_DropperReward" />
+				<Action type="showMenu" menu="naughtyornicesummary" menuConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNiceSummary" buttonsConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNiceSummaryButtons" />
+			</True>
+		</Action>
+	</HeartbeatLoadComplete>
+	<GrantPendingRewards>
+		<Action type="sound" sound="UIButton" />
+		<Action type="reward" Bows="PendingNaughtyOrNiceBows" />
+		<Action type="reward" NaughtyOrNiceLeaderboardPoints="PendingNaughtyOrNiceBows" save="true" suppress_sound="true" noDrops="true" />
+		<Action type="setVariable" intVariable="PendingNaughtyOnNaughty" intValue="0" />
+		<Action type="setVariable" intVariable="PendingNaughtyOnNice" intValue="0" />
+		<Action type="setVariable" intVariable="PendingNiceOnNaughty" intValue="0" />
+		<Action type="setVariable" intVariable="PendingNiceOnNice" intValue="0" />
+	</GrantPendingRewards>
+	<OpenFakePresent>
+		<Action type="showMenu" formatMe="true" menu="naughtyorniceprompt" menuConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNicePromptMenuConfig" buttonsConfig="XMAS2015_NaughtyOrNiceConfig:NaughtyOrNicePromptButtons_OpenFrink" />
+	</OpenFakePresent>
+	<BeNaughtyOnFrinkPresent parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="TotalNaughtyActions" intValue="TotalNaughtyActions+1" />
+		<Action type="setVariable" intVariable="TotalNaughtyOnNice" intValue="TotalNaughtyOnNice+1" />
+		<Action type="runScript" script="BeSomethingOnFrinkPresent" package="XMAS2015_Scripts_NaughtyOrNice" formatMe="deep">
+			<FormattingConfig path="XMAS2015_NaughtyOrNiceConfig:BeNaughtyOnFrinkPresentScriptConfig" />
+		</Action>
+	</BeNaughtyOnFrinkPresent>
+	<BeNiceOnFrinkPresent parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="TotalNiceActions" intValue="TotalNiceActions+1" />
+		<Action type="setVariable" intVariable="TotalNiceOnNice" intValue="TotalNiceOnNice+1" />
+		<Action type="runScript" script="BeSomethingOnFrinkPresent" package="XMAS2015_Scripts_NaughtyOrNice" formatMe="deep">
+			<FormattingConfig path="XMAS2015_NaughtyOrNiceConfig:BeNiceOnFrinkPresentScriptConfig" />
+		</Action>
+	</BeNiceOnFrinkPresent>
+	<BeSomethingOnFrinkPresent ignoreHUD="true">
+		<Action type="floatText" formatMe="deep">
+			<Attribute name="config">
+				<AttributeSet name="text">
+					<Attribute name="text" value="{FloatingText}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" value="CHA_Frink_name" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+					<Attribute name="name" value="NaughyOrNice_{Object::UID}" />
+					<Attribute name="duration" value="1s" />
+					<Attribute name="speed" value="1.2" />
+					<Attribute name="resetTime" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="reward" formatMe="true" Bows="__XMAS2015_GameConfig:NaughtyOrRewards:{Choice}OnNice_Opener__" save="true" />
+		<Action type="runScript" script="CalculateNaughtyNiceRatio" package="XMAS2015_Scripts_NaughtyOrNice" />
+		<Action type="setVariable" boolVariable="FrinkPresentTapped" boolValue="true" />
+		<Action type="returnToInGameState" />
+	</BeSomethingOnFrinkPresent>
+	<FrinkPresentDoneAnimating parallel="true">
+		<Action type="setVariable" boolVariable="PresentOpened" boolValue="true" />
+	</FrinkPresentDoneAnimating>
+</ScriptPackage>

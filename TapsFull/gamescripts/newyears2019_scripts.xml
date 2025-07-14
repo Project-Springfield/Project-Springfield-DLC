@@ -1,0 +1,251 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NewYears2019MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NewYears2019_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NewYears2019_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NewYears2019_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NewYears2019_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NewYears2019_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_NewYears2019_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_NewYears2019_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_NewYears2019_IntroPanel_3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NewYears2019_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="NewYears2019_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="NewYears2019_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="NewYears2019_OnePanel" eventName="UI_NewYears2019_Title" limitedTime="true" limitedTimeEndDate="NewYears2019_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="NewYears2019_OnePanel" />
+		<Action type="recommendation" recType="Event" name="NewYears2019_OnePanel" eventName="UI_NewYears2019_Title" limitedTime="true" limitedTimeEndDate="NewYears2019_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NewYears2019MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NewYears2019_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_NewYears2019_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_NewYears2019_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NewYears2019_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_NewYears2019_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="NewYears2019_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="NewYears2019_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="NewYears2019_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="NewYears2019_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="NewYears2019_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_NewYears2019_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="NewYears2019_OnePanel" />
+		<Action type="runScript" script="NewYears2019_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="NewYears2019_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="NewYears2019_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+		</Action>
+	</OpenEventHub>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="NewYears2019_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="NewYears2019_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="MysteryOfTheBrownHouse_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2019_Event" />
+									<Attribute name="JobList" value="NewYears2019_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="MysteryOfTheBrownHouse_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2019_Event" />
+									<Attribute name="JobList" value="NewYears2019_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="MysteryOfTheBrownHouse_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2019_Event" />
+									<Attribute name="JobList" value="NewYears2019_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="MysteryOfTheBrownHouse_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2019_Event" />
+									<Attribute name="JobList" value="NewYears2019_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="MysteryOfTheBrownHouse_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NewYears2019_Event" />
+									<Attribute name="JobList" value="NewYears2019_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="NewYears2019_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="NewYears2019_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<MightyPigsPracticeRink_Tapped parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="System::evaluate('Building::MightyPigsPracticeRink::Object::JobCount') == 0" />
+				<Requirement type="formula" formula="System::evaluate('Building::MightyPigsPracticeRink::Animation::Neutral') == 1" />
+			</Requirements>
+			<True>
+				<Action type="anim-play" animation="ActiveNoLoop" nowait="false" />
+			</True>
+		</Action>
+	</MightyPigsPracticeRink_Tapped>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="NewYears2019_Category" />
+	</EnterStoreCategory>
+	<AliceGlickFadeOut parallel="true" ignoreHUD="true">
+		<Action type="fade" character="AliceGlick" fade="out" ignoreObject="true" />
+	</AliceGlickFadeOut>
+	<AliceGlickFadeIn parallel="true" ignoreHUD="true">
+		<Action type="fade" character="AliceGlick" fade="off" ignoreObject="true" />
+	</AliceGlickFadeIn>
+	<LandTokenForDozenDonuts>
+		<Action type="notification" title="CON_LandTokenForDozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" donuts="12" />
+	</LandTokenForDozenDonuts>
+	<UnlockedAllLands_SystemMessage>
+		<Action type="message" text="UI_GoldenGooseNewTaxJob" revealSpeed="medium" />
+	</UnlockedAllLands_SystemMessage>
+	<UnlockedAllLandsWithFreeLandTokenCost>
+		<Action type="message" text="UI_UnlockedAllAvailableLand" revealSpeed="medium" />
+	</UnlockedAllLandsWithFreeLandTokenCost>
+	<NewYears2019_FirmwareMessage>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="platform" platform="ios" />
+				<Requirement type="firmware" lessEqualTo="7.1.2" />
+			</Requirements>
+			<True>
+				<Action type="message" text="UI_FirmwareWarning_Jan2019" gradient="true" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="FirmwareWarningSeen_Jan2019" value="1" />
+	</NewYears2019_FirmwareMessage>
+</ScriptPackage>

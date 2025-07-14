@@ -1,0 +1,682 @@
+﻿<ScriptPackage>
+	<SetMetal>
+		<Action type="setVariable" boolVariable="MetalResourceAvailable" boolValue="true" />
+		<Action type="setNewTag" itemName="LittleLisasRecyclingPlant" />
+		<Action type="setNewTag" itemName="UriahsHeapRecyclingCenter" />
+		<Action type="setNewTag" itemName="MonorailCafe" />
+	</SetMetal>
+	<SetPlastic>
+		<Action type="setVariable" boolVariable="PlasticResourceAvailable" boolValue="true" />
+	</SetPlastic>
+	<SetGlass>
+		<Action type="setVariable" boolVariable="GlassResourceAvailable" boolValue="true" />
+	</SetGlass>
+	<Touch_DRailYard>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="place building" building="DilapidatedRailYard" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="DilapidatedRailYard" fakeTouch="true" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="DilapidatedRailYard" />
+			</False>
+		</Action>
+	</Touch_DRailYard>
+	<Replace_DRailYard>
+		<Action type="dialogue" character="SebastianCobb" text="QST_RailingOn_2_3_Start_1_Cobb" revealSpeed="medium" />
+		<Action type="dialogue" character="SebastianCobb" text="QST_RailingOn_2_3_Start_2_Cobb" revealSpeed="medium" />
+		<Action type="notification" title="BLD_RailYard_name" button="UI_OK" text="QST_RailingOn_2_3_Start_3_Message" icon="ICO_Mono15_CobbRailYard" />
+		<Action type="replaceobject" from="DilapidatedRailYard" to="RailYard" ignoreObject="false" />
+		<Action type="SilentlyUnlockSkin" skin="D_Railyard" />
+	</Replace_DRailYard>
+	<Replace_DRailYard_Repair ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="RailYard" />
+					<Requirement type="item" item="RailYard" />
+					<Requirement type="place building" building="RailYard" />
+				</Requirement>
+			</Requirements>
+			<False>
+				<Action type="actionSequence" script="Railyard_Scripts:Replace_DRailYard" />
+			</False>
+		</Action>
+	</Replace_DRailYard_Repair>
+	<Railyard_Reset>
+		<Action type="setVariable" intVariable="Monorail_FinalPrizeState" intValue="Monorail_FinalPrizeState_Buffer" />
+		<Action type="setVariable" intVariable="Monorail_FinalPrizeState_Earned" intValue="0" />
+	</Railyard_Reset>
+	<SetPrizeTrackState>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="item" item="MetalDepot" />
+				<Requirement type="building" building="MetalDepot" />
+				<Requirement type="place building" building="MetalDepot" />
+			</Requirement>
+			<True>
+				<Action type="setVariable" intVariable="DRailyard_MetalDepotOwned_Not" intValue="1" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="DRailyard_MetalDepotOwned_Not" intValue="0" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="item" item="PlasticDepot" />
+				<Requirement type="building" building="PlasticDepot" />
+				<Requirement type="place building" building="PlasticDepot" />
+			</Requirement>
+			<True>
+				<Action type="setVariable" intVariable="DRailyard_PlasticDepotOwned_Not" intValue="1" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="DRailyard_PlasticDepotOwned_Not" intValue="0" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="item" item="GlassDepot" />
+				<Requirement type="building" building="GlassDepot" />
+				<Requirement type="place building" building="GlassDepot" />
+			</Requirement>
+			<True>
+				<Action type="setVariable" intVariable="DRailyard_GlassDepotOwned_Not" intValue="1" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="DRailyard_GlassDepotOwned_Not" intValue="0" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="item" item="MonorailStation" />
+				<Requirement type="building" building="MonorailStation" />
+				<Requirement type="place building" building="MonorailStation" />
+			</Requirement>
+			<True>
+				<Action type="setVariable" intVariable="DRailyard_MonorailStationOwned_Not" intValue="1" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="DRailyard_MonorailStationOwned_Not" intValue="0" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="item" item="MallStation" />
+				<Requirement type="building" building="MallStation" />
+				<Requirement type="place building" building="MallStation" />
+			</Requirement>
+			<True>
+				<Action type="setVariable" intVariable="DRailyard_TetanusStationOwned_Not" intValue="1" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="DRailyard_TetanusStationOwned_Not" intValue="0" />
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="item" item="TetanusTerminal" />
+				<Requirement type="building" building="TetanusTerminal" />
+				<Requirement type="place building" building="TetanusTerminal" />
+			</Requirement>
+			<True>
+				<Action type="setVariable" intVariable="DRailyard_MallStationOwned_Not" intValue="1" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="DRailyard_MallStationOwned_Not" intValue="0" />
+			</False>
+		</Action>
+	</SetPrizeTrackState>
+	<RailYard_Prize5_Special>
+		<Action type="reward" donuts="10" />
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+	</RailYard_Prize5_Special>
+	<RailYard_Prize5_Special2>
+		<Action type="reward" donuts="20" />
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+		<Action type="random">
+			<Action type="reward">
+				<Item type="building" name="StraightTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="StraightTrack2x" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="CurveTrack" />
+			</Action>
+			<Action type="reward">
+				<Item type="building" name="SCurveTrack" />
+			</Action>
+		</Action>
+	</RailYard_Prize5_Special2>
+	<DilapidatedRailyard_Tapped>
+		<Action type="runScript" script="Railyard_Scripts:TabPressed_DilapidatedProjectBoardPanel" />
+	</DilapidatedRailyard_Tapped>
+	<HelpButton_PrizeTrack ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Railyard_Config:RailyardHubGuidePanelConfig" />
+	</HelpButton_PrizeTrack>
+	<HelpButton_RYProjectBoard ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Railyard_Config:RailyardHubGuidePanelConfig2" />
+	</HelpButton_RYProjectBoard>
+	<HelpButton_RYBuildingFinder ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Railyard_Config:RailyardHubGuidePanelConfig3" />
+	</HelpButton_RYBuildingFinder>
+	<TabPressed_DilapidatedPrizeTrack ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_HubPrizeTrack">
+					<Extras>
+						<Attribute name="specialEvent" value="DilapidatedRailyard_Event" />
+						<Attribute name="helpButtonScript" value="Railyard_Scripts:HelpButton_PrizeTrack" />
+						<Attribute name="exitButtonScript" value="Railyard_Scripts:TabPressed_DilapidatedProjectBoardPanel" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_DilapidatedPrizeTrack>
+	<TabPressed_DilapidatedProjectBoardPanel_CheckRailYard ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="DilapidatedRailYard" />
+			</Requirements>
+			<True>
+				<Action type="runScript" package="Railyard_Scripts" script="TabPressed_DilapidatedProjectBoardPanel" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="DilapidatedRailYard" />
+			</False>
+		</Action>
+	</TabPressed_DilapidatedProjectBoardPanel_CheckRailYard>
+	<TabPressed_DilapidatedProjectBoardPanel ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_ProjectBoard">
+			<Extras>
+				<Attribute name="menuConfig" value="Railyard_Config:RailyardProjectBoard" />
+				<Attribute name="specialEvent" value="DilapidatedRailyard_Event" />
+				<Attribute name="projectBoard" value="Railyard_Config:ProjectBoard" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="buffer" value="DilapidatedRailyardProjectBoard" />
+			</Extras>
+		</Action>
+	</TabPressed_DilapidatedProjectBoardPanel>
+	<TabPressed_DailyChallenge ignoreHUD="true">
+		<Action type="gotoState" state="State_DailyChallengeSystemMenu">
+			<Extras>
+				<Attribute name="menuConfig" value="DailyTasks_MenusConfig:DailyChallengeSystemMenuConfig" />
+			</Extras>
+		</Action>
+		<Action type="sound" sound="DCS_OpenWindow" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+	</TabPressed_DailyChallenge>
+	<TabPressed_DilapidatedBuildingFinder ignoreHUD="true">
+		<Action type="actionSequence" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Railyard_Scripts:TabPressed_DilapidatedBuildingFinder_Impl" />
+		</Action>
+	</TabPressed_DilapidatedBuildingFinder>
+	<TabPressed_DilapidatedBuildingFinder_Impl ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_BuildingFinder">
+			<Extras>
+				<Attribute name="menuConfig" value="Railyard_Config:RailyardBuildingFinder" />
+				<Attribute name="exitButtonScript" value="Railyard_Scripts:TabPressed_DilapidatedProjectBoardPanel" />
+				<Attribute name="specialEvent" value="DilapidatedRailyard_Event" />
+			</Extras>
+		</Action>
+	</TabPressed_DilapidatedBuildingFinder_Impl>
+	<TaskHubButtonPressed>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+					<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+				</Requirements>
+				<Then>
+					<Action type="runScript" package="Railyard_Scripts" script="TabPressed_DailyChallenge" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="item" item="DilapidatedRailYard" checkInventoryOnly="false" />
+				<Then>
+					<Action type="runScript" script="TabPressed_DilapidatedProjectBoardPanel" package="Railyard_Scripts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="item" item="RailYard" checkInventoryOnly="false" />
+				<Then>
+					<Action type="runScript" script="TabPressed_RailyardProjectBoardPanel" package="Monorail_Scripts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="quest" quest="AspirationalGrind_Intro" />
+					<Requirement type="active quest" quest="AspirationalGrind_Master" />
+				</Requirements>
+				<Then>
+					<Action type="runScript" script="TabPressed_AspirationalGrind" package="AspirationalGrind_Scripts" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</TaskHubButtonPressed>
+</ScriptPackage>

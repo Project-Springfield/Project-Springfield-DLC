@@ -1,0 +1,554 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="166000" name="BigclawSpawner" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166001" name="BigclawTaskbar" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166002" name="TappablesTaskbar" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166003" name="BigclawTaskbar_Completer" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166004" name="BigclawTaskbar_Instructions" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166008" name="FowlPlay_1" onDeprecated="delete" endDate="TMDG_End" />
+		<DataID id="166009" name="FowlPlay_2" onDeprecated="delete" endDate="TMDG_End" />
+		<DataID id="166010" name="FowlPlay_3" onDeprecated="delete" endDate="TMDG_End" />
+		<DataID id="166011" name="TMDG_IntroComplete" onDeprecated="delete" endDate="TMDG_End" />
+		<DataID id="166012" name="TheMostDangerousGame_1" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166013" name="TheMostDangerousGame_2" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166014" name="TheMostDangerousGame_3" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166015" name="TheMostDangerousGame_4" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166016" name="TheMostDangerousGame_5" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166017" name="TheMostDangerousGame_6" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166050" name="TheMostDangerousGame_MASTER" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166051" name="TMDG_72HourWarning" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166052" name="TMDG_24HourWarning" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166053" name="TMDG_EventExpired" onDeprecated="delete" endDate="TMDG_Kill" />
+		<DataID id="166060" name="AnOfferYouCantRefuse" onDeprecated="delete" endDate="TMDG_End" />
+		<DataID id="166061" name="ThanksgivingUpsell" onDeprecated="delete" endDate="TMDG_End" />
+		<DataID id="166070" name="ManVSWilderness_1" />
+		<DataID id="166071" name="ManVSWilderness_2" />
+		<DataID id="166072" name="ManVSWilderness_3" />
+		<DataID id="166073" name="RobotRescue_1" />
+		<DataID id="166074" name="RobotRescue_2" />
+		<DataID id="166075" name="RobotRescue_3" />
+		<DataID id="166076" name="ManVSWilderness_2_NoHospital" />
+		<DataID id="166080" name="MansBeastFriend" />
+		<DataID id="166100" name="AnEarlyChristmasPresent" />
+		<DataID id="166200" name="DCS_TutorialCompleter" />
+	</MasterList>
+	<Quest id="166000" name="BigclawSpawner" tags="dummy" repeatable="true">
+		<Requirements>
+			<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+			<Requirement type="variable" variable="TMDG_EventActive" />
+			<Requirement type="variable" variable="TMDG_BigclawQueued" />
+			<Requirement type="character" name="Tappable_Bigclaw" not="true" />
+			<Requirement type="variable" variable="BigclawSpawned" not="true" />
+			<Requirement type="relative time" baseTime="BigclawStartTime" defaultTime="TMDG_Start" startOffset="3h" />
+			<Requirement type="land" land="Springfield" />
+			<Requirement type="players land" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts" name="SpawnBigclaw" />
+	</Quest>
+	<Quest id="166001" name="BigclawTaskbar" tags="sidequest" repeatable="true" icon="Bigclaw">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+			<Requirement type="variable" variable="BigclawSpawned" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts" name="BigclawTaskbar_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="TMDG_TappableBigclawTaps" amount="3" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:GoToTappableBigclaw" suppressCompleteSound="true">
+				<Subland value="Springfield" />
+			</Objective>
+		</Objectives>
+		<EndScript package="TMDG_Scripts" name="BigclawTaskbar_End" />
+	</Quest>
+	<Quest id="166002" name="TappablesTaskbar" tags="sidequest" icon="TheMostDangerousGame_CoonskinHat">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="character" name="Tappable_WildAnimal" />
+			<Requirement type="quest started" quest="TheMostDangerousGame_3" />
+		</Requirements>
+		<Objectives>
+			<Objective type="collect custom expression" expression="TMDG_TappablesTracker" amount="1" progress="quest" showProgress="false" showProgressAsQuantity="false" GoToBehaviour="script" GoToScript="TMDG_Scripts:GoToTappable" suppressCompleteSound="true">
+				<Subland value="Springfield" />
+			</Objective>
+		</Objectives>
+	</Quest>
+	<Quest id="166003" name="BigclawTaskbar_Completer" tags="dummy">
+		<Requirements>
+			<Requirement type="quest" quest="TheMostDangerousGame_5" />
+			<Requirement type="character" name="Tappable_Bigclaw" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts" name="BigclawTaskbar_Completer" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166004" name="BigclawTaskbar_Instructions" tags="dummy">
+		<Requirements>
+			<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="BigclawTaskbar_Instructions" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166008" name="FowlPlay_1" tags="sidequest" icon="TheMostDangerousGame_EventIcon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="FowlPlay_1_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="InvestigateTheKwikEMart" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166009" name="FowlPlay_2" tags="sidequest" icon="TheMostDangerousGame_EventIcon">
+		<Requirements>
+			<Requirement type="quest" quest="FowlPlay_1" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="FowlPlay_2_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Cletus" job="TellTallTales" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Homer" job="ListenToTheHillbillysRamblings" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166010" name="FowlPlay_3" tags="sidequest" icon="TheMostDangerousGame_EventIcon">
+		<Requirements>
+			<Requirement type="quest" quest="FowlPlay_2" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="FowlPlay_3_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="GoOnADrunkenRant" quantity="1" progress="quest" />
+			<Objective type="complete job" job="BelieveCrazyTheories" quantity="3" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="FowlPlay_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166011" name="TMDG_IntroComplete" tags="mainquest">
+		<Requirements>
+			<Requirement type="quest" quest="FowlPlay_3" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts" name="ShowMiniEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts" name="IntroSeen" />
+	</Quest>
+	<Quest id="166012" name="TheMostDangerousGame_1" questMenuConfigPath="TMDG_QuestConfig:TMDG_1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_IntroSeen" />
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_1_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TMDG_Pelts')" amount="__TMDG_GameConfig:ResourceQuantities:ResourceList01__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:ShowJobList" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166013" name="TheMostDangerousGame_2" questMenuConfigPath="TMDG_QuestConfig:TMDG_2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+			<Requirement type="quest" quest="TheMostDangerousGame_1" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_2_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TMDG_Pelts')" amount="__TMDG_GameConfig:ResourceQuantities:ResourceList02__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:ShowJobList">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="TMDG_Scripts:GoToItem_CampingTent">
+						<Requirements>
+							<Requirement type="building" building="CampingTent" not="true" />
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+				<HighlightJobList>
+					<Job name="BeLoudAndObnoxious" />
+					<Job name="SearchForTracks" />
+					<Job name="MakeFiveAlarmChili" />
+					<Job name="ShootAnythingThatMoves" />
+					<Job name="ForceSkinnerOutOfTheGroup" />
+					<Job name="PlotRevenge_TMDG" />
+					<Job name="SpookWildlife" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_2_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166014" name="TheMostDangerousGame_3" questMenuConfigPath="TMDG_QuestConfig:TMDG_3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+			<Requirement type="quest" quest="TheMostDangerousGame_2" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_3_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TMDG_Pelts')" amount="__TMDG_GameConfig:ResourceQuantities:ResourceList03__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:ShowJobList">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="TMDG_Scripts:GoToItem_CrappyRV">
+						<Requirements>
+							<Requirement type="building" building="CrappyRV" not="true" />
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+				<HighlightJobList>
+					<Job name="CaptainTheRV" />
+					<Job name="CareForAnimals" />
+					<Job name="RoundUpWildlife" />
+					<Job name="FailAtAnimalCalls" />
+					<Job name="CoaxAnimalsOutOfHiding" />
+					<Job name="CollectScat" />
+					<Job name="RefrainFromShooting" />
+					<Job name="ActLikeATracker" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166015" name="TheMostDangerousGame_4" questMenuConfigPath="TMDG_QuestConfig:TMDG_4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+			<Requirement type="quest" quest="TheMostDangerousGame_3" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_4_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TMDG_Pelts')" amount="__TMDG_GameConfig:ResourceQuantities:ResourceList04__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:ShowJobList">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="TMDG_Scripts:GoToItem_WildlifeSanctuary">
+						<Requirements>
+							<Requirement type="building" building="WildlifeSanctuary" not="true" />
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+				<HighlightJobList>
+					<Job name="EatBait" />
+					<Job name="BaitTraps" />
+					<Job name="HideInBushes" />
+					<Job name="MakeCompassFromLeafAndNeedle" />
+					<Job name="PretendToReadTheLand" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_4_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166016" name="TheMostDangerousGame_5" questMenuConfigPath="TMDG_QuestConfig:TMDG_5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+			<Requirement type="quest" quest="TheMostDangerousGame_4" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_5_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TMDG_Pelts')" amount="__TMDG_GameConfig:ResourceQuantities:ResourceList05__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:ShowJobList">
+				<HighlightJobList>
+					<Job name="HammerNailsIntoBoard" />
+					<Job name="FindMakeshiftHelmet" />
+					<Job name="DuctTapePeltsTogether" />
+					<Job name="SewPeltsTogether" />
+					<Job name="LoadShotgun" />
+					<Job name="GetExcitedToKillSomething" />
+					<Job name="LassoPeltsTogether" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_5_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166017" name="TheMostDangerousGame_6" questMenuConfigPath="TMDG_QuestConfig:TMDG_6_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+			<Requirement type="quest" quest="TheMostDangerousGame_5" />
+		</Requirements>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_6_Start" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TMDG_Pelts')" amount="__TMDG_GameConfig:ResourceQuantities:ResourceList06__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TMDG_Scripts:ShowJobList">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="TMDG_Scripts:GoToItem_WildlifeSanctuary">
+						<Requirements>
+							<Requirement type="building" building="WildlifeSanctuary" not="true" />
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+				<HighlightJobList>
+					<Job name="FightBigclaw_NoBigclaw" />
+					<Job name="HideFromBigclaw" />
+					<Job name="DistractBigclaw" />
+					<Job name="TryToGetAShotOff" />
+					<Job name="CoverTheExits" />
+					<Job name="PointAndLookConfident" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="FightBigclaw_NoBigclaw" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="TheMostDangerousGame_6_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166050" name="TheMostDangerousGame_MASTER" tags="sidequest" questMenuConfigPath="TMDG_QuestConfig:TMDG_1_QuestConfig" suspendOnReqFailed="true" repeatable="true" icon="TheMostDangerousGame_EventIcon">
+		<Requirements>
+			<Requirement type="variable" variable="TMDG_Expired" not="true" />
+			<Requirement type="variable" variable="TMDG_Complete" not="true" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="TheMostDangerousGame_1" />
+				<Requirement type="active quest" quest="TheMostDangerousGame_2" />
+				<Requirement type="active quest" quest="TheMostDangerousGame_3" />
+				<Requirement type="active quest" quest="TheMostDangerousGame_4" />
+				<Requirement type="active quest" quest="TheMostDangerousGame_5" />
+				<Requirement type="active quest" quest="TheMostDangerousGame_6" />
+			</Requirement>
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheMostDangerousGame_6" />
+					<Requirement type="variable" variable="TMDG_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheMostDangerousGame_1">
+				<Requirement type="quest started" quest="TheMostDangerousGame_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheMostDangerousGame_2">
+				<Requirement type="quest started" quest="TheMostDangerousGame_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheMostDangerousGame_3">
+				<Requirement type="quest started" quest="TheMostDangerousGame_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheMostDangerousGame_4">
+				<Requirement type="quest started" quest="TheMostDangerousGame_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheMostDangerousGame_5">
+				<Requirement type="quest started" quest="TheMostDangerousGame_6" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheMostDangerousGame_6"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="166051" name="TMDG_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="TheMostDangerousGame_1" />
+			<Requirement type="quest started" quest="TheMostDangerousGame_6" not="true" />
+			<Requirement type="variable" variable="TMDG_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TMDG_End')-fromHours(72)]_" end="_[System::evaluate('Date::TMDG_End')-fromHours(24)]_" />
+			<Requirement type="variable" variable="TMDG_Complete" not="true" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166052" name="TMDG_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="TheMostDangerousGame_1" />
+			<Requirement type="quest started" quest="TheMostDangerousGame_6" not="true" />
+			<Requirement type="variable" variable="TMDG_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TMDG_End')-fromHours(24)]_" end="TMDG_End" />
+			<Requirement type="variable" variable="TMDG_Complete" not="true" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166053" name="TMDG_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="TheMostDangerousGame_1" />
+			<Requirement type="variable" variable="TMDG_ExpiryDisplayed" not="true" />
+			<Requirement type="time" start="TMDG_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TMDG_Complete" not="true" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166060" name="AnOfferYouCantRefuse" tags="sidequest">
+		<Requirements>
+			<Requirement type="time" start="Thanksgiving_Start" end="BlackFridayDay1_Start" triggerEvent="true" />
+			<Requirement type="quest" quest="TMDG_IntroComplete" />
+			<Requirement type="land" land="Springfield" />
+			<Requirement type="players land" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="AnOfferYouCantRefuse_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166061" name="ThanksgivingUpsell" tags="sidequest">
+		<Requirements>
+			<Requirement type="time" start="Thanksgiving_Start" end="BlackFridayDay1_Start" />
+			<Requirement type="quest" quest="AnOfferYouCantRefuse" />
+			<Requirement type="land" land="Springfield" />
+			<Requirement type="players land" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="ThanksgivingUpsell_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="166070" name="ManVSWilderness_1" tags="sidequest" icon="GrantConnor">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="GrantConnor" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="ManVSWilderness_1_Start" triggerType="character" character="GrantConnor" />
+		<Objectives>
+			<Objective type="complete job" character="GrantConnor" job="ShopForHuntingSupplies" quantity="1" progress="quest" />
+			<Objective type="complete job" character="GrantConnor" job="MakeASnack" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="ManVSWilderness_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<QuestBranch>
+		<BranchCondition>
+			<Requirement type="building owned" building="SpringfieldGeneralHospital" />
+		</BranchCondition>
+		<True>
+			<Quest id="166071" name="ManVSWilderness_2" tags="sidequest" icon="GrantConnor">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest" quest="ManVSWilderness_1" />
+				</Requirements>
+				<StartScript package="TMDG_Scripts_Dialogue" name="ManVSWilderness_2_Start" triggerType="character" character="GrantConnor" />
+				<Objectives>
+					<Objective type="complete job" character="GrantConnor" job="ContemplateLifeWithoutMeat" quantity="1" progress="quest" />
+				</Objectives>
+				<Reward money="100" xp="10" />
+			</Quest>
+		</True>
+		<False>
+			<Quest id="166076" name="ManVSWilderness_2_NoHospital" tags="sidequest" icon="GrantConnor" textpoolName="QST_ManVSWilderness_2_1_name">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest" quest="ManVSWilderness_1" />
+				</Requirements>
+				<StartScript package="TMDG_Scripts_Dialogue" name="ManVSWilderness_2_Start" triggerType="character" character="GrantConnor" />
+				<Objectives>
+					<Objective type="build" building="SpringfieldGeneralHospital" quantity="1" rewardsCollected="yes" textpoolName="QST_CountBurns06_2_obj_1" />
+					<Objective type="complete job" character="GrantConnor" job="ContemplateLifeWithoutMeat" quantity="1" progress="quest" textpoolName="QST_ManVSWilderness_2_2_obj_1" />
+				</Objectives>
+				<Reward money="100" xp="10" />
+			</Quest>
+		</False>
+	</QuestBranch>
+	<Quest id="166072" name="ManVSWilderness_3" tags="sidequest" icon="GrantConnor">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="ManVSWilderness_2" />
+				<Requirement type="quest" quest="ManVSWilderness_2_NoHospital" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="ManVSWilderness_3_Start" triggerType="character" character="GrantConnor" />
+		<Objectives>
+			<Objective type="complete job" character="GrantConnor" job="HuntVegetables" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="ManVSWilderness_3_End" />
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="166073" name="RobotRescue_1" tags="sidequest" icon="Chum">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="CHUM" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="RobotRescue_1_Start" triggerType="character" character="CHUM" />
+		<Objectives>
+			<Objective type="build" building="SpringfieldLibrary" quantity="1" rewardsCollected="yes" />
+			<Objective type="complete job" character="Lisa" job="ThinkOfAWayToHelpCHUM" quantity="1" progress="quest" />
+			<Objective type="complete job" character="CHUM" job="Frolic" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="RobotRescue_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166074" name="RobotRescue_2" tags="sidequest" icon="Chum">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="RobotRescue_1" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="RobotRescue_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="PutHerPlanIntoAction" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Bart" job="GetDistractedByYardworkSimulator" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166075" name="RobotRescue_3" tags="sidequest" icon="Chum">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="RobotRescue_2" />
+		</Requirements>
+		<StartScript package="TMDG_Scripts_Dialogue" name="RobotRescue_3_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="CHUM" job="DoTheRobot" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="RobotRescue_3_End" />
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="166080" name="MansBeastFriend" tags="sidequest" icon="Bigclaw">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="variable" variable="TMDG_Complete" />
+		</Requirements>
+		<Priority types="FeatureUnlock" />
+		<StartScript package="TMDG_Scripts_Dialogue" name="MansBeastFriend_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ShowBigclawTheTractorPullNetwork" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Homer" job="CookACheeseSteakSmoreForBigclaw" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Homer" job="TeachBigclawHowToNapInAHammock" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="MansBeastFriend_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166100" name="AnEarlyChristmasPresent" tags="sidequest" icon="XMAS2016_GnomeInYourHome">
+		<Priority types="LimitedTime|FeatureUnlock" />
+		<SidebarBadge type="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="XMASSixteen_EarlyPresent_Start" end="XMASSixteen_MysteryGift_End" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="time" start="XMASSixteen_MysteryGift_End" />
+		</AntiReqs>
+		<StartScript package="TMDG_Scripts_Dialogue" name="AnEarlyChristmasPresent_Start" />
+		<Objectives>
+			<Objective type="build" building="GnomeBox" quantity="1" rewardsCollected="yes" />
+		</Objectives>
+		<EndScript package="TMDG_Scripts_Dialogue" name="AnEarlyChristmasPresent_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="166200" name="DCS_TutorialCompleter" tags="mainquest" repeatable="true">
+		<Requirements>
+			<Requirement type="quest" quest="FreshOffTheDonutTruck_5" />
+			<Requirement type="formula" formula="DCS_TutorialComplete != 1" />
+		</Requirements>
+		<StartScript package="DailyTasks_HelperScripts" name="EndDCSTutorial" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

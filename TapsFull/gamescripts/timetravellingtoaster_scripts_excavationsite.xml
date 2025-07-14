@@ -1,0 +1,1041 @@
+﻿<ScriptPackage>
+	<HelpButton ignoreHUD="true">
+		<Action type="if">
+			<If expression="TTT_DigSiteFoundTreasurePostEvent == 0">
+				<Then>
+					<Action type="actionSequence" script="TimeTravellingToaster_Scripts_Misc:GuidePanel_ExcavationSite_ReturnToExcavationMinigame" />
+				</Then>
+			</If>
+		</Action>
+	</HelpButton>
+	<ExitButton ignoreHUD="true">
+		<Action type="if">
+			<If expression="TTT_DigSiteFoundTreasurePostEvent == 0">
+				<Then>
+					<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ShowSummaryScreen" />
+				</Then>
+			</If>
+		</Action>
+	</ExitButton>
+	<ShowSummaryScreen ignoreHUD="true">
+		<Action type="if">
+			<If expression="((TTT_DigSiteFoundTreasurePostEvent == 1) + TTT_DigSiteFoundmoney + TTT_DigSiteFoundxp) &gt; 0">
+				<Then>
+					<Action type="if">
+						<If expression="TTT_DigSiteFoundTreasurePostEvent">
+							<Then>
+								<Action type="sound" sound="TTT_DigSite_TreasureFound" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="sound" sound="TTT_DigSite_NoTreasure" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="showMenu" menu="gnomeradarrewardpopup" scriptResProvider="gnomeradarrewardpopup.mns" menuConfig="TimeTravellingToaster_DigSiteSummary_MenuConfig:MenuConfig" buttonsConfig="TimeTravellingToaster_DigSiteSummary_MenuConfig:ButtonsConfig" waitUntilDismissed="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:EndMinigame" />
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ZoomOut" />
+		<Action type="gotoState" state="GameState_InGame" />
+	</ShowSummaryScreen>
+	<ResumeMinigame>
+		<Action type="hideAllBuildings" hide="true" belowPointTarget="DigSite" exceptBuildings="DigSite" />
+		<Action type="hideAllCharacters" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="anim-play" onBuilding="DigSite" nowait="true" animation="DigSite_Neutral" loop="true" />
+	</ResumeMinigame>
+	<ZoomOut parallel="true" ignoreHUD="true">
+		<Action type="pantoobject" building="DigSite" zoom="0.6" time="0.5" waitUntilComplete="true" />
+	</ZoomOut>
+	<StartMinigame>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ResumeMinigame" />
+		<Action type="program">
+			<Program><![CDATA[
+                    User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 0, 0);
+                    User::setVariable('TTT_DigSiteFoundmoney', 0, 0);
+                    User::setVariable('TTT_DigSiteFoundxp', 0, 0);
+                ]]></Program>
+		</Action>
+	</StartMinigame>
+	<EndMinigame>
+		<Action type="hideAllBuildings" hide="false" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+	</EndMinigame>
+	<DigSite_Tapped>
+		<Action type="anim-play" onBuilding="DigSite" nowait="true" animation="DigSite_Neutral" loop="true" />
+		<Action type="pantoobject" building="DigSite" />
+		<Action type="fitToScreen" targetObject="DigSite" zoomSpeed="0.1">
+			<Bounds xGrid="0" yGrid="-14" />
+			<Bounds xGrid="14" yGrid="0" />
+		</Action>
+		<Action type="customTouch">
+			<Attribute name="allowCameraMovement" value="false" />
+			<Attribute name="loadScript" value="TimeTravellingToaster_Scripts_ExcavationSite:StartMinigame" />
+			<Attribute name="unloadScript" value="TimeTravellingToaster_Scripts_ExcavationSite:EndMinigame" />
+			<Attribute name="allowPrizePopups" value="false" />
+			<Attribute name="config">
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="MinigameHUDDigSite" />
+					<Attribute name="config" value="MinigameHUDDigSite.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="Currency1Icon">
+							<Attribute name="image" program="Currency::getIconSmall('money')" />
+							<Attribute name="moveToDestination" value="money" />
+						</AttributeSet>
+						<AttributeSet name="Currency1Text">
+							<Attribute name="text" program="User::getCurrencyAmount('money')" />
+						</AttributeSet>
+						<AttributeSet name="Currency2Icon">
+							<Attribute name="image" program="Currency::getIconSmall('xp')" />
+							<Attribute name="moveToDestination" value="xp" />
+						</AttributeSet>
+						<AttributeSet name="Currency2Text">
+							<Attribute name="text" program="User::getCurrencyAmount('xp')" />
+						</AttributeSet>
+						<AttributeSet name="ResourceIcon">
+							<Attribute name="image" program="Currency::getIconSmall('Shovels')" />
+						</AttributeSet>
+						<AttributeSet name="ResourceText">
+							<Attribute name="text" program="User::getCurrencyAmount('Shovels')" />
+						</AttributeSet>
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="TimeTravellingToaster_Scripts_ExcavationSite:ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="DigSite" />
+					<Attribute name="ignoreObjectTypes" value="character|flyby" />
+					<Attribute name="runOnTouchScriptsInstantly" value="true" />
+				</AttributeSet>
+				<AttributeSet name="onTouchStartedScripts">
+					<Attribute name="DigSite" value="TimeTravellingToaster_Scripts_ExcavationSite:DigSite_TappedInMinigame" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</DigSite_Tapped>
+	<DigSite_TappedInMinigameHandleTap>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:DigSite_TappedInMinigameNormal" />
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ShowShovelPromptIfValid" />
+	</DigSite_TappedInMinigameHandleTap>
+	<DigSite_TappedInMinigameInternal>
+		<Action type="program">
+			<Program><![CDATA[
+                    // returns 0: already dug
+                    // returns 1: don't have shovels
+                    // returns 2: all good
+                    function canTapDigSiteSquare(building, layer, x, z)
+                    {
+                            if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                            {
+                                var offsetZ = z;
+                                var offsetX = x;
+                                var anim = ((offsetZ * 6) + offsetX) -1;
+                                
+                                
+                                var dig =  Object::getVariableAsNumber(building,'Dig');
+                                var oldDig = dig;
+                                dig = dig & ~(1<<anim);
+                                // if not already dug
+                                if ((oldDig & (1<<anim)))
+                                {
+                                    if (User::getCurrencyAmount('Shovels') > 0)
+                                    {
+                                        return 2;
+                                    }
+                                    else
+                                    {
+                                        return 1;
+                                    }
+                                }
+                                else
+                                {
+                                    return 0;
+                                }
+                            }
+                            else
+                            {
+                                return 0;
+                            }
+                    }
+                    var touchX = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_X'));
+                    var touchZ = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_Z'));
+                    var building = Land::getFirstInstanceOfObject(Building::find('DigSite'));
+                    var buildingX = toGrid(Building::getProperty(building,'X'));
+                    var buildingZ = toGrid(Building::getProperty(building,'Z'));
+                    var digSiteEdgeSize = 2;
+                    var digSiteSize = 14;
+                    var layer = 1;
+                    if (Building::getSkin(building) == 'DigSite02')
+                    {
+                        digSiteEdgeSize = 1;
+                        layer = 2;
+                    }
+
+                    // what building grid was tapped
+                    var buildingTouchX = touchX - buildingX;
+                    var buildingTouchZ = touchZ - buildingZ;
+
+                    // the dirt grid starts where the edge ends
+                    buildingTouchX = buildingTouchX - digSiteEdgeSize;
+                    buildingTouchZ = buildingTouchZ + digSiteEdgeSize;
+
+                    // top should be z=0
+                    buildingTouchZ = buildingTouchZ + (digSiteSize - digSiteEdgeSize);
+
+                    // each dirt grid is two world grids
+                    buildingTouchX = floor(buildingTouchX / 2);
+                    buildingTouchZ = floor(buildingTouchZ / 2);
+
+                    // x starts at one for some reason
+                    buildingTouchX = buildingTouchX + 1;
+
+                    var offsetX = floor((touchX - (buildingX + digSiteEdgeSize)) / 2) + 1;
+                    var offsetZ = floor((touchZ - (buildingZ - (digSiteEdgeSize + 12))) / 2);
+                    User::setVariable('TTT_DigSiteTapResult', canTapDigSiteSquare(building, layer, offsetX, offsetZ), false);
+                ]]></Program>
+		</Action>
+		<Action type="checkExpression" expression="TTT_DigSiteTapResult">
+			<ExpressionCase value="1">
+				<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:DigSite_TappedInMinigameHandleTap" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:DigSite_TappedInMinigameHandleTap" />
+			</ExpressionCase>
+		</Action>
+	</DigSite_TappedInMinigameInternal>
+	<DigSite_TappedInMinigame ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="TTT_DigSiteFoundTreasurePostEvent == 0">
+				<Then>
+					<Action type="program">
+						<Program><![CDATA[
+                                User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 4, false);
+                            ]]></Program>
+					</Action>
+					<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:DigSite_TappedInMinigameInternal" />
+					<Action type="if">
+						<If expression="TTT_DigSiteFoundTreasurePostEvent == 1">
+							<Then>
+								<Action type="scheduleScript" mode="create" shouldSave="true" persistUntilComplete="true" relativeTime="5s" script="TimeTravellingToaster_Scripts_ExcavationSite:DoTreasureFound" />
+								<Action type="runScript" script="TimeTravellingToaster_Scripts_ExcavationSite:TreasureFound" />
+							</Then>
+						</If>
+						<ElseIf expression="TTT_DigSiteFoundTreasurePostEvent == 2">
+							<Then>
+								<Action type="runScript" script="TimeTravellingToaster_Scripts_ExcavationSite:ConfirmOpenShovelStore" />
+							</Then>
+						</ElseIf>
+					</Action>
+					<Action type="program">
+						<Program><![CDATA[
+                                if (User::getVariable('TTT_DigSiteFoundTreasurePostEvent') == 4)
+                                {
+                                    User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 0, false);
+                                }
+                            ]]></Program>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</DigSite_TappedInMinigame>
+	<DigSite_TappedInMinigameNormal ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[
+            // returns 0: already dug
+            // returns 1: don't have shovels
+            // returns 2: all good
+            function canTapDigSiteSquare(building, layer, x, z)
+            {
+                    if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                    {
+                        var offsetZ = z;
+                        var offsetX = x;
+                        var anim = ((offsetZ * 6) + offsetX) -1;
+                        
+                        
+                        var dig =  Object::getVariableAsNumber(building,'Dig');
+                        var oldDig = dig;
+                        dig = dig & ~(1<<anim);
+                        // if not already dug
+                        if ((oldDig & (1<<anim)))
+                        {
+                            if (User::getCurrencyAmount('Shovels') > 0)
+                            {
+                                return 2;
+                            }
+                            else
+                            {
+                                return 1;
+                            }
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+            }
+
+            function tapDigSiteSquare(building, layer, x, z)
+                        {
+                            var canDig = canTapDigSiteSquare(building, layer, x, z);
+                            if (canDig == 0)
+                            {
+                                return;
+                            }
+                            elseif (canDig == 1)
+                            {
+                                User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 2, false);
+                                return;
+                            }
+                            elseif (canDig == 2)
+                            {
+                                //Debug::printToScreen('tapDigSiteSquare ' + toString(x) + ', ' + toString(z));
+                                if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                                {
+                                    var offsetZ = z;
+                                    var offsetX = x;
+                                    var anim = ((offsetZ * 6) + offsetX) -1;
+                                    
+                                    
+                                    var dig =  Object::getVariableAsNumber(building,'Dig');
+                                    var oldDig = dig;
+                                    dig = dig & ~(1<<anim);
+                                    // if not already dug
+                                    if ((oldDig & (1<<anim)))
+                                    {
+                                        User::removeCurrencyAmount('Shovels', 1);
+                                        User::setVariable('TTT_DCS_Excavations', User::getVariable('TTT_DCS_Excavations')+1, true);
+                                        var rock = Object::getVariableAsNumber(building, 'DigRock');
+                                        var treasure = Object::getVariableAsNumber(building, 'DigTreasure');
+                                        var nSquares = Object::getVariableAsNumber(building, 'NumSquares');
+
+                                        var prizeARemaining = Object::getVariableAsNumber(building, 'PrizeARemaining');
+                                        var prizeBRemaining = Object::getVariableAsNumber(building, 'PrizeBRemaining');
+                                        var hasPrizeA = false;
+                                        var hasPrizeB = false;
+                                        var chanceOfAnyReward = (prizeARemaining + prizeBRemaining) / nSquares * 100;
+                                        if (percent(chanceOfAnyReward))
+                                        {
+                                            if (prizeARemaining > 0 && prizeBRemaining > 0)
+                                            {
+                                                if (percent(prizeARemaining/(prizeARemaining + prizeBRemaining) * 100))
+                                                {
+                                                    hasPrizeA = true;
+                                                }
+                                                else
+                                                {
+                                                    hasPrizeB = true
+                                                }
+                                            }
+                                            elseif (prizeARemaining > 0)
+                                            {
+                                                hasPrizeA = true;
+                                            }
+                                            elseif (prizeBRemaining > 0)
+                                            {
+                                                hasPrizeB = true;
+                                            }
+                                        }
+                                        
+                                        //Debug::print(dig);
+                                        Object::setVariable(building,'Dig',toString(dig),0,false);
+                                        //Debug::printToScreen(toString(treasure) + ', ' + toString(anim));
+                                        // layer 1 - 2, 14
+                                        // layer 2 - 1, 13
+                                        // the x has -1 and z has +1 to position stuff at the bottom corner rather than the middle
+                                        var x = gridToWorld(toGrid(Building::getProperty(building, 'X')) - 1 + (2 - layer) + offsetX * 2);
+                                        var z = gridToWorld(toGrid(Building::getProperty(building, 'Z')) + 1 - (14 - layer) + offsetZ * 2);
+                                        FlyBy::PlayAtPosition('DigSite_Tap', 10, 0.13, 24, x, z);
+                                        var playDigSound = '';
+
+                                        var reward = Array::create();
+                                        if (treasure & (1<<anim))
+                                        {
+                                            //Debug::printToScreen('treasure!');
+                                            User::addCurrencyAmount('TTT_ActiveLostTreasures', 1);
+                                            User::setVariable('TTT_DCS_LostTreasure', 1, true);
+                                            User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 1, false);
+                                            User::setVariable('TTT_DigSiteFoundItem', rand(100) + 1, true);
+											playDigSound = 'TTT_DigSite_LostTreasure';
+                                        }
+                                        elseif (rock & (1<<anim))
+                                        {
+                                            //Debug::printToScreen('rock!');
+											playDigSound = 'TTT_DigSite_Rock';
+											Global::setVariable('DigSite_CanShowShovelPrompt', 1);
+                                        }
+                                        elseif (hasPrizeA)
+                                        {
+                                            //playDigSound = false;
+                                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+                                            Object::setVariable(building, 'PrizeARemaining', toString(prizeARemaining - 1), 0, false);
+                                            var prizeTotal = Object::getVariableAsNumber(building, 'PrizeATotal');
+                                            var prizeAccumulated = Object::getVariableAsNumber(building, 'PrizeAAccumulated');
+                                            var nPrizes = Object::getVariableAsNumber(building, 'NumPrizeA');
+                                            var prizeAmountRemaining = prizeTotal - prizeAccumulated;
+                                            var prizeAmount = min(ceil(prizeAmountRemaining / prizeARemaining), prizeAmountRemaining);
+                                            Object::setVariable(building, 'PrizeAAccumulated', toString(prizeAccumulated + prizeAmount), 0, false);
+                                            var currency = 'xp';
+                                            Array::addValueForKey(reward, currency, prizeAmount);
+											playDigSound = 'TTT_DigSite_Prize';
+											Global::setVariable('DigSite_CanShowShovelPrompt', 1);
+                                        }
+                                        elseif (hasPrizeB)
+                                        {
+                                            //playDigSound = false;
+                                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+                                            Object::setVariable(building, 'PrizeBRemaining', toString(prizeBRemaining - 1), 0, false);
+                                            var prizeTotal = Object::getVariableAsNumber(building, 'PrizeBTotal');
+                                            var prizeAccumulated = Object::getVariableAsNumber(building, 'PrizeBAccumulated');
+                                            var nPrizes = Object::getVariableAsNumber(building, 'NumPrizeB');
+                                            var prizeAmountRemaining = prizeTotal - prizeAccumulated;
+                                            var prizeAmount = min(ceil(prizeAmountRemaining / prizeBRemaining), prizeAmountRemaining);
+                                            Object::setVariable(building, 'PrizeBAccumulated', toString(prizeAccumulated + prizeAmount), 0, false);
+                                            var currency = 'money';
+                                            Array::addValueForKey(reward, currency, prizeAmount);
+											playDigSound = 'TTT_DigSite_Prize';
+											Global::setVariable('DigSite_CanShowShovelPrompt', 1);
+                                        }
+                                        else
+                                        {
+                                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+											playDigSound = 'TTT_DigSite_Dig';
+											Global::setVariable('DigSite_CanShowShovelPrompt', 1);
+                                        }
+                                        var prizeAmount = 0; // toDouble(System::getConfigValue('__TimeTravellingToaster_BalancingConfig:ExcavationSiteRewards:PrizeTrackPerShovelValue__'));
+                                        var currency = 'TTT_ActivePrizeTrackCurrency';
+                                        Array::addValueForKey(reward, currency, prizeAmount);
+                                        var bonus = 1;
+                                        var rewardWithBonus = Array::create();
+                                        foreach(reward as k,v)
+                                        {
+                                            var prizeAmount = round(v * bonus);
+                                            Array::addValueForKey(rewardWithBonus, k, prizeAmount);
+                                            var variableName = 'TTT_DigSiteFound' + k;
+                                            var currentTotal = User::getVariable(variableName);
+                                            User::setVariable(variableName, currentTotal + prizeAmount, false);
+                                            var cumulativeVariableName = 'TTT_DigSiteCumulativeFound' + k;
+                                            var cumulativeTotal = User::getVariable(cumulativeVariableName);
+                                            User::setVariable(cumulativeVariableName, cumulativeTotal + prizeAmount, false);
+                                        }
+                                        Reward::GrantRewardAtWorldPosition(rewardWithBonus, x, z, Array::create('collectTime' => 0.5, 'tappable' => false, 'suppressSound' => true));
+                                        if (playDigSound!='')
+                                        {
+                                            Audio::play(playDigSound);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                            var touchX = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_X'));
+                            var touchZ = toGrid(User::getVariable('LAST_TOUCH_DOWN_WORLD_Z'));
+                            var building = Land::getFirstInstanceOfObject(Building::find('DigSite'));
+                            var buildingX = toGrid(Building::getProperty(building,'X'));
+                            var buildingZ = toGrid(Building::getProperty(building,'Z'));
+                            var digSiteEdgeSize = 2;
+                            var digSiteSize = 14;
+                            var layer = 1;
+                            if (Building::getSkin(building) == 'DigSite02')
+                            {
+                                digSiteEdgeSize = 1;
+                                layer = 2;
+                            }
+
+                            // what building grid was tapped
+                            var buildingTouchX = touchX - buildingX;
+                            var buildingTouchZ = touchZ - buildingZ;
+
+                            // the dirt grid starts where the edge ends
+                            buildingTouchX = buildingTouchX - digSiteEdgeSize;
+                            buildingTouchZ = buildingTouchZ + digSiteEdgeSize;
+
+                            // top should be z=0
+                            buildingTouchZ = buildingTouchZ + (digSiteSize - digSiteEdgeSize);
+
+                            // each dirt grid is two world grids
+                            buildingTouchX = floor(buildingTouchX / 2);
+                            buildingTouchZ = floor(buildingTouchZ / 2);
+
+                            // x starts at one for some reason
+                            buildingTouchX = buildingTouchX + 1;
+
+                            var offsetX = floor((touchX - (buildingX + digSiteEdgeSize)) / 2) + 1;
+                            var offsetZ = floor((touchZ - (buildingZ - (digSiteEdgeSize + 12))) / 2);
+
+                            tapDigSiteSquare(building, layer, offsetX, offsetZ);
+                            ]]></Program>
+		</Action>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:RefreshShovelCounter" parseOnDemand="true" />
+		<Action type="runScript" script="TimeTravellingToaster_Scripts_ExcavationSite:RefreshHUDAfterDigging" />
+	</DigSite_TappedInMinigameNormal>
+	<TreasureFound ignoreHUD="True">
+		<Action type="delay" time="0.1" />
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="containerConfig">
+				<AttributeSet>
+					<Attribute name="visible" value="false" />
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="delay" time="0.5" />
+		<Action type="program">
+			<Program><![CDATA[
+function tapDigSiteSquare(building, layer, x, z)
+                {
+                //Debug::printToScreen('tapDigSiteSquare ' + toString(x) + ', ' + toString(z));
+                if (x >= 1 && x <= 6 && z >= 0 && z <= 5)
+                {
+                    var offsetZ = z;
+                    var offsetX = x;
+                    var anim = ((offsetZ * 6) + offsetX) -1;
+                    
+                    
+                    var dig =  Object::getVariableAsNumber(building,'Dig');
+                    var oldDig = dig;
+                    dig = dig & ~(1<<anim);
+                    // if not already dug
+                    if ((oldDig & (1<<anim)))
+                    {
+                        var rock = Object::getVariableAsNumber(building, 'DigRock');
+                        var treasure = Object::getVariableAsNumber(building, 'DigTreasure');
+                        var nSquares = Object::getVariableAsNumber(building, 'NumSquares');
+
+                        var prizeARemaining = Object::getVariableAsNumber(building, 'PrizeARemaining');
+                        var prizeBRemaining = Object::getVariableAsNumber(building, 'PrizeBRemaining');
+                        var hasPrizeA = false;
+                        var hasPrizeB = false;
+                        var chanceOfAnyReward = (prizeARemaining + prizeBRemaining) / nSquares * 100;
+                        if (percent(chanceOfAnyReward))
+                        {
+                            if (prizeARemaining > 0 && prizeBRemaining > 0)
+                            {
+                                if (percent(prizeARemaining/(prizeARemaining + prizeBRemaining) * 100))
+                                {
+                                    hasPrizeA = true;
+                                }
+                                else
+                                {
+                                    hasPrizeB = true
+                                }
+                            }
+                            elseif (prizeARemaining > 0)
+                            {
+                                hasPrizeA = true;
+                            }
+                            elseif (prizeBRemaining > 0)
+                            {
+                                hasPrizeB = true;
+                            }
+                        }
+                        
+                        //Debug::print(dig);
+                        Object::setVariable(building,'Dig',toString(dig),0,false);
+                        //Debug::printToScreen(toString(treasure) + ', ' + toString(anim));
+                        // layer 1 - 2, 14
+                        // layer 2 - 1, 13
+                        // the x has -1 and z has +1 to position stuff at the bottom corner rather than the middle
+                        var x = gridToWorld(toGrid(Building::getProperty(building, 'X')) - 1 + (2 - layer) + offsetX * 2);
+                        var z = gridToWorld(toGrid(Building::getProperty(building, 'Z')) + 1 - (14 - layer) + offsetZ * 2);
+                        FlyBy::PlayAtPosition('DigSite_Tap', 10, 0.13, 24, x, z);
+                        var playDigSound = '';
+                        var reward = Array::create();
+                        if (treasure & (1<<anim))
+                        {
+                            //Debug::printToScreen('treasure!');
+                            User::addCurrencyAmount('TTT_ActiveLostTreasures', 1);
+                            User::setVariable('TTT_DCS_LostTreasure', 1, true);
+                            User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 1, false);
+                            User::setVariable('TTT_DigSiteFoundItem', rand(100) + 1, true);
+							playDigSound = 'TTT_DigSite_LostTreasure';
+                        }
+                        elseif (rock & (1<<anim))
+                        {
+                            //Debug::printToScreen('rock!');
+							playDigSound = 'TTT_DigSite_Rock';
+                        }
+                        elseif (hasPrizeA)
+                        {
+                            //playDigSound = false;
+                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+                            Object::setVariable(building, 'PrizeARemaining', toString(prizeARemaining - 1), 0, false);
+                            var prizeTotal = Object::getVariableAsNumber(building, 'PrizeATotal');
+                            var prizeAccumulated = Object::getVariableAsNumber(building, 'PrizeAAccumulated');
+                            var nPrizes = Object::getVariableAsNumber(building, 'NumPrizeA');
+                            var prizeAmountRemaining = prizeTotal - prizeAccumulated;
+                            var prizeAmount = min(ceil(prizeAmountRemaining / prizeARemaining), prizeAmountRemaining);
+                            Object::setVariable(building, 'PrizeAAccumulated', toString(prizeAccumulated + prizeAmount), 0, false);
+                            var currency = 'xp';
+                            Array::addValueForKey(reward, currency, prizeAmount);
+							playDigSound = 'TTT_DigSite_Prize';
+                        }
+                        elseif (hasPrizeB)
+                        {
+                            //playDigSound = false;
+                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+                            Object::setVariable(building, 'PrizeBRemaining', toString(prizeBRemaining - 1), 0, false);
+                            var prizeTotal = Object::getVariableAsNumber(building, 'PrizeBTotal');
+                            var prizeAccumulated = Object::getVariableAsNumber(building, 'PrizeBAccumulated');
+                            var nPrizes = Object::getVariableAsNumber(building, 'NumPrizeB');
+                            var prizeAmountRemaining = prizeTotal - prizeAccumulated;
+                            var prizeAmount = min(ceil(prizeAmountRemaining / prizeBRemaining), prizeAmountRemaining);
+                            Object::setVariable(building, 'PrizeBAccumulated', toString(prizeAccumulated + prizeAmount), 0, false);
+                            var currency = 'money';
+                            Array::addValueForKey(reward, currency, prizeAmount);
+							playDigSound = 'TTT_DigSite_Prize';
+                        }
+                        else
+                        {
+                            Object::setVariable(building, 'NumSquares', toString(nSquares - 1), 0, false);
+							playDigSound = 'TTT_DigSite_Dig';
+                        }
+                        var bonus = 1;
+                        var rewardWithBonus = Array::create();
+                        foreach(reward as k,v)
+                        {
+                            var prizeAmount = round(v * bonus);
+                            Array::addValueForKey(rewardWithBonus, k, prizeAmount);
+                            var variableName = 'TTT_DigSiteFound' + k;
+                            var currentTotal = User::getVariable(variableName);
+                            User::setVariable(variableName, currentTotal + prizeAmount, false);
+                            var cumulativeVariableName = 'TTT_DigSiteCumulativeFound' + k;
+                            var cumulativeTotal = User::getVariable(cumulativeVariableName);
+                            User::setVariable(cumulativeVariableName, cumulativeTotal + prizeAmount, false);
+                        }
+                        Reward::GrantRewardAtWorldPosition(rewardWithBonus, x, z, Array::create('collectTime' => 0.5, 'tappable' => false, 'suppressSound' => true));
+						if (playDigSound!='')
+						{
+							Audio::play(playDigSound);
+						}
+                    }
+                }
+            }
+
+                var b = Building::find('DigSite');
+                var building = Land::getFirstInstanceOfObject(b);
+                var layer = 1;
+                if (Building::getSkin(building) == 'DigSite02')
+                {
+                    layer = 2;
+                }
+                
+                // Save 'Dig' variable to 'DigFinal' before we dig everything else up in animation
+                var digFinal = Object::getVariableAsNumber(building,'Dig');
+                Object::setVariable(building,'DigFinal',toString(digFinal),0,false);
+
+                for (var x = 1; x <= 6; x++)
+                {
+                    for (var z = 0; z < 6; z++)
+                    {
+                        tapDigSiteSquare(building, layer, x, z);
+                    }
+                }
+
+            ]]></Program>
+		</Action>
+		<Action type="delay" time="2.5" />
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:DoTreasureFound" />
+	</TreasureFound>
+	<DoTreasureFound>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ShowSummaryScreen" />
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:AdvanceDigSite" />
+		<Action type="scheduleScript" mode="delete" script="TimeTravellingToaster_Scripts_ExcavationSite:DoTreasureFound" />
+	</DoTreasureFound>
+	<GiveDigSiteReward>
+		<Action type="if">
+			<If expression="TTT_DigSiteFoundItem == 1">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="PirateBooty" />
+					</Action>
+				</Then>
+			</If>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 2 &amp;&amp; TTT_DigSiteFoundItem &lt;= 4">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="CastleGates" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 5 &amp;&amp; TTT_DigSiteFoundItem &lt;= 9">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="CastleTower" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 10 &amp;&amp; TTT_DigSiteFoundItem &lt;= 19">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="CastleWall" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 20 &amp;&amp; TTT_DigSiteFoundItem &lt;= 39">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="RockPile01" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 40 &amp;&amp; TTT_DigSiteFoundItem &lt;= 59">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="WoodenBarrel01" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 60 &amp;&amp; TTT_DigSiteFoundItem &lt;= 79">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="HieroglyphWall" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 80 &amp;&amp; TTT_DigSiteFoundItem &lt;= 89">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="BrokenDownDryer" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="TTT_DigSiteFoundItem &gt;= 90 &amp;&amp; TTT_DigSiteFoundItem &lt;= 100">
+				<Then>
+					<Action type="updateVariable" variable="TTT_DigSiteFoundItem" value="0" />
+					<Action type="rewardWithPlaceStore" attributes="TimeTravellingToaster_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="BrokenDownWasher" />
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</GiveDigSiteReward>
+	<AdvanceDigSite ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    var b = Building::find('DigSite');
+                    var building = Land::getFirstInstanceOfObject(b);
+                    var currentSkin = Building::getSkin(building);
+                    var nextSkin = 'DigSite02';
+                    var nextLayer = 2;
+                    if (currentSkin == nextSkin)
+                    {
+                        nextSkin = 'DigSite';
+                        nextLayer = 1;
+                    }
+                    
+                    // before advancing, send telemetry
+                    var curLayer = (nextLayer == 1) ? 2 : 1;
+                    var undugSpots = 0;
+                    var dig =  Object::getVariableAsNumber(building,'DigFinal');
+                    //Debug::printToScreen(toString(dig));
+                    var digStr = '';
+                    for (var bitIndex = 0; bitIndex < 36; bitIndex = bitIndex + 1)
+                    {
+                        // zero bits in dig are spent shovels
+                        var curBit = ((dig >> bitIndex) & 0x1);
+                        undugSpots = undugSpots + curBit;
+                        digStr = (curBit ? '1' : '0') + digStr;
+                    }
+
+                    // only do the transition from bottom layer back to top layer
+                    if (nextLayer == 1)
+                    {
+                    var i = 0;
+                    for (var x = 1; x <= 6; x++)
+                    {
+                        for (var z = 0; z < 6; z++)
+                        {
+                            var xx = gridToWorld(-1 + toGrid(Building::getProperty(building, 'X')) - 1 + (2 - nextLayer) + x * 2);
+                            var zz = gridToWorld(1 + toGrid(Building::getProperty(building, 'Z')) + 1 - (14 - nextLayer) + z * 2);
+                            var anim = min(trunc(randRange(1, 1)), 5);
+                            FlyBy::PlayAtPosition('DigSite_Fill0' + toString(mod(i, 5) + 1), 10, 0.13, 24, xx, zz);
+                            //i = i + 1;
+                        }
+                    }
+                    }
+
+                    Building::setSkin(building, nextSkin);
+                ]]></Program>
+		</Action>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ResetDigSite" />
+	</AdvanceDigSite>
+	<ResetDigSite ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    var b = Building::find('DigSite');
+                    var building = Land::getFirstInstanceOfObject(b);
+                    var isLayerOne = Building::getSkin(building) == 'DigSite';
+                    var treasurePos = trunc(randRange(0, 36));
+                    var above = treasurePos - 6;
+                    var below = treasurePos + 6;
+                    var left = treasurePos - 1;
+                    var right = treasurePos + 1;
+                    var rocks = 0;
+                    // above
+                    var nRocks = 0;
+                    if (treasurePos > 5)
+                    {
+                        rocks = rocks | (1 << above);
+                        nRocks = nRocks + 1;
+                    }
+                    // below
+                    if (treasurePos < 30)
+                    {
+                        rocks = rocks | (1 << below);
+                        nRocks = nRocks + 1;
+                    }
+                    // left
+                    if (mod(treasurePos, 6) > 0)
+                    {
+                        rocks = rocks | (1 << left);
+                        nRocks = nRocks + 1;
+                    }
+                    if (mod(treasurePos, 6) < 5)
+                    {
+                        rocks = rocks | (1 << right);
+                        nRocks = nRocks + 1;
+                    }
+                    
+                    var numPrizeABase = 0;
+                    var numPrizeARandomRange = 0;
+                    var prizeATotalBase = 0;
+                    var prizeATotalRandomRange = 0;
+
+                    var numPrizeBBase = 0;
+                    var numPrizeBRandomRange = 0;
+                    var prizeBTotalBase = 0;
+                    var prizeBTotalRandomRange = 0;
+
+                    if (isLayerOne)
+					{
+						numPrizeABase = 6; 
+						numPrizeARandomRange = 2; 
+						prizeATotalBase = 10; 
+						prizeATotalRandomRange = 5; 
+						
+						numPrizeBBase = 8; 
+						numPrizeBRandomRange = 2; 
+						prizeBTotalBase = 100; 
+						prizeBTotalRandomRange = 50; 
+					}
+					else
+                    {
+						numPrizeABase = 4; 
+						numPrizeARandomRange = 1; 
+						prizeATotalBase = 20; 
+						prizeATotalRandomRange = 10;
+						
+						numPrizeBBase = 6; 
+						numPrizeBRandomRange = 1; 
+						prizeBTotalBase = 200
+						prizeBTotalRandomRange = 100;
+                    }
+
+                    var numPrizeA = numPrizeABase + floor(rand(numPrizeARandomRange));
+                    var numPrizeB = numPrizeBBase + floor(rand(numPrizeBRandomRange));
+                    var prizeATotal = prizeATotalBase + floor(rand(prizeATotalRandomRange));
+                    var prizeBTotal = prizeBTotalBase + floor(rand(prizeBTotalRandomRange));
+                     
+                    Object::setVariable(building, 'PrizeAAccumulated', toString(0), 0, false);
+                    Object::setVariable(building, 'PrizeBAccumulated', toString(0), 0, false);
+                    Object::setVariable(building, 'NumPrizeA', toString(numPrizeA), 0, false); // how many total
+                    Object::setVariable(building, 'NumPrizeB', toString(numPrizeB), 0, false); // how many total
+                    Object::setVariable(building, 'PrizeARemaining', toString(numPrizeA), 0, false); // how many remaining
+                    Object::setVariable(building, 'PrizeBRemaining', toString(numPrizeB), 0, false); // how many remaining
+                    Object::setVariable(building, 'PrizeATotal', toString(prizeATotal), 0, false);
+                    Object::setVariable(building, 'PrizeBTotal', toString(prizeBTotal), 0, false);
+
+
+                    Object::setVariable(building, 'NumSquares', toString(36 - 1 - nRocks), 0, false);
+                    Object::setVariable(building, 'DigTreasure', toString(1<<treasurePos), 0, false);
+                    Object::setVariable(building, 'Dig', toString(0xFFFFFFFFFF), 0, false);
+                    Object::setVariable(building, 'DigRock', toString(rocks), 0, false);
+                ]]></Program>
+		</Action>
+	</ResetDigSite>
+	<RefreshShovelCounter ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="ResourceIcon">
+					<Attribute name="image" program="Currency::getIconSmall('Shovels')" />
+				</AttributeSet>
+				<AttributeSet name="ResourceText">
+					<Attribute name="text" program="User::getCurrencyAmount('Shovels')" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</RefreshShovelCounter>
+	<RefreshHUDAfterDigging ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="delay" time="0.6" />
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:RefreshHUD" parseOnDemand="true" />
+	</RefreshHUDAfterDigging>
+	<RefreshHUD ignoreHUD="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="Currency1Icon">
+					<Attribute name="image" program="Currency::getIconSmall('money')" />
+				</AttributeSet>
+				<AttributeSet name="Currency1Text">
+					<Attribute name="text" value="0" />
+					<Attribute name="text" program="User::getCurrencyAmount('money')" />
+				</AttributeSet>
+				<AttributeSet name="Currency2Icon">
+					<Attribute name="image" program="Currency::getIconSmall('xp')" />
+				</AttributeSet>
+				<AttributeSet name="Currency2Text">
+					<Attribute name="text" value="0" />
+					<Attribute name="text" program="User::getCurrencyAmount('xp')" />
+				</AttributeSet>
+				<AttributeSet name="ResourceIcon">
+					<Attribute name="image" program="Currency::getIconSmall('Shovels')" />
+				</AttributeSet>
+				<AttributeSet name="ResourceText">
+					<Attribute name="text" program="User::getCurrencyAmount('Shovels')" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</RefreshHUD>
+	<ConfirmOpenShovelStore ignoreHUD="true">
+		<Action type="userConfirmation" title="UI_TTT_OpenShovelStore_Title" text="UI_TTT_OpenShovelStore_Body" text_yes="GEN_Buy" text_no="GEN_Exit" var="TTT_ExcavationSite_OpenShovelStore" />
+		<Action type="program">
+			<Program><![CDATA[
+                    User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 0, false);
+                ]]></Program>
+		</Action>
+		<Action type="checkExpression" expression="TTT_ExcavationSite_OpenShovelStore">
+			<ExpressionCase value="1">
+				<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:OpenShovelStore" />
+			</ExpressionCase>
+			<ExpressionCase value="0">
+				<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ShowSummaryScreen" />
+			</ExpressionCase>
+		</Action>
+	</ConfirmOpenShovelStore>
+	<OpenShovelStore>
+		<Action type="focusOnMenuItem" allowInLand="any" minimalStoreFile="TimeTravellingToaster_ShovelsPackStoreMenu.xml" menuCategory="TTT_GetMoreShovels" onExitButtonLeaveStore="TimeTravellingToaster_Scripts_ExcavationSite:StoreExitButton" onLeaveStore="TimeTravellingToaster_Scripts_ExcavationSite:ReturnFromStore" />
+	</OpenShovelStore>
+	<StoreExitButton>
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ReturnFromStore" />
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ExitButton" />
+	</StoreExitButton>
+	<ReturnFromStore>
+		<Action type="customTouch">
+			<Attribute name="allowCameraMovement" value="false" />
+			<Attribute name="loadScript" value="TimeTravellingToaster_Scripts_ExcavationSite:ResumeMinigame" />
+			<Attribute name="unloadScript" value="TimeTravellingToaster_Scripts_ExcavationSite:EndMinigame" />
+			<Attribute name="allowPrizePopups" value="false" />
+			<Attribute name="config">
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="MinigameHUDDigSite" />
+					<Attribute name="config" value="MinigameHUDDigSite.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="Currency1Icon">
+							<Attribute name="image" program="Currency::getIconSmall('money')" />
+							<Attribute name="moveToDestination" value="money" />
+						</AttributeSet>
+						<AttributeSet name="Currency1Text">
+							<Attribute name="text" program="User::getCurrencyAmount('money')" />
+						</AttributeSet>
+						<AttributeSet name="Currency2Icon">
+							<Attribute name="image" program="Currency::getIconSmall('xp')" />
+							<Attribute name="moveToDestination" value="xp" />
+						</AttributeSet>
+						<AttributeSet name="Currency2Text">
+							<Attribute name="text" program="User::getCurrencyAmount('xp')" />
+						</AttributeSet>
+						<AttributeSet name="ResourceIcon">
+							<Attribute name="image" program="Currency::getIconSmall('Shovels')" />
+						</AttributeSet>
+						<AttributeSet name="ResourceText">
+							<Attribute name="text" program="User::getCurrencyAmount('Shovels')" />
+						</AttributeSet>
+						<AttributeSet name="HelpIconHL">
+							<Attribute name="image" value="ICO_THOH_Help_SM.rgb" />
+						</AttributeSet>
+						<AttributeSet name="HelpIcon">
+							<Attribute name="image" value="ICO_THOH_Help_SM.rgb" />
+						</AttributeSet>
+						<AttributeSet name="HelpButton">
+							<Attribute name="script" value="TimeTravellingToaster_Scripts_ExcavationSite:HelpButton" />
+						</AttributeSet>
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="TimeTravellingToaster_Scripts_ExcavationSite:ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="DigSite" />
+					<Attribute name="ignoreObjectTypes" value="character|flyby" />
+					<Attribute name="runOnTouchScriptsInstantly" value="true" />
+				</AttributeSet>
+				<AttributeSet name="onTouchStartedScripts">
+					<Attribute name="DigSite" value="TimeTravellingToaster_Scripts_ExcavationSite:DigSite_TappedInMinigame" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ReturnFromStore>
+	<ShowShovelPromptIfValid>
+		<Action type="if">
+			<If expression="Global::getVariable('DigSite_CanShowShovelPrompt')==1 &amp;&amp; User::getCurrencyAmount('Shovels')==0">
+				<Then>
+					<Action type="program">
+						<Program><![CDATA[
+								User::setVariable('TTT_DigSiteFoundTreasurePostEvent', 2, false);
+							]]></Program>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="program">
+			<Program><![CDATA[
+					Global::setVariable('DigSite_CanShowShovelPrompt', 0);
+				]]></Program>
+		</Action>
+	</ShowShovelPromptIfValid>
+	<PostEventClean parallel="true" runQueueState="RunInAnyState">
+		<Action type="actionSequence" script="TimeTravellingToaster_Scripts_ExcavationSite:ResetDigSite" />
+	</PostEventClean>
+</ScriptPackage>

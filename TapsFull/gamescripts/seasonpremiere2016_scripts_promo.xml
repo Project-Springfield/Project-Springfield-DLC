@@ -1,0 +1,197 @@
+﻿<ScriptPackage>
+	<SP_GoToCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="SeasonPremiere2016_Promo" />
+	</SP_GoToCategory>
+	<SP_DisplayPromo>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_DisplayPromo_StartDialogue" />
+				<Action type="recommendation" recType="Event" eventName="UI_CorporateKickbacks_name" name="SP2016_Promo_OnePanel" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="SeasonPremiere2016_Main" />
+				<Action type="runScript" script="KillGil" package="MiscScripts" />
+				<Action type="setVariable" boolVariable="SeasonPremiere2016_PromoActive" boolValue="true" />
+			</True>
+		</Action>
+	</SP_DisplayPromo>
+	<SP_DisplayPromo_StartDialogue>
+		<Action type="dialogue" character="Quimby" text="QST_SeasonPremierePromoIntro_3_dlg_Start_1_Quimby" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Burns" text="QST_SeasonPremierePromoIntro_3_dlg_Start_2_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="Lisa" text="QST_SeasonPremierePromoIntro_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="shouting" />
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoIntro_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="selling" />
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SeasonPremiere2016_PromoSwitch" />
+			<True>
+				<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_DisplayPromo_StartDialogue_Wave1" />
+				<Action type="updateVariable" variable="SeasonPremiere2016_PromoWave1Seen" value="1" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_DisplayPromo_StartDialogue_Wave2" />
+				<Action type="updateVariable" variable="SeasonPremiere2016_PromoWave2Seen" value="1" />
+			</False>
+		</Action>
+	</SP_DisplayPromo_StartDialogue>
+	<SP_DisplayPromo_StartDialogue_Wave1>
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave1_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Quimby" text="QST_SeasonPremierePromoWave1_3_dlg_Start_2_Quimby" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave1_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+		<Action type="dialogue" character="Quimby" text="QST_SeasonPremierePromoWave1_3_dlg_Start_4_Quimby" revealSpeed="medium" emotion="happy" />
+	</SP_DisplayPromo_StartDialogue_Wave1>
+	<SP_DisplayPromo_StartDialogue_Wave2>
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave2_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Skinner" text="QST_SeasonPremierePromoWave2_3_dlg_Start_2_Skinner" revealSpeed="medium" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SeasonPremiere2016_PromoWave1Seen" />
+			<True>
+				<Action type="updateVariable" variable="SeasonPremiere2016_PromoWave2Seen" value="1" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="SeasonPremiere2016_PromoItemPurchased" />
+					<True>
+						<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="0" />
+					</True>
+				</Action>
+				<Action type="displayPromo" event="SeasonPremiere2016_Main" />
+			</True>
+		</Action>
+	</SP_DisplayPromo_StartDialogue_Wave2>
+	<SP_DeclinePromo>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SeasonPremiere2016_PromoItemPurchased" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="time" end="SeasonPremiere2016_PromoSwitch" />
+					<True>
+						<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_DeclinePromo_Wave1" />
+					</True>
+					<False>
+						<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_DeclinePromo_Wave2" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</SP_DeclinePromo>
+	<SP_DeclinePromo_Wave1>
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave1Declined_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave1Declined_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+	</SP_DeclinePromo_Wave1>
+	<SP_DeclinePromo_Wave2>
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave2Declined_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="annoyed" />
+	</SP_DeclinePromo_Wave2>
+	<SP_PurchasePromo>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SeasonPremiere2016_PromoSwitch" />
+			<True>
+				<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_PurchasePromo_Wave1" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="SeasonPremiere2016_Scripts_Promo:SP_PurchasePromo_Wave2" />
+			</False>
+		</Action>
+	</SP_PurchasePromo>
+	<SP_PurchasePromo_Wave1>
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave1Purchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+	</SP_PurchasePromo_Wave1>
+	<SP_PurchasePromo_Wave2>
+		<Action type="dialogue" character="Gil" text="QST_SeasonPremierePromoWave2Purchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+	</SP_PurchasePromo_Wave2>
+	<SP_SpringfieldGlenneCondos_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_10" dismissOnOKOnly="true" />
+		<Action type="notification" icon="TowneCentreCondos_Menu" title="CON_SpringfieldGlenneCondos_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="SpringfieldGlenneCondos" inventory="true" />
+	</SP_SpringfieldGlenneCondos_Purchase>
+	<SP_ExcellencePrizeStatue_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_5" dismissOnOKOnly="true" />
+		<Action type="notification" icon="ExcellencePrizeStatue_Menu" title="CON_ExcellencePrizeStatue_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="ExcellencePrizeStatue" inventory="true" />
+	</SP_ExcellencePrizeStatue_Purchase>
+	<SP_ButterflyTent_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_5" dismissOnOKOnly="true" />
+		<Action type="notification" icon="ButterflyTent_Menu" title="CON_ButterflyTent_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="ButterflyTent" inventory="true" />
+	</SP_ButterflyTent_Purchase>
+	<SP_SumatranCenturyFlower_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_10" dismissOnOKOnly="true" />
+		<Action type="notification" icon="SumatranCenturyFlower_Menu" title="CON_SumatranCenturyFlower_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="SumatranCenturyFlower" inventory="true" />
+	</SP_SumatranCenturyFlower_Purchase>
+	<SP_AsiaDeCuba_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_30" dismissOnOKOnly="true" />
+		<Action type="notification" icon="AsiaDeCuba_Menu" title="CON_AsiaDeCuba_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="AsiaDeCuba" inventory="true" />
+	</SP_AsiaDeCuba_Purchase>
+	<SP_HealthSpa_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_50" dismissOnOKOnly="true" />
+		<Action type="notification" icon="HealthSpa_Menu" title="CON_HealthSpa_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="HealthSpa" inventory="true" />
+	</SP_HealthSpa_Purchase>
+	<SP_StrupoStatue_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_5" dismissOnOKOnly="true" />
+		<Action type="notification" icon="StrupoStatue_Menu" title="CON_StrupoStatue_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="StrupoStatue" inventory="true" />
+	</SP_StrupoStatue_Purchase>
+	<SP_GolfCourse_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_40" dismissOnOKOnly="true" />
+		<Action type="notification" icon="GolfCourse_Menu" title="CON_GolfCourse_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="GolfCourse" inventory="true" />
+	</SP_GolfCourse_Purchase>
+	<SP_Bookaccinos_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_20" dismissOnOKOnly="true" />
+		<Action type="notification" icon="Bookaccinos_Menu" title="CON_Bookaccinos_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="Bookaccinos" inventory="true" />
+	</SP_Bookaccinos_Purchase>
+	<SP_HotTub_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_20" dismissOnOKOnly="true" />
+		<Action type="notification" icon="ICO_PRIZ_SeasonPremiere2016_HotTub_LG" title="CON_HotTub_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="HotTub" inventory="true" />
+	</SP_HotTub_Purchase>
+	<SP_SwankyFish_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_20" dismissOnOKOnly="true" />
+		<Action type="notification" icon="SwankyFish_Menu" title="CON_SwankyFish_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="SwankyFish" inventory="true" />
+	</SP_SwankyFish_Purchase>
+	<SP_SpringfieldFarmersMarket_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_10" dismissOnOKOnly="true" />
+		<Action type="notification" icon="SpringfieldFarmersMarket_Menu" title="CON_SpringfieldFarmersMarket_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="SpringfieldFarmersMarket" inventory="true" />
+	</SP_SpringfieldFarmersMarket_Purchase>
+	<SP_JetEngineBike_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_10" dismissOnOKOnly="true" />
+		<Action type="notification" icon="JetEngineBike_Menu" title="CON_JetEngineBike_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="JetEngineBike" inventory="true" />
+	</SP_JetEngineBike_Purchase>
+	<SP_BBQPig_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_20" dismissOnOKOnly="true" />
+		<Action type="notification" icon="BBQPig_Menu" title="CON_BBQPig_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="BBQPig" inventory="true" />
+	</SP_BBQPig_Purchase>
+	<SP_PlasticSurgeryCenter_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_20" dismissOnOKOnly="true" />
+		<Action type="notification" icon="PlasticSurgeryCenter_Menu" title="CON_PlasticSurgeryCentre_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="PlasticSurgeryCenter" inventory="true" />
+	</SP_PlasticSurgeryCenter_Purchase>
+	<SP_CoolBrownHouse_Purchase>
+		<Action type="updateVariable" variable="SeasonPremiere2016_PromoItemPurchased" value="1" />
+		<Action type="message" text="UI_EoSRebateAwardMessage_50" dismissOnOKOnly="true" />
+		<Action type="notification" icon="generichouse01_coolhouse_Menu" title="CON_CoolBrownHouse_SP_Con_name" text="UI_StoredInInventory_generic" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="CoolBrownHouse" inventory="true" />
+	</SP_CoolBrownHouse_Purchase>
+</ScriptPackage>

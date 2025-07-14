@@ -1,0 +1,393 @@
+﻿<ScriptPackage>
+	<TheParalyzer_Tapped>
+		<Action type="anim-play" building="TheParalyzer" animation="ActiveNoInOrOutNoLoop" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="SpringfieldElementary" />
+					<Requirement type="building" building="Kwik-E-Mart" />
+					<Requirement type="building" building="Kwik-E-MartFranchise" />
+					<Requirement type="building" building="QuickAndFresh" />
+					<Requirement type="building" building="BrownHouse" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="runScript" package="CountyFair_Scripts" script="SelectRandomBuilding" />
+			</True>
+		</Action>
+		<Action type="runScript" package="CountyFair_Scripts" script="TheParalyzer_OutroAnim" />
+	</TheParalyzer_Tapped>
+	<TheParalyzer_OutroAnim parallel="true" ignoreHUD="true">
+		<Action type="anim-play" building="TheParalyzer" animation="ActiveOutOnly" />
+	</TheParalyzer_OutroAnim>
+	<SelectRandomBuilding parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="SpringfieldElementary" />
+				<Requirement type="formula" formula="System::evaluate('Skin::SpringfieldElementary_Wrecked::Building::SpringfieldElementary::TotalCount')==0" />
+			</Requirements>
+			<True>
+				<Action type="runScript" package="CountyFair_Scripts" script="TheParalyzer_Destroy_SpringfieldElementary" />
+			</True>
+			<False>
+				<Action type="random">
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="building" building="Kwik-E-MartFranchise" />
+						</Requirements>
+						<True>
+							<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_KwikEMartFranchise" />
+						</True>
+						<False>
+							<Action type="runScript" package="CountyFair_Scripts" script="SelectRandomBuilding" />
+						</False>
+					</Action>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="building" building="QuickAndFresh" />
+						</Requirements>
+						<True>
+							<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_QuickAndFresh" />
+						</True>
+						<False>
+							<Action type="runScript" package="CountyFair_Scripts" script="SelectRandomBuilding" />
+						</False>
+					</Action>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="building" building="BrownHouse" />
+						</Requirements>
+						<True>
+							<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_BrownHouse" />
+						</True>
+						<False>
+							<Action type="runScript" package="CountyFair_Scripts" script="SelectRandomBuilding" />
+						</False>
+					</Action>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="building" building="Kwik-E-MartFranchise" />
+								<Requirement type="building" building="QuickAndFresh" />
+								<Requirement type="building" building="BrownHouse" />
+							</Requirement>
+						</Requirements>
+						<True>
+							<Action type="runScript" package="CountyFair_Scripts" script="SelectRandomBuilding" />
+						</True>
+					</Action>
+				</Action>
+			</False>
+		</Action>
+	</SelectRandomBuilding>
+	<TheParalyzer_Destroy_SpringfieldElementary parallel="true">
+		<Action type="pantoobject" building="SpringfieldElementary" minSpeed="500" maxSpeed="500" />
+		<Action type="shakeCamera" length="6" magnitude="10" />
+		<Action type="runScriptOnAll" building="SpringfieldElementary" script="SpringfieldElementary_Wrecked" package="CountyFair_Scripts" maxNum="1" />
+	</TheParalyzer_Destroy_SpringfieldElementary>
+	<SpringfieldElementary_Wrecked parallel="true">
+		<Action type="setBuildingSkin" skinName="SpringfieldElementary_Wrecked" />
+		<Action type="anim-play" onBuilding="SpringfieldElementary" animation="SpringfieldElementary_ParalyzerExplosion" />
+	</SpringfieldElementary_Wrecked>
+	<SpringfieldElementary_Fixed parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="System::evaluate('Skin::SpringfieldElementary_Wrecked::Building::SpringfieldElementary::TotalCount')&gt;0" />
+			</Requirements>
+			<True>
+				<Action type="setBuildingSkin" building="SpringfieldElementary" useDefault="true" />
+			</True>
+		</Action>
+	</SpringfieldElementary_Fixed>
+	<CheddarbarrelCombine_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</CheddarbarrelCombine_Tapped>
+	<CornFieldCreated parallel="true">
+		<Action type="hudTip" text="UI_CornField_Created" time="10s" />
+	</CornFieldCreated>
+	<WheatFieldCreated parallel="true">
+		<Action type="hudTip" text="UI_WheatField_Created" time="10s" />
+	</WheatFieldCreated>
+	<PlowedFieldCreated parallel="true">
+		<Action type="hudTip" text="UI_PlowedField_Created" time="10s" />
+	</PlowedFieldCreated>
+	<CheddarbarrelFarm_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="players land" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_BuildingSelected">
+					<Extras>
+						<Attribute name="BuildingName" value="CheddarbarrelFarm" />
+						<Attribute name="GoToFarmMode" value="true" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</CheddarbarrelFarm_Tapped>
+	<TuxedoKrusty_Gained>
+		<Action type="setVariable" intVariable="UnlockedTuxedoKrusty" intValue="1" asExpression="true" />
+	</TuxedoKrusty_Gained>
+	<AutoconsumeLMSSkin>
+		<Action type="reward">
+			<Item type="consumable" name="LittleMissSpringfield" useImmediately="true" />
+		</Action>
+	</AutoconsumeLMSSkin>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_CountyFair_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="CountyFair_PreExpiryDisplayed72" boolValue="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="CountyFair_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="CountyFair_PreExpiryDisplayed24" boolValue="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_CountyFair_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="CountyFair_OnePanel" />
+		<Action type="setVariable" boolVariable="CountyFair_ExpiryDisplayed" boolValue="true" />
+	</DisplayExpiry>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="CountyFair_ExpiryDisplayed" />
+			<True>
+				<Action type="setVariable" boolVariable="CountyFair_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<ForceExpire ignoreHUD="true">
+		<Action type="setVariable" boolVariable="CountyFair_ExpiryDisplayed" boolValue="true" />
+		<Action type="setVariable" boolVariable="CountyFair_Expired" boolValue="true" />
+	</ForceExpire>
+	<EnterStoreCategory>
+		<Action type="focusOnMenuItem" menuCategory="CountyFair" />
+	</EnterStoreCategory>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="CountyFairMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="CountyFair_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="CountyFair_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="CountyFair_IntroSeen" />
+					<Attribute name="text" value="UI_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="CountyFair_IntroSeen" />
+					<Attribute name="text" value="UI_DoIt" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_CountyFair_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_CountyFair_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_CountyFair_IntroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_CountyFair_IntroPanel_TopLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_CountyFair_IntroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_CountyFair_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="CountyFair_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="CountyFair_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="CountyFair_OnePanel" eventName="UI_CountyFair_Title" limitedTime="true" limitedTimeEndDate="CountyFair_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="CountyFairMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_CountyFair_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_CountyFair_OutroPanel_TopRight" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_CountyFair_OutroPanel_BottomLeft" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_CountyFair_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="CountyFair_Complete" boolValue="true" />
+	</ShowMiniEventOutro>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="CountyFairMasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="PrideAndPageantry_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CountyFair_Event" />
+									<Attribute name="JobList" value="CountyFair_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPageantry_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CountyFair_Event" />
+									<Attribute name="JobList" value="CountyFair_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPageantryLMS_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CountyFair_Event" />
+									<Attribute name="JobList" value="CountyFair_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPageantry_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CountyFair_Event" />
+									<Attribute name="JobList" value="CountyFair_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="PrideAndPageantry_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="CountyFair_Event" />
+									<Attribute name="JobList" value="CountyFair_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<GoTo_TheParalyzer>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="TheParalyzer" />
+			<False>
+				<Action type="focusOnMenuItem" itemName="TheParalyzer" inventory="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" building="TheParalyzer" />
+			</True>
+		</Action>
+	</GoTo_TheParalyzer>
+	<GoTo_CheddarbarrelCombine>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="CheddarbarrelCombine" />
+			<False>
+				<Action type="focusOnMenuItem" itemName="CheddarbarrelCombine" inventory="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" building="CheddarbarrelCombine" />
+			</True>
+		</Action>
+	</GoTo_CheddarbarrelCombine>
+	<GoTo_BuildCornField>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="CornField" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="CornField" inventory="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="place building" building="CheddarbarrelFarm" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="CheddarbarrelFarm" inventory="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="building" building="CheddarbarrelFarm" not="true" />
+				<Then>
+					<Action type="pantoobject" building="CheddarbarrelFarm" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="CountyFair_Scripts:CheddarbarrelFarm_Tapped" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_BuildCornField>
+</ScriptPackage>

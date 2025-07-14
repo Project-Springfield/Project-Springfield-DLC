@@ -1,0 +1,492 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="256000" name="TheThingsWeDo" />
+		<DataID id="256001" name="ThreesACrowd_1" />
+		<DataID id="256002" name="ThreesACrowd_2" />
+		<DataID id="256003" name="ThreesACrowd_3" />
+		<DataID id="256004" name="ThreesACrowd_4" />
+		<DataID id="256005" name="ThreesACrowd_5" />
+		<DataID id="256006" name="AStormInATeacup" />
+		<DataID id="256007" name="ChildsPlay_1" />
+		<DataID id="256008" name="ChildsPlay_2" />
+		<DataID id="256009" name="ChildsPlay_3" />
+		<DataID id="256010" name="TheRightToRemainGreen_1" />
+		<DataID id="256011" name="TheRightToRemainGreen_2" />
+		<DataID id="256012" name="TheRightToRemainGreen_3" />
+		<DataID id="256013" name="CryBaby_1" />
+		<DataID id="256014" name="CryBaby_2" />
+		<DataID id="256015" name="CryBaby_3" />
+		<DataID id="256600" name="WhenTheBoughBreaks_Completed" />
+		<DataID id="256601" name="WhenTheBoughBreaks_IntroPanel" />
+		<DataID id="256602" name="WhenTheBoughBreaks_72HourWarning" onDeprecated="retain" endDate="WhenTheBoughBreaks_End" />
+		<DataID id="256603" name="WhenTheBoughBreaks_24HourWarning" onDeprecated="retain" endDate="WhenTheBoughBreaks_End" />
+		<DataID id="256604" name="WhenTheBoughBreaks_EventExpired" />
+		<DataID id="256605" name="WhenTheBoughBreaks_MasterQuest" />
+		<DataID id="256700" name="AutoApply_BigBabyBarneySkin" />
+		<DataID id="256900" name="WhenTheBoughBreaks_RecommendStore" onDeprecated="delete" endDate="WhenTheBoughBreaks_End" />
+	</MasterList>
+	<Quest id="256600" name="WhenTheBoughBreaks_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="AStormInATeacup" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="256601" name="WhenTheBoughBreaks_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="TheThingsWeDo" />
+			<Requirement type="time" end="WhenTheBoughBreaks_End" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="256602" name="WhenTheBoughBreaks_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::WhenTheBoughBreaks_End')-fromHours(72)]_" end="_[System::evaluate('Date::WhenTheBoughBreaks_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Complete" not="true" />
+			<Requirement type="quest" quest="WhenTheBoughBreaks_IntroPanel" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="256603" name="WhenTheBoughBreaks_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::WhenTheBoughBreaks_End')-fromHours(24)]_" end="WhenTheBoughBreaks_End" triggerEvent="true" />
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Complete" not="true" />
+			<Requirement type="quest" quest="WhenTheBoughBreaks_IntroPanel" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="256604" name="WhenTheBoughBreaks_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="WhenTheBoughBreaks_End" triggerEvent="true" />
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Complete" not="true" />
+			<Requirement type="quest" quest="WhenTheBoughBreaks_IntroPanel" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="256605" name="WhenTheBoughBreaks_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" not="true" />
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Complete" not="true" />
+			<Requirement type="reqList" location="WhenTheBoughBreaks_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ThreesACrowd_5" />
+					<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="ThreesACrowd_1">
+				<Requirement type="quest started" quest="ThreesACrowd_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ThreesACrowd_2">
+				<Requirement type="quest started" quest="ThreesACrowd_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ThreesACrowd_3">
+				<Requirement type="quest started" quest="ThreesACrowd_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ThreesACrowd_4">
+				<Requirement type="quest started" quest="ThreesACrowd_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ThreesACrowd_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="256000" name="TheThingsWeDo" tags="sidequest" icon="WhenTheBoughBreaks_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="WhenTheBoughBreaks_Start" end="WhenTheBoughBreaks_End" triggerEvent="true" />
+			<Requirement type="character" name="Marge" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheThingsWeDo_Start" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheThingsWeDo_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="sigh_Bough" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="SmileAtHudson" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256001" name="ThreesACrowd_1" tags="mainquest" icon="WhenTheBoughBreaks_Currency" sidebarIconScript="WhenTheBoughBreaks_Scripts:OpenMasterQuest" questMenuConfigPath="WhenTheBoughBreaks_QuestConfig:WhenTheBoughBreaks_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="WhenTheBoughBreaks_IntroPanel" />
+			<Requirement type="time" start="WhenTheBoughBreaks_Start" end="WhenTheBoughBreaks_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_1_Start" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::WhenTheBoughBreaks_Currency')" amount="__WhenTheBoughBreaks_GameConfig:ResourceQuantities:WhenTheBoughBreaks_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="WhenTheBoughBreaks_Scripts:ShowJobList" textpoolName="QST_WhenTheBoughBreaks_Collect_obj">
+				<HighlightJobList>
+					<Job name="GetUsedSippyCupsFromSchool" />
+					<Job name="SearchHisMomsPurseForSippyCups" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="ContinueToPlayNiceWithCourtney" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="LaughWithHudson" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="WhenTheBoughBreaks_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="WhenTheBoughBreaks_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="256002" name="ThreesACrowd_2" tags="mainquest" icon="WhenTheBoughBreaks_Currency" sidebarIconScript="WhenTheBoughBreaks_Scripts:OpenMasterQuest" questMenuConfigPath="WhenTheBoughBreaks_QuestConfig:WhenTheBoughBreaks_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ThreesACrowd_1" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_2_Start" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::WhenTheBoughBreaks_Currency')" amount="__WhenTheBoughBreaks_GameConfig:ResourceQuantities:WhenTheBoughBreaks_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="WhenTheBoughBreaks_Scripts:ShowJobList" textpoolName="QST_WhenTheBoughBreaks_Collect_obj">
+				<HighlightJobList>
+					<Job name="GetUsedSippyCupsFromSchool" />
+					<Job name="SearchHisMomsPurseForSippyCups" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="GoShopping_Bough" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WatchMaggie_Bough" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="WhenTheBoughBreaks_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="WhenTheBoughBreaks_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="256003" name="ThreesACrowd_3" tags="mainquest" icon="WhenTheBoughBreaks_Currency" sidebarIconScript="WhenTheBoughBreaks_Scripts:OpenMasterQuest" questMenuConfigPath="WhenTheBoughBreaks_QuestConfig:WhenTheBoughBreaks_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ThreesACrowd_2" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_3_Start" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::WhenTheBoughBreaks_Currency')" amount="__WhenTheBoughBreaks_GameConfig:ResourceQuantities:WhenTheBoughBreaks_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="WhenTheBoughBreaks_Scripts:ShowJobList" textpoolName="QST_WhenTheBoughBreaks_Collect_obj">
+				<HighlightJobList>
+					<Job name="GetUsedSippyCupsFromSchool" />
+					<Job name="SearchHisMomsPurseForSippyCups" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="DriveToHudsonsHouse" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="GoToHudsonsHouse" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="LetTheDogOut" quantity="1" />
+			<Objective type="complete job" character="Homer" job="SleepOnTheFloor_Bough" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="WhenTheBoughBreaks_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="WhenTheBoughBreaks_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="256004" name="ThreesACrowd_4" tags="mainquest" icon="WhenTheBoughBreaks_Currency" sidebarIconScript="WhenTheBoughBreaks_Scripts:OpenMasterQuest" questMenuConfigPath="WhenTheBoughBreaks_QuestConfig:WhenTheBoughBreaks_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ThreesACrowd_3" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_4_Start" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::WhenTheBoughBreaks_Currency')" amount="__WhenTheBoughBreaks_GameConfig:ResourceQuantities:WhenTheBoughBreaks_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="WhenTheBoughBreaks_Scripts:ShowJobList" textpoolName="QST_WhenTheBoughBreaks_Collect_obj">
+				<HighlightJobList>
+					<Job name="GetUsedSippyCupsFromSchool" />
+					<Job name="SearchHisMomsPurseForSippyCups" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="RegretNotDoingADropoff" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="BeShockedAtGeraldsPresence" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Hudson" job="IntroduceMaggieToGerald" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Hudson" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="BabyGerald" job="MakeThreateningGesturesAtMaggie" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="BabyGerald" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="WhenTheBoughBreaks_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="WhenTheBoughBreaks_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="256005" name="ThreesACrowd_5" tags="mainquest" icon="WhenTheBoughBreaks_Currency" sidebarIconScript="WhenTheBoughBreaks_Scripts:OpenMasterQuest" questMenuConfigPath="WhenTheBoughBreaks_QuestConfig:WhenTheBoughBreaks_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="WhenTheBoughBreaks_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ThreesACrowd_4" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_5_Start" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ThreesACrowd_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::WhenTheBoughBreaks_Currency')" amount="__WhenTheBoughBreaks_GameConfig:ResourceQuantities:WhenTheBoughBreaks_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="WhenTheBoughBreaks_Scripts:ShowJobList" textpoolName="QST_WhenTheBoughBreaks_Collect_obj">
+				<HighlightJobList>
+					<Job name="GetUsedSippyCupsFromSchool" />
+					<Job name="SearchHisMomsPurseForSippyCups" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="CheckMaggiesDiaper" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="LeaveHudson" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Hudson" job="RegretHisWords" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Hudson" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="BabyGerald" job="PlayByHimself" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="BabyGerald" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="WhenTheBoughBreaks_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="WhenTheBoughBreaks_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="256006" name="AStormInATeacup" tags="sidequest" icon="WhenTheBoughBreaks_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ThreesACrowd_5" />
+		</Requirements>
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="AStormInATeacup_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="256007" name="ChildsPlay_1" tags="sidequest" icon="Barney_Baby">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Barney" unlockedskin="BigBabyBarney" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ChildsPlay_1_Start" triggerType="character" character="Barney" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ChildsPlay_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Barney" skin="BigBabyBarney" job="TryToCatchTheRaccoon" quantity="1" />
+			<Objective type="complete job" character="Homer" job="DaydreamAboutExpiredBabyFood" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256008" name="ChildsPlay_2" tags="sidequest" icon="Barney_Baby">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ChildsPlay_1" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ChildsPlay_2_Start" triggerType="character" character="Barney" />
+		<Objectives>
+			<Objective type="complete job" character="Barney" skin="BigBabyBarney" job="GoToAMeeting_Bough" quantity="1" />
+			<Objective type="complete job" character="Lenny" job="BeImpressedByBigBabyBarney" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lenny" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Carl" job="CongratulateBigBabyBarney" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256009" name="ChildsPlay_3" tags="sidequest" icon="Barney_Baby">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ChildsPlay_2" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ChildsPlay_3_Start" triggerType="character" character="Barney" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="ChildsPlay_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Barney" skin="BigBabyBarney" job="BeABaby_Temp" quantity="1" />
+			<Objective type="complete job" character="LindseyNaegle" job="PerformMarketResearch_Bough" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LindseyNaegle" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="256010" name="TheRightToRemainGreen_1" tags="sidequest" icon="Courtney">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Courtney" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheRightToRemainGreen_1_Start" triggerType="character" character="Courtney" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheRightToRemainGreen_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Courtney" job="TellChiefWiggumAboutGoingGreen" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="TakeATestDrive_Bough" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256011" name="TheRightToRemainGreen_2" tags="sidequest" icon="Courtney">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheRightToRemainGreen_1" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheRightToRemainGreen_2_Start" triggerType="character" character="Courtney" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheRightToRemainGreen_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Courtney" job="GetHerSweatOn" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="GetHisSweatOn" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256012" name="TheRightToRemainGreen_3" tags="sidequest" icon="Courtney">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheRightToRemainGreen_2" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheRightToRemainGreen_3_Start" triggerType="character" character="Courtney" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="TheRightToRemainGreen_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Wiggum" job="PursueTheBankRobber" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Courtney" job="AccompanyWiggumOnACarChase" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="256013" name="CryBaby_1" tags="sidequest" icon="Hudson">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Hudson" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="CryBaby_1_Start" triggerType="character" character="Hudson" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="CryBaby_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="SingMoreJingles" quantity="1" />
+			<Objective type="complete job" character="Marge" job="GoToAParentTeacherConference" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Courtney" job="GoToTheSimpsonsHouse_Courtney" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Courtney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Hudson" job="GoToTheSimpsonsHouse_Hudson" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256014" name="CryBaby_2" tags="sidequest" icon="Hudson">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CryBaby_1" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="CryBaby_2_Start" triggerType="character" character="Hudson" />
+		<Objectives>
+			<Objective type="complete job" character="Hudson" job="GoOnADate_Temp" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="256015" name="CryBaby_3" tags="sidequest" icon="Hudson">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CryBaby_2" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="CryBaby_3_Start" triggerType="character" character="Hudson" />
+		<EndScript package="WhenTheBoughBreaks_Scripts_Dialogue" name="CryBaby_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ShareAnInsideJokeWithCourtney" quantity="1" />
+			<Objective type="complete job" character="Courtney" job="ShareAnInsideJokeWithHomer" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Courtney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Hudson" job="PlayWithMaggie_Bough" quantity="1" textpoolName="QST_CryBaby_3_2_obj_4" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="256700" name="AutoApply_BigBabyBarneySkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="BigBabyBarney" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Barney" unlockedskin="BigBabyBarney" not="true" />
+			<Requirement type="characterunlocked" name="Barney" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="WhenTheBoughBreaks_Scripts" name="AutoApply_BigBabyBarneySkin_End" />
+	</Quest>
+	<Quest id="256900" name="WhenTheBoughBreaks_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="WhenTheBoughBreaks_Requirements:StoreCategory_WhenTheBoughBreaks_Unlocked" />
+		</Requirements>
+		<StartScript package="WhenTheBoughBreaks_Scripts" name="RecommendStoreCategory_WhenTheBoughBreaks" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

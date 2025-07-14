@@ -1,0 +1,1116 @@
+﻿<ScriptPackage>
+	<LandEntered parallel="true">
+		<Action type="runScript" script="RestoreAllBrownHouses" package="Superheroes_Scripts" />
+		<Action type="runScript" script="RecommendSuperheroes" package="Superheroes_Scripts" />
+	</LandEntered>
+	<ShowSuperheroesGuide>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SuperheroesPartFour" />
+			<True>
+				<Action type="show guide" event="Superheroes_Part1" />
+			</True>
+		</Action>
+	</ShowSuperheroesGuide>
+	<ShowSuperHQGuide>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SuperheroesPartFour" />
+			<True>
+				<Action type="show guide" event="Superheroes_HQGuide" />
+			</True>
+		</Action>
+	</ShowSuperHQGuide>
+	<ShowLieutenantGuide>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SuperheroesPartFour" />
+			<True>
+				<Action type="show guide" event="Superheroes_LieutenantGuide" />
+			</True>
+		</Action>
+	</ShowLieutenantGuide>
+	<ShowSuperCraftingGuide>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SuperheroesPartFour" />
+			<True>
+				<Action type="show guide" event="Superheroes_CraftingGuide" />
+			</True>
+		</Action>
+	</ShowSuperCraftingGuide>
+	<GoToCriminal>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" character="Criminal" />
+			</True>
+		</Action>
+	</GoToCriminal>
+	<SuperheroesPrestige1Reward>
+		<Action type="reward">
+			<Item type="consumable" name="SuperheroesPrestige1" useImmediately="true" />
+		</Action>
+	</SuperheroesPrestige1Reward>
+	<SuperheroesPrestige2Reward>
+		<Action type="reward">
+			<Item type="consumable" name="SuperheroesPrestige2" useImmediately="true" />
+		</Action>
+	</SuperheroesPrestige2Reward>
+	<SuperheroesPrestige3Reward>
+		<Action type="reward">
+			<Item type="consumable" name="SuperheroesPrestige3" useImmediately="true" />
+		</Action>
+	</SuperheroesPrestige3Reward>
+	<PrizeTrack2_Started parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartTwo" />
+				<Requirement type="quest" quest="ClownfaceOriginStory02" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="DrColossusReturns" not="true" />
+					<Requirement type="time" end="SuperheroesPartThree" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="runScriptOnAll" character="Criminal" script="RemapCriminalsPZ2" package="Superheroes_Scripts" />
+			</True>
+		</Action>
+	</PrizeTrack2_Started>
+	<RemapCriminalsPZ2 parallel="true">
+		<Action type="skin-set" skin="Criminal2" />
+	</RemapCriminalsPZ2>
+	<PrizeTrack3_Started parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartThree" />
+				<Requirement type="quest" quest="DrColossusReturns" />
+			</Requirements>
+			<True>
+				<Action type="runScriptOnAll" character="Criminal" script="RemapCriminalsPZ3" package="Superheroes_Scripts" />
+			</True>
+		</Action>
+	</PrizeTrack3_Started>
+	<RemapCriminalsPZ3 parallel="true">
+		<Action type="skin-set" skin="Criminal3" />
+	</RemapCriminalsPZ3>
+	<CheckOver cache="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartFour" end="SuperheroesEnd" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="ExitScript" package="Superheroes_Scripts" />
+			</True>
+		</Action>
+	</CheckOver>
+	<ExitScript>
+		<Action type="message" text="UI_SuperheroesTransition" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</ExitScript>
+	<SelectSquadHQ parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="SuperiorSquadHQ" not="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="SuperiorSquadHQ" inventory="true" />
+					</True>
+					<False>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="pantoobject" building="SuperiorSquadHQ" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</SelectSquadHQ>
+	<TouchSquadHQ parallel="true">
+		<Action type="pantoobject" building="SuperiorSquadHQ" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+	</TouchSquadHQ>
+	<SelectStatePrison>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="pantoobject" building="MontgomeryBurnsStatePrison" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+	</SelectStatePrison>
+	<CheckForLieutenant>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="character" name="Lieutenant" />
+					<True>
+						<Action type="triggerSpecialEventButton" buttonID="LieutenantButton" />
+					</True>
+					<False>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="pantoobject" building="MontgomeryBurnsStatePrison" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</CheckForLieutenant>
+	<CriminalSpawnRemap parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartTwo" />
+				<Requirement type="quest" quest="ClownfaceOriginStory02" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="DrColossusReturns" not="true" />
+					<Requirement type="time" end="SuperheroesPartThree" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="skin-set" skin="Criminal2" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartThree" />
+				<Requirement type="quest" quest="DrColossusReturns" />
+			</Requirements>
+			<True>
+				<Action type="skin-set" skin="Criminal3" />
+			</True>
+		</Action>
+	</CriminalSpawnRemap>
+	<LieutenantGained parallel="true">
+		<Action type="setVariable" intVariable="LieutenantsSpawned" intValue="LieutenantsSpawned+1" />
+	</LieutenantGained>
+	<DamageLieutenant parallel="true">
+		<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" />
+		<Action type="playCharacterEffect" />
+		<Action type="setObjectVariable" variable="Damage" value="Object::Damage + 1" asExpression="true" />
+		<Action type="playCharacterEffect" resetAfterFinished="true" />
+		<Action type="checkExpression" expression="Object::Damage &gt;= LieutenantMaxHealth">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="DefeatedLieutenant" package="Superheroes_Scripts" waitUntilComplete="true" />
+				<Action type="sound" sound="sfx_EA_TSTO_lieutenant_Death.caf" />
+				<Action type="anim-play" character="Lieutenant" animation="Death" />
+				<Action type="deletecharacter" character="Lieutenant" />
+            </ExpressionCase>
+			<ExpressionCase value="0">
+				<Action type="triggerevent" name="CheckSpecialIndicator" data="unused" />
+			</ExpressionCase>
+        </Action>
+	</DamageLieutenant>
+	<DefeatedLieutenant parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="TheCollector03" />
+				<Requirement type="time" end="SuperheroesPartFour" />
+			</Requirements>
+			<True>
+				<Action type="reward" save="true" Handcuffs="__Superheroes_GameConfig:Drop:HandcuffsAmount__" chance="__Superheroes_GameConfig:Drop:HandcuffsChance__" chanceType="s" suppress_sound="true" />
+			</True>
+		</Action>
+	</DefeatedLieutenant>
+	<EnterCraftMode>
+		<Action type="gotoState" state="GameState_CraftItems" parentState="ActiveState">
+			<Extras>
+				<Attribute name="MenuConfig" value="Superheroes_CraftingConfig:CraftingMenu" />
+			</Extras>
+		</Action>
+	</EnterCraftMode>
+	<UpgradeSuperiorSquadHQ>
+		<Action type="setVariable" intVariable="SuperiorSquadHQLevel" intValue="SuperiorSquadHQLevel+1" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="SSHQUpgrade" animation="SSHQ_upGrade_4x4" x="0" y="0" />
+		</Action>
+		<Action type="sound" sound="stg_EA_TSTO_SuperiorSquadHQUpgrade_ALT.caf" />
+	</UpgradeSuperiorSquadHQ>
+	<AwardDrColossus>
+		<Action type="reward">
+			<Item type="character" name="DrColossus" useImmediately="true" />
+		</Action>
+	</AwardDrColossus>
+	<AwardTheCollider>
+		<Action type="reward">
+			<Item type="character" name="TheCollider" useImmediately="true" />
+		</Action>
+	</AwardTheCollider>
+	<ConsumeColossusConsumable>
+		<Action type="consumable" consumable="ColossusConsumable" fromInventory="true" />
+	</ConsumeColossusConsumable>
+	<ConsumeColliderConsumable>
+		<Action type="consumable" consumable="ColliderConsumable" fromInventory="true" />
+	</ConsumeColliderConsumable>
+	<Criminal_Reward parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="time" start="SuperheroesPartFour" />
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="quest started" quest="TheCollector03" />
+					</Requirements>
+					<True>
+						<Action type="setVariable" intVariable="CriminalsCaptured" intValue="CriminalsCaptured+1" />
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="CriminalsCaptured" count="4" />
+							<True>
+								<Action type="reward" save="true" chance="__Superheroes_GameConfig:Drop:LockpicksChance__" chanceType="s" Lockpicks="__Superheroes_GameConfig:Drop:LockpicksAmount__" suppress_sound="true" />
+							</True>
+							<False>
+								<Action type="reward" save="true" chance="1" chanceType="s" Lockpicks="__Superheroes_GameConfig:Drop:LockpicksAmount__" suppress_sound="true" />
+							</False>
+						</Action>
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="quest" quest="SuperioriorSquadHQ01" />
+					</Requirements>
+					<True>
+						<Action type="reward" save="true" chance="__Superheroes_GameConfig:Drop:UnobtainiumChance__" chanceType="s" Unobtainium="__Superheroes_GameConfig:Drop:UnobtainiumAmount__" suppress_sound="true" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest" quest="ClownfaceOriginStory02" not="true" />
+						<Requirement type="time" end="SuperheroesPartTwo" />
+					</Requirement>
+					<True>
+						<Action type="reward" save="true" SuperheroesActivePrizeTrackCurrency="15" suppress_sound="true" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="SuperheroesPartTwo" />
+						<Requirement type="quest" quest="ClownfaceOriginStory02" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="quest" quest="DrColossusReturns" not="true" />
+							<Requirement type="time" end="SuperheroesPartThree" />
+						</Requirement>
+					</Requirements>
+					<True>
+						<Action type="reward" save="true" SuperheroesActivePrizeTrackCurrency="18" suppress_sound="true" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="SuperheroesPartThree" />
+						<Requirement type="quest" quest="DrColossusReturns" />
+					</Requirements>
+					<True>
+						<Action type="reward" save="true" SuperheroesActivePrizeTrackCurrency="20" suppress_sound="true" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+		<Action type="reward" save="true" CriminalTap="1" suppress_sound="true" noDrops="true" />
+	</Criminal_Reward>
+	<Criminal_RewardFriend parallel="true" cache="true">
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+		<Action type="reward" save="true" SuperheroesActivePrizeTrackCurrency="selector SuperheroesCurrencyPerFriendAction" suppress_sound="true" />
+		<Action type="setVariable" intVariable="FriendCriminalReward" intValue="FriendCriminalReward-1" />
+		<Action type="reward" save="true" FriendCriminalTap="1" suppress_sound="true" noDrops="true" />
+	</Criminal_RewardFriend>
+	<Criminal_Tapped parallel="true" cache="true">
+		<Action type="stop" />
+		<Action type="delay" object0="1" />
+		<Action type="anim-play" character="Criminal" animation="Victory_Pose" nowait="true" />
+		<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" />
+		<Action type="playCharacterEffect" />
+		<Action type="runScript" script="Criminal_Reward" package="Superheroes_Scripts" waitUntilComplete="true" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="Criminal" />
+	</Criminal_Tapped>
+	<Criminal_TappedWithHand parallel="true">
+		<Action type="runScriptOnAll" character="Criminal" in_radius="BaseHandRadius+(SuperiorSquadHQLevel/2)" radius_delay="0.6" script="Criminal_Tapped" package="Superheroes_Scripts" />
+		<Action type="playflyby" flybyName="BlastEffect" radius="min(BaseHandRadius+(SuperiorSquadHQLevel/2), BaseHandRadius+14)" unitScale="0.13" playbackFPS="50" />
+		<Action type="random">
+			<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated1.caf" />
+			<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated2.caf" />
+			<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated3.caf" />
+			<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated4.caf" />
+		</Action>
+		<Action type="stop" />
+		<Action type="anim-play" character="Criminal" animation="Victory_Pose" nowait="true" />
+		<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" />
+		<Action type="playCharacterEffect" />
+		<Action type="runScript" script="Criminal_Reward" package="Superheroes_Scripts" waitUntilComplete="true" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="Criminal" />
+	</Criminal_TappedWithHand>
+	<Criminal_TappedFriend parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="setVariable" intVariable="FriendCriminalReward" intValue="FriendCriminalReward+1" />
+				<Action type="stop" />
+				<Action type="delay" object0="1" />
+				<Action type="anim-play" character="Criminal" animation="Victory_Pose" nowait="true" />
+				<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" />
+				<Action type="playCharacterEffect" />
+				<Action type="runScript" script="Criminal_RewardFriend" package="Superheroes_Scripts" waitUntilComplete="true" />
+				<Action type="fade" fade="outmax" />
+				<Action type="deletecharacter" character="Criminal" />
+			</True>
+		</Action>
+	</Criminal_TappedFriend>
+	<Criminal_TappedWithHandFriend parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="setVariable" intVariable="FriendCriminalReward" intValue="FriendCriminalReward+1" />
+				<Action type="runScriptOnAll" character="Criminal" in_radius="BaseHandRadius+(SuperiorSquadHQLevel/2)" radius_delay="0.6" script="Criminal_TappedFriend" package="Superheroes_Scripts" />
+				<Action type="playflyby" flybyName="BlastEffect" radius="min(BaseHandRadius+(SuperiorSquadHQLevel/2), BaseHandRadius+14)" unitScale="0.13" playbackFPS="50" />
+				<Action type="random">
+					<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated1.caf" />
+					<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated2.caf" />
+					<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated3.caf" />
+					<Action type="sound" sound="stg_EA_TSTO_CriminalDefeated4.caf" />
+				</Action>
+				<Action type="stop" />
+				<Action type="anim-play" character="Criminal" animation="Victory_Pose" nowait="true" />
+				<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" />
+				<Action type="playCharacterEffect" />
+				<Action type="runScript" script="Criminal_RewardFriend" package="Superheroes_Scripts" waitUntilComplete="true" />
+				<Action type="fade" fade="outmax" />
+				<Action type="deletecharacter" character="Criminal" />
+			</True>
+		</Action>
+	</Criminal_TappedWithHandFriend>
+	<GetMoreUnobtainium>
+		<Action type="checkRequirements">
+			<Requirement type="level" level="1" not="true" />
+			<True>
+				<Action type="getMoreSpecial" name="Unobtainium" />
+			</True>
+			<False>
+				<Action type="message" title="UI_Superheroes_GetMoreUnobtanium_Title" text="UI_Superheroes_GetMoreUnobtanium_Text" />
+			</False>
+		</Action>
+	</GetMoreUnobtainium>
+	<ReportReward parallel="true">
+		<Action type="reward" SuperheroesActivePrizeTrackCurrency="1" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="TheCollector03" />
+				<Requirement type="time" end="SuperheroesPartFour" />
+			</Requirements>
+			<True>
+				<Action type="reward" chance="__Superheroes_GameConfig:Drop:PhonesChance__" chanceType="s" Phones="__Superheroes_GameConfig:Drop:PhonesAmount__" suppress_sound="true" />
+			</True>
+		</Action>
+	</ReportReward>
+	<RespondReward parallel="true">
+		<Action type="reward" SuperheroesActivePrizeTrackCurrency="4" suppress_sound="true" FriendPoint="selector friendPointsRewardOwner">
+			<Decay type="cleanVandalism" unit="SuperheroesActivePrizeTrackCurrency" timeStart="2h" timeFinish="8h" incrementTime="3h" incrementUnitLoss="1" minUnit="1" />
+		</Action>
+	</RespondReward>
+	<SuperheroesFriendsHUDInfo parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="SuperheroesUpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="SuperheroesFriendsHUDInfoAux" package="Superheroes_Scripts" />
+	</SuperheroesFriendsHUDInfo>
+	<SuperheroesFriendsHUDInfoAux>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="ClownfaceOriginStory02" not="true" />
+				<Requirement type="time" end="SuperheroesPartTwo" />
+			</Requirement>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="notification" title="RES_CarbonRods_plural" button="UI_OK" text="GEN_ResourceListingCarbonRods" icon="ICO_Super15_CarbonRod_LG">
+							<Variable name="SUPERHEROES_CARBONRODS_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="SUPERHEROES_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_CarbonRods_plural" button="UI_OK" text="GEN_ResourceListingCarbonRods_done" icon="ICO_Super15_CarbonRod_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartTwo" />
+				<Requirement type="quest" quest="ClownfaceOriginStory02" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="DrColossusReturns" not="true" />
+					<Requirement type="time" end="SuperheroesPartThree" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="notification" title="RES_PieBombs_plural" button="UI_OK" text="GEN_ResourceListingPieBombs" icon="ICO_Super15_PieBomb_LG">
+							<Variable name="SUPERHEROES_PIEBOMBS_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="SUPERHEROES_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_PieBombs_plural" button="UI_OK" text="GEN_ResourceListingPieBombs_done" icon="ICO_Super15_PieBomb_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesPartThree" />
+				<Requirement type="quest" quest="DrColossusReturns" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="notification" title="RES_FREEZERAYS_plural" button="UI_OK" text="GEN_ResourceListingFreezeRays" icon="ICO_Super15_FreezeRay_LG">
+							<Variable name="SUPERHEROES_FREEZERAYS_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="SUPERHEROES_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_FREEZERAYS_plural" button="UI_OK" text="GEN_ResourceListingFreezeRays_done" icon="ICO_Super15_FreezeRay_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</SuperheroesFriendsHUDInfoAux>
+	<SpawnFirstFriendCriminals>
+		<Action type="createobject" name="Criminal" count="10" save="true" panCamera="false" />
+	</SpawnFirstFriendCriminals>
+	<SpawnSecondFriendCriminals>
+		<Action type="createobject" name="Criminal" count="20" save="true" panCamera="false" />
+	</SpawnSecondFriendCriminals>
+	<SpawnThirdFriendCriminals>
+		<Action type="createobject" name="Criminal" count="30" save="true" panCamera="false" />
+	</SpawnThirdFriendCriminals>
+	<RestoreAllBrownHouses parallel="true">
+		<Action type="runScriptOnAll" building="BrownHouse" script="RestoreBuilding" package="Superheroes_Scripts" />
+	</RestoreAllBrownHouses>
+	<FadeInFalloutBoy>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="FalloutBoy" />
+			<True>
+				<Action type="fade" fade="in" character="FalloutBoy" />
+				<Action type="fade" fade="off" character="FalloutBoy" />
+			</True>
+		</Action>
+	</FadeInFalloutBoy>
+	<DestroyBrownHouse parallel="true">
+		<Action type="checkExpression" expression="and(IsSet(Object::Job::DestroyMindControlRay), Object::Job::DestroyMindControlRay &gt;= 1)">
+			<ExpressionCase value="1">
+				<Action type="setBuildingSkin" skinName="Destroyed_BrownHouse" />
+				<Action type="createobject" name="RadioactiveManDead" save="true" panCamera="true" onThisObject="true" />
+			</ExpressionCase>
+		</Action>
+	</DestroyBrownHouse>
+	<RestoreBuilding parallel="true">
+		<Action type="setBuildingSkin" skinName="Destroyed_BrownHouse" useDefault="true" />
+	</RestoreBuilding>
+	<PurchaseLicense>
+		<Action type="setVariable" boolVariable="SuperiorSquadMembership" boolValue="true" />
+		<Action type="message" text="QST_SuperiorSquadMembership_3_dlg_Start_1_SystemMessage" />
+	</PurchaseLicense>
+	<EnterSuperheroesCategory>
+		<Action type="focusOnMenuItem" menuCategory="Superheroes" />
+	</EnterSuperheroesCategory>
+	<FakeRecommendation>
+		<Action type="recommendation" recType="Event" eventName="UI_SuperheroesGuide_title" name="EnterSuperheroesCategoryxagfsagf" />
+	</FakeRecommendation>
+	<RecommendSuperheroes parallel="true">
+		<Action type="recommendation" recType="Event" eventName="UI_SuperheroesGuide_title" name="EnterSuperheroesCategory" />
+	</RecommendSuperheroes>
+	<ClearEventRecommendations>
+		<Action type="clearRecommendations" category="Event" />
+	</ClearEventRecommendations>
+	<OpenPrizeTrack>
+		<Action type="gotoState" state="GameState_SuperPrizeTrack" />
+	</OpenPrizeTrack>
+	<PlayCrimeSound parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="character count" name="Criminal" quantity="15" />
+			<True>
+				<Action type="sound" sound="sfx_EA_TSTO_Criminal_City_Amb_High.caf" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="character count" name="Criminal" quantity="1" />
+					<True>
+						<Action type="sound" sound="sfx_EA_TSTO_Criminal_City_Amb_Low.caf" />
+					</True>
+				</Action>
+			</False>
+		</Action>
+	</PlayCrimeSound>
+	<SuperiorSquadMembership_Start>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="SuperiorSquadMembership" not="true" />
+			</Requirements>
+			<True>
+				<Action type="dialogue" character="FalloutBoy" text="QST_SuperiorSquadMembership_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+				<Action type="dialogue" character="FalloutBoy" text="QST_SuperiorSquadMembership_3_dlg_Start_2_Fallout" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+				<Action type="dialogue" character="FalloutBoy" text="QST_SuperiorSquadMembership_3_dlg_Start_3_FalloutBoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+				<Action type="dialogue" character="FalloutBoy" text="QST_SuperiorSquadMembership_3_dlg_Start_4_FalloutBoy" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+				<Action type="notification" title="CON_SuperiorSquadMembership_name" button="UI_OK" text="QST_SuperiorSquadMembership_3_dlg_Start_5_SystemMessage" icon="ICO_STOR_Super15_SquadMembership_SM" />
+				<Action type="focusOnMenuItem" itemName="SuperiorSquadMembership" menuCategory="Superheroes" />
+				<Action type="recommendation" recType="SystemMention" name="SuperiorSquadMembership" quest="SuperiorSquadMembership" />
+			</True>
+		</Action>
+	</SuperiorSquadMembership_Start>
+	<TheDarkKnightsInception01_Start>
+		<Action type="dialogue" character="Lisa" text="QST_TheDarkKnightsInception01_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="shouting" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_TheDarkKnightsInception01_3_dlg_Start_2_Bart" revealSpeed="medium" emotion="angry" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_TheDarkKnightsInception01_3_dlg_Start_3_Bart" revealSpeed="medium" emotion="rollingeyes" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_TheDarkKnightsInception01_3_dlg_Start_4_Lisa" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_TheDarkKnightsInception01_3_dlg_Start_5_Bart" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_TheDarkKnightsInception01_3_dlg_Start_6_Bart" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception01_Start>
+	<TheDarkKnightsInception02_Start>
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception02_3_dlg_Start_1_Bartman" revealSpeed="medium" emotion="intense" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_TheDarkKnightsInception02_3_dlg_Start_2_Lisa" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception02_3_dlg_Start_3_Bartman" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception02_3_dlg_Start_4_Bartman" revealSpeed="medium" emotion="intense" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception02_Start>
+	<TheDarkKnightsInception02_End>
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception02_3_dlg_Start_5_bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception02_3_dlg_Start_6_bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception02_End>
+	<TheDarkKnightsInception03_Start>
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception03_3_dlg_Start_1_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception03_3_dlg_Start_2_Bartman" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception03_3_dlg_Start_3_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception03_3_dlg_Start_4_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception03_Start>
+	<TheDarkKnightsInception04_Start>
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception04_3_dlg_Start_1_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception04_3_dlg_Start_2_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception04_3_dlg_Start_3_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception04_3_dlg_Start_4_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception04_Start>
+	<TheDarkKnightsInception05_Start>
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception05_3_dlg_Start_1_Bartman" revealSpeed="medium" emotion="intense" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Martin" text="QST_TheDarkKnightsInception05_3_dlg_Start_2_Martin" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception05_3_dlg_Start_3_Bartman" revealSpeed="medium" emotion="intense" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Martin" text="QST_TheDarkKnightsInception05_3_dlg_Start_4_Martin" revealSpeed="medium" emotion="angry" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception05_3_dlg_Start_5_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Martin" text="QST_TheDarkKnightsInception05_3_dlg_Start_6_Martin" revealSpeed="medium" emotion="angry" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception05_Start>
+	<TheDarkKnightsInception06_Start>
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception06_3_dlg_Start_1_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bartman" text="QST_TheDarkKnightsInception06_3_dlg_Start_2_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDarkKnightsInception06_Start>
+	<DoesWhateverASpiderPigCan01_Start>
+		<Action type="dialogue" text="QST_DoesWhateverASpiderPigCan01_3_dlg_Start_1_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_DoesWhateverASpiderPigCan01_3_dlg_Start_2_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DoesWhateverASpiderPigCan01_3_dlg_Start_3_Homer" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DoesWhateverASpiderPigCan01_3_dlg_Start_4_Homer" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DoesWhateverASpiderPigCan01_Start>
+	<DoesWhateverASpiderPigCan01_End>
+		<Action type="dialogue" text="QST_DoesWhateverASpiderPigCan01_3_dlg_Start_5_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_DoesWhateverASpiderPigCan01_3_dlg_Start_6_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+	</DoesWhateverASpiderPigCan01_End>
+	<DoesWhateverASpiderPigCan02_Start>
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan02_3_dlg_Start_1_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan02_3_dlg_Start_2_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan02_3_dlg_Start_3_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan02_3_dlg_Start_4_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+	</DoesWhateverASpiderPigCan02_Start>
+	<DoesWhateverASpiderPigCan03_Start>
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan03_3_dlg_Start_1_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan03_3_dlg_Start_2_Plopper" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan03_3_dlg_Start_3_Plopper" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan03_3_dlg_Start_4_Plopper" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan03_3_dlg_Start_5_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan03_3_dlg_Start_6_Plopper" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+	</DoesWhateverASpiderPigCan03_Start>
+	<DoesWhateverASpiderPigCan04_Start>
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan04_3_dlg_Start_1_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan04_3_dlg_Start_2_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan04_3_dlg_Start_3_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan04_3_dlg_Start_4_Plopper" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+	</DoesWhateverASpiderPigCan04_Start>
+	<DoesWhateverASpiderPigCan05_Start>
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan05_3_dlg_Start_1_Plopper" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan05_3_dlg_Start_2_Plopper" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan05_3_dlg_Start_3_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan05_3_dlg_Start_4_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DoesWhateverASpiderPigCan05_3_dlg_Start_5_Homer" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="PlopperPig" text="QST_DoesWhateverASpiderPigCan05_3_dlg_Start_6_Plopper" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+	</DoesWhateverASpiderPigCan05_Start>
+	<AStalkToRemember01_Start>
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember01_3_dlg_Start_1_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember01_3_dlg_Start_2_Petroleous" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember01_3_dlg_Start_3_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember01_3_dlg_Start_4_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</AStalkToRemember01_Start>
+	<AStalkToRemember02_Start>
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember02_3_dlg_Start_1_Petroleous" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_AStalkToRemember02_3_dlg_Start_2_ComicBookGuy" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_AStalkToRemember02_3_dlg_Start_3_ComicBookGuy" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_AStalkToRemember02_3_dlg_Start_4_ComicBookGuy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember02_3_dlg_Start_5_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember02_3_dlg_Start_6_Petroleous" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember02_3_dlg_Start_7_Petroleous" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</AStalkToRemember02_Start>
+	<AStalkToRemember03_Start>
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember03_3_dlg_Start_1_Petroleous" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember03_3_dlg_Start_2_Petroleous" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember03_3_dlg_Start_3_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember03_3_dlg_Start_4_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</AStalkToRemember03_Start>
+	<AStalkToRemember04_Start>
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember04_3_dlg_Start_1_Petroleous" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember04_3_dlg_Start_2_Petroleous" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Briquette" text="QST_AStalkToRemember04_3_dlg_Start_3_Briquette" revealSpeed="medium" background="ICO_DialogueBox_Rectangle.rgb" showBorder="true" />
+		<Action type="dialogue" character="Fracker" text="QST_AStalkToRemember04_3_dlg_Start_4_Fracker" revealSpeed="medium" background="ICO_DialogueBox_Rectangle.rgb" showBorder="true" />
+		<Action type="dialogue" character="OldKingCoal" text="QST_AStalkToRemember04_3_dlg_Start_5_OldKingCoal" revealSpeed="medium" background="ICO_DialogueBox_Rectangle.rgb" showBorder="true" />
+	</AStalkToRemember04_Start>
+	<AStalkToRemember05_Start>
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember05_3_dlg_Start_1_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember05_3_dlg_Start_2_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember05_3_dlg_Start_3_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember05_3_dlg_Start_4_Petroleous" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</AStalkToRemember05_Start>
+	<AStalkToRemember06_Start>
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember06_3_dlg_Start_1_Petroleous" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember06_3_dlg_Start_2_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember06_3_dlg_Start_3_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember06_3_dlg_Start_4_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember06_3_dlg_Start_5_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="PetroleusRex" text="QST_AStalkToRemember06_3_dlg_Start_6_Petroleous" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</AStalkToRemember06_Start>
+	<TheDeathOfAHero01_Start>
+		<Action type="dialogue" text="QST_TheDeathOfAHero01_3_dlg_Start_1_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_TheDeathOfAHero01_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="passedout" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="Marge" text="QST_TheDeathOfAHero01_3_dlg_Start_3_Marge" revealSpeed="medium" emotion="sleepy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_TheDeathOfAHero01_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="passedout" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="Marge" text="QST_TheDeathOfAHero01_3_dlg_Start_5_Marge" revealSpeed="medium" emotion="angry" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_TheDeathOfAHero01_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="furious" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheDeathOfAHero01_Start>
+	<TheDeathOfAHero01_End>
+		<Action type="dialogue" character="Marge" text="QST_TheDeathOfAHero01_3_dlg_End_1_Marge" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Marge" text="QST_TheDeathOfAHero01_3_dlg_End_2_Marge" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="reward">
+			<Item type="consumable" name="PieMan" useImmediately="true" />
+		</Action>
+	</TheDeathOfAHero01_End>
+	<TheDeathOfAHero02_Start>
+		<Action type="dialogue" text="QST_TheDeathOfAHero02_3_dlg_Start_1_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="Carl" text="QST_TheDeathOfAHero02_3_dlg_Start_2_Carl" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lenny" text="QST_TheDeathOfAHero02_3_dlg_Start_3_Lenny" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PieMan" text="QST_TheDeathOfAHero02_3_dlg_Start_4_PieMan" revealSpeed="medium" emotion="furious" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lenny" text="QST_TheDeathOfAHero02_3_dlg_Start_5_Lenny" revealSpeed="medium" emotion="anguished" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheDeathOfAHero02_Start>
+	<TheDeathOfAHero02_End>
+		<Action type="dialogue" text="QST_TheDeathOfAHero02_3_dlg_End_1_SystemMessage" revealSpeed="medium" emotion="superhero" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="HansMoleman" text="QST_TheDeathOfAHero02_3_dlg_End_2_HansMoleman" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lovejoy" text="QST_TheDeathOfAHero02_3_dlg_End_3_ReverendLovejoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Apu" text="QST_TheDeathOfAHero02_3_dlg_End_4_Apu" revealSpeed="medium" emotion="angry" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheDeathOfAHero02_End>
+	<TheDeathOfAHero03_Start>
+		<Action type="dialogue" character="Lisa" text="QST_TheDeathOfAHero03_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="alarmed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_TheDeathOfAHero03_3_dlg_Start_2_Bart" revealSpeed="medium" emotion="rollingeyes" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_TheDeathOfAHero03_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="deadpan" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_TheDeathOfAHero03_3_dlg_Start_4_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_TheDeathOfAHero03_3_dlg_Start_5_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+	</TheDeathOfAHero03_Start>
+	<TheDeathOfAHero03_End>
+		<Action type="dialogue" character="Lisa" text="QST_TheDeathOfAHero03_3_dlg_End_1_Lisa" revealSpeed="medium" emotion="shocked" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="AbrahamLincoln" text="QST_TheDeathOfAHero03_3_dlg_End_2_AbrahamLincoln" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="SpaceMutant" text="QST_TheDeathOfAHero03_3_dlg_End_3_SpaceMutant" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Frink" text="QST_TheDeathOfAHero03_3_dlg_End_4_Frink" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDeathOfAHero03_End>
+	<TheDeathOfAHero04_Start>
+		<Action type="dialogue" character="FalloutBoy" text="QST_TheDeathOfAHero04_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="RadioactiveMan" text="QST_TheDeathOfAHero04_3_dlg_Start_2_RadioactiveMan" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="RadioactiveMan" text="QST_TheDeathOfAHero04_3_dlg_Start_3_RadioactiveMan" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="RadioactiveMan" text="QST_TheDeathOfAHero04_3_dlg_Start_4_RadioactiveMan" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_TheDeathOfAHero04_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="deadpan" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_TheDeathOfAHero04_3_dlg_Start_6_Bart" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheDeathOfAHero04_Start>
+	<TheDeathOfAHero04_Started>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="FalloutBoy" />
+			<True>
+				<Action type="pantoobject" character="FalloutBoy" />
+				<Action type="fade" fade="outmax" character="FalloutBoy" />
+			</True>
+		</Action>
+		<Action type="dialogue" character="FalloutBoy" text="QST_TheDeathOfAHero04_3_dlg_All_Obj_Started_1_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="RadioactiveMan" text="QST_TheDeathOfAHero04_3_dlg_All_Obj_Started_2_RadioactiveMan" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="pantoobject" building="SuperiorSquadHQ" />
+		<Action type="createobject" name="RadioactiveManFly" save="false" panCamera="false" building="SuperiorSquadHQ" />
+		<Action type="move" randomMove="false" character="RadioactiveManFly" toCharacter="FalloutBoy" panCamera="true" speed="slow" />
+		<Action type="deletecharacter" character="RadioactiveManFly" />
+		<Action type="triggerVideo" file="superheroes_questfailed" ext="mp4" />
+		<Action type="runScriptOnAll" building="BrownHouse" script="DestroyBrownHouse" package="Superheroes_Scripts" />
+	</TheDeathOfAHero04_Started>
+	<TheDeathOfAHero04_End>
+		<Action type="anim-remap" character="FalloutBoy">
+			<AnimationRemap Victory_Pose_left="Idle_Left" Victory_Pose_right="Idle_Right" />
+		</Action>
+		<Action type="dialogue" character="FalloutBoy" text="QST_TheDeathOfAHero04_3_dlg_End_1_FalloutBoy" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_TheDeathOfAHero04_3_dlg_End_2_Homer" revealSpeed="medium" emotion="confused" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_TheDeathOfAHero04_3_dlg_End_3_FalloutBoy" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_TheDeathOfAHero04_3_dlg_End_4_Lisa" revealSpeed="medium" emotion="embarrassed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="deletecharacter" character="RadioactiveManDead" />
+		<Action type="anim-remap" character="FalloutBoy" />
+		<Action type="notification" title="QST_TheDeathOfAHero04_CustomTitle" button="UI_OK" text="QST_TheDeathOfAHero04_CustomText" icon="ICO_LNOTE_Super15_FailedQuest" />
+	</TheDeathOfAHero04_End>
+	<ANewHeroRises01_Start>
+		<Action type="recommendation" recType="Event" eventName="UI_Superheroes_title" name="EnterSuperheroesCategory" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises01_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CriminalBurglar" text="QST_ANewHeroRises01_3_dlg_Start_2_Criminal" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="HelenLovejoy" text="QST_ANewHeroRises01_3_dlg_Start_3_HelenLovejoy" emotion="angsty" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_ANewHeroRises01_3_dlg_Start_4_Bart" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises01_3_dlg_Start_5_FalloutBoy" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_ANewHeroRises01_3_dlg_Start_6_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_ANewHeroRises01_3_dlg_Start_7_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_ANewHeroRises01_3_dlg_Start_8_Bart" revealSpeed="medium" emotion="rollingeyes" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_ANewHeroRises01_3_dlg_Start_9_Homer" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="setVariable" boolVariable="enablePrizeList" boolValue="true" />
+		<Action type="createobject" name="Criminal" count="30" save="true" panCamera="false" />
+	</ANewHeroRises01_Start>
+	<ANewHeroRises01_End>
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises01_3_dlg_End_1_FalloutBoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="CriminalBurglar" text="QST_ANewHeroRises01_3_dlg_End_2_Criminal" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="gotoState" state="GameState_SuperPrizeTrack" />
+	</ANewHeroRises01_End>
+	<ANewHeroRises02_Start>
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises02_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises02_3_dlg_Start_2_FalloutBoy" revealSpeed="medium" emotion="determined" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises02_3_dlg_Start_3_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="message" text="QST_ANewHeroRises02_3_dlg_Start_4_SystemMessage" revealSpeed="medium" />
+		<Action type="resetFriendActions" />
+	</ANewHeroRises02_Start>
+	<ANewHeroRises02_End>
+		<Action type="message" text="QST_ANewHeroRises02_3_dlg_End_1_SystemMessage" revealSpeed="medium" />
+	</ANewHeroRises02_End>
+	<ANewHeroRises03_Start>
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises03_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_ANewHeroRises03_3_dlg_Start_2_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" text="QST_ANewHeroRises03_3_dlg_Start_3_SystemMessage" revealSpeed="medium" emotion="superhero" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrCrab" text="QST_ANewHeroRises03_3_dlg_Start_4_DrCrab" revealSpeed="medium" emotion="silhouette" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrCrab" text="QST_ANewHeroRises03_3_dlg_Start_5_DrCrab" revealSpeed="medium" emotion="silhouette" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</ANewHeroRises03_Start>
+	<SuperioriorSquadHQ01_Start>
+		<Action type="dialogue" character="FalloutBoy" text="QST_SuperioriorSquadHQ01_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Frink" text="QST_SuperioriorSquadHQ01_3_dlg_Start_2_Frink" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_SuperioriorSquadHQ01_3_dlg_Start_3_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</SuperioriorSquadHQ01_Start>
+	<SuperioriorSquadHQ01_End>
+		<Action type="dialogue" character="FalloutBoy" text="QST_SuperioriorSquadHQ01_3_dlg_End_1_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_SuperioriorSquadHQ01_3_dlg_End_2_FalloutBoy" revealSpeed="medium" emotion="struggling" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="message" text="QST_SuperioriorSquadHQ01_3_dlg_End_3_SystemMessage" revealSpeed="medium" />
+	</SuperioriorSquadHQ01_End>
+	<MontgomeryBurnsStatePrison01_Start>
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_Start_1_Burns" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Quimby" text="QST_MontgomeryBurnsStatePrison01_3_dlg_Start_2_Quimby" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_Start_3_Burns" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_Start_4_Burns" revealSpeed="medium" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="Quimby" text="QST_MontgomeryBurnsStatePrison01_3_dlg_Start_5_Quimby" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</MontgomeryBurnsStatePrison01_Start>
+	<MontgomeryBurnsStatePrison01_End>
+		<Action type="createobject" name="Lieutenant" count="1" save="true" panCamera="true" building="MontgomeryBurnsStatePrison" />
+		<Action type="delay" time="2" />
+		<Action type="dialogue" character="Quimby" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_1_Quimby" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_2_Burns" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Quimby" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_3_Quimby" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_4_Burns" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_5_Burns" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Burns" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_6_Burns" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Quimby" text="QST_MontgomeryBurnsStatePrison01_3_dlg_End_7_Quimby" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</MontgomeryBurnsStatePrison01_End>
+	<MontgomeryBurnsStatePrison02_Start>
+		<Action type="dialogue" character="FalloutBoy" text="QST_MontgomeryBurnsStatePrison02_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="PieMan" text="QST_MontgomeryBurnsStatePrison02_3_dlg_Start_2_PieMan" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_MontgomeryBurnsStatePrison02_3_dlg_Start_3_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="PieMan" text="QST_MontgomeryBurnsStatePrison02_3_dlg_Start_4_PieMan" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="message" text="QST_MontgomeryBurnsStatePrison02_3_dlg_Start_5_SystemMessage" revealSpeed="medium" />
+	</MontgomeryBurnsStatePrison02_Start>
+	<MontgomeryBurnsStatePrison02_End>
+		<Action type="dialogue" character="FalloutBoy" text="QST_MontgomeryBurnsStatePrison02_3_dlg_End_1_FalloutBoy" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="message" text="QST_MontgomeryBurnsStatePrison02_3_dlg_End_2_SystemMessage" revealSpeed="medium" />
+	</MontgomeryBurnsStatePrison02_End>
+	<ClownfaceOriginStory01_Start>
+		<Action type="dialogue" character="Krusty" text="QST_ClownfaceOriginStory01_3_dlg_Start_1_Krusty" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Krusty" text="QST_ClownfaceOriginStory01_3_dlg_Start_2_Krusty" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Krusty" text="QST_ClownfaceOriginStory01_3_dlg_Start_3_Krusty" revealSpeed="medium" emotion="confident" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Krusty" text="QST_ClownfaceOriginStory01_3_dlg_Start_4_Krusty" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Krusty" text="QST_ClownfaceOriginStory01_3_dlg_Start_5_Krusty" revealSpeed="medium" emotion="pained" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</ClownfaceOriginStory01_Start>
+	<ClownfaceOriginStory01_End>
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory01_3_dlg_End_1_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart" text="QST_ClownfaceOriginStory01_3_dlg_End_2_Bart" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory01_3_dlg_End_3_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</ClownfaceOriginStory01_End>
+	<ClownfaceOriginStory02_Start>
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_Start_1_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_Start_2_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_Start_3_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_Start_4_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_Start_5_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_Start_6_Clownface" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</ClownfaceOriginStory02_Start>
+	<ClownfaceOriginStory02_End>
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_End_1_Clownface" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceOriginStory02_3_dlg_End_2_Clownface" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="checkRequirements">
+			<Requirement type="time" start="SuperheroesPartTwo" not="true" />
+			<True>
+				<Action type="dialogue" text="QST_ClownfaceOriginStory02_3_dlg_End_3_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+			</True>
+		</Action>
+	</ClownfaceOriginStory02_End>
+	<ClownfaceRises_Start>
+		<Action type="dialogue" text="QST_ClownfaceRises_3_dlg_Start_0_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_Start_1_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_Start_2_Clownface" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_Start_3_Clownface" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_Start_4_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</ClownfaceRises_Start>
+	<ClownfaceRises_End>
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_End_1_Clownface" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_End_2_Clownface" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_ClownfaceRises_3_dlg_End_3_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_ClownfaceRises_3_dlg_End_4_Homer" revealSpeed="medium" emotion="mouthfull" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</ClownfaceRises_End>
+	<NationalBankOfSpringfield_Start>
+		<Action type="dialogue" character="Gil" text="QST_NationalBankOfSpringfield_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Gil" text="QST_NationalBankOfSpringfield_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_NationalBankOfSpringfield_3_dlg_Start_3_Clownface" revealSpeed="medium" emotion="menacing" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Gil" text="QST_NationalBankOfSpringfield_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_NationalBankOfSpringfield_3_dlg_Start_5_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_NationalBankOfSpringfield_3_dlg_Start_6_Clownface" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Gil" text="QST_NationalBankOfSpringfield_3_dlg_Start_7_Gil" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</NationalBankOfSpringfield_Start>
+	<NationalBankOfSpringfield_End>
+		<Action type="dialogue" character="Gil" text="QST_NationalBankOfSpringfield_3_dlg_End_1_Gil" revealSpeed="medium" emotion="selling" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Gil" text="QST_NationalBankOfSpringfield_3_dlg_End_2_Gil" revealSpeed="medium" emotion="selling" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</NationalBankOfSpringfield_End>
+	<TheCollector01_Start>
+		<Action type="dialogue" character="CBGuy" text="QST_TheCollector01_3_dlg_Start_1_ComicBookGuy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_TheCollector01_3_dlg_Start_2_ComicBookGuy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_TheCollector01_3_dlg_Start_3_ComicBookGuy" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_TheCollector01_3_dlg_Start_4_ComicBookGuy" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="CBGuy" text="QST_TheCollector01_3_dlg_Start_5_ComicBookGuy" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheCollector01_Start>
+	<TheCollector01_End>
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector01_3_dlg_End_1_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheCollector01_End>
+	<TheCollector02_Start>
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector02_3_dlg_Start_1_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_TheCollector02_3_dlg_Start_2_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector02_3_dlg_Start_3_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Kumiko" text="QST_TheCollector02_3_dlg_Start_4_Kumiko" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Clownface" text="QST_TheCollector02_3_dlg_Start_5_Clownface" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheCollector02_Start>
+	<TheCollector03_Start>
+		<Action type="dialogue" character="Clownface" text="QST_TheCollector03_3_dlg_Start_1_Clownface" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector03_3_dlg_Start_2_Collector" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector03_3_dlg_Start_3_Collector" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Kumiko" text="QST_TheCollector03_3_dlg_Start_4_Kumiko" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector03_3_dlg_Start_5_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="message" text="QST_TheCollector03_3_dlg_Start_6_SystemMessage" revealSpeed="medium" />
+	</TheCollector03_Start>
+	<TheCollector03_End>
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector03_3_dlg_End_1_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector03_3_dlg_End_2_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollector" text="QST_TheCollector03_3_dlg_End_3_Collector" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="message" text="QST_TheCollector03_3_dlg_End_4_SystemMessage" revealSpeed="medium" />
+	</TheCollector03_End>
+	<DrColossusReturns_Start>
+		<Action type="dialogue" character="DrColossus" text="QST_DrColossusReturns_3_dlg_Start_1_Colossus" revealSpeed="medium" emotion="maniacal" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_DrColossusReturns_3_dlg_Start_2_FalloutBoy" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DrColossusReturns_3_dlg_Start_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DrColossusReturns_3_dlg_Start_4_Colossus" revealSpeed="medium" emotion="maniacal" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</DrColossusReturns_Start>
+	<DrColossusReturns_End>
+		<Action type="dialogue" character="DrColossus" text="QST_DrColossusReturns_3_dlg_End_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DrColossusReturns_3_dlg_End_2_Colossus" revealSpeed="medium" emotion="maniacal" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="checkRequirements">
+			<Requirement type="time" start="SuperheroesPartThree" not="true" />
+			<True>
+				<Action type="dialogue" text="QST_DrColossusReturns_3_dlg_End_3_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+			</True>
+		</Action>
+	</DrColossusReturns_End>
+	<HectorVonColossus_Start>
+		<Action type="dialogue" text="QST_HectorVonColossus_3_dlg_Start_0_SystemMessage" revealSpeed="medium" background="ICO_DialogueBox_Narrator.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_Start_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_Start_2_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_Start_3_Colossus" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_HectorVonColossus_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="sarcastic" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_Start_5_Colossus" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_HectorVonColossus_3_dlg_Start_6_Homer" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_Start_7_Colossus" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_HectorVonColossus_3_dlg_Start_8_Homer" revealSpeed="medium" emotion="serious" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_Start_9_Colossus" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+	</HectorVonColossus_Start>
+	<HectorVonColossus_End>
+		<Action type="dialogue" character="CriminalColossus" text="QST_HectorVonColossus_3_dlg_End_1_Criminal" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_HectorVonColossus_3_dlg_End_2_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</HectorVonColossus_End>
+	<SuperJeb_Start>
+		<Action type="dialogue" character="Homer" text="QST_SuperJeb_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="confused" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_SuperJeb_3_dlg_Start_2_Lisa" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_SuperJeb_3_dlg_Start_3_Lisa" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_SuperJeb_3_dlg_Start_4_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Lisa" text="QST_SuperJeb_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</SuperJeb_Start>
+	<DeathMountain_Start>
+		<Action type="dialogue" character="DrColossus" text="QST_DeathMountain_3_dlg_Start_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DeathMountain_3_dlg_Start_2_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DeathMountain_Start>
+	<DeathMountain_End>
+		<Action type="dialogue" character="HankScorpio" text="QST_DeathMountain_3_dlg_End_1_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DeathMountain_3_dlg_End_2_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DeathMountain_3_dlg_End_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DeathMountain_3_dlg_End_4_HankScorpio" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="VolcanoLair" not="true" />
+				<Requirement type="item" item="VolcanoLair" not="true" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="CHA_HankScorpio_name" button="UI_OK" text="QST_DeathMountain_3_dlg_End_5_SystemMessage" icon="HankScorpio_menu" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="reqList" location="SuperheroesReturn_GameConfig:Requirement_VolcanoLairVisible" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="VolcanoLair" menuCategory="Premium" />
+						<Action type="recommendation" recType="SystemMention" name="VolcanoLair" quest="Testify03" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</DeathMountain_End>
+	<DuellingHonchos01_Start>
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_Start_1_HankScorpio" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_Start_2_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos01_3_dlg_Start_3_Colossus" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_Start_4_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos01_3_dlg_Start_5_Colossus" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_Start_6_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</DuellingHonchos01_Start>
+	<DuellingHonchos01_End>
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_End_1_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_End_2_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_End_3_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_End_4_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_End_5_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos01_3_dlg_End_6_Homer" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos01_3_dlg_End_7_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DuellingHonchos01_End>
+	<DuellingHonchos02_Start>
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos02_3_dlg_Start_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos02_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos02_3_dlg_Start_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DuellingHonchos02_Start>
+	<DuellingHonchos02_End>
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos02_3_dlg_End_1_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos02_3_dlg_End_2_Homer" revealSpeed="medium" emotion="thoughtful" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos02_3_dlg_End_3_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos02_3_dlg_End_4_Homer" revealSpeed="medium" emotion="thoughtful" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos02_3_dlg_End_5_Homer" revealSpeed="medium" emotion="sarcastic" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos02_3_dlg_End_6_Homer" revealSpeed="medium" emotion="serious" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DuellingHonchos02_End>
+	<DuellingHonchos03_Start>
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos03_3_dlg_Start_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos03_3_dlg_Start_2_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos03_3_dlg_Start_3_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DuellingHonchos03_Start>
+	<DuellingHonchos03_End>
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos03_3_dlg_End_1_Homer" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos03_3_dlg_End_2_HankScorpio" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos03_3_dlg_End_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos03_3_dlg_End_4_Homer" revealSpeed="medium" emotion="serious" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</DuellingHonchos03_End>
+	<DuellingHonchos04_Start>
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos04_3_dlg_Start_1_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos04_3_dlg_Start_2_Colossus" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos04_3_dlg_Start_3_Homer" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos04_3_dlg_Start_4_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Homer" text="QST_DuellingHonchos04_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="serious" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_DuellingHonchos04_3_dlg_Start_6_Coloussus" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="HankScorpio" text="QST_DuellingHonchos04_3_dlg_Start_7_HankScorpio" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</DuellingHonchos04_Start>
+	<TheCollider01_Start>
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider01_3_dlg_Start_1_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider01_3_dlg_Start_2_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider01_3_dlg_Start_3_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider01_3_dlg_Start_4_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheCollider01_Start>
+	<TheCollider02_Start>
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider02_3_dlg_Start_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider02_3_dlg_Start_2_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider02_3_dlg_Start_3_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider02_3_dlg_Start_4_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider02_3_dlg_Start_5_Collider" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheCollider02_Start>
+	<TheCollider02_End>
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider02_3_dlg_End_1_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider02_3_dlg_End_2_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider02_3_dlg_End_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheCollider02_End>
+	<TheCollider03_Start>
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider03_3_dlg_Start_1_Colossus" revealSpeed="medium" emotion="happy" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider03_3_dlg_Start_2_Collider" revealSpeed="medium" emotion="annoyed" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider03_3_dlg_Start_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider03_3_dlg_Start_4_Collider" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheCollider03_Start>
+	<TheCollider03_End>
+		<Action type="dialogue" character="Explosion" text="QST_TheCollider03_3_dlg_End_1_Explosion" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+	</TheCollider03_End>
+	<TheCollider04_Start>
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_Start_1_Collider" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_Start_2_Collider" revealSpeed="medium" emotion="sad" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_Start_3_Collider" revealSpeed="medium" emotion="dying" background="ICO_DialogueBox_Cloud.rgb" showBorder="true" />
+	</TheCollider04_Start>
+	<TheCollider04_End>
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_End_1_Collider" revealSpeed="medium" emotion="surprised" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_End_2_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider04_3_dlg_End_3_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Burst.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider04_3_dlg_End_4_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_End_5_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider04_3_dlg_End_6_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="DrColossus" text="QST_TheCollider04_3_dlg_End_7_Colossus" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="TheCollider" text="QST_TheCollider04_3_dlg_End_8_Collider" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</TheCollider04_End>
+	<TriggerCustceneRadioactiveManDeath>
+		<Action type="triggerVideo" file="superheroes_questfailed" ext="mp4" skippable="yes" />
+	</TriggerCustceneRadioactiveManDeath>
+	<RadstationAirFortressAd_Start>
+		<Action type="message" text="QST_RadstationAirFortressAd_3_dlg_Start_1_SystemMessage" />
+		<Action type="notification" title="BLD_AirFortress_name" button="UI_OK" text="QST_RadstationAirFortressAd_3_dlg_Start_2_SystemMessage" icon="AirFortress_menu" />
+		<Action type="focusOnMenuItem" itemName="AirFortress" menuCategory="Superheroes" />
+		<Action type="recommendation" recType="SystemMention" name="AirFortress" quest="RadstationAirFortress" />
+	</RadstationAirFortressAd_Start>
+	<RadstationAirFortress_Start>
+		<Action type="dialogue" character="FalloutBoy" text="QST_RadstationAirFortress_3_dlg_Start_1_FalloutBoy" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</RadstationAirFortress_Start>
+	<RadstationAirFortress_End>
+		<Action type="dialogue" character="Lisa" text="QST_RadstationAirFortress_3_dlg_End_1_Lisa" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="FalloutBoy" text="QST_RadstationAirFortress_3_dlg_End_2_FalloutBoy" emotion="sad" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</RadstationAirFortress_End>
+	<BartmanCaveAd_Start>
+		<Action type="notification" title="BLD_BartmanCave_name" button="UI_OK" text="QST_BartmanCaveAd_3_dlg_Start_1_SystemMessage" icon="ICO_Superheroes_BartmanCave_MD" />
+		<Action type="focusOnMenuItem" itemName="BartmanCave" menuCategory="Superheroes" />
+		<Action type="recommendation" recType="SystemMention" name="BartmanCave" quest="BartmanCave" />
+	</BartmanCaveAd_Start>
+	<BartmanCave_Start>
+		<Action type="dialogue" character="Bart_Bartman" text="QST_BartmanCave_3_dlg_Start_1_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+		<Action type="dialogue" character="Bart_Bartman" text="QST_BartmanCave_3_dlg_Start_2_Bartman" revealSpeed="medium" background="ICO_DialogueBox_Normal.rgb" showBorder="true" />
+	</BartmanCave_Start>
+</ScriptPackage>

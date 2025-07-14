@@ -1,0 +1,89 @@
+﻿<Attributes>
+	<Attribute name="onLoad"><![CDATA[
+	var textValues = Resource::get('CreditsList.txt');
+	var baseArray = split(textValues, '\n');
+	var componentArray = Array::create();
+	var nameArray = Array::create();
+	
+	foreach(baseArray as value)
+	{
+		if (strncmp(value,'!', 1) == 0)
+		{
+			Array::pushBack(componentArray,'TeamTitle');
+			Array::pushBack(nameArray, substr(value, 1));
+		}
+		elseif(strncmp(value,'~', 1) == 0)
+		{
+			Array::pushBack(componentArray,'FieldTitle');
+			Array::pushBack(nameArray, substr(value, 1));
+		}
+		else
+		{
+			Array::pushBack(componentArray,'Name');
+			Array::pushBack(nameArray, value);
+		}
+	}
+]]></Attribute>
+	<Attribute name="onUnload"><![CDATA[
+]]></Attribute>
+	<Attribute name="getMenuConfig"><![CDATA[
+		var configArray  = Array::create('paged'=>Array::create('verticalScroll'=>true,'numEntries'=>Array::size(nameArray),'numPerPage'=>15,'scrollArea'=>'ScrollArea','scrollComponent'=>'Objects'));
+		return configArray;
+	]]></Attribute>
+	<Attribute name="getFontForMenu"><![CDATA[
+		var objectID = Menu::eventArray['objectID'];
+
+		if (objectID == StringID::fromString('TeamTitleText'))
+		{
+			return 'eFont_Large';
+		}
+		elseif (objectID==StringID::fromString('FieldTitleText'))
+		{
+			return 'eFont_NormalBold';
+		}
+		elseif (objectID==StringID::fromString('NameText'))
+		{
+			return 'eFont_Small';
+		}
+	]]></Attribute>
+	<Attribute name="getTextForMenu"><![CDATA[
+		var menuID   = Menu::getID('eMenu_DynamicScripted');
+		var objectID = Menu::eventArray['objectID'];
+		var componentID = Menu::eventArray['componentCount'];
+		
+		if(objectID==StringID::fromString('TitleText'))
+		{
+			return System::localise('UI_Credits');
+		}
+		
+		if (objectID==StringID::fromString('NameText') || objectID==StringID::fromString('FieldTitleText') || objectID == StringID::fromString('TeamTitleText'))
+		{
+			return Array::getValueAtIndex(nameArray, componentID);
+		}
+	]]></Attribute>
+	<Attribute name="getPageComponentName"><![CDATA[
+		var componentCount = Menu::eventArray['componentCount'];
+		return Array::getValueAtIndex(componentArray, componentCount);
+	]]></Attribute>
+	<Attribute name="onMenuButtonSelected"><![CDATA[
+		var menuID   = Menu::getID('eMenu_DynamicScripted');
+		var objectID = Menu::eventArray['objectID'];
+		
+		if(objectID==StringID::fromString('ExitButton'))
+		{
+			UISound::close();
+			Menu::destroy(menuID);
+		}
+	]]></Attribute>
+	<Attribute name="onPressDefaultButton"><![CDATA[
+		UISound::close();
+		Menu::destroy(menuID);
+	]]></Attribute>
+	<Attribute name="onPressBackButton"><![CDATA[
+		UISound::close();
+		Menu::destroy(menuID);
+	]]></Attribute>
+	<Attribute name="hasBackButton"><![CDATA[
+		return true;
+	]]></Attribute>
+</Attributes>
