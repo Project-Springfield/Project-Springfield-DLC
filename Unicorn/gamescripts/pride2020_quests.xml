@@ -1,0 +1,526 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="232000" name="ThePrideOfSpringfield" />
+		<DataID id="232001" name="HeadOverHeels_1" />
+		<DataID id="232002" name="HeadOverHeels_2" />
+		<DataID id="232003" name="HeadOverHeels_3" />
+		<DataID id="232004" name="HeadOverHeels_4" />
+		<DataID id="232005" name="HeadOverHeels_5" />
+		<DataID id="232006" name="IfTheShoeFits" />
+		<DataID id="232007" name="ThrowingShade_1" />
+		<DataID id="232008" name="ThrowingShade_2" />
+		<DataID id="232009" name="ThrowingShade_3" />
+		<DataID id="232010" name="ThrowingShade_4" />
+		<DataID id="232011" name="ThrowingShade_5" />
+		<DataID id="232012" name="FitForAQueen_1" />
+		<DataID id="232013" name="FitForAQueen_2" />
+		<DataID id="232014" name="FitForAQueen_3" />
+		<DataID id="232015" name="FitForAQueen_4" />
+		<DataID id="232016" name="FitForAQueen_5" />
+		<DataID id="232017" name="WalkInThePark_1" />
+		<DataID id="232018" name="WalkInThePark_2" />
+		<DataID id="232019" name="WalkInThePark_3" />
+		<DataID id="232020" name="WalkInThePark_4" />
+		<DataID id="232021" name="WalkInThePark_5" />
+		<DataID id="232600" name="Pride2020_Completed" />
+		<DataID id="232601" name="Pride2020_IntroPanel" />
+		<DataID id="232602" name="Pride2020_72HourWarning" onDeprecated="retain" endDate="Pride2020_End" />
+		<DataID id="232603" name="Pride2020_24HourWarning" onDeprecated="retain" endDate="Pride2020_End" />
+		<DataID id="232604" name="Pride2020_EventExpired" />
+		<DataID id="232605" name="Pride2020_MasterQuest" />
+		<!-- <DataID id="232700" name="AutoApply_GlamazonMargeSkin" /> -->
+		<!-- <DataID id="232701" name="AutoApply_PrideHomerSkin" /> -->
+		<!-- <DataID id="232702" name="AutoApply_MysteriousWaylonSkin" /> -->
+		<DataID id="232900" name="Pride2020_RecommendStore" onDeprecated="delete" endDate="Pride2020_End" />
+	</MasterList>
+	<Quest id="232600" name="Pride2020_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="IfTheShoeFits" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="232601" name="Pride2020_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="ThePrideOfSpringfield" />
+			<Requirement type="time" end="Pride2020_End" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="232602" name="Pride2020_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::Pride2020_End')-fromHours(72)]_" end="_[System::evaluate('Date::Pride2020_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="Pride2020_Complete" not="true" />
+			<Requirement type="quest" quest="Pride2020_IntroPanel" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="232603" name="Pride2020_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::Pride2020_End')-fromHours(24)]_" end="Pride2020_End" triggerEvent="true" />
+			<Requirement type="variable" variable="Pride2020_Complete" not="true" />
+			<Requirement type="quest" quest="Pride2020_IntroPanel" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="232604" name="Pride2020_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="Pride2020_End" triggerEvent="true" />
+			<Requirement type="variable" variable="Pride2020_Complete" not="true" />
+			<Requirement type="quest" quest="Pride2020_IntroPanel" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="232605" name="Pride2020_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_Expired" not="true" />
+			<Requirement type="variable" variable="Pride2020_Complete" not="true" />
+			<Requirement type="reqList" location="Pride2020_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="HeadOverHeels_5" />
+					<Requirement type="variable" variable="Pride2020_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="HeadOverHeels_1">
+				<Requirement type="quest started" quest="HeadOverHeels_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="HeadOverHeels_2">
+				<Requirement type="quest started" quest="HeadOverHeels_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="HeadOverHeels_3">
+				<Requirement type="quest started" quest="HeadOverHeels_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="HeadOverHeels_4">
+				<Requirement type="quest started" quest="HeadOverHeels_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="HeadOverHeels_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="232000" name="ThePrideOfSpringfield" tags="sidequest" icon="Pride2020_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="building" building="MoesTavern" quantity="1" />
+			<Requirement type="time" start="Pride2020_Start" end="Pride2020_End" triggerEvent="true" />
+			<Requirement type="formula" formula="String::contains(System::getConfigValue('__Pride2020_GameConfig:Globals:NUCountries__'), Geo::getGeolocation())" not="true" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="ThePrideOfSpringfield_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="ThePrideOfSpringfield_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="JudgeHomer" quantity="1" />
+			<Objective type="complete job" character="Homer" job="PretendToCelebratePride" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232001" name="HeadOverHeels_1" tags="mainquest" icon="Pride2020_Currency" sidebarIconScript="Pride2020_Scripts:OpenMasterQuest" questMenuConfigPath="Pride2020_QuestConfig:Pride2020_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="Pride2020_IntroPanel" />
+			<Requirement type="time" start="Pride2020_Start" end="Pride2020_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_1_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::Pride2020_Currency')" amount="__Pride2020_GameConfig:ResourceQuantities:Pride2020_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="Pride2020_Scripts:ShowJobList" textpoolName="QST_Pride2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="ShaveHipsterManBunsToMakeWigs" />
+					<Job name="ShaveTheRoyalCorgisToMakeWigs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="RecoverFromAHeartAttack" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="Pride2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="Pride2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="232002" name="HeadOverHeels_2" tags="mainquest" icon="Pride2020_Currency" sidebarIconScript="Pride2020_Scripts:OpenMasterQuest" questMenuConfigPath="Pride2020_QuestConfig:Pride2020_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="HeadOverHeels_1" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_2_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::Pride2020_Currency')" amount="__Pride2020_GameConfig:ResourceQuantities:Pride2020_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="Pride2020_Scripts:ShowJobList" textpoolName="QST_Pride2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="ShaveHipsterManBunsToMakeWigs" />
+					<Job name="ShaveTheRoyalCorgisToMakeWigs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="BetForPinkSlips" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="Pride2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="Pride2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="232003" name="HeadOverHeels_3" tags="mainquest" icon="Pride2020_Currency" sidebarIconScript="Pride2020_Scripts:OpenMasterQuest" questMenuConfigPath="Pride2020_QuestConfig:Pride2020_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="HeadOverHeels_2" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_3_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::Pride2020_Currency')" amount="__Pride2020_GameConfig:ResourceQuantities:Pride2020_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="Pride2020_Scripts:ShowJobList" textpoolName="QST_Pride2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="ShaveHipsterManBunsToMakeWigs" />
+					<Job name="ShaveTheRoyalCorgisToMakeWigs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="ExplainCombustionEnginesToHomer" quantity="1" />
+			<Objective type="complete job" character="Homer" job="HaveAPanicAttack" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="Pride2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="Pride2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="232004" name="HeadOverHeels_4" tags="mainquest" icon="Pride2020_Currency" sidebarIconScript="Pride2020_Scripts:OpenMasterQuest" questMenuConfigPath="Pride2020_QuestConfig:Pride2020_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="HeadOverHeels_3" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_4_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::Pride2020_Currency')" amount="__Pride2020_GameConfig:ResourceQuantities:Pride2020_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="Pride2020_Scripts:ShowJobList" textpoolName="QST_Pride2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="ShaveHipsterManBunsToMakeWigs" />
+					<Job name="ShaveTheRoyalCorgisToMakeWigs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="GetDolledUpForTheRace" quantity="1" />
+			<Objective type="complete job" character="Homer" job="GiveMargeAFootrub" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="Pride2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="Pride2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="232005" name="HeadOverHeels_5" tags="mainquest" icon="Pride2020_Currency" sidebarIconScript="Pride2020_Scripts:OpenMasterQuest" questMenuConfigPath="Pride2020_QuestConfig:Pride2020_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="Pride2020_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="HeadOverHeels_4" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_5_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="HeadOverHeels_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::Pride2020_Currency')" amount="__Pride2020_GameConfig:ResourceQuantities:Pride2020_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="Pride2020_Scripts:ShowJobList" textpoolName="QST_Pride2020_Collect_obj">
+				<HighlightJobList>
+					<Job name="ShaveHipsterManBunsToMakeWigs" />
+					<Job name="ShaveTheRoyalCorgisToMakeWigs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GetHisHeels" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="Pride2020_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="Pride2020_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="232006" name="IfTheShoeFits" tags="sidequest" icon="Pride2020_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="HeadOverHeels_5" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="IfTheShoeFits_Start" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="IfTheShoeFits_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PrideHomer" job="GetIt" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="232007" name="ThrowingShade_1" tags="sidequest" icon="Marge_Glamazon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Marge" unlockedskin="GlamazonMarge" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_1_Start" triggerType="character" character="Marge" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="GlamazonMarge" job="FeelHerOatsAndTurnTheParty" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232008" name="ThrowingShade_2" tags="sidequest" icon="Marge_Glamazon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThrowingShade_1" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_2_Start" triggerType="character" character="Marge" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="GlamazonMarge" job="WerkIt" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232009" name="ThrowingShade_3" tags="sidequest" icon="Marge_Glamazon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThrowingShade_2" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_3_Start" triggerType="character" character="Marge" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="CallAMeetingWithHerGlamazons" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232010" name="ThrowingShade_4" tags="sidequest" icon="Marge_Glamazon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThrowingShade_3" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_4_Start" triggerType="character" character="Marge" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="GlamazonMarge" job="GetAGrip" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232011" name="ThrowingShade_5" tags="sidequest" icon="Marge_Glamazon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ThrowingShade_4" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_5_Start" triggerType="character" character="Marge" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="ThrowingShade_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="GlamazonMarge" job="Fly" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="232012" name="FitForAQueen_1" tags="sidequest" icon="Smithers_MysteriousWaylon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Smithers" unlockedskin="MysteriousWaylon" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_1_Start" triggerType="character" character="Smithers" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Smithers" skin="MysteriousWaylon" job="GoFromDrabToFab" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232013" name="FitForAQueen_2" tags="sidequest" icon="Smithers_MysteriousWaylon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FitForAQueen_1" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_2_Start" triggerType="character" character="Smithers" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Smithers" skin="MysteriousWaylon" job="AnalyzeTheCompetition" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232014" name="FitForAQueen_3" tags="sidequest" icon="Smithers_MysteriousWaylon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FitForAQueen_2" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_3_Start" triggerType="character" character="Smithers" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Smithers" skin="MysteriousWaylon" job="WorkTheRunway_Smithers" quantity="1" />
+			<Objective type="complete job" character="Marge" skin="GlamazonMarge" job="WorkTheRunway_Marge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" unlockedskin="GlamazonMarge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232015" name="FitForAQueen_4" tags="sidequest" icon="Smithers_MysteriousWaylon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FitForAQueen_3" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_4_Start" triggerType="character" character="Smithers" />
+		<Objectives>
+			<Objective type="complete job" character="Smithers" skin="MysteriousWaylon" job="StrikeAPose_Smithers" quantity="1" />
+			<Objective type="complete job" character="Marge" skin="GlamazonMarge" job="StrikeAPose_Marge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" unlockedskin="GlamazonMarge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="SideshowMel" job="TakeUglySelfies" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SideshowMel" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232016" name="FitForAQueen_5" tags="sidequest" icon="Smithers_MysteriousWaylon">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FitForAQueen_4" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_5_Start" triggerType="character" character="Smithers" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="FitForAQueen_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Smithers" skin="MysteriousWaylon" job="AwaitResults" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="232017" name="WalkInThePark_1" tags="sidequest" icon="Homer_Pride">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Homer" unlockedskin="PrideHomer" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="IfTheShoeFits" />
+				<Requirement type="time" start="Pride2020_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_1_Start" triggerType="character" character="Homer" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="GoTalkToLisa" quantity="1" />
+			<Objective type="complete job" character="Marge" job="TakeNotesOnHomersTVShow" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232018" name="WalkInThePark_2" tags="sidequest" icon="Homer_Pride">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="WalkInThePark_1" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_2_Start" triggerType="character" character="Homer" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PrideHomer" job="TakeAWalkWithLisa" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="TakeAWalkWithHomer" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232019" name="WalkInThePark_3" tags="sidequest" icon="Homer_Pride">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="WalkInThePark_2" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_3_Start" triggerType="character" character="Homer" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PrideHomer" job="ContinueHisWalkWithLisa" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="ContinueHerWalkWithHomer" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232020" name="WalkInThePark_4" tags="sidequest" icon="Homer_Pride">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="WalkInThePark_3" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_4_Start" triggerType="character" character="Homer" />
+		<EndScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PrideHomer" job="ContinueHisWalkWithLisa_pt2" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="ContinueHerWalkWithHomer_pt2" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="232021" name="WalkInThePark_5" tags="sidequest" icon="Homer_Pride">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="WalkInThePark_4" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts_Dialogue" name="WalkInThePark_5_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="PrideHomer" job="CheersHisMilkWithLisa" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="CheersHerMilkWithHomer" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="232700" name="AutoApply_GlamazonMargeSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="GlamazonMarge" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Marge" unlockedskin="GlamazonMarge" not="true" />
+			<Requirement type="characterunlocked" name="Marge" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="Pride2020_Scripts" name="AutoApply_GlamazonMargeSkin_End" />
+	</Quest>
+	<Quest id="232701" name="AutoApply_PrideHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="PrideHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="PrideHomer" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="Pride2020_Scripts" name="AutoApply_PrideHomerSkin_End" />
+	</Quest>
+	<Quest id="232702" name="AutoApply_MysteriousWaylonSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="MysteriousWaylon" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Smithers" unlockedskin="MysteriousWaylon" not="true" />
+			<Requirement type="characterunlocked" name="Smithers" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="Pride2020_Scripts" name="AutoApply_MysteriousWaylonSkin_End" />
+	</Quest>
+	<Quest id="232900" name="Pride2020_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="Pride2020_Requirements:StoreCategory_Pride2020_Unlocked" />
+		</Requirements>
+		<StartScript package="Pride2020_Scripts" name="RecommendStoreCategory_Pride2020" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

@@ -1,0 +1,63 @@
+﻿<ScriptPackage>
+	<GoToUnpurchasedMarketingAgency>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="setVariable" intVariable="GoToUnpurchasedMarketingAgency_Ran" intValue="1" addTempIfNotExisting="true" />
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="land block" land="Springfield" count="1" min="true" block="6,-5" />
+						<Requirement type="land block" land="Springfield" count="1" min="true" block="8,-5" />
+						<Requirement type="land block" land="Springfield" count="1" min="true" block="7,-4" />
+						<Requirement type="land block" land="Springfield" count="1" min="true" block="7,-6" />
+					</Requirement>
+					<True>
+						<Action type="gotoState" state="GameState_PlaceLand" />
+						<Action type="pantoobject" building="MarketingAgency" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="land block" land="Springfield" count="1" min="true" block="6,-6" />
+								<Requirement type="land block" land="Springfield" count="1" min="true" block="6,-4" />
+								<Requirement type="land block" land="Springfield" count="1" min="true" block="5,-5" />
+							</Requirement>
+							<True>
+								<Action type="gotoState" state="GameState_PlaceLand" />
+								<Action type="pantolandblock" xCoord="6" zCoord="-5" />
+							</True>
+							<False>
+								<Action type="checkRequirements">
+									<Requirement type="conditional" logic="OR">
+										<Requirement type="land block" land="Springfield" count="1" min="true" block="4,-5" />
+										<Requirement type="land block" land="Springfield" count="1" min="true" block="5,-6" />
+										<Requirement type="land block" land="Springfield" count="1" min="true" block="5,-4" />
+									</Requirement>
+									<True>
+										<Action type="gotoState" state="GameState_PlaceLand" />
+										<Action type="pantolandblock" xCoord="5" zCoord="-5" />
+									</True>
+									<False>
+										<Action type="gotoState" state="GameState_PlaceLand" />
+										<Action type="pantolandblock" xCoord="5" zCoord="-4" />
+									</False>
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToUnpurchasedMarketingAgency>
+	<GoToUnpurchasedMarketingAgency_HiddenObjectiveDone>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="GoToUnpurchasedMarketingAgency_Ran" />
+			<True>
+				<Action type="runScript" package="SpringfieldHeights2_QuestScripts" script="GoToUnpurchasedMarketingAgency" waitUntilComplete="true" />
+			</True>
+		</Action>
+	</GoToUnpurchasedMarketingAgency_HiddenObjectiveDone>
+</ScriptPackage>

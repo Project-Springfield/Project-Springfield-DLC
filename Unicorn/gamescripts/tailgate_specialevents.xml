@@ -1,0 +1,34 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="148000" name="Tailgate_Promo" onDeprecated="delete" endDate="Tailgate_End" />
+		<DataID id="148001" name="Tailgate_Permanent" />
+	</MasterList>
+	<SpecialEvent id="148000" name="Tailgate_Promo">
+		<Variable name="Tailgate_Active" value="true" />
+		<Variable name="Tailgate_Indicator_Active" value="true" />
+		<Characters override="true">
+			<Character name="PromoGilPermanent">
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="Tailgate_Indicator_Active" />
+					<Script name="Tailgate_Display" package="Tailgate_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="time" start="Tailgate_Start" end="Tailgate_End" />
+				<Requirement type="variable" variable="Tailgate_Indicator_Active" not="true" />
+			</Requirements>
+			<Script name="Tailgate_Recommend" package="Tailgate_Scripts" />
+		</OnEvent>
+		<Promo eventName="Tailgate_Promo" questID="148100" type="building" object="Tailgate" file="Promo_Tailgate" yes="BTN_200Donuts" visualEndDate="Tailgate_End" />
+	</SpecialEvent>
+	<SpecialEvent id="148001" name="Tailgate_Permanent">
+		<Buildings override="true">
+			<Building name="Tailgate">
+				<Farm name="Tailgate" />
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+</SpecialEvents>

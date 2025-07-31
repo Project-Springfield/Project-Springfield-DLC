@@ -1,0 +1,267 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="BlargsgivingMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Blargsgiving_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Blargsgiving_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="Blargsgiving_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="Blargsgiving_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Blargsgiving_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_Blargsgiving_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_Blargsgiving_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_Blargsgiving_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Blargsgiving_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="Blargsgiving_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="Blargsgiving_Store" value="true" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="BlargsgivingMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_Blargsgiving_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_Blargsgiving_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_Blargsgiving_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_Blargsgiving_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_Blargsgiving_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="Blargsgiving_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="Blargsgiving_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="Blargsgiving_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="Blargsgiving_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="Blargsgiving_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_Blargsgiving_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="Blargsgiving_OnePanel" />
+		<Action type="runScript" script="Blargsgiving_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="Blargsgiving_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="Blargsgiving_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="Blargsgiving_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="CranberryCalamity_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Blargsgiving_Event" />
+									<Attribute name="JobList" value="Blargsgiving_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="CranberryCalamity_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Blargsgiving_Event" />
+									<Attribute name="JobList" value="Blargsgiving_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CranberryCalamity_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Blargsgiving_Event" />
+									<Attribute name="JobList" value="Blargsgiving_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CranberryCalamity_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Blargsgiving_Event" />
+									<Attribute name="JobList" value="Blargsgiving_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CranberryCalamity_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Blargsgiving_Event" />
+									<Attribute name="JobList" value="Blargsgiving_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="Blargsgiving_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="Blargsgiving_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<RecommendStoreCategory_Blargsgiving ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="Blargsgiving_BlackFriday2020_OnePanel" />
+		<Action type="recommendation" recType="Event" name="Blargsgiving_BlackFriday2020_OnePanel" eventName="UI_BlackFriday2020_Title" limitedTime="true" limitedTimeEndDate="Blargsgiving_End" />
+		<Action type="clearRecommendations" category="Event" name="Blargsgiving_Blargsgiving_OnePanel" />
+		<Action type="recommendation" recType="Event" name="Blargsgiving_Blargsgiving_OnePanel" eventName="UI_Blargsgiving_Title" limitedTime="true" limitedTimeEndDate="Blargsgiving_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_Blargsgiving>
+	<EnterStoreCategory_Blargsgiving ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="Blargsgiving_Category" />
+	</EnterStoreCategory_Blargsgiving>
+	<EnterStoreCategory_BlackFriday2020 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2020_Category" />
+	</EnterStoreCategory_BlackFriday2020>
+	<OpenDonutStore>
+		<Action type="actionSequence" script="MiscScripts:OpenMTXStore">
+			<FormatToken key="onLeaveScript" value="Blargsgiving_Scripts:OpenMasterQuest_BlackFriday" />
+		</Action>
+	</OpenDonutStore>
+	<OpenMasterQuest_BlackFriday>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="BlackFriday2020_MasterQuest" />
+						<Attribute name="specialEvent" value="Blargsgiving" />
+						<Attribute name="showEventProgressMenu" value="true" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest_BlackFriday>
+	<ShowBlackFridayGuidePanel>
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="Blargsgiving_GameConfig:BlackFridayGuide_Config" />
+	</ShowBlackFridayGuidePanel>
+	<BFFiveGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="5" />
+	</BFFiveGoldenTokens>
+	<BFSevenGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="7" />
+	</BFSevenGoldenTokens>
+	<BFTenGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="10" />
+	</BFTenGoldenTokens>
+	<BFFifteenGoldenTokens>
+		<Action type="reward" save="true" GoldBoxTokens="15" />
+	</BFFifteenGoldenTokens>
+	<GoToBlargsgivingTokenExchange>
+		<Action type="focusOnMenuItem" itemName="GoldenTokenForDozenDonuts" menuCategory="Currency" />
+	</GoToBlargsgivingTokenExchange>
+	<GoToGoldMysteryBox>
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2020_Category" itemName="Blargsgiving_GoldMysteryBox2020" />
+	</GoToGoldMysteryBox>
+	<FortAdventureUnlock>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="FortAdventure" not="true" />
+			<True>
+				<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+					<Item type="building" name="FortAdventure" />
+				</Action>
+			</True>
+		</Action>
+	</FortAdventureUnlock>
+	<GiveBlargsgivingTable>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BlargsgivingTable" />
+		</Action>
+	</GiveBlargsgivingTable>
+</ScriptPackage>

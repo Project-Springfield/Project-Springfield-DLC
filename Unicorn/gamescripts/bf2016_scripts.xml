@@ -1,0 +1,207 @@
+﻿<ScriptPackage>
+	<RebateMessaging runQueueState="QueueIfNotIdle">
+		<Action type="setVariable" boolVariable="BF2016_PurchaseMade" boolValue="true" />
+		<Action type="checkRequirements" formatMe="deep">
+			<Requirements>
+				<Requirement type="formula" formula="greaterThan({0CurrencyAmount},49)" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_50orHigher}" icon="ico_priz_donuts_20" formatMe="true" dismissOnOKOnly="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements" formatMe="deep">
+					<Requirements>
+						<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},50), greaterThan({0CurrencyAmount},39))" />
+					</Requirements>
+					<True>
+						<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_40to49}" icon="ico_priz_donuts_20" formatMe="true" dismissOnOKOnly="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements" formatMe="deep">
+							<Requirements>
+								<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},40), greaterThan({0CurrencyAmount},19))" />
+							</Requirements>
+							<True>
+								<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_20to39}" icon="ico_priz_donuts_10" formatMe="true" dismissOnOKOnly="true" />
+							</True>
+							<False>
+								<Action type="checkRequirements" formatMe="deep">
+									<Requirements>
+										<Requirement type="formula" formula="and(lessThan({0CurrencyAmount},20), greaterThan({0CurrencyAmount},9))" />
+									</Requirements>
+									<True>
+										<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_10to19}" icon="specialprize_donuts" formatMe="true" dismissOnOKOnly="true" />
+									</True>
+									<False>
+										<Action type="notification" title="UI_RebateScriptMessage_Title" button="UI_OK" text="{RebateScriptMessageText_1to9}" icon="ico_priz_donuts_1" formatMe="true" dismissOnOKOnly="true" />
+									</False>
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</RebateMessaging>
+	<BF2016_EnterCategory>
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2016" />
+	</BF2016_EnterCategory>
+	<BF2016_ThePurgeOfHighPrices_Start>
+		<Action type="dialogue" character="Marge" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="worried" />
+	</BF2016_ThePurgeOfHighPrices_Start>
+	<InitializePromo ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="character" name="PromoGilPermanent" not="true" />
+				<Then>
+					<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" variable="BF2016_TriggerPromoCompleted" value="false" />
+		<Action type="updateVariable" variable="BF2016_PurchaseMade" value="false" />
+		<Action type="updateVariable" variable="BF2016_DisplayPromo" value="false" />
+		<Action type="updateVariable" variable="BF2016_DialogueSeen_Purchase" value="false" />
+		<Action type="updateVariable" variable="BF2016_DialogueSeen_NoPurchase" value="false" />
+		<Action type="if">
+			<If>
+				<Requirement type="time" start="BlackFridayDay3_Start" end="CyberMonday_Start" />
+				<Then>
+					<Action type="updateVariable" variable="BF2016_CurrentDay" value="3" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="BlackFridayDay2_Start" end="BlackFridayDay3_Start" />
+				<Then>
+					<Action type="updateVariable" variable="BF2016_CurrentDay" value="2" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="time" start="BlackFridayDay1_Start" end="BlackFridayDay2_Start" />
+				<Then>
+					<Action type="updateVariable" variable="BF2016_CurrentDay" value="1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="updateVariable" variable="BF2016_PromoInitialized" value="true" />
+		<Action type="pantoobject" time="0" character="PromoGilPermanent" />
+	</InitializePromo>
+	<DisplayPromo>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="checkExpression" expression="BF2016_CurrentDay">
+					<ExpressionCase value="1">
+						<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="happy" />
+						<Action type="dialogue" character="Lisa" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="shouting" />
+						<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="selling" />
+					</ExpressionCase>
+					<ExpressionCase value="2">
+						<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay2_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+						<Action type="dialogue" character="Lisa" text="QST_ThePurgeOfHighPricesDay2_3_dlg_Start_2_Lisa" revealSpeed="medium" emotion="nagging" />
+						<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay2_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+					</ExpressionCase>
+					<ExpressionCase value="3">
+						<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay3_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+						<Action type="dialogue" character="Marge" text="QST_ThePurgeOfHighPricesDay3_3_dlg_Start_2_Marge" revealSpeed="medium" emotion="scared" />
+						<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay3_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+					</ExpressionCase>
+				</Action>
+				<Action type="setVariable" boolVariable="BF2016_Store" boolValue="true" />
+				<Action type="setVariable" boolVariable="BF2016_DisplayPromo" boolValue="true" />
+				<Action type="recommendation" recType="Event" name="BF2016_OnePanel" eventName="UI_BF2016_name" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="BF2016_Event" />
+				<Action type="runScript" package="MiscScripts" script="KillGil" />
+			</True>
+		</Action>
+	</DisplayPromo>
+	<BF2016_TriggerPromo_End>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="BF2016_DisplayPromo" />
+			<True>
+				<Action type="updateVariable" variable="BF2016_TriggerPromoCompleted" value="true" />
+			</True>
+		</Action>
+	</BF2016_TriggerPromo_End>
+	<PurchaseMade>
+		<Action type="checkExpression" expression="BF2016_CurrentDay">
+			<ExpressionCase value="1">
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_7_Gil" revealSpeed="medium" emotion="happy" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay2_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay2_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="sad" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay3_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="selling" />
+			</ExpressionCase>
+		</Action>
+		<Action type="updateVariable" variable="BF2016_DialogueSeen_Purchase" value="true" />
+	</PurchaseMade>
+	<PromoIgnored>
+		<Action type="checkExpression" expression="BF2016_CurrentDay">
+			<ExpressionCase value="1">
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay1_3_dlg_Start_8_Gil" revealSpeed="medium" emotion="sad" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay2_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="surprised" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay3_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="annoyed" />
+				<Action type="dialogue" character="Gil" text="QST_ThePurgeOfHighPricesDay3_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="sad" />
+			</ExpressionCase>
+		</Action>
+		<Action type="updateVariable" variable="BF2016_DialogueSeen_NoPurchase" value="true" />
+	</PromoIgnored>
+	<CM2016_DomoArigato_Start>
+		<Action type="setVariable" boolVariable="BF2016_PromoActive" boolValue="false" />
+		<Action type="checkRequirements">
+			<Requirement type="character" name="PromoGilPermanent" />
+			<True>
+				<Action type="deletecharacter" character="PromoGilPermanent" />
+			</True>
+		</Action>
+		<Action type="dialogue" character="Marge" text="QST_DomoArigato_3_dlg_Start_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DomoArigato_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="beaten" />
+		<Action type="dialogue" character="Lisa" text="QST_DomoArigato_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="curious" />
+	</CM2016_DomoArigato_Start>
+	<CreateGil_CyberMonday ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" />
+		<Action type="pantoobject" time="0" character="PromoGilPermanent" />
+	</CreateGil_CyberMonday>
+	<DisplayPromo_CyberMonday>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_DomoArigato_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Marge" text="QST_DomoArigato_3_dlg_Start_5_Marge" revealSpeed="medium" emotion="annoyed" />
+				<Action type="dialogue" character="Gil" text="QST_DomoArigato_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="selling" />
+				<Action type="setVariable" boolVariable="CM2016_DisplayPromo" boolValue="true" />
+				<Action type="recommendation" recType="Event" name="CM2016_OnePanel" eventName="UI_CM2016_name" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="CM2016_Event" />
+				<Action type="runScript" package="MiscScripts" script="KillGil" />
+			</True>
+		</Action>
+	</DisplayPromo_CyberMonday>
+	<CM2016_ViewPromo>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="CM2016_Event" />
+	</CM2016_ViewPromo>
+	<PromoIgnored_CyberMonday>
+		<Action type="dialogue" character="Gil" text="QST_DomoArigato_3_dlg_Start_8_Gil" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Chum" text="QST_DomoArigato_3_dlg_Start_9_Chum" revealSpeed="medium" emotion="sad" />
+	</PromoIgnored_CyberMonday>
+	<PurchaseMade_CyberMonday>
+		<Action type="dialogue" character="Gil" text="QST_DomoArigato_3_dlg_Start_7_Gil" revealSpeed="medium" emotion="selling" />
+	</PurchaseMade_CyberMonday>
+</ScriptPackage>

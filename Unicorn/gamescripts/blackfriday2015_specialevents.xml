@@ -1,0 +1,63 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="142000" name="BlackFriday2015_Promo" status="deprecated" onDeprecated="delete" endDate="BF2015_End" />
+		<DataID id="142001" name="CyberMonday2015_Promo" status="deprecated" onDeprecated="delete" endDate="CM2015_End" />
+	</MasterList>
+	<SpecialEvent id="142000" name="BlackFriday2015_Promo" character="PromoGilPermanent">
+		<Variable name="BF2015_Active" value="true" />
+		<Variable name="BF2015_Indicator_Active" value="true" />
+		<Variable name="BF2015_SeenDay1" value="false" />
+		<Variable name="BF2015_SeenDay2" value="false" />
+		<Variable name="BF2015_SeenDay3" value="false" />
+		<Variable name="BF2015_LastSeenOffer" value="-1" />
+		<Variable name="BF2015_PurchasedOnce" value="false" />
+		<Variable name="BF2015_StoreAvailable" value="false" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="BF2015_NewOfferAvailable" package="BlackFriday2015_Scripts" />
+		</OnEvent>
+		<Characters override="true">
+			<Character name="PromoGilPermanent">
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="BF2015_Indicator_Active" />
+					<Script name="BF2015_Display" package="BlackFriday2015_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="time" start="BF2015_Wave1_1" end="CM2015_Start" />
+				<Requirement type="quest" quest="MyPad" />
+			</Requirements>
+			<Script name="BF2015_Recommend" package="BlackFriday2015_Scripts" />
+		</OnEvent>
+		<Promo eventName="BlackFriday2015_Promo" questID="142100" type="consumable" object="OpenBF2015Cat" file="Promo_BlackFriday2015" yes="UI_Promo_GetEmNow" hideDonut="true" visualEndDate="CM2015_Start" />
+	</SpecialEvent>
+	<SpecialEvent id="142001" name="CyberMonday2015_Promo" character="PromoGilPermanent">
+		<Variable name="CM2015_Active" value="true" />
+		<Variable name="CM2015_Indicator_Active" value="true" />
+		<Variable name="CM2015_LastSeenOffer" value="-1" />
+		<Variable name="CM2015_StoreAvailable" value="false" />
+		<Variable name="CM2015_GilSpawned" value="false" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="CM2015_NewOfferAvailable" package="BlackFriday2015_Scripts" />
+		</OnEvent>
+		<Characters override="true">
+			<Character name="PromoGilPermanent">
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="CM2015_Indicator_Active" />
+					<Script name="CM2015_Display" package="BlackFriday2015_Scripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="time" start="CM2015_Start" end="CM2015_End" />
+				<Requirement type="variable" variable="CM2015_Indicator_Active" not="true" />
+			</Requirements>
+			<Script name="CM2015_Recommend" package="BlackFriday2015_Scripts" />
+		</OnEvent>
+		<Promo eventName="CyberMonday2015_Promo" questID="142200" type="building" object="KwikEMartCentralOffice" file="Promo_CyberMonday2015" yes="BTN_145Donuts" visualEndDate="CM2015_End" />
+	</SpecialEvent>
+</SpecialEvents>

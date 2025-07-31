@@ -1,0 +1,2215 @@
+﻿<SpecialEvents><!---->
+	<SpecialEvent id="1" name="THOH">
+		<List name="Zombies">
+			<String name="Zombie" />
+			<String name="PetZombie" />
+		</List>
+		<List name="ZombifiableCharacters">
+			<String name="Apu" />
+			<String name="Bart" />
+			<String name="Cletus" />
+			<String name="CBGuy" />
+			<String name="Duffman" />
+			<String name="Frink" />
+			<String name="Grampa" />
+			<String name="HankScorpio" />
+			<String name="HansMoleman" />
+			<String name="Homer" />
+			<String name="Kearney" />
+			<String name="Krusty" />
+			<String name="Lisa" />
+			<String name="Lovejoy" />
+			<String name="Luigi" />
+			<String name="Marge" />
+			<String name="Martin" />
+			<String name="Milhouse" />
+			<String name="Moe" />
+			<String name="Burns" />
+			<String name="Ned" />
+			<String name="Nelson" />
+			<String name="Ned" />
+			<String name="Martin" />
+			<String name="Moe" />
+			<String name="Frink" />
+			<String name="Quimby" />
+			<String name="Skinner" />
+			<String name="Snake" />
+			<String name="SqueakyVoiceTeen" />
+			<String name="Wiggum" />
+			<String name="Willy" />
+			<String name="Krabappel" />
+			<String name="Otto" />
+		</List>
+		<List name="Eggable">
+			<String name="WhiteHouse" />
+			<String name="WilliesShack" />
+			<String name="OrangeHouse" />
+			<String name="FrinksLab" />
+			<String name="SimpsonHome" />
+			<String name="WilliesShack" />
+			<String name="BrownHouse" />
+			<String name="FlandersHome" />
+			<String name="PurpleHouse" />
+			<String name="BlueHouse" />
+			<String name="VanHoutenHome" />
+			<String name="PinkHouse" />
+			<String name="BlueHouse" />
+		</List>
+		<List name="ToiletPaperable">
+			<String name="Tree00" />
+			<String name="Tree01" />
+			<String name="Tree02" />
+			<String name="Tree03" />
+			<String name="Tree04" />
+			<String name="Tree05" />
+			<String name="Tree06" />
+			<String name="Tree07" />
+			<String name="BartsTreehouse" />
+			<String name="SpecialAppleTree" />
+			<String name="SpecialOrangeTree" />
+			<String name="SpecialPlayTree" />
+			<String name="SpookyTree" />
+			<String name="DeadTree" />
+		</List>
+		<Buildings override="true" list="Eggable">
+			<Building>
+				<Vandalism>
+					<Cost Eggs="1" />
+					<Anim name="Vandalized" animation="Eggs" overlay="true" />
+					<Sound type="Vandalism" sound="141_Egg_Building_Tap_1.caf" />
+					<Reward type="Vandalism" chance="0.2" chanceType="s" Treats="1" />
+					<Reward type="Clean" chance="0.2" chanceType="s" Treats="1" />
+				</Vandalism>
+			</Building>
+		</Buildings>
+		<Buildings override="true" list="ToiletPaperable">
+			<Building>
+				<Vandalism>
+					<Cost ToiletPaper="1" />
+					<Anim name="Vandalized" animation="ToiletPaper" overlay="false" />
+					<Sound type="Vandalism" sound="142_Toilet_Paper_Tree_Tap_1.caf" />
+					<Sound type="Clean" sound="142_Toilet_Paper_Tree_Tap_1.caf" />
+					<Reward type="Vandalism" chance="0.2" chanceType="s" Treats="1" />
+					<Reward type="Clean" chance="0.2" chanceType="s" Treats="1" />
+				</Vandalism>
+			</Building>
+		</Buildings>
+		<ProximityCheck attackers="Zombies" defenders="ZombifiableCharacters" gridRadius="1.1" defenderSkinRestriction=".*Zombie"></ProximityCheck>
+		<Characters override="true" list="Zombies">
+			<Character>
+				<OnEvent event="CharacterGained" onObject="${NAME}">
+					<Script name="ZombieBreakOutOfGround" package="CharacterScripts" />
+				</OnEvent>
+				<OnEvent event="CharacterTouched" onObject="${NAME}" user="local">
+					<Script name="ZombieSquish" package="CharacterScripts" />
+				</OnEvent>
+				<OnEvent event="EnteredProximity" onObject="${NAME}" user="local">
+					<Script name="ZombieAttack" package="CharacterScripts" />
+				</OnEvent>
+				<Movement mode="sneak">
+					<Requirements>
+						<Requirement type="roads" not="true" />
+					</Requirements>
+					<BuildingVisit maxTime="0" minTime="0" />
+				</Movement>
+			</Character>
+		</Characters>
+		<Characters override="true" list="ZombifiableCharacters">
+			<Character>
+				<OnEvent event="CharacterTouched" onObject="${NAME}" user="local">
+					<Script name="ZombieHeal" package="CharacterScripts" />
+				</OnEvent>
+				<OnEvent event="CharacterStateChanged" onObject="${NAME}" user="local">
+					<Script name="ZombieHeal" package="CharacterScripts" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<Characters override="true">
+			<Character name="mayanstonegod">
+				<Requirements>
+					<Requirement type="active quest" quest="TheSecretOfTheMayans04" not="true" />
+				</Requirements>
+				<OnEvent event="CharacterGained" onObject="mayanstonegod">
+					<Script name="MayanGodArrival" package="CharacterScripts" />
+				</OnEvent>
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="THOH_TRIVIA_ACTIVE" />
+					<Script name="MayanGodTrivia" package="CharacterScripts" />
+				</OnEvent>
+				<SpecialIndicator icon="Indicator_Question">
+					<Requirements>
+						<Requirement type="variable" variable="THOH_TRIVIA_ACTIVE" />
+						<Requirement type="quest started" quest="MayanGodTrivia" />
+					</Requirements>
+				</SpecialIndicator>
+			</Character>
+			<Character name="BurnsMonster">
+				<Cost Treats="300" />
+			</Character>
+			<Character name="TalkingKrustyDoll">
+				<Requirements>
+					<Requirement type="quest started" quest="FlandersTheDevil05" />
+				</Requirements>
+			</Character>
+			<Character name="TheRaven">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies02" />
+				</Requirements>
+			</Character>
+		</Characters>
+		<Buildings>
+			<Building name="SpringfieldCemetery">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="DialZForZombies01" />
+				</Requirements>
+			</Building>
+			<Building name="PetCemetery">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="DialZForZombies03" />
+				</Requirements>
+				<Cost Treats="10" />
+			</Building>
+			<Building name="HouseOfEvil">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="FlandersTheDevil03" />
+				</Requirements>
+				<Cost Treats="100" />
+			</Building>
+			<Building name="BadDreamHouse">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="BadDreamHouse01" />
+				</Requirements>
+				<Cost Treats="150" />
+			</Building>
+			<Building name="RayGun">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest" quest="TheBlackHole04" />
+				</Requirements>
+			</Building>
+			<Building name="Mausoleum">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="DialZForZombies02" />
+				</Requirements>
+			</Building>
+			<Building name="SuperCollider">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="TheBlackHole01" />
+				</Requirements>
+				<Cost Treats="50" />
+			</Building>
+			<Building name="SpookyTree">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+					<Requirement type="level" level="5" />
+				</Requirements>
+			</Building>
+			<Building name="PumpkinPatch">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+					<Requirement type="level" level="5" />
+				</Requirements>
+			</Building>
+			<Building name="JackOLantern">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+					<Requirement type="level" level="5" />
+				</Requirements>
+			</Building>
+			<Building name="BarbedWireFence">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+					<Requirement type="level" level="5" />
+				</Requirements>
+			</Building>
+			<Building name="DeadTree">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+					<Requirement type="level" level="5" />
+				</Requirements>
+			</Building>
+			<Building name="IronRailing">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+					<Requirement type="level" level="5" />
+				</Requirements>
+			</Building>
+			<Building name="BlackHole">
+				<Requirements>
+					<Requirement type="level" level="5" />
+					<Requirement type="quest started" quest="TheBlackHole03" />
+				</Requirements>
+			</Building>
+			<Building name="MayanCalendarWhole">
+				<Requirements>
+					<Requirement type="quest" quest="TheSecretOfTheMayans03" />
+				</Requirements>
+			</Building>
+		</Buildings>
+		<Jobs>
+			<Job name="EmergencySatanicBibleStudy">
+				<Reward Treats="1" xp="70" />
+			</Job>
+			<Job name="SignUpNewClients">
+				<Reward Treats="1" xp="100" />
+			</Job>
+			<Job name="ShowHisWrath">
+				<Reward Treats="1" xp="17" />
+			</Job>
+			<Job name="CheckInWithTheMinions">
+				<Reward Treats="1" xp="45" />
+			</Job>
+			<Job name="InspectTheHellLabs">
+				<Reward Treats="1" xp="150" />
+			</Job>
+			<Job name="TrickOrTreatingPremiumTemp">
+				<Reward Treats="1" xp="200" />
+			</Job>
+			<Job name="BuyEyeOfNewt">
+				<Reward Treats="1" xp="26" />
+			</Job>
+			<Job name="DoAVictoryLap">
+				<Reward Treats="1" xp="105" />
+			</Job>
+			<Job name="StirThePot">
+				<Reward Treats="1" xp="150" />
+			</Job>
+			<Job name="SpeedUpACrop">
+				<Reward Treats="1" xp="70" />
+			</Job>
+			<Job name="RelaxWithBookOfSpells">
+				<Reward Treats="1" xp="225" />
+			</Job>
+			<Job name="DeployTheBeacon">
+				<Reward Treats="1" xp="150" />
+			</Job>
+			<Job name="ReadHowToCookHumans">
+				<Reward Treats="1" xp="70" />
+			</Job>
+			<Job name="ActivateTheBeacon">
+				<Reward Treats="1" xp="7" />
+			</Job>
+			<Job name="ProperlySeasonHumans">
+				<Reward Treats="1" xp="90" />
+			</Job>
+			<Job name="8HourEvilLaugh">
+				<Reward Treats="1" xp="105" />
+			</Job>
+			<Job name="RunFromPunyHumans">
+				<Reward Treats="1" xp="225" />
+			</Job>
+			<Job name="WorshipGukumatzTheCreator">
+				<Reward Treats="1" xp="150" />
+			</Job>
+			<Job name="GoOnAMaizeBinge">
+				<Reward Treats="1" xp="17" />
+			</Job>
+			<Job name="HumanSacrificeInTheBrownHouse">
+				<Reward Treats="1" xp="100" />
+			</Job>
+			<Job name="UlamaPractice">
+				<Reward Treats="1" xp="70" />
+			</Job>
+			<Job name="ReenactTheMayanCollapse">
+				<Reward Treats="1" xp="45" />
+			</Job>
+			<Job name="TurnOnTheSuperColliderTemp">
+				<Reward Treats="1" xp="1" />
+				<Requirements>
+					<Requirement type="active quest" quest="TheBlackHole02" />
+				</Requirements>
+			</Job>
+			<Job name="SignAwayHerSoulTemp">
+				<Reward Treats="1" xp="150" />
+				<Requirements>
+					<Requirement type="active quest" quest="EasyBakeCoven01" />
+				</Requirements>
+			</Job>
+			<Job name="ShopAtHouseOfEvilTemp">
+				<Reward Treats="1" xp="17" />
+			</Job>
+			<Job name="RunFromTalkingKrustyDollTemp">
+				<Requirements>
+					<Requirement type="quest started" quest="FlandersTheDevil05" />
+				</Requirements>
+				<Reward Treats="1" xp="150" />
+			</Job>
+			<Job name="SleepInBadDreamHouseTemp">
+				<Reward Treats="1" xp="100" />
+			</Job>
+			<Job name="TrickOrTreatingTemp">
+				<Reward Treats="1" xp="125" />
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies01" />
+				</Requirements>
+			</Job>
+			<Job name="EnterTheHeckHouseTemp">
+				<Reward Treats="1" xp="70" />
+			</Job>
+			<Job name="TurnOnTheSuperColliderTemp">
+				<Reward Treats="1" xp="1" />
+			</Job>
+			<Job name="RunAwayWithKang">
+				<Reward Treats="1" xp="7" />
+			</Job>
+			<Job name="CrackTheWhip">
+				<Reward Treats="1" xp="26" />
+			</Job>
+			<Job name="IncubatingZombies" grantonconstructioncomplete="true">
+				<CharacterReward character="Zombie" characterCount="10" icon="ICO_THOH_Zombie_SM" rewardTitle="UI_Zombies" />
+				<SocialBonusReward>
+					<Reward chance="0.50" chanceType="s" Treats="1" />
+					<Reward chance="0.75" chanceType="s" ToiletPaper="1" />
+					<Reward chance="0.90" chanceType="s" Eggs="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncubatingZombies02" grantonconstructioncomplete="true">
+				<CharacterReward character="Zombie" characterCount="15" icon="ICO_THOH_Zombie_SM" rewardTitle="UI_Zombies" />
+				<SocialBonusReward>
+					<Reward chance="0.50" chanceType="s" Treats="1" />
+					<Reward chance="0.75" chanceType="s" ToiletPaper="1" />
+					<Reward chance="0.90" chanceType="s" Eggs="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncubatingPetZombies" grantonconstructioncomplete="true">
+				<CharacterReward character="PetZombie" characterCount="10" icon="ICO_THOH_Zombie_SM" rewardTitle="UI_Zombies" />
+				<SocialBonusReward>
+					<Reward chance="0.50" chanceType="s" Treats="1" />
+					<Reward chance="0.75" chanceType="s" ToiletPaper="1" />
+					<Reward chance="0.90" chanceType="s" Eggs="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="SellingEvilAndCursedFrogurt">
+				<Reward Treats="3" />
+				<SocialBonusReward>
+					<Reward chance="0.50" chanceType="s" Treats="1" />
+					<Reward chance="0.75" chanceType="s" ToiletPaper="1" />
+					<Reward chance="0.90" chanceType="s" Eggs="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="ScaringUnsuspectingGuests">
+				<Reward Treats="3" />
+				<SocialBonusReward>
+					<Reward chance="0.50" chanceType="s" Treats="1" />
+					<Reward chance="0.75" chanceType="s" ToiletPaper="1" />
+					<Reward chance="0.90" chanceType="s" Eggs="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="RunFromTalkingKrustyDollTemp">
+				<Requirements>
+					<Requirement type="quest started" quest="FlandersTheDevil05" />
+				</Requirements>
+			</Job>
+		</Jobs>
+		<FlyBys>
+			<FlyBy name="UFO">
+				<Requirements>
+					<Requirement type="building" building="CrashedUFO" not="true" />
+					<Requirement type="quest" quest="ShootingDownUFOEnd" not="true" />
+					<Requirement type="quest" quest="TheBlackHole03" />
+				</Requirements>
+			</FlyBy>
+		</FlyBys>
+		<Consumables>
+			<Consumable name="HeckHouse">
+				<Cost Treats="300" />
+			</Consumable>
+			<Consumable name="WickedTreatBox">
+				<Requirements>
+					<Requirement type="quest started" quest="DialZForZombies02" />
+				</Requirements>
+			</Consumable>
+		</Consumables>
+		<SpawnOverTime character="Zombie" loggedOnSpawnTime="4h" loggedOffSpawnTime="4h" maxAllowedInTown="40" errorTitle="UI_THOH_TooManyZombies_Title" errorBody="UI_THOH_TooManyZombies_Body">
+			<Requirement type="quest" quest="DialZForZombies01" />
+		</SpawnOverTime>
+		<SpawnOverTime character="PetZombie" loggedOnSpawnTime="4h" loggedOffSpawnTime="4h" maxAllowedInTown="25" errorTitle="UI_THOH_TooManyZombies_Title" errorBody="UI_THOH_TooManyZombies_Body">
+			<Requirement type="quest" quest="DialZForZombies03" />
+		</SpawnOverTime>
+		<DailyBonus>
+			<Day id="5">
+				<Reward>
+					<Item type="consumable" name="WickedTreatBox" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+		<PrizeList>
+			<Prize name="BLD_MayanCalendarPiece01_name" listIcon="ico_thoh_calendarpiece_lg" rewardIcon="ico_thoh_calendarpiece_lg" indicatorIcon="indicator_mayancalendar" unique="true">
+				<Requirements>
+					<Requirement type="time" start="2012-10-04 0:00" end="ThohEndDate" />
+					<Requirement type="characterlistremoved" id="1" name="Zombies" />
+				</Requirements>
+				<PrizeChance base=".3334" increase="1.0" />
+				<Reward>
+					<Item type="building" name="MayanCalendarPiece01" />
+				</Reward>
+			</Prize>
+			<Prize name="BLD_MayanCalendarPiece02_name" listIcon="ico_thoh_calendarpiece_lg" rewardIcon="ico_thoh_calendarpiece_lg" indicatorIcon="indicator_mayancalendar" unique="true">
+				<Requirements>
+					<Requirement type="time" start="2012-10-04 0:00" end="ThohEndDate" />
+					<Requirement type="characterlistremoved" id="1" name="Zombies" />
+					<Requirement type="quest started" quest="TheSecretOfTheMayans01" />
+				</Requirements>
+				<PrizeChance base=".3334" increase="1.0" />
+				<Reward>
+					<Item type="building" name="MayanCalendarPiece02" />
+				</Reward>
+			</Prize>
+			<Prize name="BLD_MayanCalendarPiece03_name" listIcon="ico_thoh_calendarpiece_lg" rewardIcon="ico_thoh_calendarpiece_lg" indicatorIcon="indicator_mayancalendar" unique="true">
+				<Requirements>
+					<Requirement type="time" start="2012-10-05 0:00" end="ThohEndDate" />
+					<Requirement type="characterlistremoved" id="1" name="Zombies" />
+					<Requirement type="quest started" quest="TheSecretOfTheMayans02" />
+				</Requirements>
+				<PrizeChance base=".3334" increase="1.0" />
+				<Reward>
+					<Item type="building" name="MayanCalendarPiece03" />
+				</Reward>
+			</Prize>
+			<Prize name="BLD_MayanCalendarPiece04_name" listIcon="ico_thoh_calendarpiece_lg" rewardIcon="ico_thoh_calendarpiece_lg" indicatorIcon="indicator_mayancalendar" unique="true">
+				<Requirements>
+					<Requirement type="time" start="2012-10-06 0:00" end="ThohEndDate" />
+					<Requirement type="characterlistremoved" id="1" name="Zombies" />
+					<Requirement type="quest started" quest="TheSecretOfTheMayans03" />
+				</Requirements>
+				<PrizeChance base=".3334" increase="1.0" />
+				<Reward>
+					<Item type="building" name="MayanCalendarPiece04" />
+				</Reward>
+			</Prize>
+			<Prize name="BLD_MayanCalendarPiece05_name" listIcon="ico_thoh_calendarpiece_lg" rewardIcon="ico_thoh_calendarpiece_lg" indicatorIcon="indicator_mayancalendar" unique="true">
+				<Requirements>
+					<Requirement type="time" start="2012-10-06 0:00" end="ThohEndDate" />
+					<Requirement type="characterlistremoved" id="1" name="Zombies" />
+					<Requirement type="quest started" quest="TheSecretOfTheMayans03" />
+				</Requirements>
+				<PrizeChance base=".3334" increase="1.0" />
+				<Reward>
+					<Item type="building" name="MayanCalendarPiece05" />
+				</Reward>
+			</Prize>
+			<Prize name="BLD_MayanCalendarPiece06_name" listIcon="ico_thoh_calendarpiece_lg" rewardIcon="ico_thoh_calendarpiece_lg" indicatorIcon="indicator_mayancalendar" unique="true">
+				<Requirements>
+					<Requirement type="time" start="2012-10-07 0:00" end="ThohEndDate" />
+					<Requirement type="characterlistremoved" id="1" name="Zombies" />
+					<Requirement type="quest started" quest="TheSecretOfTheMayans04" />
+				</Requirements>
+				<PrizeChance base=".3334" increase="1.0" />
+				<Reward>
+					<Item type="building" name="MayanCalendarPiece06" />
+				</Reward>
+			</Prize>
+		</PrizeList>
+		<HUDCurrencies buttonType="THOH">
+			<Currency type="Treats" />
+			<Currency type="ToiletPaper" />
+			<Currency type="Eggs" />
+		</HUDCurrencies>
+		<Variable name="THOH" value="true" />
+		<Variable name="THOH_TRIVIA_ACTIVE" value="true" />
+		<Variable name="THOH_TRIVIA_WRONGCOUNT" value="0" />
+	</SpecialEvent>
+	<SpecialEvent id="3" name="Thanksgiving">
+		<Variable name="Thanksgiving" value="true" />
+	</SpecialEvent>
+	<SpecialEvent id="4" name="Christmas">
+		<Variable name="CHRISTMAS" value="true" />
+		<GuideData title="UI_XMASGuide_name" tip="UI_XMASGuide_tip" step1="UI_XMASGuide_panel01" step2="UI_XMASGuide_panel02" step3="UI_XMASGuide_panel03" img1="ico_xmas_step1image" img2="ico_xmas_step2image" img3="ico_xmas_step3image" />
+		<HUDCurrencies buttonType="guide">
+			<Currency type="SantaCoins" />
+		</HUDCurrencies>
+		<Jobs>
+			<Job name="DoSantaTraining">
+				<Reward SantaCoins="6" xp="70" />
+			</Job>
+			<Job name="EndureTheWhineyKids">
+				<Reward SantaCoins="8" xp="100" />
+			</Job>
+			<Job name="GetStuckInTheChimney">
+				<Reward SantaCoins="4" xp="45" />
+			</Job>
+			<Job name="BreakInForMilkAndCookies">
+				<Reward SantaCoins="2" xp="17" />
+			</Job>
+			<Job name="FlySantasSleigh">
+				<Reward SantaCoins="12" xp="150" />
+			</Job>
+			<Job name="DoTheRounds">
+				<Reward SantaCoins="5" xp="55" />
+			</Job>
+			<Job name="PretendToSkiTEMP">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+				<Reward SantaCoins="6" xp="90" />
+			</Job>
+			<Job name="MakeSnowAngelsTEMP">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+				<Reward SantaCoins="4" xp="50" />
+			</Job>
+			<Job name="MakeASnowmanTEMP">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+				<Reward SantaCoins="8" xp="125" />
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingTEMP" xp="90">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+				<Reward SantaCoins="6" xp="90" />
+			</Job>
+			<Job name="BeANutcrackerTEMP">
+				<Reward SantaCoins="6" xp="90" />
+			</Job>
+			<Job name="PrepareChristmasTreatsTEMP">
+				<Reward SantaCoins="8" xp="125" />
+			</Job>
+			<Job name="WrappingPresents">
+				<Reward SantaCoins="10" xp="10" />
+				<SocialBonusReward>
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="FeedingReindeer" time="86400">
+				<Reward SantaCoins="25" />
+				<SocialBonusReward>
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax3">
+				<SocialBonusReward>
+					<Requirement type="building" building="SimpsonHome" skin="Decorated_SimpsonHome" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax1">
+				<SocialBonusReward>
+					<Requirement type="building" building="BrownHouse" skin="Decorated_BrownHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax7">
+				<SocialBonusReward>
+					<Requirement type="building" building="FlandersHome" skin="Decorated_FlandersHome" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax0">
+				<SocialBonusReward>
+					<Requirement type="building" building="PurpleHouse" skin="Decorated_PurpleHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax2">
+				<SocialBonusReward>
+					<Requirement type="building" building="BlueHouse" skin="Decorated_BlueHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax8">
+				<SocialBonusReward>
+					<Requirement type="building" building="VanHoutenHome" skin="Decorated_VanHoutenHome" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax4">
+				<SocialBonusReward>
+					<Requirement type="building" building="PinkHouse" skin="Decorated_PinkHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax5">
+				<SocialBonusReward>
+					<Requirement type="building" building="WhiteHouse" skin="Decorated_WhiteHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax9">
+				<SocialBonusReward>
+					<Requirement type="building" building="WilliesShack" skin="Decorated_WilliesShack" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="IncomeTax6">
+				<SocialBonusReward>
+					<Requirement type="building" building="OrangeHouse" skin="Decorated_OrangeHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="PerformingExperiments">
+				<SocialBonusReward>
+					<Requirement type="building" building="FrinksLab" skin="Decorated_FrinksLab" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="UnleashingDoomsdayDevices">
+				<SocialBonusReward>
+					<Requirement type="building" building="VolcanoLair" skin="Decorated_VolcanoLair" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="CollectingWelfare">
+				<SocialBonusReward>
+					<Requirement type="building" building="MuntzHouse" skin="Decorated_MuntzHouse" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+			<Job name="OverdueRent">
+				<SocialBonusReward>
+					<Requirement type="building" building="KrabappelApartment" skin="Decorated_KrabappelApartment" />
+					<Reward SantaCoins="1" chanceType="s" chance="1" />
+				</SocialBonusReward>
+			</Job>
+		</Jobs>
+		<Characters override="true">
+			<Character name="SantasLittleHelper">
+				<Requirements>
+					<Requirement quest="SantasLittleHelper" type="quest started" />
+				</Requirements>
+				<Cost SantaCoins="1500" />
+			</Character>
+			<Character name="BlueFunzo">
+				<Requirements>
+					<Requirement quest="FunzoMania" type="quest started" />
+				</Requirements>
+			</Character>
+			<Character name="PinkFunzo">
+				<Requirements>
+					<Requirement quest="FunzoMania" type="quest started" />
+				</Requirements>
+				<Cost SantaCoins="1000" />
+			</Character>
+			<Character name="PurpleFunzo">
+				<Requirements>
+					<Requirement quest="FunzoMania" type="quest started" />
+				</Requirements>
+				<Cost SantaCoins="750" />
+			</Character>
+		</Characters>
+		<Buildings>
+			<Building name="HolidayTree">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+			</Building>
+			<Building name="MappleStore">
+				<Requirements>
+					<Requirement type="quest started" quest="WhatsAMypOd" />
+				</Requirements>
+				<Cost SantaCoins="150" />
+				<BuildTime time="86400" />
+			</Building>
+			<Building name="Bowlarama">
+				<Requirements>
+					<Requirement type="quest started" quest="PinPals" />
+				</Requirements>
+				<Cost SantaCoins="200" />
+				<BuildTime time="86400" />
+			</Building>
+			<Building name="KrustyluStudios">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+			</Building>
+			<Building name="TryNSave">
+				<Requirements>
+					<Requirement type="quest started" quest="YouCanTryNSaveButYouWont" />
+				</Requirements>
+				<Cost SantaCoins="450" />
+				<BuildTime time="86400" />
+			</Building>
+			<Building name="SantasVillage">
+				<Requirements>
+					<Requirement type="quest started" quest="Christmas" />
+				</Requirements>
+			</Building>
+		</Buildings>
+		<DailyBonus>
+			<Day id="5">
+				<Reward>
+					<Item type="consumable" name="SantasSack" />
+					<Cost price="3" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="5" name="Valentine">
+		<Variable name="VALENTINE" value="true" />
+		<GuideData title="UI_ValentineGuide_name" tip="UI_ValentineGuide_tip" step1="UI_ValentineGuide_panel01" step2="UI_ValentineGuide_panel02" step3="UI_ValentineGuide_panel03" img1="ICO_VDAY_Step1Image" img2="ICO_VDAY_Step2Image" img3="ICO_VDAY_Step3Image" />
+		<HUDCurrencies buttonType="guide">
+			<Currency type="Hearts" />
+		</HUDCurrencies>
+		<List name="ValentineLocations">
+			<String name="SimpsonHome" />
+			<String name="Kwik-E-Mart" />
+			<String name="FlandersHome" />
+			<String name="CletusFarm" />
+			<String name="Bowlarama" />
+			<String name="KrustyBurger" />
+			<String name="VanHoutenHome" />
+			<String name="SpringfieldElementary" />
+			<String name="WilliesShack" />
+			<String name="PowerPlant" />
+			<String name="BartsTreehouse" />
+			<String name="SpringfieldLibrary" />
+			<String name="AndroidsDungeon" />
+			<String name="FirstChurchofSpringfield" />
+			<String name="MoesTavern" />
+			<String name="PoliceStation" />
+			<String name="Luigis" />
+			<String name="SpringfieldRetirementCastle" />
+			<String name="SpringfieldPenitentiary" />
+			<String name="TownHall" />
+			<String name="MuntzHouse" />
+			<String name="KrabappelApartment" />
+			<String name="Channel6" />
+			<String name="DrHibbertFamilyPractice" />
+			<String name="BurnsManor" />
+			<String name="WiggumHouse" />
+			<String name="FrinksLab" />
+			<String name="DuffBrewery" />
+			<String name="VolcanoLair" />
+			<String name="SchoolBus" />
+			<String name="KrustyluStudios" />
+		</List>
+		<Buildings override="true" list="ValentineLocations">
+			<Building>
+				<CustomFriendAction name="valentine" friendIcon="Indicator_VDAY_Card" ownerIcon="Indicator_VDAY_Card" attachToCharacterAtIndex="0" consumeFriendActions="true" sendFriendName="true">
+					<OnFriendAction package="MiscScripts" name="ValentineFriendGift" />
+					<OnOwnerAction package="MiscScripts" name="ValentineOwnerCollect" />
+				</CustomFriendAction>
+			</Building>
+		</Buildings>
+		<Buildings>
+			<Building id="81" name="PhineasQButterfats" type="Building" xpValue="10">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="10" />
+			</Building>
+			<Building id="82" name="HowardsFlowers" type="Building" xpValue="25">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="25" />
+			</Building>
+			<Building id="83" name="SirPuttsALot" type="Building" xpValue="50">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+					<Requirement type="level" level="15" />
+				</Requirements>
+				<Cost Hearts="50" />
+			</Building>
+			<Building id="1210" name="RoseBush" type="Decoration" xpValue="10">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="10" />
+			</Building>
+			<Building id="1211" name="ValentinesTree" type="Decoration" xpValue="15">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="15" />
+			</Building>
+			<Building id="1212" name="LovePlanter" type="Decoration" xpValue="20">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="20" />
+			</Building>
+			<Building id="1213" name="RoseArch" type="Decoration" xpValue="25">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="25" />
+			</Building>
+			<Building id="1214" name="ValentinesPond" type="Decoration" xpValue="30">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="30" />
+			</Building>
+			<Building id="1215" name="CherubTopiary" type="Decoration" xpValue="35">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="35" />
+			</Building>
+			<Building id="1216" name="CozyHammock" type="Decoration" xpValue="40">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="40" />
+			</Building>
+			<Building id="1217" name="IChooChooChooseYouTrain" type="Decoration" xpValue="100">
+				<Requirements>
+					<Requirement type="quest started" quest="ValentinesDay01" />
+				</Requirements>
+				<Cost Hearts="100" />
+			</Building>
+		</Buildings>
+		<DailyBonus>
+			<Day id="5">
+				<Reward>
+					<Item type="consumable" name="MysteryLoveBox" />
+					<Cost price="5" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="7" name="WhackingDay">
+		<GuideData title="UI_WhackingDayGuide_name" tip="UI_WhackingDayGuide_tip" step1="UI_WhackingDayGuide_panel01" step2="UI_WhackingDayGuide_panel02" step3="UI_WhackingDayGuide_panel03" img1="ICO_WDAY_Step1Image" img2="ICO_WDAY_Step2Image" img3="ICO_WDAY_Step3Image" icon="ICO_WDAY_GuideBatonModeIcon" />
+		<HUDCurrencies buttonType="guide">
+			<Currency type="Snakes" />
+			<Currency type="SnakeEggs" />
+		</HUDCurrencies>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_WDAY_BatonMode">
+				<Requirements>
+					<Requirement type="variable" variable="whackingDay" />
+				</Requirements>
+				<CharacterSelectMode prizeButton="ICO_WDAY_SnakeTrophy" buttonType="guide">
+					<Currency type="Snakes" />
+					<Currency type="SnakeEggs" />
+				</CharacterSelectMode>
+			</Button>
+			<Button mode="friend" icon="ICO_WDAY_BatonMode">
+				<Requirements>
+					<Requirement type="variable" variable="whackingDay" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="variable" variable="expertLicense" />
+						<Requirement type="variable" variable="premiumLicense" />
+					</Requirement>
+				</Requirements>
+				<CharacterSelectMode prizeButton="ICO_WDAY_SnakeTrophy" buttonType="guide">
+					<Currency type="Snakes" />
+					<Currency type="SnakeEggs" />
+				</CharacterSelectMode>
+			</Button>
+			<Button mode="friend" icon="ICO_WDAY_EggMode">
+				<Requirements>
+					<Requirement type="variable" variable="whackingDay" />
+					<Requirement type="friendlevel" level="6" />
+				</Requirements>
+				<FriendBuildingPlacementMode building="SnakeEgg" popup="UI_WhackingDay_FriendNoEggs" title="UI_SNAKEEGG" buttonType="guide">
+					<Currency type="SnakeEggs" />
+					<Script name="AddSnakeEgg" package="MiscScripts" />
+				</FriendBuildingPlacementMode>
+			</Button>
+		</SpecialButtons>
+		<Jobs>
+			<Job name="ReleaseSnakesFromAnotherTownTemp">
+				<Reward Snakes="3" xp="50" />
+			</Job>
+			<Job name="HoldAWhackingDayPromotionTemp">
+				<Reward Snakes="10" xp="150" />
+			</Job>
+			<Job name="SnakeHuntTemp">
+				<Reward Snakes="10" xp="150" />
+			</Job>
+			<Job name="SendSnakesBackToHellTemp">
+				<Reward Snakes="10" xp="150" />
+			</Job>
+			<Job name="ShootSnakesTemp">
+				<Reward Snakes="5" xp="100" />
+			</Job>
+			<Job name="GetBulliedByASnakeTemp">
+				<Reward Snakes="5" xp="100" />
+			</Job>
+			<Job name="AttemptToWhackSnakesTemp">
+				<Reward Snakes="5" xp="100" />
+			</Job>
+			<Job name="InjectHimselfWithSnakeVenomTemp">
+				<Reward Snakes="5" xp="100" />
+			</Job>
+			<Job name="FakeWhackPretendSnakes">
+				<Reward Snakes="1" xp="26" />
+			</Job>
+			<Job name="SmashUpFlanderssHouse">
+				<Reward Snakes="4" xp="70" />
+			</Job>
+			<Job name="SteerTheMobInWiseDirections">
+				<Reward Snakes="8" xp="105" />
+			</Job>
+			<Job name="TwirlWhackingStick">
+				<Reward Snakes="10" xp="150" />
+			</Job>
+			<Job name="PolishStickForWhacking">
+				<Reward Snakes="15" xp="225" />
+			</Job>
+			<Job name="WrestleASnake">
+				<Reward Snakes="1" xp="17" />
+			</Job>
+		</Jobs>
+		<Buildings>
+			<Building name="SnakeEgg">
+				<Cost SnakeEggs="1" />
+			</Building>
+			<Building name="SnakeRocks">
+				<Job id="1074" name="AttractingSnakes01" time="14400">
+					<CharacterReward character="WhackableSnake" characterCount="10" specialCurrency="Snakes" spawnImmediately="false" rewardTitle="GEN_Hatches" icon="ICO_WDAY_SnakeCount_SM" />
+				</Job>
+			</Building>
+			<Building name="SnakeStump">
+				<Job id="1075" name="AttractingSnakes02" time="14400">
+					<CharacterReward character="WhackableSnake" characterCount="20" specialCurrency="Snakes" spawnImmediately="false" rewardTitle="GEN_Hatches" icon="ICO_WDAY_SnakeCount_SM" />
+				</Job>
+			</Building>
+			<Building name="HollowSnakeTrunk">
+				<Job id="1076" name="AttractingSnakes03" time="14400">
+					<CharacterReward character="WhackableSnake" characterCount="30" specialCurrency="Snakes" spawnImmediately="false" rewardTitle="GEN_Hatches" icon="ICO_WDAY_SnakeCount_SM" />
+				</Job>
+			</Building>
+		</Buildings>
+		<PrizeList nameText="UI_WhackingDayPrizes_name" completeText="UI_WhackingDayPrizes_done" messageText="UI_WhackingDayPrizeAward_desc" countText="UI_WhackingDayPrizes_SnakeCount" getnowText="UI_WhackingDayPrizes_getnow" backgroundRewardIcon="ICO_WDAY_MenuSnake">
+			<Prize name="UI_WhackingDayPrizes_prize1" listIcon="ICO_WDAY_FortSensible_md" rewardIcon="ICO_WDAY_FortSensible_lg">
+				<Requirement type="special currency" currency="Snakes" amount="150" />
+				<Reward>
+					<Item type="building" name="FortSensible" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize2" listIcon="ICO_WDAY_WhackingLicense_md" rewardIcon="ICO_WDAY_WhackingLicense_lg">
+				<Requirement type="special currency" currency="Snakes" amount="400" />
+				<Reward>
+					<Item type="consumable" name="ExpertWhackingLicense" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize3" listIcon="ICO_WDAY_lisabalancebeam_md" rewardIcon="ICO_WDAY_lisabalancebeam_lg">
+				<Requirement type="special currency" currency="Snakes" amount="1000" />
+				<Reward>
+					<Item type="building" name="BalanceBeam" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize4" listIcon="ICO_WDAY_SnakeRock_md" rewardIcon="ICO_WDAY_SnakeRock_lg">
+				<Requirement type="special currency" currency="Snakes" amount="2000" />
+				<Reward>
+					<Item type="building" name="SnakeRocks" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize5" listIcon="ICO_WDAY_SnakeStatue_md" rewardIcon="ICO_WDAY_SnakeStatue_lg">
+				<Requirement type="special currency" currency="Snakes" amount="3000" />
+				<Reward>
+					<Item type="building" name="SnakeStatue" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize6" listIcon="ICO_WDAY_DuffStadium_md" rewardIcon="ICO_WDAY_DuffStadium_lg">
+				<Requirement type="special currency" currency="Snakes" amount="4250" />
+				<Reward>
+					<Item type="building" name="DuffStadium" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize7" listIcon="ICO_WDAY_PetSnake_md" rewardIcon="ICO_WDAY_PetSnake_lg">
+				<Requirement type="special currency" currency="Snakes" amount="5500" />
+				<Reward>
+					<Item type="character" name="PetSnake" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize8" listIcon="ICO_WDAY_BareChestedWillie_md" rewardIcon="ICO_WDAY_BareChestedWillie_lg">
+				<Requirement type="special currency" currency="Snakes" amount="7500" />
+				<Reward>
+					<Item type="consumable" name="BareChested" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize9" listIcon="ICO_WDAY_TatumColiseum_md" rewardIcon="ICO_WDAY_TatumColiseum_lg">
+				<Requirement type="special currency" currency="Snakes" amount="10000" />
+				<Reward>
+					<Item type="building" name="SpringfieldColiseum" />
+				</Reward>
+			</Prize>
+			<Prize name="UI_WhackingDayPrizes_prize10" listIcon="ICO_WDAY_MissSpringfieldSleepEazy_md" rewardIcon="ICO_WDAY_MissSpringfieldSleepEazy_lg">
+				<Requirement type="special currency" currency="Snakes" amount="12500" />
+				<Reward>
+					<Item type="building" name="SleepEazyMotel" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="13500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="14500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="15500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="16500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="17500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="18500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="19500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="20500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="21500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+			<Prize name="CON_WhackBox_name" listIcon="ICO_WDAY_WhackBox_md" rewardIcon="ICO_WDAY_WhackBox_lg">
+				<Requirement type="special currency" currency="Snakes" amount="22500" />
+				<Reward>
+					<Item type="consumable" name="WhackBox" />
+				</Reward>
+			</Prize>
+		</PrizeList>
+		<SpawnOverTime character="WhackableSnake" loggedOnSpawnTime="8m" loggedOffSpawnTime="8m" maxAllowedInTown="50" regularBankMax="50" bankVariable="bankedSnakes" errorTitle="UI_WhackingDay_TooManySnakes_Title" errorBody="UI_WhackingDay_TooManySnakes_Body"></SpawnOverTime>
+		<Variable name="expertLicense" value="false" />
+		<Variable name="premiumLicense" value="false" />
+		<Variable name="whackingDay" value="true" />
+		<Variable name="bankedSnakes" value="0" />
+		<Variable name="hatchedEggs" value="0" />
+		<Variable name="showNumberOfEggsInLand" value="true" owner="0" />
+	</SpecialEvent>
+	<SpecialEvent id="6" name="StPatricksDay">
+		<Variable name="STPATRICKSDAY" value="true" />
+	</SpecialEvent>
+	<SpecialEvent id="1998" name="ScriptRunner">
+		<LoopScript package="XMAS2015_Scripts" script="ExoticPettingZoo_Idle" interval="10s" interval_variance="5s" loop="true" onObject="ExoticPettingZoo_Buildable" playThenWait="false">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="building" building="ExoticPettingZoo_Buildable" />
+			</Requirements>
+		</LoopScript>
+		<LoopScript package="XMAS2015_Scripts" script="ExoticPettingZoo_Idle" interval="10s" interval_variance="5s" loop="true" onObject="ExoticPettingZoo" playThenWait="false">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="building" building="ExoticPettingZoo" />
+			</Requirements>
+		</LoopScript>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="level" level="60" />
+				<Requirement type="time" start="ClassicMiniEvents_Start" end="ClassicMiniEvents_End" />
+			</Requirements>
+			<Script package="MiscScripts" name="ClassicMiniEventsStarter" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script package="MiscScripts" name="LandVisited" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="variable" variable="Krustyland_Destroyed" not="true" />
+				<Requirement type="level" level="5" />
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="KrustylandNuked" />
+					<Requirement type="quest" quest="KrustylandAutoNukeComplete" />
+				</Requirement>
+			</Requirements>
+			<Script package="MoesArk_Scripts" name="KrustylandDestroyedRecovery" />
+		</OnEvent>
+	</SpecialEvent>
+	<SpecialEvent id="8" name="SideshowBobDeleteFromFriendsTown">
+		<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="variable" variable="GainedBobTerwilliger" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="character" name="SideshowBob" />
+			</Requirements>
+			<Script name="DeleteSideshowBobFromFriendsTown" package="Terwilligers_Scripts" />
+		</OnEvent>
+	</SpecialEvent>
+	<SpecialEvent id="9" name="Tailgate_LandLoad">
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="building" building="Tailgate" />
+			</Requirements>
+			<Script name="Tailgate_Scripts:Tailgate_LandLoad" />
+		</OnEvent>
+	</SpecialEvent>
+	<SpecialEvent id="10" name="FocusOnSimpsonHome">
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="SimpsonHome" />
+			</LandInfo>
+		</LandInfos>
+		<GuideData title="" tip=""></GuideData>
+		<HUDCurrencies buttonType="guide">
+			<GuideData title="" tip=""></GuideData>
+			<Currency type="FreeLandTokenCurrency">
+			</Currency>
+			<Currency type="ShatteredToken">
+			</Currency>
+			<Currency type="HellOnWheelsToken">
+			</Currency>
+		</HUDCurrencies>
+	</SpecialEvent>
+	<SpecialEvent id="11" name="Season33PrizeTrack">
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_Season33_Event">
+				<Requirements>
+					<Requirement type="quest" quest="Season33Prize5" not="true" />
+					<Requirement type="time" start="Season33PrizeTrack_ButtonAvailable" end="Season33PrizeTrack_End" />
+				</Requirements>
+				<RunScript>
+					<Script name="Season33PrizeTrack_OpenMasterQuest" package="MiscScripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<EventCurrencyJobLists>
+			<JobList name="Season33PrizeTrack_JL_1">
+				<Title value="UI_Season33PrizeTrack_title" />
+				<ResourceGenerator resourceCapSelector="__Config_PrizeTrack:ResourceQuantities:Season33PrizeTrack_ResourceList__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="SeasonPrizeTrack_HollywoodStars" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot>
+						<Job name="CollectTVStars" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="Kirk" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="DrHibbert" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="HelenLovejoy" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="Barney" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars" character="Lenny" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Season33PrizeTrack_JL_2">
+				<Title value="UI_Season33PrizeTrack_title" />
+				<ResourceGenerator resourceCapSelector="__Config_PrizeTrack:ResourceQuantities:Season33PrizeTrack_ResourceList__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="SeasonPrizeTrack_HollywoodStars" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Wolfcastle" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Kirk" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Maggie" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="BabyGerald" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Luann" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize2" character="Milhouse" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Season33PrizeTrack_JL_3">
+				<Title value="UI_Season33PrizeTrack_title" />
+				<ResourceGenerator resourceCapSelector="__Config_PrizeTrack:ResourceQuantities:Season33PrizeTrack_ResourceList_Prize3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="SeasonPrizeTrack_HollywoodStars" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot>
+						<Job name="CollectTVStars_Prize3" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize3" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize3" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize3" character="Bart" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Season33PrizeTrack_JL_4">
+				<Title value="UI_Season33PrizeTrack_title" />
+				<ResourceGenerator resourceCapSelector="__Config_PrizeTrack:ResourceQuantities:Season33PrizeTrack_ResourceList_Prize4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="SeasonPrizeTrack_HollywoodStars" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="Skinner" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="Apu" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="MissHoover" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize4" character="DeweyLargo" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Season33PrizeTrack_JL_5">
+				<Title value="UI_Season33PrizeTrack_title" />
+				<ResourceGenerator resourceCapSelector="__Config_PrizeTrack:ResourceQuantities:Season33PrizeTrack_ResourceList_Prize5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="SeasonPrizeTrack_HollywoodStars" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Jasper" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Marge" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectTVStars_Prize5" character="Bart" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+	</SpecialEvent>
+	<SpecialEvent id="12" name="NewFrontier">
+		<EventCurrencyJobLists>
+			<JobList name="NewFrontier_FixBridge_Wood">
+				<Title value="QST_BraveNewWorld_1_1_name" />
+				<ResourceGenerator resourceCapSelector="15" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Wood" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="FindWood" character="Cookie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="FindWood" character="ConnieAppleseed" />
+					</Slot>
+					<Slot>
+						<Job name="FindWood" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindWood" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="FindWood" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="NewFrontier_FixBridge_Nails">
+				<Title value="QST_BraveNewWorld_1_1_name" />
+				<ResourceGenerator resourceCapSelector="15" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Nails" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="AllThisJazz_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="FindNails" character="Cookie" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="FindNails" character="ConnieAppleseed" />
+					</Slot>
+					<Slot>
+						<Job name="FindNails" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindNails" character="Wiggum" />
+					</Slot>
+					<Slot>
+						<Job name="FindNails" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+	</SpecialEvent>
+	<SpecialEvent id="13" name="GoldenPickaxeActive">
+		<Buildings override="true">
+			<Building name="DonutVein01">
+				<TouchIcon value="Indicator_XMAS2021_GoldenPickaxe.rgb" removeOnTouch="false" touchBuildingOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="Object::DonutVeinMined == 0" asObjectExpression="true" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building name="DonutVein02">
+				<TouchIcon value="Indicator_XMAS2021_GoldenPickaxe.rgb" removeOnTouch="false" touchBuildingOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="Object::DonutVeinMined == 0" asObjectExpression="true" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building name="DonutVein03">
+				<TouchIcon value="Indicator_XMAS2021_GoldenPickaxe.rgb" removeOnTouch="false" touchBuildingOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="Object::DonutVeinMined == 0" asObjectExpression="true" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="1999" name="GlobalVariables">
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="time" end="FirmwareWarning_FinalWeek_Start" />
+						<Requirement type="formula" formula="!FirmwareWarningSeen_1" />
+						<Requirement type="formula" formula="toDouble(System::getConfigValue('__SpringfieldGames_GameConfig:FirmwareMessage:Enabled__'))" />
+					</Requirement>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="time" start="FirmwareWarning_FinalWeek_Start" end="FirmwareWarning_FinalWeek_End" />
+						<Requirement type="formula" formula="!FirmwareWarningSeen_2" />
+						<Requirement type="formula" formula="toDouble(System::getConfigValue('__SpringfieldGames_GameConfig:FirmwareMessage:Enabled__'))" />
+					</Requirement>
+				</Requirement>
+			</Requirements>
+			<Script name="Superheroes2_Scripts:FirmwareWarning" />
+		</OnEvent>
+		<Variable name="FirmwareWarningSeen_1" value="0" />
+		<Variable name="FirmwareWarningSeen_2" value="0" />
+		<Variable name="FirmwareWarningSeen_Jan2019" value="0" />
+		<Variable name="UserVersion" value="0" />
+		<Variable name="LEPRECHAUN_ON" value="false" owner="0" />
+		<Variable name="YUPPRECHAUN_ON" value="false" owner="0" />
+		<Variable name="IDLE_BUTTON_ON" value="false" />
+		<Variable name="NUMBER_ONE_STARTED" value="false" />
+		<Variable name="Facebook_Checked" value="false" />
+		<Variable name="Facebook_ShowMessage" value="false" />
+		<Variable name="IRS_BUILDING_LEVEL" value="1" />
+		<Variable name="IRS_GRIND_SPENT_TO_LEVEL" value="0" />
+		<Variable name="MrPlow2012" value="false" />
+		<Variable name="LeprechaunCatched" value="0" />
+		<Variable name="ClickedGil" value="false" />
+		<Variable name="ShowPromoCancelDialogue" value="true" />
+		<Variable name="GuineaPigsTapped" value="0" />
+		<Variable name="SpawnGuineaPigsBatch1" value="true" />
+		<Variable name="SpawnGuineaPigsBatch2" value="true" />
+		<Variable name="SpawnGuineaPigsBatch3" value="true" />
+		<Variable name="SpawnGuineaPigsBatch4" value="true" />
+		<Variable name="SpawnGuineaPigsBatch5" value="true" />
+		<Variable name="MilhouseFTWQuestlineCompleted" value="false" />
+		<Variable name="HipstersQuestlineStarted" value="false" />
+		<Variable name="HipstersQuestlinePart2Completed" value="false" />
+		<Variable name="ADayInTheKnife_Completed" value="true" />
+		<Variable name="AkiraBonsaiLoop" value="0" />
+		<Variable name="BetterhamPalaceLevel" value="1" />
+		<Variable name="BoxinghamPalaceLevel" value="1" />
+		<Variable name="BurnsCastleLevel" value="1" />
+		<Variable name="SeasonPremiere2014_AllDressedUp02" value="false" />
+		<Variable name="SeasonPremiere2014_AllDressedUp04" value="false" />
+		<Variable name="SeasonPremiere2014_AllDressedUp05" value="false" />
+		<Variable name="TeleportersUsed" value="0" />
+		<Variable name="TwoMinutesOfHate02_Complete" value="false" />
+		<Variable name="JingleBellWreck01Started" value="false" />
+		<Variable name="JingleBellWreck01Complete" value="false" />
+		<Variable name="ProjectAfterParty10Complete" value="false" />
+		<Variable name="ProjectAfterParty11Active" value="false" />
+		<Variable name="ProjectAfterParty12Active" value="false" />
+		<Variable name="ProjectAfterParty13Started" value="false" />
+		<Variable name="XMAS2014_Pt2" value="false" />
+		<Variable name="ElfCannonLevel" value="1" />
+		<Variable name="PostEventCannonLevel" value="0" />
+		<Variable name="AwardFreeMysteryBox" value="false" />
+		<Variable name="intStartBunnyDialogue" value="0" />
+		<Variable name="intCurrentEasterEggClue" value="1" />
+		<Variable name="intEasterFloatTapCount" value="0" />
+		<Variable name="intEasterEggsFound" value="0" />
+		<Variable name="boolAllEasterEggsFound" value="false" />
+		<Variable name="boolLisaEggHuntComplete" value="false" />
+		<Variable name="intEasterEggHuntStartDialogueComplete" value="0" />
+		<Variable name="ForgottenGraveState" value="0" />
+		<Variable name="GrimesUpdate" value="false" />
+		<Variable name="MoneyMountainLevel" value="0" />
+		<Variable name="NextMoneyMountainLevel" value="0" />
+		<Variable name="GainedBobTerwilliger" value="false" />
+		<Variable name="FrinksHerbLevel" value="0" />
+		<Variable name="HoloFlagTapCount" value="0" />
+		<Variable name="GroundPoolLevel" value="0" />
+		<Variable name="boolGroundPoolTouched" value="false" />
+		<Variable name="ChristmasSSOwnership" value="false" />
+		<Variable name="EoSItemCheckComplete" value="false" />
+		<Variable name="PowersIntroQuestState" value="false" />
+		<Variable name="StadiumSkinValue" value="0" />
+		<Variable name="StadiumSkinBrownUnlocked" value="false" />
+		<Variable name="StadiumSkinGoldUnlocked" value="false" />
+		<Variable name="PiecesToRideTrain" value="7" />
+		<Variable name="MetalResourceAvailable" value="false" />
+		<Variable name="PlasticResourceAvailable" value="false" />
+		<Variable name="GlassResourceAvailable" value="false" />
+		<Variable name="Monorail_Broken" value="false" />
+		<Variable name="RailyardUnlocked" value="false" />
+		<Variable name="SunkenTempleSkinIndex" value="0" />
+		<Variable name="THOH2015_TakeDownQualifier" value="false" />
+		<Variable name="SunkenTempleTransition" value="0" />
+		<Variable name="SunkenTempleElderIdle" value="0" />
+		<Variable name="ShowJobManagerBuildingIcon" value="true" />
+		<Variable name="JobManagerTriggered" value="false" />
+		<Variable name="EMD_Q1Complete" value="false" />
+		<Variable name="EMD_Q6Complete" value="false" />
+		<Variable name="XPBonus_ProgressBarFullTimeValue" value="0" />
+		<Variable name="MoneyBonus_ProgressBarFullTimeValue" value="0" />
+		<Variable name="FPBonus_ProgressBarFullTimeValue" value="0" />
+		<Variable name="JobTimeReduction_ProgressBarFullTimeValue" value="0" />
+		<Variable name="NewUserPowerUps_StartTime" value="0" />
+		<Variable name="NewUserPowerUps_ResurfaceTime" value="0" />
+		<Variable name="StarterPackPurchased" value="false" />
+		<Variable name="FrinkPromoComplete" value="false" />
+		<Variable name="FrinkPromo_ClockStarted" value="false" />
+		<Variable name="StarterPackMTXConsumed" value="false" />
+		<Variable name="StarterPackRewardFlowCompleted" value="false" />
+		<Variable name="NewUserPowerUps_QuimbyKey_A_StartTime" value="0" />
+		<Variable name="NewUserPowerUps_QuimbyKey_A_EndTime" value="0" />
+		<Variable name="NewUserPowerUps_QuimbyKey_B_StartTime" value="0" />
+		<Variable name="NewUserPowerUps_QuimbyKey_B_EndTime" value="0" />
+		<Variable name="NewUserPowerUps_Bowlarama_StartTime" value="0" />
+		<Variable name="NewUserPowerUps_Bowlarama_EndTime" value="0" />
+		<Variable name="StarterPack_QuimbyKey_Purchased" value="false" />
+		<Variable name="StarterPack_Bowlarama_Purchased" value="false" />
+		<Variable name="Moes_Aquired" value="false" />
+		<Variable name="GingerbreadMansionBuildingLevel" value="0" />
+		<Variable name="BestSnowmanEverBuildingLevel" value="0" />
+		<Variable name="ExoticPettingZooBuildingLevel" value="0" />
+		<Variable name="ReindeerBurgerTruckBuildingLevel" value="0" />
+		<Variable name="FortressOfLonelitudeBuildingLevel" value="0" />
+		<Variable name="MoonshineShackBuildingLevel" value="0" />
+		<Variable name="XMAS2015_StarterPackPurchased" value="false" />
+		<Variable name="NewYearsBallDropped" value="false" owner="0" />
+		<Variable name="Tailgate_CharsDeleted" value="false" />
+		<Variable name="Tailgate_Level" value="1" />
+		<Variable name="DisplayTailgateIndicator" value="false" />
+		<Variable name="KwikEMart_Destroyed" value="0" />
+		<Variable name="DCS_TutorialComplete" value="false" />
+		<Variable name="MarsColonyLevel" value="0" />
+		<Variable name="DisplayMarsColonyIndicator" value="false" />
+		<Variable name="NILeprecaun_RunAway" value="false" owner="0" />
+		<Variable name="CrookAndLadder_DepartmentOnFire" value="false" />
+		<Variable name="EndJob_Sax_sfx_playing" value="false" />
+		<Variable name="YahwehJobStep1" value="true" />
+		<Variable name="YahwehJobStep2" value="false" />
+		<Variable name="YahwehJobStep3" value="false" />
+		<Variable name="YahwehJobStep4" value="false" />
+		<Variable name="YahwehJobStep5" value="false" />
+		<Variable name="YahwehJobStep6" value="false" />
+		<Variable name="YahwehJobStep7" value="false" />
+		<Variable name="YahwehJobStep8" value="false" />
+		<Variable name="BigCatCountryBundlePurchased" value="false" />
+		<Variable name="EmuExperienceBundlePurchased" value="false" />
+		<Variable name="GreatPlainsBundlePurchased" value="false" />
+		<Variable name="BaboonCountyBundlePurchased" value="false" />
+		<Variable name="WarmongersBundlePurchased" value="false" />
+		<Variable name="NorthwardBound_TownPlazaUpgrades" value="false" />
+		<Variable name="NorthwardBound_ForgottenGoldTreasureUpgrades" value="false" />
+		<Variable name="NewFrontierHasInitialized" value="false" />
+		<Variable name="DonutVeinsMined" value="0" />
+		<Variable name="GotDonutVeinJackpot" value="false" />
+		<Variable name="GoldenPickaxeBonus" value="0" />
+		<Variable name="Trivia_1_1_AnsweredCorrectly" value="false" />
+		<Variable name="BigAirportBundleGOB_PurchasedVar" value="false" />
+		<Variable name="DonutStatue_Tapped" value="0" />
+		<Variable name="TheCracksBeginToShow_Completed" value="false" />
+		<Variable name="TheDonutsComeFallingDown_Completed" value="false" />
+		<Variable name="TenSweetToothedYears_Completed" value="false" />
+		<Overrides>
+			<Override what="text" from="JOB_BanditFortJob1_name" to="JOB_BanditFortJob2_name">
+				<Requirements>
+					<Requirement type="formula" formula="System::evaluate('Building::BanditFort::Object::TaxJobEventFlip')==0" />
+				</Requirements>
+			</Override>
+		</Overrides>
+		<Buildings override="true">
+			<Building id="214004" name="GoldenGooseRealty">
+				<BuildMenuText text="__NewYears2019_GameConfig:ExcitingText:GeneratesTokens__" />
+			</Building>
+		</Buildings>
+		<Variable name="Thanksgiving2015_Expired" value="false" />
+		<Variable name="Thanksgiving2015_Complete" value="false" />
+		<Variable name="Valentines2016_Expired" value="false" />
+		<Variable name="Valentines2016_Complete" value="false" />
+		<Variable name="CrookAndLadder_Expired" value="false" />
+		<Variable name="CrookAndLadder_Complete" value="false" />
+		<Variable name="HomersChiliad_Expired" value="false" />
+		<Variable name="HomersChiliad_Complete" value="false" />
+		<Variable name="SpringfieldGames_Expired" value="false" />
+		<Variable name="SpringfieldGames_Complete" value="false" />
+		<Variable name="SP2016_Expired" value="false" />
+		<Variable name="SP2016_Complete" value="false" />
+		<Variable name="TMDG_Expired" value="false" />
+		<Variable name="TMDG_Complete" value="false" />
+		<Variable name="HomerTheHeretic_Expired" value="false" />
+		<Variable name="HomerTheHeretic_Complete" value="false" />
+		<Variable name="Rommelwood_Expired" value="false" />
+		<Variable name="Rommelwood_Complete" value="false" />
+		<Variable name="PinPals_Expired" value="false" />
+		<Variable name="PinPals_Complete" value="false" />
+		<Variable name="Pride2017_Expired" value="false" />
+		<Variable name="Pride2017_Complete" value="false" />
+		<Variable name="CountyFair_Expired" value="false" />
+		<Variable name="CountyFair_Complete" value="false" />
+		<Variable name="AFT_Expired" value="false" />
+		<Variable name="AFT_Complete" value="false" />
+		<Variable name="NYME2018_Expired" value="false" />
+		<Variable name="NYME2018_Complete" value="false" />
+		<Variable name="HomerVsThe18th_Expired" value="false" />
+		<Variable name="HomerVsThe18th_Complete" value="false" />
+		<Variable name="WhoShotMrBurns_Expired" value="false" />
+		<Variable name="WhoShotMrBurns_Complete" value="false" />
+		<Variable name="Poochie_Expired" value="false" />
+		<Variable name="Poochie_Complete" value="false" />
+		<Variable name="SuperPowers_Expired" value="false" />
+		<Variable name="SuperPowers_Complete" value="false" />
+		<Variable name="Thanksgiving2018_Expired" value="false" />
+		<Variable name="Thanksgiving2018_Complete" value="false" />
+		<Variable name="StateOfDespair_Expired" value="false" />
+		<Variable name="StateOfDespair_Complete" value="false" />
+		<Variable name="ArchiveIntroMessageShown" value="false" />
+		<Variable name="WildWest2016_GainedDirtRoads" value="false" />
+		<Variable name="WasInInsanityMode" value="false" />
+		<Variable name="Insanity_CanHoldPharmaceuticals" value="false" />
+		<Variable name="HomersChiliad_FarmJobUnlocked" value="false" />
+		<Variable name="DonutDayRainEffect" value="false" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="variable" variable="WasInInsanityMode" count="1" />
+					<Requirement type="formula" formula="System::evaluate('Minigame::InsanityMode::Active') == 1" />
+				</Requirement>
+			</Requirements>
+			<Script name="Chilli_Scripts:ResetInsanityMinigame" />
+		</OnEvent>
+		<Variable name="LizardQueenPromo_EndTime" value="0" />
+		<Variable name="PromoActive" value="false" />
+		<Variable name="LizardQueenPromo_TimeRefreshed" value="false" />
+		<Variable name="XPColliderRec_EndTime" value="0" />
+		<Variable name="WildWest2016_CollectedAct1Scene" value="false" />
+		<Variable name="WildWest2016_CollectedAct2Scene" value="false" />
+		<Variable name="WildWest2016_CollectedAct3Scene" value="false" />
+		<Variable name="DonutPerBottleCap" value="__SpringfieldGames_GameConfig:PinCraftingCost:BCtoDonutRatio__" />
+		<Variable name="CraftTopUpCost_Donuts" value="0" />
+		<Variable name="PinCraftCost_BottleCaps" value="0" />
+		<Variable name="PinRoll" value="0" />
+		<Variable name="PinsHighlighted" value="0" />
+		<Variable name="PinsCollected" value="0" />
+		<Variable name="Pin1Collected" value="false" />
+		<Variable name="Pin2Collected" value="false" />
+		<Variable name="Pin3Collected" value="false" />
+		<Variable name="Pin4Collected" value="false" />
+		<Variable name="Pin5Collected" value="false" />
+		<Variable name="Pin6Collected" value="false" />
+		<Variable name="TotalPinRushCost" value="180" />
+		<Variable name="Fatov_Collected" value="0" />
+		<Variable name="Fatov_Active" value="false" />
+		<Variable name="SciFi_HomersGained" value="false" />
+		<Variable name="SF_FrankGrimesPurchased" value="0" />
+		<Variable name="Printer_JobStarted" value="0" />
+		<Variable name="NewLardLad_TriggerAvailable" value="false" />
+		<Variable name="TMDG_BigclawRun" value="false" owner="0" />
+		<Variable name="TMDG_BigclawTaps" value="0" />
+		<Variable name="TMDG_BigclawCooldown" value="0" />
+		<Variable name="TMDG_JobUnlock_FightBigclaw" value="false" />
+		<Variable name="TMDG_JobUnlock_HuntTMDG" value="false" />
+		<Variable name="SingingStones_State" value="0" owner="0" />
+		<Variable name="SpringfieldAirport_Active" value="0" />
+		<Variable name="DC_OutdoorHalfCourtBaskets" value="0" />
+		<Variable name="AngerRestaurantUpsell_EndTime" value="0" />
+		<Variable name="EspionageMode" value="0" />
+		<Variable name="TheVaultCycle_StartDate" value="0" />
+		<Variable name="TheVaultCycle_EndDate" value="0" />
+		<Variable name="TheVaultCycle_OldInterval" value="0" />
+		<Variable name="PrideCrosswalksTapped" value="0" />
+		<Variable name="TTT_DigSiteFoundmoney" value="0" />
+		<Variable name="TTT_DigSiteFoundxp" value="0" />
+		<Variable name="TTT_DigSiteFoundTreasurePostEvent" value="0" />
+		<Variable name="TTT_DigSiteTutorialStepPostEvent" value="8" />
+		<Variable name="TTT_DigSiteFoundItem" value="0" />
+		<Variable name="TTT_DigSiteTapResult" value="0" />
+		<Variable name="PieManSeason1Owned" value="false" />
+		<Variable name="Session_RockStageReward" value="0" />
+		<Variable name="Session_RockStageNumCharacters" value="0" />
+		<Variable name="Session_RockStageCurrentSession" value="0" />
+		<Variable name="Session_RockStageSessions" value="6" />
+		<Variable name="AutoSlotCharacterID" value="0" />
+		<Variable name="UnlockedTuxedoKrusty" value="0" />
+		<Variable name="DEEP_SPACE_HOMER_ENABLED" value="0" />
+		<Variable name="ROMMELWOOD_ENABLED" value="0" />
+		<Variable name="HOMERSCHILIAD_ENABLED" value="0" />
+		<Variable name="HOMERTHEHERETIC_ENABLED" value="0" />
+		<Variable name="DSH_Complete" value="false" />
+		<Variable name="DSH_Chips_Active" value="false" />
+		<Variable name="KearneymonRelease_NextPrize" value="0" />
+		<Variable name="WiggopsRelease_NextPrize" value="0" />
+		<Variable name="BullyVernRelease_NextPrize" value="0" />
+		<Variable name="BurnsDragonRelease_NextPrize" value="0" />
+		<Variable name="BarTrollRelease_NextPrize" value="0" />
+		<Variable name="TreestacheRelease_NextPrize" value="0" />
+		<Variable name="Capture_AutoSlotCharacterID" value="0" />
+		<Variable name="KearneymonAnimToggle" value="0" />
+		<Variable name="LewdAnimToggle" value="0" />
+		<Variable name="CrawlAnimToggle" value="0" />
+		<Variable name="BarfyAnimToggle" value="0" />
+		<Variable name="WiggopsAnimToggle" value="0" />
+		<Variable name="BullyVernAnimToggle" value="0" />
+		<Variable name="TreestacheAnimToggle" value="0" />
+		<Variable name="BurnsDragonAnimToggle" value="0" />
+		<Variable name="XMAS2017_IceRoadRewardCount" value="0" />
+		<Variable name="XMAS2017_NumCharactersAtBossFight" value="0" />
+		<Variable name="XMAS2017_NumSlotsUsedAtBossFight" value="0" />
+		<Variable name="HostessBundleBought" value="0" />
+		<Variable name="SpringfieldJobs_Act1_piece1_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act1_piece2_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act1_piece3_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act1_piece4_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act1_piece5_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act2_piece1_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act2_piece2_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act2_piece3_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act2_piece4_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act2_piece5_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act3_piece1_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act3_piece2_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act3_piece3_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act3_piece4_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Act3_piece5_Seen" value="false" />
+		<Variable name="SpringfieldJobs_Scene1_HasPlayed" value="false" />
+		<Variable name="SpringfieldJobs_Scene2_HasPlayed" value="false" />
+		<Variable name="SpringfieldJobs_Scene3_HasPlayed" value="false" />
+		<Variable name="SpringfieldJobs_CollectedAct1Scene_Permanent" value="false" />
+		<Variable name="SpringfieldJobs_CollectedAct2Scene_Permanent" value="false" />
+		<Variable name="SpringfieldJobs_CollectedAct3Scene_Permanent" value="false" />
+		<Variable name="SpringfieldJobs_Scene1Switch" value="0" owner="0" />
+		<Variable name="SpringfieldJobs_Scene2Switch" value="0" owner="0" />
+		<Variable name="SpringfieldJobs_Scene3Switch" value="0" owner="0" />
+		<Variable name="SpringfieldJobs_NumberOfTimesPlayScene1ButtonPressed" value="0" owner="0" />
+		<Variable name="SpringfieldJobs_NumberOfTimesPlayScene2ButtonPressed" value="0" owner="0" />
+		<Variable name="SpringfieldJobs_NumberOfTimesPlayScene3ButtonPressed" value="0" owner="0" />
+		<Variable name="SpringfieldJobs_Scene1_InProgress" value="false" />
+		<Variable name="SpringfieldJobs_Scene2_InProgress" value="false" />
+		<Variable name="SpringfieldJobs_Scene3_InProgress" value="false" />
+		<Variable name="Krustyland_HasSeenInfoPanel" value="0" />
+		<Variable name="Krustyland_Destroyed" value="0" />
+		<Variable name="Krustyland_AutoNuke" value="0" />
+		<Variable name="Krustyland_NukeInProgress" value="0" owner="0" />
+		<Variable name="Krustyland_Destroyed_InitialMapView" value="0" />
+		<Variable name="NextParadeRollerFollowOffset" value="0" />
+		<Variable name="NextParadeTrainFollowOffset" value="0" />
+		<Variable name="Krustyland_LandTokensUnlocked" value="0" />
+		<Variable name="Krustyland_NotNuking" value="0" />
+		<Variable name="Injury500_AnimationOff2" value="1" />
+		<Variable name="LogRide_AnimationOff2" value="1" />
+		<Variable name="Zoominator_AnimationOff2" value="1" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="time" start="ThemePark2018_StartDate" end="ThemePark2018_AutoNukeDate" />
+				<Requirement type="level" level="5" />
+				<Requirement type="active quest" quest="TheKrustyLessPlaceOnEarth_2" />
+				<Requirement type="formula" formula="User::getVariable('Krustyland_Destroyed')==0" />
+				<Requirement type="formula" formula="User::getVariable('Krustyland_AutoNuke')==0" />
+				<Requirement type="formula" formula="User::getVariable('Krustyland_NotNuking')==0" />
+				<Requirement type="land" land="Krustyland" />
+			</Requirements>
+			<Script name="ThemePark2018_Scripts_Dialogue:TheKrustyLessPlaceOnEarth_2_NotNuking_Set" />
+		</OnEvent>
+		<Variable name="DonutDay39Donuts_Bought" value="false" />
+		<Variable name="DonutDay120Donuts_Bought" value="false" />
+		<Variable name="DonutDay12Donuts1Scratcher_Bought" value="false" />
+		<Variable name="DonutDay60Donuts1Scratcher_Bought" value="false" />
+		<Variable name="DonutDay132Donuts2Scratchers_Bought" value="false" />
+		<Variable name="DonutDay300Donuts5Scratchers_Bought" value="false" />
+		<Variable name="DonutDay2400Donuts10Scratchers_Bought" value="false" />
+		<Variable name="ConfettiRainEffect" value="false" />
+		<Variable name="FireworksFactoryEndDialogue" value="false" />
+		<Variable name="RecycleToTheExtremePt3EndDialogue" value="false" />
+		<Variable name="PoorlyWorkingTitlePt4EndDialogue" value="false" />
+		<Variable name="MoesArk_RewardKitenge" value="0" />
+		<Variable name="MoesArk_DonutsRewarded" value="0" />
+		<Variable name="MoesArk_RewardFTUCVersionA" value="false" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="time" start="MoesArk_StartDate" end="MoesArk_EndDate" />
+				<Requirement type="level" level="5" />
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="formula" formula="User::getVariable('MoesArk_DonutsRewarded')==0" />
+				<Requirement type="formula" formula="User::getVariable('MoesArk_RewardKitenge')==0" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script name="MoesArk_Scripts:LapsedPlayerDonutReward" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Requirements>
+				<Requirement type="time" start="MoesArk_StartDate" end="MoesArk_EndDate" />
+				<Requirement type="level" level="5" />
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="formula" formula="User::getVariable('MoesArk_DonutsRewarded')==0" />
+				<Requirement type="formula" formula="User::getVariable('MoesArk_RewardKitenge')==1" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Script name="MoesArk_Scripts:LapsedPlayerKitengeReward" />
+		</OnEvent>
+		<Variable name="FlowersStored_Count" value="0" />
+		<Variable name="THOH2018_DigSiteFoundxp" value="0" />
+		<Variable name="THOH2018_DigSiteFoundmoney" value="0" />
+		<Variable name="THOH2018_DigSiteFoundState" value="0" />
+		<Variable name="THOH2018_DigSiteTapResult" value="0" />
+		<Variable name="THOH2018_DigSiteFoundItem" value="0" />
+		<Variable name="NewYears2019_Expired" value="false" />
+		<Variable name="NewYears2019_Complete" value="false" />
+		<Variable name="NewYears2019GuideSeen" value="0" />
+		<Variable name="Valentines2019_Week1_Expired" value="false" />
+		<Variable name="Valentines2019_Week1_Complete" value="false" />
+		<Variable name="Valentines2019_Week2_Expired" value="false" />
+		<Variable name="Valentines2019_Week2_Complete" value="false" />
+		<Variable name="Valentines2019_Week3_Expired" value="false" />
+		<Variable name="Valentines2019_Week3_Complete" value="false" />
+		<Variable name="Valentines2019_Week4_Expired" value="false" />
+		<Variable name="Valentines2019_Week4_Complete" value="false" />
+		<Variable name="Valentines2019_ExpiryDisplayed" value="false" />
+		<Variable name="XMAS2018_Week1_Expired" value="false" />
+		<Variable name="XMAS2018_Week2_Expired" value="false" />
+		<Variable name="XMAS2018_Week3_Expired" value="false" />
+		<Variable name="XMAS2018_Week4_Expired" value="false" />
+		<Variable name="XMAS2018_Week1_Complete" value="false" />
+		<Variable name="XMAS2018_Week2_Complete" value="false" />
+		<Variable name="XMAS2018_Week3_Complete" value="false" />
+		<Variable name="XMAS2018_Week4_Complete" value="false" />
+		<Variable name="ClasslessReunion_Expired" value="false" />
+		<Variable name="ClasslessReunion_Complete" value="false" />
+		<Variable name="YearbookMysteryBox_IndexList_0" value="-1" />
+		<Variable name="YearbookMysteryBox_IndexList_1" value="-1" />
+		<Variable name="YearbookMysteryBox_IndexList_2" value="-1" />
+		<Variable name="YearbookMysteryBox_IndexList_3" value="-1" />
+		<Variable name="YearbookMysteryBox_IndexList_4" value="-1" />
+		<Variable name="RealMomsOfSpringfield_Expired" value="false" />
+		<Variable name="RealMomsOfSpringfield_Complete" value="false" />
+		<Variable name="GameOfGames_Week1_Expired" value="false" />
+		<Variable name="GameOfGames_Week1_Complete" value="false" />
+		<Variable name="GameOfGames_Week2_Expired" value="false" />
+		<Variable name="GameOfGames_Week2_Complete" value="false" />
+		<Variable name="GameOfGames_Week3_Expired" value="false" />
+		<Variable name="GameOfGames_Week3_Complete" value="false" />
+		<Variable name="GameOfGames_Week4_Expired" value="false" />
+		<Variable name="GameOfGames_Week4_Complete" value="false" />
+		<Variable name="FlandersFamilyReunion_Expired" value="false" />
+		<Variable name="FlandersFamilyReunion_Complete" value="false" />
+		<Variable name="FlandersFamilyReunionGuideSeen" value="0" />
+		<Variable name="SimpsonsBabies_Week1_Expired" value="false" />
+		<Variable name="SimpsonsBabies_Week1_Complete" value="false" />
+		<Variable name="SimpsonsBabies_Week2_Expired" value="false" />
+		<Variable name="SimpsonsBabies_Week2_Complete" value="false" />
+		<Variable name="SimpsonsBabies_Week3_Expired" value="false" />
+		<Variable name="SimpsonsBabies_Week3_Complete" value="false" />
+		<Variable name="SimpsonsBabies_Week4_Expired" value="false" />
+		<Variable name="SimpsonsBabies_Week4_Complete" value="false" />
+		<Variable name="KrustysLastGaspOnline_Expired" value="false" />
+		<Variable name="KrustysLastGaspOnline_Complete" value="false" />
+		<Variable name="CthulhusRevenge_Expired" value="false" />
+		<Variable name="CthulhusRevenge_Complete" value="false" />
+		<Variable name="THOHXXX_Week1_Expired" value="false" />
+		<Variable name="THOHXXX_Week1_Complete" value="false" />
+		<Variable name="THOHXXX_Week2_Expired" value="false" />
+		<Variable name="THOHXXX_Week2_Complete" value="false" />
+		<Variable name="THOHXXX_Week3_Expired" value="false" />
+		<Variable name="THOHXXX_Week3_Complete" value="false" />
+		<Variable name="THOHXXX_Week4_Expired" value="false" />
+		<Variable name="THOHXXX_Week4_Complete" value="false" />
+		<Variable name="THOHXXX_StoreMessageSeen" value="0" />
+		<Variable name="AllAmericanAuction_Expired" value="false" />
+		<Variable name="AllAmericanAuction_Complete" value="false" />
+		<Variable name="AllAmericanAuctionGuideSeen" value="0" />
+		<Variable name="AbesInToyland_Week1_Expired" value="false" />
+		<Variable name="AbesInToyland_Week1_Complete" value="false" />
+		<Variable name="AbesInToyland_Week2_Expired" value="false" />
+		<Variable name="AbesInToyland_Week2_Complete" value="false" />
+		<Variable name="AbesInToyland_Week3_Expired" value="false" />
+		<Variable name="AbesInToyland_Week3_Complete" value="false" />
+		<Variable name="AbesInToyland_Week4_Expired" value="false" />
+		<Variable name="AbesInToyland_Week4_Complete" value="false" />
+		<Variable name="HolidaysofFuturePast_Expired" value="false" />
+		<Variable name="HolidaysofFuturePast_Complete" value="false" />
+		<Variable name="BlackHistory_Week1_Expired" value="false" />
+		<Variable name="BlackHistory_Week1_Complete" value="false" />
+		<Variable name="BlackHistory_Week2_Expired" value="false" />
+		<Variable name="BlackHistory_Week2_Complete" value="false" />
+		<Variable name="BlackHistory_Week3_Expired" value="false" />
+		<Variable name="BlackHistory_Week3_Complete" value="false" />
+		<Variable name="BlackHistory_Week4_Expired" value="false" />
+		<Variable name="BlackHistory_Week4_Complete" value="false" />
+		<Variable name="NoBucksGiven_Expired" value="false" />
+		<Variable name="NoBucksGiven_Complete" value="false" />
+		<Variable name="NoBucksGivenGuideSeen" value="0" />
+		<Variable name="SimpsonsWrestling_Week1_Expired" value="false" />
+		<Variable name="SimpsonsWrestling_Week1_Complete" value="false" />
+		<Variable name="SimpsonsWrestling_Week2_Expired" value="false" />
+		<Variable name="SimpsonsWrestling_Week2_Complete" value="false" />
+		<Variable name="SimpsonsWrestling_Week3_Expired" value="false" />
+		<Variable name="SimpsonsWrestling_Week3_Complete" value="false" />
+		<Variable name="SimpsonsWrestling_Week4_Expired" value="false" />
+		<Variable name="SimpsonsWrestling_Week4_Complete" value="false" />
+		<Variable name="SimpsonsWrestling_ExpiryDisplayed" value="false" />
+		<Variable name="Pride2020_Expired" value="false" />
+		<Variable name="Pride2020_Complete" value="false" />
+		<Variable name="Pride2020GuideSeen" value="0" />
+		<Variable name="GameOfGamesTheSequel_Week1_Expired" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week1_Complete" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week2_Expired" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week2_Complete" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week3_Expired" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week3_Complete" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week4_Expired" value="false" />
+		<Variable name="GameOfGamesTheSequel_Week4_Complete" value="false" />
+		<Variable name="SummerGames2020_Expired" value="false" />
+		<Variable name="SummerGames2020_Complete" value="false" />
+		<Variable name="SummerGames2020GuideSeen" value="0" />
+		<Variable name="VanHoutens_Week1_Expired" value="false" />
+		<Variable name="VanHoutens_Week1_Complete" value="false" />
+		<Variable name="VanHoutens_Week2_Expired" value="false" />
+		<Variable name="VanHoutens_Week2_Complete" value="false" />
+		<Variable name="VanHoutens_Week3_Expired" value="false" />
+		<Variable name="VanHoutens_Week3_Complete" value="false" />
+		<Variable name="VanHoutens_Week4_Expired" value="false" />
+		<Variable name="VanHoutens_Week4_Complete" value="false" />
+		<Variable name="AllThisJazz_Expired" value="false" />
+		<Variable name="AllThisJazz_Complete" value="false" />
+		<Variable name="AllThisJazzGuideSeen" value="0" />
+		<Variable name="THoHXXXI_Week1_Expired" value="false" />
+		<Variable name="THoHXXXI_Week1_Complete" value="false" />
+		<Variable name="THoHXXXI_Week2_Expired" value="false" />
+		<Variable name="THoHXXXI_Week2_Complete" value="false" />
+		<Variable name="THoHXXXI_Week3_Expired" value="false" />
+		<Variable name="THoHXXXI_Week3_Complete" value="false" />
+		<Variable name="THoHXXXI_Week4_Expired" value="false" />
+		<Variable name="THoHXXXI_Week4_Complete" value="false" />
+		<Variable name="NewYears2021_Expired" value="false" />
+		<Variable name="NewYears2021_Complete" value="false" />
+		<Variable name="NewYears2021GuideSeen" value="0" />
+		<Variable name="Blargsgiving_Expired" value="false" />
+		<Variable name="Blargsgiving_Complete" value="false" />
+		<Variable name="BlargsgivingGuideSeen" value="0" />
+		<Variable name="XMAS2020_Week1_Expired" value="false" />
+		<Variable name="XMAS2020_Week1_Complete" value="false" />
+		<Variable name="XMAS2020_Week2_Expired" value="false" />
+		<Variable name="XMAS2020_Week2_Complete" value="false" />
+		<Variable name="XMAS2020_Week3_Expired" value="false" />
+		<Variable name="XMAS2020_Week3_Complete" value="false" />
+		<Variable name="XMAS2020_Week4_Expired" value="false" />
+		<Variable name="XMAS2020_Week4_Complete" value="false" />
+		<Variable name="LoveAndWar_Week1_Expired" value="false" />
+		<Variable name="LoveAndWar_Week1_Complete" value="false" />
+		<Variable name="LoveAndWar_Week2_Expired" value="false" />
+		<Variable name="LoveAndWar_Week2_Complete" value="false" />
+		<Variable name="LoveAndWar_Week3_Expired" value="false" />
+		<Variable name="LoveAndWar_Week3_Complete" value="false" />
+		<Variable name="LoveAndWar_Week4_Expired" value="false" />
+		<Variable name="LoveAndWar_Week4_Complete" value="false" />
+		<Variable name="SpringfieldChoppers_Expired" value="false" />
+		<Variable name="SpringfieldChoppers_Complete" value="false" />
+		<Variable name="SpringfieldChoppersGuideSeen" value="0" />
+		<Variable name="RiseOfTheRobots_Week1_Expired" value="false" />
+		<Variable name="RiseOfTheRobots_Week1_Complete" value="false" />
+		<Variable name="RiseOfTheRobots_Week2_Expired" value="false" />
+		<Variable name="RiseOfTheRobots_Week2_Complete" value="false" />
+		<Variable name="RiseOfTheRobots_Week3_Expired" value="false" />
+		<Variable name="RiseOfTheRobots_Week3_Complete" value="false" />
+		<Variable name="RiseOfTheRobots_Week4_Expired" value="false" />
+		<Variable name="RiseOfTheRobots_Week4_Complete" value="false" />
+		<Variable name="FoodieFight_Expired" value="false" />
+		<Variable name="FoodieFight_Complete" value="false" />
+		<Variable name="FoodieFightGuideSeen" value="0" />
+		<Variable name="TavernTrouble_Expired" value="false" />
+		<Variable name="TavernTrouble_Complete" value="false" />
+		<Variable name="TavernTroubleGuideSeen" value="0" />
+		<Variable name="SpringfieldEnlightened_Week1_Expired" value="false" />
+		<Variable name="SpringfieldEnlightened_Week1_Complete" value="false" />
+		<Variable name="SpringfieldEnlightened_Week2_Expired" value="false" />
+		<Variable name="SpringfieldEnlightened_Week2_Complete" value="false" />
+		<Variable name="SpringfieldEnlightened_Week3_Expired" value="false" />
+		<Variable name="SpringfieldEnlightened_Week3_Complete" value="false" />
+		<Variable name="SpringfieldEnlightened_Week4_Expired" value="false" />
+		<Variable name="SpringfieldEnlightened_Week4_Complete" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week1_Expired" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week1_Complete" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week2_Expired" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week2_Complete" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week3_Expired" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week3_Complete" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week4_Expired" value="false" />
+		<Variable name="IntoTheSimpsonsverse_Week4_Complete" value="false" />
+		<Variable name="BreakoutBounty_Expired" value="false" />
+		<Variable name="BreakoutBounty_Complete" value="false" />
+		<Variable name="BreakoutBountyGuideSeen" value="0" />
+		<Variable name="THOHXXXII_Week1_Expired" value="false" />
+		<Variable name="THOHXXXII_Week1_Complete" value="false" />
+		<Variable name="THOHXXXII_Week2_Expired" value="false" />
+		<Variable name="THOHXXXII_Week2_Complete" value="false" />
+		<Variable name="THOHXXXII_Week3_Expired" value="false" />
+		<Variable name="THOHXXXII_Week3_Complete" value="false" />
+		<Variable name="THOHXXXII_Week4_Expired" value="false" />
+		<Variable name="THOHXXXII_Week4_Complete" value="false" />
+		<Variable name="NorthwardBound_Expired" value="false" />
+		<Variable name="NorthwardBound_Complete" value="false" />
+		<Variable name="NorthwardBoundGuideSeen" value="0" />
+		<Variable name="XMAS2021_Week1_Expired" value="false" />
+		<Variable name="XMAS2021_Week1_Complete" value="false" />
+		<Variable name="XMAS2021_Week2_Expired" value="false" />
+		<Variable name="XMAS2021_Week2_Complete" value="false" />
+		<Variable name="XMAS2021_Week3_Expired" value="false" />
+		<Variable name="XMAS2021_Week3_Complete" value="false" />
+		<Variable name="XMAS2021_Week4_Expired" value="false" />
+		<Variable name="XMAS2021_Week4_Complete" value="false" />
+		<Variable name="NewYears2022_Expired" value="false" />
+		<Variable name="NewYears2022_Complete" value="false" />
+		<Variable name="NewYears2022GuideSeen" value="0" />
+		<Variable name="CirqueDuSpringfield_Week1_Expired" value="false" />
+		<Variable name="CirqueDuSpringfield_Week1_Complete" value="false" />
+		<Variable name="CirqueDuSpringfield_Week2_Expired" value="false" />
+		<Variable name="CirqueDuSpringfield_Week2_Complete" value="false" />
+		<Variable name="CirqueDuSpringfield_Week3_Expired" value="false" />
+		<Variable name="CirqueDuSpringfield_Week3_Complete" value="false" />
+		<Variable name="CirqueDuSpringfield_Week4_Expired" value="false" />
+		<Variable name="CirqueDuSpringfield_Week4_Complete" value="false" />
+		<Variable name="HotDiggityDoh_Expired" value="false" />
+		<Variable name="HotDiggityDoh_Complete" value="false" />
+		<Variable name="HotDiggityDohGuideSeen" value="0" />
+		<Variable name="HellOnWheels_Week1_Expired" value="false" />
+		<Variable name="HellOnWheels_Week1_Complete" value="false" />
+		<Variable name="HellOnWheels_Week2_Expired" value="false" />
+		<Variable name="HellOnWheels_Week2_Complete" value="false" />
+		<Variable name="HellOnWheels_Week3_Expired" value="false" />
+		<Variable name="HellOnWheels_Week3_Complete" value="false" />
+		<Variable name="HellOnWheels_Week4_Expired" value="false" />
+		<Variable name="HellOnWheels_Week4_Complete" value="false" />
+		<Variable name="WhenTheBoughBreaks_Expired" value="false" />
+		<Variable name="WhenTheBoughBreaks_Complete" value="false" />
+		<Variable name="WhenTheBoughBreaksGuideSeen" value="0" />
+		<Variable name="DogDays_Week1_Expired" value="false" />
+		<Variable name="DogDays_Week1_Complete" value="false" />
+		<Variable name="DogDays_Week2_Expired" value="false" />
+		<Variable name="DogDays_Week2_Complete" value="false" />
+		<Variable name="DogDays_Week3_Expired" value="false" />
+		<Variable name="DogDays_Week3_Complete" value="false" />
+		<Variable name="DogDays_Week4_Expired" value="false" />
+		<Variable name="DogDays_Week4_Complete" value="false" />
+		<Variable name="SplashAndBurn_Expired" value="false" />
+		<Variable name="SplashAndBurn_Complete" value="false" />
+		<Variable name="SplashAndBurnGuideSeen" value="0" />
+		<Variable name="ShowbizShowdown_Week1_Expired" value="false" />
+		<Variable name="ShowbizShowdown_Week1_Complete" value="false" />
+		<Variable name="ShowbizShowdown_Week2_Expired" value="false" />
+		<Variable name="ShowbizShowdown_Week2_Complete" value="false" />
+		<Variable name="ShowbizShowdown_Week3_Expired" value="false" />
+		<Variable name="ShowbizShowdown_Week3_Complete" value="false" />
+		<Variable name="ShowbizShowdown_Week4_Expired" value="false" />
+		<Variable name="ShowbizShowdown_Week4_Complete" value="false" />
+		<Variable name="TragicMagic_Expired" value="false" />
+		<Variable name="TragicMagic_Complete" value="false" />
+		<Variable name="TragicMagicGuideSeen" value="0" />
+		<Variable name="THOHXXXIII_Week1_Expired" value="false" />
+		<Variable name="THOHXXXIII_Week1_Complete" value="false" />
+		<Variable name="THOHXXXIII_Week2_Expired" value="false" />
+		<Variable name="THOHXXXIII_Week2_Complete" value="false" />
+		<Variable name="THOHXXXIII_Week3_Expired" value="false" />
+		<Variable name="THOHXXXIII_Week3_Complete" value="false" />
+		<Variable name="THOHXXXIII_Week4_Expired" value="false" />
+		<Variable name="THOHXXXIII_Week4_Complete" value="false" />
+		<Variable name="TheAtomSmasher_Expired" value="false" />
+		<Variable name="TheAtomSmasher_Complete" value="false" />
+		<Variable name="TheAtomSmasherGuideSeen" value="0" />
+		<Variable name="XMAS2022_Week1_Expired" value="false" />
+		<Variable name="XMAS2022_Week1_Complete" value="false" />
+		<Variable name="XMAS2022_Week2_Expired" value="false" />
+		<Variable name="XMAS2022_Week2_Complete" value="false" />
+		<Variable name="XMAS2022_Week3_Expired" value="false" />
+		<Variable name="XMAS2022_Week3_Complete" value="false" />
+		<Variable name="XMAS2022_Week4_Expired" value="false" />
+		<Variable name="XMAS2022_Week4_Complete" value="false" />
+		<Variable name="NewYears2023_Expired" value="false" />
+		<Variable name="NewYears2023_Complete" value="false" />
+		<Variable name="NewYears2023GuideSeen" value="0" />
+		<Variable name="AWarmfyreWelcome_Week1_Expired" value="false" />
+		<Variable name="AWarmfyreWelcome_Week1_Complete" value="false" />
+		<Variable name="AWarmfyreWelcome_Week2_Expired" value="false" />
+		<Variable name="AWarmfyreWelcome_Week2_Complete" value="false" />
+		<Variable name="AWarmfyreWelcome_Week3_Expired" value="false" />
+		<Variable name="AWarmfyreWelcome_Week3_Complete" value="false" />
+		<Variable name="AWarmfyreWelcome_Week4_Expired" value="false" />
+		<Variable name="AWarmfyreWelcome_Week4_Complete" value="false" />
+		<Variable name="ShiverMeBarnacles_Expired" value="false" />
+		<Variable name="ShiverMeBarnacles_Complete" value="false" />
+		<Variable name="ShiverMeBarnaclesGuideSeen" value="0" />
+		<Variable name="HeavenWontWait_Week1_Expired" value="false" />
+		<Variable name="HeavenWontWait_Week1_Complete" value="false" />
+		<Variable name="HeavenWontWait_Week2_Expired" value="false" />
+		<Variable name="HeavenWontWait_Week2_Complete" value="false" />
+		<Variable name="HeavenWontWait_Week3_Expired" value="false" />
+		<Variable name="HeavenWontWait_Week3_Complete" value="false" />
+		<Variable name="HeavenWontWait_Week4_Expired" value="false" />
+		<Variable name="HeavenWontWait_Week4_Complete" value="false" />
+		<Variable name="ForAllRichMankind_Expired" value="false" />
+		<Variable name="ForAllRichMankind_Complete" value="false" />
+		<Variable name="ForAllRichMankindGuideSeen" value="0" />
+		<Variable name="Fore_Week1_Expired" value="false" />
+		<Variable name="Fore_Week1_Complete" value="false" />
+		<Variable name="Fore_Week2_Expired" value="false" />
+		<Variable name="Fore_Week2_Complete" value="false" />
+		<Variable name="Fore_Week3_Expired" value="false" />
+		<Variable name="Fore_Week3_Complete" value="false" />
+		<Variable name="Fore_Week4_Expired" value="false" />
+		<Variable name="Fore_Week4_Complete" value="false" />
+		<Variable name="DrivingRange_Level" value="0" />
+		<Variable name="FoodWars_Expired" value="false" />
+		<Variable name="FoodWars_Complete" value="false" />
+		<Variable name="FoodWarsGuideSeen" value="0" />
+		<Variable name="MirrorMayhem_Week1_Expired" value="false" />
+		<Variable name="MirrorMayhem_Week1_Complete" value="false" />
+		<Variable name="MirrorMayhem_Week2_Expired" value="false" />
+		<Variable name="MirrorMayhem_Week2_Complete" value="false" />
+		<Variable name="MirrorMayhem_Week3_Expired" value="false" />
+		<Variable name="MirrorMayhem_Week3_Complete" value="false" />
+		<Variable name="MirrorMayhem_Week4_Expired" value="false" />
+		<Variable name="MirrorMayhem_Week4_Complete" value="false" />
+		<Variable name="AHardPlaysNight_Expired" value="false" />
+		<Variable name="AHardPlaysNight_Complete" value="false" />
+		<Variable name="AHardPlaysNightGuideSeen" value="0" />
+		<Variable name="THOHXXXIV_Week1_Expired" value="false" />
+		<Variable name="THOHXXXIV_Week1_Complete" value="false" />
+		<Variable name="THOHXXXIV_Week2_Expired" value="false" />
+		<Variable name="THOHXXXIV_Week2_Complete" value="false" />
+		<Variable name="THOHXXXIV_Week3_Expired" value="false" />
+		<Variable name="THOHXXXIV_Week3_Complete" value="false" />
+		<Variable name="THOHXXXIV_Week4_Expired" value="false" />
+		<Variable name="THOHXXXIV_Week4_Complete" value="false" />
+		<Variable name="ColdTurkey_Expired" value="false" />
+		<Variable name="ColdTurkey_Complete" value="false" />
+		<Variable name="ColdTurkeyGuideSeen" value="0" />
+		<Variable name="XMAS2023_Week1_Expired" value="false" />
+		<Variable name="XMAS2023_Week1_Complete" value="false" />
+		<Variable name="XMAS2023_Week2_Expired" value="false" />
+		<Variable name="XMAS2023_Week2_Complete" value="false" />
+		<Variable name="XMAS2023_Week3_Expired" value="false" />
+		<Variable name="XMAS2023_Week3_Complete" value="false" />
+		<Variable name="XMAS2023_Week4_Expired" value="false" />
+		<Variable name="XMAS2023_Week4_Complete" value="false" />
+		<Variable name="NewYears2024_Expired" value="false" />
+		<Variable name="NewYears2024_Complete" value="false" />
+		<Variable name="NewYears2024GuideSeen" value="0" />
+		<Variable name="FearsOfAClown_Week1_Expired" value="false" />
+		<Variable name="FearsOfAClown_Week1_Complete" value="false" />
+		<Variable name="FearsOfAClown_Week2_Expired" value="false" />
+		<Variable name="FearsOfAClown_Week2_Complete" value="false" />
+		<Variable name="FearsOfAClown_Week3_Expired" value="false" />
+		<Variable name="FearsOfAClown_Week3_Complete" value="false" />
+		<Variable name="FearsOfAClown_Week4_Expired" value="false" />
+		<Variable name="FearsOfAClown_Week4_Complete" value="false" />
+		<Variable name="ClownsTapped" value="0" />
+		<Variable name="TheGreatBurnsby_Expired" value="false" />
+		<Variable name="TheGreatBurnsby_Complete" value="false" />
+		<Variable name="TheGreatBurnsbyGuideSeen" value="0" />
+		<Variable name="TheSimpsanos_Week1_Expired" value="false" />
+		<Variable name="TheSimpsanos_Week1_Complete" value="false" />
+		<Variable name="TheSimpsanos_Week2_Expired" value="false" />
+		<Variable name="TheSimpsanos_Week2_Complete" value="false" />
+		<Variable name="TheSimpsanos_Week3_Expired" value="false" />
+		<Variable name="TheSimpsanos_Week3_Complete" value="false" />
+		<Variable name="TheSimpsanos_Week4_Expired" value="false" />
+		<Variable name="TheSimpsanos_Week4_Complete" value="false" />
+		<Variable name="CharityCase_Expired" value="false" />
+		<Variable name="CharityCase_Complete" value="false" />
+		<Variable name="CharityCaseGuideSeen" value="0" />
+		<Variable name="SummerOfOurDiscontent_Week1_Expired" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week1_Complete" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week2_Expired" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week2_Complete" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week3_Expired" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week3_Complete" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week4_Expired" value="false" />
+		<Variable name="SummerOfOurDiscontent_Week4_Complete" value="false" />
+		<Variable name="ChameleonsTapped" value="0" />
+		<Variable name="Sprinkles_DailyTaps" value="0" />
+		<Variable name="Sprinkles_DonutTaps" value="0" />
+		<Variable name="Sprinkles_Cooldown" value="0" />
+		<Variable name="SandTiles_Unlocked" value="false" />
+		<Variable name="DesertTotemPole_obtained" value="0" />
+		<Variable name="DesertPerson_obtained" value="0" />
+		<Variable name="DesertCreature_obtained" value="0" />
+		<Variable name="DesertDog_obtained" value="0" />
+		<Variable name="DesertDragon_obtained" value="0" />
+		<Variable name="DesertBear_obtained" value="0" />
+		<Variable name="DesertHorse_obtained" value="0" />
+		<Variable name="DesertGator_obtained" value="0" />
+		<Variable name="DesertChimp_obtained" value="0" />
+		<Variable name="DesertPlanet_obtained" value="0" />
+		<Variable name="DonutDay2024_DozenPurchased" value="false" />
+		<Variable name="DonutDay2024_StackPurchased" value="false" />
+		<Variable name="DonutDay2024_TrayPurchased" value="false" />
+		<Variable name="DonutDay2024_TruckloadPurchased" value="false" />
+		<Variable name="DonutDay2024_StorefullPurchased" value="false" />
+		<Variable name="DonutDay2024_BoatloadPurchased" value="false" />
+		<Variable name="DonutDay2024_SprinklesPurchased" value="false" />
+		<Variable name="TheMayflowerMapleBowl_Expired" value="false" />
+		<Variable name="TheMayflowerMapleBowl_Complete" value="false" />
+		<Variable name="TheMayflowerMapleBowlGuideSeen" value="0" />
+		<Variable name="ABartFuture_Week1_Expired" value="false" />
+		<Variable name="ABartFuture_Week1_Complete" value="false" />
+		<Variable name="ABartFuture_Week2_Expired" value="false" />
+		<Variable name="ABartFuture_Week2_Complete" value="false" />
+		<Variable name="ABartFuture_Week3_Expired" value="false" />
+		<Variable name="ABartFuture_Week3_Complete" value="false" />
+		<Variable name="ABartFuture_Week4_Expired" value="false" />
+		<Variable name="ABartFuture_Week4_Complete" value="false" />
+		<Variable name="TSTOTE_Expired" value="false" />
+		<Variable name="TSTOTE_Complete" value="false" />
+		<!-- <Variable name="NoDonutReRain" value="false" /> -->
+	</SpecialEvent>
+</SpecialEvents>

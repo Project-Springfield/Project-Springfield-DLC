@@ -1,0 +1,595 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="SimpsonsBabiesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="SimpsonsBabies_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="SimpsonsBabies_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="SimpsonsBabies_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="SimpsonsBabies_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_SimpsonsBabies_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_SimpsonsBabies_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_SimpsonsBabies_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_SimpsonsBabies_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_SimpsonsBabies_IntroPanel_3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_SimpsonsBabies_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="SimpsonsBabies_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="SimpsonsBabies_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="SimpsonsBabies_OnePanel" eventName="UI_SimpsonsBabies_Title" limitedTime="true" limitedTimeEndDate="SimpsonsBabies_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="SimpsonsBabiesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_SimpsonsBabies_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_SimpsonsBabies_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_SimpsonsBabies_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_SimpsonsBabies_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_SimpsonsBabies_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="SimpsonsBabies_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="SimpsonsBabies_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="SimpsonsBabies_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="SimpsonsBabies_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="SimpsonsBabies_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_SimpsonsBabies_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="SimpsonsBabies_OnePanel" />
+		<Action type="runScript" script="SimpsonsBabies_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="SimpsonsBabies_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="SimpsonsBabies_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="SimpsonsBabies_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="SimpsonsBabies_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="SimpsonsBabies_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="SimpsonsBabies_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="SimpsonsBabies_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="SimpsonsBabies_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="SimpsonsBabies_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="SimpsonsBabies_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="SimpsonsBabies_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="SimpsonsBabies_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="SimpsonsBabies_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="SimpsonsBabies_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="SimpsonsBabies_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="SimpsonsBabies_Event" />
+						<Attribute name="showEventHub" value="true" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TheYoungerGames_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week1" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheYoungerGames_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week1" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheYoungerGames_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week1" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheYoungerGames_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week1" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheYoungerGames_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week1" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="SimpsonsBabies_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="SimpsonsBabies_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="SimpsonsBabies_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="SimpsonsBabies_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="SimpsonsBabies_Event" />
+						<Attribute name="showEventHub" value="true" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AWhiffOfZiff_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week2" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AWhiffOfZiff_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week2" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AWhiffOfZiff_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week2" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AWhiffOfZiff_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week2" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AWhiffOfZiff_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week2" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="SimpsonsBabies_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="SimpsonsBabies_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="SimpsonsBabies_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="SimpsonsBabies_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="SimpsonsBabies_Event" />
+						<Attribute name="showEventHub" value="true" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TheSleuthenizer_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week3" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheSleuthenizer_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week3" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheSleuthenizer_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week3" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheSleuthenizer_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week3" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheSleuthenizer_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week3" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="SimpsonsBabies_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="SimpsonsBabies_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="SimpsonsBabies_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="SimpsonsBabies_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="SimpsonsBabies_Event" />
+						<Attribute name="showEventHub" value="true" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AgeAgainstTheMachine_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week4" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AgeAgainstTheMachine_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week4" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AgeAgainstTheMachine_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week4" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AgeAgainstTheMachine_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week4" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AgeAgainstTheMachine_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SimpsonsBabies_Event_Week4" />
+									<Attribute name="JobList" value="SimpsonsBabies_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="SimpsonsBabies_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SimpsonsBabies_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SimpsonsBabies_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SimpsonsBabies_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SimpsonsBabies_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="SimpsonsBabies_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="SimpsonsBabies_OnePanel" />
+		<Action type="recommendation" recType="Event" name="SimpsonsBabies_OnePanel" eventName="UI_SimpsonsBabies_Title" limitedTime="true" limitedTimeEndDate="SimpsonsBabies_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="SimpsonsBabies_Category" />
+	</EnterStoreCategory>
+	<StoreNotification_ColonelBurnsMansion>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="ColonelBurnsMansion" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_ColonelBurnsMansion_name" text="BLD_ColonelBurnsMansion_upsell_desc" icon="ICO_PRIZ_SimpsonsBabies_ColonelBurnsMansion_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="ColonelBurnsMansion" menuCategory="SimpsonsBabies_Category" />
+			</False>
+		</Action>
+	</StoreNotification_ColonelBurnsMansion>
+	<StoreNotification_MalibuStacyFanClub>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="MalibuStacyFanClub" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_MalibuStacyFanClub_name" text="BLD_MalibuStacyFanClub_upsell_desc" icon="ICO_PRIZ_SimpsonsBabies_MalibuStacyFanClub_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MalibuStacyFanClub" menuCategory="SimpsonsBabies_Category" />
+			</False>
+		</Action>
+	</StoreNotification_MalibuStacyFanClub>
+	<StoreNotification_SpringfieldCommunityTheater>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="SpringfieldCommunityTheater" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_SpringfieldCommunityTheater_name" text="BLD_SpringfieldCommunityTheater_upsell_desc" icon="ICO_PRIZ_SimpsonsBabies_SpringfieldCommunityTheater_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="SpringfieldCommunityTheater" menuCategory="SimpsonsBabies_Category" />
+			</False>
+		</Action>
+	</StoreNotification_SpringfieldCommunityTheater>
+	<GoToBleedingGumsCloud>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="BleedingGumsCloud" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="BleedingGumsCloud" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="BleedingGumsCloud" inventory="true" />
+			</False>
+		</Action>
+	</GoToBleedingGumsCloud>
+</ScriptPackage>

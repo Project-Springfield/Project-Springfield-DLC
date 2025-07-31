@@ -1,0 +1,1574 @@
+﻿<ScriptPackage>
+	<TEMP>
+		<Action type="message" text="**Not implemented yet**" />
+	</TEMP>
+	<DoNothing>
+		<Action type="delay" time="0" />
+	</DoNothing>
+	<TabPressed_MonsterBattle ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="2" />
+				<Action type="if">
+					<If>
+						<Requirement type="building" building="GiantMonster" />
+						<Then>
+							<Action type="actionSequence" script="THOH2016_Scripts:PreSort" waitUntilComplete="true" />
+							<Action type="actionSequence" script="THOH2016_Scripts:SetSpecificMonster" waitUntilComplete="true" parseOnDemand="true">
+								<FormatToken key="thisMonsterCounter" value="_[0]_" />
+							</Action>
+							<Action type="actionSequence" script="THOH2016_Scripts:SelectGiantMonster" parseOnDemand="true" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="gotoState" state="GameState_HubDataDrivenMenu" forceState="false">
+								<Extras>
+									<Attribute name="menuName" value="MonsterFightEmptyMenu" />
+									<Attribute name="scriptResProvider" value="MonsterFightEmptyMenu.mns" />
+									<Attribute name="menuConfig" value="THOH2016_MonsterBattleConfig:EmptyMenuConfig" />
+									<Attribute name="buttonsConfig" value="THOH2016_MonsterBattleConfig:EmptyButtonConfig" />
+									<Attribute name="progressBarsConfig" value="THOH2016_MonsterBattleConfig:EmptyProgressBarConfig" />
+									<Attribute name="specialEvent" value="THOH2016_Event" />
+								</Extras>
+							</Action>
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_MonsterBattle>
+	<TabPressed_MonsterBattle_Help ignoreHUD="true">
+		<Action type="setVariable" intVariable="MonsterBattleGuideViewed" intValue="1" />
+		<Action type="sound" sound="UIButton" />
+		<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="THOH2016_GuidePanelConfig:Guide_MonsterBattle" />
+	</TabPressed_MonsterBattle_Help>
+	<ViewBattleGuide_FirstTimeOnly ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="variable" variable="MonsterBattleGuideViewed" not="true" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="THOH2016_Scripts:TabPressed_MonsterBattle_Help" />
+					</True>
+					<False>
+						<Action type="runScript" script="THOH2016_Scripts:TabPressed_MonsterBattle" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</ViewBattleGuide_FirstTimeOnly>
+	<ViewBattleGuideIfUnseen ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="variable" variable="MonsterBattleGuideViewed" not="true" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="THOH2016_Scripts:TabPressed_MonsterBattle_Help" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</ViewBattleGuideIfUnseen>
+	<TabPressed_PrizeTrack ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="1" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+					<Extras>
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="helpButtonScript" value="THOH2016_Scripts:TabPressed_PrizeTrack_Help" />
+						<Attribute name="specialEvent" value="THOH2016_Event" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="THOH2016_PrizeTrackBadge" />
+			</True>
+		</Action>
+	</TabPressed_PrizeTrack>
+	<TabPressed_PrizeTrack_Help ignoreHUD="true">
+		<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="THOH2016_GuidePanelConfig:Guide_PrizeTrack" />
+	</TabPressed_PrizeTrack_Help>
+	<TabPressed_MonsterStore ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="MenuConfig" value="THOH2016_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="THOH2016_Scripts:UpdateCrafting" />
+						<Attribute name="specialEvent" value="THOH2016_Event" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="THOH2016_Store" />
+			</True>
+		</Action>
+	</TabPressed_MonsterStore>
+	<TabPressed_MonsterStore_Help ignoreHUD="true">
+		<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="THOH2016_GuidePanelConfig:Guide_MonsterStore" />
+	</TabPressed_MonsterStore_Help>
+	<TabPressed_EventLevel>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="4" />
+				<Action type="gotoState" state="GameState_EventLevelPrizeTrack">
+					<Extras>
+						<Attribute name="specialEvent" value="THOH2016_EventLevel" />
+						<Attribute name="helpButtonScript" value="THOH2016_Scripts:TabPressed_EventLevel_Help" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_EventLevel>
+	<TabPressed_EventLevel_Help ignoreHUD="true">
+		<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="THOH2016_GuidePanelConfig:Guide_EventLevel" />
+	</TabPressed_EventLevel_Help>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="THOH2016_EventHubTabValue">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="THOH2016_Scripts:TabPressed_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="THOH2016_Scripts:TabPressed_MonsterBattle" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="runScript" script="THOH2016_Scripts:TabPressed_MonsterStore" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="runScript" script="THOH2016_Scripts:TabPressed_EventLevel" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<EnterTHOH2016Category>
+		<Action type="focusOnMenuItem" menuCategory="THOH2016" />
+	</EnterTHOH2016Category>
+	<EventStart>
+		<Action type="returnToInGameState" />
+		<Action type="recommendation" recType="Event" eventName="UI_THOH2016_Name" name="THOH2016_ThreePanel" />
+	</EventStart>
+	<CobblestoneRoadPurchased>
+		<Action type="runScript" script="THOH2016_Scripts:GoToTutorialCobblestone" />
+	</CobblestoneRoadPurchased>
+	<CobblestonePurchasePrompt>
+		<Action type="genericConfirmation">
+			<Attribute name="config">
+				<AttributeSet name="onOK">
+					<Attribute name="variable" value="buycobblestone_spendDonuts" />
+					<Attribute name="variableValue" value="1" />
+				</AttributeSet>
+				<AttributeSet name="onCancel">
+					<Attribute name="variable" value="buycobblestone_spendDonuts" />
+					<Attribute name="variableValue" value="0" />
+				</AttributeSet>
+				<AttributeSet name="onExit">
+					<Attribute name="variable" value="buycobblestone_spendDonuts" />
+					<Attribute name="variableValue" value="0" />
+				</AttributeSet>
+				<AttributeSet name="onBackButton">
+					<Attribute name="mapTo" value="onExit" />
+				</AttributeSet>
+				<AttributeSet name="title">
+					<Attribute name="text" value="BLD_CobblestoneRoad_name" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_THOH2016_CobblestoneRoad_Purchase" localise="true" />\
+                    <Attribute name="font" value="eFont_Small" /><Attribute name="color" value="FFFFFFFF" /></AttributeSet>
+				<AttributeSet name="button_Cancel">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="GEN_Cancel" localise="true" />
+							<Attribute name="font" value="eFont_NormalBold" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="A61F0CFF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="40" />
+							<Attribute name="font" value="eFont_NormalBold" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="D03484FF" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_icon">
+						<AttributeSet name="button_icon_left_Branch">
+							<Attribute name="active" value="true" />
+						</AttributeSet>
+						<AttributeSet name="button_icon_left">
+							<Attribute name="image" value="ICO_GENR_DONUT_MD:*" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="exitButton">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="showTwoButtons">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="checkExpression" expression="buycobblestone_spendDonuts">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="THOH2016_Scripts:CobblestonePurchaseAttempt" />
+			</ExpressionCase>
+		</Action>
+	</CobblestonePurchasePrompt>
+	<CobblestonePurchaseAttempt>
+		<Action type="spendResources">
+			<Cost donuts="40" />
+			<Success name="THOH2016_Scripts:PurchaseCobblestone" />
+			<Failure name="THOH2016_Scripts:ShortCurrency" />
+		</Action>
+	</CobblestonePurchaseAttempt>
+	<OpenDonutStore>
+		<Action type="showMenu" clearShownMenu="true" />
+		<Action type="focusOnMenuItem" menuCategory="Currency" onLeaveStore="THOH2016_Scripts:GotoRearrange" />
+	</OpenDonutStore>
+	<GotoRearrange runQueueState="RunInAnyState">
+		<Action type="gotoState" state="GameState_Rearrange" />
+	</GotoRearrange>
+	<ShortCurrency>
+		<Action type="showMenu" clearShownMenu="true" />
+		<Action type="runScript" script="THOH2016_Scripts:AskGetMore" />
+	</ShortCurrency>
+	<AskGetMore ignoreHUD="true">
+		<Action type="genericConfirmation">
+			<Attribute name="config">
+				<AttributeSet name="onOK">
+					<Attribute name="script" value="THOH2016_Scripts:OpenDonutStore" />
+				</AttributeSet>
+				<AttributeSet name="onCancel"></AttributeSet>
+				<AttributeSet name="onBackButton">
+					<Attribute name="mapTo" value="onCancel" />
+				</AttributeSet>
+				<AttributeSet name="title">
+					<Attribute name="text" value="BLD_CobblestoneRoad_name" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="RES_InsufficientPremium" localise="true" />
+					<Attribute name="font" value="eFont_Small" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_Cancel">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="GEN_Cancel" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="BB0310FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="GEN_GetMore" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="button_back">
+						<AttributeSet name="button">
+							<Attribute name="color" value="D03484FF" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="exitButton">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="showTwoButtons">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</AskGetMore>
+	<PurchaseCobblestone>
+		<Action type="reward">
+			<Item type="consumable" name="CobblestoneRoad" useImmediately="true" />
+		</Action>
+	</PurchaseCobblestone>
+	<GoToTutorialCobblestone>
+		<Action type="message" text="UI_THOH2016_CobblestoneRoad_Confirmed" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_Rearrange" />
+			<True>
+				<Action type="returnToInGameState" waitForState="true" />
+			</True>
+		</Action>
+		<Action type="gotoState" state="GameState_Rearrange">
+			<Extras>
+				<Attribute name="tutorialRoadTileType" value="cobblestone" />
+			</Extras>
+		</Action>
+	</GoToTutorialCobblestone>
+	<GoTo_MAGOffice>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building owned" building="MAGOffice" />
+					</Requirements>
+					<True>
+						<Action type="returnToInGameState" waitForState="true" />
+						<Action type="pantoobject" time="0" building="MAGOffice" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="MAGOffice" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_MAGOffice>
+	<GoTo_MERichHouse>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building owned" building="MedievalRichHouse" />
+					</Requirements>
+					<True>
+						<Action type="returnToInGameState" waitForState="true" />
+						<Action type="pantoobject" time="0" building="MedievalRichHouse" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="MedievalRichHouse" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_MERichHouse>
+	<FindTrickOrTreater ignoreHUD="true" cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Job::TrickOrTreat2016_Bart::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Bart" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</If>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Bart_Temp::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Bart" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Lisa::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Lisa" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Martin::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Martin" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Milhouse::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Milhouse" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Nelson::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Nelson" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Ralph::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Ralph" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Rod::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Rod" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Todd::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Todd" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Dolph::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Dolph" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Jimbo::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Jimbo" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Kearney::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Kearney" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_Shauna::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Shauna" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_SherriandTerri::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="SherriandTerri" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="System::evaluate('Job::TrickOrTreat2016_SqueakyVoiceTeen::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="SqueakyVoiceTeen" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="pantoobject" time="0" building="MedievalRichHouse" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</Else>
+		</Action>
+	</FindTrickOrTreater>
+	<GoTo_ConstYard>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building owned" building="ConstructionYard" />
+					</Requirements>
+					<True>
+						<Action type="returnToInGameState" waitForState="true" />
+						<Action type="pantoobject" time="0" building="ConstructionYard" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="ConstructionYard" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_ConstYard>
+	<GoTo_Catacombs>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="MenuConfig" value="THOH2016_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="THOH2016_Scripts:UpdateCrafting" />
+						<Attribute name="specialEvent" value="THOH2016_Event" />
+						<Attribute name="ItemToScrollTo" value="BLD_Catacombs_name" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="THOH2016_Store" />
+			</True>
+		</Action>
+	</GoTo_Catacombs>
+	<GoTo_ForestCave>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="MenuConfig" value="THOH2016_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="THOH2016_Scripts:UpdateCrafting" />
+						<Attribute name="specialEvent" value="THOH2016_Event" />
+						<Attribute name="ItemToScrollTo" value="BLD_ForestCave_name" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="THOH2016_Store" />
+			</True>
+		</Action>
+	</GoTo_ForestCave>
+	<GoTo_Shipwreck>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="MenuConfig" value="THOH2016_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="THOH2016_Scripts:UpdateCrafting" />
+						<Attribute name="specialEvent" value="THOH2016_Event" />
+						<Attribute name="ItemToScrollTo" value="BLD_Shipwreck_name" />
+					</Extras>
+				</Action>
+				<Action type="markBadgeViewed" badgeName="THOH2016_Store" />
+			</True>
+		</Action>
+	</GoTo_Shipwreck>
+	<UpdateCrafting parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Spendable::THOH2016_MonsterCoins_XP') &lt; toDouble(System::getConfigValue('__THOH2016_GameConfig:Crafting_Targets:PreviousLevel_Target__'))">
+				<Then>
+					<Action type="reward" THOH2016_MonsterCoins_XP="toDouble(System::getConfigValue('__THOH2016_GameConfig:Crafting_Targets:PreviousLevel_Target__')) - THOH2016_MonsterCoins_XP" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="program">
+			<Program><![CDATA[#program;
+					while (User::getVariable('THOH2016_StoreLevel') < User::getVariable('THOH2016_MaxStoreLevel') && THOH2016_MonsterCoins_XP >= toDouble(System::getConfigValue('__THOH2016_GameConfig:Crafting_Targets:CurrentLevel_Target__')))
+					{
+					User::setVariable('THOH2016_StoreLevel', User::getVariable('THOH2016_StoreLevel') + 1, true);
+					}
+					var previousTarget = toDouble(System::getConfigValue('__THOH2016_GameConfig:Crafting_Targets:PreviousLevel_Target__'));
+					User::setVariable('THOH2016_MaxCraftProgress', toDouble(System::getConfigValue('__THOH2016_GameConfig:Crafting_Targets:CurrentLevel_Target__')) - previousTarget, true);
+					User::setVariable('THOH2016_CraftProgress', System::evaluate('Spendable::THOH2016_MonsterCoins_XP') - previousTarget, true);
+				]]></Program>
+		</Action>
+	</UpdateCrafting>
+	<SmallMonster_TapAnimation parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</SmallMonster_TapAnimation>
+	<GoTo_SmallMonster ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" time="0" characterGroup="SmallMonsters" randomPickFromGroup="true" />
+			</True>
+		</Action>
+	</GoTo_SmallMonster>
+	<SpawnSmallMonsters>
+		<Action type="createobject" name="SmallMonster" count="20" save="true" panCamera="false" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+					var array = Land::getAllInstancesFromGroup('SmallMonsters');
+					var uid = Object::getProperty(Array::getValueAtIndex(array, 0), 'UID');
+					Global::setVariable('monster1', uid);
+					uid = Object::getProperty(Array::getValueAtIndex(array, 1), 'UID');
+					Global::setVariable('monster2', uid);
+					uid = Object::getProperty(Array::getValueAtIndex(array, 2), 'UID');
+					Global::setVariable('monster3', uid);
+				]]></Program>
+		</Action>
+		<Action type="runScript" script="THOH2016_Scripts:ShowMonsters" />
+	</SpawnSmallMonsters>
+	<ShowMonsters cache="true">
+		<Action type="runScript" script="THOH2016_Scripts:AnimateMonster" waitUntilComplete="true">
+			<Objects>
+				<ObjectByUID UID="Global::getVariable('monster1')" />
+			</Objects>
+		</Action>
+	</ShowMonsters>
+	<AnimateMonster parallel="true" runQueueState="RunInAnyState" cache="true">
+		<Action type="pantoobject" time="0" useObjectRef="true" />
+		<Action type="anim-play" animation="Tap" />
+		<Action type="anim-waitforend" />
+	</AnimateMonster>
+	<SmallMonster_Spawn parallel="true">
+		<Action type="setObjectVariable" variable="HEALTH" value="1" allowOrphan="false" ignoreObject="false" />
+	</SmallMonster_Spawn>
+	<SmallMonster_Spawn_M parallel="true">
+		<Action type="setObjectVariable" variable="HEALTH" value="2" allowOrphan="false" ignoreObject="false" />
+	</SmallMonster_Spawn_M>
+	<SmallMonster_Spawn_L parallel="true">
+		<Action type="setObjectVariable" variable="HEALTH" value="4" allowOrphan="false" ignoreObject="false" />
+	</SmallMonster_Spawn_L>
+	<SmallMonster_Tapped_Radius parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="MadMonstersFurryRoad_4" />
+			<True>
+				<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+				<Action type="runScriptOnAll" character="SmallMonster" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonster_Tapped_Local" />
+				<Action type="runScriptOnAll" character="SmallMonster_M" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonsterM_Tapped_Local" />
+				<Action type="runScriptOnAll" character="SmallMonster_L" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonsterL_Tapped_Local" />
+				<Action type="runScript" script="THOH2016_Scripts:SmallMonster_Tapped_Local" />
+			</True>
+		</Action>
+	</SmallMonster_Tapped_Radius>
+	<SmallMonsterM_Tapped_Radius parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="MadMonstersFurryRoad_4" />
+			<True>
+				<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+				<Action type="runScriptOnAll" character="SmallMonster" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonster_Tapped_Local" />
+				<Action type="runScriptOnAll" character="SmallMonster_M" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonsterM_Tapped_Local" />
+				<Action type="runScriptOnAll" character="SmallMonster_L" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonsterL_Tapped_Local" />
+				<Action type="runScript" script="THOH2016_Scripts:SmallMonsterM_Tapped_Local" />
+			</True>
+		</Action>
+	</SmallMonsterM_Tapped_Radius>
+	<SmallMonsterL_Tapped_Radius parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="MadMonstersFurryRoad_4" />
+			<True>
+				<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+				<Action type="runScriptOnAll" character="SmallMonster" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonster_Tapped_Local" />
+				<Action type="runScriptOnAll" character="SmallMonster_M" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonsterM_Tapped_Local" />
+				<Action type="runScriptOnAll" character="SmallMonster_L" in_radius="5" radius_delay="0.3" script="THOH2016_Scripts:SmallMonsterL_Tapped_Local" />
+				<Action type="runScript" script="THOH2016_Scripts:SmallMonsterL_Tapped_Local" />
+			</True>
+		</Action>
+	</SmallMonsterL_Tapped_Radius>
+	<SmallMonster_Tapped_Local parallel="true" cache="true">
+		<Action type="setVariable" intVariable="THOH2016_MonsterTaps" intValue="THOH2016_MonsterTaps+1" />
+		<Action type="setVariable" intVariable="DCS_SmallMonsters" intValue="DCS_SmallMonsters + 1" />
+		<Action type="setObjectVariable" variable="HEALTH" value="Object::HEALTH-1" allowOrphan="false" asExpression="true" />
+		<Action type="if">
+			<If expression="[Object::HEALTH]&gt;0" asObjectExpression="true">
+				<Then>
+					<Action type="sound" sound="SmallMonster_Hit" />
+					<Action type="anim-play" animation="Hit" />
+					<Action type="anim-waitforend" />
+					<Action type="actionSequence" script="THOH2016_Scripts:SmallMonsterReward" />
+				</Then>
+			</If>
+			<ElseIf expression="[Object::HEALTH] &lt;= 0 &amp;&amp; [Object::Deleted] == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="Deleted" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="sound" sound="SmallMonster_Death" />
+					<Action type="actionSequence" script="THOH2016_Scripts:SmallMonsterReward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="anim-play" animation="Defeated" />
+					<Action type="anim-waitforend" />
+					<Action type="deletecharacter" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="deletecharacter" />
+				</Then>
+			</Else>
+		</Action>
+	</SmallMonster_Tapped_Local>
+	<SmallMonsterM_Tapped_Local parallel="true" cache="true" otherScriptsCanRunOnObject="true">
+		<Action type="setVariable" intVariable="THOH2016_MonsterTaps" intValue="THOH2016_MonsterTaps+1" />
+		<Action type="setVariable" intVariable="DCS_SmallMonsters" intValue="DCS_SmallMonsters + 1" />
+		<Action type="setObjectVariable" variable="HEALTH" value="Object::HEALTH-1" allowOrphan="false" asExpression="true" />
+		<Action type="if">
+			<If expression="[Object::HEALTH]&gt;0" asObjectExpression="true">
+				<Then>
+					<Action type="sound" sound="SmallMonster_Hit" />
+					<Action type="actionSequence" script="THOH2016_Scripts:SmallMonsterReward" />
+					<Action type="anim-play" animation="Hit" />
+					<Action type="anim-waitforend" />
+				</Then>
+			</If>
+			<ElseIf expression="[Object::HEALTH] &lt;= 0 &amp;&amp; [Object::Deleted] == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="Deleted" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="sound" sound="SmallMonster_Death" />
+					<Action type="actionSequence" script="THOH2016_Scripts:SmallMonsterReward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="anim-play" animation="Defeated" />
+					<Action type="anim-waitforend" />
+					<Action type="deletecharacter" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SmallMonsterM_Tapped_Local>
+	<SmallMonsterL_Tapped_Local parallel="true" cache="true" otherScriptsCanRunOnObject="true">
+		<Action type="setVariable" intVariable="THOH2016_MonsterTaps" intValue="THOH2016_MonsterTaps+1" />
+		<Action type="setVariable" intVariable="DCS_SmallMonsters" intValue="DCS_SmallMonsters + 1" />
+		<Action type="setObjectVariable" variable="HEALTH" value="Object::HEALTH-1" allowOrphan="false" asExpression="true" />
+		<Action type="if">
+			<If expression="[Object::HEALTH]&gt;0" asObjectExpression="true">
+				<Then>
+					<Action type="sound" sound="SmallMonster_Hit" />
+					<Action type="actionSequence" script="THOH2016_Scripts:SmallMonsterReward" />
+					<Action type="anim-play" animation="Hit" />
+					<Action type="anim-waitforend" />
+				</Then>
+			</If>
+			<ElseIf expression="[Object::HEALTH] &lt;= 0 &amp;&amp; [Object::Deleted] == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="Deleted" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="sound" sound="SmallMonster_Death" />
+					<Action type="actionSequence" script="THOH2016_Scripts:SmallMonsterReward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="anim-play" animation="Defeated" />
+					<Action type="anim-waitforend" />
+					<Action type="deletecharacter" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SmallMonsterL_Tapped_Local>
+	<SmallMonsterReward parallel="true" cache="true">
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="THOHXXVII_ActTwo" />
+				<Then>
+					<Action type="reward" save="true" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Tappables:TapEcurrencyAmountActI__" suppress_sound="true" />
+					<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Tappables:TapCraftAmountAct1__" chance="__THOH2016_Spreadsheet_Config:Tappables:TapCraftChanceAct1__" chanceType="s" suppress_sound="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" end="THOHXXVII_ActThree" />
+				<Then>
+					<Action type="reward" save="true" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Tappables:TapEcurrencyAmountActII__" suppress_sound="true" />
+					<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Tappables:TapCraftAmountAct2__" chance="__THOH2016_Spreadsheet_Config:Tappables:TapCraftChanceAct2__" chanceType="s" suppress_sound="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="reward" save="true" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Tappables:TapEcurrencyAmountActIII__" suppress_sound="true" />
+					<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Tappables:TapCraftAmountAct3__" chance="__THOH2016_Spreadsheet_Config:Tappables:TapCraftChanceAct3__" chanceType="s" suppress_sound="true" />
+				</Then>
+			</Else>
+		</Action>
+	</SmallMonsterReward>
+	<THOH2016_Prestige1Reward>
+		<Action type="reward">
+			<Item type="consumable" name="THOH2016_Prestige1" useImmediately="true" />
+		</Action>
+	</THOH2016_Prestige1Reward>
+	<THOH2016_Prestige2Reward>
+		<Action type="reward">
+			<Item type="consumable" name="THOH2016_Prestige2" useImmediately="true" />
+		</Action>
+	</THOH2016_Prestige2Reward>
+	<THOH2016_Prestige3Reward>
+		<Action type="reward">
+			<Item type="consumable" name="THOH2016_Prestige3" useImmediately="true" />
+		</Action>
+	</THOH2016_Prestige3Reward>
+	<MAG_WerewolfFlanders>
+		<Action type="pantoobject" time="0" character="Ned" />
+		<Action type="playanimation" character="Ned" animation="Victory_Pose" />
+		<Action type="reward" character="Ned" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Werewolf_Flanders__" />
+	</MAG_WerewolfFlanders>
+	<MAG_Death>
+		<Action type="pantoobject" time="0" character="Death" />
+		<Action type="playanimation" character="Death" animation="Victory_Pose" />
+		<Action type="reward" character="Death" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Death__" />
+	</MAG_Death>
+	<MAG_Frinkenstein>
+		<Action type="pantoobject" time="0" character="Frinkenstein" />
+		<Action type="playanimation" character="Frinkenstein" animation="Victory_Pose_Left" />
+		<Action type="reward" character="Frinkenstein" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Frinkenstein__" />
+	</MAG_Frinkenstein>
+	<MAG_GravediggerBilly>
+		<Action type="pantoobject" time="0" character="GravediggerBilly" />
+		<Action type="playanimation" character="GravediggerBilly" animation="Victory_Pose" />
+		<Action type="reward" character="GravediggerBilly" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Gravedigger_Billy__" />
+	</MAG_GravediggerBilly>
+	<MAG_SpaceMarshmallow>
+		<Action type="pantoobject" time="0" character="SpaceMarshmallow" />
+		<Action type="playanimation" character="SpaceMarshmallow" animation="Victory_Pose" />
+		<Action type="reward" character="SpaceMarshmallow" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Space_Marshmallow__" />
+	</MAG_SpaceMarshmallow>
+	<MAG_BlinkyMonster>
+		<Action type="pantoobject" time="0" character="BlinkyMonster" />
+		<Action type="playanimation" character="BlinkyMonster" animation="Victory_Pose" />
+		<Action type="reward" character="BlinkyMonster" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Blinky_Monster_&amp;_Dock__" />
+	</MAG_BlinkyMonster>
+	<MAG_CrazyCatLady>
+		<Action type="pantoobject" time="0" character="CrazyCatLady" />
+		<Action type="playanimation" character="CrazyCatLady" animation="Victory_Pose" />
+		<Action type="reward" character="CrazyCatLady" save="true" THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Crazy_Iguana_Lady__" />
+	</MAG_CrazyCatLady>
+	<SpawnGiantMonsters>
+		<Action type="createBuilding" name="GiantMonster" count="3" />
+		<Action type="runActionSequenceOnAll" building="GiantMonster" script="THOH2016_Scripts:SetFirstMonsters" />
+	</SpawnGiantMonsters>
+	<SetFirstMonsters>
+		<Action type="setObjectVariable" variable="Slots" value="1" allowOrphan="false" asExpression="true" />
+		<Action type="setObjectVariable" variable="State" value="1" allowOrphan="false" asExpression="true" />
+		<Action type="pushBackObjectVariable" formula="Object::UID">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" land="local" />
+				<CopyObject index="0" />
+			</Objects>
+		</Action>
+	</SetFirstMonsters>
+	<PreSort parallel="true" cache="true">
+		<Action type="iterateObjectVariables" script="THOH2016_Scripts:SetState">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" />
+			</Objects>
+			<ScriptObjects>
+				<ObjectByUID land="local">
+					<CopyObject index="0" />
+				</ObjectByUID>
+			</ScriptObjects>
+		</Action>
+		<Action type="sortObjectVariables" disableEvents="true">
+			<SortFormula formula="Object::State" land="local" />
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" land="local" />
+			</Objects>
+		</Action>
+	</PreSort>
+	<SetState cache="true">
+		<Action type="if">
+			<If expression="and(Object::Job::FightGiantMonster_Homer, System::evaluate('Job::FightGiantMonster_Homer::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</If>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Apu, System::evaluate('Job::FightGiantMonster_Apu::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Ned, System::evaluate('Job::FightGiantMonster_Ned::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Cletus, System::evaluate('Job::FightGiantMonster_Cletus::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Krusty, System::evaluate('Job::FightGiantMonster_Krusty::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Skinner, System::evaluate('Job::FightGiantMonster_Skinner::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Willie, System::evaluate('Job::FightGiantMonster_Willie::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_ComicBookGuy, System::evaluate('Job::FightGiantMonster_ComicBookGuy::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Lovejoy, System::evaluate('Job::FightGiantMonster_Lovejoy::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Marge, System::evaluate('Job::FightGiantMonster_Marge::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Moe, System::evaluate('Job::FightGiantMonster_Moe::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Herman, System::evaluate('Job::FightGiantMonster_Herman::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_CrazyIguanaLady, System::evaluate('Job::FightGiantMonster_CrazyIguanaLady::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Death, System::evaluate('Job::FightGiantMonster_Death::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_Frinkenstein, System::evaluate('Job::FightGiantMonster_Frinkenstein::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_GravediggerBilly, System::evaluate('Job::FightGiantMonster_GravediggerBilly::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_SpaceMarshmallow, System::evaluate('Job::FightGiantMonster_SpaceMarshmallow::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="and(Object::Job::FightGiantMonster_BlinkyMonster, System::evaluate('Job::FightGiantMonster_BlinkyMonster::Waiting'))" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="0" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SetState>
+	<UpdateAndSort cache="true">
+		<Action type="setVariable" intVariable="TEMP_MonsterCounter" intValue="0" addTempIfNotExisting="true" />
+		<Action type="iterateObjectVariables" script="THOH2016_Scripts:SetCounter">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" />
+			</Objects>
+			<ScriptObjects>
+				<ObjectByUID land="local">
+					<CopyObject index="0" />
+				</ObjectByUID>
+			</ScriptObjects>
+		</Action>
+		<Action type="updateVariable" variable="MonsterCounter" value="Object::Counter" asObjectExpression="true">
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local" />
+			</Objects>
+		</Action>
+	</UpdateAndSort>
+	<SetCounter cache="true">
+		<Action type="setVariable" intVariable="TEMP_MonsterCounter" intValue="TEMP_MonsterCounter+1" />
+		<Action type="setObjectVariable" variable="Counter" value="TEMP_MonsterCounter" allowOrphan="false" asExpression="true" />
+	</SetCounter>
+	<GoToMonsterBattleUI parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="actionSequence" script="THOH2016_Scripts:PreSort" waitUntilComplete="true" />
+		<Action type="updateVariable" disableEvents="true" variable="CurrentMonsterID" value="Object::UID" />
+		<Action type="setVariable" intVariable="THOH2016_EventHubTabValue" intValue="2" />
+		<Action type="actionSequence" script="THOH2016_Scripts:GotoSpecificMonsterBattleUI" parseOnDemand="true" />
+	</GoToMonsterBattleUI>
+	<GotoSpecificMonsterBattleUI parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="actionSequence" script="THOH2016_Scripts:UpdateAndSort" />
+		<Action type="updateVariable" variable="SkinIDVar" value="Object::SkinID" asObjectExpression="true">
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local" />
+			</Objects>
+		</Action>
+		<Action type="if">
+			<If expression="SkinIDVar==0">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster1" />
+				</Then>
+			</If>
+			<ElseIf expression="SkinIDVar==163102">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="SkinIDVar==163103">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster3" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="SkinIDVar==163104">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster4" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</GotoSpecificMonsterBattleUI>
+	<GiantMonsterFightStarted parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="setObjectVariable" object0="1" asObjectExpression="true" value="(Object::CharactersAttacking + 1)" variable="CharactersAttacking" disableEvents="true" />
+		<Action type="setObjectVariable" object0="1" asObjectExpression="true" value="2" variable="State" disableEvents="true" />
+	</GiantMonsterFightStarted>
+	<DefeatGiantMonster parallel="true">
+		<Action type="actionSequence" script="THOH2016_Scripts:FlagDeleteBuilding">
+			<Objects>
+				<CopyObject index="1" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="MonsterJobMultiplier" value="1.0" allowOrphan="false" />
+		<Action type="setVariable" ignoreObject="false" object0="1" intVariable="tempCharactersAttacking" intValue="Object::CharactersAttacking" addTempIfNotExisting="true" />
+		<Action type="setVariable" ignoreObject="false" object0="1" intVariable="SkinIDVar" intValue="Object::SkinID" addTempIfNotExisting="true" />
+		<Action object0="1" ignoreObject="false" type="if">
+			<If>
+				<Requirement type="formula" formula="Object::Defeated==0" />
+				<Then>
+					<Action type="if">
+						<If expression="SkinIDVar==0">
+							<Then>
+								<Action type="logevent" object0="1" ignoreObject="false" param1Type="Enumeration" param1AsFormula="tempCharactersAttacking" param2Type="Enumeration" param2="1" param3Type="UserLevel" eventId="4068" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot1CraftChance__" chanceType="s" suppress_sound="true" />
+							</Then>
+						</If>
+						<ElseIf expression="SkinIDVar==163102">
+							<Then>
+								<Action type="logevent" object0="1" ignoreObject="false" param1Type="Enumeration" param1AsFormula="tempCharactersAttacking" param2Type="Enumeration" param2="2" param3Type="UserLevel" eventId="4068" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot1CraftChance__" chanceType="s" suppress_sound="true" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot2CraftChance__" chanceType="s" suppress_sound="true" />
+							</Then>
+						</ElseIf>
+						<ElseIf expression="SkinIDVar==163103">
+							<Then>
+								<Action type="logevent" object0="1" ignoreObject="false" param1Type="Enumeration" param1AsFormula="tempCharactersAttacking" param2Type="Enumeration" param2="3" param3Type="UserLevel" eventId="4068" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot1CraftChance__" chanceType="s" suppress_sound="true" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot2CraftChance__" chanceType="s" suppress_sound="true" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot3CraftChance__" chanceType="s" suppress_sound="true" />
+							</Then>
+						</ElseIf>
+						<ElseIf expression="SkinIDVar==163104">
+							<Then>
+								<Action type="logevent" object0="1" ignoreObject="false" param1Type="Enumeration" param1AsFormula="tempCharactersAttacking" param2Type="Enumeration" param2="4" param3Type="UserLevel" eventId="4068" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot1CraftChance__" chanceType="s" suppress_sound="true" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot2CraftChance__" chanceType="s" suppress_sound="true" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot3CraftChance__" chanceType="s" suppress_sound="true" />
+								<Action type="reward" save="true" THOH2016_MonsterCoins="__THOH2016_GameConfig:GiantMonster:CraftCurrencyValue__" chance="__THOH2016_Spreadsheet_Config:GiantMonsters:Slot4CraftChance__" chanceType="s" suppress_sound="true" />
+							</Then>
+						</ElseIf>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="setObjectVariable" variable="Defeated" value="1" allowOrphan="false" />
+		<Action type="sound" sound="GaintMonster_Death" />
+		<Action type="anim-play" animation="Death" ignoreObject="false" object0="1" />
+		<Action type="anim-waitforend" />
+		<Action type="deletebuilding" object0="1" giveRewards="true" />
+		<Action type="setVariable" intVariable="DCS_GiantMonsters1" intValue="DCS_GiantMonsters1+1" />
+		<Action type="setVariable" intVariable="DCS_GiantMonsters2" intValue="DCS_GiantMonsters2+1" />
+		<Action type="setVariable" intVariable="DCS_GiantMonsters3" intValue="DCS_GiantMonsters3+1" />
+		<Action type="setVariable" intVariable="GiantMonstersKilled" intValue="GiantMonstersKilled+1" />
+	</DefeatGiantMonster>
+	<FlagDeleteBuilding parallel="true">
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="updateVariable" disableEvents="true" variable="TempMonsterID" value="Object::UID" />
+		<Action type="removeObjectVariablesByValue" value="TempMonsterID">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" land="local" />
+			</Objects>
+		</Action>
+	</FlagDeleteBuilding>
+	<SelectGiantMonster parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="pantoobject" time="0" UID="CurrentMonsterID" />
+		<Action type="actionSequence" script="THOH2016_Scripts:UpdateAndSort" />
+		<Action type="updateVariable" variable="SkinIDVar" value="Object::SkinID" asObjectExpression="true">
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local" />
+			</Objects>
+		</Action>
+		<Action type="if">
+			<If expression="SkinIDVar==0">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster1" />
+				</Then>
+			</If>
+			<ElseIf expression="SkinIDVar==163102">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="SkinIDVar==163103">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster3" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="SkinIDVar==163104">
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:OpenMenu_GiantMonster4" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SelectGiantMonster>
+	<OpenMenu_GiantMonster1 ignoreHUD="true">
+		<Action type="gotoState" state="GameState_JobSelection">
+			<Extras>
+				<Attribute name="menu" value="MonsterBattleHUB" />
+				<Attribute name="scriptResProvider" value="MonsterBattleHUB.mns" />
+				<Attribute name="menuConfig" value="THOH2016_MonsterBattleConfig:MenuConfig" />
+				<Attribute name="buttonsConfig" value="THOH2016_MonsterBattleConfig:ButtonConfig" />
+				<Attribute name="generalConfig" value="THOH2016_MonsterBattleConfig:GiantMonster1" />
+				<Attribute name="jobListConfig" value="THOH2016_MonsterBattleConfig:JobList" />
+				<Attribute name="baseRewardPath" value="THOH2016_MonsterBattleConfig:RewardValue" />
+				<Attribute name="specialEvent" value="THOH2016_Event" />
+			</Extras>
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local">
+					<CopyObject index="0" />
+				</ObjectByUID>
+			</Objects>
+		</Action>
+	</OpenMenu_GiantMonster1>
+	<OpenMenu_GiantMonster2 ignoreHUD="true">
+		<Action type="gotoState" state="GameState_JobSelection">
+			<Extras>
+				<Attribute name="menu" value="MonsterBattleHUB" />
+				<Attribute name="scriptResProvider" value="MonsterBattleHUB.mns" />
+				<Attribute name="menuConfig" value="THOH2016_MonsterBattleConfig:MenuConfig" />
+				<Attribute name="buttonsConfig" value="THOH2016_MonsterBattleConfig:ButtonConfig" />
+				<Attribute name="generalConfig" value="THOH2016_MonsterBattleConfig:GiantMonster2" />
+				<Attribute name="jobListConfig" value="THOH2016_MonsterBattleConfig:JobList" />
+				<Attribute name="baseRewardPath" value="THOH2016_MonsterBattleConfig:RewardValue" />
+				<Attribute name="specialEvent" value="THOH2016_Event" />
+			</Extras>
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local">
+					<CopyObject index="0" />
+				</ObjectByUID>
+			</Objects>
+		</Action>
+	</OpenMenu_GiantMonster2>
+	<OpenMenu_GiantMonster3 ignoreHUD="true">
+		<Action type="gotoState" state="GameState_JobSelection">
+			<Extras>
+				<Attribute name="menu" value="MonsterBattleHUB" />
+				<Attribute name="scriptResProvider" value="MonsterBattleHUB.mns" />
+				<Attribute name="menuConfig" value="THOH2016_MonsterBattleConfig:MenuConfig" />
+				<Attribute name="buttonsConfig" value="THOH2016_MonsterBattleConfig:ButtonConfig" />
+				<Attribute name="generalConfig" value="THOH2016_MonsterBattleConfig:GiantMonster3" />
+				<Attribute name="jobListConfig" value="THOH2016_MonsterBattleConfig:JobList" />
+				<Attribute name="baseRewardPath" value="THOH2016_MonsterBattleConfig:RewardValue" />
+				<Attribute name="specialEvent" value="THOH2016_Event" />
+			</Extras>
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local">
+					<CopyObject index="0" />
+				</ObjectByUID>
+			</Objects>
+		</Action>
+	</OpenMenu_GiantMonster3>
+	<OpenMenu_GiantMonster4 ignoreHUD="true">
+		<Action type="gotoState" state="GameState_JobSelection">
+			<Extras>
+				<Attribute name="menu" value="MonsterBattleHUB" />
+				<Attribute name="scriptResProvider" value="MonsterBattleHUB.mns" />
+				<Attribute name="menuConfig" value="THOH2016_MonsterBattleConfig:MenuConfig" />
+				<Attribute name="buttonsConfig" value="THOH2016_MonsterBattleConfig:ButtonConfig" />
+				<Attribute name="generalConfig" value="THOH2016_MonsterBattleConfig:GiantMonster4" />
+				<Attribute name="jobListConfig" value="THOH2016_MonsterBattleConfig:JobList" />
+				<Attribute name="baseRewardPath" value="THOH2016_MonsterBattleConfig:RewardValue" />
+				<Attribute name="specialEvent" value="THOH2016_Event" />
+			</Extras>
+			<Objects>
+				<ObjectByUID UID="CurrentMonsterID" land="local">
+					<CopyObject index="0" />
+				</ObjectByUID>
+			</Objects>
+		</Action>
+	</OpenMenu_GiantMonster4>
+	<MonsterFindButton>
+		<Action type="if">
+			<If>
+				<Requirement type="building" building="GiantMonster" />
+				<Then>
+					<Action type="getBuildingInstance" buildingGroup="GiantMonsterBuilding" buildingSelectionType="nextByID" returnVariable="CurrentMonsterID" />
+					<Action type="pantoobject" time="0" UID="CurrentMonsterID" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="message" text="UI_THOH2016_NoMonsters_Body" title="UI_THOH2016_NoMonsters_Title" />
+				</Then>
+			</Else>
+		</Action>
+	</MonsterFindButton>
+	<SetGiantMonsterSkin ignoreHUD="true" cache="true">
+		<Action type="pushBackObjectVariable" formula="Object::UID">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" land="local" />
+				<CopyObject index="0" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="State" value="1" allowOrphan="false" asExpression="true" />
+		<Action type="setVariable" intVariable="GiantMonster_Random" intValue="rand(100)" addTempIfNotExisting="true" />
+		<Action type="if">
+			<If expression="lessThan(GiantMonster_Random, toDouble(System::getConfigValue('__THOH2016_GameConfig:GiantMonster:1SlotChance__')))">
+				<Then>
+					<Action type="setBuildingSkin" useDefault="true" />
+					<Action type="setObjectVariable" variable="Slots" value="1" allowOrphan="false" asExpression="true" />
+				</Then>
+			</If>
+			<ElseIf expression="lessThan(GiantMonster_Random, toDouble(System::getConfigValue('__THOH2016_GameConfig:GiantMonster:2SlotChance__')))">
+				<Then>
+					<Action type="setBuildingSkin" skinName="GiantMonster02" />
+					<Action type="setObjectVariable" variable="Slots" value="2" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="lessThan(GiantMonster_Random, toDouble(System::getConfigValue('__THOH2016_GameConfig:GiantMonster:3SlotChance__')))">
+				<Then>
+					<Action type="setBuildingSkin" skinName="GiantMonster03" />
+					<Action type="setObjectVariable" variable="Slots" value="3" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="lessThan(GiantMonster_Random, toDouble(System::getConfigValue('__THOH2016_GameConfig:GiantMonster:4SlotChance__')))">
+				<Then>
+					<Action type="setBuildingSkin" skinName="GiantMonster04" />
+					<Action type="setObjectVariable" variable="Slots" value="4" allowOrphan="false" asExpression="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SetGiantMonsterSkin>
+	<NextMonsterSelected parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="if">
+			<If expression="MonsterCounter &lt; System::evaluate('Building::GiantMonster::PlacedCount')">
+				<Then>
+					<Action type="actionSequence" script="THOH2016_Scripts:SetSpecificMonster" waitUntilComplete="true">
+						<FormatToken key="thisMonsterCounter" value="_[MonsterCounter]_" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="THOH2016_Scripts:SetSpecificMonster" waitUntilComplete="true">
+						<FormatToken key="thisMonsterCounter" value="_[0]_" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="actionSequence" script="THOH2016_Scripts:SelectGiantMonster" parseOnDemand="true" />
+	</NextMonsterSelected>
+	<PreviousMonsterSelected parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="if">
+			<If expression="MonsterCounter==1">
+				<Then>
+					<Action type="actionSequence" script="THOH2016_Scripts:SetSpecificMonster" waitUntilComplete="true">
+						<FormatToken key="thisMonsterCounter" value="_[System::evaluate('Building::GiantMonster::PlacedCount')-1]_" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="THOH2016_Scripts:SetSpecificMonster" waitUntilComplete="true">
+						<FormatToken key="thisMonsterCounter" value="_[MonsterCounter-2]_" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="actionSequence" script="THOH2016_Scripts:SelectGiantMonster" parseOnDemand="true" />
+	</PreviousMonsterSelected>
+	<SetSpecificMonster parallel="true" cache="true">
+		<Action type="updateVariable" variable="CurrentMonsterID" value="Object::{thisMonsterCounter}" asObjectExpression="true" formatMe="true">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" />
+			</Objects>
+		</Action>
+	</SetSpecificMonster>
+	<GoToHomer_GiantMonster>
+		<Action type="if">
+			<If expression="System::evaluate('Job::FightGiantMonster_Homer::Active') || System::evaluate('Job::FightGiantMonster_Homer::Waiting')">
+				<Then>
+					<Action type="pantoobject" time="0" character="Homer" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="runScript" script="THOH2016_Scripts:ViewBattleGuide_FirstTimeOnly" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToHomer_GiantMonster>
+	<MonsterCouch_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</MonsterCouch_Tapped>
+	<VampireCasket_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</VampireCasket_Tapped>
+	<FlyingBats_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</FlyingBats_Tapped>
+	<WolfRock_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</WolfRock_Tapped>
+	<DarkCarriage_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</DarkCarriage_Tapped>
+	<ForestCave_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</ForestCave_Tapped>
+	<SpookyBrambles_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</SpookyBrambles_Tapped>
+	<SpiderWillie_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</SpiderWillie_Tapped>
+	<FoggySwamp_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</FoggySwamp_Tapped>
+	<CoveredBridge_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</CoveredBridge_Tapped>
+	<DCS_Reset_GiantMonsters1>
+		<Action type="setVariable" intVariable="DCS_GiantMonsters1" intValue="0" />
+	</DCS_Reset_GiantMonsters1>
+	<DCS_Reset_GiantMonsters2>
+		<Action type="setVariable" intVariable="DCS_GiantMonsters2" intValue="0" />
+	</DCS_Reset_GiantMonsters2>
+	<DCS_Reset_GiantMonsters3>
+		<Action type="setVariable" intVariable="DCS_GiantMonsters3" intValue="0" />
+	</DCS_Reset_GiantMonsters3>
+	<DCS_Reset_SmallMonsters>
+		<Action type="setVariable" intVariable="DCS_SmallMonsters" intValue="0" />
+	</DCS_Reset_SmallMonsters>
+	<CameraReward parallel="true" cache="true">
+		<Action type="setVariable" intVariable="THOH2016_SocialCount" intValue="THOH2016_SocialCount+1" />
+		<Action type="reward" save="true" THOH2016_ActivePrizeTrackCurrency="selector THOH2016_PTCurrencyPerFriendAction" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="reward" FriendPoint="selector friendPointsReward" money="selector socialMoneyReward" xp="1" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+			</True>
+			<False>
+				<Action type="reward" FriendPoint="selector friendPointsReward" Krustyland_Tickets="selector socialTicketReward" xp="1" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+			</False>
+		</Action>
+	</CameraReward>
+	<CleanCameraReward parallel="true">
+		<Action type="reward" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Social:CurrencyPerClean__" suppress_sound="true" FriendPoint="selector friendPointsRewardOwner" />
+	</CleanCameraReward>
+	<SpawnMonsters_LowLevelFriend>
+		<Action type="createobject" name="SmallMonster" count="10" save="true" panCamera="false" />
+	</SpawnMonsters_LowLevelFriend>
+	<SpawnMonsters_MidLevelFriend>
+		<Action type="createobject" name="SmallMonster" count="20" save="true" panCamera="false" />
+	</SpawnMonsters_MidLevelFriend>
+	<SpawnMonsters_HighLevelFriend>
+		<Action type="createobject" name="SmallMonster" count="30" save="true" panCamera="false" />
+	</SpawnMonsters_HighLevelFriend>
+	<PurchaseLicense>
+		<Action type="setVariable" boolVariable="THOH2016_SocialUpgrade_Purchased" boolValue="true" />
+		<Action type="notification" title="CON_THOH2016_FilmPermit1_name" button="UI_OK" text="UI_THOH2016_FilmPermit_Purchased" icon="ICO_STOR_THOH2016_FilmPermit_Popup" />
+	</PurchaseLicense>
+	<THOH2016FriendsHUDInfo parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="THOH2016_UpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="THOH2016_Scripts:THOH2016FriendsHUDInfoAux" />
+	</THOH2016FriendsHUDInfo>
+	<THOH2016FriendsHUDInfoAux>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="THOH2016_SocialUpgrade_Purchased" />
+							<True>
+								<Action type="notification" title="RES_THOH2016_PT1_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2016_PT1_Upgrade" icon="ICO_CUR_THOH2016_FilmStrip_LG">
+									<Variable name="THOH2016_PT1_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="THOH2016_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_THOH2016_PT1_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2016_PT1" icon="ICO_CUR_THOH2016_FilmStrip_LG">
+									<Variable name="THOH2016_PT1_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="THOH2016_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_THOH2016_PT1_Plural" button="UI_OK" text="UI_THOH2016_OutOfFriendActions" icon="ICO_CUR_THOH2016_FilmStrip_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="THOH2016_SocialUpgrade_Purchased" />
+							<True>
+								<Action type="notification" title="RES_THOH2016_PT2_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2016_PT2_Upgrade" icon="ICO_CUR_THOH2016_Clapboard_LG">
+									<Variable name="THOH2016_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="THOH2016_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_THOH2016_PT2_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2016_PT2" icon="ICO_CUR_THOH2016_Clapboard_LG">
+									<Variable name="THOH2016_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="THOH2016_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_THOH2016_PT2_Plural" button="UI_OK" text="UI_THOH2016_OutOfFriendActions" icon="ICO_CUR_THOH2016_Clapboard_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="91" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="THOH2016_SocialUpgrade_Purchased" />
+							<True>
+								<Action type="notification" title="RES_THOH2016_PT3_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2016_PT3_Upgrade" icon="ICO_CUR_THOH2016_Megaphone_LG">
+									<Variable name="THOH2016_PT3_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="THOH2016_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_THOH2016_PT3_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2016_PT3" icon="ICO_CUR_THOH2016_Megaphone_LG">
+									<Variable name="THOH2016_PT3_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="THOH2016_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_THOH2016_PT3_Plural" button="UI_OK" text="UI_THOH2016_OutOfFriendActions" icon="ICO_CUR_THOH2016_Megaphone_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</THOH2016FriendsHUDInfoAux>
+	<IncreaseCraftingLevel>
+		<Action type="if">
+			<If expression="THOH2016_StoreLevel &lt; THOH2016_MaxStoreLevel">
+				<Then>
+					<Action type="reward" THOH2016_MonsterCoins_XP="toDouble(System::getConfigValue('__THOH2016_GameConfig:Crafting_Targets:CurrentLevel_Target__')) - THOH2016_MonsterCoins_XP" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="returnToInGameState" />
+	</IncreaseCraftingLevel>
+	<XPFix>
+		<Action type="reward" xp="1" />
+	</XPFix>
+	<FreeGiantMonsters>
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THOH2016_SpawnGiantMonsters" />
+			<True>
+				<Action type="createBuilding" name="GiantMonster" count="2" />
+				<Action type="runActionSequenceOnAll" building="GiantMonster" script="THOH2016_Scripts:SetFreeMonsters" />
+			</True>
+		</Action>
+	</FreeGiantMonsters>
+	<SetFreeMonsters>
+		<Action type="if">
+			<If expression="Object::Slots == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="Slots" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="setObjectVariable" variable="State" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="pushBackObjectVariable" formula="Object::UID">
+						<Objects>
+							<ObjectByName name="Obj_GiantMonsters" land="local" />
+							<CopyObject index="0" />
+						</Objects>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</SetFreeMonsters>
+	<THOH2016LandLoad cache="true">
+		<Action type="clearRecommendations" category="Promoted" name="HavanaPrivateHome" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="recommendation" recType="Event" eventName="UI_THOH2016_Name" name="THOH2016_ThreePanel" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="CubanMidlifeCrisis_1" />
+				<Requirement type="time" end="HavanaWildWeekend_End" />
+				<Requirement type="building owned" building="HavanaPrivateHome" not="true" />
+			</Requirements>
+			<True>
+				<Action type="recommendation" recType="Promoted" name="HavanaPrivateHome" />
+				<Action type="recommendation" recType="Event" eventName="UI_THOH2016_Name" name="THOH2016_OnePanel" />
+			</True>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Krustyland" />
+				<Then>
+					<Action type="actionSequence" script="THOH2016_Scripts:ForceFullReload" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:RemoveFrontGiantMonster');
+					Script::run('THOH2016_Scripts:ReAddGiantMonsters');
+				]]></Program>
+		</Action>
+	</THOH2016LandLoad>
+	<OnFriendButtonPressed cache="true">
+		<Action type="actionSequence" script="THOH2016_Scripts:ForceFullReload" />
+	</OnFriendButtonPressed>
+	<ForceFullReload parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="config" key="THOH2016_GameConfig:Enable:ReloadFix" value="1" />
+			</Requirements>
+			<True>
+				<Action type="gotoFrontend" resetLoadComplete="true" forceLocalSave="false" returnToGame="false" cleanLandAndData="false" resetDLCIndex="false" stopMusic="false" />
+			</True>
+		</Action>
+	</ForceFullReload>
+	<RemoveFrontGiantMonster parallel="true" cache="true">
+		<Action type="popFrontObjectVariable" disableEvents="true">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" land="local" />
+			</Objects>
+		</Action>
+	</RemoveFrontGiantMonster>
+	<ReAddGiantMonsters>
+		<Action type="runActionSequenceOnAll" building="GiantMonster" script="THOH2016_Scripts:AddMonsterToList" />
+	</ReAddGiantMonsters>
+	<AddMonsterToList parallel="true" cache="true">
+		<Action type="pushBackObjectVariable" formula="Object::UID">
+			<Objects>
+				<ObjectByName name="Obj_GiantMonsters" land="local" />
+				<CopyObject index="0" />
+			</Objects>
+		</Action>
+	</AddMonsterToList>
+</ScriptPackage>

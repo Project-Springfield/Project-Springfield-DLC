@@ -1,0 +1,276 @@
+﻿<QuestPackage>
+	<Quest id="111000" name="HigherClassOfPolitics01" tags="sidequest" icon="MarthaQuimby">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="level" level="52" />
+					<Requirement type="quest" quest="DoraTheEndorser07" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="level" level="53" />
+					<Requirement type="quest" quest="DoraTheEndorser02" />
+				</Requirement>
+			</Requirement>
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics01_Start" triggerType="character" character="KentBrockman" />
+		<Objectives>
+			<Objective type="build" building="Spiffanys" quantity="1" rewardsCollected="yes" />
+		</Objectives>
+		<EndScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics01_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<QuestBranch>
+		<BranchCondition>
+			<Requirement type="character" name="MissSpringfield" />
+		</BranchCondition>
+		<True>
+			<Quest id="111001" name="HigherClassOfPolitics02" tags="sidequest" icon="MarthaQuimby">
+				<Requirements>
+					<Requirement type="level" level="53" />
+					<Requirement type="quest" quest="HigherClassOfPolitics01" />
+				</Requirements>
+				<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics02_Start" triggerType="character" character="MarthaQuimby" />
+				<Objectives>
+					<Objective type="complete job" character="MarthaQuimby" job="RunCityGovernment" quantity="1" progress="quest" />
+					<Objective type="complete job" character="Quimby" job="InvestigateCyberAttack" quantity="1" progress="quest" />
+				</Objectives>
+				<Reward money="100" xp="10" />
+			</Quest>
+		</True>
+		<False>
+			<Quest id="111015" name="HigherClassOfPolitics02NoMissSpringfield" tags="sidequest" icon="MarthaQuimby" textpoolName="QST_HigherClassOfPolitics02_1_name">
+				<Requirements>
+					<Requirement type="level" level="53" />
+					<Requirement type="quest" quest="HigherClassOfPolitics01" />
+				</Requirements>
+				<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics02NoMissSpringfield_Start" triggerType="character" character="MarthaQuimby" />
+				<Objectives>
+					<Objective type="complete job" character="MarthaQuimby" job="RunCityGovernment" quantity="1" progress="quest" textpoolName="QST_HigherClassOfPolitics02_2_obj_1" />
+					<Objective type="complete job" character="Quimby" job="InvestigateCyberAttack" quantity="1" progress="quest" textpoolName="QST_HigherClassOfPolitics02_2_obj_2" />
+				</Objectives>
+				<Reward money="100" xp="10" />
+			</Quest>
+		</False>
+	</QuestBranch>
+	<Quest id="111002" name="HigherClassOfPolitics03" tags="sidequest" icon="MarthaQuimby">
+		<Requirements>
+			<Requirement type="level" level="53" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="HigherClassOfPolitics02" />
+				<Requirement type="quest" quest="HigherClassOfPolitics02NoMissSpringfield" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics03_Start" triggerType="character" character="MarthaQuimby" />
+		<Objectives>
+			<Objective type="build" building="GroundPool" quantity="1" rewardsCollected="no" progress="quest">
+				<DoneScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics03_Obj_1_Done" />
+			</Objective>
+			<Objective type="collect custom expression" expression="GroundPoolLevel" amount="1" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="MarthaQuimby_Scripts:GoToUpgradeablePool">
+				<Subland value="Springfield" />
+			</Objective>
+			<Objective type="complete job" character="MarthaQuimby" job="ThrowAFundraiser" quantity="1" GoToEnabled="true" progress="quest">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="MarthaQuimby_Scripts:GoToUpgradeablePool">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="conditional" logic="AND">
+									<Requirement type="building" building="GroundPool" not="true" />
+									<Requirement type="building" building="GroundPoolComplete" not="true" />
+								</Requirement>
+								<Requirement type="conditional" logic="AND">
+									<Requirement type="variable" variable="GroundPoolLevel" count="1" not="true" />
+									<Requirement type="variable" variable="GroundPoolLevel" count="2" not="true" />
+								</Requirement>
+							</Requirement>
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+			</Objective>
+			<Objective type="complete job" job="AttendFundraiser" quantity="5" GoToEnabled="true" progress="quest">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="MarthaQuimby_Scripts:GoToUpgradeablePool">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="conditional" logic="AND">
+									<Requirement type="building" building="GroundPool" not="true" />
+									<Requirement type="building" building="GroundPoolComplete" not="true" />
+								</Requirement>
+								<Requirement type="conditional" logic="AND">
+									<Requirement type="variable" variable="GroundPoolLevel" count="1" not="true" />
+									<Requirement type="variable" variable="GroundPoolLevel" count="2" not="true" />
+								</Requirement>
+							</Requirement>
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111003" name="HigherClassOfPolitics04" tags="sidequest" icon="MarthaQuimby">
+		<Requirements>
+			<Requirement type="level" level="53" />
+			<Requirement type="quest" quest="HigherClassOfPolitics03" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics04_Start" triggerType="character" character="MarthaQuimby" />
+		<Objectives>
+			<Objective type="complete job" character="MarthaQuimby" job="GetCreativeWithCityFinanceRecords" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Quimby" job="EarmarkCityFunds" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics04_Obj_1_Started" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111004" name="HigherClassOfPolitics05" tags="sidequest" icon="MarthaQuimby">
+		<Requirements>
+			<Requirement type="level" level="53" />
+			<Requirement type="quest" quest="HigherClassOfPolitics04" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics05_Start" triggerType="character" character="MarthaQuimby" />
+		<Objectives>
+			<Objective type="complete job" character="MarthaQuimby" job="MonitorATaskForce" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Wiggum" job="LeadATaskForce" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics05_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111005" name="HigherClassOfPolitics06" tags="sidequest" icon="MarthaQuimby">
+		<Requirements>
+			<Requirement type="level" level="53" />
+			<Requirement type="quest" quest="HigherClassOfPolitics05" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics06_Start" triggerType="character" character="MarthaQuimby" />
+		<Objectives>
+			<Objective type="complete job" character="MarthaQuimby" job="QuimbyGoShopping" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Wiggum" job="LoungeAroundInTownHall" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Database" job="CheckServerLogs" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics06_All_Obj_Started" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111006" name="HigherClassOfPolitics07" tags="sidequest" icon="MarthaQuimby">
+		<Requirements>
+			<Requirement type="level" level="53" />
+			<Requirement type="quest" quest="HigherClassOfPolitics06" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics07_Start" triggerType="character" character="Wiggum" />
+		<Objectives>
+			<Objective type="complete job" character="MarthaQuimby" job="LeadAnAngryMob" quantity="1" progress="quest" />
+			<Objective type="complete job" job="EliteJoinAnAngryMob" quantity="3" progress="quest" />
+		</Objectives>
+		<EndScript package="MarthaQuimby_Scripts_Dialogue" name="HigherClassOfPolitics07_End" />
+		<Reward money="5000" xp="500" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="111007" name="InsertCreditCard01" tags="sidequest" icon="StacyLovell">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="MalibuStacyHQ" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard01_Start" triggerType="character" character="StacyLovell" />
+		<Objectives>
+			<Objective type="complete job" character="StacyLovell" job="ObserveTheTargetMarket" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Lisa" job="PlayInHerRoom" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111008" name="InsertCreditCard02" tags="sidequest" icon="StacyLovell">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="InsertCreditCard01" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard02_Start" triggerType="character" character="StacyLovell" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="SlowlyExplainTechnologyToStacyLovell" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111009" name="InsertCreditCard03" tags="sidequest" icon="StacyLovell">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="InsertCreditCard02" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard03_Start" triggerType="character" character="StacyLovell" />
+		<Objectives>
+			<Objective type="complete job" character="StacyLovell" job="DevelopNewToyLine" quantity="1" progress="quest" />
+			<Objective type="complete job" character="StacyLovell" job="TestProducts" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111010" name="InsertCreditCard04" tags="sidequest" icon="StacyLovell">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="InsertCreditCard03" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard04_Start" triggerType="character" character="StacyLovell" />
+		<Objectives>
+			<Objective type="complete job" character="StacyLovell" job="HostAProductTest" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Lisa" job="TestMyStaceGameLisa" quantity="1" progress="quest" />
+			<Objective type="complete job" job="TestMyStaceGame" quantity="3" progress="quest" />
+		</Objectives>
+		<JobsStartedScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard04_Obj_Start" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111011" name="InsertCreditCard05" tags="sidequest" icon="StacyLovell">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="InsertCreditCard04" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard05_Start" triggerType="character" character="StacyLovell" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="PlayMyStaceAtHome" quantity="1" progress="quest" />
+			<Objective type="complete job" character="StacyLovell" job="AttendABoardCoup" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111012" name="InsertCreditCard06" tags="sidequest" icon="StacyLovell">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="InsertCreditCard05" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard06_Start" triggerType="character" character="StacyLovell" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="HoldHandsWithMilhouse" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="MarthaQuimby_Scripts_Dialogue" name="InsertCreditCard06_End" />
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="111013" name="RelationshipOfInconvenience01" tags="sidequest" icon="MissSpringfield">
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="character" name="MissSpringfield" />
+			<Requirement type="quest" quest="AModelLife05" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="HigherClassOfPolitics02" />
+				<Requirement type="quest" quest="HigherClassOfPolitics02NoMissSpringfield" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="RelationshipOfInconvenience01_Start" triggerType="character" character="MissSpringfield" />
+		<Objectives>
+			<Objective type="complete job" character="MissSpringfield" job="StayInAndWashHerHair" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Quimby" job="ShopAtSpiffanysForAnApology" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111014" name="RelationshipOfInconvenience02" tags="sidequest" icon="MissSpringfield">
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="RelationshipOfInconvenience01" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts_Dialogue" name="RelationshipOfInconvenience02_Start" triggerType="character" character="MissSpringfield" />
+		<Objectives>
+			<Objective type="complete job" character="MissSpringfield" job="EnjoyAnEveningWithTheMayor" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="111016" name="PoolLevelUpdater" tags="sidequest">
+		<Requirements>
+			<Requirement type="level" level="1" />
+		</Requirements>
+		<StartScript package="MarthaQuimby_Scripts" name="PoolLevelUpdater" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</QuestPackage>

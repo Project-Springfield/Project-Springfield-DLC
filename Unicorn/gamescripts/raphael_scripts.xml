@@ -1,0 +1,105 @@
+﻿<ScriptPackage>
+	<DuffBeeramid_Tapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</DuffBeeramid_Tapped>
+	<Beerquarium_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</Beerquarium_Tapped>
+	<MaleGnome_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</MaleGnome_Tapped>
+	<FemaleGnome_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</FemaleGnome_Tapped>
+	<DuffStatueOfLiberty_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</DuffStatueOfLiberty_Tapped>
+	<GoToMaleGnome>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="MaleGnome" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="pantoobject" building="MaleGnome" />
+					</True>
+					<False>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="focusOnMenuItem" itemName="MaleGnome" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMaleGnome>
+	<LizardQueenPromo_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilLvl60" save="true" showUnlock="false" panCamera="true" />
+		<Action type="setVariable" boolVariable="PROMO_STARTED" boolValue="false" />
+		<Action type="setVariable" intVariable="LizardQueenPromo_EndTime" intValue="serverTime(0) + 604800" asExpression="true" />
+		<Action type="setVariable" boolVariable="PromoActive" boolValue="true" />
+	</LizardQueenPromo_Start>
+	<LizardQueenPromo_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_LizardQueenPromoIntro_dlg_start_1_Gil" revealSpeed="medium" />
+				<Action type="dialogue" character="Gil" text="QST_LizardQueenPromoIntro_dlg_start_2_Gil" revealSpeed="medium" />
+				<Action type="recommendation" recType="Promoted" name="EnterLizardQueenPromo" />
+				<Action type="setVariable" boolVariable="LizardQueenPromo_Indicator_Active" boolValue="false" />
+				<Action type="setVariable" boolVariable="PROMO_SHOW_IN_BUILD_MENU" boolValue="true" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="LizardQueen_Promo" />
+				<Action type="deletecharacter" character="PromoGilLvl60" />
+				<Action type="setVariable" boolVariable="LizardQueen_PromoSeen" boolValue="true" />
+				<Action type="setVariable" boolVariable="LizardQueen_PromoComplete" boolValue="true" />
+				<Action type="setVariable" boolVariable="PromoActive" boolValue="false" />
+			</True>
+		</Action>
+	</LizardQueenPromo_Display>
+	<KillGilLvl60>
+		<Action type="deletecharacter" character="PromoGilLvl60" />
+	</KillGilLvl60>
+	<LizardQueenPromo_DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="LizardQueen_Promo" />
+	</LizardQueenPromo_DisplayPromo>
+	<LizardQueenPromo_Purchase>
+		<Action type="dialogue" character="Gil" text="QST_LizardQueenPromoPurchased_dlg_start_1_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_LizardQueenPromoPurchased_dlg_start_2_Gil" revealSpeed="medium" />
+		<Action type="clearRecommendations" category="Promoted" name="EnterLizardQueenPromo" />
+	</LizardQueenPromo_Purchase>
+	<LizardQueenPromo_Cancel>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="DuffGardens" checkInventoryOnly="false" not="true" />
+				<Requirement type="place building" building="DuffGardens" not="true" />
+			</Requirements>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_LizardQueenPromoCancelled_dlg_start_1_Gil" revealSpeed="medium" />
+				<Action type="dialogue" character="Gil" text="QST_LizardQueenPromoCancelled_dlg_start_2_Gil" revealSpeed="medium" />
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="ShowPromoCancelDialogue" boolValue="false" />
+	</LizardQueenPromo_Cancel>
+	<XPColliderRecommend>
+		<Action type="recommendation" recType="Promoted" name="XPCollider" />
+		<Action type="setVariable" intVariable="XPColliderRec_EndTime" intValue="serverTime(0) + 1209600" asExpression="true" />
+	</XPColliderRecommend>
+	<XPColliderUnRecommend>
+		<Action type="clearRecommendations" category="Promoted" name="XPCollider" />
+	</XPColliderUnRecommend>
+	<LizardQueen_LandLoad>
+		<Action type="recommendation" recType="Promoted" name="EnterLizardQueenPromo" />
+		<Action type="setVariable" intVariable="LizardQueenPromo_EndTime" intValue="serverTime(0) + 604800" asExpression="true" />
+		<Action type="setVariable" boolVariable="LizardQueenPromo_TimeRefreshed" boolValue="true" />
+	</LizardQueen_LandLoad>
+</ScriptPackage>

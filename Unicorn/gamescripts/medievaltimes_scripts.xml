@@ -1,0 +1,1262 @@
+﻿<ScriptPackage>
+	<DisplayTabPrizePanel>
+		<Action type="gotoState" state="GameState_SpecialEventPrizeList" />
+	</DisplayTabPrizePanel>
+	<DisplayCastlePanel parallel="true">
+		<Action type="gotoState" state="GameState_BuildingsInfoMenu" />
+	</DisplayCastlePanel>
+	<DisplaySpecialEventStore>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="BurnsCastleLevel" count="4" typetext="UI_SkinLockReq_msg" />
+					<True>
+						<Action type="showBuildMenu" consumable="CONCastleWall" highlight="false" />
+					</True>
+					<False>
+						<Action type="showBuildMenu" consumable="CONBanner1" highlight="false" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</DisplaySpecialEventStore>
+	<GoToCastle1>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="BoxinghamPalace" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</GoToCastle1>
+	<GoToCastle2>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="BetterhamPalace" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</GoToCastle2>
+	<GoToCastle3>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="BurnsCastle" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</GoToCastle3>
+	<GoToBuildingUnderAttack parallel="true" ignoreHUD="true">
+		<Action type="pantoobject" buildingGroup="AttackableBuildings" priorityTo="BurnsCastle|BetterhamPalace|BoxinghamPalace" reqBuildingVar="Attacked" reqBuildingVarMin="selector NonWreckedValueForAttackedVar" panIfNoReqVarFound="true" />
+		<Action type="runScript" script="PossiblyHighlightNatural20" package="MedievalTimes_Scripts" />
+	</GoToBuildingUnderAttack>
+	<GoToBuildingThatCanBeAttacked parallel="true">
+		<Action type="pantoobject" buildingGroup="AttackableBuildings" priorityTo="BurnsCastle|BetterhamPalace|BoxinghamPalace" reqBuildingVarToAvoid="Attacked" panIfNoReqVarFound="true" />
+	</GoToBuildingThatCanBeAttacked>
+	<GoToInventory>
+		<Action type="delay" time="0" />
+	</GoToInventory>
+	<GoToBoxingHam>
+		<Action type="showBuildMenu" building="BoxinghamPalace" highlight="true" />
+	</GoToBoxingHam>
+	<ThwartAttack cache="true" ignoreHUD="true" parallel="true">
+        <Action type="checkExpression" expression="Object::Attacked&gt;0">
+            <ExpressionCase value="1"><Action type="sound" sound="defence_sound.caf" />
+                <Action type="thwartAttackObject" script="MedievalTimes_Scripts:ProcessRemoteThwartAttack" event="4050" />
+                <Action type="triggerAnimatedIndicator" bsv3="ico_defendanimated" animation="Neutral" bouncyIndicator="false" />
+                <Action type="setVariable" intVariable="BuildingDefendCount" intValue="BuildingDefendCount+1" /><Action type="incrementSessionCounter" counter="MEDIEVAL_COUNTER_ATTACKS_THWARTED" increment="1" />
+                <Action type="refreshHUD" /><Action type="checkRequirements"><Requirements><Requirement type="quest" quest="ThePrinceAndThePremise02" /><Requirement type="conditional" logic="OR"><Requirement type="quest started" quest="RollingWithIt" /><Requirement type="quest started" quest="RollingWithIt2" /></Requirement></Requirements><True><Action type="rewardchoice" ignoreObject="false"><Reward chance="__MedievalTimes_GameConfig:D20DROPRATE:DropRateValue__"><Item type="consumable" name="Natural20_ONE" useImmediately="false" /></Reward></Action></True></Action>
+            </ExpressionCase>
+        </Action>
+        <Action type="checkExpression" expression="and(IsSet(Object::Attacked),(Object::Attacked==0))">
+            <ExpressionCase value="1"><Action type="setVariable" boolVariable="MyBuildingWasWrecked" boolValue="true" />
+                <Action type="thwartAttackObject" script="MedievalTimes_Scripts:ProcessRemoteThwartAttack" event="4050" />
+                <Action type="triggerAnimatedIndicator" bsv3="ICO_RepairAnimated" animation="Neutral" bouncyIndicator="false" />
+                <Action type="setVariable" intVariable="BuildingRepairCount" intValue="BuildingRepairCount+1" /><Action type="incrementSessionCounter" counter="MEDIEVAL_COUNTER_ATTACKS_THWARTED" increment="1" /><Action type="incrementSessionCounter" counter="MEDIEVAL_COUNTER_BUILDINGS_REPAIRED" increment="1" />
+                <Action type="refreshHUD" /><Action type="checkRequirements"><Requirements><Requirement type="quest" quest="ThePrinceAndThePremise02" /><Requirement type="conditional" logic="OR"><Requirement type="quest started" quest="RollingWithIt" /><Requirement type="quest started" quest="RollingWithIt2" /></Requirement></Requirements><True><Action type="rewardchoice" ignoreObject="false"><Reward chance="__MedievalTimes_GameConfig:D20DROPRATE:DropRateValue__"><Item type="consumable" name="Natural20_ONE" useImmediately="false" /></Reward></Action></True></Action>
+            </ExpressionCase>
+        </Action>
+     </ThwartAttack>
+	<AttackBuilding parallel="true">
+		<Action type="attackObject" script="MedievalTimes_Scripts:ProcessRemoteAttack" event="4050" />
+	</AttackBuilding>
+	<ProcessRemoteAttack>
+		<Action type="receiveAttackObject" />
+	</ProcessRemoteAttack>
+	<ProcessRemoteThwartAttack>
+		<Action type="receiveThwartAttackObject" />
+	</ProcessRemoteThwartAttack>
+	<PlayDestroyOneShot parallel="true">
+		<Action type="anim-building-oneshot" postdraw="false" nowait="true">
+			<OneShot name="regular" file="BuildingSmash" animation="Crumble_{Object::Footprint}" x="13" y="9" />
+		</Action>
+	</PlayDestroyOneShot>
+	<ConfirmMatchmaking>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="special currency" currency="Troops" amount="1" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="special currency" currency="Troops" amount="10" />
+					</Requirements>
+					<True>
+						<Action type="runScript" package="MedievalTimes_Scripts" script="LaunchMatchmaking" />
+					</True>
+					<False>
+						<Action type="gotoState" state="GameState_SpendableConfirmation" parentState="ActiveState" extras="MedievalTimes_MatchmakingConfig:ConfirmationScreen" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="consumableCount" name="Natural20" requireCountMin="1" onlyInventory="true" />
+					</Requirements>
+					<True>
+						<Action type="gotoState" state="GameState_SpendableConfirmation" parentState="ActiveState" extras="MedievalTimes_MatchmakingConfig:ConfirmationScreen" />
+					</True>
+					<False>
+						<Action type="getMoreSpecial" name="Troops" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</ConfirmMatchmaking>
+	<LaunchMatchmaking>
+		<Action type="incrementSessionCounter" counter="MEDIEVAL_COUNTER_MATCHMAKING_USES" increment="1" />
+		<Action type="findMatch" category="MedievalTimes2014" subland="Springfield" />
+	</LaunchMatchmaking>
+	<GetMoreTroopsOnly>
+		<Action type="getMoreSpecial" name="TroopsOnly" disableprompt="true" />
+	</GetMoreTroopsOnly>
+	<Natural20DefensePressed ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="consumableCount" name="Natural20" requireCountMin="1" onlyInventory="true" />
+			</Requirements>
+			<True>
+				<Action type="checkExpression" expression="or(Natural20DefenseInUse,CurTotalAttacked&gt;0)">
+					<ExpressionCase value="0">
+						<Action type="message" title="UI_D20NoAttackers_title" text="UI_D20NoAttackers_msg" dismissOnOKOnly="true" hasBackButton="true" />
+					</ExpressionCase>
+					<ExpressionCase value="1">
+						<Action type="runScript" script="ToggleNatural20DefenseEnabled" package="MedievalTimes_Scripts" waitUntilComplete="true" />
+					</ExpressionCase>
+				</Action>
+			</True>
+			<False>
+				<Action type="getMoreSpecial" name="Natural20" disableprompt="false" />
+			</False>
+		</Action>
+	</Natural20DefensePressed>
+	<ToggleNatural20DefenseEnabled ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="Natural20DefenseInUse" />
+			</Requirements>
+			<True>
+				<Action type="hudTip" text="UI_Naturald20_Defense01_tip" time=".00000001s" />
+				<Action type="setVariable" boolVariable="Natural20DefenseInUse" boolValue="false" />
+			</True>
+			<False>
+				<Action type="hudTip" text="UI_Naturald20_Defense01_tip" time="10s" />
+				<Action type="setVariable" boolVariable="Natural20DefenseInUse" boolValue="true" />
+			</False>
+		</Action>
+	</ToggleNatural20DefenseEnabled>
+	<UseNatural20Defense ignoreHUD="true">
+		<Action type="checkExpression" expression="CurTotalAttacked&gt;0">
+			<ExpressionCase value="0">
+				<Action type="message" title="UI_D20NoAttackers_title" text="UI_D20NoAttackers_msg" dismissOnOKOnly="true" />
+				<Action type="setVariable" boolVariable="Natural20DefenseInUse" boolValue="false" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="consumable" consumable="Natural20" fromInventory="true" />
+			</ExpressionCase>
+		</Action>
+	</UseNatural20Defense>
+	<ConsumedNatural20Defense ignoreHUD="true">
+		<Requirements>
+			<Requirement type="variable" variable="Medieval" />
+			<Requirement type="players land" />
+			<Requirement type="variable" variable="Natural20DefenseInUse" />
+		</Requirements>
+		<Action type="sound" sound="defense_bomb.caf" />
+		<Action type="setVariable" boolVariable="Natural20DefenseInUse" boolValue="false" />
+		<Action type="flashScreen" colour="White" speed="2" />
+		<Action type="touchBuildingGroup" buildingGroup="AttackableBuildings" />
+		<Action type="hudTip" text="UI_Naturald20_Defense01_tip" time=".00001s" />
+		<Action type="setVariable" intVariable="D20DefendedTown" intValue="1" />
+		<Action type="setVariable" intVariable="CurTotalAttacked" intValue="0" />
+	</ConsumedNatural20Defense>
+	<ResetDefenseEnabled ignoreHUD="true">
+		<Action type="setVariable" boolVariable="Natural20DefenseInUse" boolValue="false" />
+	</ResetDefenseEnabled>
+	<PossiblyHighlightNatural20 ignoreHUD="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="Medieval" />
+				<Requirement type="quest" quest="ThePrinceAndThePremise02" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest started" quest="RollingWithIt" />
+					<Requirement type="quest started" quest="RollingWithIt2" />
+				</Requirement>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="config" key="MedievalTimes_GameConfig:Enable:MatchMaking" value="1" />
+				<Requirement type="consumableCount" name="Natural20" requireCountMin="1" onlyInventory="true" />
+			</Requirements>
+			<True>
+				<Action type="checkExpression" expression="CurBeingAttacked+CurBuildingsDestroyed&gt;4">
+					<ExpressionCase value="1">
+						<Action type="highlightSpecialButton" />
+					</ExpressionCase>
+				</Action>
+			</True>
+		</Action>
+	</PossiblyHighlightNatural20>
+	<GetMoreLightning>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR" typetext="UI_WednsdayUnlockReq_msg">
+				<Requirement type="time" start="ElixirPack_FirstWeekend_start" end="ElixirPack_FirstWeekend_end" />
+				<Requirement type="time" start="ElixirPack_SecondWeekend_start" end="ElixirPack_SecondWeekend_end" />
+				<Requirement type="time" start="ElixirPack_ThirdWeekend_start" end="ElixirPack_ThirdWeekend_end" />
+				<Requirement type="time" start="ElixirPack_FourthWeekend_start" end="ElixirPack_FourthWeekend_end" />
+			</Requirement>
+			<True>
+				<Action type="getMoreSpecial" name="Elixir" />
+			</True>
+			<False>
+				<Action type="message" title="UI_notEnoughTitleTextLightning_name" text="UI_notEnoughMessageTextLightning_name" />
+			</False>
+		</Action>
+	</GetMoreLightning>
+	<GetMoreRequirement>
+		<Action type="message" title="UI_SkinNotEnoughTitleText_title" text="UI_SkinNotEnoughTitleText_name" />
+	</GetMoreRequirement>
+	<MaxTroopCheck>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="DisplayMaxTroopMessage" />
+				<Requirement type="formula" formula="greaterThan( Troops+1, (MaxTroops+CastleBonus) )" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="DisplayMaxTroopMessage" boolValue="false" />
+				<Action type="message" title="UI_MaxTroop_title" text="UI_MaxTroopEnterTown_msg" />
+			</True>
+		</Action>
+	</MaxTroopCheck>
+	<DisplayTroopMessage parallel="true">
+		<Action type="hudTip" text="UI_MaxTroop_tip" time="6s" />
+	</DisplayTroopMessage>
+	<EnableTroopMessage>
+		<Action type="setVariable" boolVariable="DisplayMaxTroopMessage" boolValue="true" />
+	</EnableTroopMessage>
+	<OffLineReward>
+		<Action type="variableRewardPrompt" title="UI_OfflineReward_title" button="GEN_OK" text="UI_OfflineReward_msg">
+			<SpendableAsVariable type="SPECIAL_EVENT_OFFLINE_TYPE_1" amount="SPECIAL_EVENT_OFFLINE_AMOUNT_1" />
+			<SpendableAsVariable type="SPECIAL_EVENT_OFFLINE_TYPE_2" amount="SPECIAL_EVENT_OFFLINE_AMOUNT_2" />
+		</Action>
+	</OffLineReward>
+	<ShowGuideMedievalTimes parallel="true">
+		<Action type="show guide" event="Medieval" />
+	</ShowGuideMedievalTimes>
+	<CoCFriendsHUDInfo parallel="true">
+		<Action type="runScript" script="CoCFriendsHUDInfoAux" package="MedievalTimes_Scripts" />
+	</CoCFriendsHUDInfo>
+	<CoCFriendsHUDInfoAux>
+		<Action type="message" text="UI_MatchMakingHUD_tip" title="UI_MedievalGuide_name" />
+	</CoCFriendsHUDInfoAux>
+	<MaxOutTroops>
+		<Action type="message" text="UI_SaturdayTroopRush_msg" title="UI_SaturdayTroopRush_title" />
+		<Action type="reward" Troops="MaxTroops+CastleBonus" />
+	</MaxOutTroops>
+	<Windmill_Tapped parallel="true">
+		<Action type="anim-play" building="Windmill" animation="ActiveNoLoop" />
+	</Windmill_Tapped>
+	<Catapult_Tapped parallel="true">
+		<Action type="anim-play" building="Catapult" animation="ActiveNoLoop" />
+	</Catapult_Tapped>
+	<TapTwonicorn parallel="true">
+		<Action type="sound" sound="two-nicorn_tap.caf" />
+		<Action type="playanimation" character="Twonicorn" animation="Tap" />
+	</TapTwonicorn>
+	<WarriorOfMuffintop_Tap parallel="true">
+		<Action type="anim-play" character="WarriorOfMuffintop" animation="Attack" />
+	</WarriorOfMuffintop_Tap>
+	<AmateurMage_Tap parallel="true">
+		<Action type="anim-play" character="AmateurMage" animation="Attack" />
+	</AmateurMage_Tap>
+	<BraveTinKnight_Tap parallel="true">
+		<Action type="anim-play" character="BraveTinKnight" animation="Attack" />
+	</BraveTinKnight_Tap>
+	<RascalRogue_Tap parallel="true">
+		<Action type="anim-play" character="RascalRogue" animation="Attack" />
+	</RascalRogue_Tap>
+	<GenericTroopRed_Tap parallel="true">
+		<Action type="anim-play" character="GenericTroop_Red" animation="Puff_Of_Smoke" />
+		<Action type="deletecharacter" character="GenericTroop_Red" />
+	</GenericTroopRed_Tap>
+	<GenericTroopBlue_Tap parallel="true">
+		<Action type="anim-play" character="GenericTroop_Blue" animation="Puff_Of_Smoke" />
+		<Action type="deletecharacter" character="GenericTroop_Blue" />
+	</GenericTroopBlue_Tap>
+	<CastleLevelUpBoxingham parallel="true">
+		<Action type="setVariable" intVariable="BoxinghamPalaceLevel" intValue="BoxinghamPalaceLevel+1" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="CastleUpGrade" animation="Castle_upGrade_{Object::Footprint}" x="0" y="0" />
+		</Action>
+	</CastleLevelUpBoxingham>
+	<CastleLevelUpBetterham parallel="true">
+		<Action type="setVariable" intVariable="BetterhamPalaceLevel" intValue="BetterhamPalaceLevel+1" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="CastleUpGrade" animation="Castle_upGrade_{Object::Footprint}" x="0" y="0" />
+		</Action>
+	</CastleLevelUpBetterham>
+	<CastleLevelUpBurns parallel="true">
+		<Action type="setVariable" intVariable="BurnsCastleLevel" intValue="BurnsCastleLevel+1" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="CastleUpGrade" animation="Castle_upGrade_{Object::Footprint}" x="0" y="0" />
+		</Action>
+	</CastleLevelUpBurns>
+	<HighLightSpecialButton>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="config" key="MedievalTimes_GameConfig:Enable:MatchMaking" value="1" />
+					<True>
+						<Action type="highlightSpecialButton" />
+						<Action type="delay" time="1" />
+						<Action type="refreshHUD" />
+					</True>
+					<False>
+						<Action type="message" text="UI_KillSwitchOnMatchmaking_msg" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</HighLightSpecialButton>
+	<SpawnRedInitialAttackTroopInBattle ignoreHUD="true">
+		<Action type="createobject" name="GenericTroop_Red" onThisObject="true" groupMaxName="NPCTroops" groupMax="selector MaxNPCTroops" count="selector SpawnNPCTroopsPerAttack" save="false" panCamera="false" />
+	</SpawnRedInitialAttackTroopInBattle>
+	<SpawnBlueInitialAttackTroopInBattle parallel="true" ignoreHUD="false" otherScriptsCanRunOnObject="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="ThePrinceAndThePremise08" />
+				<Requirement type="quest" quest="ThePrinceAndThePremise08B" />
+			</Requirement>
+			<True>
+				<Action type="createobject" name="CommandingHomer" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" count="1" showUnlock="false" save="false" panCamera="false" />
+				<Action type="delay" time="1" />
+				<Action type="checkExpression" expression="Object::NumTroopsInAttackLocal&gt;4">
+					<ExpressionCase value="1">
+						<Action type="createobject" name="GenericTroop_Blue" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" scriptWhenDoneWalking="MedievalTimes_Scripts:RemoveAttackTroopBlue" maxNumDoneWalkScript="selector RemoveMostNPCTroopsPerAttack" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+					</ExpressionCase>
+					<ExpressionCase value="0">
+						<Action type="createobject" name="GenericTroop_Blue" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+					</ExpressionCase>
+				</Action>
+				<Action type="move" randomMove="true" minRandDist="400" prefRandMoveGridType="grass" maxRandMoveTime="5s" character="CommandingHomer" speed="1.5" panCamera="false" />
+				<Action type="fade" character="CommandingHomer" fade="out" />
+				<Action type="deletecharacter" character="CommandingHomer" />
+			</True>
+			<False>
+				<Action type="checkExpression" expression="Object::NumTroopsInAttackLocal&gt;4">
+					<ExpressionCase value="1">
+						<Action type="createobject" name="GenericTroop_Blue" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" scriptWhenDoneWalking="MedievalTimes_Scripts:RemoveAttackTroopBlue" maxNumDoneWalkScript="selector RemoveMostNPCTroopsPerAttack" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+					</ExpressionCase>
+					<ExpressionCase value="0">
+						<Action type="createobject" name="GenericTroop_Blue" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</SpawnBlueInitialAttackTroopInBattle>
+	<SpawnRedAttackTroopInBattle parallel="true" cache="true" ignoreHUD="true">
+		<Action type="createobject" name="GenericTroop_Red" onThisObject="true" groupMaxName="NPCTroops" groupMax="selector MaxNPCTroops" count="selector SpawnNPCTroopsPerAttack" save="false" panCamera="false" />
+	</SpawnRedAttackTroopInBattle>
+	<SpawnBlueAttackTroopInBattle parallel="true" cache="true" ignoreHUD="true">
+		<Action type="checkExpression" expression="Object::NumTroopsInAttackLocal&gt;4">
+			<ExpressionCase value="1">
+				<Action type="createobject" name="GenericTroop_Blue" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" scriptWhenDoneWalking="MedievalTimes_Scripts:RemoveAttackTroopBlue" maxNumDoneWalkScript="selector RemoveMostNPCTroopsPerAttack" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="0">
+				<Action type="createobject" name="GenericTroop_Blue" onThisObject="true" awayFromSpawnLoc="200.0f" prefAwayGridType="grass" walkToSpawnLoc="true" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+			</ExpressionCase>
+		</Action>
+	</SpawnBlueAttackTroopInBattle>
+	<SpawnRedAttackTroopInBattleRandomly parallel="true" cache="true" ignoreHUD="true">
+		<Action type="createobject" name="GenericTroop_Red" buildingGroupName="AttackableBuildings" buildingVarName="Attacked" minBuildingVarValue="selector NonWreckedValueForAttackedVar" buildVarOwnerChecked="false" groupMaxName="NPCTroops" groupMax="selector MaxNPCTroops" count="selector SpawnNPCTroopsPerAttack" save="false" panCamera="false" />
+	</SpawnRedAttackTroopInBattleRandomly>
+	<SpawnBlueAttackTroopInBattleRandomly parallel="true" cache="true" ignoreHUD="true">
+		<Action type="checkExpression" expression="Object::NumTroopsInAttackLocal&gt;4">
+			<ExpressionCase value="1">
+				<Action type="createobject" name="GenericTroop_Blue" buildingGroupName="AttackableBuildings" buildingVarName="Attacked" minBuildingVarValue="selector NonWreckedValueForAttackedVar" buildVarOwnerChecked="false" groupMaxName="NPCTroops" groupMax="selector MaxNPCTroops" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" flipWithBuilding="true" count="4" save="false" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="0">
+				<Action type="createobject" name="GenericTroop_Blue" buildingGroupName="AttackableBuildings" buildingVarName="Attacked" minBuildingVarValue="selector NonWreckedValueForAttackedVar" buildVarOwnerChecked="false" groupMaxName="NPCTroops" groupMax="selector MaxNPCTroops" spawnLocator="Pos1|Pos2|Pos3|Pos4|Pos5" flipWithBuilding="true" count="selector SpawnManyNPCTroopsPerAttack" save="false" panCamera="false" />
+			</ExpressionCase>
+		</Action>
+	</SpawnBlueAttackTroopInBattleRandomly>
+	<RemoveRedAttackTroopFromBattle cache="true" ignoreHUD="true">
+		<Action type="runScriptOnAll" script="RemoveAttackTroopRed" package="MedievalTimes_Scripts" character="GenericTroop_Red" maxNum="selector SpawnNPCTroopsPerAttack" />
+	</RemoveRedAttackTroopFromBattle>
+	<RemoveBlueAttackTroopFromBattle cache="true"></RemoveBlueAttackTroopFromBattle>
+	<RemoveAttackTroopRed parallel="true" cache="true" ignoreHUD="true">
+		<Action type="anim-play" character="GenericTroop_Red" animation="Puff_Of_Smoke" />
+		<Action type="deletecharacter" character="GenericTroop_Red" />
+	</RemoveAttackTroopRed>
+	<RemoveMostAttackBlueTroops parallel="true">
+		<Action type="runScriptOnAll" script="RemoveAttackTroopBlue" package="MedievalTimes_Scripts" character="GenericTroop_Blue" latestFirst="true" maxNum="selector RemoveMostNPCTroopsPerAttack" />
+	</RemoveMostAttackBlueTroops>
+	<RemoveAttackTroopBlue parallel="true" cache="true">
+		<Action type="fade" character="GenericTroop_Blue" fade="out" />
+		<Action type="deletecharacter" character="GenericTroop_Blue" />
+	</RemoveAttackTroopBlue>
+	<CheckToSpawnRemoteNPCTroops>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="CommandingHomer" />
+			<True>
+				<Action type="deletecharacter" character="CommandingHomer" />
+			</True>
+		</Action>
+		<Action type="deleteAllCharactersOfGroup" group="NPCTroops" fireCharacterLostEvent="false" />
+	</CheckToSpawnRemoteNPCTroops>
+	<CheckToSpawnLocalNPCTroops>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="CommandingHomer" />
+			<True>
+				<Action type="deletecharacter" character="CommandingHomer" />
+			</True>
+		</Action>
+		<Action type="deleteAllCharactersOfGroup" group="NPCTroops" fireCharacterLostEvent="false" />
+		<Action type="checkTimedAttacksForScripts" specialEventID="4050" scriptAttributeName="doScriptsWithAttack" isMyLand="true" />
+	</CheckToSpawnLocalNPCTroops>
+	<ShowMedievalGuide>
+		<Action type="show guide" event="MedievalGuide" />
+	</ShowMedievalGuide>
+	<ThePrinceAndThePremise01_Start>
+		<Action type="reward">
+			<Item type="character" name="Barbarian" useImmediately="true" />
+		</Action>
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_1_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_2_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Ned" text="QST_ThePrinceAndThePremise01_3_dlg_Start_3_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_4_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Ned" text="QST_ThePrinceAndThePremise01_3_dlg_Start_5_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_6_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Ned" text="QST_ThePrinceAndThePremise01_3_dlg_Start_7_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_8_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_9_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Ned" text="QST_ThePrinceAndThePremise01_3_dlg_Start_10_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Ned" text="QST_ThePrinceAndThePremise01_3_dlg_Start_11_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise01_3_dlg_Start_12_Barbarian" revealSpeed="medium" emotion="Yelling" />
+	</ThePrinceAndThePremise01_Start>
+	<ThePrinceAndThePremise02_Start>
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_1_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="Annoyed" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_3_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="Annoyed" />
+		<Action type="dialogue" character="Wiggum" text="QST_ThePrinceAndThePremise02_3_dlg_Start_5_Wiggum" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_6_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_8_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_9_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_10_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_11_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_12_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_13_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_14_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_15_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_16_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_17_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_18_Barbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_19_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_20_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise02_3_dlg_Start_21_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise02_3_dlg_Start_22_Barbarian" revealSpeed="medium" emotion="Happy" />
+	</ThePrinceAndThePremise02_Start>
+	<ThePrinceAndThePremise03_Start>
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_1_Barbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_3_Barbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_5_Barbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_7_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_8_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_9_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_10_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_11_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_12_Barbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_13_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_14_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_Start_15_Barbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise03_3_dlg_Start_16_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="message" text="QST_ThePrinceAndThePremise03_3_dlg_Start_17_Message" revealSpeed="medium" />
+		<Action type="reward" Troops="10" />
+         <Action type="refreshHUD" /></ThePrinceAndThePremise03_Start>
+	<ThePrinceAndThePremise04_Start>
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_1_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_3_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_5_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_6_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_7_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_8_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_9_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_10_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_11_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_12_Lovejoy" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_13_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lovejoy" text="QST_ThePrinceAndThePremise04_3_dlg_Start_14_Lovejoy" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_15_Homer" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_16_Homer" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise04_3_dlg_Start_17_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_18_Homer" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise04_3_dlg_Start_19_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_20_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise04_3_dlg_Start_21_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise04_3_dlg_Start_22_Homer" revealSpeed="medium" emotion="furious" />
+	</ThePrinceAndThePremise04_Start>
+	<ThePrinceAndThePremise05_Start>
+		<Action type="delay" time=".01" />
+	</ThePrinceAndThePremise05_Start>
+	<ThePrinceAndThePremise06_Start>
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_Start_2_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_Start_4_Barbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_Start_6_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_Start_7_Barbarian" revealSpeed="medium" emotion="happy" />
+	</ThePrinceAndThePremise06_Start>
+	<ThePrinceAndThePremise07_Start>
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_1_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_2_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_3_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_5_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_6_Homer" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_7_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_8_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_9_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_10_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_11_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_12_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_13_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_14_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_15_Homer" revealSpeed="medium" emotion="serious" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_16_Homer" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_17_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_18_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_20_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_21_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_22_Homer" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_23_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_24_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_25_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_26_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_27_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise06_3_dlg_End_28_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise06_3_dlg_End_29_Homer" revealSpeed="medium" emotion="happy" />
+	</ThePrinceAndThePremise07_Start>
+	<ThePrinceAndThePremise07_End>
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_1_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_2_Homer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_3_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_5_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_6_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_7_Homer" revealSpeed="medium" emotion="dreamy" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_8_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_9_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_10_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Moe" text="QST_ThePrinceAndThePremise07_3_dlg_End_11_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_12_Homer" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_13_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_ThePrinceAndThePremise07_3_dlg_End_14_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_15_Barbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_16_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_17_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_ThePrinceAndThePremise07_3_dlg_End_18_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise07_3_dlg_End_19_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise07_3_dlg_End_20_Barbarian" revealSpeed="medium" />
+	</ThePrinceAndThePremise07_End>
+	<ThePrinceAndThePremise08_Start>
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise08_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise08_3_dlg_Start_2_Barbarian" revealSpeed="medium" />
+		<Action type="runScript" script="DisplayTabPrizePanel" package="MedievalTimes_Scripts" />
+	</ThePrinceAndThePremise08_Start>
+	<ThePrinceAndThePremise08_End>
+		<Action type="consumable" consumable="HomerBarbarian" fromInventory="true" />
+		<Action type="consumable" consumable="FakeHomer" fromInventory="true" />
+	</ThePrinceAndThePremise08_End>
+	<ThePrinceAndThePremise08_JobStarted>
+		<Action type="dialogue" character="Homer" text="QST_ThePrinceAndThePremise08_3_dlg_JobStarted_1_Homer" revealSpeed="medium" emotion="annoyed" />
+	</ThePrinceAndThePremise08_JobStarted>
+	<ThePrinceAndThePremise09_Start>
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_Start_1_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise09_3_dlg_Start_2_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_Start_3_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise09_3_dlg_Start_4_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_Start_5_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise09_3_dlg_Start_6_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_Start_7_FakeHomer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise09_3_dlg_Start_8_Bart" revealSpeed="medium" />
+	</ThePrinceAndThePremise09_Start>
+	<ThePrinceAndThePremise09_End>
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_End_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_End_2_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_End_3_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise09_3_dlg_End_5_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise09_3_dlg_End_6_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_End_7_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise09_3_dlg_End_8_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+	</ThePrinceAndThePremise09_End>
+	<ThePrinceAndThePremise10_Start>
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise10_3_dlg_Start_1_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise10_3_dlg_Start_2_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise10_3_dlg_Start_3_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise10_3_dlg_Start_4_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise10_3_dlg_Start_5_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise10_3_dlg_Start_6_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise10_3_dlg_Start_7_FakeHomer" revealSpeed="medium" emotion="yelling" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise10_3_dlg_Start_8_Bart" revealSpeed="medium" />
+	</ThePrinceAndThePremise10_Start>
+	<ThePrinceAndThePremise11_Start>
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise11_3_dlg_Start_1_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise11_3_dlg_Start_2_FakeHomer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise11_3_dlg_Start_3_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise11_3_dlg_Start_4_FakeHomer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise11_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise11_3_dlg_Start_6_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise11_3_dlg_Start_7_FakeHomer" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise11_3_dlg_Start_8_Lisa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise11_3_dlg_Start_9_FakeHomer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise11_3_dlg_Start_10_Lisa" revealSpeed="medium" emotion="Happy" />
+	</ThePrinceAndThePremise11_Start>
+	<ThePrinceAndThePremise12_Start>
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise12_3_dlg_Start_1_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise12_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise12_3_dlg_Start_3_Barbarian" revealSpeed="medium" emotion="Yelling" />
+	</ThePrinceAndThePremise12_Start>
+	<ClashOfClones01_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones01_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ClashOfClones01_3_dlg_Start_2_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones01_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ClashOfClones01_3_dlg_Start_4_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones01_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ClashOfClones01_3_dlg_Start_6_FakeHomer" revealSpeed="medium" />
+	</ClashOfClones01_Start>
+	<ClashOfClones01_End>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones01_3_dlg_End_1_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ClashOfClones01_3_dlg_End_2_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ClashOfClones01_3_dlg_End_3_FakeHomer" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones01_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" emotion="sad" />
+	</ClashOfClones01_End>
+	<ClashOfClones02_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lenny" text="QST_ClashOfClones02_3_dlg_Start_2_Lenny" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Carl" text="QST_ClashOfClones02_3_dlg_Start_4_Carl" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Lenny" text="QST_ClashOfClones02_3_dlg_Start_6_Lenny" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_7_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_8_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_9_HomerBarbarian" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_10_HomerBarbarian" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="Lenny" text="QST_ClashOfClones02_3_dlg_Start_11_Lenny" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_12_HomerBarbarian" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="BBR1729" text="QST_ClashOfClones02_3_dlg_Start_13_Robbit" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_Start_14_HomerBarbarian" revealSpeed="medium" emotion="Drunk" />
+	</ClashOfClones02_Start>
+	<ClashOfClones02_End>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_End_1_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_End_2_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones02_3_dlg_End_3_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+	</ClashOfClones02_End>
+	<ClashOfClones03_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones03_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Barney" text="QST_ClashOfClones03_3_dlg_Start_2_Barney" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones03_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Barney" text="QST_ClashOfClones03_3_dlg_Start_4_Barney" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_ClashOfClones03_3_dlg_Start_5_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="Lenny" text="QST_ClashOfClones03_3_dlg_Start_6_Lenny" revealSpeed="medium" />
+		<Action type="dialogue" character="Carl" text="QST_ClashOfClones03_3_dlg_Start_7_Carl" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones03_3_dlg_Start_8_HomerBarbarian" revealSpeed="medium" emotion="Sarcastic" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones03_3_dlg_Start_9_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones03_3_dlg_Start_10_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+	</ClashOfClones03_Start>
+	<ClashOfClones04_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones04_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="Cletus" text="QST_ClashOfClones04_3_dlg_Start_2_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones04_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="Cletus" text="QST_ClashOfClones04_3_dlg_Start_4_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones04_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Cletus" text="QST_ClashOfClones04_3_dlg_Start_6_Cletus" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones04_3_dlg_Start_7_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Cletus" text="QST_ClashOfClones04_3_dlg_Start_8_Cletus" revealSpeed="medium" emotion="smiling" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ClashOfClones04_3_dlg_Start_9_HomerBarbarian" revealSpeed="medium" />
+	</ClashOfClones04_Start>
+	<ThePrinceAndThePremise13_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_2_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise13_3_dlg_Start_3_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise13_3_dlg_Start_4_Marge" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise13_3_dlg_Start_6_FakeHomer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise13_3_dlg_Start_7_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_8_HomerBarbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise13_3_dlg_Start_9_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise13_3_dlg_Start_10_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise13_3_dlg_Start_11_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise13_3_dlg_Start_12_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_13_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise13_3_dlg_Start_14_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_15_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise13_3_dlg_Start_16_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+	</ThePrinceAndThePremise13_Start>
+	<ThePrinceAndThePremise14_Start>
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise14_3_dlg_Start_1_Bart" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_Start_2_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise14_3_dlg_Start_3_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise14_3_dlg_Start_4_FakeHomer" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise14_3_dlg_Start_6_FakeHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_Start_7_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="FakeHomer" text="QST_ThePrinceAndThePremise14_3_dlg_Start_9_FakeHomer" revealSpeed="medium" />
+	</ThePrinceAndThePremise14_Start>
+	<ThePrinceAndThePremise14_End>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_End_1_FakeHomer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_End_2_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise14_3_dlg_End_3_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise14_3_dlg_End_5_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_End_6_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise14_3_dlg_End_7_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise14_3_dlg_End_8_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_End_9_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise14_3_dlg_End_10_Lisa" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise14_3_dlg_End_11_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+	</ThePrinceAndThePremise14_End>
+	<ThePrinceAndThePremise15_Start>
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_1_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_Start_2_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_4_Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_Start_5_Lisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_6_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_7_Bart" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_Start_8_Lisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_9_HomerBarbarian" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_10_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_11_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_Start_12_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_13_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_14_Homer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_15_Bart" revealSpeed="medium" emotion="Surprised" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_16_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_17_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_18_Bart" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_Start_19_Lisa" revealSpeed="medium" emotion="deadpan" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_20_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_21_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_22_ Bart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_23_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_24_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_Start_25_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_24_Bart" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_Start_25_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_Start_25_Lisa" revealSpeed="medium" emotion="happy" />
+	</ThePrinceAndThePremise15_Start>
+	<ThePrinceAndThePremise15_End>
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_End_1_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise15_3_dlg_End_2_Lisa" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Bart" text="QST_ThePrinceAndThePremise15_3_dlg_End_3_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise15_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+	</ThePrinceAndThePremise15_End>
+	<ThePrinceAndThePremise16_Start>
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise16_3_dlg_Start_1_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise16_3_dlg_Start_2_HomerBarbarian" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise16_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise16_3_dlg_Start_4_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise16_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise16_3_dlg_Start_6_Marge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise16_3_dlg_Start_7_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise16_3_dlg_Start_8_Marge" revealSpeed="medium" emotion="angry" />
+	</ThePrinceAndThePremise16_Start>
+	<ThePrinceAndThePremise17_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_ThePrinceAndThePremise17_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+	</ThePrinceAndThePremise17_Start>
+	<ThePrinceAndThePremise17_End>
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise17_3_dlg_End_1_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_2_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise17_3_dlg_End_3_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise17_3_dlg_End_5_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_6_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise17_3_dlg_End_7_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_8_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise17_3_dlg_End_9_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_10_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Marge" text="QST_ThePrinceAndThePremise17_3_dlg_End_11_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_12_HomerBarbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Ned" text="QST_ThePrinceAndThePremise17_3_dlg_End_13_Ned" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePrinceAndThePremise17_3_dlg_End_14_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+	</ThePrinceAndThePremise17_End>
+	<ThePowerOfUpgrade01_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Moe" text="QST_ThePowerOfUpgrade01_3_dlg_Start_2_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Moe" text="QST_ThePowerOfUpgrade01_3_dlg_Start_4_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Moe" text="QST_ThePowerOfUpgrade01_3_dlg_Start_6_Moe" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Moe" text="QST_ThePowerOfUpgrade01_3_dlg_Start_7_Moe" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_Start_8_HomerBarbarian" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="Moe" text="QST_ThePowerOfUpgrade01_3_dlg_Start_9_Moe" revealSpeed="medium" emotion="sad" />
+	</ThePowerOfUpgrade01_Start>
+	<ThePowerOfUpgrade01_End>
+		<Action type="dialogue" character="Marge" text="QST_ThePowerOfUpgrade01_3_dlg_End_1_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Marge" text="QST_ThePowerOfUpgrade01_3_dlg_End_2_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_End_3_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Marge" text="QST_ThePowerOfUpgrade01_3_dlg_End_4_Marge" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_End_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrade01_3_dlg_End_6_Marge" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_End_7_HomerBarbarian" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrade01_3_dlg_End_8_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrade01_3_dlg_End_9_HomerBarbarian" revealSpeed="medium" emotion="sarcastic" />
+	</ThePowerOfUpgrade01_End>
+	<ThePowerOfUpgrades02_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades02_3_dlg_Start_1_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades02_3_dlg_Start_2_WizardMarge" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades02_3_dlg_Start_3_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades02_3_dlg_Start_4_WizardMarge" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades02_3_dlg_Start_5_BarbarianHomer" revealSpeed="medium" emotion="Sarcastic" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades02_3_dlg_Start_6_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades02_3_dlg_Start_7_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades02_3_dlg_Start_8_BarbarianHomer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades02_3_dlg_Start_9_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades02_3_dlg_Start_10_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades02_3_dlg_Start_11_BarbarianHomer" revealSpeed="medium" emotion="sarcastic" />
+	</ThePowerOfUpgrades02_Start>
+	<ThePowerOfUpgrades03_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades03_3_dlg_Start_1_BarbarianHomer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades03_3_dlg_Start_2_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades03_3_dlg_Start_3_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades03_3_dlg_Start_4_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades03_3_dlg_Start_5_BarbarianHomer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_ThePowerOfUpgrades03_3_dlg_Start_6_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ThePowerOfUpgrades03_3_dlg_Start_7_BarbarianHomer" revealSpeed="medium" />
+	</ThePowerOfUpgrades03_Start>
+	<PrinceAndThePremise18_Start>
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise18_3_dlg_Start_1_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise18_3_dlg_Start_2_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise18_3_dlg_Start_3_WizardMarge" revealSpeed="medium" emotion="ooh" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise18_3_dlg_Start_4_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise18_3_dlg_Start_5_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise18_3_dlg_Start_6_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise18_3_dlg_Start_7_BarbarianHomer" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise18_3_dlg_Start_8_BarbarianHomer" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise18_3_dlg_Start_9_BarbarianHomer" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise18_3_dlg_Start_10_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise18_3_dlg_Start_11_GoblinBart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise18_3_dlg_Start_12_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise18_3_dlg_Start_13_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+	</PrinceAndThePremise18_Start>
+	<PrinceAndThePremise19_Start>
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise19_3_dlg_Start_1_GoblinLisa" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise19_3_dlg_Start_2_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise19_3_dlg_Start_3_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise19_3_dlg_Start_4_BarbarianHomer" revealSpeed="medium" emotion="Drunk" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise19_3_dlg_Start_5_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise19_3_dlg_Start_6_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise19_3_dlg_Start_7_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise19_3_dlg_Start_8_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise19_3_dlg_Start_9_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise19_3_dlg_Start_10_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise19_3_dlg_Start_11_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise19_3_dlg_Start_12_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise19_3_dlg_Start_13_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise19_3_dlg_Start_14_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise19_3_dlg_Start_15_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise19_3_dlg_Start_16_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise19_3_dlg_Start_17_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise19_3_dlg_Start_18_ArcherLisa" revealSpeed="medium" emotion="annoyed" />
+	</PrinceAndThePremise19_Start>
+	<PrinceAndThePremise20_Start>
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_Start_1_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_Start_2_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_Start_3_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_Start_4_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_Start_5_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_Start_6_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_Start_7_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_Start_8_Burns" revealSpeed="medium" />
+	</PrinceAndThePremise20_Start>
+	<PrinceAndThePremise20_End>
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_1_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_2_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_3_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_4_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_5_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_6_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_7_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_8_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_9_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_10_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_11_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_12_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_13_Burns" revealSpeed="medium" emotion="diabolical" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_14_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_15_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="Burns" text="QST_PrinceAndThePremise20_3_dlg_End_16_Burns" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise20_3_dlg_End_17_ArcherLisa" revealSpeed="medium" emotion="sad" />
+	</PrinceAndThePremise20_End>
+	<PrinceAndThePremise21_Start>
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_Start_1_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_Start_2_BarbarianHomer" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_Start_3_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_Start_4_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_Start_5_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_Start_6_GoblinBart" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_Start_7_BarbarianHomer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_Start_8_ArcherLisa" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_Start_9_BarbarianHomer" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_Start_10_GoblinBart" revealSpeed="medium" emotion="Sneaky" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_Start_11_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_Start_12_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_Start_13_WizardMarge" revealSpeed="medium" />
+	</PrinceAndThePremise21_Start>
+	<PrinceAndThePremise21_End>
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_1_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_End_2_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_3_BarbarianHomer" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_End_4_ArcherLisa" revealSpeed="medium" emotion="Annoyed" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_5_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_6_BarbarianHomer" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_7_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_End_8_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_9_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_10_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_11_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_End_12_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_End_13_ArcherLisa" revealSpeed="medium" emotion="Annoyed" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_14_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_15_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_16_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_End_17_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_18_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_19_GoblinBart" revealSpeed="medium" emotion="Angry" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_End_20_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_21_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_22_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_23_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_24_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_25_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_26_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_27_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_28_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_29_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_End_30_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_End_31_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_End_32_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_33_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_34_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_35_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise21_3_dlg_End_36_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise21_3_dlg_End_37_ArcherLisa" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_38_GoblinBart" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise21_3_dlg_End_39_WizardMarge" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise21_3_dlg_End_40_BarbarianHomer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise21_3_dlg_End_41_GoblinBart" revealSpeed="medium" emotion="sad" />
+	</PrinceAndThePremise21_End>
+	<PrinceAndThePremise22_Start>
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise22_3_dlg_Start_1_ArcherLisa" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise22_3_dlg_Start_2_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise22_3_dlg_Start_3_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise22_3_dlg_Start_4_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="DEMachina" text="QST_PrinceAndThePremise22_3_dlg_Start_5_BigFreemium" revealSpeed="medium" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise22_3_dlg_Start_6_WizardMarge" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise22_3_dlg_Start_7_GoblinBart" revealSpeed="medium" emotion="Sneaky" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise22_3_dlg_Start_8_BarbarianHomer" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="LisaArcher" text="QST_PrinceAndThePremise22_3_dlg_Start_9_ArcherLisa" revealSpeed="medium" emotion="Annoyed" />
+		<Action type="dialogue" character="MargeWizard" text="QST_PrinceAndThePremise22_3_dlg_Start_10_WizardMarge" revealSpeed="medium" emotion="Sad" />
+	</PrinceAndThePremise22_Start>
+	<PrinceAndThePremise23_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise23_3_dlg_Start_1_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_PrinceAndThePremise23_3_dlg_Start_2_GoblinBart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise23_3_dlg_Start_3_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_PrinceAndThePremise23_3_dlg_Start_4_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise23_3_dlg_Start_5_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_PrinceAndThePremise23_3_dlg_Start_6_Barbarian" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_PrinceAndThePremise23_3_dlg_Start_7_BarbarianHomer" revealSpeed="medium" emotion="Sarcastic" />
+	</PrinceAndThePremise23_Start>
+	<PrinceAndThePremise23_End>
+		<Action type="dialogue" character="Marge" text="QST_PrinceAndThePremise23_3_dlg_End_1_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_PrinceAndThePremise23_3_dlg_End_2_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="Marge" text="QST_PrinceAndThePremise23_3_dlg_End_3_Marge" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_PrinceAndThePremise23_3_dlg_End_4_Homer" revealSpeed="medium" emotion="happy" />
+	</PrinceAndThePremise23_End>
+	<ExtremeCastleMakeover01_Start>
+		<Action type="dialogue" character="Martin" text="QST_FirstTimeCastleUpgrade_3_dlg_Start_1_Martin" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_FirstTimeCastleUpgrade_3_dlg_Start_2_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Martin" text="QST_FirstTimeCastleUpgrade_3_dlg_Start_3_Martin" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_FirstTimeCastleUpgrade_3_dlg_Start_4_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_FirstTimeCastleUpgrade_3_dlg_Start_5_Barbarian" revealSpeed="medium" />
+	</ExtremeCastleMakeover01_Start>
+	<ExtremeCastleMakeover03_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ExtremeCastleMakeover03_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Milhouse" text="QST_ExtremeCastleMakeover03_3_dlg_Start_2_Milhouse" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ExtremeCastleMakeover03_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="CBGuy" text="QST_ExtremeCastleMakeover03_3_dlg_Start_4_CBGuy" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ExtremeCastleMakeover03_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Milhouse" text="QST_ExtremeCastleMakeover03_3_dlg_Start_6_Milhouse" revealSpeed="medium" />
+		<Action type="dialogue" character="Martin" text="QST_ExtremeCastleMakeover03_3_dlg_Start_7_Martin" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_ExtremeCastleMakeover03_3_dlg_Start_8_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="CBGuy" text="QST_ExtremeCastleMakeover03_3_dlg_Start_9_CBGuy" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ExtremeCastleMakeover03_3_dlg_Start_10_HomerBarbarian" revealSpeed="medium" />
+	</ExtremeCastleMakeover03_Start>
+	<DefendYourHonor_Start>
+		<Action type="dialogue" character="Barbarian" text="QST_DefendYourHonor_3_dlg_Start_1_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_DefendYourHonor_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Barbarian" text="QST_DefendYourHonor_3_dlg_Start_3_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Homer" text="QST_DefendYourHonor_3_dlg_Start_4_Homer" revealSpeed="medium" />
+	</DefendYourHonor_Start>
+	<SplinterIsComing_Start>
+		<Action type="dialogue" character="Barbarian" text="QST_SplinterIsComing_3_dlg_Start_1_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Martin" text="QST_SplinterIsComing_3_dlg_Start_2_Martin" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="Barbarian" text="QST_SplinterIsComing_3_dlg_Start_3_Barbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="Milhouse" text="QST_SplinterIsComing_3_dlg_Start_4_Milhouse" revealSpeed="medium" />
+		<Action type="dialogue" character="Barbarian" text="QST_SplinterIsComing_3_dlg_Start_5_Barbarian" revealSpeed="medium" emotion="Yelling" />
+	</SplinterIsComing_Start>
+	<EyeForAnEye_Start>
+		<Action type="dialogue" character="Barbarian" text="QST_EyeForAnEye_3_dlg_Start_1_Barbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Barbarian" text="QST_EyeForAnEye_3_dlg_Start_2_Barbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Barbarian" text="QST_EyeForAnEye_3_dlg_Start_3_Barbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="Barbarian" text="QST_EyeForAnEye_3_dlg_Start_4_Barbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="message" text="QST_EyeForAnEye_3_dlg_Start_5_Message" revealSpeed="medium" />
+	</EyeForAnEye_Start>
+	<RollingWithIt_Start>
+		<Action type="refreshHUD" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_RollingWithIt_3_dlg_Start_2_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_RollingWithIt_3_dlg_Start_4_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_RollingWithIt_3_dlg_Start_6_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_7_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_RollingWithIt_3_dlg_Start_8_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_9_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_RollingWithIt_3_dlg_Start_10_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_11_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_RollingWithIt_3_dlg_Start_12_BarbarianHomer" revealSpeed="medium" />
+	</RollingWithIt_Start>
+	<RollingWithIt2_Start>
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_1_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RollingWithIt_3_dlg_Start_2_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_3_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RollingWithIt_3_dlg_Start_4_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_5_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RollingWithIt_3_dlg_Start_6_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_7_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RollingWithIt_3_dlg_Start_8_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_9_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RollingWithIt_3_dlg_Start_10_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="Frink" text="QST_RollingWithIt_3_dlg_Start_11_Frink" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RollingWithIt_3_dlg_Start_12_BarbarianHomer" revealSpeed="medium" />
+	</RollingWithIt2_Start>
+	<EcoCastle01_Start>
+		<Action type="dialogue" character="Lisa" text="QST_EcoCastle01_3_dlg_End_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_EcoCastle01_3_dlg_End_2_Bart" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Lisa" text="QST_EcoCastle01_3_dlg_End_3_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_EcoCastle01_3_dlg_End_4_Bart" revealSpeed="medium" emotion="rollingeyes" />
+		<Action type="dialogue" character="Lisa" text="QST_EcoCastle01_3_dlg_End_5_Lisa" revealSpeed="medium" emotion="angry" />
+		<Action type="dialogue" character="Bart" text="QST_EcoCastle01_3_dlg_End_6_Bart" revealSpeed="medium" emotion="rollingeyes" />
+	</EcoCastle01_Start>
+	<EcoCastle02_Start>
+		<Action type="dialogue" character="Lisa" text="QST_EcoCastle02_3_dlg_End_6_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_EcoCastle02_3_dlg_End_1_LisaArcher" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_EcoCastle02_3_dlg_End_2_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_EcoCastle02_3_dlg_End_3_LisaArcher" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_EcoCastle02_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_EcoCastle02_3_dlg_End_5_Lisa" revealSpeed="medium" />
+	</EcoCastle02_Start>
+	<EcoCastle03_Start>
+		<Action type="dialogue" character="LisaArcher" text="QST_EcoCastle03_3_dlg_End_1_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_EcoCastle03_3_dlg_End_2_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_EcoCastle03_3_dlg_End_3_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_EcoCastle03_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+	</EcoCastle03_Start>
+	<EcoCastle04_Start>
+		<Action type="dialogue" character="LisaArcher" text="QST_EcoCastle04_3_dlg_Start_1_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="Milhouse" text="QST_EcoCastle04_3_dlg_Start_2_Milhouse" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_EcoCastle04_3_dlg_Start_3_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="Milhouse" text="QST_EcoCastle04_3_dlg_Start_4_Milhouse" revealSpeed="medium" emotion="sad" />
+	</EcoCastle04_Start>
+	<BoxedIn01_Start>
+		<Action type="dialogue" character="Bart" text="QST_BoxedIn01_3_dlg_Start_1_BartGoblin" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="LisaArcher" text="QST_BoxedIn01_3_dlg_Start_2_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_BoxedIn01_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="Yelling" />
+		<Action type="dialogue" character="FakeHomer" text="QST_BoxedIn01_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_BoxedIn01_3_dlg_Start_4_BartGoblin" revealSpeed="medium" />
+	</BoxedIn01_Start>
+	<BoxedIn02_Start>
+		<Action type="dialogue" character="Bart" text="QST_BoxedIn02_3_dlg_Start_5_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn02_3_dlg_Start_6_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_BoxedIn02_3_dlg_Start_7_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn02_3_dlg_Start_8_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn02_3_dlg_Start_1_BartGoblin" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn02_3_dlg_Start_2_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn02_3_dlg_Start_3_BartGoblin" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn02_3_dlg_Start_4_HomerBarbarian" revealSpeed="medium" />
+	</BoxedIn02_Start>
+	<BoxedIn03_Start>
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn03_3_dlg_Start_1_BartGoblin" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn03_3_dlg_Start_2_BartGoblin" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn03_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="Happy" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn03_3_dlg_Start_4_BartGoblin" revealSpeed="medium" />
+	</BoxedIn03_Start>
+	<BoxedIn04_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn04_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn04_3_dlg_Start_2_BartGoblin" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn04_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn04_3_dlg_Start_4_BartGoblin" revealSpeed="medium" emotion="Sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_BoxedIn04_3_dlg_Start_5_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="BartGoblin" text="QST_BoxedIn04_3_dlg_Start_6_BartGoblin" revealSpeed="medium" emotion="Sad" />
+	</BoxedIn04_Start>
+	<ElixerSpecial_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_1_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Lenny" text="QST_ElixerSpecial_3_dlg_End_2_Lenny" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_ElixerSpecial_3_dlg_End_3_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_4_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_5_HomerBarbarian" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="Moe" text="QST_ElixerSpecial_3_dlg_End_6_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_7_HomerBarbarian" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="Moe" text="QST_ElixerSpecial_3_dlg_End_8_Moe" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_9_HomerBarbarian" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_10_Moe" revealSpeed="medium" emotion="drunk" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_ElixerSpecial_3_dlg_End_11_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="Moe" text="QST_ElixerSpecial_3_dlg_End_12_Moe" revealSpeed="medium" />
+		<Action type="setVariable" boolVariable="WednesdayElixirMessage" boolValue="true" />
+	</ElixerSpecial_Start>
+	<AttackBenefits_Start>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_AttackBenefits_3_dlg_Start_1_HomerBarbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="FakeHomer" text="QST_AttackBenefits_3_dlg_Start_2_Barbarian" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_AttackBenefits_3_dlg_Start_3_HomerBarbarian" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="FakeHomer" text="QST_AttackBenefits_3_dlg_Start_4_Barbarian" revealSpeed="medium" />
+		<Action type="message" text="QST_AttackBenefits_3_dlg_Start_5_SystemMessage" revealSpeed="medium" />
+	</AttackBenefits_Start>
+	<EarlyDonutGiveAway_Start>
+		<Action type="message" title="QST_WhackingDayFreeDonuts_1_name" text="UI_EarlyDonutGiveAway_msg" revealSpeed="medium" dismissOnOKOnly="true" />
+	</EarlyDonutGiveAway_Start>
+	<EarlyDonutGiveVariable_Start parallel="true">
+		<Action type="setVariable" boolVariable="EarlyDonutGiveAway" boolValue="true" />
+	</EarlyDonutGiveVariable_Start>
+	<FirstTimeVisit>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="FirstFriendTownVisit" not="true" />
+				<Requirement type="quest started" quest="ThePrinceAndThePremise03" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="FirstFriendTownVisit" boolValue="true" />
+				<Action type="dialogue" character="Skinner" text="QST_ThePrinceAndThePremise03_3_dlg_End_1_Skinner" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_End_2_Barbarian" revealSpeed="medium" />
+				<Action type="dialogue" character="Skinner" text="QST_ThePrinceAndThePremise03_3_dlg_End_3_Skinner" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_End_4_Barbarian" revealSpeed="medium" />
+				<Action type="dialogue" character="Skinner" text="QST_ThePrinceAndThePremise03_3_dlg_End_5_Skinner" revealSpeed="medium" emotion="Happy" />
+				<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_End_6_Barbarian" revealSpeed="medium" />
+				<Action type="dialogue" character="Skinner" text="QST_ThePrinceAndThePremise03_3_dlg_End_7_Skinner" revealSpeed="medium" emotion="sad" />
+				<Action type="dialogue" character="Barbarian" text="QST_ThePrinceAndThePremise03_3_dlg_End_8_Barbarian" revealSpeed="medium" emotion="Yelling" />
+				<Action type="dialogue" character="Skinner" text="QST_ThePrinceAndThePremise03_3_dlg_End_9_Skinner" revealSpeed="medium" emotion="sad" />
+			</True>
+		</Action>
+	</FirstTimeVisit>
+	<WeekendElixirSale_Start>
+		<Action type="message" text="QST_WeekendSale_3_dlg_Start_1_SystemMessage" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_WeekendSale_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="Woohoo" />
+	</WeekendElixirSale_Start>
+	<StatuesqueBarbarian_End>
+		<Action type="dialogue" character="HomerBarbarian" text="QST_StatuesqueBarbarian_3_dlg_End_1_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_StatuesqueBarbarian_3_dlg_End_2_LisaArcher" revealSpeed="medium" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_StatuesqueBarbarian_3_dlg_End_3_BarbarianHomer" revealSpeed="medium" />
+		<Action type="dialogue" character="LisaArcher" text="QST_StatuesqueBarbarian_3_dlg_End_4_LisaArcher" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="HomerBarbarian" text="QST_StatuesqueBarbarian_3_dlg_End_5_BarbarianHomer" revealSpeed="medium" />
+	</StatuesqueBarbarian_End>
+	<ThinkHappyThoughts_End>
+		<Action type="dialogue" character="Krusty" text="QST_ThinkHappyThoughts_3_dlg_End_1_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="SideshowMel" text="QST_ThinkHappyThoughts_3_dlg_End_2_SideshowMel" revealSpeed="medium" />
+		<Action type="dialogue" character="Krusty" text="QST_ThinkHappyThoughts_3_dlg_End_3_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="SideshowMel" text="QST_ThinkHappyThoughts_3_dlg_End_4_SideshowMel" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Krusty" text="QST_ThinkHappyThoughts_3_dlg_End_5_Krusty" revealSpeed="medium" />
+		<Action type="dialogue" character="SideshowMel" text="QST_ThinkHappyThoughts_3_dlg_End_6_SideshowMel" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Krusty" text="QST_ThinkHappyThoughts_3_dlg_End_7_Krusty" revealSpeed="medium" />
+	</ThinkHappyThoughts_End>
+	<CyclicalViolence_Start>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="CyclicalViolenceMessage" />
+			</Requirements>
+			<True>
+				<Action type="message" text="QST_CyclicalViolence_3_dlg_End_1_SystemMessage" revealSpeed="medium" />
+				<Action type="message" text="QST_CyclicalViolence_3_dlg_End_2_SystemMessage" revealSpeed="medium" />
+				<Action type="message" text="QST_CyclicalViolence_3_dlg_End_3_SystemMessage" revealSpeed="medium" />
+				<Action type="setVariable" boolVariable="CyclicalViolenceMessage" boolValue="false" />
+			</True>
+		</Action>
+	</CyclicalViolence_Start>
+	<CyclicalViolence_End parallel="true">
+		<Action type="messageBoxWithImages" titleText="QST_CyclicalViolence_3_dlg_End_2_SystemMessage" tipText="CON_DuffLightning_FIVEHUNDRED_desc" messageText="QST_CyclicalViolence_3_dlg_End_1_SystemMessage" bgImage="ICO_PRIZ_AWRD_MedievalTimes_MenuBaseImage" prizeImage="ICO_STOR_MedievalTimes_DuffCrate" fontSize="eFont_Normal" />
+		<Action type="reward" Elixir="__MedievalTimes_GameConfig:Prizes:ElixirBundleReward__" xp="10" />
+	</CyclicalViolence_End>
+</ScriptPackage>

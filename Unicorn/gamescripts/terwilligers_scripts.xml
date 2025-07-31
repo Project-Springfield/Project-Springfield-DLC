@@ -1,0 +1,1458 @@
+﻿<ScriptPackage>
+	<UpdateStreamer parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="config" key="System:Disable:DynamicSteamer" value="0" />
+				<Requirement type="platform" platform="ios" assetTier="100" />
+			</Requirements>
+			<True>
+				<Action type="resetStreamer" streamerIndex="0" cellCount="200" />
+			</True>
+		</Action>
+	</UpdateStreamer>
+	<CheckActOneOver cache="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+			</Requirements>
+			<True>
+				<Action type="returnToInGameState" />
+				<Action type="message" title="UI_ActTransition_Act2_Title" text="UI_ActTransition_Act2_Body" />
+				<Action type="gotoFrontend" />
+			</True>
+		</Action>
+	</CheckActOneOver>
+	<CheckActTwoOver cache="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActThree" end="TerwilligersKillDate" />
+			</Requirements>
+			<True>
+				<Action type="returnToInGameState" />
+				<Action type="message" title="UI_ActTransition_Act3_Title" text="UI_ActTransition_Act3_Body" />
+				<Action type="gotoFrontend" />
+			</True>
+		</Action>
+	</CheckActTwoOver>
+	<CraftButtonPressed>
+		<Action type="gotoState" state="GameState_CraftItems" parentState="ActiveState">
+			<Extras>
+				<Attribute name="MenuConfig" value="Terwilligers_CraftingConfig:CraftingMenu" />
+			</Extras>
+		</Action>
+	</CraftButtonPressed>
+	<PrizeListButtonPressed>
+		<Action type="scrollEventHubToIndex" scrollToIndex="1" />
+		<Action type="runScript" script="TabPressed_PrizeTrack" package="Terwilligers_Scripts" />
+	</PrizeListButtonPressed>
+	<TabPressed_GuidePanel>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_HubGuidePanelConfig:HubGuidePanelConfig" />
+	</TabPressed_GuidePanel>
+	<TabPressed_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+				<Action type="gotoState" state="GameState_HubPrizeTrack" />
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_PrizeTrack>
+	<TabPressed_CraftingMenu>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" parentState="ActiveState">
+					<Extras>
+						<Attribute name="MenuConfig" value="Terwilligers_CraftingConfig:CraftingMenu" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_CraftingMenu>
+	<TabPressed_FrinksHerbicide>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="5" />
+				<Action type="gotoState" state="GameState_HubCraftItem">
+					<Extras>
+						<Attribute name="ForceReloadConfig" value="true" />
+						<Attribute name="MenuConfig" value="Terwilligers_FrinksCraftingConfig:CraftingMenu" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_FrinksHerbicide>
+	<TabPressed_MonsarnoUpgrade>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="6" />
+				<Action type="gotoState" state="GameState_HubCraftItem">
+					<Extras>
+						<Attribute name="ForceReloadConfig" value="true" />
+						<Attribute name="MenuConfig" value="Terwilligers_MonsarnoConfig:CraftingMenu" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_MonsarnoUpgrade>
+	<TabPressed_OperaUpgrade>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest" quest="PhantomOfTheOpera01" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="7" />
+				<Action type="gotoState" state="GameState_HubCraftItem">
+					<Extras>
+						<Attribute name="ForceReloadConfig" value="true" />
+						<Attribute name="MenuConfig" value="Terwilligers_OperaConfig:CraftingMenu" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</TabPressed_OperaUpgrade>
+	<HelpButton_FrinksHerbicide>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="5" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_FrinksGuidePanel:FrinksGuideConfig" />
+	</HelpButton_FrinksHerbicide>
+	<HelpButton_Monsarno>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="6" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_MonsarnoGuidePanel:MonsarnoGuideConfig" />
+	</HelpButton_Monsarno>
+	<HelpButton_OperaHouse>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="7" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_OperaHouseGuidePanel:OperaHouseGuideConfig" />
+	</HelpButton_OperaHouse>
+	<HelpButton_BuildingMonsarno>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="6" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_MonsarnoGuidePanel:MonsarnoGuideConfig" />
+	</HelpButton_BuildingMonsarno>
+	<HelpButton_BuildingOperaHouse>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="7" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_OperaHouseGuidePanel:OperaHouseGuideConfig" />
+	</HelpButton_BuildingOperaHouse>
+	<GoToBuildingSelectedMonsarno>
+		<Action type="gotoState" state="GameState_BuildingSelected">
+			<Extras>
+				<Attribute name="BuildingName" value="Monsarno" />
+			</Extras>
+		</Action>
+	</GoToBuildingSelectedMonsarno>
+	<GoToBuildingSelectedOperaHouse>
+		<Action type="gotoState" state="GameState_BuildingSelected">
+			<Extras>
+				<Attribute name="BuildingName" value="SpringfieldOperaHouse" />
+			</Extras>
+		</Action>
+	</GoToBuildingSelectedOperaHouse>
+	<GainedBobTerwilligerScript>
+		<Action type="setVariable" boolVariable="GainedBobTerwilliger" boolValue="true" />
+	</GainedBobTerwilligerScript>
+	<DisableSideshowBobScript>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character" name="SideshowBob" />
+			</Requirements>
+			<True>
+				<Action type="deletecharacter" character="SideshowBob" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="SnakeTutorial" />
+			</Requirements>
+			<True>
+				<Action type="triggerevent" name="ArrestMade" data="SideshowBob" />
+			</True>
+		</Action>
+	</DisableSideshowBobScript>
+	<DeleteSideshowBobFromFriendsTown>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character" name="SideshowBob" />
+			</Requirements>
+			<True>
+				<Action type="deletecharacter" character="SideshowBob" fireCharacterLostEvent="false" />
+			</True>
+		</Action>
+	</DeleteSideshowBobFromFriendsTown>
+	<BobHitsRake_Script parallel="true" otherScriptsCanRunOnObject="true" runQueueState="RunInAnyState">
+		<Action type="random">
+			<Action type="sound" sound="sfx_EA_TSTO_Bob_Rake_Thwack_01.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Bob_Rake_Thwack_02.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Bob_Rake_Thwack_03.caf" />
+		</Action>
+		<Action type="delay" time="1" />
+	</BobHitsRake_Script>
+	<Cecil_Tapped>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_CharacterTasks" not="true" />
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+				<Action type="setVariable" intVariable="TerwilligersCecilTasksLastVisitNextEndTime" intValue="TerwilligersCecilTasksNextEndTime" />
+				<Action type="scrollEventHubToIndex" scrollToIndex="4" />
+				<Action type="gotoState" state="GameState_CharacterTasks">
+					<Extras>
+						<Attribute name="questGroupName" value="CecilTasks" />
+						<Attribute name="collectButtonScript" value="Terwilligers_Scripts:PanToCecil" />
+						<Attribute name="characterTasksMenuConfig" value="Terwilligers_CharacterTasksMenuConfig:CecilsTasksMenuConfig" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</Cecil_Tapped>
+	<GoToCecilTasks>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+				<Action type="gotoState" state="GameState_CharacterTasks">
+					<Extras>
+						<Attribute name="questGroupName" value="CecilTasks" />
+						<Attribute name="collectButtonScript" value="Terwilligers_Scripts:PanToCecil" />
+						<Attribute name="characterTasksMenuConfig" value="Terwilligers_CharacterTasksMenuConfig:CecilsTasksMenuConfig" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToCecilTasks>
+	<CecilTasksButtonPressed ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_CharacterTasks" not="true" />
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+				<Action type="setVariable" intVariable="TerwilligersCecilTasksLastVisitNextEndTime" intValue="TerwilligersCecilTasksNextEndTime" />
+				<Action type="gotoState" state="GameState_CharacterTasks">
+					<Extras>
+						<Attribute name="questGroupName" value="CecilTasks" />
+						<Attribute name="collectButtonScript" value="Terwilligers_Scripts:PanToCecil" />
+						<Attribute name="characterTasksMenuConfig" value="Terwilligers_CharacterTasksMenuConfig:CecilsTasksMenuConfig" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</CecilTasksButtonPressed>
+	<CecilTasks_StartScript ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_CharacterTasks" not="true" />
+				<Requirement type="variable" variable="Terwilligers" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+				<Action type="setVariable" intVariable="TerwilligersCecilTasksLastVisitNextEndTime" intValue="TerwilligersCecilTasksNextEndTime" />
+				<Action type="gotoState" state="GameState_CharacterTasks">
+					<Extras>
+						<Attribute name="questGroupName" value="CecilTasks" />
+						<Attribute name="collectButtonScript" value="Terwilligers_Scripts:PanToCecil" />
+						<Attribute name="characterTasksMenuConfig" value="Terwilligers_CharacterTasksMenuConfig:CecilsTasksMenuConfig" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</CecilTasks_StartScript>
+	<ShowGuidePanel>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+				<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_HubGuidePanelConfig:HubGuidePanelConfig" />
+			</True>
+			<False>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="6" />
+				<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_MonsarnoGuidePanel:MonsarnoGuideConfig" />
+			</False>
+		</Action>
+	</ShowGuidePanel>
+	<ShowGuidePanelFromFriendHUD>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_HubGuidePanelConfig:HubGuidePanelConfig">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToFriendInGame" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_MonsarnoGuidePanel:MonsarnoGuideConfig">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToFriendInGame" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</ShowGuidePanelFromFriendHUD>
+	<ShowGuidePanelFromFriendMapHUD ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="ChaosSheory01" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_HubGuidePanelConfig:HubGuidePanelConfig">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToFriendMapInGame" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="State_HubGuidePanel" extras="Terwilligers_MonsarnoGuidePanel:MonsarnoGuideConfig">
+					<Extras>
+						<Attribute name="Center" value="true" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToFriendMapInGame" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</ShowGuidePanelFromFriendMapHUD>
+	<PanToCecil>
+		<Action type="pantoobject" character="CecilTerwilliger" />
+	</PanToCecil>
+	<CecilTask1Reward parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+					</Requirements>
+					<True>
+						<Action type="reward" character="CecilTerwilliger" save="true" Fertilizer="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act1_Task1__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act1_Task1__" xp="10" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+							</Requirements>
+							<True>
+								<Action type="reward" character="CecilTerwilliger" save="true" Fertilizer="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act2_Task1__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act2_Task1__" xp="10" />
+							</True>
+							<False>
+								<Action type="reward" character="CecilTerwilliger" save="true" Corn="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act3_Task1__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act3_Task1__" xp="10" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+				<Action type="pantoobject" character="CecilTerwilliger" />
+				<Action type="playanimation" character="CecilTerwilliger" animation="Victory_Pose" />
+				<Action type="setVariable" intVariable="CecilTasksCompleted" intValue="CecilTasksCompleted+1" />
+			</True>
+		</Action>
+	</CecilTask1Reward>
+	<CecilTask2Reward parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+					</Requirements>
+					<True>
+						<Action type="reward" character="CecilTerwilliger" save="true" Fertilizer="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act1_Task2__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act1_Task2__" xp="10" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+							</Requirements>
+							<True>
+								<Action type="reward" character="CecilTerwilliger" save="true" Corn="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act2_Task2__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act2_Task2__" xp="10" />
+							</True>
+							<False>
+								<Action type="reward" character="CecilTerwilliger" save="true" DNA="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act3_Task2__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act3_Task2__" xp="10" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+				<Action type="pantoobject" character="CecilTerwilliger" />
+				<Action type="playanimation" character="CecilTerwilliger" animation="Victory_Pose" />
+				<Action type="setVariable" intVariable="CecilTasksCompleted" intValue="CecilTasksCompleted+1" />
+			</True>
+		</Action>
+	</CecilTask2Reward>
+	<CecilTask3Reward parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+					</Requirements>
+					<True>
+						<Action type="reward" character="CecilTerwilliger" save="true" Corn="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act1_Task3__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act1_Task3__" xp="10" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+							</Requirements>
+							<True>
+								<Action type="reward" character="CecilTerwilliger" save="true" DNA="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act2_Task3__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act2_Task3__" xp="10" />
+							</True>
+							<False>
+								<Action type="reward" character="CecilTerwilliger" save="true" TheatreMasks="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act3_Task3__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act3_Task3__" xp="10" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+				<Action type="playanimation" character="CecilTerwilliger" animation="Victory_Pose" />
+				<Action type="pantoobject" character="CecilTerwilliger" />
+				<Action type="setVariable" intVariable="CecilTasksCompleted" intValue="CecilTasksCompleted+1" />
+			</True>
+		</Action>
+	</CecilTask3Reward>
+	<CecilTask4Reward parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+					</Requirements>
+					<True>
+						<Action type="reward" character="CecilTerwilliger" save="true" Corn="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act1_Task4__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act1_Task4__" xp="10" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+							</Requirements>
+							<True>
+								<Action type="reward" character="CecilTerwilliger" save="true" DNA="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act2_Task4__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act2_Task4__" xp="10" />
+							</True>
+							<False>
+								<Action type="reward" character="CecilTerwilliger" save="true" TheatreMasks="__Terwilligers_GameConfig:CecilsTasks:CecilReward_CraftCurr_Act3_Task4__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:CecilsTasks:CecilReward_PrizeCurr_Act3_Task4__" xp="10" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+				<Action type="pantoobject" character="CecilTerwilliger" />
+				<Action type="playanimation" character="CecilTerwilliger" animation="Victory_Pose" />
+				<Action type="setVariable" intVariable="CecilTasksCompleted" intValue="CecilTasksCompleted+1" />
+			</True>
+		</Action>
+	</CecilTask4Reward>
+	<KillMutantSeedling parallel="true" cache="true">
+		<Action type="random">
+			<Action type="sound" sound="134_Human_Zombie_Squish_1.caf" />
+			<Action type="sound" sound="135_Human_Zombie_Squish_2.caf" />
+			<Action type="sound" sound="136_Human_Zombie_Squish_3.caf" />
+		</Action>
+		<Action type="stop" character="MutantSeedling" />
+		<Action type="reward" save="true" TerwilligersScore="10" noDrops="true" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+			</Requirements>
+			<True>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_Reward1_FertChance__" Fertilizer="__Terwilligers_GameConfig:MutantSeedlings:Act1_Reward1_FertAmount__" />
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_Reward1_CornChance__" Corn="__Terwilligers_GameConfig:MutantSeedlings:Act1_Reward1_CornAmount__" />
+				</Action>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act1_Reward2_SpadesChance__" Spades="__Terwilligers_GameConfig:MutantSeedlings:Act1_Reward2_SpadesAmount__" />
+				</Action>
+				<Action type="removetimedcharacter" script="FriendHasKilledMutantPlant_Act1" package="Terwilligers_Scripts" character="MutantSeedling" text="UI_TERWILLIGERS_KillMutantSeedling" event="4314" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+			</Requirements>
+			<True>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_Reward1_CornChance__" Corn="__Terwilligers_GameConfig:MutantSeedlings:Act2_Reward1_CornAmount__" />
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_Reward1_DNAChance__" DNA="__Terwilligers_GameConfig:MutantSeedlings:Act2_Reward1_DNAAmount__" />
+				</Action>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act2_Reward2_GasChance__" GasMasks="__Terwilligers_GameConfig:MutantSeedlings:Act2_Reward2_GasAmount__" />
+				</Action>
+				<Action type="removetimedcharacter" script="FriendHasKilledMutantPlant_Act2" package="Terwilligers_Scripts" character="MutantSeedling" text="UI_TERWILLIGERS_KillMutantSeedling" event="4316" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActThree" end="TerwilligersKillDate" />
+			</Requirements>
+			<True>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act3_Reward1_DNAChance__" DNA="__Terwilligers_GameConfig:MutantSeedlings:Act3_Reward1_DNAAmount__" />
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act3_Reward1_MaskChance__" TheatreMasks="__Terwilligers_GameConfig:MutantSeedlings:Act3_Reward1_MaskAmount__" />
+				</Action>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__Terwilligers_GameConfig:MutantSeedlings:Act3_Reward2_MusicChance__" MusicNotes="__Terwilligers_GameConfig:MutantSeedlings:Act3_Reward2_MusicAmount__" />
+				</Action>
+				<Action type="removetimedcharacter" script="FriendHasKilledMutantPlant_Act3" package="Terwilligers_Scripts" character="MutantSeedling" text="UI_TERWILLIGERS_KillMutantSeedling" event="4318" />
+			</True>
+		</Action>
+		<Action type="playanimation" character="MutantSeedling" animation="Squish" />
+		<Action type="deletecharacter" character="MutantSeedling" />
+	</KillMutantSeedling>
+	<SpawnLocalMutantSeedling_Act1 parallel="true" cache="true">
+		<Action type="reward" save="true" TerwilligersScore="10" noDrops="true" suppress_sound="true" />
+		<Action type="sound" sound="sfx_EA_TSTO_Terwilligers_Seedling_Spawn.caf" />
+		<Action type="addlocaltimedcharacter" character="MutantSeedling" event="4314" />
+		<Action type="createobject" name="MutantSeedling" count="1" save="false" panCamera="true" showFadeIn="false" />
+	</SpawnLocalMutantSeedling_Act1>
+	<SpawnFriendMutantSeedling_Act1 parallel="true" cache="true">
+		<Action type="sound" sound="sfx_EA_TSTO_Terwilligers_Seedling_Spawn.caf" />
+		<Action type="addfriendtimedcharacter" character="MutantSeedling" event="4314" />
+	</SpawnFriendMutantSeedling_Act1>
+	<FriendHasKilledMutantPlant_Act1 parallel="true" cache="true">
+		<Action type="removefriendstimedcharacter" character="MutantSeedling" event="4314" />
+		<Action type="reward" save="true" TerwilligersScore="5" noDrops="true" suppress_sound="true" />
+	</FriendHasKilledMutantPlant_Act1>
+	<SpawnLocalMutantSeedling_Act2 parallel="true" cache="true">
+		<Action type="reward" save="true" TerwilligersScore="10" noDrops="true" suppress_sound="true" />
+		<Action type="sound" sound="Gremlin_Audio_Cut2.caf" />
+		<Action type="addlocaltimedcharacter" character="MutantSeedling" event="4316" />
+		<Action type="createobject" name="MutantSeedling" count="1" save="false" panCamera="true" showFadeIn="false" />
+	</SpawnLocalMutantSeedling_Act2>
+	<SpawnFriendMutantSeedling_Act2 parallel="true" cache="true">
+		<Action type="sound" sound="Gremlin_Audio_Cut2.caf" />
+		<Action type="addfriendtimedcharacter" character="MutantSeedling" event="4316" />
+	</SpawnFriendMutantSeedling_Act2>
+	<FriendHasKilledMutantPlant_Act2 parallel="true" cache="true">
+		<Action type="removefriendstimedcharacter" character="MutantSeedling" event="4316" />
+		<Action type="reward" save="true" TerwilligersScore="5" noDrops="true" suppress_sound="true" />
+	</FriendHasKilledMutantPlant_Act2>
+	<SpawnLocalMutantSeedling_Act3 parallel="true" cache="true">
+		<Action type="reward" save="true" TerwilligersScore="10" noDrops="true" suppress_sound="true" />
+		<Action type="sound" sound="Gremlin_Audio_Cut2.caf" />
+		<Action type="addlocaltimedcharacter" character="MutantSeedling" event="4318" />
+		<Action type="createobject" name="MutantSeedling" count="1" save="false" panCamera="true" showFadeIn="false" />
+	</SpawnLocalMutantSeedling_Act3>
+	<SpawnFriendMutantSeedling_Act3 parallel="true" cache="true">
+		<Action type="sound" sound="Gremlin_Audio_Cut2.caf" />
+		<Action type="addfriendtimedcharacter" character="MutantSeedling" event="4318" />
+	</SpawnFriendMutantSeedling_Act3>
+	<FriendHasKilledMutantPlant_Act3 parallel="true" cache="true">
+		<Action type="removefriendstimedcharacter" character="MutantSeedling" event="4318" />
+		<Action type="reward" save="true" TerwilligersScore="5" noDrops="true" suppress_sound="true" />
+	</FriendHasKilledMutantPlant_Act3>
+	<OffLineReward>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+			</Requirements>
+			<True>
+				<Action type="checkExpression" expression="BitSet(SPECIAL_EVENT_OFFLINE_CORN, SPECIAL_EVENT_OFFLINE_FERTILIZER, SPECIAL_EVENT_OFFLINE_SPADES)">
+					<ExpressionCase value="1">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_Currency1" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="2">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_Currency2" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_FERTILIZER" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="4">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_Currency3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_SPADES" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="3">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_Currency1And2" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_FERTILIZER" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="5">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_Currency1And3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_SPADES" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="6">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_Currency2And3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_FERTILIZER" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_SPADES" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="7">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body1_CurrencyAll" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_FERTILIZER" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_SPADES" type="int" />
+						</Action>
+					</ExpressionCase>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+			</Requirements>
+			<True>
+				<Action type="checkExpression" expression="BitSet(SPECIAL_EVENT_OFFLINE_CORN, SPECIAL_EVENT_OFFLINE_DNA, SPECIAL_EVENT_OFFLINE_GASMASKS)">
+					<ExpressionCase value="1">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_Currency1" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="2">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_Currency2" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="4">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_Currency3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_GASMASKS" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="3">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_Currency1And2" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="5">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_Currency1And3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_GASMASKS" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="6">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_Currency2And3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_GASMASKS" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="7">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body2_CurrencyAll" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_CORN" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_GASMASKS" type="int" />
+						</Action>
+					</ExpressionCase>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActThree" end="TerwilligersKillDate" />
+			</Requirements>
+			<True>
+				<Action type="checkExpression" expression="BitSet(SPECIAL_EVENT_OFFLINE_THEATREMASKS, SPECIAL_EVENT_OFFLINE_DNA, SPECIAL_EVENT_OFFLINE_MUSICNOTES)">
+					<ExpressionCase value="1">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_Currency1" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_THEATREMASKS" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="2">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_Currency2" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="4">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_Currency3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_MUSICNOTES" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="3">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_Currency1And2" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_THEATREMASKS" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="5">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_Currency1And3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_THEATREMASKS" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_MUSICNOTES" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="6">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_Currency2And3" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_MUSICNOTES" type="int" />
+						</Action>
+					</ExpressionCase>
+					<ExpressionCase value="7">
+						<Action type="notification" title="UI_TERWILLIGERS_MutantSeedlingLoot_Title" button="UI_OK" text="UI_TERWILLIGERS_MutantSeedlingLoot_Body3_CurrencyAll" icon="ICO_Terwilligers_MutantSeedlingUpdate">
+							<Variable name="SPECIAL_EVENT_OFFLINE_DNA" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_THEATREMASKS" type="int" />
+							<Variable name="SPECIAL_EVENT_OFFLINE_MUSICNOTES" type="int" />
+						</Action>
+					</ExpressionCase>
+				</Action>
+			</True>
+		</Action>
+	</OffLineReward>
+	<PurchaseLicense>
+		<Action type="setVariable" boolVariable="TerwilligersFarmingLicense" boolValue="true" />
+	</PurchaseLicense>
+	<FrinksHerbLevelIncreaseScript parallel="true">
+		<Action type="setVariable" intVariable="FrinksHerbLevel" intValue="FrinksHerbLevel+1" />
+		<Action type="sound" sound="sfx_EA_TSTO_Terwilligers_Herbicide_Upgrade.caf" />
+	</FrinksHerbLevelIncreaseScript>
+	<MonsarnoLevelIncreaseScript parallel="true">
+		<Action type="setObjectVariable" variable="MonsarnoLevel" value="Object::MonsarnoLevel+1" asExpression="true" onType="building" onObject="Monsarno" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="Monsarno">
+			<OneShot name="regular" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+			<OneShot name="flipped" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="sound" sound="sfx_EA_TSTO_Terwilligers_Monsarno_Research_Upgrade.caf" />
+	</MonsarnoLevelIncreaseScript>
+	<OperaLevelIncreaseScript parallel="true">
+		<Action type="setObjectVariable" variable="OperaLevel" value="Object::OperaLevel+1" asExpression="true" onType="building" onObject="SpringfieldOperaHouse" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SpringfieldOperaHouse">
+			<OneShot name="regular" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+			<OneShot name="flipped" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="sound" sound="upgrade_castle.caf" />
+	</OperaLevelIncreaseScript>
+	<CraftingCounterIncreaseScript parallel="true">
+		<Action type="setVariable" intVariable="CraftingCounter" intValue="CraftingCounter+1" />
+	</CraftingCounterIncreaseScript>
+	<OnWorldMapLoad parallel="true">
+		<Action type="checkRequirements" parallel="true">
+			<Requirements>
+				<Requirement type="variable" variable="Terwilligers" />
+				<Requirement type="quest started" quest="ChaosSheory02" />
+				<Requirement type="variable" variable="OpenLeaderboard" />
+				<Requirement type="config" key="Terwilligers_GameConfig:Enable:LeaderboardPopup" value="1" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" boolVariable="OpenLeaderboard" boolValue="false" />
+				<Action type="gotoState" state="WorldState_Leaderboard" parentState="MapState">
+					<Extras>
+						<Attribute name="MenuConfig" value="Terwilligers_LeaderboardMenuConfig:LeaderboardMenu" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</OnWorldMapLoad>
+	<OnFriendButtonPressed>
+		<Action type="setVariable" boolVariable="OpenLeaderboard" boolValue="true" />
+	</OnFriendButtonPressed>
+	<SpecialEventButtonInFriendMapPressed ignoreHUD="true">
+		<Action type="gotoState" state="WorldState_Leaderboard">
+			<Extras>
+				<Attribute name="MenuConfig" value="Terwilligers_LeaderboardMenuConfig:LeaderboardMenu" />
+			</Extras>
+		</Action>
+	</SpecialEventButtonInFriendMapPressed>
+	<DeleteMutantPlantsScript>
+		<Action type="runScriptOnAll" character="MutantPlant" script="PlaySquishAnimationMutantPlants" package="Terwilligers_Scripts" />
+		<Action type="runScript" script="MutantPlantWaitScript" package="Terwilligers_Scripts" waitUntilComplete="true" />
+		<Action type="runScript" script="DeleteMutantPlantsGroup" package="Terwilligers_Scripts" />
+	</DeleteMutantPlantsScript>
+	<MutantPlantWaitScript>
+		<Action type="delay" time="1" />
+	</MutantPlantWaitScript>
+	<PlaySquishAnimationMutantPlants parallel="true">
+		<Action type="playanimation" character="MutantPlant" animation="Squish" />
+		<Action type="fade" character="MutantPlant" fade="outmax" />
+	</PlaySquishAnimationMutantPlants>
+	<DeleteMutantPlantsGroup>
+		<Action type="deleteAllCharactersOfGroup" group="MutantPlants" />
+		<Action type="setVariable" intVariable="bankedMutantPlants" intValue="0" />
+	</DeleteMutantPlantsGroup>
+	<FarmingLicenseQuestScript>
+		<Action type="message" text="QST_FarmingLicense01_SystemMessage" />
+		<Action type="dialogue" character="Lisa" text="QST_FarmingLicense01_1_dlg_Start_1_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="CecilTerwilliger" text="QST_FarmingLicense01_1_dlg_Start_2_Cecil" revealSpeed="medium" />
+		<Action type="dialogue" character="Lisa" text="QST_FarmingLicense01_1_dlg_Start_3_Lisa" revealSpeed="medium" />
+	</FarmingLicenseQuestScript>
+	<AllClonesKilledTrue ignoreHUD="true">
+		<Action type="setVariable" boolVariable="AllClonesKilled" boolValue="true" />
+	</AllClonesKilledTrue>
+	<AllClonesKilledFalse ignoreHUD="true">
+		<Action type="setVariable" boolVariable="AllClonesKilled" boolValue="false" />
+	</AllClonesKilledFalse>
+	<NewCraftableAlert_Act2_Message>
+		<Action type="delay" time="0" />
+		<Action type="message" title="UI_CraftableAlert_Title" text="UI_CraftableAlert_Body" />
+	</NewCraftableAlert_Act2_Message>
+	<NewCraftableAlert_Act3_Message>
+		<Action type="delay" time="0" />
+		<Action type="message" title="UI_CraftableAlert_Title" text="UI_CraftableAlert_Body" />
+	</NewCraftableAlert_Act3_Message>
+	<WilliesTractorRecommendation>
+		<Action type="recommendation" recType="Promoted" name="WillysTractor" />
+	</WilliesTractorRecommendation>
+	<WonderfulKnifeRecommendation>
+		<Action type="recommendation" recType="Promoted" name="ItsAWonderfulKnife" />
+	</WonderfulKnifeRecommendation>
+	<ItalianVillaRecommendation>
+		<Action type="recommendation" recType="Promoted" name="ItalianVilla" />
+	</ItalianVillaRecommendation>
+	<CaptainBobAndRakeRecommendation>
+		<Action type="recommendation" recType="Promoted" name="Terwilligers_StoreItem_Rake_15" />
+		<Action type="recommendation" recType="Promoted" name="CaptainBob" />
+	</CaptainBobAndRakeRecommendation>
+	<MutantPlant_Tapped parallel="true">
+		<Action type="playanimation" character="MutantPlant" animation="Squish" />
+		<Action type="fade" character="MutantPlant" fade="outmax" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Act1_Plant_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="Act2_Plant_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+					</True>
+					<False>
+						<Action type="runScript" script="Act3_Plant_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+		<Action type="deletecharacter" character="MutantPlant" />
+		<Action type="setVariable" intVariable="KilledMutantPlants" intValue="KilledMutantPlants+1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character count" name="MutantPlant" quantity="1" not="true" />
+				<Requirement type="variable" variable="AllClonesKilled" not="true" />
+				<Requirement type="relative time" baseTime="PopupCurrentTime" defaultTime="TerwilligersActOne" endOffset="2m" not="true" />
+			</Requirements>
+			<True>
+				<Action type="message" title="UI_MutantPlantsCleared_Title" text="UI_MutantPlantsCleared_SystemMessage" />
+				<Action type="setVariable" dateVariable="PopupCurrentTime" />
+			</True>
+		</Action>
+	</MutantPlant_Tapped>
+	<MutantPlant_TappedWithWeapon parallel="true" cache="true">
+		<Action type="random">
+			<Action type="sound" sound="137_Pet_Zombie_Squish_1.caf" />
+			<Action type="sound" sound="138_Pet_Zombie_Squish_2.caf" />
+			<Action type="sound" sound="139_Pet_Zombie_Squish_3.caf" />
+		</Action>
+		<Action type="runScriptOnAll" character="MutantPlant" in_radius="FrinksHerbBaseRadius" radius_delay="0" script="MutantPlant_Tapped" package="Terwilligers_Scripts" />
+		<Action type="runScript" script="MutantPlant_Tapped" package="Terwilligers_Scripts" />
+	</MutantPlant_TappedWithWeapon>
+	<MutantPlant_Tapped_Friend parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActTwo" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="Act1_Friend_Plant_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="time" start="TerwilligersActOne" end="TerwilligersActThree" />
+							</Requirements>
+							<True>
+								<Action type="runScript" script="Act2_Friend_Plant_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+							</True>
+							<False>
+								<Action type="runScript" script="Act3_Friend_Plant_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+				<Action type="friendActionPerformed" />
+				<Action type="random">
+					<Action type="sound" sound="137_Pet_Zombie_Squish_1.caf" />
+					<Action type="sound" sound="138_Pet_Zombie_Squish_2.caf" />
+					<Action type="sound" sound="139_Pet_Zombie_Squish_3.caf" />
+				</Action>
+				<Action type="playanimation" character="MutantPlant" animation="Squish" />
+				<Action type="fade" character="MutantPlant" fade="outmax" />
+				<Action type="deletecharacter" character="MutantPlant" />
+			</True>
+		</Action>
+	</MutantPlant_Tapped_Friend>
+	<Act1_Plant_Tapped_Reward parallel="true" cache="true">
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act1TappableRewards:Corn_Chance__" Corn="__Terwilligers_GameConfig:Act1TappableRewards:Corn_Num__" />
+			<Reward chance="__Terwilligers_GameConfig:Act1TappableRewards:Fertilizer_Chance__" Fertilizer="__Terwilligers_GameConfig:Act1TappableRewards:Fertilizer_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act1TappableRewards:TerwilligersActivePrizeTrackCurrency_Chance__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:Act1TappableRewards:TerwilligersActivePrizeTrackCurrency_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act1TappableRewards:MutantSeed_Chance__" MutantSeeds="__Terwilligers_GameConfig:Act1TappableRewards:MutantSeed_Num__" />
+		</Action>
+	</Act1_Plant_Tapped_Reward>
+	<Act1_Friend_Plant_Tapped_Reward parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="lessThan(FriendActionsCount,90)" />
+			<True>
+				<Action type="reward" Spades="__Terwilligers_GameConfig:Act1TappableRewards:FriendTappable_Spades_Num__" suppress_sound="true" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="TerwilligersFarmingLicense" />
+					<True>
+						<Action type="reward" Spades="__Terwilligers_GameConfig:Act1TappableRewards:FriendTappable_Spades_Num__" suppress_sound="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Act1_Friend_Plant_Tapped_Reward>
+	<SpawnFirstFriendMutantPlants>
+		<Action type="createobject" name="MutantPlant" count="20-specialactionlimit" save="true" panCamera="false" />
+	</SpawnFirstFriendMutantPlants>
+	<SpawnSecondFriendMutantPlants>
+		<Action type="createobject" name="MutantPlant" count="30-specialactionlimit" save="true" panCamera="false" />
+	</SpawnSecondFriendMutantPlants>
+	<SpawnThirdFriendMutantPlants>
+		<Action type="createobject" name="MutantPlant" count="40-specialactionlimit" save="true" panCamera="false" />
+	</SpawnThirdFriendMutantPlants>
+	<BobClone_Tapped parallel="true" cache="true">
+		<Action type="random">
+			<Action type="sound" sound="134_Human_Zombie_Squish_1.caf" />
+			<Action type="sound" sound="135_Human_Zombie_Squish_2.caf" />
+			<Action type="sound" sound="136_Human_Zombie_Squish_3.caf" />
+		</Action>
+		<Action type="playanimation" character="BobClone" animation="Squish" />
+		<Action type="fade" character="BobClone" fade="outmax" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Act2_Clone_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+			</True>
+			<False>
+				<Action type="runScript" script="Act3_Clone_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+			</False>
+		</Action>
+		<Action type="deletecharacter" character="BobClone" />
+		<Action type="setVariable" intVariable="KilledBobClones" intValue="KilledBobClones+1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character count" name="BobClone" quantity="1" not="true" />
+				<Requirement type="relative time" baseTime="PopupCurrentTime" defaultTime="TerwilligersActOne" endOffset="2m" not="true" />
+			</Requirements>
+			<True>
+				<Action type="message" title="UI_BobClonesCleared_Title" text="UI_BobClonesCleared_SystemMessage" />
+				<Action type="setVariable" dateVariable="PopupCurrentTime" />
+			</True>
+		</Action>
+	</BobClone_Tapped>
+	<BobClone_TappedWithWeapon parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="FrinksHerbLevel&gt;0" />
+			</Requirements>
+			<True>
+				<Action type="sound" sound="278_ghost_bomb_revised.caf" />
+				<Action type="playflyby" flybyName="Herbicide" radius="min(FrinksHerbBaseRadius+FrinksHerbLevel, FrinksHerbBaseRadius+14)" unitScale="0.13" playbackFPS="15" />
+				<Action type="runScriptOnAll" character="BobClone" in_radius="FrinksHerbBaseRadius+FrinksHerbLevel" radius_delay="0" script="BobClone_Tapped" package="Terwilligers_Scripts" />
+				<Action type="runScript" script="BobClone_Tapped" package="Terwilligers_Scripts" />
+			</True>
+			<False>
+				<Action type="runScriptOnAll" character="BobClone" in_radius="FrinksHerbBaseRadius" radius_delay="0" script="BobClone_Tapped" package="Terwilligers_Scripts" />
+				<Action type="runScript" script="BobClone_Tapped" package="Terwilligers_Scripts" />
+			</False>
+		</Action>
+	</BobClone_TappedWithWeapon>
+	<BobClone_TappedWithFriendWeapon parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="formula" formula="FrinksHerbLevel&gt;0" />
+					</Requirements>
+					<True>
+						<Action type="sound" sound="278_ghost_bomb_revised.caf" />
+						<Action type="playflyby" flybyName="Herbicide" radius="min(FrinksHerbBaseRadius+FrinksHerbLevel, FrinksHerbBaseRadius+14)" unitScale="0.13" playbackFPS="15" />
+						<Action type="runScriptOnAll" character="BobClone" in_radius="FrinksHerbBaseRadius+FrinksHerbLevel" radius_delay="0" script="BobClone_Tapped_Friend" package="Terwilligers_Scripts" />
+						<Action type="runScript" script="BobClone_Tapped_Friend" package="Terwilligers_Scripts" />
+					</True>
+					<False>
+						<Action type="runScript" script="BobClone_Tapped_Friend" package="Terwilligers_Scripts" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</BobClone_TappedWithFriendWeapon>
+	<BobClone_Tapped_Friend parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="time" start="TerwilligersActTwo" end="TerwilligersActThree" />
+					</Requirements>
+					<True>
+						<Action type="runScript" script="Act2_Friend_Clone_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+					</True>
+					<False>
+						<Action type="runScript" script="Act3_Friend_Clone_Tapped_Reward" package="Terwilligers_Scripts" waitUntilComplete="true" />
+					</False>
+				</Action>
+				<Action type="random">
+					<Action type="sound" sound="134_Human_Zombie_Squish_1.caf" />
+					<Action type="sound" sound="135_Human_Zombie_Squish_2.caf" />
+					<Action type="sound" sound="136_Human_Zombie_Squish_3.caf" />
+				</Action>
+				<Action type="playanimation" character="BobClone" animation="Squish" />
+				<Action type="fade" character="BobClone" fade="outmax" />
+				<Action type="deletecharacter" character="BobClone" />
+			</True>
+		</Action>
+	</BobClone_Tapped_Friend>
+	<Act2_Plant_Tapped_Reward parallel="true" cache="true">
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:DNA_Chance__" DNA="__Terwilligers_GameConfig:Act2TappableRewards:DNA_Num__" DNA_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:Corn_Chance__" Corn="__Terwilligers_GameConfig:Act2TappableRewards:Corn_Num__" Corn_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:Fertilizer_Chance__" Fertilizer="__Terwilligers_GameConfig:Act2TappableRewards:Fertilizer_Num__" Fertilizer_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:TerwilligersActivePrizeTrackCurrency_Chance__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:Act2TappableRewards:TerwilligersActivePrizeTrackCurrency_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:MutantSeed_Chance__" MutantSeeds="__Terwilligers_GameConfig:Act2TappableRewards:MutantSeed_Num__" />
+		</Action>
+	</Act2_Plant_Tapped_Reward>
+	<Act2_Clone_Tapped_Reward parallel="true" cache="true">
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:DNA_Chance__" DNA="__Terwilligers_GameConfig:Act2TappableRewards:DNA_Num__" DNA_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:Corn_Chance__" Corn="__Terwilligers_GameConfig:Act2TappableRewards:Corn_Num__" Corn_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:Fertilizer_Chance__" Fertilizer="__Terwilligers_GameConfig:Act2TappableRewards:Fertilizer_Num__" Fertilizer_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:TerwilligersActivePrizeTrackCurrency_Chance__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:Act2TappableRewards:TerwilligersActivePrizeTrackCurrency_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act2TappableRewards:MutantSeed_Chance__" MutantSeeds="__Terwilligers_GameConfig:Act2TappableRewards:MutantSeed_Num__" />
+		</Action>
+	</Act2_Clone_Tapped_Reward>
+	<Act2_Friend_Plant_Tapped_Reward parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="lessThan(FriendActionsCount,90)" />
+			<True>
+				<Action type="reward" GasMasks="__Terwilligers_GameConfig:Act2TappableRewards:FriendTappable_GasMasks_Num__" suppress_sound="true" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="TerwilligersFarmingLicense" />
+					<True>
+						<Action type="reward" GasMasks="__Terwilligers_GameConfig:Act2TappableRewards:FriendTappable_GasMasks_Num__" suppress_sound="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Act2_Friend_Plant_Tapped_Reward>
+	<Act2_Friend_Clone_Tapped_Reward parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="lessThan(FriendActionsCount,90)" />
+			<True>
+				<Action type="reward" GasMasks="__Terwilligers_GameConfig:Act2TappableRewards:FriendTappable_GasMasks_Num__" suppress_sound="true" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="TerwilligersFarmingLicense" />
+					<True>
+						<Action type="reward" GasMasks="__Terwilligers_GameConfig:Act2TappableRewards:FriendTappable_GasMasks_Num__" suppress_sound="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Act2_Friend_Clone_Tapped_Reward>
+	<SpawnFirstFriendBobClones>
+		<Action type="createobject" name="BobClone" count="20-specialactionlimit" save="true" panCamera="false" />
+	</SpawnFirstFriendBobClones>
+	<SpawnSecondFriendBobClones>
+		<Action type="createobject" name="BobClone" count="30-specialactionlimit" save="true" panCamera="false" />
+	</SpawnSecondFriendBobClones>
+	<SpawnThirdFriendBobClones>
+		<Action type="createobject" name="BobClone" count="40-specialactionlimit" save="true" panCamera="false" />
+	</SpawnThirdFriendBobClones>
+	<Act3_Plant_Tapped_Reward parallel="true" cache="true">
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:DNA_Chance__" DNA="__Terwilligers_GameConfig:Act3TappableRewards:DNA_Num__" DNA_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:Corn_Chance__" Corn="__Terwilligers_GameConfig:Act3TappableRewards:Corn_Num__" Corn_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:Fertilizer_Chance__" Fertilizer="__Terwilligers_GameConfig:Act3TappableRewards:Fertilizer_Num__" Fertilizer_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:TheatreMasks_Chance__" TheatreMasks="__Terwilligers_GameConfig:Act3TappableRewards:TheatreMasks_Num__" TheatreMasks_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:TerwilligersActivePrizeTrackCurrency_Chance__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:Act3TappableRewards:TerwilligersActivePrizeTrackCurrency_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:MutantSeed_Chance__" MutantSeeds="__Terwilligers_GameConfig:Act3TappableRewards:MutantSeed_Num__" />
+		</Action>
+	</Act3_Plant_Tapped_Reward>
+	<Act3_Clone_Tapped_Reward parallel="true" cache="true">
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:DNA_Chance__" DNA="__Terwilligers_GameConfig:Act3TappableRewards:DNA_Num__" DNA_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:Corn_Chance__" Corn="__Terwilligers_GameConfig:Act3TappableRewards:Corn_Num__" Corn_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:Fertilizer_Chance__" Fertilizer="__Terwilligers_GameConfig:Act3TappableRewards:Fertilizer_Num__" Fertilizer_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:TheatreMasks_Chance__" TheatreMasks="__Terwilligers_GameConfig:Act3TappableRewards:TheatreMasks_Num__" TheatreMasks_Bonus="selector TerwilligersRewardsPerFrinksHerbLevel" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:TerwilligersActivePrizeTrackCurrency_Chance__" TerwilligersActivePrizeTrackCurrency="__Terwilligers_GameConfig:Act3TappableRewards:TerwilligersActivePrizeTrackCurrency_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__Terwilligers_GameConfig:Act3TappableRewards:MutantSeed_Chance__" MutantSeeds="__Terwilligers_GameConfig:Act3TappableRewards:MutantSeed_Num__" />
+		</Action>
+	</Act3_Clone_Tapped_Reward>
+	<Act3_Friend_Plant_Tapped_Reward parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="lessThan(FriendActionsCount,90)" />
+			<True>
+				<Action type="reward" MusicNotes="__Terwilligers_GameConfig:Act3TappableRewards:FriendTappable_MusicNotes_Num__" suppress_sound="true" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="TerwilligersFarmingLicense" />
+					<True>
+						<Action type="reward" MusicNotes="__Terwilligers_GameConfig:Act3TappableRewards:FriendTappable_MusicNotes_Num__" suppress_sound="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Act3_Friend_Plant_Tapped_Reward>
+	<Act3_Friend_Clone_Tapped_Reward parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="lessThan(FriendActionsCount,90)" />
+			<True>
+				<Action type="reward" MusicNotes="__Terwilligers_GameConfig:Act3TappableRewards:FriendTappable_MusicNotes_Num__" suppress_sound="true" />
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="TerwilligersFarmingLicense" />
+					<True>
+						<Action type="reward" MusicNotes="__Terwilligers_GameConfig:Act3TappableRewards:FriendTappable_MusicNotes_Num__" suppress_sound="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Act3_Friend_Clone_Tapped_Reward>
+	<LandEntered parallel="true">
+		<Action type="runScript" script="RecommendTerwilligers" package="Terwilligers_Scripts" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_CORN" intValue="0" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_FERTILIZER" intValue="0" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_SPADES" intValue="0" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_DNA" intValue="0" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_GASMASKS" intValue="0" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_MUSICNOTES" intValue="0" />
+		<Action type="setVariable" intVariable="SPECIAL_EVENT_OFFLINE_THEATREMASKS" intValue="0" />
+	</LandEntered>
+	<WillysTractor_Tapped parallel="true">
+		<Action type="anim-play" building="WillysTractor" animation="ActiveNoLoop" />
+	</WillysTractor_Tapped>
+	<SPDBlimp_Tapped parallel="true">
+		<Action type="sound" sound="152_PoliceCar_Tap_1.caf" />
+		<Action type="anim-play" building="SPDBlimp" animation="ActiveNoLoop" />
+	</SPDBlimp_Tapped>
+	<EnterTerwilligersCategory>
+		<Action type="focusOnMenuItem" menuCategory="Terwilligers" />
+	</EnterTerwilligersCategory>
+	<RecommendTerwilligers>
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="recommendation" recType="Event" eventName="UI_TerwilligersCategorySingle_Title" name="EnterTerwilligersCategorySingle" />
+	</RecommendTerwilligers>
+	<DiggingDeepReward>
+		<Action type="reward">
+			<Item type="consumable" name="TerwilligersPrestige1" useImmediately="true" />
+		</Action>
+	</DiggingDeepReward>
+	<DeepBreathsReward>
+		<Action type="reward">
+			<Item type="consumable" name="TerwilligersPrestige2" useImmediately="true" />
+		</Action>
+	</DeepBreathsReward>
+	<AFinalNoteReward>
+		<Action type="reward">
+			<Item type="consumable" name="TerwilligersPrestige3" useImmediately="true" />
+		</Action>
+	</AFinalNoteReward>
+	<GoToMutantPlant parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="character count" name="MutantPlant" quantity="1" not="true" />
+					</Requirements>
+					<True>
+						<Action type="delay" time="0" />
+						<Action type="message" text="UI_MutantPlantsCleared_SystemMessage" />
+					</True>
+					<False>
+						<Action type="pantoobject" character="MutantPlant" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMutantPlant>
+	<GoToBobClone parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="character count" name="BobClone" quantity="1" not="true" />
+					</Requirements>
+					<True>
+						<Action type="delay" time="0" />
+						<Action type="message" text="UI_BobClonesCleared_SystemMessage" />
+					</True>
+					<False>
+						<Action type="pantoobject" character="BobClone" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBobClone>
+	<FocusOnHerbicideDispenser parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="HerbicideDispenser" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</FocusOnHerbicideDispenser>
+	<RadishStationRecommendation>
+		<Action type="recommendation" recType="Promoted" name="RadishStation" />
+	</RadishStationRecommendation>
+	<PetMutantSeedlingRecommendation>
+		<Action type="recommendation" recType="Promoted" name="PetMutantSeedling" />
+	</PetMutantSeedlingRecommendation>
+	<PetMutantSeedlingTapped parallel="true">
+		<Action type="anim-play" character="PetMutantSeedling" animation="Tap" />
+	</PetMutantSeedlingTapped>
+	<Monsarno_HUDTip_Lvl_2 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_2" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_2>
+	<Monsarno_HUDTip_Lvl_3 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_3" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_3>
+	<Monsarno_HUDTip_Lvl_4 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_4" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_4>
+	<Monsarno_HUDTip_Lvl_5 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_5" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_5>
+	<Monsarno_HUDTip_Lvl_6 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_6" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_6>
+	<Monsarno_HUDTip_Lvl_8 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_8" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_8>
+	<Monsarno_HUDTip_Lvl_10 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_10" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_10>
+	<Monsarno_HUDTip_Lvl_12 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_12" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_12>
+	<Monsarno_HUDTip_Lvl_14 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_14" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_14>
+	<Monsarno_HUDTip_Lvl_16 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Monsarno_Upgraded_Body_16" time="3s" queue="true" waitForHUD="true" />
+	</Monsarno_HUDTip_Lvl_16>
+	<Opera_HUDTip_Lvl_2 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Opera_Upgraded_Body_2" time="3s" queue="true" waitForHUD="true" />
+	</Opera_HUDTip_Lvl_2>
+	<Opera_HUDTip_Lvl_4 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Opera_Upgraded_Body_4" time="3s" queue="true" waitForHUD="true" />
+	</Opera_HUDTip_Lvl_4>
+	<Opera_HUDTip_Lvl_6 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Opera_Upgraded_Body_6" time="3s" queue="true" waitForHUD="true" />
+	</Opera_HUDTip_Lvl_6>
+	<Opera_HUDTip_Lvl_8 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Opera_Upgraded_Body_8" time="3s" queue="true" waitForHUD="true" />
+	</Opera_HUDTip_Lvl_8>
+	<Opera_HUDTip_Lvl_9 ignoreHUD="true">
+		<Action type="hudTip" text="UI_Opera_Upgraded_Body_9" time="3s" queue="true" waitForHUD="true" />
+	</Opera_HUDTip_Lvl_9>
+	<HundredCorn_LimitedTimeAvailable_Start>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Terwilligers_HundredCorn_LimitedTime_Start==0" />
+			<True>
+				<Action type="setVariable" dateVariable="Terwilligers_HundredCorn_LimitedTime_Start" />
+				<Action type="recommendation" recType="Promoted" name="Terwilligers_StoreItem_Corn_LimitedTime_Consumable" />
+				<Action type="notification" title="CON_Terwilligers_StoreItem_LimitedTime_Title" button="UI_OK" text="CON_Terwilligers_StoreItem_Corn_LimitedTime_Consumable_Notification" icon="ICO_STOR_Terwilligers_Corn_575" />
+				<Action type="focusOnMenuItem" itemName="Terwilligers_StoreItem_Corn_LimitedTime_Consumable" menuCategory="Terwilligers" />
+			</True>
+		</Action>
+	</HundredCorn_LimitedTimeAvailable_Start>
+	<HundredDNA_LimitedTimeAvailable_Start>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Terwilligers_HundredDNA_LimitedTime_Start==0" />
+			<True>
+				<Action type="setVariable" dateVariable="Terwilligers_HundredDNA_LimitedTime_Start" />
+				<Action type="recommendation" recType="Promoted" name="Terwilligers_StoreItem_DNA_LimitedTime_Consumable" />
+				<Action type="notification" title="CON_Terwilligers_StoreItem_LimitedTime_Title" button="UI_OK" text="CON_Terwilligers_StoreItem_DNA_LimitedTime_Consumable_Notification" icon="ICO_STOR_Terwilligers_DNA_700" />
+				<Action type="focusOnMenuItem" itemName="Terwilligers_StoreItem_DNA_LimitedTime_Consumable" menuCategory="Terwilligers" />
+			</True>
+		</Action>
+	</HundredDNA_LimitedTimeAvailable_Start>
+	<HundredTheatreMasks_LimitedTimeAvailable_Start>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="Terwilligers_HundredTheatreMasks_LimitedTime_Start==0" />
+			<True>
+				<Action type="setVariable" dateVariable="Terwilligers_HundredTheatreMasks_LimitedTime_Start" />
+				<Action type="recommendation" recType="Promoted" name="Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable" />
+				<Action type="notification" title="CON_Terwilligers_StoreItem_LimitedTime_Title" button="UI_OK" text="CON_Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable_Notification" icon="ICO_STOR_Terwilligers_TheatreMask_625" />
+				<Action type="focusOnMenuItem" itemName="Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable" menuCategory="Terwilligers" />
+			</True>
+		</Action>
+	</HundredTheatreMasks_LimitedTimeAvailable_Start>
+	<CON_Terwilligers_StoreItem_Rake_1>
+		<Action type="reward">
+			<Item type="building" name="Rake" />
+		</Action>
+		<Action type="notification" title="CON_Terwilligers_StoreItem_Rake_1_name" button="UI_OK" text="CON_Rake_Popup" icon="ICO_PopupRake" />
+	</CON_Terwilligers_StoreItem_Rake_1>
+	<CON_Terwilligers_StoreItem_Rake_3>
+		<Action type="reward">
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+		</Action>
+		<Action type="notification" title="CON_Terwilligers_StoreItem_Rake_3_name" button="UI_OK" text="CON_RakeBundle_Popup" icon="ICO_STOR_Terwilligers_RakePack_3" />
+	</CON_Terwilligers_StoreItem_Rake_3>
+	<CON_Terwilligers_StoreItem_Rake_15>
+		<Action type="reward">
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+			<Item type="building" name="Rake" />
+		</Action>
+		<Action type="notification" title="CON_Terwilligers_StoreItem_Rake_15_name" button="UI_OK" text="CON_RakeFifteenBundle_Popup" icon="ICO_STOR_Terwilligers_RakePack_15" />
+	</CON_Terwilligers_StoreItem_Rake_15>
+	<CON_Reward_Terwilligers_StoreItem_MutantSeeds_1 ignoreHUD="true">
+		<Action type="reward" MutantSeeds="1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="CON_Terwilligers_StoreItem_MutantSeeds_1_name" button="UI_OK" text="CON_Terwilligers_StoreItem_MutantSeeds_1_PopUp" icon="ICO_Terwilligers_MutantSeeds_LG" />
+			</True>
+		</Action>
+	</CON_Reward_Terwilligers_StoreItem_MutantSeeds_1>
+	<CON_Reward_Terwilligers_StoreItem_MutantSeeds_5 ignoreHUD="true">
+		<Action type="reward" MutantSeeds="5" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="CON_MutantSeeds_name" button="UI_OK" text="CON_Terwilligers_StoreItem_MutantSeeds_5_PopUp" icon="ICO_STOR_Terwilligers_MutantSeed_5" />
+			</True>
+		</Action>
+	</CON_Reward_Terwilligers_StoreItem_MutantSeeds_5>
+	<CON_Reward_Terwilligers_StoreItem_MutantSeeds_10 ignoreHUD="true">
+		<Action type="reward" MutantSeeds="10" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="CON_Terwilligers_StoreItem_MutantSeeds_10_name" button="UI_OK" text="CON_Terwilligers_StoreItem_MutantSeeds_10_PopUp" icon="ICO_STOR_Terwilligers_MutantSeed_10" />
+			</True>
+		</Action>
+	</CON_Reward_Terwilligers_StoreItem_MutantSeeds_10>
+	<CON_Reward_Terwilligers_StoreItem_MutantSeeds_25 ignoreHUD="true">
+		<Action type="reward" MutantSeeds="25" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="notification" title="CON_Terwilligers_StoreItem_MutantSeeds_25_name" button="UI_OK" text="CON_Terwilligers_StoreItem_MutantSeeds_25_PopUp" icon="ICO_STOR_Terwilligers_MutantSeed_25" />
+			</True>
+		</Action>
+	</CON_Reward_Terwilligers_StoreItem_MutantSeeds_25>
+	<CON_Reward_Terwilligers_StoreItem_Corn_LimitedTime_Consumable>
+		<Action type="reward" Corn="575" />
+		<Action type="notification" title="CON_Terwilligers_StoreItem_Corn_LimitedTime_Consumable_name" button="UI_OK" text="CON_Terwilligers_StoreItem_Corn_LimitedTime_Consumable_PopUp" icon="ICO_STOR_Terwilligers_Corn_575" />
+	</CON_Reward_Terwilligers_StoreItem_Corn_LimitedTime_Consumable>
+	<CON_Reward_Terwilligers_StoreItem_DNA_LimitedTime_Consumable>
+		<Action type="reward" DNA="700" />
+		<Action type="notification" title="CON_Terwilligers_StoreItem_DNA_LimitedTime_Consumable_name" button="UI_OK" text="CON_Terwilligers_StoreItem_DNA_LimitedTime_Consumable_PopUp" icon="ICO_STOR_Terwilligers_DNA_700" />
+	</CON_Reward_Terwilligers_StoreItem_DNA_LimitedTime_Consumable>
+	<CON_Reward_Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable>
+		<Action type="reward" TheatreMasks="625" />
+		<Action type="notification" title="CON_Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable_name" button="UI_OK" text="CON_Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable_PopUp" icon="ICO_STOR_Terwilligers_TheatreMask_625" />
+	</CON_Reward_Terwilligers_StoreItem_TheatreMasks_LimitedTime_Consumable>
+</ScriptPackage>

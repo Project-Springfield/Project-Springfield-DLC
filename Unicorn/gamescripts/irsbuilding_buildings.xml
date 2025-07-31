@@ -1,0 +1,66 @@
+﻿<Buildings> <!---->
+	<BuildingDefaults>
+		<LoadBuilding value="true" />
+		<Cost money="0" donuts="0" />
+		<Sell money="0.25" donuts="25" allowed="true" />
+		<Unique value="false" />
+		<Falls value="true" />
+		<MultiPlace value="false" />
+		<ApplyLevelMultiplier value="true" />
+		<BuildFromInventory value="false" />
+		<ForceToRoadGrid value="false" />
+		<TaxJobPackage value="IRSBuilding_Jobs" />
+	</BuildingDefaults>
+	<Building id="119000" name="IRSBuilding" type="Building" xpValue="1750" customStoreConfirm="UI_ConfirmStoreIRSBuilding">
+		<AutoCollectRewards>
+			<Timer type="xp" time="0.1" />
+			<Timer type="bonusXP" time="0.1" />
+			<Timer type="money" time="0.1" />
+			<Timer subtype="Krustyland_Tickets" time="0.1" />
+		</AutoCollectRewards>
+		<Cost money="0" />
+		<Sell allowed="false" storeoverride="true" />
+		<Unique value="true" />
+		<BuildTime time="6s" />
+		<RatingElem shopping="10" />
+		<Group name="MiscCash" />
+		<GridType type="beach|grass|pavement|boardwalk|boardwalkedge" />
+		<AllowLevelUp value="__IRSBuilding_GameConfig:Enable:IRSBuilding__" levelVariable="Object::IRSBuildingLevel" useLevelUpMenuConfig="IRSBuilding_GameConfig:LevelUpMenu" />
+		<TouchIcon value="Indicator_Super15_UpgradeHQ.rgb" removeOnTouch="false">
+			<Requirements>
+				<Requirement type="config" key="IRSBuilding_GameConfig:Enable:IRSBuilding" value="true" />
+				<Requirement type="players land" />
+				<Requirement type="currency" money="selector IRSCost" />
+				<Requirement type="formula" formula="lessThan(Eval(Building::IRSBuilding::Object::IRSBuildingLevel),8)" />
+			</Requirements>
+		</TouchIcon>
+		<OnEvent event="BuildingTouched" building="IRSBuilding" user="local">
+			<Script name="TouchIRSBuilding" package="IRSBuilding_Scripts" />
+		</OnEvent>
+		<Requirements>
+			<Requirement type="config" key="IRSBuilding_GameConfig:Enable:IRSBuilding" value="true" hideFromInfo="true" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="HouseAlwaysWins04" hideFromInfo="true" />
+				<Requirement type="active quest" quest="HouseAlwaysWins04" hideFromInfo="true" />
+			</Requirement>
+			<Requirement type="level" level="1" />
+		</Requirements>
+		<InventoryRequirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="HouseAlwaysWins04" hideFromInfo="true" />
+				<Requirement type="active quest" quest="HouseAlwaysWins04" hideFromInfo="true" />
+			</Requirement>
+			<Requirement type="level" level="1" />
+		</InventoryRequirements>
+		<VisibilityRequirements>
+			<Requirement type="config" key="IRSBuilding_GameConfig:Enable:IRSBuilding" value="true" hideFromInfo="true" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="HouseAlwaysWins04" hideFromInfo="true" />
+				<Requirement type="active quest" quest="HouseAlwaysWins04" hideFromInfo="true" />
+			</Requirement>
+			<Requirement type="level" level="1" />
+		</VisibilityRequirements>
+		<BuildMenuText text="UI_IRSBuildMenuText" />
+		<SoundKit event="BuildingTouched" name="BLD_IRSBuilding_Tap" />
+	</Building>
+</Buildings>

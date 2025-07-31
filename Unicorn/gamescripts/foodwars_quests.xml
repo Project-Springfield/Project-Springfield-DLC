@@ -1,0 +1,605 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="270000" name="AHealthyDistaste" />
+		<DataID id="270001" name="ClimbingHamburgerHill_1" />
+		<DataID id="270002" name="ClimbingHamburgerHill_2" />
+		<DataID id="270003" name="ClimbingHamburgerHill_3" />
+		<DataID id="270004" name="ClimbingHamburgerHill_4" />
+		<DataID id="270005" name="ClimbingHamburgerHill_5" />
+		<DataID id="270006" name="VictoryWithASideOfFries" />
+		<DataID id="270007" name="EverybodysHero_1" />
+		<DataID id="270008" name="EverybodysHero_2" />
+		<DataID id="270009" name="EverybodysHero_3" />
+		<DataID id="270010" name="EverybodysHero_4" />
+		<DataID id="270011" name="EverybodysHero_5" />
+		<DataID id="270012" name="IllFlipTheBurgerAndMeltCheeseWithYou_1" />
+		<DataID id="270013" name="IllFlipTheBurgerAndMeltCheeseWithYou_2" />
+		<DataID id="270014" name="IllFlipTheBurgerAndMeltCheeseWithYou_3" />
+		<DataID id="270015" name="IllFlipTheBurgerAndMeltCheeseWithYou_4" />
+		<DataID id="270016" name="IllFlipTheBurgerAndMeltCheeseWithYou_5" />
+		<DataID id="270017" name="LawAndSideOrders_1" />
+		<DataID id="270018" name="LawAndSideOrders_2" />
+		<DataID id="270019" name="LawAndSideOrders_3" />
+		<DataID id="270020" name="LawAndSideOrders_4" />
+		<DataID id="270600" name="FoodWars_Completed" />
+		<DataID id="270601" name="FoodWars_IntroPanel" />
+		<DataID id="270602" name="FoodWars_72HourWarning" onDeprecated="retain" endDate="FoodWars_End" />
+		<DataID id="270603" name="FoodWars_24HourWarning" onDeprecated="retain" endDate="FoodWars_End" />
+		<DataID id="270604" name="FoodWars_EventExpired" />
+		<DataID id="270605" name="FoodWars_MasterQuest" />
+		<!-- <DataID id="270700" name="AutoApply_FastFoodGrampaSkin" /> -->
+		<!-- <DataID id="270701" name="AutoApply_HeroKirkSkin" /> -->
+		<DataID id="270900" name="FoodWars_RecommendStore" onDeprecated="delete" endDate="FoodWars_End" />
+	</MasterList>
+	<Quest id="270600" name="FoodWars_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="VictoryWithASideOfFries" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="270601" name="FoodWars_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="AHealthyDistaste" />
+			<Requirement type="time" end="FoodWars_End" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="270602" name="FoodWars_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::FoodWars_End')-fromHours(72)]_" end="_[System::evaluate('Date::FoodWars_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="FoodWars_Complete" not="true" />
+			<Requirement type="quest" quest="FoodWars_IntroPanel" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="270603" name="FoodWars_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::FoodWars_End')-fromHours(24)]_" end="FoodWars_End" triggerEvent="true" />
+			<Requirement type="variable" variable="FoodWars_Complete" not="true" />
+			<Requirement type="quest" quest="FoodWars_IntroPanel" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="270604" name="FoodWars_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="FoodWars_End" triggerEvent="true" />
+			<Requirement type="variable" variable="FoodWars_Complete" not="true" />
+			<Requirement type="quest" quest="FoodWars_IntroPanel" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="270605" name="FoodWars_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_Expired" not="true" />
+			<Requirement type="variable" variable="FoodWars_Complete" not="true" />
+			<Requirement type="reqList" location="FoodWars_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ClimbingHamburgerHill_5" />
+					<Requirement type="variable" variable="FoodWars_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="ClimbingHamburgerHill_1">
+				<Requirement type="quest started" quest="ClimbingHamburgerHill_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ClimbingHamburgerHill_2">
+				<Requirement type="quest started" quest="ClimbingHamburgerHill_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ClimbingHamburgerHill_3">
+				<Requirement type="quest started" quest="ClimbingHamburgerHill_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ClimbingHamburgerHill_4">
+				<Requirement type="quest started" quest="ClimbingHamburgerHill_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ClimbingHamburgerHill_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="270000" name="AHealthyDistaste" tags="sidequest" icon="FoodWars_Event">
+		<Requirements>
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="characterunlocked" name="Krusty" />
+			<Requirement type="time" start="FoodWars_Start" end="FoodWars_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="AHealthyDistaste_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="AHealthyDistaste_End" />
+		<Objectives>
+			<Objective type="complete job" group="NormalSpringfielders" job="FlockToHealthyRestaurants" quantity="5" />
+			<Objective type="complete job" character="Krusty" job="CancelExpansionPlans" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="FoodWars_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="270001" name="ClimbingHamburgerHill_1" tags="mainquest" icon="FoodWars_Currency" sidebarIconScript="FoodWars_Scripts:OpenMasterQuest" questMenuConfigPath="FoodWars_QuestConfig:FoodWars_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_Expired" not="true" />
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="FoodWars_IntroPanel" />
+			<Requirement type="time" start="FoodWars_Start" end="FoodWars_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_1_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodWars_Currency')" amount="__FoodWars_GameConfig:ResourceQuantities:FoodWars_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodWars_Scripts:ShowJobList" textpoolName="QST_FoodWars_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeCondimentsFromRestaurants" />
+					<Job name="BorrowCondimentsFromKrustyBurger" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="TryToReviveKrustyBurgerExpansion" quantity="1" />
+			<Objective type="complete job" character="CaymanIslandBanker" job="RefuseToFundExpansion" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CaymanIslandBanker" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="RichPeople" job="InvestInTheirOwnFastFoodJoints" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodWars_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodWars_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="270002" name="ClimbingHamburgerHill_2" tags="mainquest" icon="FoodWars_Currency" sidebarIconScript="FoodWars_Scripts:OpenMasterQuest" questMenuConfigPath="FoodWars_QuestConfig:FoodWars_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_Expired" not="true" />
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="ClimbingHamburgerHill_1" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_2_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodWars_Currency')" amount="__FoodWars_GameConfig:ResourceQuantities:FoodWars_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodWars_Scripts:ShowJobList" textpoolName="QST_FoodWars_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeCondimentsFromRestaurants" />
+					<Job name="BorrowCondimentsFromKrustyBurger" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="BeConfusedAboutWhatFriedSimpsonIs" quantity="1" />
+			<Objective type="complete job" character="Burns" job="MessWithTheTreeHuggers" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Burns" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="FlockToDimwillies" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodWars_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodWars_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="270003" name="ClimbingHamburgerHill_3" tags="mainquest" icon="FoodWars_Currency" sidebarIconScript="FoodWars_Scripts:OpenMasterQuest" questMenuConfigPath="FoodWars_QuestConfig:FoodWars_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_Expired" not="true" />
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="ClimbingHamburgerHill_2" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_3_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodWars_Currency')" amount="__FoodWars_GameConfig:ResourceQuantities:FoodWars_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodWars_Scripts:ShowJobList" textpoolName="QST_FoodWars_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeCondimentsFromRestaurants" />
+					<Job name="BorrowCondimentsFromKrustyBurger" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="UseStardomToAppealToRichGuyEgos" quantity="1" />
+			<Objective type="complete job" character="TheRichTexan" job="EnvisionStardom" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="TheRichTexan" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="SchmoozeRichGuysEvenHarder" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dimwillie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodWars_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodWars_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="270004" name="ClimbingHamburgerHill_4" tags="mainquest" icon="FoodWars_Currency" sidebarIconScript="FoodWars_Scripts:OpenMasterQuest" questMenuConfigPath="FoodWars_QuestConfig:FoodWars_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_Expired" not="true" />
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="ClimbingHamburgerHill_3" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_4_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodWars_Currency')" amount="__FoodWars_GameConfig:ResourceQuantities:FoodWars_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodWars_Scripts:ShowJobList" textpoolName="QST_FoodWars_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeCondimentsFromRestaurants" />
+					<Job name="BorrowCondimentsFromKrustyBurger" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="UnleashBurgerArmy" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dimwillie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="CringeAtTheCarnage" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="RunForCover_FW" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodWars_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodWars_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="270005" name="ClimbingHamburgerHill_5" tags="mainquest" icon="FoodWars_Currency" sidebarIconScript="FoodWars_Scripts:OpenMasterQuest" questMenuConfigPath="FoodWars_QuestConfig:FoodWars_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="FoodWars_Expired" not="true" />
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="ClimbingHamburgerHill_4" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_5_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="ClimbingHamburgerHill_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::FoodWars_Currency')" amount="__FoodWars_GameConfig:ResourceQuantities:FoodWars_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="FoodWars_Scripts:ShowJobList" textpoolName="QST_FoodWars_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeCondimentsFromRestaurants" />
+					<Job name="BorrowCondimentsFromKrustyBurger" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="ForceSpringfieldersToEatHisBurgers" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dimwillie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="PrepareToSurrenderTheBurgerWars" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="InvestigateDimwilliesSpecialSauce" quantity="1" />
+			<Objective type="complete job" character="Bart" job="InvestigateDimwilliesSpecialSauce" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="FoodWars_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="FoodWars_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="270006" name="VictoryWithASideOfFries" tags="sidequest" icon="FoodWars_Event">
+		<Requirements>
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="ClimbingHamburgerHill_5" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="VictoryWithASideOfFries_Start" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="VictoryWithASideOfFries_End" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="EmbarrassHimselfInCourt" quantity="1" />
+			<Objective type="complete job" character="BlueHairedLawyer" job="ObjectToHisClient" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="BlueHairedLawyer" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="CharmTheJury" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dimwillie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="WonderWhatsUpWithLowFatLadYogurt" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="270007" name="EverybodysHero_1" tags="sidequest" icon="Kirk_Hero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Kirk" unlockedskin="HeroKirk" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_1_Start" triggerType="character" character="Kirk" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Luann" job="DemandToKnowWhatKirkHasBeenDoing" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Luann" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Kirk" skin="HeroKirk" job="ReluctantlyShowHisWork" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270008" name="EverybodysHero_2" tags="sidequest" icon="Kirk_Hero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="EverybodysHero_1" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_2_Start" triggerType="character" character="Kirk" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Milhouse" job="EncourageHisDad" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Kirk" skin="HeroKirk" job="SufferUncontrollableItching" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270009" name="EverybodysHero_3" tags="sidequest" icon="Kirk_Hero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="EverybodysHero_2" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_3_Start" triggerType="character" character="Kirk" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Kirk" skin="HeroKirk" job="StrutHisStuff_TEMP" quantity="1" />
+			<Objective type="complete job" character="Luann" job="BragAboutKirk" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Luann" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270010" name="EverybodysHero_4" tags="sidequest" icon="Kirk_Hero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="EverybodysHero_3" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_4_Start" triggerType="character" character="Kirk" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="DrHibbert" job="BeFascinatedByMutantRash" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DrHibbert" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Kirk" skin="HeroKirk" job="EndureEmbarrassingExamination" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270011" name="EverybodysHero_5" tags="sidequest" icon="Kirk_Hero">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="EverybodysHero_4" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_5_Start" triggerType="character" character="Kirk" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="EverybodysHero_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Kirk" skin="HeroKirk" job="ShowOffHisMoves_TEMP" quantity="1" />
+			<Objective type="complete job" character="Luann" job="BeEmbarrassedByKirkAgain" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Luann" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="270012" name="IllFlipTheBurgerAndMeltCheeseWithYou_1" tags="sidequest" icon="Abe_FastFood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Grampa" unlockedskin="FastFoodGrampa" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_1_Start" triggerType="character" character="Grampa" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Grampa" skin="FastFoodGrampa" job="ShowDimwillieHowItsDone" quantity="1" />
+			<Objective type="complete job" character="Dimwillie" job="BeImpressed_FW" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dimwillie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270013" name="IllFlipTheBurgerAndMeltCheeseWithYou_2" tags="sidequest" icon="Abe_FastFood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IllFlipTheBurgerAndMeltCheeseWithYou_1" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_2_Start" triggerType="character" character="Grampa" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Grampa" skin="FastFoodGrampa" job="RambleAboutTheHellfish" quantity="1" />
+			<Objective type="complete job" character="Dimwillie" job="EnvisionANewMilitaryPlan" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dimwillie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="FixTheShakeMachine" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270014" name="IllFlipTheBurgerAndMeltCheeseWithYou_3" tags="sidequest" icon="Abe_FastFood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IllFlipTheBurgerAndMeltCheeseWithYou_2" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_3_Start" triggerType="character" character="Grampa" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Grampa" skin="FastFoodGrampa" job="ComplainAboutWork_TEMP" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="GetRiledUp" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270015" name="IllFlipTheBurgerAndMeltCheeseWithYou_4" tags="sidequest" icon="Abe_FastFood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IllFlipTheBurgerAndMeltCheeseWithYou_3" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_4_Start" triggerType="character" character="Grampa" />
+		<Objectives>
+			<Objective type="complete job" character="Grampa" skin="FastFoodGrampa" job="IgnoreWiggum" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="SuspectGangActivity" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270016" name="IllFlipTheBurgerAndMeltCheeseWithYou_5" tags="sidequest" icon="Abe_FastFood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IllFlipTheBurgerAndMeltCheeseWithYou_4" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_5_Start" triggerType="character" character="Grampa" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="IllFlipTheBurgerAndMeltCheeseWithYou_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Grampa" skin="FastFoodGrampa" job="DemonstrateHisDanceNumber_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="270017" name="LawAndSideOrders_1" tags="sidequest" icon="Dimwillie">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Dimwillie" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="VictoryWithASideOfFries" />
+				<Requirement type="time" start="FoodWars_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_1_Start" triggerType="character" character="Dimwillie" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Wiggum" job="AccuseDimwillieOfMurder" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="ProtestHisInnocence" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270018" name="LawAndSideOrders_2" tags="sidequest" icon="Dimwillie">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LawAndSideOrders_1" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_2_Start" triggerType="character" character="Dimwillie" />
+		<Objectives>
+			<Objective type="complete job" character="Wiggum" job="AccuseDimwillieOfMurderAgain" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="TryToInfluenceTheInvestigation" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270019" name="LawAndSideOrders_3" tags="sidequest" icon="Dimwillie">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LawAndSideOrders_2" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_3_Start" triggerType="character" character="Dimwillie" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Dimwillie" job="LookForClues_FWTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="270020" name="LawAndSideOrders_4" tags="sidequest" icon="Dimwillie">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LawAndSideOrders_3" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_4_Start" triggerType="character" character="Dimwillie" />
+		<EndScript package="FoodWars_Scripts_Dialogue" name="LawAndSideOrders_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="SentientLardLadStatue" job="TryToExplainCurling" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SentientLardLadStatue" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="LairdLadd" job="TellLardLadToGetBackToWork" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LairdLadd" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Dimwillie" job="TryToUnderstandCurling_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="270700" name="AutoApply_FastFoodGrampaSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="FastFoodGrampa" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Grampa" unlockedskin="FastFoodGrampa" not="true" />
+			<Requirement type="characterunlocked" name="Grampa" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="FoodWars_Scripts" name="AutoApply_FastFoodGrampaSkin_End" />
+	</Quest>
+	<Quest id="270701" name="AutoApply_HeroKirkSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="HeroKirk" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Kirk" unlockedskin="HeroKirk" not="true" />
+			<Requirement type="characterunlocked" name="Kirk" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="FoodWars_Scripts" name="AutoApply_HeroKirkSkin_End" />
+	</Quest>
+	<Quest id="270900" name="FoodWars_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="FoodWars_Requirements:StoreCategory_FoodWars_Unlocked" />
+		</Requirements>
+		<StartScript package="FoodWars_Scripts" name="RecommendStoreCategory_FoodWars" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

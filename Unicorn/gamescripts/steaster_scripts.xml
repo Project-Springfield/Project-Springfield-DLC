@@ -1,0 +1,67 @@
+﻿<ScriptPackage>
+	<EnterCategory>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="StEaster_Switch" />
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="StPatsCategory" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" menuCategory="EasterCategory" />
+			</False>
+		</Action>
+	</EnterCategory>
+	<UlsterBundlePurchased>
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="PrideOfUlsterBanner" />
+		</Action>
+		<Action type="reward">
+			<Item type="character" name="NorthernIrishLeprechaun" useImmediately="true" />
+		</Action>
+	</UlsterBundlePurchased>
+	<StEaster_Recommend parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="time" end="StEaster_Switch" />
+			<True>
+				<Action type="recommendation" recType="Promoted" name="StPats_OnePanel" />
+			</True>
+			<False>
+				<Action type="recommendation" recType="Promoted" name="Easter_OnePanel" />
+			</False>
+		</Action>
+	</StEaster_Recommend>
+	<LeprechaunTapped parallel="true">
+		<Action type="stop" character="NorthernIrishLeprechaun" />
+		<Action type="anim-remap" character="NorthernIrishLeprechaun">
+			<AnimationRemap Front_Walk="front_run" Back_Walk="back_run" />
+		</Action>
+		<Action type="anim-play" character="NorthernIrishLeprechaun" animation="Tap" />
+		<Action type="rewardchoice">
+			<Reward chance="0.75" chanceType="s" money="5" />
+			<Reward chance="0.98" chanceType="s" xp="1" />
+			<Reward chance="0.99" chanceType="s" money="20" />
+			<Reward chance="1.0" chanceType="s" xp="20" />
+		</Action>
+		<Action type="setVariable" boolVariable="NILeprecaun_RunAway" boolValue="true" />
+		<Action type="runScript" script="StEaster_Scripts:LeprechaunRun" />
+	</LeprechaunTapped>
+	<LeprechaunTappedFriend parallel="true">
+		<Action type="stop" character="NorthernIrishLeprechaun" />
+		<Action type="anim-remap" character="NorthernIrishLeprechaun">
+			<AnimationRemap Front_Walk="front_run" Back_Walk="back_run" />
+		</Action>
+		<Action type="anim-play" character="NorthernIrishLeprechaun" animation="Tap" />
+		<Action type="setVariable" boolVariable="NILeprecaun_RunAway" boolValue="true" />
+		<Action type="runScript" script="StEaster_Scripts:LeprechaunRun" />
+	</LeprechaunTappedFriend>
+	<LeprechaunRun parallel="true">
+		<Action type="delay" time="5" />
+		<Action type="setVariable" boolVariable="NILeprecaun_RunAway" boolValue="false" />
+		<Action type="anim-remap" character="NorthernIrishLeprechaun">
+			<AnimationRemap Front_Walk="front_walk" Back_Walk="back_walk" />
+		</Action>
+	</LeprechaunRun>
+	<AwardNILeprechaun>
+		<Action type="createobject" name="NorthernIrishLeprechaun" count="1" save="true" showUnlock="true" panCamera="true" teleportCamera="false" building="PrideOfUlsterBanner_Leprechaun" />
+		<Action type="replaceobject" from="PrideOfUlsterBanner_Leprechaun" to="PrideOfUlsterBanner" ignoreObject="false" />
+	</AwardNILeprechaun>
+</ScriptPackage>

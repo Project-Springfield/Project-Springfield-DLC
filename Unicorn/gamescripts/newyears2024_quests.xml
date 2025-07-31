@@ -1,0 +1,700 @@
+﻿<Quests> <!-- -->
+	<MasterList>
+		<DataID id="276000" name="Why2K" />
+		<DataID id="276001" name="AModernStoneAgeCatastrophe_1" />
+		<DataID id="276002" name="AModernStoneAgeCatastrophe_2" />
+		<DataID id="276003" name="AModernStoneAgeCatastrophe_3" />
+		<DataID id="276004" name="AModernStoneAgeCatastrophe_4" />
+		<DataID id="276005" name="AModernStoneAgeCatastrophe_5" />
+		<DataID id="276006" name="ASoundOfBlunder" />
+		<DataID id="276007" name="CavemanOnAMission_1" />
+		<DataID id="276008" name="CavemanOnAMission_2" />
+		<DataID id="276009" name="CavemanOnAMission_3" />
+		<DataID id="276010" name="CavemanOnAMission_4" />
+		<DataID id="276011" name="TheQuestForIre_1" />
+		<DataID id="276012" name="TheQuestForIre_2" />
+		<DataID id="276013" name="TheQuestForIre_3" />
+		<DataID id="276014" name="TheQuestForIre_4" />
+		<DataID id="276015" name="NoTimeLikeTheFuture_1" />
+		<DataID id="276016" name="NoTimeLikeTheFuture_2" />
+		<DataID id="276017" name="NoTimeLikeTheFuture_3" />
+		<DataID id="276018" name="NoTimeLikeTheFuture_4" />
+		<DataID id="276019" name="NoTimeLikeTheFuture_5" />
+		<DataID id="276020" name="TimeWaitsForNoGod_1" />
+		<DataID id="276021" name="TimeWaitsForNoGod_2" />
+		<DataID id="276022" name="TimeWaitsForNoGod_3" />
+		<DataID id="276023" name="TimeWaitsForNoGod_4" />
+		<DataID id="276024" name="YouveGodToBeKiddingMe" />
+		<DataID id="276600" name="NewYears2024_Completed" />
+		<DataID id="276601" name="NewYears2024_IntroPanel" />
+		<DataID id="276602" name="NewYears2024_72HourWarning" onDeprecated="retain" endDate="NewYears2024_End" />
+		<DataID id="276603" name="NewYears2024_24HourWarning" onDeprecated="retain" endDate="NewYears2024_End" />
+		<DataID id="276604" name="NewYears2024_EventExpired" />
+		<DataID id="276605" name="NewYears2024_MasterQuest" />
+		<!-- <DataID id="276700" name="AutoApply_CavemanHomerSkin" /> -->
+		<!-- <DataID id="276701" name="AutoApply_CavewomanMargeSkin" /> -->
+		<!-- <DataID id="276702" name="AutoApply_TimeTravelerFrinkSkin" /> -->
+		<DataID id="276900" name="NewYears2024_RecommendStore" onDeprecated="delete" endDate="NewYears2024_End" />
+	</MasterList>
+	<Quest id="276600" name="NewYears2024_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="ASoundOfBlunder" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276601" name="NewYears2024_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="Why2K" />
+			<Requirement type="time" end="NewYears2024_End" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="276602" name="NewYears2024_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2024_End')-fromHours(72)]_" end="_[System::evaluate('Date::NewYears2024_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2024_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2024_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="276603" name="NewYears2024_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2024_End')-fromHours(24)]_" end="NewYears2024_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2024_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2024_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="276604" name="NewYears2024_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="NewYears2024_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2024_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2024_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="276605" name="NewYears2024_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_Expired" not="true" />
+			<Requirement type="variable" variable="NewYears2024_Complete" not="true" />
+			<Requirement type="reqList" location="NewYears2024_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="AModernStoneAgeCatastrophe_5" />
+					<Requirement type="variable" variable="NewYears2024_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="AModernStoneAgeCatastrophe_1">
+				<Requirement type="quest started" quest="AModernStoneAgeCatastrophe_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AModernStoneAgeCatastrophe_2">
+				<Requirement type="quest started" quest="AModernStoneAgeCatastrophe_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AModernStoneAgeCatastrophe_3">
+				<Requirement type="quest started" quest="AModernStoneAgeCatastrophe_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AModernStoneAgeCatastrophe_4">
+				<Requirement type="quest started" quest="AModernStoneAgeCatastrophe_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AModernStoneAgeCatastrophe_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="276000" name="Why2K" tags="sidequest" icon="NewYears2024_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="NewYears2024_Start" end="NewYears2024_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="Why2K_Start" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="Why2K_End" />
+		<Objectives>
+			<Objective type="complete job" character="Quimby" job="TryToExplainTheProblem" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="BeConfusedAboutTheProblem" quantity="1" />
+			<Objective type="complete job" group="UniversityNerds" job="GoBackToSchool" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Doug" />
+						<Requirement type="characterunlocked" name="Gary" />
+						<Requirement type="characterunlocked" name="Benjamin" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Frink" job="ProposeARadicalSolutionToTheProblem" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="NewYears2024_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="276001" name="AModernStoneAgeCatastrophe_1" tags="mainquest" icon="NewYears2024_Currency" sidebarIconScript="NewYears2024_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2024_QuestConfig:NewYears2024_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NewYears2024_IntroPanel" />
+			<Requirement type="time" start="NewYears2024_Start" end="NewYears2024_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_1_Start" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2024_Currency')" amount="__NewYears2024_GameConfig:ResourceQuantities:NewYears2024_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2024_Scripts:ShowJobList" textpoolName="QST_NewYears2024_Collect_obj">
+				<HighlightJobList>
+					<Job name="CarveWoodenClubsWithRocks_Homer" />
+					<Job name="CarveWoodenClubsWithRocks" />
+					<Job name="FetchWoodenClubsFromThePast" />
+					<Job name="EngineerTimeAppropriateClubs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="ComplainAboutBeingStuckInThePast" quantity="5" />
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="WarnAboutTheButterflyEffect" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="HelpExplainTheButterflyEffect" quantity="1" />
+			<Objective type="complete job" character="Homer" job="EatTheFirstButterflyHeSees" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2024_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2024_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="276002" name="AModernStoneAgeCatastrophe_2" tags="mainquest" icon="NewYears2024_Currency" sidebarIconScript="NewYears2024_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2024_QuestConfig:NewYears2024_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AModernStoneAgeCatastrophe_1" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_2_Start" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2024_Currency')" amount="__NewYears2024_GameConfig:ResourceQuantities:NewYears2024_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2024_Scripts:ShowJobList" textpoolName="QST_NewYears2024_Collect_obj">
+				<HighlightJobList>
+					<Job name="CarveWoodenClubsWithRocks" />
+					<Job name="FetchWoodenClubsFromThePast" />
+					<Job name="EngineerTimeAppropriateClubs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="Panic_BLTF" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="WatchFrinkPanic" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="EmbraceStoneAgeLifestyle" quantity="5" />
+			<Objective type="complete job" character="Otto" job="GetTheGoodKindOfStoned" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Otto" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="GetTheBadKindOfStoned" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2024_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2024_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="276003" name="AModernStoneAgeCatastrophe_3" tags="mainquest" icon="NewYears2024_Currency" sidebarIconScript="NewYears2024_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2024_QuestConfig:NewYears2024_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AModernStoneAgeCatastrophe_2" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_3_Start" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2024_Currency')" amount="__NewYears2024_GameConfig:ResourceQuantities:NewYears2024_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2024_Scripts:ShowJobList" textpoolName="QST_NewYears2024_Collect_obj">
+				<HighlightJobList>
+					<Job name="CarveWoodenClubsWithRocks" />
+					<Job name="FetchWoodenClubsFromThePast" />
+					<Job name="EngineerTimeAppropriateClubs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="RealizeTimelineIsFallingApart" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="RunFromDinosaurs_BLTF" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="MakeCoolPrehistoricCars" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2024_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2024_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="276004" name="AModernStoneAgeCatastrophe_4" tags="mainquest" icon="NewYears2024_Currency" sidebarIconScript="NewYears2024_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2024_QuestConfig:NewYears2024_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AModernStoneAgeCatastrophe_3" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_4_Start" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2024_Currency')" amount="__NewYears2024_GameConfig:ResourceQuantities:NewYears2024_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2024_Scripts:ShowJobList" textpoolName="QST_NewYears2024_Collect_obj">
+				<HighlightJobList>
+					<Job name="CarveWoodenClubsWithRocks" />
+					<Job name="FetchWoodenClubsFromThePast" />
+					<Job name="EngineerTimeAppropriateClubs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="GetBoredOfTheStoneAge" quantity="5" />
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="TryToReinventBeer" quantity="1" />
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="ScroungeForParts" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2024_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2024_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="276005" name="AModernStoneAgeCatastrophe_5" tags="mainquest" icon="NewYears2024_Currency" sidebarIconScript="NewYears2024_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2024_QuestConfig:NewYears2024_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2024_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AModernStoneAgeCatastrophe_4" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_5_Start" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="AModernStoneAgeCatastrophe_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2024_Currency')" amount="__NewYears2024_GameConfig:ResourceQuantities:NewYears2024_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2024_Scripts:ShowJobList" textpoolName="QST_NewYears2024_Collect_obj">
+				<HighlightJobList>
+					<Job name="CarveWoodenClubsWithRocks" />
+					<Job name="FetchWoodenClubsFromThePast" />
+					<Job name="EngineerTimeAppropriateClubs" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="BuildATimeHarnessOutOfCoconuts" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="HelpFrinkBuildATimeHarnessOutOfCoconuts" quantity="1" />
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="RunFromDinosaursAgain" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2024_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2024_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="276006" name="ASoundOfBlunder" tags="sidequest" icon="NewYears2024_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AModernStoneAgeCatastrophe_5" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="ASoundOfBlunder_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="DonutHomer" job="TryToResistTemptation" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Homer" unlockedskin="DonutHomer" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="StopHerFatherFromEatingHisOwnHead" quantity="1" />
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="TakeAWellEarnedNap" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276007" name="CavemanOnAMission_1" tags="sidequest" icon="Homer_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Homer" unlockedskin="CavemanHomer" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="AModernStoneAgeCatastrophe_2" />
+				<Requirement type="time" start="NewYears2024_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_1_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="MakeFunOfHomersCavemanliness" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="ComplainAboutMilenimals" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276008" name="CavemanOnAMission_2" tags="sidequest" icon="Homer_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CavemanOnAMission_1" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_2_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="ChallengeHomersCavemanhood" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="HuntForHisSupper_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276009" name="CavemanOnAMission_3" tags="sidequest" icon="Homer_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CavemanOnAMission_2" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_3_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="ReinventTheWheel_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276010" name="CavemanOnAMission_4" tags="sidequest" icon="Homer_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CavemanOnAMission_3" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_4_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="CavemanOnAMission_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="ContinueToEnrageHomer" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="ThrowRocksAtBart" quantity="1" />
+			<Objective type="complete job" character="Barney" job="BeAmazedAtHomersInvention" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276011" name="TheQuestForIre_1" tags="sidequest" icon="Marge_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Marge" unlockedskin="CavewomanMarge" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_1_Start" triggerType="character" character="Marge" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="CavewomanMarge" job="ComplainAboutNotHavingAnythingToCook" quantity="1" />
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="GoHunting_BLTF" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Homer" unlockedskin="CavemanHomer" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276012" name="TheQuestForIre_2" tags="sidequest" icon="Marge_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheQuestForIre_1" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_2_Start" triggerType="character" character="Marge" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="CavewomanMarge" job="GrowPrehistoricCrops_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276013" name="TheQuestForIre_3" tags="sidequest" icon="Marge_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheQuestForIre_2" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_3_Start" triggerType="character" character="Marge" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="CavewomanMarge" job="ProtestTheCavePatriarchy" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276014" name="TheQuestForIre_4" tags="sidequest" icon="Marge_Caveman">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheQuestForIre_3" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_4_Start" triggerType="character" character="Marge" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TheQuestForIre_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" skin="CavewomanMarge" job="MakeHomerCookHisOwnSupper" quantity="1" />
+			<Objective type="complete job" character="Homer" skin="CavemanHomer" job="SetTheCaveOnFire" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Homer" unlockedskin="CavemanHomer" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276015" name="NoTimeLikeTheFuture_1" tags="sidequest" icon="ProfessorFrink_Time">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Frink" unlockedskin="TimeTravelerFrink" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_1_Start" triggerType="character" character="Frink" />
+		<Objectives>
+			<Objective type="complete job" character="MrsFrink" job="SuggestLatestProjectIsALittleDerivative" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MrsFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="DefendHisTotallyOriginalTimeMobile" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276016" name="NoTimeLikeTheFuture_2" tags="sidequest" icon="ProfessorFrink_Time">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoTimeLikeTheFuture_1" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_2_Start" triggerType="character" character="Frink" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="AdvisorFrink" job="MockTheMorePrimitiveScientist" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AdvisorFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="StammerAtBeingMocked" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276017" name="NoTimeLikeTheFuture_3" tags="sidequest" icon="ProfessorFrink_Time">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoTimeLikeTheFuture_2" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_3_Start" triggerType="character" character="Frink" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Skinner" skin="PharaohSkinner" job="PraiseAdvisorFrink" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Skinner" unlockedskin="PharaohSkinner" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="RepairTheTimeMobile_TEMP" quantity="1" />
+			<Objective type="complete job" character="AdvisorFrink" job="UnhelpfullyHelpFrink" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AdvisorFrink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276018" name="NoTimeLikeTheFuture_4" tags="sidequest" icon="ProfessorFrink_Time">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoTimeLikeTheFuture_3" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_4_Start" triggerType="character" character="Frink" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="GiveUpOnScience" quantity="1" />
+			<Objective type="complete job" character="AdvisorFrink" job="TalkFrinkUp" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AdvisorFrink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Blackbeard" job="EnjoyATastyToastedItalianSandwich" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Blackbeard" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276019" name="NoTimeLikeTheFuture_5" tags="sidequest" icon="ProfessorFrink_Time">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NoTimeLikeTheFuture_4" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_5_Start" triggerType="character" character="Frink" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="NoTimeLikeTheFuture_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Frink" skin="TimeTravelerFrink" job="RantAboutHowHistoryIsWrong_TEMP" quantity="1" />
+			<Objective type="complete job" character="MrsFrink" job="GetHelpForHerHusband" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MrsFrink" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276020" name="TimeWaitsForNoGod_1" tags="sidequest" icon="MayanAssociateGod">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="MayanAssociateGod" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_1_Start" triggerType="character" character="MayanAssociateGod" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="MayanAssociateGod" job="TimeDialAndChill_TEMP1" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276021" name="TimeWaitsForNoGod_2" tags="sidequest" icon="MayanAssociateGod">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TimeWaitsForNoGod_1" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_2_Start" triggerType="character" character="MayanAssociateGod" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="MayanAssociateGod" job="BreakItDownMayanStyle_TEMP1" quantity="1" />
+			<Objective type="complete job" character="Yahweh" job="WatchWithMorbidFascination_BLTF" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Yahweh" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276022" name="TimeWaitsForNoGod_3" tags="sidequest" icon="MayanAssociateGod">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TimeWaitsForNoGod_2" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_3_Start" triggerType="character" character="MayanAssociateGod" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="MayanAssociateGod" job="BreakItDownMayanStyle_TEMP2" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="276023" name="TimeWaitsForNoGod_4" tags="sidequest" icon="MayanAssociateGod">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TimeWaitsForNoGod_3" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_4_Start" triggerType="character" character="MayanAssociateGod" />
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="TimeWaitsForNoGod_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="MayanAssociateGod" job="TimeDialAndChill_TEMP2" quantity="1" />
+			<Objective type="complete job" character="Burns" job="LeaveInDisgust_Burns" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Burns" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="God" job="LeaveInDisgust_God" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="God" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276024" name="YouveGodToBeKiddingMe" tags="sidequest" icon="MayanStoneGod">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TimeWaitsForNoGod_4" />
+			<Requirement type="characterunlocked" name="mayanstonegod" />
+		</Requirements>
+		<EndScript package="NewYears2024_Scripts_Dialogue" name="YouveGodToBeKiddingMe_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="276700" name="AutoApply_CavemanHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="CavemanHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="CavemanHomer" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="NewYears2024_Scripts" name="AutoApply_CavemanHomerSkin_End" />
+	</Quest>
+	<Quest id="276701" name="AutoApply_CavewomanMargeSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="CavewomanMarge" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Marge" unlockedskin="CavewomanMarge" not="true" />
+			<Requirement type="characterunlocked" name="Marge" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="NewYears2024_Scripts" name="AutoApply_CavewomanMargeSkin_End" />
+	</Quest>
+	<Quest id="276702" name="AutoApply_TimeTravelerFrinkSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="TimeTravelerFrink" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Frink" unlockedskin="TimeTravelerFrink" not="true" />
+			<Requirement type="characterunlocked" name="Frink" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="NewYears2024_Scripts" name="AutoApply_TimeTravelerFrinkSkin_End" />
+	</Quest>
+	<Quest id="276900" name="NewYears2024_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="NewYears2024_Requirements:StoreCategory_BetterLateThanForever_Unlocked" />
+		</Requirements>
+		<StartScript package="NewYears2024_Scripts" name="RecommendStoreCategory_BetterLateThanForever" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

@@ -1,0 +1,410 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="223000" name="KrustysLastGaspIntro" />
+		<DataID id="223001" name="KrustysLastGaspOnline_1" />
+		<DataID id="223002" name="KrustysLastGaspOnline_2" />
+		<DataID id="223003" name="KrustysLastGaspOnline_3" />
+		<DataID id="223004" name="KrustysLastGaspOnline_4" />
+		<DataID id="223005" name="KrustysLastGaspOnline_5" />
+		<DataID id="223006" name="KrustysLastGaspOnline_6" />
+		<DataID id="223007" name="KrustysLastGaspOnline_7" />
+		<DataID id="223008" name="SideshowBurnout_1" />
+		<DataID id="223009" name="SideshowBurnout_2" />
+		<DataID id="223010" name="SideshowShuffle_1" />
+		<DataID id="223011" name="SideshowShuffle_2" />
+		<DataID id="223012" name="SideshowShuffle_3" />
+		<DataID id="223013" name="Komedy101" />
+		<DataID id="223600" name="KrustysLastGaspOnline_Completed" />
+		<DataID id="223601" name="KrustysLastGaspOnline_IntroPanel" />
+		<DataID id="223602" name="KrustysLastGaspOnline_72HourWarning" onDeprecated="retain" endDate="KrustysLastGaspOnline_End" />
+		<DataID id="223603" name="KrustysLastGaspOnline_24HourWarning" onDeprecated="retain" endDate="KrustysLastGaspOnline_End" />
+		<DataID id="223604" name="KrustysLastGaspOnline_EventExpired" />
+		<DataID id="223605" name="KrustysLastGaspOnline_MasterQuest" />
+		<!-- <DataID id="223700" name="AutoApply_SideshowLisaSkin" /> -->
+		<DataID id="223900" name="KrustysLastGaspOnline_RecommendStore" onDeprecated="delete" endDate="KrustysLastGaspOnline_End" />
+	</MasterList>
+	<Quest id="223600" name="KrustysLastGaspOnline_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_7" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="223601" name="KrustysLastGaspOnline_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="KrustysLastGaspIntro" />
+			<Requirement type="time" end="KrustysLastGaspOnline_End" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="223602" name="KrustysLastGaspOnline_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::KrustysLastGaspOnline_End')-fromHours(72)]_" end="_[System::evaluate('Date::KrustysLastGaspOnline_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Complete" not="true" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_IntroPanel" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="223603" name="KrustysLastGaspOnline_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::KrustysLastGaspOnline_End')-fromHours(24)]_" end="KrustysLastGaspOnline_End" triggerEvent="true" />
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Complete" not="true" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_IntroPanel" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="223604" name="KrustysLastGaspOnline_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="KrustysLastGaspOnline_End" triggerEvent="true" />
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Complete" not="true" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_IntroPanel" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="223605" name="KrustysLastGaspOnline_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Complete" not="true" />
+			<Requirement type="reqList" location="KrustysLastGaspOnline_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="KrustysLastGaspOnline_7" />
+					<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_1">
+				<Requirement type="quest started" quest="KrustysLastGaspOnline_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_2">
+				<Requirement type="quest started" quest="KrustysLastGaspOnline_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_3">
+				<Requirement type="quest started" quest="KrustysLastGaspOnline_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_4">
+				<Requirement type="quest started" quest="KrustysLastGaspOnline_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_5">
+				<Requirement type="quest started" quest="KrustysLastGaspOnline_6" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_6">
+				<Requirement type="quest started" quest="KrustysLastGaspOnline_7" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="KrustysLastGaspOnline_7"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="223000" name="KrustysLastGaspIntro" tags="sidequest" icon="KrustysLastGaspOnline_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="KrustysLastGaspOnline_Start" end="KrustysLastGaspOnline_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspIntro_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspIntro_End" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="ThinkOfHisOptions" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="KrustysLastGaspOnline_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="223001" name="KrustysLastGaspOnline_1" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspIntro" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_1_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="StealSongs" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="223002" name="KrustysLastGaspOnline_2" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_1" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_2_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="ChangeAnExistingSongIntoANewSong" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="223003" name="KrustysLastGaspOnline_3" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_2" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_3_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="AuditionHisKrusketeers" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="223004" name="KrustysLastGaspOnline_4" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_3" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_4_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="GoViralWithHisKrusketeers" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="223005" name="KrustysLastGaspOnline_5" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_4" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_5_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="HideEarningsFromHisKrusketeers" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="223006" name="KrustysLastGaspOnline_6" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item6_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_5" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_6_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_6_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList6__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="BuyABiggerHouse" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="223007" name="KrustysLastGaspOnline_7" tags="mainquest" icon="KrustysLastGaspOnline_Event" sidebarIconScript="KrustysLastGaspOnline_Scripts:OpenMasterQuest" questMenuConfigPath="KrustysLastGaspOnline_QuestConfig:KrustysLastGaspOnline_Item7_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="KrustysLastGaspOnline_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="KrustysLastGaspOnline_6" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_7_Start" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="KrustysLastGaspOnline_7_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::KrustysLastGaspOnline_Currency')" amount="__KrustysLastGaspOnline_GameConfig:ResourceQuantities:KrustysLastGaspOnline_ResourceList7__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="KrustysLastGaspOnline_Scripts:ShowJobList" textpoolName="QST_KrustysLastGaspOnline_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="GiveKrustyAdRevenue" />
+					<Job name="LetKidsUseCreditCards" />
+					<Job name="ManageKrustyKoinBlockchain" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="RemixKrustysSongWithScience" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="KrustysLastGaspOnline_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="KrustysLastGaspOnline_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="223008" name="SideshowBurnout_1" tags="sidequest" icon="Lisa_Sideshow">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="Lisa" unlockedskin="SideshowLisa" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="SideshowBurnout_1_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" skin="SideshowLisa" job="PerformForThePeople" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="223009" name="SideshowBurnout_2" tags="sidequest" icon="Lisa_Sideshow">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SideshowBurnout_1" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="SideshowBurnout_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" skin="SideshowLisa" job="QuitHerGimmick" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="223010" name="SideshowShuffle_1" tags="sidequest" icon="SideshowRaheem">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="SideshowRaheem" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="SideshowShuffle_1_Start" triggerType="character" character="Krusty" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="AnnoySideshowRaheem" quantity="1" textpoolName="QST_SideshowShuffle_1_2_obj_2" />
+			<Objective type="complete job" character="SideshowRaheem" job="GetSettledInSpringfield" quantity="1" textpoolName="QST_SideshowShuffle_1_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="223011" name="SideshowShuffle_2" tags="sidequest" icon="SideshowRaheem">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SideshowShuffle_1" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="SideshowShuffle_2_Start" triggerType="character" character="Krusty" />
+		<Objectives>
+			<Objective type="complete job" character="SideshowRaheem" job="DissSideshowBob" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="SneakAway" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="223012" name="SideshowShuffle_3" tags="sidequest" icon="SideshowRaheem">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SideshowShuffle_2" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="SideshowShuffle_3_Start" triggerType="character" character="SideshowRaheem" />
+		<EndScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="SideshowShuffle_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="SideshowRaheem" job="ShowPantherPride" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="EatHisWords" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="223013" name="Komedy101" tags="sidequest" icon="KrustyClownCollege">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="KrustyClownCollege" quantity="1" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts_Dialogue" name="Komedy101_Start" triggerType="character" character="Krusty" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="PassOnHisWisdom" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="223700" name="AutoApply_SideshowLisaSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="SideshowLisa" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Lisa" unlockedskin="SideshowLisa" not="true" />
+			<Requirement type="characterunlocked" name="Lisa" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="KrustysLastGaspOnline_Scripts" name="AutoApply_SideshowLisaSkin_End" />
+	</Quest>
+	<Quest id="223900" name="KrustysLastGaspOnline_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="KrustysLastGaspOnline_Requirements:StoreCategory_Unlocked" />
+		</Requirements>
+		<StartScript package="KrustysLastGaspOnline_Scripts" name="RecommendStoreCategory" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

@@ -1,0 +1,651 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2019MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="AbesInToyland_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="AbesInToyland_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="AbesInToyland_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="AbesInToyland_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_AbesInToyland_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_AbesInToyland_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_AbesInToyland_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_AbesInToyland_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2019_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="AbesInToyland_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="AbesInToyland_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="AbesInToyland_OnePanel" eventName="UI_AbesInToyland_IntroPanelTitle" limitedTime="true" limitedTimeEndDate="AbesInToyland_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2019MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_AbesInToyland_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_AbesInToyland_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_AbesInToyland_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2019_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_AbesInToyland_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="AbesInToyland_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="AbesInToyland_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="AbesInToyland_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="AbesInToyland_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="AbesInToyland_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_AbesInToyland_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="AbesInToyland_OnePanel" />
+		<Action type="runScript" script="AbesInToyland_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="AbesInToyland_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="AbesInToyland_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="AbesInToyland_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="AbesInToyland_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="AbesInToyland_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="AbesInToyland_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="AbesInToyland_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="AbesInToyland_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="AbesInToyland_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="AbesInToyland_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="AbesInToyland_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="AbesInToyland_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="AbesInToyland_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="AbesInToyland_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="AbesInToyland_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="AbesInToyland_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="AbesInToyland_Start" end="AbesInToyland_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ClausAndSon_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week1" />
+									<Attribute name="JobList" value="AbesInToyland_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ClausAndSon_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week1" />
+									<Attribute name="JobList" value="AbesInToyland_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ClausAndSon_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week1" />
+									<Attribute name="JobList" value="AbesInToyland_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ClausAndSon_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week1" />
+									<Attribute name="JobList" value="AbesInToyland_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ClausAndSon_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week1" />
+									<Attribute name="JobList" value="AbesInToyland_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="AbesInToyland_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="AbesInToyland_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="AbesInToyland_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="AbesInToyland_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="AbesInToyland_Start" end="AbesInToyland_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AFoggyLondonChristmas_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week2" />
+									<Attribute name="JobList" value="AbesInToyland_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFoggyLondonChristmas_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week2" />
+									<Attribute name="JobList" value="AbesInToyland_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFoggyLondonChristmas_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week2" />
+									<Attribute name="JobList" value="AbesInToyland_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFoggyLondonChristmas_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week2" />
+									<Attribute name="JobList" value="AbesInToyland_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFoggyLondonChristmas_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week2" />
+									<Attribute name="JobList" value="AbesInToyland_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="AbesInToyland_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="AbesInToyland_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="AbesInToyland_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="AbesInToyland_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="AbesInToyland_Start" end="AbesInToyland_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AbeTheToySoldier_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week3" />
+									<Attribute name="JobList" value="AbesInToyland_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AbeTheToySoldier_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week3" />
+									<Attribute name="JobList" value="AbesInToyland_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AbeTheToySoldier_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week3" />
+									<Attribute name="JobList" value="AbesInToyland_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AbeTheToySoldier_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week3" />
+									<Attribute name="JobList" value="AbesInToyland_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AbeTheToySoldier_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week3" />
+									<Attribute name="JobList" value="AbesInToyland_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="AbesInToyland_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="AbesInToyland_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="AbesInToyland_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="AbesInToyland_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="AbesInToyland_Start" end="AbesInToyland_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AJazzyXmasSpecial_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week4" />
+									<Attribute name="JobList" value="AbesInToyland_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AJazzyXmasSpecial_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week4" />
+									<Attribute name="JobList" value="AbesInToyland_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AJazzyXmasSpecial_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week4" />
+									<Attribute name="JobList" value="AbesInToyland_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AJazzyXmasSpecial_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week4" />
+									<Attribute name="JobList" value="AbesInToyland_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AJazzyXmasSpecial_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="AbesInToyland_Event_Week4" />
+									<Attribute name="JobList" value="AbesInToyland_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AbesInToyland_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AbesInToyland_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AbesInToyland_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AbesInToyland_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="AbesInToyland_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="AbesInToyland_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="AbesInToyland_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="AbesInToyland_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="AbesInToyland_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<AutoApply_KrustyTheChristianSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="AbesInToyland_Scripts:AutoApply_KrustyTheChristianSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_KrustyTheChristianSkin_End>
+	<AutoApply_KrustyTheChristianSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="KrustyTheChristian" fromInventory="true" />
+	</AutoApply_KrustyTheChristianSkin_Delayed>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="AbesInToyland_OnePanel" />
+		<Action type="recommendation" recType="Event" name="AbesInToyland_OnePanel" eventName="UI_AbesInToyland_IntroPanelTitle" limitedTime="true" limitedTimeEndDate="AbesInToyland_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="AbesInToyland_Category" />
+	</EnterStoreCategory>
+	<CarnabyStreetActiveDone parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="CarnabyStreetEastNeutral" onBuilding="CarnabyStreetEast" isController="true" />
+	</CarnabyStreetActiveDone>
+	<CrowdOfElves_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="mod(Object::CrowdState+1,3)" asExpression="true" />
+	</CrowdOfElves_Tapped>
+	<CrowdOfElves_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="0" />
+	</CrowdOfElves_Init>
+	<SimpsonsGingerbreadCouch_Tapped parallel="true" ignoreHUD="true">
+		<Action type="if">
+			<If expression="Object::AnimState_IsTappable==1">
+				<Then>
+					<Action type="setObjectVariable" variable="AnimState" value="mod(Object::AnimState+1,3)" asExpression="true" />
+				</Then>
+			</If>
+		</Action>
+	</SimpsonsGingerbreadCouch_Tapped>
+	<SimpsonsGingerbreadCouch_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="AnimState" value="0" />
+		<Action type="setObjectVariable" variable="AnimState_IsTappable" value="1" />
+	</SimpsonsGingerbreadCouch_Init>
+	<SimpsonsGingerbreadCouch_ActiveInDone ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ActiveIn" value="0" />
+	</SimpsonsGingerbreadCouch_ActiveInDone>
+	<SimpsonsGingerbreadCouch_ActiveOutDone ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ActiveOut" value="0" />
+	</SimpsonsGingerbreadCouch_ActiveOutDone>
+	<RewardOneWinterWonderLandToken>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_AbesInToyLand_WinterWonderLandTokenSingular" icon="ICO_PRIZ_XMAS2019_Act1Prize1_MD" button="UI_OK" />
+		<Action type="reward" save="true" WinterWonderLandToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AbesInToyland_Requirements:WinterWonderLandBox_Available" />
+			<True>
+				<Action type="focusOnMenuItem" itemName="XMAS2019_WinterWolderland_MysteryBox_Token" menuCategory="AbesInToyland_Category" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="AbesInToyLand_Scripts:GoToWinterWonderlandTokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneWinterWonderLandToken>
+	<InsufficientTokens>
+		<Action type="scheduleScript" mode="create" script="AbesInToyLand_Scripts:InsufficientTokens_Script" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+	</InsufficientTokens>
+	<InsufficientTokens_Script>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="message" text="UI_InsufficientWinterWonderLandTokens" />
+	</InsufficientTokens_Script>
+	<WinterWonderLandTokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" WinterWonderLandToken="1" />
+			<True>
+				<Action type="runScript" script="AbesInToyland_Scripts:GoToWinterWonderlandTokenExchange" />
+			</True>
+		</Action>
+	</WinterWonderLandTokenForDozenDonuts>
+	<GoToWinterWonderlandTokenExchange>
+		<Action type="focusOnMenuItem" itemName="WinterWonderLandTokenForDozenDonuts" menuCategory="AbesInToyland_Category" />
+	</GoToWinterWonderlandTokenExchange>
+	<GoToKrustyTheChristian ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="EvilCandyCave" quantity="1" />
+			<False>
+				<Action type="focusOnMenuItem" itemName="EvilCandyCave" menuCategory="AbesInToyland_Category" />
+			</False>
+		</Action>
+	</GoToKrustyTheChristian>
+	<GoToSimpsonsGingerbreadCouch>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="SimpsonsGingerbreadCouch" />
+			<False>
+				<Action type="focusOnMenuItem" itemName="SimpsonsGingerbreadCouch" inventory="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" building="SimpsonsGingerbreadCouch" />
+			</True>
+		</Action>
+	</GoToSimpsonsGingerbreadCouch>
+	<RewardFallenDivaApartments>
+		<Action type="reward">
+			<Item type="building" name="FallenDivaApartments" />
+		</Action>
+	</RewardFallenDivaApartments>
+</ScriptPackage>

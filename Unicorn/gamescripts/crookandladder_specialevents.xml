@@ -1,0 +1,281 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="156000" name="CrookAndLadder_Main" />
+		<DataID id="156001" name="CrookAndLadder_NonPermanent" />
+	</MasterList>
+	<SpecialEvent id="156000" name="CrookAndLadder_Main">
+		<Variable name="CrookAndLadder_Event" value="true" />
+		<Variable name="CrookAndLadder_EventExpired" value="false" />
+		<Variable name="CrookAndLadder_PreExpiryDisplayed24" value="false" />
+		<Variable name="CrookAndLadder_PreExpiryDisplayed72" value="false" />
+		<Variable name="CrookAndLadder_ExpiryDisplayed" value="false" />
+		<Variable name="CrookAndLadder_KwikEMartOnFire" value="false" />
+		<Variable name="CrookAndLadder_SchoolOnFire" value="false" />
+		<Variable name="CrookAndLadder_PoliceStationFire" value="false" />
+		<Variable name="CnL_RegularReward" value="0" />
+		<Variable name="CnL_PremiumReward" value="0" />
+		<Variable name="CnL_TappablesReward" value="0" />
+		<Variable name="CnL_SocialMedals" value="0" />
+		<Variable name="CnL_CleanMedals" value="0" />
+		<Variable name="CnL_TotalMedals" value="0" />
+		<Buildings override="true">
+			<Building id="156502" name="VehiclePileup" type="AnimatedDecoration" xpValue="75">
+				<Job id="156500" name="VehiclePileUp" time="3h" OnJobDoneScript="CrookAndLadder_Scripts:RegisterTelemetry_Regular" textpoolName="JOB_VehiclePileUpMedals_name">
+					<VisibilityRequirements>
+						<Requirement type="quest" quest="WeDidntStartTheFire_2" />
+						<Requirement type="quest" quest="WeDidntStartTheFire_9" not="true" />
+					</VisibilityRequirements>
+					<Requirements>
+						<Requirement type="quest" quest="WeDidntStartTheFire_2" />
+						<Requirement type="quest" quest="WeDidntStartTheFire_9" not="true" />
+					</Requirements>
+					<Reward CrookAndLadder_Medals="100" xp="35" />
+				</Job>
+				<BuildMenuText text="UI_ProducesMedals_exciting" />
+				<CustomMenu useMenuConfig="DSH_MenuConfig:ExcitingInventory" />
+			</Building>
+		</Buildings>
+		<SpawnOverTime character="CrookAndLadder_FireTappable" loggedOnSpawnTime="15m" loggedOffSpawnTime="15m" maxAllowedInTown="15" showPopUpIfRegularBankMaxReached="false" errorTitle="UI_CrookAndLadder_TooManyFires_title" errorBody="UI_CrookAndLadder_TooManyFires_text">
+			<Requirements>
+				<Requirement type="quest started" quest="WeDidntStartTheFire_3" />
+				<Requirement type="quest" quest="WeDidntStartTheFire_9" not="true" />
+				<Requirement type="variable" variable="CrookAndLadder_Expired" not="true" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<EventCurrencyJobLists>
+			<JobList name="Crook_JL_03">
+				<Title value="QST_WeDidntStartTheFire_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList03__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_FightTheKwikEMartFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="FightTheKwikEMartFire_Premium_Apu" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Homer_Fireman.rgb" unlockTitle="JOB_FightTheKwikEMartFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="FightTheKwikEMartFire_Premium_Homer" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="FightTheKwikEMartFire" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Crook_JL_04">
+				<Title value="QST_WeDidntStartTheFire_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList04__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_TrainTheDalmatian_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="TrainTheDalmatian_Event" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Homer.rgb" unlockTitle="JOB_BBQOverAFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="BBQOverAFire_Event" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="Fundraise_Event" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+					<Slot>
+						<Job name="AwardAMedal" character="Quimby" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Crook_JL_05">
+				<Title value="QST_WeDidntStartTheFire_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList05__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_FightThePoliceStationFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="FightThePoliceStationFire_Premium" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Homer.rgb" unlockTitle="JOB_FightThePoliceStationFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="FightThePoliceStationFire_Premium" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="FightThePoliceStationFire" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Crook_JL_06">
+				<Title value="QST_WeDidntStartTheFire_6_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList06__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_FightTheElementarySchoolFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="FightTheElementarySchoolFire_Premium_Apu" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Homer.rgb" unlockTitle="JOB_FightTheElementarySchoolFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="FightTheElementarySchoolFire_Premium_Homer" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="FightTheElementarySchoolFire" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+					<Slot>
+						<Job name="FightTheElementarySchoolFire_Skinner" character="Skinner" skin="Skinner_Fireman" />
+					</Slot>
+					<Slot>
+						<Job name="TakeForeverToWalkToSchool" character="Lisa" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Crook_JL_07">
+				<Title value="QST_WeDidntStartTheFire_7_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList07__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_TrainTheDalmatian_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="TrainTheDalmatian_Event" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Homer.rgb" unlockTitle="JOB_BBQOverAFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="BBQOverAFire_Event" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="RescueCatsFromTrees_Event" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+					<Slot>
+						<Job name="MonitorTheHallsCrookAndLadder" character="Skinner" skin="Skinner_Fireman" />
+					</Slot>
+					<Slot>
+						<Job name="DeclareSchoolFireAColdCase" character="Wiggum" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Crook_JL_08">
+				<Title value="QST_WeDidntStartTheFire_8_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList08__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_TrainTheDalmatian_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="TrainTheDalmatian_Event" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Homer.rgb" unlockTitle="JOB_GiveADemonstration_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="GiveADemonstration_Premium" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="Fundraise_Event" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+					<Slot>
+						<Job name="WashTheTruck_Event" character="Skinner" skin="Skinner_Fireman" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" not="true" />
+						</VisibilityRequirements>
+						<Job name="GiveADemonstration" character="Homer" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="character" name="Otto" />
+						</VisibilityRequirements>
+						<Job name="PlayTapBallFor12Hours" character="Otto" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="Crook_JL_09">
+				<Title value="QST_WeDidntStartTheFire_9_1_name" />
+				<ResourceGenerator resourceCapSelector="__CrookAndLadder_GameConfig:ResourceQuantities:ResourceList09__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="CrookAndLadder_Medals" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="CrookAndLadder_Ratio" menuConfig="CrookAndLadder_MenuConfig:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Fireman.rgb" unlockTitle="JOB_FightTheKwikEMartFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Apu" unlockedskin="Apu_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="TrainTheDalmatian_Event" character="Apu" skin="Apu_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanApu" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext" unlockIcon="Sidebar_Apu_Homer.rgb" unlockTitle="JOB_FightTheKwikEMartFire_name">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="variable" variable="CrookAndLadder_Store" />
+								<Requirement type="character" name="Homer" unlockedskin="Homer_Fireman" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="BBQOverAFire_Event" character="Homer" skin="Homer_Fireman" premiumSkin="true" />
+						<CustomGetNowScript package="CrookAndLadder_Scripts" name="GetFiremanHomer" />
+					</Slot>
+					<Slot>
+						<Job name="RescueCatsFromTrees_Event" character="Moe" skin="Moe_FireChief" />
+					</Slot>
+					<Slot>
+						<Job name="WashTheTruck_Event" character="Skinner" skin="Skinner_Fireman" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+	</SpecialEvent>
+	<SpecialEvent id="156001" name="CrookAndLadder_NonPermanent">
+		<Variable name="CrookAndLadder_Store" value="true" />
+	</SpecialEvent>
+</SpecialEvents>

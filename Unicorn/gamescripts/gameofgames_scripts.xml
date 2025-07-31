@@ -1,0 +1,680 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="GameOfGamesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="GameOfGames_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="GameOfGames_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="GameOfGames_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="GameOfGames_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_GameOfGames_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_GameOfGames_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_GameOfGames_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_GameOfGames_IntroPanel_3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_GameOfGames_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="GameOfGames_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="GameOfGames_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="GameOfGames_OnePanel" eventName="UI_GameOfGames_Title" limitedTime="true" limitedTimeEndDate="GameOfGames_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="GameOfGamesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_GameOfGames_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_GameOfGames_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_GameOfGames_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_GameOfGames_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_GameOfGames_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="GameOfGames_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="GameOfGames_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="GameOfGames_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="GameOfGames_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="GameOfGames_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_GameOfGames_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="GameOfGames_OnePanel" />
+		<Action type="runScript" script="GameOfGames_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="GameOfGames_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="GameOfGames_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="GameOfGames_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="GameOfGames_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="GameOfGames_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="GameOfGames_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="GameOfGames_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="GameOfGames_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="GameOfGames_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="GameOfGames_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="GameOfGames_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="GameOfGames_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="GameOfGames_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="GameOfGames_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="GameOfGames_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="GameOfGames_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="GameOfGames_Start" end="GameOfGames_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="FourscoreAndAHalfmonth_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week4" />
+									<Attribute name="JobList" value="GameOfGames_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="FourscoreAndAHalfmonth_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week4" />
+									<Attribute name="JobList" value="GameOfGames_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FourscoreAndAHalfmonth_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week4" />
+									<Attribute name="JobList" value="GameOfGames_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FourscoreAndAHalfmonth_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week4" />
+									<Attribute name="JobList" value="GameOfGames_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="FourscoreAndAHalfmonth_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week4" />
+									<Attribute name="JobList" value="GameOfGames_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="GameOfGames_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="GameOfGames_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="GameOfGames_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="GameOfGames_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="GameOfGames_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="GameOfGames_Start" end="GameOfGames_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="SiblingsAndSorcery_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week3" />
+									<Attribute name="JobList" value="GameOfGames_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="SiblingsAndSorcery_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week3" />
+									<Attribute name="JobList" value="GameOfGames_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SiblingsAndSorcery_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week3" />
+									<Attribute name="JobList" value="GameOfGames_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SiblingsAndSorcery_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week3" />
+									<Attribute name="JobList" value="GameOfGames_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SiblingsAndSorcery_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week3" />
+									<Attribute name="JobList" value="GameOfGames_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="GameOfGames_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="GameOfGames_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="GameOfGames_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="GameOfGames_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="GameOfGames_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="GameOfGames_Start" end="GameOfGames_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="WildWildQuest_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week2" />
+									<Attribute name="JobList" value="GameOfGames_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="WildWildQuest_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week2" />
+									<Attribute name="JobList" value="GameOfGames_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WildWildQuest_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week2" />
+									<Attribute name="JobList" value="GameOfGames_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WildWildQuest_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week2" />
+									<Attribute name="JobList" value="GameOfGames_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WildWildQuest_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week2" />
+									<Attribute name="JobList" value="GameOfGames_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="GameOfGames_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="GameOfGames_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="GameOfGames_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="GameOfGames_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="GameOfGames_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="GameOfGames_Start" end="GameOfGames_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="E4NoAccessPass_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week1" />
+									<Attribute name="JobList" value="GameOfGames_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="E4NoAccessPass_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week1" />
+									<Attribute name="JobList" value="GameOfGames_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="E4NoAccessPass_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week1" />
+									<Attribute name="JobList" value="GameOfGames_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="E4NoAccessPass_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week1" />
+									<Attribute name="JobList" value="GameOfGames_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="E4NoAccessPass_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="GameOfGames_Event_Week1" />
+									<Attribute name="JobList" value="GameOfGames_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="GameOfGames_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="GameOfGames_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="GameOfGames_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="GameOfGames_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="GameOfGames_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="GameOfGames_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<TimeSnowboarderDisplay_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="TimeSnowboarderState" value="0" asExpression="true" allowOrphan="false" />
+		<Action type="setObjectVariable" variable="TimeSnowboarderStateAnim" value="1" asExpression="true" allowOrphan="false" />
+	</TimeSnowboarderDisplay_Init>
+	<TimeSnowboarderDisplay_Tapped parallel="true" ignoreHUD="true">
+		<Action type="if">
+			<If expression="Object::TimeSnowboarderStateAnim == 1">
+				<Then>
+					<Action type="setObjectVariable" variable="TimeSnowboarderState" value="mod(Object::TimeSnowboarderState+1, 4)" asExpression="true" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="TimeSnowboarderStateAnim" value="0" asExpression="true" allowOrphan="false" />
+				</Then>
+			</If>
+		</Action>
+	</TimeSnowboarderDisplay_Tapped>
+	<StormyIsland_Tapped parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="Active_BaseNoLoop">
+			<Sub-Building animation="Active_TopNoLoop" />
+		</Action>
+	</StormyIsland_Tapped>
+	<TimeSnowboarderDisplay_AnimDone parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="TimeSnowboarderStateAnim" value="1" asExpression="true" allowOrphan="false" />
+	</TimeSnowboarderDisplay_AnimDone>
+	<AutoApply_KrustcraftKrustySkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="GameOfGames_Scripts:AutoApply_KrustcraftKrustySkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_KrustcraftKrustySkin_End>
+	<AutoApply_KrustcraftKrustySkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="KrustcraftKrusty" fromInventory="true" />
+	</AutoApply_KrustcraftKrustySkin_Delayed>
+	<AutoApply_GeneralSplattinSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="GameOfGames_Scripts:AutoApply_GeneralSplattinSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_GeneralSplattinSkin_End>
+	<AutoApply_GeneralSplattinSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="GeneralSplattin" fromInventory="true" />
+	</AutoApply_GeneralSplattinSkin_Delayed>
+	<AutoApply_SmellYaL8rSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="GameOfGames_Scripts:AutoApply_SmellYaL8rSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SmellYaL8rSkin_End>
+	<AutoApply_SmellYaL8rSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="SmellYaL8r" fromInventory="true" />
+	</AutoApply_SmellYaL8rSkin_Delayed>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="GameOfGames_OnePanel" />
+		<Action type="recommendation" recType="Event" name="GameOfGames_OnePanel" eventName="UI_GameOfGames_Title" limitedTime="true" limitedTimeEndDate="GameOfGames_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<RecommendFourthOfJulyStoreCategory ignoreHUD="true">
+		<Action type="message" text="UI_FourthOfJuly_Desc" revealSpeed="medium" />
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="GameOfGames_FourthOfJuly_OnePanel" />
+		<Action type="recommendation" recType="Event" name="GameOfGames_FourthOfJuly_OnePanel" eventName="UI_FourthOfJuly_Title" limitedTime="true" limitedTimeEndDate="GameOfGames_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendFourthOfJulyStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="GameOfGames_Category" />
+	</EnterStoreCategory>
+	<EnterStoreFourthOfJulyCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="GameOfGames_FourthOfJuly_Category" />
+	</EnterStoreFourthOfJulyCategory>
+	<StoreNotification_ConflictOfEnemiesBattleArena>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="ConflictOfEnemiesBattleArena" quantity="1" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_ConflictOfEnemiesBattleArena_name" text="BLD_ConflictOfEnemiesBattleArena_upsell_desc" icon="ICO_PRIZ_GameOfGames_CoESmellYa_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="ConflictOfEnemiesBattleArena" menuCategory="GameOfGames_Category" />
+			</False>
+		</Action>
+	</StoreNotification_ConflictOfEnemiesBattleArena>
+	<StoreNotification_MrDirt>
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="MrDirt" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_MrDirt_name" text="CHA_MrDirt_upsell_desc" icon="ICO_PRIZ_GameOfGames_MrDirt_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MrDirt" menuCategory="GameOfGames_Category" />
+			</False>
+		</Action>
+	</StoreNotification_MrDirt>
+	<StoreNotification_StickUpWalrus>
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="StickUpWalrus" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_StickUpWalrus_name" text="CHA_StickUpWalrus_upsell_desc" icon="ICO_PRIZ_GameOfGames_StickUpWalrus_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="StickUpWalrus" menuCategory="GameOfGames_Category" />
+			</False>
+		</Action>
+	</StoreNotification_StickUpWalrus>
+	<CrowdOfGamers_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="mod(Object::CrowdState+1,3)" asExpression="true" />
+	</CrowdOfGamers_Tapped>
+	<CrowdOfGamers_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="0" />
+	</CrowdOfGamers_Init>
+	<GoToSmellYaL8r ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="ConflictOfEnemiesBattleArena" quantity="1" />
+			<False>
+				<Action type="focusOnMenuItem" itemName="ConflictOfEnemiesBattleArena" menuCategory="GameOfGames_Category" />
+			</False>
+		</Action>
+	</GoToSmellYaL8r>
+	<GoToStormyIsland ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="StormyIsland" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="StormyIsland" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="StormyIsland" inventory="true" />
+			</False>
+		</Action>
+	</GoToStormyIsland>
+	<FuriousFliers_BuildingTouched parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="System::evaluate('Building::FuriousFliers::Animation::Neutral') == 1" />
+			</Requirements>
+			<True>
+				<Action type="anim-play" animation="ActiveNoLoop" nowait="true" />
+				<Action type="delay" time="3.05" />
+				<Action type="sound" sound="FuriousFliers_tap" />
+			</True>
+		</Action>
+	</FuriousFliers_BuildingTouched>
+</ScriptPackage>

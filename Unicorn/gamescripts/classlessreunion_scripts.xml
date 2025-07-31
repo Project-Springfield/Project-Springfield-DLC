@@ -1,0 +1,382 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="ClasslessReunionMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="ClasslessReunion_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="ClasslessReunion_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="ClasslessReunion_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="ClasslessReunion_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_ClasslessReunion_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_ClasslessReunion_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_ClasslessReunion_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_ClasslessReunion_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_ClasslessReunion_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="ClasslessReunion_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="ClasslessReunion_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="ClasslessReunion_OnePanel" eventName="UI_ClasslessReunion_Title" limitedTime="true" limitedTimeEndDate="ClasslessReunion_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="ClasslessReunionMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_ClasslessReunion_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_ClasslessReunion_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_ClasslessReunion_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_ClasslessReunion_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="ClasslessReunion_Complete" boolValue="true" />
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_ClasslessReunion_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="ClasslessReunion_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="ClasslessReunion_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="ClasslessReunion_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="ClasslessReunion_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="ClasslessReunion_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_ClasslessReunion_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="ClasslessReunion_OnePanel" />
+		<Action type="runScript" script="ClasslessReunion_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="ClasslessReunion_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="ClasslessReunion_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AClasslessReunion_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="ClasslessReunion_Event" />
+									<Attribute name="JobList" value="ClasslessReunion_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AClasslessReunion_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="ClasslessReunion_Event" />
+									<Attribute name="JobList" value="ClasslessReunion_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AClasslessReunion_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="ClasslessReunion_Event" />
+									<Attribute name="JobList" value="ClasslessReunion_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AClasslessReunion_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="ClasslessReunion_Event" />
+									<Attribute name="JobList" value="ClasslessReunion_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AClasslessReunion_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="ClasslessReunion_Event" />
+									<Attribute name="JobList" value="ClasslessReunion_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<CheckIfEnd_Week ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="ClasslessReunion_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="ClasslessReunion_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week>
+	<AutoApply_PromTimeHomerSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="ClasslessReunion_Scripts:AutoApply_PromTimeHomerSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_PromTimeHomerSkin_End>
+	<AutoApply_PromTimeHomerSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="PromTimeHomer" fromInventory="true" />
+	</AutoApply_PromTimeHomerSkin_Delayed>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="ClasslessReunion_OnePanel" />
+		<Action type="recommendation" recType="Event" name="ClasslessReunion_OnePanel" eventName="UI_ClasslessReunion_Title" limitedTime="true" limitedTimeEndDate="ClasslessReunion_End" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="ClasslessReunion_Category" />
+	</EnterStoreCategory>
+	<StoreNotification_PromPhotoBooth>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle01_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle01" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_01" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle02_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle02" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_02" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle03_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle03" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_03" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle04_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle04" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_04" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle05_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle05" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_05" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle06_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle06" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_06" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle07_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle07" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBoothBundle_07" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:PromPhotoBoothBundle08_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PromPhotoBooth_name" text="UI_StorePlugPromPhotoBooth" icon="ICO_STOR_Single_ClasslessReunionPromPhotoBoothBundle08" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PromPhotoBooth" menuCategory="ClasslessReunion_Category" />
+			</True>
+		</Action>
+	</StoreNotification_PromPhotoBooth>
+	<DanceTheNightAway_JobCompleteStart parallel="true" ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var homerInstance = Land::getFirstInstanceOfObject(Character::find('Homer'));
+                    
+                    var simpsonHomeInstance = Land::getFirstInstanceOfObject(Building::find('SimpsonHome'));
+                    var x = toDouble(Building::getProperty(simpsonHomeInstance, 'X'));
+                    var z = toDouble(Building::getProperty(simpsonHomeInstance, 'Z'));
+                    
+                    Character::snapToPosition(homerInstance, x, z);
+                ]]></Program>
+		</Action>
+		<Action type="fade" ignoreObject="true" character="Homer" fade="outmax" />
+	</DanceTheNightAway_JobCompleteStart>
+	<DanceTheNightAway_JobCompleteEnd parallel="true" ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var homerInstance = Land::getFirstInstanceOfObject(Character::find('Homer'));
+                    
+                    var margeInstance = Land::getFirstInstanceOfObject(Character::find('Marge'));
+                    var x = toDouble(Building::getProperty(margeInstance, 'X'));
+                    var z = toDouble(Building::getProperty(margeInstance, 'Z'));
+                    
+                    Character::snapToPosition(homerInstance, x, z);
+                ]]></Program>
+		</Action>
+		<Action type="fade" ignoreObject="true" character="Homer" fade="in" />
+		<Action type="fade" ignoreObject="true" character="Homer" fade="off" />
+	</DanceTheNightAway_JobCompleteEnd>
+	<DanceTheNightAway_JobInProgress parallel="true" ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var homerInstance = Land::getFirstInstanceOfObject(Character::find('Homer'));
+                    
+                    var simpsonHomeInstance = Land::getFirstInstanceOfObject(Building::find('SimpsonHome'));
+                    var x = toDouble(Building::getProperty(simpsonHomeInstance, 'X'));
+                    var z = toDouble(Building::getProperty(simpsonHomeInstance, 'Z'));
+                    
+                    Character::snapToPosition(homerInstance, x, z);
+                ]]></Program>
+		</Action>
+	</DanceTheNightAway_JobInProgress>
+	<PromPhotoBooth_Confirmation parallel="true" ignoreHUD="true">
+		<Action type="scheduleScript" mode="create" script="ClasslessReunion_Scripts:PromPhotoBooth_Confirmation_Delayed" relativeTime="1s" localLandOnly="true" shouldSave="true" />
+	</PromPhotoBooth_Confirmation>
+	<PromPhotoBooth_Confirmation_Delayed parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="PromPhotoBooth" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="PromPhotoBooth" useImmediately="true" />
+				</Action>
+			</True>
+		</Action>
+	</PromPhotoBooth_Confirmation_Delayed>
+	<RollerRink_Confirmation parallel="true" ignoreHUD="true">
+		<Action type="scheduleScript" mode="create" script="ClasslessReunion_Scripts:RollerRink_Confirmation_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</RollerRink_Confirmation>
+	<RollerRink_Confirmation_Delayed parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="RollerRink" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="RollerRink" useImmediately="true" />
+				</Action>
+			</True>
+		</Action>
+	</RollerRink_Confirmation_Delayed>
+	<MargeSculptureGarden_Confirmation parallel="true" ignoreHUD="true">
+		<Action type="scheduleScript" mode="create" script="ClasslessReunion_Scripts:MargeSculptureGarden_Confirmation_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</MargeSculptureGarden_Confirmation>
+	<MargeSculptureGarden_Confirmation_Delayed parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="MargeSculptureGarden" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="MargeSculptureGarden" useImmediately="true" />
+				</Action>
+			</True>
+		</Action>
+	</MargeSculptureGarden_Confirmation_Delayed>
+	<IceFishingShack_Confirmation parallel="true" ignoreHUD="true">
+		<Action type="scheduleScript" mode="create" script="ClasslessReunion_Scripts:IceFishingShack_Confirmation_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</IceFishingShack_Confirmation>
+	<IceFishingShack_Confirmation_Delayed parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="IceFishingShack" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="IceFishingShack" useImmediately="true" />
+				</Action>
+			</True>
+		</Action>
+	</IceFishingShack_Confirmation_Delayed>
+	<AwardGhostPirateAirship parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="GhostPirateAirship" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="GhostPirateAirship" />
+				</Action>
+			</True>
+		</Action>
+	</AwardGhostPirateAirship>
+</ScriptPackage>

@@ -1,0 +1,543 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="266000" name="TheClamBeforeTheOtherClams" />
+		<DataID id="266001" name="ShiverMeBarnacles_1" />
+		<DataID id="266002" name="ShiverMeBarnacles_2" />
+		<DataID id="266003" name="ShiverMeBarnacles_3" />
+		<DataID id="266004" name="ShiverMeBarnacles_4" />
+		<DataID id="266005" name="ShiverMeBarnacles_5" />
+		<DataID id="266006" name="AllsWellThatSmellsWell" />
+		<DataID id="266007" name="ASkipperySlope_1" />
+		<DataID id="266008" name="ASkipperySlope_2" />
+		<DataID id="266009" name="ASkipperySlope_3" />
+		<DataID id="266010" name="ASkipperySlope_4" />
+		<DataID id="266011" name="PortugueseFlotsam_1" />
+		<DataID id="266012" name="PortugueseFlotsam_2" />
+		<DataID id="266013" name="PortugueseFlotsam_3" />
+		<DataID id="266014" name="PortugueseFlotsam_4" />
+		<DataID id="266015" name="PortugueseFlotsam_5" />
+		<DataID id="266016" name="NothingSoSweet_1" />
+		<DataID id="266017" name="NothingSoSweet_2" />
+		<DataID id="266018" name="NothingSoSweet_3" />
+		<DataID id="266019" name="TheSquidEstPort" />
+		<DataID id="266600" name="ShiverMeBarnacles_Completed" />
+		<DataID id="266601" name="ShiverMeBarnacles_IntroPanel" />
+		<DataID id="266602" name="ShiverMeBarnacles_72HourWarning" onDeprecated="retain" endDate="ShiverMeBarnacles_End" />
+		<DataID id="266603" name="ShiverMeBarnacles_24HourWarning" onDeprecated="retain" endDate="ShiverMeBarnacles_End" />
+		<DataID id="266604" name="ShiverMeBarnacles_EventExpired" />
+		<DataID id="266605" name="ShiverMeBarnacles_MasterQuest" />
+		<DataID id="266900" name="ShiverMeBarnacles_RecommendStore" onDeprecated="delete" endDate="ShiverMeBarnacles_End" />
+	</MasterList>
+	<Quest id="266600" name="ShiverMeBarnacles_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="AllsWellThatSmellsWell" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="266601" name="ShiverMeBarnacles_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="TheClamBeforeTheOtherClams" />
+			<Requirement type="time" end="ShiverMeBarnacles_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="266602" name="ShiverMeBarnacles_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ShiverMeBarnacles_End')-fromHours(72)]_" end="_[System::evaluate('Date::ShiverMeBarnacles_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="ShiverMeBarnacles_Complete" not="true" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_IntroPanel" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="266603" name="ShiverMeBarnacles_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ShiverMeBarnacles_End')-fromHours(24)]_" end="ShiverMeBarnacles_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ShiverMeBarnacles_Complete" not="true" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_IntroPanel" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="266604" name="ShiverMeBarnacles_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="ShiverMeBarnacles_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ShiverMeBarnacles_Complete" not="true" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_IntroPanel" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="266605" name="ShiverMeBarnacles_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_Expired" not="true" />
+			<Requirement type="variable" variable="ShiverMeBarnacles_Complete" not="true" />
+			<Requirement type="reqList" location="ShiverMeBarnacles_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ShiverMeBarnacles_5" />
+					<Requirement type="variable" variable="ShiverMeBarnacles_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="ShiverMeBarnacles_1">
+				<Requirement type="quest started" quest="ShiverMeBarnacles_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ShiverMeBarnacles_2">
+				<Requirement type="quest started" quest="ShiverMeBarnacles_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ShiverMeBarnacles_3">
+				<Requirement type="quest started" quest="ShiverMeBarnacles_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ShiverMeBarnacles_4">
+				<Requirement type="quest started" quest="ShiverMeBarnacles_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ShiverMeBarnacles_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="266000" name="TheClamBeforeTheOtherClams" tags="sidequest" icon="ShiverMeBarnacles_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="characterunlocked" name="SeaCaptain" />
+			<Requirement type="characterunlocked" name="Marge" />
+			<Requirement type="time" start="ShiverMeBarnacles_Start" end="ShiverMeBarnacles_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="TheClamBeforeTheOtherClams_Start" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="TheClamBeforeTheOtherClams_End" />
+		<Objectives>
+			<Objective type="complete job" character="SeaCaptain" job="YellAtQuimby" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SeaCaptain" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="RegretWhateverCausedThis" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Wiggum" job="CallThePolice" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lou" job="ExplainWhyItWentToVoicemail" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lou" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="ShiverMeBarnacles_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="266001" name="ShiverMeBarnacles_1" tags="mainquest" icon="ShiverMeBarnacles_Currency" sidebarIconScript="ShiverMeBarnacles_Scripts:OpenMasterQuest" questMenuConfigPath="ShiverMeBarnacles_QuestConfig:ShiverMeBarnacles_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_IntroPanel" />
+			<Requirement type="time" start="ShiverMeBarnacles_Start" end="ShiverMeBarnacles_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_1_Start" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ShiverMeBarnacles_Currency')" amount="__ShiverMeBarnacles_GameConfig:ResourceQuantities:ShiverMeBarnacles_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ShiverMeBarnacles_Scripts:ShowJobList" textpoolName="QST_ShiverMeBarnacles_Collect_obj">
+				<HighlightJobList>
+					<Job name="HandCatchSlargFish" />
+					<Job name="PurchaseSlargFishInBulk" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="SeaCaptain" job="BeOutranged" quantity="1" />
+			<Objective type="complete job" character="JudgeSnyder" job="CallForWitnesses" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="JudgeSnyder" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="BlueHairedLawyer" job="CalculateHisFee" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="BlueHairedLawyer" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ShiverMeBarnacles_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ShiverMeBarnacles_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="266002" name="ShiverMeBarnacles_2" tags="mainquest" icon="ShiverMeBarnacles_Currency" sidebarIconScript="ShiverMeBarnacles_Scripts:OpenMasterQuest" questMenuConfigPath="ShiverMeBarnacles_QuestConfig:ShiverMeBarnacles_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_1" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_2_Start" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ShiverMeBarnacles_Currency')" amount="__ShiverMeBarnacles_GameConfig:ResourceQuantities:ShiverMeBarnacles_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ShiverMeBarnacles_Scripts:ShowJobList" textpoolName="QST_ShiverMeBarnacles_Collect_obj">
+				<HighlightJobList>
+					<Job name="HandCatchSlargFish" />
+					<Job name="PurchaseSlargFishInBulk" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="RememberChildhoodMemories" quantity="1" />
+			<Objective type="complete job" group="Investorettes" job="RollTheirEyes" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Luann" />
+						<Requirement type="characterunlocked" name="Krabappel" />
+						<Requirement type="characterunlocked" name="Agnes" />
+						<Requirement type="characterunlocked" name="HelenLovejoy" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ShiverMeBarnacles_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ShiverMeBarnacles_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="266003" name="ShiverMeBarnacles_3" tags="mainquest" icon="ShiverMeBarnacles_Currency" sidebarIconScript="ShiverMeBarnacles_Scripts:OpenMasterQuest" questMenuConfigPath="ShiverMeBarnacles_QuestConfig:ShiverMeBarnacles_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_2" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_3_Start" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ShiverMeBarnacles_Currency')" amount="__ShiverMeBarnacles_GameConfig:ResourceQuantities:ShiverMeBarnacles_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ShiverMeBarnacles_Scripts:ShowJobList" textpoolName="QST_ShiverMeBarnacles_Collect_obj">
+				<HighlightJobList>
+					<Job name="HandCatchSlargFish" />
+					<Job name="PurchaseSlargFishInBulk" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="SeaCaptain" job="CurseLandlubbers" quantity="1" />
+			<Objective type="complete job" character="SkipperJack" job="CommiserateWithTheSeaCaptain" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SkipperJack" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ShiverMeBarnacles_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ShiverMeBarnacles_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="266004" name="ShiverMeBarnacles_4" tags="mainquest" icon="ShiverMeBarnacles_Currency" sidebarIconScript="ShiverMeBarnacles_Scripts:OpenMasterQuest" questMenuConfigPath="ShiverMeBarnacles_QuestConfig:ShiverMeBarnacles_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_3" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_4_Start" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ShiverMeBarnacles_Currency')" amount="__ShiverMeBarnacles_GameConfig:ResourceQuantities:ShiverMeBarnacles_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ShiverMeBarnacles_Scripts:ShowJobList" textpoolName="QST_ShiverMeBarnacles_Collect_obj">
+				<HighlightJobList>
+					<Job name="HandCatchSlargFish" />
+					<Job name="PurchaseSlargFishInBulk" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="LeadAFieldTrip_SMB" quantity="1" />
+			<Objective type="complete job" group="Youngster" job="RideTheCarousel_TEMP" quantity="10"></Objective>
+			<Objective type="complete job" group="SchoolWorkers" job="DoNothingWhileTaggingAlong" quantity="5"></Objective>
+			<Objective type="complete job" character="SeaCaptain" job="DiscoverTheSolutionToHisProblem" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ShiverMeBarnacles_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ShiverMeBarnacles_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="266005" name="ShiverMeBarnacles_5" tags="mainquest" icon="ShiverMeBarnacles_Currency" sidebarIconScript="ShiverMeBarnacles_Scripts:OpenMasterQuest" questMenuConfigPath="ShiverMeBarnacles_QuestConfig:ShiverMeBarnacles_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ShiverMeBarnacles_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_4" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_5_Start" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ShiverMeBarnacles_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ShiverMeBarnacles_Currency')" amount="__ShiverMeBarnacles_GameConfig:ResourceQuantities:ShiverMeBarnacles_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ShiverMeBarnacles_Scripts:ShowJobList" textpoolName="QST_ShiverMeBarnacles_Collect_obj">
+				<HighlightJobList>
+					<Job name="HandCatchSlargFish" />
+					<Job name="PurchaseSlargFishInBulk" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="FlipACoinToDecide" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ShiverMeBarnacles_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ShiverMeBarnacles_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="266006" name="AllsWellThatSmellsWell" tags="sidequest" icon="ShiverMeBarnacles_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_5" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="AllsWellThatSmellsWell_Start" />
+		<Objectives>
+			<Objective type="complete job" character="SeaCaptain" job="RideTheCarouselOutro" quantity="1" />
+			<Objective type="complete job" character="Homer" job="RideTheCarouselOutro" quantity="1" />
+			<Objective type="complete job" character="Marge" job="RideTheCarouselOutro" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="266007" name="ASkipperySlope_1" tags="sidequest" icon="SkipperJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="SkipperJack" />
+			<Requirement type="quest" quest="ShiverMeBarnacles_2" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_1_Start" triggerType="character" character="SkipperJack" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkipperJack" job="TakeLuannOut" quantity="1" />
+			<Objective type="complete job" character="Luann" job="AccompanySkipperJackInADaze" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Luann" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266008" name="ASkipperySlope_2" tags="sidequest" icon="SkipperJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASkipperySlope_1" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_2_Start" triggerType="character" character="SkipperJack" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkipperJack" job="SortTheDaysCatch" quantity="1" />
+			<Objective type="complete job" character="Kirk" job="HelpSortTheDaysCatch" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Kirk" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266009" name="ASkipperySlope_3" tags="sidequest" icon="SkipperJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASkipperySlope_2" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_3_Start" triggerType="character" character="SkipperJack" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkipperJack" job="FlipHisTelescope" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="FlipFaustosKnife" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Fausto" job="FlipMilhouse" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Fausto" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266010" name="ASkipperySlope_4" tags="sidequest" icon="SkipperJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASkipperySlope_3" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_4_Start" triggerType="character" character="SkipperJack" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="ASkipperySlope_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="SkipperJack" job="ReadScriptNotes_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="266011" name="PortugueseFlotsam_1" tags="sidequest" icon="Fausto">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Fausto" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="AllsWellThatSmellsWell" />
+				<Requirement type="time" start="ShiverMeBarnacles_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_1_Start" triggerType="character" character="Fausto" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Fausto" job="TalkNervouslyToWiggum" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="BlatherOn" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266012" name="PortugueseFlotsam_2" tags="sidequest" icon="Fausto">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PortugueseFlotsam_1" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_2_Start" triggerType="character" character="Fausto" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Fausto" job="LeaveMoesWithABeerToGo" quantity="1" />
+			<Objective type="complete job" character="Moe" job="CaptureSomeOfHisRatsFausto" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Moe" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266013" name="PortugueseFlotsam_3" tags="sidequest" icon="Fausto">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PortugueseFlotsam_2" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_3_Start" triggerType="character" character="Fausto" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Fausto" job="GetShownAroundSpringfield" quantity="1" />
+			<Objective type="complete job" character="Ronaldo" job="GiveFaustoTheTour" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ronaldo" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266014" name="PortugueseFlotsam_4" tags="sidequest" icon="Fausto">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PortugueseFlotsam_3" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_4_Start" triggerType="character" character="Fausto" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Fausto" job="AdvertiseTheSquidport_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266015" name="PortugueseFlotsam_5" tags="sidequest" icon="Fausto">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PortugueseFlotsam_4" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="PortugueseFlotsam_5_Start" triggerType="character" character="Fausto" />
+		<Objectives>
+			<Objective type="complete job" character="Fausto" job="FindANewThing_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="266016" name="NothingSoSweet_1" tags="sidequest" icon="Nathaniel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Nathaniel" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="NothingSoSweet_1_Start" triggerType="character" character="Nathaniel" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="NothingSoSweet_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Nathaniel" job="SellSweets_TEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Nathaniel" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266017" name="NothingSoSweet_2" tags="sidequest" icon="Nathaniel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NothingSoSweet_1" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="NothingSoSweet_2_Start" triggerType="character" character="Nathaniel" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="NothingSoSweet_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Nathaniel" job="OfferRepairServices_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="266018" name="NothingSoSweet_3" tags="sidequest" icon="Nathaniel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NothingSoSweet_2" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts_Dialogue" name="NothingSoSweet_3_Start" triggerType="character" character="Nathaniel" />
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="NothingSoSweet_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Nathaniel" job="TryToCleanCarpets" quantity="1" />
+			<Objective type="complete job" character="Willy" job="PourHimselfAGlassOfScotch" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Willy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="266019" name="TheSquidEstPort" tags="sidequest" icon="ShiverMeBarnacles_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="consumableCount" name="BoardwalkDrawing" requireCountMin="200" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="AllsWellThatSmellsWell" />
+				<Requirement type="time" start="ShiverMeBarnacles_End" />
+			</Requirement>
+		</Requirements>
+		<EndScript package="ShiverMeBarnacles_Scripts_Dialogue" name="TheSquidEstPort_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="266900" name="ShiverMeBarnacles_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="ShiverMeBarnacles_Requirements:StoreCategory_ShiverMeBarnacles_Unlocked" />
+		</Requirements>
+		<StartScript package="ShiverMeBarnacles_Scripts" name="RecommendStoreCategory_ShiverMeBarnacles" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

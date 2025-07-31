@@ -1,0 +1,880 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="THOHXXXIIMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="THOHXXXII_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="THOHXXXII_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="THOHXXXII_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="THOHXXXII_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_THOHXXXII_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_THOHXXXII_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_THOHXXXII_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_THOHXXXII_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_THOHXXXII_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="THOHXXXII_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="THOHXXXII_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="THOHXXXII_TreehouseOfHorrorXXXII_OnePanel" eventName="UI_THOHXXXII_Title" limitedTime="true" limitedTimeEndDate="THOHXXXII_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="THOHXXXIIMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_THOHXXXII_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_THOHXXXII_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_THOHXXXII_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_THOHXXXII_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_THOHXXXII_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="THOHXXXII_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="THOHXXXII_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="THOHXXXII_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="THOHXXXII_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="THOHXXXII_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="updateVariable" variable="BankedDinosaurTappables" value="0" />
+		<Action type="updateVariable" variable="DinosaursTapped" value="100" />
+		<Action type="runScriptOnAll" character="DinosaurTappable" script="THOHXXXII_Scripts:ClearTappable" />
+		<Action type="message" text="UI_THOHXXXII_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="THOHXXXII_TreehouseOfHorrorXXXII_OnePanel" />
+		<Action type="runScript" script="THOHXXXII_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="THOHXXXII_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="THOHXXXII_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="THOHXXXII_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="THOHXXXII_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="THOHXXXII_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="THOHXXXII_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="THOHXXXII_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="THOHXXXII_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="THOHXXXII_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="THOHXXXII_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="THOHXXXII_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="THOHXXXII_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="THOHXXXII_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THOHXXXII_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THOHXXXII_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="THOHXXXII_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THOHXXXII_Start" end="THOHXXXII_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="WelcomeToGeriatricPark_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week1" />
+									<Attribute name="JobList" value="THOHXXXII_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="WelcomeToGeriatricPark_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week1" />
+									<Attribute name="JobList" value="THOHXXXII_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WelcomeToGeriatricPark_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week1" />
+									<Attribute name="JobList" value="THOHXXXII_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WelcomeToGeriatricPark_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week1" />
+									<Attribute name="JobList" value="THOHXXXII_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WelcomeToGeriatricPark_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week1" />
+									<Attribute name="JobList" value="THOHXXXII_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THOHXXXII_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="THOHXXXII_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THOHXXXII_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THOHXXXII_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="THOHXXXII_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THOHXXXII_Start" end="THOHXXXII_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ThisMeansDinoWar_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week2" />
+									<Attribute name="JobList" value="THOHXXXII_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisMeansDinoWar_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week2" />
+									<Attribute name="JobList" value="THOHXXXII_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisMeansDinoWar_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week2" />
+									<Attribute name="JobList" value="THOHXXXII_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisMeansDinoWar_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week2" />
+									<Attribute name="JobList" value="THOHXXXII_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ThisMeansDinoWar_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week2" />
+									<Attribute name="JobList" value="THOHXXXII_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THOHXXXII_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="THOHXXXII_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THOHXXXII_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THOHXXXII_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="THOHXXXII_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THOHXXXII_Start" end="THOHXXXII_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TheMutantArmyOfDrHibbert_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week3" />
+									<Attribute name="JobList" value="THOHXXXII_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMutantArmyOfDrHibbert_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week3" />
+									<Attribute name="JobList" value="THOHXXXII_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMutantArmyOfDrHibbert_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week3" />
+									<Attribute name="JobList" value="THOHXXXII_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMutantArmyOfDrHibbert_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week3" />
+									<Attribute name="JobList" value="THOHXXXII_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TheMutantArmyOfDrHibbert_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week3" />
+									<Attribute name="JobList" value="THOHXXXII_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THOHXXXII_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="THOHXXXII_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="THOHXXXII_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="THOHXXXII_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="THOHXXXII_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="THOHXXXII_Start" end="THOHXXXII_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="BetterFightingThroughScience_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week4" />
+									<Attribute name="JobList" value="THOHXXXII_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="BetterFightingThroughScience_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week4" />
+									<Attribute name="JobList" value="THOHXXXII_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BetterFightingThroughScience_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week4" />
+									<Attribute name="JobList" value="THOHXXXII_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BetterFightingThroughScience_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week4" />
+									<Attribute name="JobList" value="THOHXXXII_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="BetterFightingThroughScience_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="THOHXXXII_Event_Week4" />
+									<Attribute name="JobList" value="THOHXXXII_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="THOHXXXII_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="THOHXXXII_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<AutoApply_GeriatricParkBurnsSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOHXXXII_Scripts:AutoApply_GeriatricParkBurnsSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_GeriatricParkBurnsSkin_End>
+	<AutoApply_GeriatricParkBurnsSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="GeriatricParkBurns" fromInventory="true" />
+	</AutoApply_GeriatricParkBurnsSkin_Delayed>
+	<AutoApply_BionautMargeSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOHXXXII_Scripts:AutoApply_BionautMargeSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_BionautMargeSkin_End>
+	<AutoApply_BionautMargeSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="BionautMarge" fromInventory="true" />
+	</AutoApply_BionautMargeSkin_Delayed>
+	<AutoApply_MechaChalmersSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOHXXXII_Scripts:AutoApply_MechaChalmersSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_MechaChalmersSkin_End>
+	<AutoApply_MechaChalmersSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="MechaChalmers" fromInventory="true" />
+	</AutoApply_MechaChalmersSkin_Delayed>
+	<AutoApply_TestSubjectBartSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOHXXXII_Scripts:AutoApply_TestSubjectBartSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_TestSubjectBartSkin_End>
+	<AutoApply_TestSubjectBartSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="TestSubjectBart" fromInventory="true" />
+	</AutoApply_TestSubjectBartSkin_Delayed>
+	<RecommendStoreCategory_TreehouseOfHorrorXXXII ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="THOHXXXII_TreehouseOfHorrorXXXII_OnePanel" />
+		<Action type="recommendation" recType="Event" name="THOHXXXII_TreehouseOfHorrorXXXII_OnePanel" eventName="UI_THOHXXXII_Title" limitedTime="true" limitedTimeEndDate="THOHXXXII_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TreehouseOfHorrorXXXII>
+	<EnterStoreCategory_TreehouseOfHorrorXXXII ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TreehouseOfHorrorXXXII_Category" />
+	</EnterStoreCategory_TreehouseOfHorrorXXXII>
+	<BigCatCountryBundle>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BigCatCountry" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BigCatCountryModular1" />
+			<Item type="building" name="BigCatCountryModular1" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BigCatCountryModular2" />
+			<Item type="building" name="BigCatCountryModular2" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BigCatCountryModular3" />
+			<Item type="building" name="BigCatCountryModular3" />
+		</Action>
+		<Action type="updateVariable" variable="BigCatCountryBundlePurchased" value="true" />
+	</BigCatCountryBundle>
+	<BigCatCountryBundleUpgradeCheck>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="variable" variable="BigCatCountryBundlePurchased" />
+				<Requirement type="formula" formula="lessThan(Object::HabitatLevel, 7)" asObjectExpression="true" />
+			</Requirement>
+			<True>
+				<Action type="setObjectVariable" variable="HabitatLevel" value="7" />
+			</True>
+		</Action>
+	</BigCatCountryBundleUpgradeCheck>
+	<TheEmuExperienceBundle>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="TheEmuExperience" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="EmuExperienceExtension1" />
+			<Item type="building" name="EmuExperienceExtension1" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="EmuExperienceExtension2" />
+			<Item type="building" name="EmuExperienceExtension2" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="EmuExperienceExtension3" />
+			<Item type="building" name="EmuExperienceExtension3" />
+		</Action>
+		<Action type="updateVariable" variable="EmuExperienceBundlePurchased" value="true" />
+	</TheEmuExperienceBundle>
+	<EmuExperienceBundleUpgradeCheck>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="variable" variable="EmuExperienceBundlePurchased" />
+				<Requirement type="formula" formula="lessThan(Object::HabitatLevel, 7)" asObjectExpression="true" />
+			</Requirement>
+			<True>
+				<Action type="setObjectVariable" variable="HabitatLevel" value="7" />
+			</True>
+		</Action>
+	</EmuExperienceBundleUpgradeCheck>
+	<GreatPlainsBundle>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="GreatPlains" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="GreatPlainsModular1" />
+			<Item type="building" name="GreatPlainsModular1" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="GreatPlainsModular2" />
+			<Item type="building" name="GreatPlainsModular2" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="GreatPlainsModular3" />
+			<Item type="building" name="GreatPlainsModular3" />
+		</Action>
+		<Action type="updateVariable" variable="GreatPlainsBundlePurchased" value="true" />
+	</GreatPlainsBundle>
+	<GreatPlainsBundleUpgradeCheck>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="variable" variable="GreatPlainsBundlePurchased" />
+				<Requirement type="formula" formula="lessThan(Object::HabitatLevel, 7)" asObjectExpression="true" />
+			</Requirement>
+			<True>
+				<Action type="setObjectVariable" variable="HabitatLevel" value="7" />
+			</True>
+		</Action>
+	</GreatPlainsBundleUpgradeCheck>
+	<BaboonCountyUSABundle>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BaboonCountyUSA" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BaboonCountyUSAExtension1" />
+			<Item type="building" name="BaboonCountyUSAExtension1" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BaboonCountyUSAExtension2" />
+			<Item type="building" name="BaboonCountyUSAExtension2" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="BaboonCountyUSAExtension3" />
+			<Item type="building" name="BaboonCountyUSAExtension3" />
+		</Action>
+		<Action type="updateVariable" variable="BaboonCountyBundlePurchased" value="true" />
+	</BaboonCountyUSABundle>
+	<BaboonCountyBundleUpgradeCheck>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="variable" variable="BaboonCountyBundlePurchased" />
+				<Requirement type="formula" formula="lessThan(Object::HabitatLevel, 7)" asObjectExpression="true" />
+			</Requirement>
+			<True>
+				<Action type="setObjectVariable" variable="HabitatLevel" value="7" />
+			</True>
+		</Action>
+	</BaboonCountyBundleUpgradeCheck>
+	<WarmongersBundle>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="Warmongers" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="WarmongersExtension1" />
+			<Item type="building" name="WarmongersExtension1" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="WarmongersExtension2" />
+			<Item type="building" name="WarmongersExtension2" />
+		</Action>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="WarmongersExtension3" />
+			<Item type="building" name="WarmongersExtension3" />
+		</Action>
+		<Action type="updateVariable" variable="WarmongersBundlePurchased" value="true" />
+	</WarmongersBundle>
+	<WarmongersBundleUpgradeCheck>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="variable" variable="WarmongersBundlePurchased" />
+				<Requirement type="formula" formula="lessThan(Object::HabitatLevel, 7)" asObjectExpression="true" />
+			</Requirement>
+			<True>
+				<Action type="setObjectVariable" variable="HabitatLevel" value="7" />
+			</True>
+		</Action>
+	</WarmongersBundleUpgradeCheck>
+	<THOHXXXIITokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" THOHXXXIIToken="1" />
+			<True>
+				<Action type="runScript" script="THOHXXXII_Scripts:GoToTHOHXXXIITokenExchange" />
+			</True>
+		</Action>
+	</THOHXXXIITokenForDozenDonuts>
+	<GoToTHOHXXXIITokenExchange>
+		<Action type="focusOnMenuItem" itemName="THOHXXXIITokenForDozenDonuts" menuCategory="THOHXXXII_Category" />
+	</GoToTHOHXXXIITokenExchange>
+	<RewardOneTHOHXXXIIToken>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_THOHXXXII_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" THOHXXXIIToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOHXXXII_Requirements:THOHXXXIIBox_Available" />
+			<True>
+				<Action type="consumable" consumable="THOHXXXII_THOHXXXIIMysteryBox" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="THOHXXXII_Scripts:GoToTHOHXXXIITokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneTHOHXXXIIToken>
+	<RewardOneTHOHXXXIIToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_THOHXXXII_MysteryBoxTokenSingular" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" THOHXXXIIToken="1" />
+		<Action type="consumable" consumable="THOHXXXII_THOHXXXIIMysteryBox" fromInventory="false" />
+	</RewardOneTHOHXXXIIToken_Store>
+	<RewardFiveTHOHXXXIITokens_Store>
+		<Action type="notification" title="UI_MysteryBoxTokensFive" text="UI_THOHXXXII_MysteryBoxTokenPlural" icon="ICO_STOR_MysteryBoxToken" button="UI_OK" />
+		<Action type="reward" save="true" THOHXXXIIToken="5" />
+		<Action type="consumable" consumable="THOHXXXII_THOHXXXIIMysteryBox" fromInventory="false" />
+	</RewardFiveTHOHXXXIITokens_Store>
+	<SentientRedDevilRealtySign_Tapped>
+		<Action type="anim-play" animation="Tap" appendLeftRight="true" />
+	</SentientRedDevilRealtySign_Tapped>
+	<HadrosaurBouvier_Tapped>
+		<Action type="anim-play" animation="Tap" />
+	</HadrosaurBouvier_Tapped>
+	<THOHXXXII_MTX_DisplayPromo132 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="Currency" itemName="THOHXXXII_TrayOf132Donuts" />
+	</THOHXXXII_MTX_DisplayPromo132>
+	<THOHXXXII_MTX_DisplayPromo60 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="Currency" itemName="THOHXXXII_StackOf60Donuts" />
+	</THOHXXXII_MTX_DisplayPromo60>
+	<InventoryAlert>
+		<Action type="message" text="UI_ItemsInInventory" button="UI_OK" revealSpeed="medium" />
+	</InventoryAlert>
+	<BionautShip_MargeEscape>
+		<Action type="setObjectVariable" variable="MargeEscapeActive" value="1" allowOrphan="false" onType="building" onObject="BionautShip" />
+		<Action type="anim-play" onBuilding="BionautShip" animation="Neutral" />
+	</BionautShip_MargeEscape>
+	<BionautShip_MargeEscapeDone>
+		<Action type="setObjectVariable" variable="MargeEscapeActive" value="0" allowOrphan="false" onType="building" onObject="BionautShip" />
+		<Action type="anim-play" onBuilding="BionautShip" animation="Neutral" />
+	</BionautShip_MargeEscapeDone>
+	<GPGateAnimDone>
+		<Action type="setObjectVariable" variable="GateTappedToOpen" onType="building" onObject="GeriatricParkFrontGate" value="0" />
+	</GPGateAnimDone>
+	<DinosaurTapped parallel="true" cache="true">
+		<Action type="runScriptOnAll" character="DinosaurTappable" in_radius="1" radius_delay="0.3" script="THOHXXXII_Scripts:DinosaurTapped_Single" />
+		<Action type="actionSequence" script="THOHXXXII_Scripts:DinosaurTapped_Single" />
+	</DinosaurTapped>
+	<DinosaurTapped_Single parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0" asObjectExpression="true">
+				<Then>
+					<Action type="updateVariable" variable="DinosaursTapped" value="DinosaursTapped + 1" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="sound" sound="TTT_PterodactylNest_Tap" />
+					<Action type="if">
+						<If expression="[Object::SkinID]==0" asObjectExpression="true">
+							<Then>
+								<Action type="anim-play" animation="Squish" />
+							</Then>
+						</If>
+						<ElseIf expression="[Object::SkinID]==249004" asObjectExpression="true">
+							<Then>
+								<Action type="anim-play" animation="Raptor_Alt_Squish" />
+							</Then>
+						</ElseIf>
+					</Action>
+					<Action type="anim-waitforend" />
+					<Action type="fade" fade="outmax" />
+					<Action type="deletecharacter" character="DinosaurTappable" />
+					<Action type="if">
+						<If expression="#program;                             if(User::getVariable('BankedDinosaurTappables') &gt; 3)                             {                                 return false;                             }                             else                             {                                 var character = Character::find('DinosaurTappable');                                 var characterInstanceList = Land::getAllInstancesOfObject(character);                                 foreach(characterInstanceList as instance)                                 {                                     if(!Object::getDelete(instance))                                     {                                         return false;                                     }                                 }                             }                             return true;">
+							<Then>
+								<Action type="createobject" name="DinosaurTappable" count="3" save="true" panCamera="false" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</DinosaurTapped_Single>
+	<ClearTappable>
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="fade" fade="outmax" />
+					<Action type="deletecharacter" character="DinosaurTappable" />
+				</Then>
+			</If>
+		</Action>
+	</ClearTappable>
+	<SpawnFullHudTip>
+		<Action type="hudTip" text="UI_THOHXXXII_Dinosaurs_TownFull_text" time="3s" queue="true" waitForHUD="true" />
+	</SpawnFullHudTip>
+	<ShowTappablesGuidePanel ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="GuidePanelMultiEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_DinosaursTappableGuide_title" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_DinosaursTappableGuide_text" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_DinosaursTappableGuide_subtext" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_DinosaursTappableGuide_footer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="ICO_THOHXXXII_GuidePanelMultiEventPopUp" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowTappablesGuidePanel>
+	<ExitGuidePanel ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+	</ExitGuidePanel>
+	<GoToRigel7ArmyBase>
+		<Action type="focusOnMenuItem" menuCategory="TreehouseOfHorrorXXXII_Category" itemName="Rigel7MilitaryBase" />
+	</GoToRigel7ArmyBase>
+</ScriptPackage>

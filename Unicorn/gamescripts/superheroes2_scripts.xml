@@ -1,0 +1,2143 @@
+﻿<ScriptPackage>
+	<OnFriendButtonPressed cache="true">
+		<Action type="actionSequence" script="Superheroes2_Scripts:CheckAndForceFullReload" />
+	</OnFriendButtonPressed>
+	<ForceFullReload parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="config" key="Superheroes2_GameConfig:Enable:ReloadFix" value="1" />
+			</Requirements>
+			<True>
+				<Action type="gotoFrontend" resetLoadComplete="true" forceLocalSave="false" returnToGame="false" cleanLandAndData="false" resetDLCIndex="false" stopMusic="false" />
+			</True>
+		</Action>
+	</ForceFullReload>
+	<CheckAndForceFullReload cache="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="config" key="Superheroes2_GameConfig:Enable:ReloadFix" value="1" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="formula" formula="System::evaluate('Job::InterrogateFlandersDual')" />
+					<Requirement type="formula" formula="System::evaluate('Job::HelpAgnesCrossTheStreet')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ProposeToMarge')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ChaseNed')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ChaseAmber')" />
+					<Requirement type="formula" formula="System::evaluate('Job::BullyDatabase')" />
+					<Requirement type="formula" formula="System::evaluate('Job::GoForAWalk')" />
+					<Requirement type="formula" formula="System::evaluate('Job::GetCarried')" />
+					<Requirement type="formula" formula="System::evaluate('Job::GoForARomanticStrollWithMarge')" />
+					<Requirement type="formula" formula="System::evaluate('Job::BiteHomersLeg_Homer')" />
+					<Requirement type="formula" formula="System::evaluate('Job::RunAwayWithBart')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ExerciseWithSmithers')" />
+					<Requirement type="formula" formula="System::evaluate('Job::BlueHairedLawyerDinoRideJob')" />
+					<Requirement type="formula" formula="System::evaluate('Job::RideAroundTownDual')" />
+					<Requirement type="formula" formula="System::evaluate('Job::AdmireTwonicorn')" />
+					<Requirement type="formula" formula="System::evaluate('Job::FightMaggieDUAL')" />
+					<Requirement type="formula" formula="System::evaluate('Job::MaggieWalkWithMarge')" />
+					<Requirement type="formula" formula="System::evaluate('Job::MaggieWalkWithMargeQuick')" />
+					<Requirement type="formula" formula="System::evaluate('Job::AttemptToEraseHomer')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ChaseHomerWithAnAxe')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ChaseBullyWithAnAxe')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ArgueWithBernice')" />
+					<Requirement type="formula" formula="System::evaluate('Job::CuddleJubJob')" />
+					<Requirement type="formula" formula="System::evaluate('Job::FightWillie_Dual')" />
+					<Requirement type="formula" formula="System::evaluate('Job::GetPaddledJasper')" />
+					<Requirement type="formula" formula="System::evaluate('Job::GetWhippedIntoShape_Burns')" />
+					<Requirement type="formula" formula="System::evaluate('Job::PiggybackOnHomer')" />
+					<Requirement type="formula" formula="System::evaluate('Job::ProbeHomer')" />
+					<Requirement type="formula" formula="System::evaluate('Job::SpreadGlitterAroundTownSmithers')" />
+					<Requirement type="formula" formula="System::evaluate('Job::SearchForHiddenGoldWithLisaDUAL')" />
+					<Requirement type="formula" formula="System::evaluate('Job::TakeTheBoysSnowmobilingRod')" />
+					<Requirement type="formula" formula="System::evaluate('Job::LoosenUp')" />
+					<Requirement type="formula" formula="System::evaluate('Job::HangOutWithDad_Dual')" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="gotoFrontend" resetLoadComplete="true" forceLocalSave="false" returnToGame="false" cleanLandAndData="false" resetDLCIndex="false" stopMusic="false" />
+			</True>
+		</Action>
+	</CheckAndForceFullReload>
+	<ReplaceSoilantRed>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="deletebuilding" building="SoilantRedFactory" />
+				<Action type="rewardWithPlaceStore" attributes="CrookAndLadder_MenuConfig:RewardWithPlaceStore">
+					<Item type="building" name="SoilantRedFactory_Complete" />
+				</Action>
+			</True>
+		</Action>
+	</ReplaceSoilantRed>
+	<ResetKwikEMart>
+		<Action type="setBuildingSkin" useDefault="true">
+			<Objects>
+				<ObjectByName name="Kwik-E-Mart" />
+			</Objects>
+		</Action>
+	</ResetKwikEMart>
+	<FirmwareWarning>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="platform" platform="ios" />
+						<Requirement type="firmware" lessThan="7.0" />
+					</Requirement>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="platform" platform="android" />
+						<Requirement type="firmware" lessThan="3.0" />
+					</Requirement>
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="message" text="UI_FirmwareWarning_Aug2016" gradient="true" />
+			</True>
+		</Action>
+		<Action type="updateVariable" variable="FirmwareWarningSeen_1" value="1" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="FirmwareWarning_FinalWeek_Start" end="FirmwareWarning_FinalWeek_End" />
+			</Requirements>
+			<True>
+				<Action type="updateVariable" variable="FirmwareWarningSeen_2" value="1" />
+			</True>
+		</Action>
+	</FirmwareWarning>
+	<SpecialEventButtonInFriendMapPressed ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="quest started" quest="SpringfieldHeights04" />
+					<Requirement type="quest started" quest="ReleasingThePressure" />
+				</Requirements>
+				<Then>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="quest started" quest="TheFirstBillionIsTheHardest" />
+						</Requirements>
+						<True>
+							<Action type="setVariable" intVariable="VisitedLeaderboard" intValue="1" />
+						</True>
+					</Action>
+					<Action type="gotoState" state="WorldState_Leaderboard">
+						<Extras>
+							<Attribute name="MenuConfig0" value="Superheroes2_LeaderboardConfig:LeaderboardMenu" />
+							<Attribute name="MenuConfig1" value="SpringfieldHeights_LeaderboardMenuConfig:LeaderboardMenu" />
+						</Extras>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="quest started" quest="SpringfieldHeights04" />
+					<Requirement type="quest started" quest="ReleasingThePressure" not="true" />
+				</Requirements>
+				<Then>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="quest started" quest="TheFirstBillionIsTheHardest" />
+						</Requirements>
+						<True>
+							<Action type="setVariable" intVariable="VisitedLeaderboard" intValue="1" />
+						</True>
+					</Action>
+					<Action type="gotoState" state="WorldState_Leaderboard">
+						<Extras>
+							<Attribute name="MenuConfig0" value="SpringfieldHeights_LeaderboardMenuConfig:LeaderboardMenu" />
+						</Extras>
+					</Action>
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="gotoState" state="WorldState_Leaderboard">
+						<Extras>
+							<Attribute name="MenuConfig0" value="Superheroes2_LeaderboardConfig:LeaderboardMenu" />
+						</Extras>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</SpecialEventButtonInFriendMapPressed>
+	<CalculateWinLossRatio parallel="true">
+		<Action type="setVariable" intVariable="WinLossRatio" intValue="FelonFights_Won_Social/(FelonFights_Won_Social+FelonFights_Lost_Social)*100" />
+	</CalculateWinLossRatio>
+	<SpawnFullHudTip>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_InGame" />
+			<True>
+				<Action type="hudTip" text="UI_Superheroes2_Criminals_TownFull_text" time="3s" queue="true" waitForHUD="true" />
+			</True>
+		</Action>
+	</SpawnFullHudTip>
+	<CriminalTapped parallel="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="formula" formula="Object::Delete==0" />
+			</Requirements>
+			<True>
+				<Action type="runScriptOnAll" character="CriminalTappable" in_radius="BurnsSummerMansionLevel" radius_delay="0.6" script="CriminalReward" package="Superheroes2_Scripts" />
+				<Action type="playflyby" flybyName="BlastEffect" radius="BurnsSummerMansionLevel" unitScale="0.13" playbackFPS="50" />
+				<Action type="actionSequence" script="Superheroes2_Scripts:CriminalReward" />
+			</True>
+		</Action>
+	</CriminalTapped>
+	<CriminalTapped_Friend parallel="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="sound" sound="Criminal_Defeated_Tap" ignoreObject="true" />
+				<Action type="anim-play" character="CriminalTappable" animation="Victory_Pose" nowait="true" />
+				<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" />
+				<Action type="playCharacterEffect" />
+				<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+				<Action type="if">
+					<If expression="SequelSquadMembership==0">
+						<Then>
+							<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="selector SuperheroesTwoCurrencyPerFriendAction" suppress_sound="true" />
+							<Action type="if">
+								<If>
+									<Requirement type="time" end="SuperheroesTwo_ActTwo_Start" />
+									<Then>
+										<Action type="reward" save="true" TradingCards="selector SuperheroesTwoCraftingPerFriendAction_Act1" suppress_sound="true" />
+									</Then>
+								</If>
+								<ElseIf>
+									<Requirement type="time" start="SuperheroesTwo_ActTwo_Start" end="SuperheroesTwo_ActThree_Start" />
+									<Then>
+										<Action type="reward" save="true" TradingCards="selector SuperheroesTwoCraftingPerFriendAction_Act2" suppress_sound="true" />
+									</Then>
+								</ElseIf>
+								<Else>
+									<Then>
+										<Action type="reward" save="true" TradingCards="selector SuperheroesTwoCraftingPerFriendAction_Act3" suppress_sound="true" />
+									</Then>
+								</Else>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="selector SuperheroesTwoCurrencyPerFriendAction_Membership" suppress_sound="true" />
+							<Action type="if">
+								<If>
+									<Requirement type="time" end="SuperheroesTwo_ActTwo_Start" />
+									<Then>
+										<Action type="reward" save="true" TradingCards="selector SuperheroesTwoCraftingPerFriendAction_Membership_Act1" suppress_sound="true" />
+									</Then>
+								</If>
+								<ElseIf>
+									<Requirement type="time" start="SuperheroesTwo_ActTwo_Start" end="SuperheroesTwo_ActThree_Start" />
+									<Then>
+										<Action type="reward" save="true" TradingCards="selector SuperheroesTwoCraftingPerFriendAction_Membership_Act2" suppress_sound="true" />
+									</Then>
+								</ElseIf>
+								<Else>
+									<Then>
+										<Action type="reward" save="true" TradingCards="selector SuperheroesTwoCraftingPerFriendAction_Membership_Act3" suppress_sound="true" />
+									</Then>
+								</Else>
+							</Action>
+						</Then>
+					</Else>
+				</Action>
+				<Action type="setVariable" intVariable="SocialCriminalsTapped" intValue="SocialCriminalsTapped+1" />
+				<Action type="deletecharacter" character="CriminalTappable" />
+				<Action type="setVariable" intVariable="Superheroes2_DCS12_VarTracker" intValue="Superheroes2_DCS12_VarTracker+1" />
+			</True>
+		</Action>
+	</CriminalTapped_Friend>
+	<CriminalReward cache="true" parallel="true">
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="setObjectVariable" variable="Delete" value="1" disableEvents="true" />
+		<Action type="sound" sound="Criminal_Defeated_Tap" />
+		<Action type="anim-play" character="CriminalTappable" animation="Victory_Pose" nowait="true" />
+		<Action type="setObjectVariable" variable="PowEffect" value="rand(5) + 1" asExpression="true" disableEvents="true" />
+		<Action type="playCharacterEffect" />
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="SuperheroesTwo_ActTwo_Start" />
+				<Then>
+					<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="__Superheroes2_Spreadsheet_Config:Tappable:PrizeTrackCurrency_Act1__" suppress_sound="true" />
+					<Action type="reward" save="true" TradingCards="__Superheroes2_Spreadsheet_Config:Tappable:TradingCard_Act1__" suppress_sound="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="SuperheroesTwo_ActTwo_Start" end="SuperheroesTwo_ActThree_Start" />
+				<Then>
+					<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="__Superheroes2_Spreadsheet_Config:Tappable:PrizeTrackCurrency_Act2__" suppress_sound="true" />
+					<Action type="reward" save="true" TradingCards="__Superheroes2_Spreadsheet_Config:Tappable:TradingCard_Act2__" suppress_sound="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="__Superheroes2_Spreadsheet_Config:Tappable:PrizeTrackCurrency_Act3__" suppress_sound="true" />
+					<Action type="reward" save="true" TradingCards="__Superheroes2_Spreadsheet_Config:Tappable:TradingCard_Act3__" suppress_sound="true" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="if">
+			<If expression="CriminalsTapped">
+				<Then>
+					<Action type="reward" save="true" ScienceWater="__Superheroes2_Spreadsheet_Config:Tappable:ScienceWater__" chance="__Superheroes2_Spreadsheet_Config:Tappable:ScienceWater_Rate__" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="reward" save="true" ScienceWater="__Superheroes2_Spreadsheet_Config:Tappable:ScienceWater__" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setVariable" intVariable="CriminalsTapped" intValue="CriminalsTapped+1" />
+		<Action type="deletecharacter" character="CriminalTappable" />
+		<Action type="setVariable" intVariable="Superheroes2_DCS12_VarTracker" intValue="Superheroes2_DCS12_VarTracker+1" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="gamestate" state="GameState_InGame" />
+					<Requirement type="formula" formula="System::evaluate('Character::CriminalTappable::TotalCount')==0" />
+				</Requirements>
+				<Then>
+					<Action type="setVariable" boolVariable="ShowTownEmptyMessage" boolValue="true" />
+				</Then>
+			</If>
+		</Action>
+	</CriminalReward>
+	<CriminalSpawnCrabRemap cache="true" parallel="true">
+		<Action type="skin-set" skin="Criminal_CrabWalk" />
+	</CriminalSpawnCrabRemap>
+	<TownEmptyMessage>
+		<Action type="message" text="UI_Superheroes2_Criminals_TownEmpty_text" />
+		<Action type="setVariable" boolVariable="ShowTownEmptyMessage" boolValue="false" />
+	</TownEmptyMessage>
+	<FranceFlagAlert>
+		<Action type="message" text="UI_Superheroes2_Crafting_RewardText_FranceFlag" />
+	</FranceFlagAlert>
+	<GoToCriminal>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualGoToCriminal" />
+		</Action>
+	</GoToCriminal>
+	<ActualGoToCriminal>
+		<Action type="if">
+			<If expression="System::evaluate('Character::CriminalTappable::LandCount')">
+				<Then>
+					<Action type="pantoobject" time="0" character="CriminalTappable" reqObjectVarToAvoid="Delete" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="message" text="UI_Superheroes2_Criminals_TownEmpty_text" />
+				</Then>
+			</Else>
+		</Action>
+	</ActualGoToCriminal>
+	<SpawnFirstFriendCriminals>
+		<Action type="createobject" name="CriminalTappable" count="10" save="true" panCamera="false" />
+	</SpawnFirstFriendCriminals>
+	<SpawnSecondFriendCriminals>
+		<Action type="createobject" name="CriminalTappable" count="20" save="true" panCamera="false" />
+	</SpawnSecondFriendCriminals>
+	<SpawnThirdFriendCriminals>
+		<Action type="createobject" name="CriminalTappable" count="30" save="true" panCamera="false" />
+	</SpawnThirdFriendCriminals>
+	<PurchaseSequelSquadMembership>
+		<Action type="setVariable" boolVariable="SequelSquadMembership" boolValue="true" />
+	</PurchaseSequelSquadMembership>
+	<PlayCrimeSound parallel="true">
+		<Action type="if">
+			<If expression="greaterThan(System::evaluate('Character::CriminalTappable::TotalCount'), 14)">
+				<Then>
+					<Action type="sound" sound="sfx_EA_TSTO_Criminal_City_Amb_High.caf" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(System::evaluate('Character::CriminalTappable::TotalCount'), 1)">
+				<Then>
+					<Action type="sound" sound="sfx_EA_TSTO_Criminal_City_Amb_Low.caf" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</PlayCrimeSound>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="EventHubTabValue">
+			<ExpressionCase value="0">
+				<Action type="runScript" script="Superheroes2_Scripts:TabPressed_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="runScript" script="Superheroes2_Scripts:TabPressed_Crafting" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="Superheroes2_Scripts:TabPressed_FighterManagement" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="runScript" script="Superheroes2_Scripts:TabPressed_FelonManagement" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="runScript" script="Superheroes2_Scripts:TabPressed_SocialPrizeTrack" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<TabPressed_PrizeTrack_GoTo>
+		<Action type="actionSequence" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:TabPressed_PrizeTrack" />
+		</Action>
+	</TabPressed_PrizeTrack_GoTo>
+	<TabPressed_PrizeTrack>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="0" />
+		<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+			<Extras>
+				<Attribute name="helpButtonScript" value="Superheroes2_Scripts:HelpButton_PrizeTrack" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="PrizeTrackBadge" />
+	</TabPressed_PrizeTrack>
+	<HelpButton_PrizeTrack>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="0" />
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="SuperheroesTwo_ActTwo_Start" />
+				<Then>
+					<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:EventPanelConfig_Act1">
+						<Extras>
+							<Attribute name="specialEvent" value="Superheroes2" />
+							<Attribute name="useDynamicMenu" value="true" />
+						</Extras>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="SuperheroesTwo_ActTwo_Start" end="SuperheroesTwo_ActThree_Start" />
+				<Then>
+					<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:EventPanelConfig_Act2">
+						<Extras>
+							<Attribute name="specialEvent" value="Superheroes2" />
+							<Attribute name="useDynamicMenu" value="true" />
+						</Extras>
+					</Action>
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:EventPanelConfig_Act3">
+						<Extras>
+							<Attribute name="specialEvent" value="Superheroes2" />
+							<Attribute name="useDynamicMenu" value="true" />
+						</Extras>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</HelpButton_PrizeTrack>
+	<BackPressed_PrizeTrack>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:TabPressed_PrizeTrack" />
+	</BackPressed_PrizeTrack>
+	<TabPressed_Crafting>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+			<Extras>
+				<Attribute name="MenuConfig" value="Superheroes2_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="CraftingBadge" />
+	</TabPressed_Crafting>
+	<GoToMediumBandAidBox>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:TabPressed_Crafting_MediumBandaidBox" />
+		</Action>
+	</GoToMediumBandAidBox>
+	<TabPressed_Crafting_MediumBandaidBox>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+			<Extras>
+				<Attribute name="MenuConfig" value="Superheroes2_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="ItemToScrollTo" value="CON_MediumBandAidBox_name" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="CraftingBadge" />
+	</TabPressed_Crafting_MediumBandaidBox>
+	<TabPressed_Crafting_CharcoalBriquette>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+			<Extras>
+				<Attribute name="MenuConfig" value="Superheroes2_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="ItemToScrollTo" value="CHA_CharcoalBriquette_name" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="CraftingBadge" />
+	</TabPressed_Crafting_CharcoalBriquette>
+	<GoToFighterManagement>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:TabPressed_FighterManagement" />
+		</Action>
+	</GoToFighterManagement>
+	<TabPressed_FighterManagement>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_TeamViewer">
+			<Extras>
+				<Attribute name="generalConfig" value="Superheroes2_FightConfig:GeneralConfig_FighterManagement" />
+				<Attribute name="potentialRosterConfig" value="Superheroes2_FightConfig:PotentialRosterConfig" />
+				<Attribute name="potentialOpponentConfig" value="Superheroes2_FightConfig:PotentialOpponentConfig" />
+				<Attribute name="menuConfig" value="Superheroes2_FightConfig:FighterMenuConfig" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="FighterManagementBadge" />
+		<Action type="if">
+			<If expression="and(!BandAidNotification_Shown, System::evaluate('Spendable::BandAids'))">
+				<Then>
+					<Action type="runScript" script="Superheroes2_Scripts:HealingNotification" />
+				</Then>
+			</If>
+		</Action>
+	</TabPressed_FighterManagement>
+	<HelpButton_FighterManagement>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:FighterManagement_GuideConfig">
+			<Extras>
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</HelpButton_FighterManagement>
+	<BackPressed_FighterManagement>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:TabPressed_FighterManagement" />
+	</BackPressed_FighterManagement>
+	<HealingNotification>
+		<Action type="setVariable" boolVariable="BandAidNotification_Shown" boolValue="true" />
+		<Action type="notification" button="UI_OK" icon="ICO_CUR_Superheroes2_BandAids_LG" title="RES_BandAids_single" text="QST_WhosTheBossNow_3_3_dlg_Start_7_SystemMessage" darken="true" />
+	</HealingNotification>
+	<TabPressed_FelonManagement>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_TeamViewer">
+			<Extras>
+				<Attribute name="generalConfig" value="Superheroes2_FightConfig:SocialGeneralConfig_FelonManagement" />
+				<Attribute name="potentialOpponentConfig" value="Superheroes2_FightConfig:PotentialRosterConfig" />
+				<Attribute name="potentialRosterConfig" value="Superheroes2_FightConfig:PotentialOpponentConfig" />
+				<Attribute name="menuConfig" value="Superheroes2_FightConfig:FelonMenuConfig" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="FelonManagementBadge" />
+	</TabPressed_FelonManagement>
+	<HelpButton_FelonManagement>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:FelonManagement_GuideConfig">
+			<Extras>
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</HelpButton_FelonManagement>
+	<BackPressed_FelonManagement>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:TabPressed_FelonManagement" />
+	</BackPressed_FelonManagement>
+	<TabPressed_SocialPrizeTrack>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+			<Extras>
+				<Attribute name="helpButtonScript" value="Superheroes2_Scripts:HelpButton_SocialPrizeTrack" />
+				<Attribute name="specialEvent" value="Superheroes2_Social" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="SocialPrizeTrackBadge" />
+	</TabPressed_SocialPrizeTrack>
+	<HelpButton_SocialPrizeTrack>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:SocialBattle_GuideConfig">
+			<Extras>
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</HelpButton_SocialPrizeTrack>
+	<BackPressed_SocialPrizeTrack>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:TabPressed_SocialPrizeTrack" />
+	</BackPressed_SocialPrizeTrack>
+	<HelpButton_BossFight>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:BossFight_GuideConfig">
+			<Extras>
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</HelpButton_BossFight>
+	<HelpButton_BossFight_ReturnToGame>
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:BossFight_GuideConfig_ReturnToGame">
+			<Extras>
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</HelpButton_BossFight_ReturnToGame>
+	<Act1_Crossover>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesTwo_ActTwo" end="SuperheroesTwo_ActThree" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Act1_Exit" package="Superheroes2_Scripts" />
+			</True>
+		</Action>
+	</Act1_Crossover>
+	<Act1_Exit>
+		<Action type="returnToInGameState" />
+		<Action type="delay" time="1" />
+		<Action type="message" title="UI_XMAS2015_ActTransition_Act2_title" text="UI_XMAS2015_ActTransition_Act2_body" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</Act1_Exit>
+	<Act2_Crossover>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SuperheroesTwo_ActThree" end="SuperheroesTwo_End" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Act2_Exit" package="Superheroes2_Scripts" />
+			</True>
+		</Action>
+	</Act2_Crossover>
+	<Act2_Exit>
+		<Action type="returnToInGameState" />
+		<Action type="delay" time="1" />
+		<Action type="message" title="UI_XMAS2015_ActTransition_Act3_title" text="UI_XMAS2015_ActTransition_Act3_body" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</Act2_Exit>
+	<ActOnePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_Superheroes2_PrizeTrack_Future_title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_Superheroes2_StretchDude_LG" darken="true" />
+	</ActOnePrizeTrackTab>
+	<ActTwoPrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_Superheroes2_PrizeTrack_Future_title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_Superheroes2_DrCrab_LG" darken="true" />
+	</ActTwoPrizeTrackTab>
+	<ReturningFightersMessage>
+		<Action type="message" text="UI_Superheroes2_ReturningFighters_message" />
+		<Action type="focusOnMenuItem" menuCategory="Superheroes2" />
+	</ReturningFightersMessage>
+	<EnterSuperheroes2StoreCategory>
+		<Action type="focusOnMenuItem" menuCategory="Superheroes2" />
+	</EnterSuperheroes2StoreCategory>
+	<RecommendSuperheroes2ThreePanel>
+		<Action type="recommendation" recType="Event" eventName="UI_Superheroes2_name" name="Superheroes2_ThreePanel" />
+	</RecommendSuperheroes2ThreePanel>
+	<StartTeamSelection>
+		<Action type="gotoState" state="State_TeamSelection">
+			<Extras>
+				<Attribute name="generalConfig" value="Superheroes2_FightConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="Superheroes2_FightConfig:PotentialRosterConfig" />
+				<Attribute name="potentialOpponentConfig" value="Superheroes2_FightConfig:PotentialOpponentConfig" />
+				<Attribute name="menuConfig" value="Superheroes2_FightConfig:FighterRosterMenuConfig" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+			</Extras>
+		</Action>
+	</StartTeamSelection>
+	<HelpButton_StartTeamSelection>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:BattleManager_GuideConfig_Local">
+			<Extras>
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</HelpButton_StartTeamSelection>
+	<BackPressed_TeamSelection>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:StartTeamSelection" />
+	</BackPressed_TeamSelection>
+	<StartSocialTeamSelection>
+		<Action type="if">
+			<If expression="lessThan(FF_SocialBattlesToday, 3)">
+				<Then>
+					<Action type="deleteAllObjectVariables">
+						<Objects>
+							<ObjectByName name="Full_Roster1" land="local" />
+						</Objects>
+					</Action>
+					<Action type="actionSequence" script="Superheroes2_FelonFightScripts:CopySocialFighters" />
+					<Action type="actionSequence" script="Superheroes2_FelonFightScripts:LoadSocialFighters" />
+					<Action type="gotoState" state="State_TeamSelection">
+						<Extras>
+							<Attribute name="generalConfig" value="Superheroes2_FightConfig:SocialGeneralConfig" />
+							<Attribute name="potentialOpponentConfig" value="Superheroes2_FightConfig:PotentialRosterConfig" />
+							<Attribute name="potentialRosterConfig" value="Superheroes2_FightConfig:PotentialOpponentConfig" />
+							<Attribute name="menuConfig" value="Superheroes2_FightConfig:FelonRosterMenuConfig" />
+							<Attribute name="specialEvent" value="Superheroes2" />
+						</Extras>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="message" text="UI_Superheroes2_Social_MaxBattles" />
+				</Then>
+			</Else>
+		</Action>
+	</StartSocialTeamSelection>
+	<Guide_ReturnToRosterSelect>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:BattleManager_GuideConfig_Local" forceState="false">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</Guide_ReturnToRosterSelect>
+	<Guide_ReturnToRosterSelectSocial>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Superheroes2_GuidePanelConfig:BattleManager_GuideConfig_Social" forceState="false">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</Guide_ReturnToRosterSelectSocial>
+	<ReturnToRosterSelect_Social runQueueState="RunInAnyState">
+		<Action type="gotoState" state="State_TeamSelection">
+			<Extras>
+				<Attribute name="generalConfig" value="Superheroes2_FightConfig:SocialGeneralConfig" />
+				<Attribute name="potentialOpponentConfig" value="Superheroes2_FightConfig:PotentialRosterConfig" />
+				<Attribute name="potentialRosterConfig" value="Superheroes2_FightConfig:PotentialOpponentConfig" />
+				<Attribute name="menuConfig" value="Superheroes2_FightConfig:FelonRosterMenuConfig" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+			</Extras>
+		</Action>
+	</ReturnToRosterSelect_Social>
+	<BackPressed_RosterSelect_Social>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:ReturnToRosterSelect_Social" />
+	</BackPressed_RosterSelect_Social>
+	<ReturnToRosterSelect_Local runQueueState="RunInAnyState">
+		<Action type="gotoState" state="State_TeamSelection">
+			<Extras>
+				<Attribute name="generalConfig" value="Superheroes2_FightConfig:GeneralConfig" />
+				<Attribute name="potentialRosterConfig" value="Superheroes2_FightConfig:PotentialRosterConfig" />
+				<Attribute name="potentialOpponentConfig" value="Superheroes2_FightConfig:PotentialOpponentConfig" />
+				<Attribute name="menuConfig" value="Superheroes2_FightConfig:FighterRosterMenuConfig" />
+				<Attribute name="specialEvent" value="Superheroes2" />
+			</Extras>
+		</Action>
+	</ReturnToRosterSelect_Local>
+	<OpenDonutStoreFromHub>
+		<Action type="checkRequirements">
+			<Requirement type="friend land" />
+			<True>
+				<Action type="focusOnMenuItem" allowInLand="any" minimalStoreFile="FriendMapStoreMenu.xml" onLeaveStore="Superheroes2_Scripts:ReturnToRosterSelect_Social" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="gamestate" state="State_TeamSelection" />
+					<True>
+						<Action type="focusOnMenuItem" minimalStoreFile="FriendMapStoreMenu.xml" onLeaveStore="Superheroes2_Scripts:ReturnToRosterSelect_Local" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" minimalStoreFile="FriendMapStoreMenu.xml" onLeaveStore="Superheroes2_Scripts:PrizeListButtonPressed" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</OpenDonutStoreFromHub>
+	<BeginFight ignoreHUD="true">
+		<Action type="runScript" script="Superheroes2_FelonFightScripts:FightFromMenu" />
+	</BeginFight>
+	<OnFighterUpgrade>
+		<Action type="setObjectVariable" variable="max_health" value="min(Object::max_health + 1, 5)" asObjectExpression="true" />
+		<Action type="setObjectVariable" variable="health" value="Object::max_health" asObjectExpression="true" />
+		<Action type="setVariable" intVariable="Superheroes2_DCS9_VarTracker" intValue="Superheroes2_DCS9_VarTracker+1" />
+		<Action type="setVariable" intVariable="Superheroes2_UpgradesPerformed" intValue="Superheroes2_UpgradesPerformed+1" />
+		<Action type="actionSequence" script="Superheroes2_FelonFightScripts:CalculateBestFighters" />
+	</OnFighterUpgrade>
+	<OnFighterHeal>
+		<Action type="setObjectVariable" variable="health" value="min(Object::max_health, Object::health + 1)" asObjectExpression="true" />
+		<Action type="setVariable" intVariable="Superheroes2_DCS11_VarTracker" intValue="Superheroes2_DCS11_VarTracker+1" />
+	</OnFighterHeal>
+	<SpawnFelon ignoreHUD="true">
+		<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:SpawnFelonGroup0" />
+	</SpawnFelon>
+	<SpawnFelonGroup0 ignoreHUD="true" cache="true">
+		<Action type="actionSequence" script="Superheroes2_Scripts:SpawnFelonGroup" />
+		<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:SpawnFelonGroup1" />
+	</SpawnFelonGroup0>
+	<SpawnFelonGroup1 ignoreHUD="true" cache="true">
+		<Action type="if">
+			<If expression="lessThan(System::evaluate('Character::FelonFighter::LandCount'), 34)">
+				<Then>
+					<Action type="actionSequence" script="Superheroes2_Scripts:SpawnFelonGroup" />
+					<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:SpawnFelonGroup2" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="message" title="UI_Superheroes2_Battle_MaxFelons_title" text="UI_Superheroes2_Battle_MaxFelons_body" />
+					<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:GroupFelons" />
+				</Then>
+			</Else>
+		</Action>
+	</SpawnFelonGroup1>
+	<SpawnFelonGroup2 ignoreHUD="true" cache="true">
+		<Action type="if">
+			<If expression="lessThan(System::evaluate('Character::FelonFighter::LandCount'), 34)">
+				<Then>
+					<Action type="actionSequence" script="Superheroes2_Scripts:SpawnFelonGroup" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="message" title="UI_Superheroes2_Battle_MaxFelons_title" text="UI_Superheroes2_Battle_MaxFelons_body" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:GroupFelons" />
+	</SpawnFelonGroup2>
+	<SpawnFelon_Asylum>
+		<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:SpawnFelonGroup_Asylum" />
+	</SpawnFelon_Asylum>
+	<SpawnFelonGroup_Asylum ignoreHUD="true" cache="true">
+		<Action type="actionSequence" script="Superheroes2_Scripts:SpawnFelonGroup_Asylum_Impl" />
+		<Action type="scheduleScript" relativeTime="0s" shouldSave="true" persistUntilComplete="true" script="Superheroes2_Scripts:GroupFelons" />
+	</SpawnFelonGroup_Asylum>
+	<SpawnTutorialFelons ignoreHUD="true">
+		<Action type="if">
+			<If expression="!TutorialFelonsSpawned">
+				<Then>
+					<Action type="setVariable" boolVariable="TutorialFelonsSpawned" boolValue="true" />
+					<Action type="actionSequence" script="Superheroes2_Scripts:SpawnFelonGroup_Tutorial" />
+					<Action type="actionSequence" script="Superheroes2_Scripts:GroupFelons" />
+				</Then>
+			</If>
+		</Action>
+	</SpawnTutorialFelons>
+	<SpawnFelonGroup ignoreHUD="true" cache="true">
+		<Action type="setVariable" intVariable="FelonGroupCount" intValue="FelonGroupCount+1" />
+		<Action type="setVariable" intVariable="Temp_FelonTeam" intValue="rand(120)" />
+		<Action type="setVariable" intVariable="Temp_FelonHearts" intValue="max(ceil((TeamRating * System::evaluate('Selector::FightMultiplier')) + ((FF_ActiveFighterCount - 3) * System::evaluate('Selector::LegacyMultipler'))),4)" addTempIfNotExisting="true" />
+		<Action type="setVariable" intVariable="Temp_FelonHearts_Remainder" intValue="mod(Temp_FelonHearts, 3)" addTempIfNotExisting="true" />
+		<Action type="setVariable" intVariable="Temp_Health_Felon0" intValue="Temp_FelonHearts/3" />
+		<Action type="setVariable" intVariable="Temp_Health_Felon1" intValue="Temp_FelonHearts/3" />
+		<Action type="setVariable" intVariable="Temp_Health_Felon2" intValue="Temp_FelonHearts/3" />
+		<Action type="if">
+			<If expression="Temp_FelonHearts_Remainder==2">
+				<Then>
+					<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_AddHeartToFelon">
+						<FormatToken key="felon" value="_[rand(3)]_" />
+					</Action>
+					<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_AddHeartToFelon">
+						<FormatToken key="felon" value="_[rand(3)]_" />
+					</Action>
+				</Then>
+			</If>
+			<ElseIf expression="Temp_FelonHearts_Remainder==1">
+				<Then>
+					<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_AddHeartToFelon">
+						<FormatToken key="felon" value="_[rand(3)]_" />
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="updateVariable" variable="Temp_Health_Felon0" value="min(Temp_Health_Felon0,5)" />
+		<Action type="updateVariable" variable="Temp_Health_Felon1" value="min(Temp_Health_Felon1,5)" />
+		<Action type="updateVariable" variable="Temp_Health_Felon2" value="min(Temp_Health_Felon2,5)" />
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon0">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon1">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon2">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+	</SpawnFelonGroup>
+	<SpawnFelonGroup_Asylum_Impl ignoreHUD="true" cache="true">
+		<Action type="setVariable" intVariable="FelonGroupCount" intValue="FelonGroupCount+1" />
+		<Action type="setVariable" intVariable="Temp_FelonTeam" intValue="rand(120)" />
+		<Action type="setVariable" intVariable="Temp_FelonHearts" intValue="max(ceil((TeamRating * System::evaluate('Selector::FightMultiplier')) + ((FF_ActiveFighterCount - 3) * System::evaluate('Selector::LegacyMultipler'))+3),4)" addTempIfNotExisting="true" />
+		<Action type="setVariable" intVariable="Temp_FelonHearts_Remainder" intValue="mod(Temp_FelonHearts, 3)" addTempIfNotExisting="true" />
+		<Action type="setVariable" intVariable="Temp_Health_Felon0" intValue="Temp_FelonHearts/3" />
+		<Action type="setVariable" intVariable="Temp_Health_Felon1" intValue="Temp_FelonHearts/3" />
+		<Action type="setVariable" intVariable="Temp_Health_Felon2" intValue="Temp_FelonHearts/3" />
+		<Action type="if">
+			<If expression="Temp_FelonHearts_Remainder==2">
+				<Then>
+					<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_AddHeartToFelon">
+						<FormatToken key="felon" value="_[rand(3)]_" />
+					</Action>
+					<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_AddHeartToFelon">
+						<FormatToken key="felon" value="_[rand(3)]_" />
+					</Action>
+				</Then>
+			</If>
+			<ElseIf expression="Temp_FelonHearts_Remainder==1">
+				<Then>
+					<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_AddHeartToFelon">
+						<FormatToken key="felon" value="_[rand(3)]_" />
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="updateVariable" variable="Temp_Health_Felon0" value="min(Temp_Health_Felon0,5)" />
+		<Action type="updateVariable" variable="Temp_Health_Felon1" value="min(Temp_Health_Felon1,5)" />
+		<Action type="updateVariable" variable="Temp_Health_Felon2" value="min(Temp_Health_Felon2,5)" />
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon0">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="ForTheCriminallyDifferent" />
+			</Objects>
+		</Action>
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon1">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="ForTheCriminallyDifferent" />
+			</Objects>
+		</Action>
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon2">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="ForTheCriminallyDifferent" />
+			</Objects>
+		</Action>
+	</SpawnFelonGroup_Asylum_Impl>
+	<SpawnFelonGroup_Tutorial ignoreHUD="true">
+		<Action type="setVariable" intVariable="FelonGroupCount" intValue="FelonGroupCount+1" />
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon0_Tutorial">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="OrphanAlley" />
+				<String text="Roster2_Primary" />
+			</Objects>
+		</Action>
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon1_Tutorial">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="OrphanAlley" />
+				<String text="Roster2_Secondary" />
+			</Objects>
+		</Action>
+		<Action type="dynamicCreateObject" script="Superheroes2_Scripts:InitFelon2_Tutorial">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="FelonFighter" />
+				<ObjectByName name="OrphanAlley" />
+				<String text="Roster2_Tertiary" />
+			</Objects>
+		</Action>
+	</SpawnFelonGroup_Tutorial>
+	<OnLandVisitScript ignoreHUD="true">
+		<Action type="actionSequence" script="Superheroes2_Scripts:GroupFelons" />
+		<Action type="actionSequence" script="Superheroes2_FelonFightScripts:CalculateBestFighters" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:UpdateSocialBattleTimer" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:RedoRecommendations" />
+	</OnLandVisitScript>
+	<RedoRecommendations>
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="variable" variable="July4th2016_PromoSeen" />
+					<Requirement type="time" end="July4th2016_Promo_End" />
+					<Requirement type="conditional" logic="OR" not="true">
+						<Requirement type="building" building="SpringfieldNationalPark" />
+						<Requirement type="place building" building="SpringfieldNationalPark" />
+						<Requirement type="item" item="SpringfieldNationalPark" />
+					</Requirement>
+				</Requirements>
+				<Then>
+					<Action type="recommendation" recType="Promoted" name="EnterJuly4th2016Promo" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="quest" quest="OrphanAlley_1" hideFromInfo="true" />
+					<Requirement type="time" end="SuperheroesTwo_AcidScenePromo_End" hideFromInfo="true" />
+					<Requirement type="quest" quest="AcidScenePromoCreateGil" allowDeprecate="true" hideFromInfo="true" />
+					<Requirement type="quest" quest="AcidScenePromoPurchased" not="true" allowDeprecate="true" hideFromInfo="true" />
+				</Requirements>
+				<Then>
+					<Action type="recommendation" recType="Promoted" name="AcidScenePromo" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="quest started" quest="TheBarbarianCandidate_1" />
+					<Requirement type="time" end="July4th2016_End" />
+				</Requirements>
+				<Then>
+					<Action type="recommendation" recType="Event" eventName="UI_July4th2016_title" name="EnterJuly4th2016Category" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="quest" quest="RecommendThreePanel" />
+					<Requirement type="time" end="SuperheroesTwo_End" />
+				</Requirements>
+				<Then>
+					<Action type="recommendation" recType="Event" eventName="UI_Superheroes2_name" name="Superheroes2_ThreePanel" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="variable" variable="LizardQueen_PromoComplete" />
+					<Requirement type="variable" variable="LizardQueenPromo_TimeRefreshed" not="true" />
+					<Requirement type="quest" quest="LizardQueen_Promo_Complete" not="true" />
+					<Requirement type="time" start="Lvl60Promo_ResetDay" />
+				</Requirements>
+				<Then>
+					<Action type="recommendation" recType="Promoted" name="EnterLizardQueenPromo" />
+				</Then>
+			</If>
+		</Action>
+	</RedoRecommendations>
+	<GroupFelons ignoreHUD="true">
+		<Action type="updateVariable" variable="FF_FelonGroupCount" value="0" disableEvents="true" />
+		<Action type="runActionSequenceOnAll" character="FelonFighter" script="Superheroes2_Scripts:FindLeaders" />
+	</GroupFelons>
+	<FindLeaders ignoreHUD="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::leader==1" asObjectExpression="true" />
+			<True>
+				<Action type="updateVariable" variable="FF_FelonGroupCount" value="FF_FelonGroupCount+1" disableEvents="true" />
+				<Action type="updateVariable" variable="currentTeam" value="Object::group_id" asObjectExpression="true" disableEvents="true" />
+				<Action type="updateVariable" variable="currentTeam_distance" value="2" disableEvents="true" />
+				<Action type="setMovementBehavior">
+					<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="OrphanAlley" orbitMaxDistance="60" />
+				</Action>
+				<Action type="runActionSequenceOnAll" character="FelonFighter" script="Superheroes2_Scripts:AttachFollowers">
+					<ScriptObjects>
+						<CopyObject index="0" />
+					</ScriptObjects>
+				</Action>
+			</True>
+		</Action>
+	</FindLeaders>
+	<AttachFollowers ignoreHUD="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="formula" formula="Object::leader!=1" asObjectExpression="true" />
+				<Requirement type="formula" formula="Object::group_id==currentTeam" asObjectExpression="true" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements" ignoreObject="false">
+					<Requirement type="formula" formula="currentTeam_distance==4" />
+					<True>
+						<Action type="setMovementBehavior">
+							<MovementBehavior>
+								<Follow distance="4" visible="true" />
+							</MovementBehavior>
+						</Action>
+					</True>
+					<False>
+						<Action type="setMovementBehavior">
+							<MovementBehavior>
+								<Follow distance="2" visible="true" />
+							</MovementBehavior>
+						</Action>
+					</False>
+				</Action>
+				<Action type="updateVariable" variable="currentTeam_distance" value="4" disableEvents="true" />
+			</True>
+		</Action>
+	</AttachFollowers>
+	<UpdateSocialBattleTimer>
+		<Action type="if">
+			<If expression="greaterThan(serverTime(0), FF_SocialBattleTimer+86400)">
+				<Then>
+					<Action type="updateVariable" variable="FF_SocialBattleTimer" value="0" />
+					<Action type="updateVariable" variable="FF_SocialBattlesToday" value="0" />
+				</Then>
+			</If>
+		</Action>
+	</UpdateSocialBattleTimer>
+	<SocialGuideButton>
+		<Action type="checkRequirements">
+			<Requirement type="time" end="SuperheroesTwo_ActTwo_Start" />
+			<True>
+				<Action type="message" text="UI_Superheroes2_FriendHUD_tiptext_act1" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="time" start="SuperheroesTwo_ActTwo_Start" end="SuperheroesTwo_ActThree_Start" />
+					<True>
+						<Action type="message" text="UI_Superheroes2_FriendHUD_tiptext_act2" />
+					</True>
+					<False>
+						<Action type="message" text="UI_Superheroes2_FriendHUD_tiptext_act3" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</SocialGuideButton>
+	<PanToFelonGroup>
+		<Action type="pantoobject" time="0" characterGroup="Felons" reqObjectVar="leader" randomPickFromGroup="true" />
+	</PanToFelonGroup>
+	<FelonSetup_AddHeartToFelon ignoreHUD="true">
+		<Action type="setVariable" intVariable="Temp_Health_Felon{felon}" intValue="Temp_Health_Felon{felon}+1" formatMe="true" />
+	</FelonSetup_AddHeartToFelon>
+	<InitFelon0 ignoreHUD="true">
+		<Action type="setObjectVariable" variable="group_id" value="FelonGroupCount" asExpression="true" disableEvents="true" />
+		<Action type="setObjectVariable" variable="leader" value="1" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_GetConfig" formatMe="deep">
+			<FormatToken key="team" value="_[Temp_FelonTeam]_" />
+			<FormatToken key="felon" value="0" />
+		</Action>
+	</InitFelon0>
+	<InitFelon1 ignoreHUD="true">
+		<Action type="setObjectVariable" variable="group_id" value="FelonGroupCount" asExpression="true" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_GetConfig" formatMe="deep">
+			<FormatToken key="team" value="_[Temp_FelonTeam]_" />
+			<FormatToken key="felon" value="1" />
+		</Action>
+	</InitFelon1>
+	<InitFelon2 ignoreHUD="true">
+		<Action type="setObjectVariable" variable="group_id" value="FelonGroupCount" asExpression="true" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_GetConfig" formatMe="deep">
+			<FormatToken key="team" value="_[Temp_FelonTeam]_" />
+			<FormatToken key="felon" value="2" />
+		</Action>
+	</InitFelon2>
+	<InitFelon0_Tutorial ignoreHUD="true">
+		<Action type="setObjectVariable" variable="group_id" value="FelonGroupCount" asExpression="true" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_ApplySkin_Female_1" />
+		<Action type="setObjectVariable" variable="actual_character" value="Object::UID" asObjectExpression="true" disableEvents="true" />
+		<Action type="setObjectVariable" variable="max_health" value="2" disableEvents="true" />
+		<Action type="setObjectVariable" variable="health" value="2" disableEvents="true" />
+		<Action type="setObjectVariable" variable="battle_type" value="1" disableEvents="true" />
+		<Action type="setObjectVariable" variable="leader" value="1" disableEvents="true" />
+	</InitFelon0_Tutorial>
+	<InitFelon1_Tutorial ignoreHUD="true">
+		<Action type="setObjectVariable" variable="group_id" value="FelonGroupCount" asExpression="true" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_ApplySkin_Male_3" />
+		<Action type="setObjectVariable" variable="actual_character" value="Object::UID" asObjectExpression="true" disableEvents="true" />
+		<Action type="setObjectVariable" variable="max_health" value="2" disableEvents="true" />
+		<Action type="setObjectVariable" variable="health" value="2" disableEvents="true" />
+		<Action type="setObjectVariable" variable="battle_type" value="3" disableEvents="true" />
+	</InitFelon1_Tutorial>
+	<InitFelon2_Tutorial ignoreHUD="true">
+		<Action type="setObjectVariable" variable="group_id" value="FelonGroupCount" asExpression="true" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_ApplySkin_Female_3" />
+		<Action type="setObjectVariable" variable="actual_character" value="Object::UID" asObjectExpression="true" disableEvents="true" />
+		<Action type="setObjectVariable" variable="max_health" value="4" disableEvents="true" />
+		<Action type="setObjectVariable" variable="health" value="4" disableEvents="true" />
+		<Action type="setObjectVariable" variable="battle_type" value="3" disableEvents="true" />
+	</InitFelon2_Tutorial>
+	<FelonSetup_GetConfig ignoreHUD="true">
+		<Action type="actionSequence" formatMe="deep" script="Superheroes2_Scripts:FelonSetup_ApplyFighter">
+			<FormattingConfig path="Superheroes2_FelonConfigs:Team{team}_Felon{felon}" />
+		</Action>
+		<Action type="setObjectVariable" variable="actual_character" value="Object::UID" asObjectExpression="true" disableEvents="true" />
+		<Action type="setObjectVariable" variable="max_health" value="Temp_Health_Felon{felon}" asExpression="true" formatMe="true" disableEvents="true" />
+		<Action type="setObjectVariable" variable="health" value="Temp_Health_Felon{felon}" asExpression="true" formatMe="true" disableEvents="true" />
+	</FelonSetup_GetConfig>
+	<FelonSetup_ApplyFighter ignoreHUD="true">
+		<Action type="setObjectVariable" variable="battle_type" value="{battle_type}" formatMe="true" disableEvents="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:FelonSetup_ApplySkin_{gender}_{battle_type}" formatMe="true" />
+	</FelonSetup_ApplyFighter>
+	<FelonSetup_ApplySkin_Male_1 parallel="true">
+		<Action type="skin-set" skin="LandFelon_MuscleMale" />
+		<Action type="setObjectVariable" variable="skin" value="Felon_MuscleMale" disableEvents="true" />
+	</FelonSetup_ApplySkin_Male_1>
+	<FelonSetup_ApplySkin_Male_2 parallel="true">
+		<Action type="skin-set" skin="LandFelon_BrainMale" />
+		<Action type="setObjectVariable" variable="skin" value="Felon_BrainMale" disableEvents="true" />
+	</FelonSetup_ApplySkin_Male_2>
+	<FelonSetup_ApplySkin_Male_3 parallel="true">
+		<Action type="skin-set" skin="LandFelon_TechMale" />
+		<Action type="setObjectVariable" variable="skin" value="Felon_TechMale" disableEvents="true" />
+	</FelonSetup_ApplySkin_Male_3>
+	<FelonSetup_ApplySkin_Female_1 parallel="true">
+		<Action type="skin-set" skin="LandFelon_MuscleFemale" />
+		<Action type="setObjectVariable" variable="skin" value="Felon_MuscleFemale" disableEvents="true" />
+	</FelonSetup_ApplySkin_Female_1>
+	<FelonSetup_ApplySkin_Female_2 parallel="true">
+		<Action type="skin-set" skin="LandFelon_BrainFemale" />
+		<Action type="setObjectVariable" variable="skin" value="Felon_BrainFemale" disableEvents="true" />
+	</FelonSetup_ApplySkin_Female_2>
+	<FelonSetup_ApplySkin_Female_3 parallel="true">
+		<Action type="skin-set" skin="LandFelon_TechFemale" />
+		<Action type="setObjectVariable" variable="skin" value="Felon_TechFemale" disableEvents="true" />
+	</FelonSetup_ApplySkin_Female_3>
+	<AddGroupFelonsToRoster parallel="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::group_id == TappedFelonGroup" asObjectExpression="true" />
+			<True>
+				<Action type="pushBackObjectVariable" formula="Object::UID">
+					<Objects>
+						<ObjectByName name="Full_Roster2" />
+						<CopyObject index="0" />
+					</Objects>
+				</Action>
+			</True>
+		</Action>
+	</AddGroupFelonsToRoster>
+	<FelonFighterTapped>
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="System::evaluate('LocalLand::AdHoc::game_data::Object::battle_active')" not="true" />
+			<True>
+				<Action type="updateVariable" variable="TappedFelonGroup" value="Object::group_id" asObjectExpression="true" />
+				<Action type="deleteAllObjectVariables">
+					<Objects>
+						<ObjectByName name="Full_Roster1" />
+					</Objects>
+				</Action>
+				<Action type="deleteAllObjectVariables">
+					<Objects>
+						<ObjectByName name="Full_Roster2" />
+					</Objects>
+				</Action>
+				<Action type="sound" sound="Felons_Tap" />
+				<Action type="runScriptOnAll" character="FelonFighter" script="Superheroes2_Scripts:AddGroupFelonsToRoster" />
+				<Action type="runScript" script="Superheroes2_Scripts:StartTeamSelection" />
+			</True>
+		</Action>
+	</FelonFighterTapped>
+	<DrCrabsFactory_Tapped ignoreHUD="true">
+		<Action type="if">
+			<If expression="PinchyTappable">
+				<Then>
+					<Action type="if">
+						<If expression="greaterThan(Object::Damage, 2)" asObjectExpression="true">
+							<Then>
+								<Action type="random">
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_poweffect" animation="neutral" x="0" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ICO_Super15_ZonkEffect" animation="neutral" x="0" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_biffeffect" animation="neutral" x="0" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_thwackeffect" animation="neutral" x="0" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_tapeffect" animation="neutral" x="0" y="-300" />
+									</Action>
+								</Action>
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="random">
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_poweffect" animation="neutral" x="150" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ICO_Super15_ZonkEffect" animation="neutral" x="150" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_biffeffect" animation="neutral" x="150" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_thwackeffect" animation="neutral" x="150" y="-300" />
+									</Action>
+									<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="SoilantRedFactory">
+										<OneShot name="regular" file="ico_super15_tapeffect" animation="neutral" x="150" y="-300" />
+									</Action>
+								</Action>
+							</Then>
+						</Else>
+					</Action>
+					<Action type="shakeCamera" length="2" magnitude="20" />
+					<Action type="sound" sound="Criminal_Defeated_Tap" />
+					<Action type="setVariable" intVariable="PinchyTaps" intValue="PinchyTaps+1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="active quest" quest="BossFight_Stage_1" />
+								<Requirement type="active quest" quest="BossFight_Stage_2" />
+								<Requirement type="active quest" quest="BossFight_Stage_3" />
+								<Requirement type="active quest" quest="BossFight_Stage_4" />
+								<Requirement type="active quest" quest="BossFight_Stage_5" />
+								<Requirement type="active quest" quest="BossFight_Stage_6" />
+							</Requirement>
+						</Requirements>
+						<True>
+							<Action type="sound" sound="Pinchy_Attack" />
+							<Action type="gotoState" state="GameState_QuestProgress">
+								<Extras>
+									<Attribute name="questParentDelegate" value="BossFight_Master" />
+								</Extras>
+							</Action>
+						</True>
+						<False>
+							<Action type="sound" sound="Soilant_Red_Factory" />
+						</False>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</DrCrabsFactory_Tapped>
+	<BackPressed_DrCrabsFactory>
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:DrCrabsFactory_Tapped" />
+	</BackPressed_DrCrabsFactory>
+	<GoToDrCrabsFactory>
+		<Action type="pantoobject" building="SoilantRedFactory" time="0" />
+	</GoToDrCrabsFactory>
+	<DrCrabsFactory_ActiveIn parallel="true">
+		<Action type="setObjectVariable" variable="Active_Out" value="0">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="Active_In" value="1">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+	</DrCrabsFactory_ActiveIn>
+	<DrCrabsFactory_Active parallel="true">
+		<Action type="setObjectVariable" variable="Active_In" value="0">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="Active" value="1">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+	</DrCrabsFactory_Active>
+	<DrCrabsFactory_ActiveOut parallel="true">
+		<Action type="setObjectVariable" variable="Active" value="0">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="Active_Out" value="1">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+	</DrCrabsFactory_ActiveOut>
+	<DrCrabsFactory_Complete_ActiveIn parallel="true">
+		<Action type="setObjectVariable" variable="Active_Out" value="0">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="Active_In" value="1">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+	</DrCrabsFactory_Complete_ActiveIn>
+	<DrCrabsFactory_Complete_Active parallel="true">
+		<Action type="setObjectVariable" variable="Active_In" value="0">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="Active" value="1">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+	</DrCrabsFactory_Complete_Active>
+	<DrCrabsFactory_Complete_ActiveOut parallel="true">
+		<Action type="setObjectVariable" variable="Active" value="0">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" variable="Active_Out" value="1">
+			<Objects>
+				<ObjectByName name="SoilantRedFactory" />
+			</Objects>
+		</Action>
+	</DrCrabsFactory_Complete_ActiveOut>
+	<AttackPinchy_Heroes_JobList>
+		<Action type="gotoState" state="GameState_JobList" extras="Superheroes2_BossFightConfig:AttackPinchy_Heroes_JobList" />
+	</AttackPinchy_Heroes_JobList>
+	<AttackPinchy_Villains_JobList>
+		<Action type="gotoState" state="GameState_JobList" extras="Superheroes2_BossFightConfig:AttackPinchy_Villains_JobList" />
+	</AttackPinchy_Villains_JobList>
+	<StartAFire_JobList>
+		<Action type="gotoState" state="GameState_JobList" extras="Superheroes2_BossFightConfig:StartAFire_JobList" />
+	</StartAFire_JobList>
+	<MakeMash_JobList>
+		<Action type="gotoState" state="GameState_JobList" extras="Superheroes2_BossFightConfig:MakeMash_JobList" />
+	</MakeMash_JobList>
+	<Get247GallonsOfGravy_JobList>
+		<Action type="gotoState" state="GameState_JobList" extras="Superheroes2_BossFightConfig:Get247GallonsOfGravy_JobList" />
+	</Get247GallonsOfGravy_JobList>
+	<Alien_Tapped parallel="true">
+		<Action type="anim-play" building="Alien" animation="ActiveNoLoop" />
+	</Alien_Tapped>
+	<AttackHelicopter_Tapped parallel="true">
+		<Action type="anim-play" building="AttackHelicopter" animation="ActiveNoLoop" />
+	</AttackHelicopter_Tapped>
+	<CollectorsCar_Tapped parallel="true">
+		<Action type="anim-play" building="TheCollectorsCar" animation="ActiveNoLoop" />
+	</CollectorsCar_Tapped>
+	<FuturisticJet_Tapped parallel="true">
+		<Action type="anim-play" building="FuturisticJet" animation="Active5Loops" />
+	</FuturisticJet_Tapped>
+	<GiantSnakeInATree_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</GiantSnakeInATree_Tapped>
+	<HighVoltageTransformer_Tapped parallel="true">
+		<Action type="anim-play" building="HighVoltageTransformer" animation="ActiveNoLoop" />
+	</HighVoltageTransformer_Tapped>
+	<SatelliteStation_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="LasersAreForever" />
+			</Requirements>
+			<True>
+				<Action type="anim-play" building="SatelliteStation" animation="Tap" />
+			</True>
+		</Action>
+	</SatelliteStation_Tapped>
+	<MilhousesTrailer_Tapped parallel="true">
+		<Action type="anim-play" building="MilhousesTrailer" animation="ActiveNoLoop" />
+	</MilhousesTrailer_Tapped>
+	<PlasticPrison_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="PlasticPrisonActive" value="!Object::PlasticPrisonActive" asObjectExpression="true" />
+	</PlasticPrison_Tapped>
+	<XRayMachine_Tapped parallel="true">
+		<Action type="anim-play" animation="ActiveNoLoop" />
+	</XRayMachine_Tapped>
+	<XRayTruck_Tapped parallel="true">
+		<Action type="anim-play" building="XRayTruck" animation="ActiveNoLoop" />
+	</XRayTruck_Tapped>
+	<AquaWorldFuelTank_Tapped parallel="true">
+		<Action type="anim-play" building="AquaWorldFuelTank" animation="Active_BaseNoLoop">
+			<Sub-Building animation="Active_TopNoLoop" />
+		</Action>
+	</AquaWorldFuelTank_Tapped>
+	<GoToOrphanAlley>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualGoToOrphanAlley" />
+		</Action>
+	</GoToOrphanAlley>
+	<ActualGoToOrphanAlley>
+		<Action type="pantoobject" time="0" building="OrphanAlley" />
+	</ActualGoToOrphanAlley>
+	<GoToOrphanAlleyWithTouch>
+		<Action type="pantoobject" time="0" building="OrphanAlley" />
+		<Action type="delay" time="0.5" />
+		<Action type="pantoobject" time="0" building="OrphanAlley" fakeTouch="true" />
+	</GoToOrphanAlleyWithTouch>
+	<GoToFelon>
+		<Action type="pantoobject" time="0" character="FelonFighter" zoom="2.0" offsetX="_[gridToWorld(6)]_" offsetZ="_[gridToWorld(-6)]_" />
+	</GoToFelon>
+	<GoToFelonOrOrphanAlley>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If expression="System::evaluate('Character::FelonFighter::TotalCount')">
+						<Then>
+							<Action type="actionSequence" script="Superheroes2_Scripts:GoToFelon" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="runScript" script="Superheroes2_Scripts:GoToOrphanAlleyWithTouch" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToFelonOrOrphanAlley>
+	<GoToBurnsSummerMansion>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualGoToBurnsSummerMansion" />
+		</Action>
+	</GoToBurnsSummerMansion>
+	<ActualGoToBurnsSummerMansion>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="BurnsSummerMansion" />
+					<Requirement type="place building" building="BurnsSummerMansion" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="pantoobject" time="0" building="BurnsSummerMansion" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="BurnsSummerMansion" />
+					</Requirements>
+					<True>
+						<Action type="gotoState" state="GameState_BuildingSelected">
+							<Extras>
+								<Attribute name="BuildingName" value="BurnsSummerMansion" />
+							</Extras>
+						</Action>
+					</True>
+				</Action>
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="BurnsSummerMansion" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="BurnsSummerMansion" inventory="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="BurnsSummerMansion" menuCategory="Superheroes2" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</ActualGoToBurnsSummerMansion>
+	<UpgradeBurnsSummerMansion>
+		<Action type="sound" sound="Mr_Burns_SummerMansion_Upgrade" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:SetSummerMansionLevel" parseOnDemand="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:SummerMansionUpgradeLevelMessage" parseOnDemand="true" />
+	</UpgradeBurnsSummerMansion>
+	<SetSummerMansionLevel>
+		<Action type="setVariable" intVariable="BurnsSummerMansionLevel" intValue="BurnsSummerMansionLevel+1" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="ICO_June15_PowerUpEffect" animation="neutral" x="0" y="0" />
+		</Action>
+	</SetSummerMansionLevel>
+	<SummerMansionUpgradeLevelMessage>
+		<Action type="actionSequence" script="MiscScripts:ReturnToGameState" />
+		<Action type="checkExpression" expression="BurnsSummerMansionLevel">
+			<ExpressionCase value="5">
+				<Action type="SilentlyUnlockSkin" skin="BurnsSummerMansion_WestWing" />
+				<Action type="setBuildingSkin" skinName="BurnsSummerMansion_WestWing" />
+			</ExpressionCase>
+			<ExpressionCase value="15">
+				<Action type="SilentlyUnlockSkin" skin="BurnsSummerMansion_EastWing" />
+				<Action type="setBuildingSkin" skinName="BurnsSummerMansion_EastWing" />
+			</ExpressionCase>
+		</Action>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_Superheroes2_BurnsSummerMansion_Upgrade_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" formula="BurnsSummerMansionLevel" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_Superheroes2_BurnsSummerMansion_Upgrade_text" localise="true" />
+					<Attribute name="text" value="UI_Superheroes2_BurnsSummerMansion_Upgrade_text_WestWing" localise="true">
+						<Requirement type="formula" formula="BurnsSummerMansionLevel == 5" />
+					</Attribute>
+					<Attribute name="text" value="UI_Superheroes2_BurnsSummerMansion_Upgrade_text_EastWing" localise="true">
+						<Requirement type="formula" formula="BurnsSummerMansionLevel == 15" />
+					</Attribute>
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_Superheroes2_SummerMansion_LG" />
+					<Attribute name="image" value="MrBurnsSummerMansion02_Menu">
+						<Requirement type="formula" formula="BurnsSummerMansionLevel == 5" />
+					</Attribute>
+					<Attribute name="image" value="MrBurnsSummerMansion03_Menu">
+						<Requirement type="formula" formula="BurnsSummerMansionLevel == 15" />
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</SummerMansionUpgradeLevelMessage>
+	<ShowDeathMountain parallel="true">
+		<Action type="delay" time="2" />
+		<Action type="focusOnMenuItem" itemName="DeathMountain" inventory="true" />
+	</ShowDeathMountain>
+	<PopUpBossFightRewardPanel>
+		<Action type="genericMessage" formatMe="deep" placeholderDelimiters="[]">
+			<Attribute name="config">
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_Superheroes2_BossFight_Rewards_title" localise="true" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" value="[Part]" localise="true" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_Special" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_Superheroes2_BossFight_Rewards_text" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="[RewardAmount]" />
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_CUR_Superheroes2_BrassKnuckles_SM">
+						<Requirement type="reqList" location="Superheroes2_Requirements:ActOne" />
+					</Attribute>
+					<Attribute name="image" value="ICO_CUR_Superheroes2_SoylentRed_SM">
+						<Requirement type="reqList" location="Superheroes2_Requirements:ActTwo" />
+					</Attribute>
+					<Attribute name="image" value="ICO_CUR_Superheroes2_CrabJuice_SM">
+						<Requirement type="reqList" location="Superheroes2_Requirements:ActThree" />
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ICO_Superheroes2_BossStageComplete_0[Part]" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</PopUpBossFightRewardPanel>
+	<Superheroes2Prestige1_Reward>
+		<Action type="reward">
+			<Item type="consumable" name="Superheroes2Prestige1" useImmediately="true" />
+		</Action>
+	</Superheroes2Prestige1_Reward>
+	<Superheroes2Prestige2_Reward>
+		<Action type="reward">
+			<Item type="consumable" name="Superheroes2Prestige2" useImmediately="true" />
+		</Action>
+	</Superheroes2Prestige2_Reward>
+	<Superheroes2Prestige3_Reward>
+		<Action type="reward">
+			<Item type="consumable" name="Superheroes2Prestige3" useImmediately="true" />
+		</Action>
+	</Superheroes2Prestige3_Reward>
+	<Unlock_TungstenDude>
+		<Action type="setVariable" boolVariable="FF_Social_Felon_Unlocked3" boolValue="true" />
+	</Unlock_TungstenDude>
+	<Unlock_STEMantha>
+		<Action type="setVariable" boolVariable="FF_Social_Felon_Unlocked4" boolValue="true" />
+	</Unlock_STEMantha>
+	<Unlock_Gluteus>
+		<Action type="setVariable" boolVariable="FF_Social_Felon_Unlocked5" boolValue="true" />
+	</Unlock_Gluteus>
+	<Unlock_MegAhertz>
+		<Action type="setVariable" boolVariable="FF_Social_Felon_Unlocked6" boolValue="true" />
+	</Unlock_MegAhertz>
+	<DailyWinReward>
+		<Action type="setVariable" intVariable="LastDailyWinRewardDay" intValue="dateYday(serverTime(0))" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="Superheroes2_Requirements:ActOne" />
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="underlinedBranch">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="underlinedTitle">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_title" localise="true" />
+								<Attribute name="font" value="eFont_LargeBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraRewardBranch">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="extraRewardText">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_reward" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward1_Amount">
+								<Attribute name="text" value="{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:CurrencyReward_Act1__" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_NormalBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward2_Amount">
+								<Attribute name="text" value="{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:FiniteStone_Act1__" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_NormalBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward1_Image">
+								<Attribute name="image" value="ICO_CUR_Superheroes2_BrassKnuckles_SM" />
+							</AttributeSet>
+							<AttributeSet name="extraReward2_Image">
+								<Attribute name="image" value="ICO_CUR_Superheroes2_FiniteStones_SM" />
+							</AttributeSet>
+							<AttributeSet name="largeImage">
+								<Attribute name="image" value="ICO_Superheroes2_FirstWin" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_body" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_Collect" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+					<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:CurrencyReward_Act1__" FiniteStones="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:FiniteStone_Act1__" noDrops="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="Superheroes2_Requirements:ActTwo" />
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="underlinedBranch">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="underlinedTitle">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_title" localise="true" />
+								<Attribute name="font" value="eFont_LargeBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraRewardBranch">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="extraRewardText">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_reward" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward1_Amount">
+								<Attribute name="text" value="{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:CurrencyReward_Act2__" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_NormalBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward2_Amount">
+								<Attribute name="text" value="{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:FiniteStone_Act2__" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_NormalBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward1_Image">
+								<Attribute name="image" value="ICO_CUR_Superheroes2_SoylentRed_SM" />
+							</AttributeSet>
+							<AttributeSet name="extraReward2_Image">
+								<Attribute name="image" value="ICO_CUR_Superheroes2_FiniteStones_SM" />
+							</AttributeSet>
+							<AttributeSet name="largeImage">
+								<Attribute name="image" value="ICO_Superheroes2_FirstWin" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_body" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_Collect" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+					<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:CurrencyReward_Act2__" FiniteStones="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:FiniteStone_Act2__" noDrops="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="Superheroes2_Requirements:ActThree" />
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="underlinedBranch">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="underlinedTitle">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_title" localise="true" />
+								<Attribute name="font" value="eFont_LargeBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraRewardBranch">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="extraRewardText">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_reward" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward1_Amount">
+								<Attribute name="text" value="{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:CurrencyReward_Act3__" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_NormalBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward2_Amount">
+								<Attribute name="text" value="{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:FiniteStone_Act3__" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_NormalBold" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="extraReward1_Image">
+								<Attribute name="image" value="ICO_CUR_Superheroes2_CrabJuice_SM" />
+							</AttributeSet>
+							<AttributeSet name="extraReward2_Image">
+								<Attribute name="image" value="ICO_CUR_Superheroes2_FiniteStones_SM" />
+							</AttributeSet>
+							<AttributeSet name="largeImage">
+								<Attribute name="image" value="ICO_Superheroes2_FirstWin" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_Superheroes2_FirstWinOfTheDay_body" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_Collect" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+					<Action type="reward" save="true" Superheroes2ActivePrizeTrackCurrency="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:CurrencyReward_Act3__" FiniteStones="__Superheroes2_Spreadsheet_Config:FirstWinOfTheDay:FiniteStone_Act3__" noDrops="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</DailyWinReward>
+	<PanToXRayMachine>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualPanToXRayMachine" />
+		</Action>
+	</PanToXRayMachine>
+	<ActualPanToXRayMachine>
+		<Action type="pantoobject" building="XRayMachine" fakeTouch="false" />
+	</ActualPanToXRayMachine>
+	<PanToAttackHelicopter>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualPanToAttackHelicopter" />
+		</Action>
+	</PanToAttackHelicopter>
+	<ActualPanToAttackHelicopter>
+		<Action type="pantoobject" building="AttackHelicopter" fakeTouch="false" />
+	</ActualPanToAttackHelicopter>
+	<PanToAlien>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualPanToAlien" />
+		</Action>
+	</PanToAlien>
+	<ActualPanToAlien>
+		<Action type="pantoobject" building="Alien" fakeTouch="false" />
+	</ActualPanToAlien>
+	<PanToFuturisticJet>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Superheroes2_Scripts:ActualPanToFuturisticJet" />
+		</Action>
+	</PanToFuturisticJet>
+	<ActualPanToFuturisticJet>
+		<Action type="pantoobject" building="FuturisticJet" fakeTouch="false" />
+	</ActualPanToFuturisticJet>
+	<Surfacing_Milo>
+		<Action type="message" text="UI_Superheroes2_Surfacing_Milo" />
+		<Action type="focusOnMenuItem" itemName="Coolsville" menuCategory="Superheroes2" />
+	</Surfacing_Milo>
+	<Surfacing_Fracker>
+		<Action type="message" text="UI_Superheroes2_Surfacing_Fracker" />
+		<Action type="focusOnMenuItem" itemName="TheFracker" menuCategory="Superheroes2" />
+	</Surfacing_Fracker>
+	<Surfacing_CitizenSolarAndWindLad>
+		<Action type="message" text="UI_Superheroes2_Surfacing_CitizenSolarAndWindLad" />
+		<Action type="focusOnMenuItem" itemName="CitizenSolarAndWindLad" menuCategory="Superheroes2" />
+	</Surfacing_CitizenSolarAndWindLad>
+	<Surfacing_ScoutMaster>
+		<Action type="message" text="UI_Superheroes2_Surfacing_ScoutMaster" />
+		<Action type="focusOnMenuItem" itemName="ScoutMaster" menuCategory="Superheroes2" />
+	</Surfacing_ScoutMaster>
+	<Surfacing_SatelliteStation>
+		<Action type="if">
+			<If>
+				<Requirement type="time" end="SuperheroesTwo_ActTwo_Start" />
+				<Then>
+					<Action type="message" text="UI_Superheroes2_Surfacing_SatelliteStation_act1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="time" start="SuperheroesTwo_ActTwo_Start" end="SuperheroesTwo_ActThree_Start" />
+				<Then>
+					<Action type="message" text="UI_Superheroes2_Surfacing_SatelliteStation_act2" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="message" text="UI_Superheroes2_Surfacing_SatelliteStation_act3" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="focusOnMenuItem" itemName="SatelliteStation" menuCategory="Superheroes2" />
+	</Surfacing_SatelliteStation>
+	<Surfacing_BartmanVsRadioactiveMan>
+		<Action type="message" text="UI_Superheroes2_Surfacing_BartmanVsRadioactiveMan" />
+		<Action type="focusOnMenuItem" itemName="BartmanVsRadioactiveMan" menuCategory="Superheroes2" />
+	</Surfacing_BartmanVsRadioactiveMan>
+	<AcidScene_State0_Done parallel="true">
+		<Action type="setObjectVariable" variable="State" value="1">
+			<Objects>
+				<ObjectByName name="RadioactiveManFilmSet" />
+			</Objects>
+		</Action>
+	</AcidScene_State0_Done>
+	<AcidScene_State1_Done parallel="true">
+		<Action type="fade" character="Wolfcastle" fade="out" />
+		<Action type="setObjectVariable" variable="State" value="2" disableEvents="true">
+			<Objects>
+				<ObjectByName name="RadioactiveManFilmSet" />
+			</Objects>
+		</Action>
+		<Action type="sound" sound="FilmSetSound" ignoreObject="true" />
+		<Action type="anim-play" onBuilding="RadioactiveManFilmSet" animation="active2" />
+		<Action type="fade" character="Wolfcastle" fade="out" />
+		<Action type="stop" character="Wolfcastle" />
+	</AcidScene_State1_Done>
+	<AcidScene_State2_Done parallel="true">
+		<Action type="setObjectVariable" variable="State" value="3">
+			<Objects>
+				<ObjectByName name="RadioactiveManFilmSet" />
+			</Objects>
+		</Action>
+		<Action type="delay" time="3" />
+		<Action type="fade" character="Wolfcastle" fade="off" />
+		<Action type="resume" character="Wolfcastle" />
+		<Action type="setObjectVariable" variable="State" value="0">
+			<Objects>
+				<ObjectByName name="RadioactiveManFilmSet" />
+			</Objects>
+		</Action>
+	</AcidScene_State2_Done>
+	<Felon3Unlocked>
+		<Action type="setObjectVariable" variable="Felon3Unlocked" value="1">
+			<Objects>
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+	</Felon3Unlocked>
+	<Felon4Unlocked>
+		<Action type="setObjectVariable" variable="Felon4Unlocked" value="1">
+			<Objects>
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+	</Felon4Unlocked>
+	<Felon5Unlocked>
+		<Action type="setObjectVariable" variable="Felon5Unlocked" value="1">
+			<Objects>
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+	</Felon5Unlocked>
+	<Felon6Unlocked>
+		<Action type="setObjectVariable" variable="Felon6Unlocked" value="1">
+			<Objects>
+				<ObjectByName name="OrphanAlley" />
+			</Objects>
+		</Action>
+	</Felon6Unlocked>
+	<ResetDCS1Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS1_VarTracker" intValue="0" />
+	</ResetDCS1Vars>
+	<ResetDCS2Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS2_VarTracker" intValue="0" />
+	</ResetDCS2Vars>
+	<ResetDCS3Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS3_VarTracker" intValue="0" />
+	</ResetDCS3Vars>
+	<ResetDCS4Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS4_VarTracker" intValue="0" />
+	</ResetDCS4Vars>
+	<ResetDCS5Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS5_VarTracker" intValue="0" />
+	</ResetDCS5Vars>
+	<ResetDCS6Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS6_VarTracker" intValue="0" />
+	</ResetDCS6Vars>
+	<ResetDCS7Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS7_VarTracker" intValue="0" />
+	</ResetDCS7Vars>
+	<ResetDCS8Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS8_VarTracker" intValue="0" />
+	</ResetDCS8Vars>
+	<ResetDCS9Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS9_VarTracker" intValue="0" />
+	</ResetDCS9Vars>
+	<ResetDCS10Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS10_VarTracker" intValue="0" />
+	</ResetDCS10Vars>
+	<ResetDCS11Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS11_VarTracker" intValue="0" />
+	</ResetDCS11Vars>
+	<ResetDCS12Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS12_VarTracker" intValue="0" />
+	</ResetDCS12Vars>
+	<ResetDCS13Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS13_VarTracker" intValue="0" />
+	</ResetDCS13Vars>
+	<ResetDCS14Vars>
+		<Action type="setVariable" intVariable="Superheroes2_DCS14_VarTracker" intValue="0" />
+	</ResetDCS14Vars>
+	<IncreaseCraftedCount>
+		<Action type="setVariable" intVariable="Superheroes2_DCS13_VarTracker" intValue="Superheroes2_DCS13_VarTracker+1" />
+	</IncreaseCraftedCount>
+	<UpsellFelons>
+		<Action type="recommendation" recType="Promoted" name="FelonPack3" />
+		<Action type="recommendation" recType="Promoted" name="FelonPack2" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="item" item="WonderFilms" checkInventoryOnly="false" />
+					<Requirement type="place building" building="WonderFilms" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="actionSequence" script="Superheroes2_Scripts:FelonPack1_Bought" />
+			</True>
+			<False>
+				<Action type="recommendation" recType="Promoted" name="FelonPack1" />
+			</False>
+		</Action>
+		<Action type="dialogue" character="Felon_TechM" text="QST_TheyFelonHardTimes_3_dlg_Start_1_MaleTechFelon" />
+		<Action type="dialogue" character="Felon_StrengthF" text="QST_TheyFelonHardTimes_3_dlg_Start_2_FemaleMuscleFelon" />
+		<Action type="message" text="QST_TheyFelonHardTimes_3_dlg_Start_3_SystemMessage" />
+		<Action type="focusOnMenuItem" itemName="FelonPack2" menuCategory="Premium" />
+	</UpsellFelons>
+	<OrphanAlley_FelonOverlayUnlocked>
+		<Action type="setBuildingSkin" building="OrphanAlley" skinName="OrphanAlley_CivilWar" />
+		<Action type="pantoobject" building="OrphanAlley" time="0" />
+	</OrphanAlley_FelonOverlayUnlocked>
+	<FelonPack1_Bought>
+		<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="FelonPack1" value="1" allowOrphan="true" preorphan="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:OrphanAlley_FelonOverlayUnlocked" />
+	</FelonPack1_Bought>
+	<FelonPack2_Bought>
+		<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="FelonPack2" value="1" allowOrphan="true" preorphan="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:OrphanAlley_FelonOverlayUnlocked" />
+	</FelonPack2_Bought>
+	<FelonPack3_Bought>
+		<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="FelonPack3" value="1" allowOrphan="true" preorphan="true" />
+		<Action type="actionSequence" script="Superheroes2_Scripts:OrphanAlley_FelonOverlayUnlocked" />
+	</FelonPack3_Bought>
+	<OrphanAlley_ShowParticles parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="ORPHAN_ALLEY_BUG_FIX_OBJECT_VARIABLE" value="0" />
+	</OrphanAlley_ShowParticles>
+	<FixOrphanAlleySkin>
+		<Action type="deleteObjectVariable" removeAllWithName="true" variable="ORPHAN_ALLEY_BUG_FIX_OBJECT_VARIABLE" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="consumable" name="FelonPack1" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="building" building="WonderFilms" />
+						<Requirement type="place building" building="WonderFilms" />
+						<Requirement type="item" item="WonderFilms" />
+					</Requirement>
+				</Requirement>
+				<Requirement type="building" building="OrphanAlley" />
+				<Requirement type="item" item="OrphanAlley" checkInventoryOnly="true" not="true" />
+			</Requirements>
+			<True>
+				<Action type="deleteObjectVariable" removeAllWithName="true" variable="FelonPack1" />
+				<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="FelonPack1" value="1" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="consumable" name="FelonPack2" />
+				<Requirement type="building" building="OrphanAlley" />
+				<Requirement type="item" item="OrphanAlley" checkInventoryOnly="true" not="true" />
+			</Requirements>
+			<True>
+				<Action type="deleteObjectVariable" removeAllWithName="true" variable="FelonPack2" />
+				<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="FelonPack2" value="1" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="consumable" name="FelonPack3" />
+				<Requirement type="building" building="OrphanAlley" />
+				<Requirement type="item" item="OrphanAlley" checkInventoryOnly="true" not="true" />
+			</Requirements>
+			<True>
+				<Action type="deleteObjectVariable" removeAllWithName="true" variable="FelonPack3" />
+				<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="FelonPack3" value="1" />
+			</True>
+		</Action>
+		<Action type="setObjectVariable" onType="building" onObject="OrphanAlley" variable="ORPHAN_ALLEY_BUG_FIX_OBJECT_VARIABLE" value="0" />
+	</FixOrphanAlleySkin>
+</ScriptPackage>

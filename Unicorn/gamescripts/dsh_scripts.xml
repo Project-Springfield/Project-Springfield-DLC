@@ -1,0 +1,559 @@
+﻿<ScriptPackage>
+	<RocketLaunchPlatform_JobStarted parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="SpaceTrek" />
+			</Requirements>
+			<False>
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="Failures" value="0" />
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="LaunchedState" value="1" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="and(or(greaterThan(System::evaluate('Building::RocketLaunchPlatform_Farm::Object::Failures'), 2), rand(4)==0), System::evaluate('Building::RocketLaunchPlatform_Farm::Object::LaunchedState')!=2)">
+						<Then>
+							<Action type="sound" sound="bld_RocketLaunchPlatform_Ignition" />
+							<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="Failures" value="0" />
+							<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="LaunchedState" value="1" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="sound" sound="bld_RocketLaunchPlatform_Crash" />
+							<Action type="if">
+								<If expression="System::evaluate('Building::RocketLaunchPlatform_Farm::Object::LaunchedState')!=2">
+									<Then>
+										<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="Failures" value="System::evaluate('Building::RocketLaunchPlatform_Farm::Object::Failures')+1" asExpression="true" />
+									</Then>
+								</If>
+							</Action>
+							<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="LaunchedState" value="2" />
+							<Action type="delay" time="5" />
+							<Action type="setVariable" boolVariable="RocketFailed" boolValue="true" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</RocketLaunchPlatform_JobStarted>
+	<RocketLaunchPlatform_JobComplete parallel="true" otherScriptsCanRunOnObject="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::RocketLaunchPlatform_Farm::Object::LaunchedState')==1">
+				<Then>
+					<Action type="anim-play" building="RocketLaunchPlatform_Farm" animation="Active_2_Out" />
+					<Action type="checkRequirements">
+						<Requirement type="quest" quest="SpaceTrek" />
+						<True>
+							<Action type="runScript" script="RocketLaunch_Success" package="DSH_Scripts" />
+						</True>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="anim-play" building="RocketLaunchPlatform_Farm" animation="ACTIVE_3_Out" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="LaunchedState" value="0" />
+		<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="InPlayed" value="0" />
+	</RocketLaunchPlatform_JobComplete>
+	<RocketLaunch_Success otherScriptsCanRunOnObject="true">
+		<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="Random" value="rand(100)" asExpression="true" />
+		<Action type="if">
+			<If expression="System::evaluate('Building::RocketLaunchPlatform_Farm::Object::Random')==0">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="MiniNuclearWarhead" />
+					</Action>
+				</Then>
+			</If>
+			<ElseIf expression="lessThan(System::evaluate('Building::RocketLaunchPlatform_Farm::Object::Random'), 4)">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="KangTopiary" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="lessThan(System::evaluate('Building::RocketLaunchPlatform_Farm::Object::Random'), 7)">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="KodosTopiary" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf expression="lessThan(System::evaluate('Building::RocketLaunchPlatform_Farm::Object::Random'), 40)">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="HailAntsSign" />
+					</Action>
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="reward" ignoreObject="true">
+						<Item type="chance">
+							<Item type="building" name="Debris_00" chance="0.2" />
+							<Item type="building" name="Debris_01" chance="0.4" />
+							<Item type="building" name="Debris_02" chance="0.6" />
+							<Item type="building" name="Debris_03" chance="0.8" />
+							<Item type="building" name="Debris_04" chance="1" />
+						</Item>
+						<Item type="chance">
+							<Item type="building" name="Debris_00" chance="0.2" />
+							<Item type="building" name="Debris_01" chance="0.4" />
+							<Item type="building" name="Debris_02" chance="0.6" />
+							<Item type="building" name="Debris_03" chance="0.8" />
+							<Item type="building" name="Debris_04" chance="1" />
+						</Item>
+						<Item type="chance">
+							<Item type="building" name="Debris_00" chance="0.2" />
+							<Item type="building" name="Debris_01" chance="0.4" />
+							<Item type="building" name="Debris_02" chance="0.6" />
+							<Item type="building" name="Debris_03" chance="0.8" />
+							<Item type="building" name="Debris_04" chance="1" />
+						</Item>
+						<Item type="chance">
+							<Item type="building" name="Debris_00" chance="0.2" />
+							<Item type="building" name="Debris_01" chance="0.4" />
+							<Item type="building" name="Debris_02" chance="0.6" />
+							<Item type="building" name="Debris_03" chance="0.8" />
+							<Item type="building" name="Debris_04" chance="1" />
+						</Item>
+					</Action>
+					<Action type="notification" title="BLD_Debris_00_name" button="UI_OK" text="UI_DSH_DebrisRewarded" icon="Debris00_Menu" />
+				</Then>
+			</Else>
+		</Action>
+	</RocketLaunch_Success>
+	<RocketLaunchPlatform_JobInPlayed parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="InPlayed" value="1" />
+	</RocketLaunchPlatform_JobInPlayed>
+	<RocketLaunch_Tapped parallel="true">
+		<Action type="sound" sound="bld_RocketLaunchPlatform_tap" />
+		<Action type="actionSequence" script="DSH_Scripts:ChipsFlyBy" />
+	</RocketLaunch_Tapped>
+	<ChipsFlyBy>
+		<Action type="setVariable" boolVariable="DSH_Chips_Active" boolValue="true" />
+		<Action type="delay" time="15" />
+		<Action type="setVariable" boolVariable="DSH_Chips_Active" boolValue="false" />
+	</ChipsFlyBy>
+	<SpaceShuttle_Tapped parallel="true">
+		<Action type="sound" sound="bld_SpaceShuttle_tap" />
+		<Action type="anim-play" building="SpaceShuttle" animation="ActiveNoLoop" />
+	</SpaceShuttle_Tapped>
+	<InanimateCarbonRodMonument_Tapped parallel="true">
+		<Action type="sound" sound="bld_InanimateCarbonRodMonument_tap" />
+	</InanimateCarbonRodMonument_Tapped>
+	<LaunchShip_Start parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="RocketLaunchPlatform_Built" />
+			<True>
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="Launch" value="1" allowOrphan="false" />
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="AudioPlay" value="1" allowOrphan="false" />
+			</True>
+			<False>
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="Launch" value="1" allowOrphan="false" />
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="AudioPlay" value="1" allowOrphan="false" />
+			</False>
+		</Action>
+	</LaunchShip_Start>
+	<LaunchShip_End parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="RocketLaunchPlatform_Built" />
+			<True>
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="Launch" value="0" allowOrphan="false" />
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="OnFire" value="1" />
+				<Action type="delay" time="1.5" />
+				<Action type="addBuildingOverlay" building="RocketLaunchPlatform_Built" order="1">
+					<EffectOverlay name="Explosion" bsv3="RocketLaunchPlatformExplosion" anim="Explosion" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" />
+				</Action>
+				<Action type="delay" time="1" />
+				<Action type="removeBuildingOverlay" building="RocketLaunchPlatform_Built" name="Explosion" />
+			</True>
+			<False>
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="Launch" value="0" allowOrphan="false" />
+				<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Farm" variable="OnFire" value="1" />
+				<Action type="delay" time="1.5" />
+				<Action type="addBuildingOverlay" building="RocketLaunchPlatform_Farm" order="1">
+					<EffectOverlay name="Explosion" bsv3="RocketLaunchPlatformExplosion" anim="Explosion" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" />
+				</Action>
+				<Action type="delay" time="1" />
+				<Action type="removeBuildingOverlay" building="RocketLaunchPlatform_Farm" name="Explosion" />
+			</False>
+		</Action>
+	</LaunchShip_End>
+	<RocketLaunchFarm_Explosion parallel="true">
+		<Action type="delay" time="1.5" />
+		<Action type="addBuildingOverlay" building="RocketLaunchPlatform_Farm" order="1">
+			<EffectOverlay name="Explosion" bsv3="RocketLaunchPlatformExplosion" anim="Explosion" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" />
+		</Action>
+		<Action type="delay" time="3" />
+		<Action type="removeBuildingOverlay" building="RocketLaunchPlatform_Farm" name="Explosion" />
+	</RocketLaunchFarm_Explosion>
+	<BuildAtomicMissile_Explosion parallel="true">
+		<Action type="addBuildingOverlay" building="RocketLaunchPlatform" order="1">
+			<EffectOverlay name="Explosion" bsv3="RocketLaunchPlatformExplosion" anim="Explosion" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" />
+		</Action>
+		<Action type="delay" time="3" />
+		<Action type="removeBuildingOverlay" building="RocketLaunchPlatform" name="Explosion" />
+	</BuildAtomicMissile_Explosion>
+	<PutOutRocketFuelFires_Start parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="OnFire" value="1" />
+	</PutOutRocketFuelFires_Start>
+	<PutOutRocketFuelFires_End parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="OnFire" value="0" allowOrphan="false" />
+	</PutOutRocketFuelFires_End>
+	<RocketLaunch_Ignition parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::RocketLaunchPlatform_Built::Object::AudioPlay')==1">
+				<Then>
+					<Action type="setObjectVariable" onType="building" onObject="RocketLaunchPlatform_Built" variable="AudioPlay" value="0" allowOrphan="false" />
+				</Then>
+			</If>
+		</Action>
+	</RocketLaunch_Ignition>
+	<EnterDSHCategory>
+		<Action type="focusOnMenuItem" menuCategory="DSHCategory" />
+	</EnterDSHCategory>
+	<StoreCatRecommend parallel="true">
+		<Action type="recommendation" recType="Event" eventName="UI_DSH_title" name="DSH_OnePanel" />
+	</StoreCatRecommend>
+	<StarsRegular parallel="true">
+		<Action type="reward" DSH_Stars="1" suppress_sound="true" save="true" />
+		<Action type="setVariable" intVariable="DSH_StarsRegular" intValue="DSH_StarsRegular + 1" />
+	</StarsRegular>
+	<StarsRegularLong parallel="true">
+		<Action type="reward" DSH_Stars="2" suppress_sound="true" save="true" />
+		<Action type="setVariable" intVariable="DSH_StarsRegular" intValue="DSH_StarsRegular + 2" />
+	</StarsRegularLong>
+	<StarsPremium parallel="true">
+		<Action type="reward" DSH_Stars="2" suppress_sound="true" save="true" />
+		<Action type="setVariable" intVariable="DSH_StarsPremium" intValue="DSH_StarsPremium + 2" />
+	</StarsPremium>
+	<StarsPremium parallel="true">
+		<Action type="reward" DSH_Stars="2" suppress_sound="true" save="true" />
+		<Action type="setVariable" intVariable="DSH_StarsPremium" intValue="DSH_StarsPremium + 2" />
+	</StarsPremium>
+	<StarsShuttle parallel="true">
+		<Action type="setVariable" intVariable="DSH_StarsBuildings" intValue="DSH_StarsPremium + 5" />
+	</StarsShuttle>
+	<StarsCentre parallel="true">
+		<Action type="setVariable" intVariable="DSH_StarsBuildings" intValue="DSH_StarsPremium + 5" />
+	</StarsCentre>
+	<DSH_OpenMasterQuest>
+		<Action type="gotoState" state="GameState_QuestProgress">
+			<Extras>
+				<Attribute name="questParentDelegate" value="CheapSpaceHomer_Master2" />
+			</Extras>
+		</Action>
+	</DSH_OpenMasterQuest>
+	<DSH_OpenResourceMenu ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="CheapSpaceHomer_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="DSH_Event" />
+									<Attribute name="JobList" value="DSH_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="CheapSpaceHomer_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="DSH_Event" />
+									<Attribute name="JobList" value="DSH_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CheapSpaceHomer_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="DSH_Event" />
+									<Attribute name="JobList" value="DSH_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CheapSpaceHomer_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="DSH_Event" />
+									<Attribute name="JobList" value="DSH_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CheapSpaceHomer_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="DSH_Event" />
+									<Attribute name="JobList" value="DSH_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="CheapSpaceHomer_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList" backButtonRestoresPreviousState="true">
+								<Extras>
+									<Attribute name="SpecialEvent" value="DSH_Event" />
+									<Attribute name="JobList" value="DSH_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</DSH_OpenResourceMenu>
+	<DSH_GoToTrainingCentre>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="SpaceTrainingCenter" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="pantoobject" building="SpaceTrainingCenter" />
+					</True>
+					<False>
+						<Action type="gotoState" state="GameState_InGame" />
+						<Action type="focusOnMenuItem" itemName="SpaceTrainingCenter" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</DSH_GoToTrainingCentre>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Score" param2="0" param3Type="UserLevel" eventId="3589" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularReward{task}" param2Type="Score" param2="{Regular}" param3Type="UserLevel" eventId="3548" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="PremiumReward{task}" param2Type="Score" param2="{Premium}" param3Type="UserLevel" eventId="3548" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="RegularLargeReward{task}" param2Type="Score" param2="{RegularLarge}" param3Type="UserLevel" eventId="3548" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="BuildingJobReward{task}" param2Type="Score" param2="{Buildings}" param3Type="UserLevel" eventId="3548" />
+		<Action type="setVariable" intVariable="DSH_StarsRegular" intValue="0" />
+		<Action type="setVariable" intVariable="DSH_StarsPremium" intValue="0" />
+		<Action type="setVariable" intVariable="DSH_RegularLarge" intValue="0" />
+		<Action type="setVariable" intVariable="DSH_StarsBuildings" intValue="0" />
+	</LogTelemetry>
+	<BarneyBundle_Purchased>
+		<Action type="notificationLarge" title="con_barney_bundle_name" button="UI_OK" text="UI_AtW_ItemPurchased" positioningRule="DSH_Bowlarama" />
+		<Action type="setVariable" boolVariable="DSH_BarneyBundleBought" boolValue="true" />
+		<Action type="scheduleScript" mode="replace" script="DSH_Scripts:BarneyBundle_Focus" relativeTime="0s" />
+	</BarneyBundle_Purchased>
+	<BarneyBundle_Focus>
+		<Action type="focusOnMenuItem" itemName="Bowlarama" inventory="true" />
+	</BarneyBundle_Focus>
+	<ShuttleBundle_Purchased>
+		<Action type="notificationLarge" title="con_shuttle_bundle_name" button="UI_OK" text="UI_AtW_ItemPurchased" positioningRule="DSH_Shuttle" />
+		<Action type="setVariable" boolVariable="DSH_BarneyBundleBought" boolValue="true" />
+	</ShuttleBundle_Purchased>
+	<BarneySkinApplication_Trigger parallel="true">
+		<Action type="delay" time="2" />
+	</BarneySkinApplication_Trigger>
+	<BarneySkinApplication ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="character" name="Barney" unlockedskin="Barney_Nasa" />
+			</Requirements>
+			<False>
+				<Action type="consumable" consumable="Barney_Nasa_Con" fromInventory="true" />
+			</False>
+		</Action>
+	</BarneySkinApplication>
+	<ShowMiniEventPanel>
+		<Action type="setVariable" boolVariable="MarsWon_Complete" boolValue="true" />
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_DSH_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_DSH_SplashScreen_Body1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_DSH_SplashScreen_Body2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_DSH_SplashScreen_Body3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_DSH_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventPanel>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_MiniEvents_OutroPanel_Button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_MiniEvents_OutroPanel_Button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_DSH_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value=" " localise="true">
+						<Requirement type="conditional" logic="OR" not="true">
+							<Requirement type="language" language="RUS_RU" />
+							<Requirement type="language" language="POR_BR" />
+							<Requirement type="language" language="SPA_ES" />
+						</Requirement>
+					</Attribute>
+					<Attribute name="text" ignoreIfSet="true" value=" " />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn7">
+					<Attribute name="text" value="UI_DSH_OutroPanel_Body1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn8">
+					<Attribute name="text" value="UI_DSH_OutroPanel_Body2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_DSH_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<DSH_PlayCon>
+		<Action type="gotoState" state="GameState_InGame" />
+	</DSH_PlayCon>
+	<GetBarney parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="characterunlocked" name="Barney" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="building owned" building="SpaceShuttle" not="true" />
+							<True>
+								<Action type="focusOnMenuItem" itemName="DSH_ShuttleBundle" menuCategory="DSHCategory" />
+							</True>
+							<False>
+								<Action type="focusOnMenuItem" itemName="Barney_Nasa_Con" menuCategory="DSHCategory" />
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="DSH_BarneyBundle" menuCategory="DSHCategory" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GetBarney>
+	<GetVittorio parallel="true">
+		<Action type="focusOnMenuItem" itemName="RanchoRelaxo" menuCategory="Characters" />
+	</GetVittorio>
+	<DSH_Prize_01>
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="SpaceTrainingCenter" />
+		</Action>
+	</DSH_Prize_01>
+	<DSH_Prize_02>
+		<Action type="reward">
+			<Item type="consumable" name="Homer_DeepSpace_Con" useImmediately="true" />
+		</Action>
+	</DSH_Prize_02>
+	<DSH_Prize_03>
+		<Action type="rewardWithPlaceStore" attributes="DSH_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="ShuttleHangar" />
+		</Action>
+	</DSH_Prize_03>
+	<DSH_Prize_04>
+		<Action type="notification" title="JOB_GatherInsectSpecimens_name" button="UI_OK" text="UI_DSH_JobUnlock_GatherInsectSpecimens" icon="ICO_PRIZ_DeepSpaceHomer_CollectInsectSpecimens_MD" />
+	</DSH_Prize_04>
+	<DSH_Prize_05>
+		<Action type="notification" title="JOB_WalkLikeAHero_name" button="UI_OK" text="UI_DSH_JobUnlock_WalkLikeAHero" icon="ICO_PRIZ_DeepSpaceHomer_WalkLikeAHero_MD" />
+	</DSH_Prize_05>
+	<DSH_Prize_06>
+		<Action type="checkRequirements">
+			<Requirement type="quest started" quest="SpaceTrek" />
+			<False>
+				<Action type="replaceobject" from="RocketLaunchPlatform" to="RocketLaunchPlatform_Built" ignoreObject="false" />
+			</False>
+			<True>
+				<Action type="replaceobject" from="RocketLaunchPlatform" to="RocketLaunchPlatform_Farm" ignoreObject="false" />
+			</True>
+		</Action>
+		<Action type="notification" title="BLD_RocketLaunchPlatform_name" button="UI_OK" text="UI_DSH_RewardMessage_06" icon="ICO_PRIZ_DeepSpaceHomer_Rocket_MD" />
+	</DSH_Prize_06>
+	<MarsWon_2_DebrisSpawn ignoreHUD="true">
+		<Action type="createBuilding" name="Debris_00|Debris_04" count="10" />
+	</MarsWon_2_DebrisSpawn>
+	<GetNow_Empty parallel="true">
+		<Action type="delay" time="0" />
+	</GetNow_Empty>
+	<DSH_RLPFarm>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="RocketLaunchPlatform" />
+			<False>
+				<Action type="replaceobject" from="RocketLaunchPlatform_Built" to="RocketLaunchPlatform_Farm" ignoreObject="false" />
+			</False>
+			<True>
+				<Action type="replaceobject" from="RocketLaunchPlatform" to="RocketLaunchPlatform_Farm" ignoreObject="false" />
+			</True>
+		</Action>
+	</DSH_RLPFarm>
+	<RocketLaunchPlatform_Farm_Tapped>
+		<Action type="gotoState" state="GameState_BuildingSelected">
+			<Extras>
+				<Attribute name="BuildingName" value="RocketLaunchPlatform_Farm" />
+				<Attribute name="GoToFarmMode" value="true" />
+			</Extras>
+		</Action>
+	</RocketLaunchPlatform_Farm_Tapped>
+</ScriptPackage>

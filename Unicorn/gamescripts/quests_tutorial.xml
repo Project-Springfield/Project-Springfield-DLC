@@ -1,0 +1,1187 @@
+﻿<QuestPackage>
+	<Quest id="0" name="SquareOne" icon="Homer" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="level" level="1" />
+			<Requirement type="character" name="Homer" />
+		</Requirements>
+		<Objectives>
+			<Objective type="place building" building="SimpsonHome" GoToBehaviour="close" hide="true" />
+			<Objective type="build" building="SimpsonHome" quantity="1" rewardsCollected="yes" progress="lifetime" lateEnd="true" GoToBehaviour="close" GoToEnabled="false" />
+		</Objectives>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="SpringfieldCleaners01" />
+			<AntiReq type="active quest" quest="SpringfieldCleaners01" />
+		</ErrorChecks>
+		<Reward money="100" xp="10" />
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow building="SimpsonHome" rushBuild="SimpsonHome" />
+		</Lock>
+	</Quest>
+	<Quest id="77" name="EnableQuestBook" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="quest" quest="SquareOne" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="DefaultSidebarOpen" />
+	</Quest>
+	<QuestChain>
+		<Quest id="75" name="SquareOne_Trigger" start_waits_idle="false" end_waits_idle="false">
+			<Funnel name="Tutorial" step="0 - Open Quest Book" />
+			<AntiReqs behaviour="ignore" logic="OR">
+				<AntiReq type="quest" quest="SquareOne" />
+			</AntiReqs>
+			<Requirements>
+				<Requirement type="quest started" quest="SquareOne" />
+			</Requirements>
+			<StartScript package="Quests_Tutorial_Scripts" name="SquareOne_Trigger_Start" />
+			<Objectives>
+				<Objective type="view quest" quest="SquareOne" pointer="true">
+					<DoneScript package="Quests_Tutorial_Scripts" name="SquareOne_Trigger_End" />
+				</Objective>
+			</Objectives>
+		</Quest>
+		<Quest id="76" name="SquareOne_Pointer" start_waits_idle="false" end_waits_idle="false">
+			<Funnel name="Tutorial" step="1 - Build Simpson Home" />
+			<AntiReqs behaviour="ignore" logic="OR">
+				<AntiReq type="quest" quest="SquareOne" />
+			</AntiReqs>
+			<Objectives>
+				<Objective type="place building" building="SimpsonHome" pointer="true" pointToCategories="true" posX="66" posY="29" hide="false" forcePlace="true" />
+				<Objective type="build" building="SimpsonHome" quantity="1" rewardsCollected="yes" progress="lifetime" lateEnd="true" />
+			</Objectives>
+		</Quest>
+	</QuestChain>
+	<Quest id="80" name="SpringfieldCleaners01_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest" quest="SquareOne" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="SpringfieldCleaners01" />
+			<AntiReq type="quest" quest="SpringfieldCleaners02" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="complete job" job="CleanupSpringfieldHomer" character="Homer" quantity="1" progress="quest" rewardsCollected="yes" GoToBehaviour="close" />
+			<Objective type="complete job" job="CleanupSpringfieldLisa" character="Lisa" quantity="1" rewardsCollected="yes" progress="quest" GoToBehaviour="close" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="no" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes" />
+	</Quest>
+	<QuestChain>
+		<Quest id="25" name="SpringfieldCleaners01" character="Homer" icon="Homer" start_waits_idle="false" end_waits_idle="false">
+			<Priority types="CharacterUnlock" />
+			<Funnel name="Tutorial" step="2 - Make Homer Clean up Springfield" />
+			<Requirements>
+				<Requirement type="quest started" quest="SpringfieldCleaners01_Lock" />
+			</Requirements>
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="SpringfieldCleaners02" />
+				<AntiReq type="active quest" quest="SpringfieldCleaners02" />
+			</ErrorChecks>
+			<StartScript package="Quests_Tutorial_Scripts" name="SpringfieldCleaners01_Start" />
+			<Objectives>
+				<Objective type="complete job" job="CleanupSpringfieldHomer" character="Homer" quantity="1" progress="quest" rewardsCollected="yes" GoToEnabled="false" />
+			</Objectives>
+			<Reward money="100" xp="10" />
+		</Quest>
+		<Quest id="27" name="SpringfieldCleaners02" character="Lisa" icon="Lisa" start_waits_idle="false" end_waits_idle="false">
+			<Priority types="CharacterUnlock" />
+			<Funnel name="Tutorial" step="3 - Make Lisa Clean up Springfield" />
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="TheNewEvergreenTerrace01" />
+				<AntiReq type="active quest" quest="TheNewEvergreenTerrace01" />
+			</ErrorChecks>
+			<StartScript package="Quests_Tutorial_Scripts" name="SpringfieldCleaners02_Start" />
+			<Objectives>
+				<Objective type="complete job" job="CleanupSpringfieldLisa" character="Lisa" quantity="1" rewardsCollected="yes" progress="quest" GoToEnabled="false" />
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="SpringfieldCleaners02_End" />
+			<Reward money="100" xp="10" />
+		</Quest>
+	</QuestChain>
+	<Quest id="60" name="SpringfieldCleaners01_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest started" quest="SpringfieldCleaners01" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="SpringfieldCleaners02" />
+			<AntiReq type="active quest" quest="SpringfieldCleaners02" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="start job" job="CleanupSpringfieldHomer" character="Homer" quantity="1" progress="lifetime" pointer="true" GoToBehaviour="close" />
+		</Objectives>
+	</Quest>
+	<Quest id="55" name="SpringfieldCleaners02_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest started" quest="SpringfieldCleaners02" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace01" />
+			<AntiReq type="active quest" quest="TheNewEvergreenTerrace01" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="start job" job="CleanupSpringfieldLisa" character="Lisa" quantity="1" progress="lifetime" pointer="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="4" name="TheNewEvergreenTerrace01" character="Lisa" icon="Lisa" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="4 - Build Evergreen Terrace" />
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest" quest="SpringfieldCleaners02" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="WhoNeedsTheKwikEMart" />
+			<AntiReq type="active quest" quest="WhoNeedsTheKwikEMart" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace01_Start" />
+		<Objectives>
+			<Objective type="draw road" tile="road" userStart="-7,1" userStartBuilding="SimpsonHome" pos1="-11,1" building1="SimpsonHome" pos2="17,1" building2="SimpsonHome" pointer="true" GoToEnabled="false" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace01_End" />
+		<Reward money="100" xp="10" />
+		<Lock buildings="yes" roads="no" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow consumable="RoadDrawing" />
+		</Lock>
+	</Quest>
+	<Quest id="69" name="TheNewEvergreenTerrace01_custompointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest" quest="SpringfieldCleaners02" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="WhoNeedsTheKwikEMart" />
+			<AntiReq type="active quest" quest="WhoNeedsTheKwikEMart" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="draw road" tile="road" userStart="-7,1" userStartBuilding="SimpsonHome" pos1="-11,1" building1="SimpsonHome" pos2="17,1" building2="SimpsonHome" pointer="true" GoToBehaviour="close" />
+		</Objectives>
+	</Quest>
+	<Quest id="81" name="WhoNeedsTheKwikEMart_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace01" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="WhoNeedsTheKwikEMart" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="build" building="Kwik-E-Mart" quantity="1" rewardsCollected="yes" progress="lifetime" lateEnd="true" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow building="Kwik-E-Mart" rushBuild="Kwik-E-Mart" />
+		</Lock>
+	</Quest>
+	<Quest id="91" name="WhoNeedsTheKwikEMart_QuestPointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace01" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="OR">
+			<AntiReq type="place building" building="Kwik-E-Mart" />
+			<AntiReq type="quest started" quest="WhoNeedsTheKwikEMart" />
+			<AntiReq type="quest" quest="WhoNeedsTheKwikEMart" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="custom pointer" pointerType="quest indicator" arg="Homer" />
+			<Objective type="build" building="Kwik-E-Mart" quantity="1" rewardsCollected="yes" progress="lifetime" hide="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="49" name="WhoNeedsTheKwikEMart" character="Homer" icon="Homer" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="5 - Build the Kwik-E-Mart" />
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest started" quest="WhoNeedsTheKwikEMart_Lock" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheOthers01" />
+			<AntiReq type="active quest" quest="TheOthers01" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="WhoNeedsTheKwikEMart_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="place building" building="Kwik-E-Mart" pointToCategories="true" pointer="true" posX="55" posY="30" hide="yes" forcePlace="true" />
+			<Objective type="build" building="Kwik-E-Mart" quantity="1" rewardsCollected="yes" progress="lifetime" lateEnd="true" GoToEnabled="false" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow building="Kwik-E-Mart" rushBuild="Kwik-E-Mart" />
+		</Lock>
+	</Quest>
+	<Quest id="56" name="WhoNeedsTheKwikEMart_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest started" quest="WhoNeedsTheKwikEMart" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheOthers01" />
+			<AntiReq type="active quest" quest="TheOthers01" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="build" building="Kwik-E-Mart" quantity="1" pointer="true" progress="lifetime" />
+		</Objectives>
+	</Quest>
+	<QuestChain>
+		<Quest id="50" name="WhoNeedsTheKwikEMart_Trigger1" start_waits_idle="false" end_waits_idle="false">
+			<Requirements>
+				<Requirement type="level" level="2" />
+				<Requirement type="quest started" quest="WhoNeedsTheKwikEMart" />
+			</Requirements>
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="WhoNeedsTheKwikEMart_Trigger2" />
+				<AntiReq type="active quest" quest="WhoNeedsTheKwikEMart_Trigger2" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="place building" building="Kwik-E-Mart" quantity="1" progress="quest" />
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="WhoNeedsTheKwikEMart_Obj_1" />
+		</Quest>
+		<Quest id="51" name="WhoNeedsTheKwikEMart_Trigger2" start_waits_idle="false" end_waits_idle="false">
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="TheOthers01" />
+				<AntiReq type="active quest" quest="TheOthers01" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="build" building="Kwik-E-Mart" quantity="1" rewardsCollected="yes" progress="lifetime" hide="true" />
+				<Objective type="custom pointer" pointerType="rush building" arg="Kwik-E-Mart" />
+			</Objectives>
+		</Quest>
+	</QuestChain>
+	<Quest id="5" name="TheOthers01" icon="Frink">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="6 - Visit the Other Springfield" />
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="WhoNeedsTheKwikEMart" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheBoxTheBox" />
+			<AntiReq type="active quest" quest="TheBoxTheBox" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="TheOthers01_Start" />
+		<Objectives>
+			<Objective type="fake friend" pointer="true" GoToEnabled="false">
+				<DoneScript package="Quests_Tutorial_Scripts" name="TheOthers01_Obj_1" reqType="friend" />
+			</Objective>
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="TheOthers01_End" />
+		<Reward money="100" xp="10" />
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes" />
+	</Quest>
+	<Quest id="44" name="WelcomeToOrigin" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheOthers01" />
+		</Requirements>
+		<Objectives>
+			<Objective type="origin login" />
+		</Objectives>
+		<Reward money="0" xp="0" donuts="2" />
+	</Quest>
+	<Quest id="18" name="DailyLogin">
+		<Funnel name="Tutorial" step="7 - Collect Daily Login" />
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheOthers01" />
+			<Requirement type="quest started" quest="WelcomeToOrigin" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheBoxTheBox" />
+			<AntiReq type="active quest" quest="TheBoxTheBox" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="DailyLogin" />
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+	</Quest>
+	<Quest id="63" name="TheBoxTheBox" character="Homer" icon="Homer">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="8 - Buy a Mystery Box" />
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+			<Requirement type="quest" quest="TheOthers01" />
+			<Requirement type="quest started" quest="WelcomeToOrigin" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="variable" variable="DailyChallenges" not="true" />
+				<Requirement type="quest" quest="DailyLogin" />
+			</Requirement>
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="SoylentBean" />
+			<AntiReq type="active quest" quest="SoylentBean" />
+		</ErrorChecks>
+		<StartScript package="DailyTasks_Scripts_Dialogue" name="TheBoxTheBox_Start" />
+		<Objectives>
+			<Objective type="use consumable" quantity="1" consumable="PrizeBox" pointer="true" pointToCategories="true" GoToEnabled="false" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="TheBoxTheBox_End" />
+		<Reward money="0" xp="10" />
+	</Quest>
+	<Quest id="82" name="SoylentBean_Lock">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="building" building="Kwik-E-Mart" />
+			<Requirement type="character" name="Lisa" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="quest" quest="TheBoxTheBox" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="SoylentBean" />
+		</AntiReqs>
+		<ErrorChecks logic="OR">
+			<AntiReq type="building" building="Kwik-E-Mart" not="true" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="lifetime" />
+			<Objective type="custom pointer" pointerType="quest indicator" arg="Lisa" />
+			<Patch objective="1" version="1" type="start job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="lifetime" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="no" sell="yes" rushJobs="no" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow job="ShopAtKwikEMart" character="Lisa" />
+		</Lock>
+	</Quest>
+	<Quest id="64" name="SoylentBean" character="Lisa" icon="Lisa">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="9 - Send Lisa to Kwik-E-Mart" />
+		<Requirements>
+			<Requirement type="quest started" quest="SoylentBean_Lock" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="ThankGanesh" />
+			<AntiReq type="active quest" quest="ThankGanesh" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="SoylentBean_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="quest" pointer="true" />
+			<Objective type="start job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="quest" hide="true">
+				<DoneScript package="Quests_Tutorial_Scripts" name="SoylentBean_Obj_1" />
+			</Objective>
+			<Objective type="custom pointer" pointerType="rush job" arg="ShopAtKwikEMart" hide="true" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="93" name="SoylentBean_Lock2">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="SoylentBean_Lock" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="OR">
+			<AntiReq type="quest started" quest="ThankGanesh_Lock" />
+			<AntiReq type="quest" quest="ThankGanesh_Lock" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="quest" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="no" rushBuildings="yes" consumables="yes" premium="yes"></Lock>
+	</Quest>
+	<Quest id="83" name="ThankGanesh_Lock">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="SoylentBean_Lock2" />
+			<Requirement type="character" name="Apu" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="ThankGanesh" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="start job" job="PrayToGanesh" character="Apu" quantity="1" progress="lifetime" pointer="false" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="no" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow job="PrayToGanesh" />
+		</Lock>
+	</Quest>
+	<Quest id="95" name="ThankGanesh_QuestPoint">
+		<AntiReqs behaviour="complete" logic="OR">
+			<AntiReq type="quest" quest="ThankGanesh" />
+		</AntiReqs>
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="SoylentBean" />
+			<Requirement type="quest started" quest="ThankGanesh_Lock" />
+			<Requirement type="character" name="Apu" />
+		</Requirements>
+		<Objectives>
+			<Objective type="custom pointer" pointerType="quest indicator" arg="Apu" />
+		</Objectives>
+	</Quest>
+	<Quest id="54" name="ThankGanesh" character="Apu" icon="Apu">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="10 - Make Apu Pray to Ganesh" />
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="SoylentBean" />
+			<Requirement type="quest started" quest="ThankGanesh_Lock" />
+			<Requirement type="character" name="Apu" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="ThankGanesh_Start" triggerType="character" character="Apu" />
+		<Objectives>
+			<Objective type="complete job" job="PrayToGanesh" character="Apu" quantity="1" progress="lifetime" pointer="true" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<QuestChain>
+		<Quest id="57" name="WorkingHard_StartTrigger">
+			<Requirements>
+				<Requirement type="level" level="3" />
+				<Requirement type="character" name="Homer" />
+				<Requirement type="character" name="Lisa" />
+			</Requirements>
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="WorkingHard" />
+				<AntiReq type="active quest" quest="WorkingHard" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="start job" job="PrayToGanesh" character="Apu" quantity="1" progress="lifetime" />
+			</Objectives>
+		</Quest>
+		<Quest id="6" name="WorkingHard" character="Homer" icon="Homer">
+			<Priority types="CharacterUnlock" />
+			<Funnel name="Tutorial" step="11 - Make Homer and Lisa Cleanup Springfield" />
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="TheNewEvergreenTerrace02" />
+				<AntiReq type="active quest" quest="TheNewEvergreenTerrace02" />
+			</ErrorChecks>
+			<StartScript package="Quests_Tutorial_Scripts" name="WorkingHard_Start" triggerType="character" character="Lisa" />
+			<Objectives>
+				<Objective type="complete job" job="CleanupSpringfield" quantity="1" progress="lifetime" GoToEnabled="true">
+					<GoToCharacter />
+				</Objective>
+			</Objectives>
+			<Reward money="100" xp="10" />
+			<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+				<Allow job="CleanupSpringfield" />
+			</Lock>
+		</Quest>
+	</QuestChain>
+	<QuestChain>
+		<Quest id="52" name="WorkingHard_Trigger_1">
+			<Requirements>
+				<Requirement type="quest started" quest="WorkingHard" />
+			</Requirements>
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="WorkingHard_Trigger_2" />
+				<AntiReq type="active quest" quest="WorkingHard_Trigger_2" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="complete job" job="CleanupSpringfield" quantity="1" progress="lifetime" />
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="WorkingHard_Obj_1" />
+		</Quest>
+		<Quest id="53" name="WorkingHard_Trigger_2">
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="TheNewEvergreenTerrace02" />
+				<AntiReq type="active quest" quest="TheNewEvergreenTerrace02" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="none" />
+				<Patch objective="1" version="1" type="view quest" quest="WorkingHard" pointer="true" />
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="WorkingHard_Obj_2" />
+		</Quest>
+	</QuestChain>
+	<Quest id="84" name="TheNewEvergreenTerrace02_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="WorkingHard" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace02" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="place building" building="BrownHouse" quantity="1" progress="lifetime" rewardsCollected="yes"></Objective>
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow building="BrownHouse" job="CleanupSpringfield" />
+		</Lock>
+	</Quest>
+	<Quest id="90" name="TheNewEvergreenTerrace02_Lock2" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace02_Lock" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheMysteriousBrownHouse01" />
+			<AntiReq type="active quest" quest="TheMysteriousBrownHouse01" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="build" building="BrownHouse" quantity="1" progress="lifetime" rewardsCollected="yes"></Objective>
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="no" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow job="CleanupSpringfield" />
+		</Lock>
+	</Quest>
+	<Quest id="32" name="TheNewEvergreenTerrace02" character="Lisa" icon="Lisa" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="12 - Build the Brown House" />
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace02_Lock" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheMysteriousBrownHouse01" />
+			<AntiReq type="active quest" quest="TheMysteriousBrownHouse01" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace02_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="move building" building="Shrub00" posX="0" posY="0">
+				<DoneScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace02_Obj_1" />
+			</Objective>
+			<Patch objective="1" version="1" keepDone="true" type="none" hide="true" />
+			<Objective type="build" building="BrownHouse" quantity="1" progress="lifetime" rewardsCollected="yes"></Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="78" name="TheNewEvergreenTerrace02_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace02" />
+		</AntiReqs>
+		<Requirements>
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace02" />
+		</Requirements>
+		<Objectives>
+			<Objective type="place building" building="BrownHouse" quantity="1" progress="lifetime" pointer="true" posX="75" posY="29" hide="false" forcePlace="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="85" name="TheMysteriousBrownHouse01_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace02" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+			<Requirement type="building" building="BrownHouse" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="OR">
+			<AntiReq type="quest" quest="TheMysteriousBrownHouse01" />
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace03_Trigger" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="start job" character="Homer" job="WatchTVInTheBrownHouse" quantity="1" progress="quest" GoToEnabled="true" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow job="WatchTVInTheBrownHouse" />
+		</Lock>
+	</Quest>
+	<Quest id="89" name="TheNewEvergreenTerrace03_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace03_Trigger" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="OR">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace03" />
+			<AntiReq type="quest" quest="GreenThumb" />
+			<AntiReq type="quest started" quest="GreenThumb" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="place building" building="FlandersHome" quantity="1" progress="lifetime" rewardsCollected="yes"></Objective>
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow building="FlandersHome" />
+		</Lock>
+	</Quest>
+	<QuestChain>
+		<Quest id="58" name="TheNewEvergreenTerrace03_Trigger" start_waits_idle="false" end_waits_idle="false">
+			<Requirements>
+				<Requirement type="level" level="4" />
+				<Requirement type="quest started" quest="TheNewEvergreenTerrace02_Lock" />
+				<Requirement type="character" name="Homer" />
+				<Requirement type="character" name="Lisa" />
+			</Requirements>
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="TheNewEvergreenTerrace03" />
+				<AntiReq type="active quest" quest="TheNewEvergreenTerrace03" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="start job" character="Homer" job="WatchTVInTheBrownHouse" quantity="1" progress="lifetime"></Objective>
+			</Objectives>
+		</Quest>
+		<Quest id="36" name="TheNewEvergreenTerrace03" character="Lisa" icon="Ned">
+			<Priority types="CharacterUnlock" />
+			<Funnel name="Tutorial" step="14 - Build the Flanders Home" />
+			<StartScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace03_Start" triggerType="character" character="Lisa" />
+			<Objectives>
+				<Objective type="move building" building="Kwik-E-Mart" GoToEnabled="false">
+					<DoneScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace03_Obj_1" />
+				</Objective>
+				<Objective type="build" building="FlandersHome" quantity="1" progress="lifetime" rewardsCollected="yes" lateEnd="true" GoToEnabled="true"></Objective>
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="TheNewEvergreenTerrace03_End" />
+			<Reward money="100" xp="10" />
+		</Quest>
+	</QuestChain>
+	<Quest id="61" name="TheNewEvergreenTerrace03_Obj_1_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace03_Obj_2_Pointer" />
+			<AntiReq type="active quest" quest="TheNewEvergreenTerrace03_Obj_2_Pointer" />
+			<AntiReq type="building" building="FlandersHome" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="move building" building="Kwik-E-Mart" pointer="true" posX="57" posY="38" anchorPoint="SimpsonHome" GoToBehaviour="close" />
+		</Objectives>
+		<Lock sell="yes" buildings="yes"></Lock>
+	</Quest>
+	<Quest id="62" name="TheNewEvergreenTerrace03BuyLock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace03" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="move building" building="Kwik-E-Mart" posX="55" posY="30" />
+		</Objectives>
+		<Lock buildings="yes"></Lock>
+	</Quest>
+	<Quest id="74" name="TheNewEvergreenTerrace03_Obj_2_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace03_Obj_1_Pointer" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="quest" quest="TheNewEvergreenTerrace03" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="place building" building="FlandersHome" progress="quest" pointer="true" pointToCategories="true" hide="true" GoToBehaviour="close"></Objective>
+		</Objectives>
+		<Lock sell="yes" buildings="yes">
+			<Allow building="FlandersHome" rushBuild="FlandersHome" />
+		</Lock>
+	</Quest>
+	<Quest id="86" name="GreenThumb_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="place building" building="FlandersHome" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="GreenThumb" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="build" building="Tree00" quantity="3" progress="lifetime" />
+			<Patch objective="1" version="1" type="build" building="Tree00" quantity="3" progress="lifetime" rewardsCollected="yes" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow building="Tree00" />
+		</Lock>
+	</Quest>
+	<Quest id="30" name="GreenThumb" character="Lisa" icon="Lisa" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="15 - Plant Trees and Shrubs" />
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest started" quest="GreenThumb_Lock" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="GreenThumb_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="build" building="Tree00" quantity="3" progress="quest">
+				<DoneScript package="Quests_Tutorial_Scripts" name="GreenThumb_Obj_1" />
+			</Objective>
+			<Objective type="build" group="Shrubs" quantity="2" progress="quest">
+				<DoneScript package="Quests_Tutorial_Scripts" name="GreenThumb_Obj_2" />
+			</Objective>
+			<Patch objective="2" version="1" type="none" hide="true" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="GreenThumb_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="40" name="GreenThumb_Pointer1" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest started" quest="GreenThumb" />
+		</Requirements>
+		<Objectives>
+			<Objective type="build" building="Tree00" quantity="3" progress="quest" pointer="true" hide="true"></Objective>
+		</Objectives>
+	</Quest>
+	<Quest id="41" name="GreenThumb_Pointer2" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest" quest="GreenThumb_Pointer1" />
+		</Requirements>
+		<Objectives>
+			<Objective type="build" group="Shrubs" quantity="2" progress="quest" pointer="true" hide="true"></Objective>
+		</Objectives>
+	</Quest>
+	<Quest id="72" name="GreenThumb_End" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest started" quest="GreenThumb" />
+		</Requirements>
+		<Objectives>
+			<Objective type="build" group="Trees" quantity="3" progress="quest" rewardsCollected="yes" />
+			<Objective type="build" group="Shrubs" quantity="2" progress="quest" rewardsCollected="yes" />
+			<Patch objective="2" version="1" type="none" />
+		</Objectives>
+	</Quest>
+	<Quest id="42" name="GreenThumb_Pointer3" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest" quest="GreenThumb_End" />
+		</Requirements>
+		<Objectives>
+			<Objective type="view town rating" pointer="true"></Objective>
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="RatingsTip_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="68" name="DonutDenominatedDecorations" character="Homer" icon="Homer" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="16 - Buy a Premium Decoration" />
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest" quest="GreenThumb_Pointer3" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="PropertyValues" />
+			<AntiReq type="active quest" quest="PropertyValues" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="DonutDenominatedDecorations_Start" />
+		<Objectives>
+			<Objective type="build" building="BBQ" quantity="1" progress="lifetime" rewardsCollected="yes" />
+			<Patch objective="1" version="1" type="build" building="HomersHammock" quantity="1" progress="lifetime" rewardsCollected="yes" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="DonutDenominatedDecorations_End" />
+		<Reward money="100" xp="10" />
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="no">
+			<Allow building="HomersHammock" />
+		</Lock>
+	</Quest>
+	<Quest id="71" name="DonutDenominatedDecorations_Pointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="4" />
+			<Requirement type="quest started" quest="DonutDenominatedDecorations" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="PropertyValues" />
+			<AntiReq type="active quest" quest="PropertyValues" />
+			<AntiReq type="quest" quest="DonutDenominatedDecorations" awaitingCollection="true" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="build" building="BBQ" quantity="1" progress="lifetime" pointer="true" hide="true" />
+			<Patch objective="1" version="1" type="build" building="HomersHammock" quantity="1" progress="lifetime" pointer="true" hide="true">
+				<DoneScript package="Quests_Tutorial_Scripts" name="DonutDenominatedDecorations_Pointer_Obj_1" />
+			</Patch>
+		</Objectives>
+	</Quest>
+	<Quest id="87" name="PropertyValues_Lock" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DonutDenominatedDecorations" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="FriendsWithBenefits01" />
+			<AntiReq type="active quest" quest="FriendsWithBenefits01" />
+		</ErrorChecks>
+		<Objectives>
+			<Objective type="land upgrade" quantity="1" progress="lifetime" x="2" y="2" />
+		</Objectives>
+		<Lock buildings="yes" roads="yes" jobs="yes" sell="yes" rushJobs="yes" rushBuildings="yes" consumables="yes" premium="yes">
+			<Allow consumable="LandUpgrade1" />
+		</Lock>
+	</Quest>
+	<Quest id="17" name="PropertyValues" character="Lisa" icon="Lisa" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="17 - Buy a Land Expansion" />
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest started" quest="PropertyValues_Lock" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="FriendsWithBenefits01" />
+			<AntiReq type="active quest" quest="FriendsWithBenefits01" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="PropertyValues_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="land upgrade" quantity="1" progress="lifetime" />
+			<Patch objective="1" version="1" keepDone="true" type="land upgrade" x="2" y="2" pointer="true" GoToEnabled="false">
+				<DoneScript package="Quests_Tutorial_Scripts" name="PropertyValues_Obj_1" />
+			</Patch>
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="PropertyValues_End" />
+		<Reward donuts="60" xp="10" />
+	</Quest>
+	<Quest id="43" name="FriendsWithBenefits01" icon="Social" allowSimultaneousQueuedQuest="true">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PropertyValues" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="FriendsWithBenefits_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="friend count" count="1" progress="lifetime" rushCost="5" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="FriendsWithBenefits_End" />
+		<Reward money="0" xp="10" donuts="1" />
+	</Quest>
+	<Quest id="37" name="ThatAintRight" character="Ned" icon="Ned" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest started" quest="FriendsWithBenefits01" />
+			<Requirement type="character" name="Ned" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="ThatAintRight_Start" triggerType="character" character="Ned" />
+		<Objectives>
+			<Objective type="complete job" character="Ned" job="CondemnScience" quantity="1" progress="quest"></Objective>
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="ThatAintRight_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<QuestChain>
+		<Quest id="59" name="GettingBenched_Trigger" start_waits_idle="false" end_waits_idle="false">
+			<Requirements>
+				<Requirement type="level" level="5" />
+				<Requirement type="quest" quest="PropertyValues" />
+				<Requirement type="character" name="Homer" />
+				<Requirement type="character" name="Lisa" />
+			</Requirements>
+			<ErrorChecks logic="OR">
+				<AntiReq type="quest" quest="GettingBenched" />
+				<AntiReq type="active quest" quest="GettingBenched" />
+			</ErrorChecks>
+			<Objectives>
+				<Objective type="start job" character="Ned" job="CondemnScience" quantity="1" progress="quest"></Objective>
+			</Objectives>
+		</Quest>
+		<Quest id="31" name="GettingBenched" character="Lisa" icon="Lisa" start_waits_idle="false" end_waits_idle="false">
+			<Priority types="CharacterUnlock" />
+			<StartScript package="Quests_Tutorial_Scripts" name="GettingBenched_Start" triggerType="character" character="Lisa" />
+			<Objectives>
+				<Objective type="build" group="Benches" quantity="1" progress="lifetime">
+					<DoneScript package="Quests_Tutorial_Scripts" name="GettingBenched_Obj_1" />
+				</Objective>
+				<Objective type="complete job" character="Lisa" job="ReadABook" quantity="1" progress="quest"></Objective>
+				<Objective type="build" group="Trees" quantity="1" progress="lifetime">
+					<DoneScript package="Quests_Tutorial_Scripts" name="GettingBenched_Obj_3" />
+				</Objective>
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="GettingBenched_End" />
+			<Reward money="100" xp="10" />
+		</Quest>
+	</QuestChain>
+	<Quest id="46" name="MyPad" character="Homer" icon="Homer" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="FeatureUnlock|CharacterUnlock" />
+		<Funnel name="Tutorial" step="18 - Make Homer Play with myPad" />
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheMysteriousBrownHouse01" />
+			<Requirement type="quest" quest="PropertyValues" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<ErrorChecks logic="OR">
+			<AntiReq type="quest" quest="HardlyWorking" />
+			<AntiReq type="active quest" quest="HardlyWorking" />
+		</ErrorChecks>
+		<StartScript package="Quests_Tutorial_Scripts" name="MyPad_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" job="PlayWithMyPad" character="Homer" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="9" name="HardlyWorking" character="Homer" icon="Homer" start_waits_idle="false" end_waits_idle="false">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="19 - Build the Kiddie Pool" />
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="quest" quest="ThatAintRight" />
+			<Requirement type="character" name="Homer" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="HardlyWorking_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="build" building="HomersPool" quantity="1" progress="lifetime" rewardsCollected="yes" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="HardlyWorking_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="99" name="ScratchTheItch">
+		<Funnel name="Tutorial" step="21 - Purchase Scratch-R" />
+		<Requirements>
+			<Requirement type="place building" building="CletusFarm" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="PutUpAParkingLot" not="true" />
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest" quest="PaveParadise" />
+						<Requirement type="quest" quest="HardlyWorking" />
+					</Requirement>
+					<Requirement type="quest" quest="Scratchers" not="true" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest" quest="NewScratcher" not="true" />
+						<Requirement type="quest" quest="NewGoldScratcher" not="true" />
+					</Requirement>
+				</Requirement>
+			</Requirement>
+		</Requirements>
+		<StartScript package="Quests_General_Scripts" name="Scratchers_Start" triggerType="character" character="Apu" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="Quests_General_Scripts" name="Scratchers_Pan" />
+	</Quest>
+	<Quest id="100" name="ScratchTheItch_Part2">
+		<Requirements>
+			<Requirement type="quest" quest="ScratchTheItch" />
+			<Requirement type="level" level="7" />
+		</Requirements>
+		<StartScript package="Quests_General_Scripts" name="NewGoldScratcher_Start" triggerType="character" character="Apu" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="Quests_General_Scripts" name="Scratchers_Pan" />
+	</Quest>
+	<Quest id="47" name="PaveParadise" character="Apu" icon="Apu">
+		<Priority types="CharacterUnlock" />
+		<Funnel name="Tutorial" step="22 - Lay Pavement" />
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="PutUpAParkingLot" />
+				<Requirement type="quest" quest="ScratchTheItch" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="PaveParadise_Start" triggerType="character" character="Apu" />
+		<Objectives>
+			<Objective type="tile count" tile="pavement" count="2" progress="quest" pointer="false" GoToBehaviour="script" GoToScript="Quests_Tutorial_Scripts:PaveParadise_OpenStore" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="48" name="RiverRun" character="Lisa" icon="Lisa">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="level" level="7" />
+			<Requirement type="quest" quest="MadeWithUSDALetterGradedBeef01" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="RiverRun_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="tile count" tile="river" count="3" progress="quest" pointer="false">
+				<GoToBehaviours>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="MiscScripts:PanToKrustylandShuttle_Krustyland">
+						<Requirements>
+							<Requirement type="land" land="Krustyland" />
+						</Requirements>
+					</GoToBehaviour>
+					<GoToBehaviour GoToBehaviour="script" GoToScript="MiscScripts:OpenStore_FocusOnRiver">
+						<Requirements>
+							<Requirement type="land" land="Springfield" />
+						</Requirements>
+					</GoToBehaviour>
+				</GoToBehaviours>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="20" name="SweetSweetLemonade" icon="LemonsReady">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="item" item="LemonTree" count="1" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="SweetSweetLemonade_Start" />
+		<Objectives>
+			<Objective type="place building" building="LemonTree" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="19" name="SnakeTutorial" icon="sideshowbob">
+		<Priority types="CharacterUnlock" />
+		<Requirements>
+			<Requirement type="quest" quest="PaveParadise" />
+			<Requirement type="variable" variable="GainedBobTerwilliger" not="true" />
+			<Requirement type="quest started" quest="FlawAndOrder01" not="true" />
+			<Requirement type="sessions" count="3" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="SnakeTutorial_Start" />
+		<Objectives>
+			<Objective type="arrest" character="SideshowBob" quantity="1" progress="quest" reqType="any" />
+		</Objectives>
+		<LateStartScript package="Quests_Tutorial_Scripts" name="SnakeTutorial_LateStart" />
+		<EndScript package="Quests_Tutorial_Scripts" name="SnakeTutorial_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="92" name="RateApp">
+		<Requirements>
+			<Requirement type="quest" quest="HardlyWorking" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="OR">
+			<AntiReq type="quest" quest="PutUpAParkingLot" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="RateApp" />
+	</Quest>
+	<Quest id="21" name="LisasSaxophone_Trigger">
+		<Requirements>
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+		</Requirements>
+		<Objectives>
+			<Objective type="collect memorabilia" item="SimpsonHomeItem_4" quantity="1" forceDrop="true" progress="lifetime" hide="true" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="22" name="LisasSaxophone" character="Lisa" icon="Lisa">
+		<Requirements>
+			<Requirement type="quest" quest="LisasSaxophone_Trigger" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="LisasSaxophone_Start" />
+		<Objectives>
+			<Objective type="view memorabilia set" set="SimpsonHomeSet" pointer="true" />
+		</Objectives>
+		<EndScript package="Quests_Tutorial_Scripts" name="LisasSaxophone_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="38" name="ThatAintRight_End">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest started" quest="ThatAintRight" />
+		</Requirements>
+		<Objectives>
+			<Objective type="complete job" character="Ned" job="CondemnScience" quantity="1" progress="quest" hide="true"></Objective>
+		</Objectives>
+	</Quest>
+	<Quest id="35" name="TheNewEvergreenTerrace02_Obj_2_Pointer">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace02_Obj_1_Pointer" />
+		</Requirements>
+		<Objectives>
+			<Objective type="build" building="BrownHouse" quantity="1" progress="lifetime" pointer="true" rewardsCollected="yes"></Objective>
+		</Objectives>
+	</Quest>
+	<Quest id="34" name="TheNewEvergreenTerrace02_Obj_1_Pointer">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace02" />
+		</Requirements>
+		<Objectives>
+			<Objective type="move building" building="Shrub00" posX="0" posY="0" pointer="true"></Objective>
+		</Objectives>
+		<Lock sell="yes"></Lock>
+	</Quest>
+	<Quest id="33" name="TheNewEvergreenTerrace02BuyLock">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest started" quest="TheNewEvergreenTerrace02" />
+		</Requirements>
+		<Objectives>
+			<Objective type="move building" building="Shrub00" posX="91" posY="46" />
+		</Objectives>
+		<Lock buildings="yes"></Lock>
+	</Quest>
+	<Quest id="70" name="WhoNeedsTheKwikEMart_startpointer" start_waits_idle="false" end_waits_idle="false">
+		<Requirements>
+			<Requirement type="level" level="2" />
+			<Requirement type="quest" quest="TheNewEvergreenTerrace01" />
+			<Requirement type="character" name="Homer" />
+			<Requirement type="character" name="Lisa" />
+		</Requirements>
+		<Objectives>
+			<Objective type="custom pointer" pointerType="quest indicator" arg="Homer" />
+			<Objective type="build" building="Kwik-E-Mart" quantity="1" rewardsCollected="yes" progress="lifetime" />
+		</Objectives>
+	</Quest>
+	<Quest id="73" name="SoylentBeanLock1">
+		<Requirements>
+			<Requirement type="level" level="3" />
+			<Requirement type="quest" quest="TheBoxTheBox" />
+		</Requirements>
+		<AntiReqs behaviour="ignore" logic="AND">
+			<AntiReq type="quest" quest="SoylentBean" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="start job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="quest" />
+		</Objectives>
+	</Quest>
+	<QuestChain>
+		<Quest id="67" name="GottaGetThatDoh" icon="Homer" character="Homer">
+			<Requirements>
+				<Requirement type="quest" quest="WorkingHard_Trigger_2" />
+				<Requirement type="character" name="Homer" />
+			</Requirements>
+			<StartScript package="Quests_Tutorial_Scripts" name="GottaGetThatDoh_Start" />
+			<Objectives>
+				<Objective type="use consumable" consumable="Money500" quantity="1" pointer="true" />
+			</Objectives>
+			<EndScript package="Quests_Tutorial_Scripts" name="GottaGetThatDoh_End" />
+			<Reward money="0" xp="10" />
+		</Quest>
+	</QuestChain>
+	<QuestChain>
+		<Quest id="65" name="SoylentBean_Rush_Trigger">
+			<Requirements>
+				<Requirement type="level" level="3" />
+				<Requirement type="quest started" quest="SoylentBean" />
+			</Requirements>
+			<Objectives>
+				<Objective type="start job" character="Lisa" job="ShopAtKwikEMart" quantity="1" progress="quest" hide="true" />
+			</Objectives>
+		</Quest>
+		<Quest id="66" name="SoylentBean_Rush">
+			<Requirements>
+				<Requirement type="level" level="3" />
+				<Requirement type="quest started" quest="SoylentBean" />
+			</Requirements>
+			<Objectives>
+				<Objective type="complete job" job="ShopAtKwikEMart" character="Lisa" quantity="1" progress="quest" hide="true" />
+			</Objectives>
+		</Quest>
+	</QuestChain>
+	<Quest id="94" name="MakeGood01">
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+		<Reward donuts="10" />
+		<EndScript package="Quests_Tutorial_Scripts" name="MakeGood01_End" />
+	</Quest>
+	<Quest id="97" name="MaxTutorialLevel" tags="eventquest">
+		<Requirements>
+			<Requirement type="level" level="6" />
+			<Requirement type="tutorialcompleted" not="true" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="TutorialCompleted" />
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+	</Quest>
+	<Quest id="98" name="FinishedTutorial" tags="eventquest">
+		<Requirements>
+			<Requirement type="quest" quest="PropertyValues" />
+			<Requirement type="tutorialcompleted" not="true" />
+		</Requirements>
+		<StartScript package="Quests_Tutorial_Scripts" name="TutorialCompleted" />
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+	</Quest>
+</QuestPackage>

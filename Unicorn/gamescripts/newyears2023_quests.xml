@@ -1,0 +1,515 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="264000" name="HowCanIUseYouToday" />
+		<DataID id="264001" name="SpringfieldIdle_1" />
+		<DataID id="264002" name="SpringfieldIdle_2" />
+		<DataID id="264003" name="SpringfieldIdle_3" />
+		<DataID id="264004" name="SpringfieldIdle_4" />
+		<DataID id="264005" name="SpringfieldIdle_5" />
+		<DataID id="264006" name="ShowBusinessBlues" />
+		<DataID id="264007" name="TheBeatOfAMilitantDrum_1" />
+		<DataID id="264008" name="TheBeatOfAMilitantDrum_2" />
+		<DataID id="264009" name="TheBeatOfAMilitantDrum_3" />
+		<DataID id="264010" name="TheBeatOfAMilitantDrum_4" />
+		<DataID id="264011" name="ZenAndTheArtOfTurntableMaintenance_1" />
+		<DataID id="264012" name="ZenAndTheArtOfTurntableMaintenance_2" />
+		<DataID id="264013" name="ZenAndTheArtOfTurntableMaintenance_3" />
+		<DataID id="264014" name="ZenAndTheArtOfTurntableMaintenance_4" />
+		<DataID id="264015" name="LittleWinnin_1" />
+		<DataID id="264016" name="LittleWinnin_2" />
+		<DataID id="264017" name="LittleWinnin_3" />
+		<DataID id="264018" name="LittleWinnin_4" />
+		<DataID id="264600" name="NewYears2023_Completed" />
+		<DataID id="264601" name="NewYears2023_IntroPanel" />
+		<DataID id="264602" name="NewYears2023_72HourWarning" onDeprecated="retain" endDate="NewYears2023_End" />
+		<DataID id="264603" name="NewYears2023_24HourWarning" onDeprecated="retain" endDate="NewYears2023_End" />
+		<DataID id="264604" name="NewYears2023_EventExpired" />
+		<DataID id="264605" name="NewYears2023_MasterQuest" />
+		<DataID id="264900" name="NewYears2023_RecommendStore" onDeprecated="delete" endDate="NewYears2023_End" />
+	</MasterList>
+	<Quest id="264600" name="NewYears2023_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="ShowBusinessBlues" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="264601" name="NewYears2023_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="HowCanIUseYouToday" />
+			<Requirement type="time" end="NewYears2023_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="264602" name="NewYears2023_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2023_End')-fromHours(72)]_" end="_[System::evaluate('Date::NewYears2023_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2023_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2023_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="264603" name="NewYears2023_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2023_End')-fromHours(24)]_" end="NewYears2023_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2023_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2023_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="264604" name="NewYears2023_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="NewYears2023_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2023_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2023_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="264605" name="NewYears2023_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_Expired" not="true" />
+			<Requirement type="variable" variable="NewYears2023_Complete" not="true" />
+			<Requirement type="reqList" location="NewYears2023_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="SpringfieldIdle_5" />
+					<Requirement type="variable" variable="NewYears2023_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="SpringfieldIdle_1">
+				<Requirement type="quest started" quest="SpringfieldIdle_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldIdle_2">
+				<Requirement type="quest started" quest="SpringfieldIdle_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldIdle_3">
+				<Requirement type="quest started" quest="SpringfieldIdle_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldIdle_4">
+				<Requirement type="quest started" quest="SpringfieldIdle_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldIdle_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="264000" name="HowCanIUseYouToday" tags="sidequest" icon="NewYears2023_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="NewYears2023_Start" end="NewYears2023_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="HowCanIUseYouToday_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="HowCanIUseYouToday_End" />
+		<Objectives>
+			<Objective type="complete job" character="Barney" job="FinagleFreeDrinksOutOfNigel" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="RunUpNigelsBarTab" quantity="1" />
+			<Objective type="complete job" character="Skinner" job="TryToOrderAGingerAle" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Skinner" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="NewYears2023_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="264001" name="SpringfieldIdle_1" tags="mainquest" icon="NewYears2023_Currency" sidebarIconScript="NewYears2023_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2023_QuestConfig:NewYears2023_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NewYears2023_IntroPanel" />
+			<Requirement type="time" start="NewYears2023_Start" end="NewYears2023_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_1_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2023_Currency')" amount="__NewYears2023_GameConfig:ResourceQuantities:NewYears2023_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2023_Scripts:ShowJobList" textpoolName="QST_NewYears2023_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeMicrophonesFromKaraokeNights" />
+					<Job name="PickUpUsedBandMicrophones" />
+					<Job name="BorrowMicrophonesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="TakeOffense_Lisa" quantity="1" />
+			<Objective type="complete job" job="TakeOffense_Parents" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="264002" name="SpringfieldIdle_2" tags="mainquest" icon="NewYears2023_Currency" sidebarIconScript="NewYears2023_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2023_QuestConfig:NewYears2023_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldIdle_1" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_2_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2023_Currency')" amount="__NewYears2023_GameConfig:ResourceQuantities:NewYears2023_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2023_Scripts:ShowJobList" textpoolName="QST_NewYears2023_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeMicrophonesFromKaraokeNights" />
+					<Job name="PickUpUsedBandMicrophones" />
+					<Job name="BorrowMicrophonesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="DesperatelyTryToDevelopTalent" quantity="5" />
+			<Objective type="complete job" job="VolunteerToBeJudges" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="264003" name="SpringfieldIdle_3" tags="mainquest" icon="NewYears2023_Currency" sidebarIconScript="NewYears2023_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2023_QuestConfig:NewYears2023_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldIdle_2" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_3_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2023_Currency')" amount="__NewYears2023_GameConfig:ResourceQuantities:NewYears2023_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2023_Scripts:ShowJobList" textpoolName="QST_NewYears2023_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeMicrophonesFromKaraokeNights" />
+					<Job name="PickUpUsedBandMicrophones" />
+					<Job name="BorrowMicrophonesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Skinner" job="FlashbackOnStage" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Skinner" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="FeelEmbarrassedForEveryone" quantity="1" />
+			<Objective type="complete job" character="Homer" job="GetWarmedUpForHisTurn" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="264004" name="SpringfieldIdle_4" tags="mainquest" icon="NewYears2023_Currency" sidebarIconScript="NewYears2023_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2023_QuestConfig:NewYears2023_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldIdle_3" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_4_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2023_Currency')" amount="__NewYears2023_GameConfig:ResourceQuantities:NewYears2023_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2023_Scripts:ShowJobList" textpoolName="QST_NewYears2023_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeMicrophonesFromKaraokeNights" />
+					<Job name="PickUpUsedBandMicrophones" />
+					<Job name="BorrowMicrophonesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="StealTwentyBucksOutOfHomersWallet" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Grampa" job="TellAnotherStory" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Grampa" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DroolInHisSleep" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="264005" name="SpringfieldIdle_5" tags="mainquest" icon="NewYears2023_Currency" sidebarIconScript="NewYears2023_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2023_QuestConfig:NewYears2023_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2023_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldIdle_4" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_5_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="SpringfieldIdle_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2023_Currency')" amount="__NewYears2023_GameConfig:ResourceQuantities:NewYears2023_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2023_Scripts:ShowJobList" textpoolName="QST_NewYears2023_Collect_obj">
+				<HighlightJobList>
+					<Job name="SwipeMicrophonesFromKaraokeNights" />
+					<Job name="PickUpUsedBandMicrophones" />
+					<Job name="BorrowMicrophonesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="ChaseNigelOutOfTheBuilding" quantity="5" />
+			<Objective type="complete job" character="Burns" job="ReleaseTheHoundsOnNigel" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Burns" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2023_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2023_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="264006" name="ShowBusinessBlues" tags="sidequest" icon="NewYears2023_Event">
+		<Requirements>
+			<Requirement type="quest" quest="SpringfieldIdle_5" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="ShowBusinessBlues_Start" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="ShowBusinessBlues_End" />
+		<Objectives>
+			<Objective type="complete job" character="ManagerNigel" job="FlyBackToSpringfield" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ManagerNigel" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="PickUpNigelFromTheAirport" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="264007" name="TheBeatOfAMilitantDrum_1" tags="sidequest" icon="VictorKleskow">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="VictorKleskow" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="TheBeatOfAMilitantDrum_1_Start" triggerType="character" character="VictorKleskow" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="TheBeatOfAMilitantDrum_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="VictorKleskow" job="GiveMusicStudentsToughLove_TEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="VictorKleskow" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264008" name="TheBeatOfAMilitantDrum_2" tags="sidequest" icon="VictorKleskow">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBeatOfAMilitantDrum_1" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="TheBeatOfAMilitantDrum_2_Start" triggerType="character" character="VictorKleskow" />
+		<Objectives>
+			<Objective type="complete job" character="VictorKleskow" job="LeadAMusicalMarch_TEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="VictorKleskow" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264009" name="TheBeatOfAMilitantDrum_3" tags="sidequest" icon="VictorKleskow">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBeatOfAMilitantDrum_2" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="TheBeatOfAMilitantDrum_3_Start" triggerType="character" character="VictorKleskow" />
+		<Objectives>
+			<Objective type="complete job" character="VictorKleskow" job="BarkOrdersAtKids" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="VictorKleskow" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" job="RunAMusicalObstacleCourse" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264010" name="TheBeatOfAMilitantDrum_4" tags="sidequest" icon="VictorKleskow">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBeatOfAMilitantDrum_3" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="TheBeatOfAMilitantDrum_4_Start" triggerType="character" character="VictorKleskow" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="TheBeatOfAMilitantDrum_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="VictorKleskow" job="LeadAnArtisticRevolt" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="VictorKleskow" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" job="TearDownAnObstacleCourse" quantity="5" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="264011" name="ZenAndTheArtOfTurntableMaintenance_1" tags="sidequest" icon="DerZipZorp">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="DerZipZorp" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_1_Start" triggerType="character" character="DerZipZorp" />
+		<Objectives>
+			<Objective type="complete job" character="DerZipZorp" job="SpinForThePeople_TEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DerZipZorp" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264012" name="ZenAndTheArtOfTurntableMaintenance_2" tags="sidequest" icon="DerZipZorp">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ZenAndTheArtOfTurntableMaintenance_1" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_2_Start" triggerType="character" character="DerZipZorp" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="DerZipZorp" job="KeepThePartyGoingDZZ" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DerZipZorp" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264013" name="ZenAndTheArtOfTurntableMaintenance_3" tags="sidequest" icon="DerZipZorp">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ZenAndTheArtOfTurntableMaintenance_2" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_3_Start" triggerType="character" character="DerZipZorp" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="DerZipZorp" job="BringElectronicaToThePeople_TEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DerZipZorp" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264014" name="ZenAndTheArtOfTurntableMaintenance_4" tags="sidequest" icon="DerZipZorp">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ZenAndTheArtOfTurntableMaintenance_3" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_4_Start" triggerType="character" character="DerZipZorp" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="ZenAndTheArtOfTurntableMaintenance_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="DerZipZorp" job="DestroyAccordions" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="DerZipZorp" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="WeirdAlYankovic" job="KnockOverKeyboardsAndTurntables" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WeirdAlYankovic" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="264015" name="LittleWinnin_1" tags="sidequest" icon="ManagerNigel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="ManagerNigel" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="ShowBusinessBlues" />
+				<Requirement type="time" start="NewYears2023_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_1_Start" triggerType="character" character="ManagerNigel" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="ManagerNigel" job="BecomeATheaterProducer" quantity="1" />
+			<Objective type="complete job" character="LlewellynSinclair" job="ObjectToNigelsInvolvement" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="LlewellynSinclair" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264016" name="LittleWinnin_2" tags="sidequest" icon="ManagerNigel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LittleWinnin_1" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_2_Start" triggerType="character" character="ManagerNigel" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="ManagerNigel" job="DemonstrateHisVision_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264017" name="LittleWinnin_3" tags="sidequest" icon="ManagerNigel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LittleWinnin_2" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_3_Start" triggerType="character" character="ManagerNigel" />
+		<Objectives>
+			<Objective type="complete job" character="ManagerNigel" job="PromoteHisIndieTheaterWork_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="264018" name="LittleWinnin_4" tags="sidequest" icon="ManagerNigel">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LittleWinnin_3" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_4_Start" triggerType="character" character="ManagerNigel" />
+		<EndScript package="NewYears2023_Scripts_Dialogue" name="LittleWinnin_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="ManagerNigel" job="TakeCreditForEverything" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="264900" name="NewYears2023_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="NewYears2023_Requirements:StoreCategory_SpringfieldsGotTalent_Unlocked" />
+		</Requirements>
+		<StartScript package="NewYears2023_Scripts" name="RecommendStoreCategory_SpringfieldsGotTalent" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

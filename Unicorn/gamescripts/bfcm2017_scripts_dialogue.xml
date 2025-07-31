@@ -1,0 +1,52 @@
+﻿<ScriptPackage>
+	<RoboticRebellion_Start>
+		<Action type="dialogue" character="Homer" text="QST_RoboticRebellion_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Bart" text="QST_RoboticRebellion_3_dlg_Start_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RoboticRebellion_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="scared" />
+		<Action type="dialogue" character="Homer" text="QST_RoboticRebellion_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="scared" />
+	</RoboticRebellion_Start>
+	<RoboticRebellion_End>
+		<Action type="dialogue" character="Homer" text="QST_RoboticRebellion_3_dlg_End_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_RoboticRebellion_3_dlg_End_2_Bart" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_RoboticRebellion_3_dlg_End_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Bart" text="QST_RoboticRebellion_3_dlg_End_4_Bart" revealSpeed="medium" />
+	</RoboticRebellion_End>
+	<BlackFriday2017_Start>
+		<Action type="message" text="QST_BlackFriday2017_3_dlg_Start_1_SystemMessage" revealSpeed="medium" />
+		<Action type="message" text="QST_BlackFriday2017_3_dlg_Start_2_SystemMessage" revealSpeed="medium" />
+		<Action type="reward" GoldBoxTokens="1" />
+		<Action type="actionSequence" script="BFCM2017_Scripts_Dialogue:OpenGoldBox" />
+	</BlackFriday2017_Start>
+	<BlackFridayMTXOffers_Start>
+		<Action type="message" text="QST_BlackFridayMTXOffers_3_dlg_Start_1_SystemMessage" revealSpeed="medium" />
+		<Action type="actionSequence" script="BFCM2017_Scripts:EnterCategory_Currency" />
+	</BlackFridayMTXOffers_Start>
+	<CyberMonday2017_Start>
+		<Action type="message" text="QST_CyberMonday2017_3_dlg_Start_1_SystemMessage" revealSpeed="medium" />
+		<Action type="runScript" package="BFCM2017_Scripts" script="RecommendCyberMonday" />
+	</CyberMonday2017_Start>
+	<OpenGoldBox ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="formula" formula="#program;                     var hook = 'BFCM2017_Hooks';                     Hook::load(hook,false);                     var compiledHook = Parser::compile(Hook::toString(hook+':GoldBoxItemsCount'));                     Hook::unload(hook,false);                     var count= Parser::evaluate(compiledHook);                     if(count &gt;= 1)                     {                     return true;                     }                     return false;" />
+						<Requirement type="special currency" currency="GoldBoxTokens" amount="1" />
+					</Requirements>
+					<True>
+						<Action type="reward">
+							<Item type="consumable" name="GoldBox" useImmediately="true" />
+						</Action>
+					</True>
+					<False>
+						<Action type="spendResources">
+							<Cost GoldBoxTokens="__BFCM2017_GameConfig:PremiumCosts:GoldBox__" />
+							<Success name="MiscScripts:DoNothingIgnoreHud" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</OpenGoldBox>
+</ScriptPackage>

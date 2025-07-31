@@ -1,0 +1,146 @@
+﻿<ScriptPackage>
+	<UpgradeUpgradeablePool>
+		<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" panCamera="true">
+			<OneShot name="regular" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+			<OneShot name="flipped" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="sound" sound="stg_EA_TSTO_SuperiorSquadHQUpgrade_ALT.caf" />
+		<Action type="reward" save="true" xp="System::evaluate('Building::Instance::[LAST_TOUCH_BUILDING_UID]::Object::BuildingLevel')*1000" />
+		<Action type="setVariable" intVariable="GroundPoolLevel" intValue="1" />
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="System::evaluate('Building::Instance::[LAST_TOUCH_BUILDING_UID]::Object::BuildingLevel')==2" />
+			<True>
+				<Action type="replaceobject" to="GroundPoolComplete" ignoreObject="false" />
+			</True>
+		</Action>
+	</UpgradeUpgradeablePool>
+	<GoToUpgradeablePool>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="GroundPool" checkInventoryOnly="false" />
+					</Requirements>
+					<True>
+						<Action type="checkRequirements">
+							<Requirements>
+								<Requirement type="item" item="GroundPool" checkInventoryOnly="true" />
+							</Requirements>
+							<True>
+								<Action type="focusOnMenuItem" itemName="GroundPool" inventory="true" />
+							</True>
+							<False>
+								<Action type="pantoobject" building="GroundPool" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="GroundPool" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoToUpgradeablePool>
+	<QuimbyThrowAFundraiser>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="item" item="GroundPool" checkInventoryOnly="false" />
+							<Requirement type="item" item="GroundPoolComplete" checkInventoryOnly="false" />
+						</Requirement>
+					</Requirements>
+					<True>
+						<Action type="if">
+							<If>
+								<Requirement type="conditional" logic="OR">
+									<Requirement type="building" building="GroundPool" />
+									<Requirement type="building" building="GroundPoolComplete" />
+								</Requirement>
+								<Then>
+									<Action type="pantoobject" character="MarthaQuimby" time="0.0" fakeTouch="false" blockTouches="false" />
+									<Action type="touchCharacter" character="MarthaQuimby" />
+								</Then>
+							</If>
+							<Else>
+								<Then>
+									<Action type="checkRequirements">
+										<Requirement type="item" item="GroundPoolComplete" checkInventoryOnly="true" />
+										<True>
+											<Action type="focusOnMenuItem" itemName="GroundPoolComplete" inventory="true" />
+										</True>
+										<False>
+											<Action type="checkRequirements">
+												<Requirement type="item" item="GroundPool" checkInventoryOnly="true" />
+												<True>
+													<Action type="focusOnMenuItem" itemName="GroundPool" inventory="true" />
+												</True>
+											</Action>
+										</False>
+									</Action>
+								</Then>
+							</Else>
+						</Action>
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="GroundPool" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</QuimbyThrowAFundraiser>
+	<OnPoolTapEvent ignoreHUD="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::BuildingLevel==0" />
+			<True>
+				<Action type="sound" sound="sfx_MarthaQuimby_Ground_Pool_Tap.Caf" />
+			</True>
+		</Action>
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::BuildingLevel==1" />
+			<True>
+				<Action type="sound" sound="sfx_MarthaQuimby_Modern_Pool_Tap.Caf" />
+			</True>
+		</Action>
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::BuildingLevel==2" />
+			<True>
+				<Action type="delay" time="1" />
+				<Action type="sound" sound="sfx_MarthaQuimby_ExclusivePool_Tap.Caf" />
+				<Action type="replaceobject" to="GroundPoolComplete" ignoreObject="false" />
+			</True>
+		</Action>
+	</OnPoolTapEvent>
+	<OnPoolCompleteTapEvent>
+		<Action type="sound" sound="sfx_MarthaQuimby_ExclusivePool_Tap.Caf" />
+	</OnPoolCompleteTapEvent>
+	<PoolLevelUpdater parallel="true">
+		<Action type="runScriptOnAll" building="GroundPool" script="GroundPoolUpdater" package="MarthaQuimby_Scripts" />
+		<Action type="checkExpression" expression="greaterThan(System::evaluate('Building::GroundPoolComplete::TotalCount'), 0)">
+			<ExpressionCase value="1">
+				<Action type="setVariable" intVariable="GroundPoolLevel" intValue="1" />
+			</ExpressionCase>
+		</Action>
+	</PoolLevelUpdater>
+	<GroundPoolUpdater parallel="true">
+		<Action type="checkExpression" expression="greaterThan(Object::BuildingLevel, 0)">
+			<ExpressionCase value="1">
+				<Action type="setVariable" intVariable="GroundPoolLevel" intValue="1" />
+			</ExpressionCase>
+		</Action>
+	</GroundPoolUpdater>
+</ScriptPackage>

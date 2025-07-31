@@ -1,0 +1,397 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="219000" name="TheRealMomsOfSpringfieldIntro" />
+		<DataID id="219001" name="TheRealMomsOfSpringfield_1" />
+		<DataID id="219002" name="TheRealMomsOfSpringfield_2" />
+		<DataID id="219003" name="TheRealMomsOfSpringfield_3" />
+		<DataID id="219004" name="TheRealMomsOfSpringfield_4" />
+		<DataID id="219005" name="TheRealMomsOfSpringfield_5" />
+		<DataID id="219006" name="MartinNeedsATutor_1" />
+		<DataID id="219007" name="MartinNeedsATutor_2" />
+		<DataID id="219008" name="MartinNeedsATutor_3" />
+		<DataID id="219009" name="Twinception_1" />
+		<DataID id="219010" name="Twinception_2" />
+		<DataID id="219011" name="Twinception_3" />
+		<!-- <DataID id="219700" name="AutoApply_JakeBoymanSkin" /> -->
+		<DataID id="219800" name="RealMomsOfSpringfield_Completed" />
+		<DataID id="219801" name="RealMomsOfSpringfield_IntroPanel" />
+		<DataID id="219802" name="RealMomsOfSpringfield_72HourWarning" onDeprecated="retain" endDate="RealMomsOfSpringfield_End" />
+		<DataID id="219803" name="RealMomsOfSpringfield_24HourWarning" onDeprecated="retain" endDate="RealMomsOfSpringfield_End" />
+		<DataID id="219804" name="RealMomsOfSpringfield_EventExpired" />
+		<DataID id="219805" name="RealMomsOfSpringfield_MasterQuest" />
+		<DataID id="219900" name="RealMomsOfSpringfield_RecommendStore" onDeprecated="delete" endDate="RealMomsOfSpringfield_End" />
+	</MasterList>
+	<Quest id="219800" name="RealMomsOfSpringfield_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="TheRealMomsOfSpringfield_5" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="219801" name="RealMomsOfSpringfield_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="TheRealMomsOfSpringfieldIntro" />
+			<Requirement type="time" end="RealMomsOfSpringfield_End" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="219802" name="RealMomsOfSpringfield_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::RealMomsOfSpringfield_End')-fromHours(72)]_" end="_[System::evaluate('Date::RealMomsOfSpringfield_End')-fromHours(24)]_" />
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Complete" not="true" />
+			<Requirement type="quest" quest="RealMomsOfSpringfield_IntroPanel" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="219803" name="RealMomsOfSpringfield_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::RealMomsOfSpringfield_End')-fromHours(24)]_" end="RealMomsOfSpringfield_End" />
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Complete" not="true" />
+			<Requirement type="quest" quest="RealMomsOfSpringfield_IntroPanel" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="219804" name="RealMomsOfSpringfield_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="RealMomsOfSpringfield_End" triggerEvent="true" />
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Complete" not="true" />
+			<Requirement type="quest" quest="RealMomsOfSpringfield_IntroPanel" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="219805" name="RealMomsOfSpringfield_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" not="true" />
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Complete" not="true" />
+			<Requirement type="reqList" location="RealMomsOfSpringfield_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheRealMomsOfSpringfield_5" />
+					<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheRealMomsOfSpringfield_1">
+				<Requirement type="quest started" quest="TheRealMomsOfSpringfield_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheRealMomsOfSpringfield_2">
+				<Requirement type="quest started" quest="TheRealMomsOfSpringfield_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheRealMomsOfSpringfield_3">
+				<Requirement type="quest started" quest="TheRealMomsOfSpringfield_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheRealMomsOfSpringfield_4">
+				<Requirement type="quest started" quest="TheRealMomsOfSpringfield_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheRealMomsOfSpringfield_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="219000" name="TheRealMomsOfSpringfieldIntro" tags="mainquest" icon="MomsOfSpringfield_Event" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="RealMomsOfSpringfield_Start" end="RealMomsOfSpringfield_End" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfieldIntro_Start" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfieldIntro_End" />
+		<Objectives>
+			<Objective type="complete job" character="RuthPowers" job="ThinkOfANewDeal" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="RuthPowers" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="QuestionThePenalSystem" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="219001" name="TheRealMomsOfSpringfield_1" tags="mainquest" icon="MomsOfSpringfield_Event" sidebarIconScript="RealMomsOfSpringfield_Scripts:OpenMasterQuest" questMenuConfigPath="RealMomsOfSpringfield_QuestConfig:RealMomsOfSpringfield_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="RealMomsOfSpringfield_IntroPanel" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_1_Start" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::RealMomsOfSpringfield_Currency')" amount="__RealMomsOfSpringfield_GameConfig:ResourceQuantities:RealMomsOfSpringfield_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="RealMomsOfSpringfield_Scripts:ShowJobList" textpoolName="QST_RealMomsOfSpringfield_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateDoubleTheGifts" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="RethinkHerParticipation" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="RealMomsOfSpringfield_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="RealMomsOfSpringfield_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="219002" name="TheRealMomsOfSpringfield_2" tags="mainquest" icon="MomsOfSpringfield_Event" sidebarIconScript="RealMomsOfSpringfield_Scripts:OpenMasterQuest" questMenuConfigPath="RealMomsOfSpringfield_QuestConfig:RealMomsOfSpringfield_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheRealMomsOfSpringfield_1" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_2_Start" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::RealMomsOfSpringfield_Currency')" amount="__RealMomsOfSpringfield_GameConfig:ResourceQuantities:RealMomsOfSpringfield_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="RealMomsOfSpringfield_Scripts:ShowJobList" textpoolName="QST_RealMomsOfSpringfield_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateDoubleTheGifts" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="SupportTheMOMs" quantity="1" />
+			<Objective type="complete job" character="RuthPowers" job="WriteNewDeal20" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="RuthPowers" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="RealMomsOfSpringfield_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="RealMomsOfSpringfield_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="219003" name="TheRealMomsOfSpringfield_3" tags="mainquest" icon="MomsOfSpringfield_Event" sidebarIconScript="RealMomsOfSpringfield_Scripts:OpenMasterQuest" questMenuConfigPath="RealMomsOfSpringfield_QuestConfig:RealMomsOfSpringfield_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheRealMomsOfSpringfield_2" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_3_Start" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::RealMomsOfSpringfield_Currency')" amount="__RealMomsOfSpringfield_GameConfig:ResourceQuantities:RealMomsOfSpringfield_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="RealMomsOfSpringfield_Scripts:ShowJobList" textpoolName="QST_RealMomsOfSpringfield_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateDoubleTheGifts" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" job="MeetForJava" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="RealMomsOfSpringfield_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="RealMomsOfSpringfield_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="219004" name="TheRealMomsOfSpringfield_4" tags="mainquest" icon="MomsOfSpringfield_Event" sidebarIconScript="RealMomsOfSpringfield_Scripts:OpenMasterQuest" questMenuConfigPath="RealMomsOfSpringfield_QuestConfig:RealMomsOfSpringfield_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheRealMomsOfSpringfield_3" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_4_Start" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::RealMomsOfSpringfield_Currency')" amount="__RealMomsOfSpringfield_GameConfig:ResourceQuantities:RealMomsOfSpringfield_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="RealMomsOfSpringfield_Scripts:ShowJobList" textpoolName="QST_RealMomsOfSpringfield_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateDoubleTheGifts" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" job="VacateNeighborhood" quantity="3" />
+			<Objective type="complete job" job="EnjoyABetterLife" quantity="3" />
+			<Objective type="complete job" job="ShopForTheirMoms" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="RealMomsOfSpringfield_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="RealMomsOfSpringfield_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="219005" name="TheRealMomsOfSpringfield_5" tags="mainquest" icon="MomsOfSpringfield_Event" sidebarIconScript="RealMomsOfSpringfield_Scripts:OpenMasterQuest" questMenuConfigPath="RealMomsOfSpringfield_QuestConfig:RealMomsOfSpringfield_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="RealMomsOfSpringfield_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheRealMomsOfSpringfield_4" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_5_Start" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="TheRealMomsOfSpringfield_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::RealMomsOfSpringfield_Currency')" amount="__RealMomsOfSpringfield_GameConfig:ResourceQuantities:RealMomsOfSpringfield_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="RealMomsOfSpringfield_Scripts:ShowJobList" textpoolName="QST_RealMomsOfSpringfield_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="DonateOldMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="ForfeitWIPMothersDayGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateToddlerGradeGifts" />
+					<Job name="DonateDoubleTheGifts" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" job="AgreeToTheLatestDeal" quantity="3" />
+			<Objective type="complete job" character="Lisa" job="MakeANewGift" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="RealMomsOfSpringfield_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="RealMomsOfSpringfield_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="219006" name="MartinNeedsATutor_1" tags="sidequest" icon="MrsPrince">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="MrsPrince" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="MartinNeedsATutor_1_Start" triggerType="character" character="MrsPrince" />
+		<Objectives>
+			<Objective type="complete job" character="MrsPrince" job="ActSurprised" quantity="1" />
+			<Objective type="complete job" character="Lisa" skin="JakeBoyman" job="ReportToSkinnersOffice" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="219007" name="MartinNeedsATutor_2" tags="sidequest" icon="MrsPrince">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MartinNeedsATutor_1" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="MartinNeedsATutor_2_Start" triggerType="character" character="MrsPrince" />
+		<Objectives>
+			<Objective type="complete job" character="MrsPrince" job="HockCheapMerchandise" quantity="1" />
+			<Objective type="complete job" character="Lisa" skin="JakeBoyman" job="StudyRealMath" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="219008" name="MartinNeedsATutor_3" tags="sidequest" icon="MrsPrince">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MartinNeedsATutor_2" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="MartinNeedsATutor_3_Start" triggerType="character" character="MrsPrince" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="MartinNeedsATutor_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" skin="JakeBoyman" job="FireOff" quantity="1" />
+			<Objective type="complete job" character="MrsPrince" job="PrepareOysterCakes" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="219009" name="Twinception_1" tags="sidequest" icon="JerriMackleberry">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="JerriMackleberry" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="Twinception_1_Start" triggerType="character" character="JerriMackleberry" />
+		<Objectives>
+			<Objective type="complete job" character="JerriMackleberry" job="PracticeNamingTheCorrectTwin" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="219010" name="Twinception_2" tags="sidequest" icon="JerriMackleberry">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="Twinception_1" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="Twinception_2_Start" triggerType="character" character="JerriMackleberry" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="Twinception_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="JerriMackleberry" job="NeedleATwinPattern" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="219011" name="Twinception_3" tags="sidequest" icon="JerriMackleberry">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="Twinception_2" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="Twinception_3_Start" triggerType="character" character="JerriMackleberry" />
+		<EndScript package="RealMomsOfSpringfield_Scripts_Dialogue" name="Twinception_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="JerriMackleberry" job="MakeACheatSheetPattern" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="219700" name="AutoApply_JakeBoymanSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="JakeBoyman" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Lisa" unlockedskin="JakeBoyman" not="true" />
+			<Requirement type="characterunlocked" name="Lisa" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="RealMomsOfSpringfield_Scripts" name="AutoApply_JakeBoymanSkin_End" />
+	</Quest>
+	<Quest id="219900" name="RealMomsOfSpringfield_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="RealMomsOfSpringfield_Requirements:StoreCategory_Unlocked" />
+		</Requirements>
+		<StartScript package="RealMomsOfSpringfield_Scripts" name="RecommendStoreCategory" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

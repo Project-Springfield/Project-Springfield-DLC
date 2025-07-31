@@ -1,0 +1,901 @@
+﻿<ScriptPackage>
+	<InitializeVariables>
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGuiltDustMax" value="Selector::getValue('XMASSixteenGnomeGuiltDustRewards')" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGiftReceiptMax" value="Selector::getValue('XMASSixteenGnomeGiftReceiptRewards')" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCatnipMax" value="Selector::getValue('XMASSixteenGnomeCatnipRewards')" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCarvedFigurinesMax" value="Selector::getValue('XMASSixteenGnomeCarvedFigurinesRewards')" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeBookOfShadowsMax" value="Selector::getValue('XMASSixteenGnomeBookOfShadowsRewards')" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeChickenFingersMax" value="Selector::getValue('XMASSixteenGnomeChickenFingersRewards')" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCooldownTime" value="3600 * 4" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeTapDeltaMax" value="5000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeStunCooldownTime" value="3000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeStunDuration" value="1000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeEndTime" value="20000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRadarTime" value="3000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRadarCooldownTime" value="3000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRepathTimeMin" value="1000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRepathTimeMax" value="2000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRadarTimeRemaining" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRadarCooldownRemaining" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeStunRemaining" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeRepathTimeRemaining" value="rand(GnomeRepathTimeMax)+GnomeRepathTimeMin" />
+		<Action type="if">
+			<If expression="lessThan(GnomeLevel, GnomeLevelCap)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGuiltDustPerMS" value="(GnomeGuiltDustMax / GnomeEndTime)*3" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGuiltDustPerMS" value="0" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCatnipPerMS" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCarvedFigurinesPerMS" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeBookOfShadowsPerMS" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeChickenFingersPerMS" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGiftReceiptPerMS" value="0" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="XMAS2016_Requirements:ActOne" />
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeCatnipPerMS" value="(GnomeCatnipMax / GnomeEndTime)*1.5" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeCarvedFigurinesPerMS" value="(GnomeCarvedFigurinesMax / GnomeEndTime)*1.5" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="XMAS2016_Requirements:ActTwo" />
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeBookOfShadowsPerMS" value="(GnomeBookOfShadowsMax / GnomeEndTime)*1.5" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeChickenFingersPerMS" value="(GnomeChickenFingersMax / GnomeEndTime)*1.5" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="time" start="XMASSixteen_MysteryGift_Start" end="XMASSixteen_MysteryGift_End" />
+			<True>
+				<Action type="updateVariable" disableEvents="true" variable="GnomeGiftReceiptPerMS" value="(GnomeGiftReceiptMax / GnomeEndTime)*1.5" />
+			</True>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGuiltDustRewarded" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGiftReceiptRewarded" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCatnipRewarded" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeCarvedFigurinesRewarded" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeBookOfShadowsRewarded" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeChickenFingersRewarded" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeLastTapTime" value="uptimeMS(0)" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGamePaused" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeElapsedTime" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeActiveTime" value="2000" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeStunned" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeLastUpdateTime" value="uptimeMS(0)" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeUpdateTime" value="uptimeMS(0)" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGameResumed" value="false" />
+	</InitializeVariables>
+	<UpdateGnomeTimers>
+		<Action type="if">
+			<If expression="GnomeGameResumed">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeUpdateTime" value="uptimeMS(0)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGameResumed" value="false" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="GnomeLastUpdateTime" value="GnomeUpdateTime" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeUpdateTime" value="uptimeMS(0)" />
+		<Action type="if">
+			<If expression="!GnomeGamePaused">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeElapsedTime" value="GnomeElapsedTime + (GnomeUpdateTime - GnomeLastUpdateTime)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeRadarTimeRemaining" value="GnomeRadarTimeRemaining - (GnomeUpdateTime - GnomeLastUpdateTime)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeRadarCooldownRemaining" value="GnomeRadarCooldownRemaining - (GnomeUpdateTime - GnomeLastUpdateTime)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeRepathTimeRemaining" value="GnomeRepathTimeRemaining - (GnomeUpdateTime - GnomeLastUpdateTime)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeStunRemaining" value="GnomeStunRemaining - (GnomeUpdateTime - GnomeLastUpdateTime)" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="!GnomeStunned">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeActiveTime" value="GnomeActiveTime + (GnomeUpdateTime - GnomeLastUpdateTime)" />
+				</Then>
+			</If>
+		</Action>
+	</UpdateGnomeTimers>
+	<UpdateGnomeState>
+		<Action type="if">
+			<If expression="and(GnomeStunned, lessThanEQ(GnomeStunRemaining, 0))">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeStunned" value="0" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeActiveTime" value="0" />
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:ResetGnomeState" />
+				</Then>
+			</If>
+			<ElseIf expression="and(!GnomeStunned, lessThanEQ(GnomeRepathTimeRemaining, 0))">
+				<Then>
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:ResetGnomeState" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeRepathTimeRemaining" value="rand(GnomeRepathTimeMax)+GnomeRepathTimeMin" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</UpdateGnomeState>
+	<ResetGnomeState>
+		<Action type="setMovementBehavior">
+			<Objects>
+				<ObjectByName name="GnomeInYourHome" />
+			</Objects>
+			<MovementBehavior mode="sneak">
+				<RandomSpeed minSpeed="120" maxSpeed="140" />
+				<BuildingVisit maxTime="0" minTime="0">
+					<Controller name="GnomeMoving" />
+				</BuildingVisit>
+			</MovementBehavior>
+		</Action>
+	</ResetGnomeState>
+	<Update ignoreHUD="true">
+		<Action type="updateVariable" disableEvents="true" variable="GnomeLastRadarTime" value="GnomeRadarTimeRemaining" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeLastRadarCooldownTime" value="GnomeRadarCooldownRemaining" />
+		<Action type="actionSequence" script="XMAS2016_GnomeScripts:UpdateGnomeTimers" />
+		<Action type="actionSequence" script="XMAS2016_GnomeScripts:UpdateAnimatedTimer" />
+		<Action type="if">
+			<If expression="and(GnomeLastRadarTime &gt; 0, GnomeRadarTimeRemaining &lt;= 0)">
+				<Then>
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:RemoveRadarArrows" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="and(GnomeLastRadarCooldownTime &gt; 0, GnomeRadarCooldownRemaining &lt;= 0)">
+				<Then>
+					<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+						<Attribute name="config">
+							<AttributeSet name="RadarButton">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+							<AttributeSet name="RadarIcon">
+								<Attribute name="image" value="ico_mhud_xmas2016_minigame_gnomeradaricon_active" />
+							</AttributeSet>
+							<AttributeSet name="RadarButtonBaseL">
+								<Attribute name="color" value="000000D9" />
+							</AttributeSet>
+							<AttributeSet name="RadarButtonBaseR">
+								<Attribute name="color" value="000000D9" />
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="RewardsRemaining" value="(GnomeGuiltDustRewarded &lt; GnomeGuiltDustMax) &amp;&amp; GnomeGuiltDustPerMS" />
+		<Action type="updateVariable" disableEvents="true" variable="RewardsRemaining" value="RewardsRemaining || ((GnomeCatnipRewarded &lt; GnomeCatnipMax) &amp;&amp; GnomeCatnipPerMS)" />
+		<Action type="updateVariable" disableEvents="true" variable="RewardsRemaining" value="RewardsRemaining || ((GnomeCarvedFigurinesRewarded &lt; GnomeCarvedFigurinesMax) &amp;&amp; GnomeCarvedFigurinesPerMS)" />
+		<Action type="updateVariable" disableEvents="true" variable="RewardsRemaining" value="RewardsRemaining || ((GnomeBookOfShadowsRewarded &lt; GnomeBookOfShadowsMax) &amp;&amp; GnomeBookOfShadowsPerMS)" />
+		<Action type="updateVariable" disableEvents="true" variable="RewardsRemaining" value="RewardsRemaining || ((GnomeChickenFingersRewarded &lt; GnomeChickenFingersMax) &amp;&amp; GnomeChickenFingersPerMS)" />
+		<Action type="updateVariable" disableEvents="true" variable="RewardsRemaining" value="RewardsRemaining || ((GnomeGiftReceiptRewarded &lt; GnomeGiftReceiptMax) &amp;&amp; GnomeGiftReceiptPerMS)" />
+		<Action type="if">
+			<If expression="(GnomeElapsedTime &lt; GnomeEndTime) &amp;&amp; RewardsRemaining">
+				<Then>
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:UpdateGnomeState" />
+					<Action type="scheduleScript" mode="replace" script="XMAS2016_GnomeScripts:Update" shouldSave="false" relativeTime="1s" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:ExitGnomeGame" />
+				</Then>
+			</Else>
+		</Action>
+	</Update>
+	<GnomeTapped>
+		<Action type="sound" sound="GnomeInYourHome_Start" />
+		<Action type="sound" sound="GnomeInYourHome_Loop" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGameSocial" value="false" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGameActive" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="players land" not="true" />
+			<True>
+				<Action type="updateVariable" disableEvents="true" variable="GnomeGameSocial" value="true" />
+				<Action type="actionSequence" script="XMAS2016_GnomeScripts:ConsumeSocialGnomeAction" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="GnomeAlone_1" objective="1" />
+			<True>
+				<Action type="notificationLarge" text="QST_GnomeAlone_1_3_dlg_Start_5_SystemMessage" title="UI_XMAS2016_GnomeGame_ExitPopup_title" button="UI_OK" icon="ICO_XMAS2016_GnomeInYourHome_RewardPopup_Gnome" />
+				<Action type="pantoobject" character="GnomeInYourHome" time="0" />
+			</True>
+		</Action>
+		<Action type="playCharacterEffect" resetBeforeStart="true" />
+		<Action type="setMovementBehavior">
+			<Objects>
+				<ObjectByName name="GnomeInYourHome" />
+			</Objects>
+			<MovementBehavior mode="sneak">
+				<RandomSpeed minSpeed="120" maxSpeed="140" />
+				<BuildingVisit maxTime="0" minTime="0">
+					<Controller name="GnomeMoving" />
+				</BuildingVisit>
+			</MovementBehavior>
+		</Action>
+		<Action type="sound" sound="GnomeLaugh_Long" />
+		<Action type="checkExpression" expression="GnomeIdleState">
+			<ExpressionCase value="0">
+				<Action type="anim-play" animation="Idle_1_Out">
+					<Objects>
+						<ObjectByName name="GnomeInYourHome" />
+					</Objects>
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="anim-play" animation="Idle_2_Out">
+					<Objects>
+						<ObjectByName name="GnomeInYourHome" />
+					</Objects>
+				</Action>
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="anim-play" animation="Idle_3_Out">
+					<Objects>
+						<ObjectByName name="GnomeInYourHome" />
+					</Objects>
+				</Action>
+			</ExpressionCase>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="GnomeLastTapTime" value="uptimeMS(0)" />
+		<Action type="actionSequence" script="XMAS2016_GnomeScripts:InitializeVariables" />
+		<Action type="customTouch">
+			<Attribute name="config">
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="GnomeGameHUD" />
+					<Attribute name="config" value="GnomeGameHUD.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="XMAS2016_GnomeScripts:ConfirmExitGnomeGame" />
+						</AttributeSet>
+						<AttributeSet name="RadarButton">
+							<Attribute name="script" value="XMAS2016_GnomeScripts:ShowGnomeRadar" />
+						</AttributeSet>
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="RadarIcon">
+							<Attribute name="image" value="ico_mhud_xmas2016_minigame_gnomeradaricon_active" />
+						</AttributeSet>
+						<AttributeSet name="Time01Anim">
+							<Attribute name="image" value="ICO_XMAS2016_GnomeInYourHomeHUDCountdown" />
+							<Attribute name="animation" value="timer_static_2" />
+						</AttributeSet>
+						<AttributeSet name="Time02Anim">
+							<Attribute name="image" value="ICO_XMAS2016_GnomeInYourHomeHUDCountdown" />
+							<Attribute name="animation" value="timer_static_0" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="GnomeInYourHome" />
+					<Attribute name="ignoreObjectTypes" value="building" />
+					<Attribute name="runOnTouchScriptsInstantly" value="true" />
+				</AttributeSet>
+				<AttributeSet name="onTouchScripts">
+					<Attribute name="GnomeInYourHome" value="XMAS2016_GnomeScripts:GnomeGameTap" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="scheduleScript" mode="create" script="XMAS2016_GnomeScripts:Update" shouldSave="false" relativeTime="1s" />
+	</GnomeTapped>
+	<UpdateAnimatedTimer cache="true" ignoreHUD="true">
+		<Action type="if">
+			<If expression="and(lessThan((floor((GnomeEndTime-GnomeElapsedTime)/10000)*10)+mod(floor((GnomeEndTime-GnomeElapsedTime)/1000), 10), 20), greaterThanEQ(mod(floor((GnomeEndTime-GnomeElapsedTime)/1000), 10), 0))">
+				<Then>
+					<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+						<Attribute name="config">
+							<AttributeSet name="Time01Anim">
+								<Attribute name="loop" value="false" />
+								<Attribute name="animation" value="Timer_{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="floor((GnomeEndTime-GnomeElapsedTime)/10000)" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+							<AttributeSet name="Time02Anim">
+								<Attribute name="loop" value="false" />
+								<Attribute name="animation" value="Timer_{0}" parameters="textParams">
+									<AttributeSet name="textParams">
+										<Attribute name="0" formula="mod(floor((GnomeEndTime-GnomeElapsedTime)/1000), 10)" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</UpdateAnimatedTimer>
+	<GnomeGameTap parallel="true">
+		<Action type="if">
+			<If expression="GnomeGameActive">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeTapDelta" value="min(GnomeTapDeltaMax, uptimeMS(0) - GnomeLastTapTime)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeLastTapTime" value="uptimeMS(0)" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGuiltDustRewards" value="min(GnomeGuiltDustMax - GnomeGuiltDustRewarded, ceil(GnomeGuiltDustPerMS * GnomeTapDelta))" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeCatnipRewards" value="min(GnomeCatnipMax - GnomeCatnipRewarded, ceil(GnomeCatnipPerMS * GnomeTapDelta))" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeCarvedFigurinesRewards" value="min(GnomeCarvedFigurinesMax - GnomeCarvedFigurinesRewarded, ceil(GnomeCarvedFigurinesPerMS * GnomeTapDelta))" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeBookOfShadowsRewards" value="min(GnomeBookOfShadowsMax - GnomeBookOfShadowsRewarded, ceil(GnomeBookOfShadowsPerMS * GnomeTapDelta))" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeChickenFingersRewards" value="min(GnomeChickenFingersMax - GnomeChickenFingersRewarded, ceil(GnomeChickenFingersPerMS * GnomeTapDelta))" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGiftReceiptRewards" value="min(GnomeGiftReceiptMax - GnomeGiftReceiptRewarded, ceil(GnomeGiftReceiptPerMS * GnomeTapDelta))" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGuiltDustRewarded" value="GnomeGuiltDustRewarded + GnomeGuiltDustRewards" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeCatnipRewarded" value="GnomeCatnipRewarded + GnomeCatnipRewards" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeCarvedFigurinesRewarded" value="GnomeCarvedFigurinesRewarded + GnomeCarvedFigurinesRewards" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeBookOfShadowsRewarded" value="GnomeBookOfShadowsRewarded + GnomeBookOfShadowsRewards" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeChickenFingersRewarded" value="GnomeChickenFingersRewarded + GnomeChickenFingersRewards" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGiftReceiptRewarded" value="GnomeGiftReceiptRewarded + GnomeGiftReceiptRewards" />
+					<Action type="sound" sound="GnomeLaugh" />
+					<Action type="dropIndicators">
+						<Indicator count="GnomeGuiltDustRewards" collectTime="1" icon="ico_cur_xmas2016_guiltdust_sm.rgb" />
+						<Indicator count="GnomeCatnipRewards" collectTime="1" icon="ico_cur_xmas2016_catnip_sm.rgb" />
+						<Indicator count="GnomeCarvedFigurinesRewards" collectTime="1" icon="ico_cur_xmas2016_carvedfigurine_sm.rgb" />
+						<Indicator count="GnomeBookOfShadowsRewards" collectTime="1" icon="ico_cur_xmas2016_bookofshadows_sm.rgb" />
+						<Indicator count="GnomeChickenFingersRewards" collectTime="1" icon="ico_cur_xmas2016_chickenfingers_sm.rgb" />
+						<Indicator count="GnomeGiftReceiptRewards" collectTime="1" icon="ico_cur_xmas2016_giftreceipt_sm.rgb" />
+					</Action>
+					<Action type="if">
+						<If expression="!GnomeStunned &amp;&amp; (GnomeActiveTime &gt; GnomeStunCooldownTime)">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="GnomeStunned" value="1" />
+								<Action type="updateVariable" disableEvents="true" variable="GnomeStunRemaining" value="GnomeStunDuration" />
+								<Action type="setMovementBehavior">
+									<Objects>
+										<ObjectByName name="GnomeInYourHome" />
+									</Objects>
+									<MovementBehavior mode="sneak">
+										<RandomSpeed minSpeed="10" maxSpeed="10" />
+										<BuildingVisit maxTime="0" minTime="0">
+											<Controller name="GnomeStunned" />
+										</BuildingVisit>
+									</MovementBehavior>
+								</Action>
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</GnomeGameTap>
+	<ConfirmExitGnomeGame>
+		<Action type="if">
+			<If expression="GnomeGameActive">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGamePaused" value="true" />
+					<Action type="genericConfirmation">
+						<Attribute name="config">
+							<AttributeSet name="onOK">
+								<Attribute name="script" value="XMAS2016_GnomeScripts:ExitGnomeGame" />
+							</AttributeSet>
+							<AttributeSet name="onCancel">
+								<Attribute name="script" value="XMAS2016_GnomeScripts:ResumeGnomeGame" />
+							</AttributeSet>
+							<AttributeSet name="onBackButton">
+								<Attribute name="mapTo" value="onCancel" />
+							</AttributeSet>
+							<AttributeSet name="title">
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_ExitPopup_title" localise="true" />
+								<Attribute name="color" value="FFD51AFF" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_ExitPopup_body" localise="true" />
+								<Attribute name="font" value="eFont_Small" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="button_Cancel">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_Cancel" localise="true" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="button_back">
+									<AttributeSet name="button">
+										<Attribute name="color" value="BB0310FF" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_Yes" localise="true" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="button_back">
+									<AttributeSet name="button">
+										<Attribute name="color" value="0091F1FF" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+							<AttributeSet name="exitButton">
+								<Attribute name="active" value="false" />
+							</AttributeSet>
+							<AttributeSet name="showTwoButtons">
+								<Attribute name="active" value="true" />
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</ConfirmExitGnomeGame>
+	<ResumeGnomeGame parallel="true">
+		<Action type="actionSequence" script="XMAS2016_GnomeScripts:Update" />
+		<Action type="updateVariable" disableEvents="true" variable="GnomeGamePaused" value="false" />
+	</ResumeGnomeGame>
+	<SpawnGnome parallel="true">
+		<Action type="updateVariable" variable="GnomeSpawnPending" value="1" />
+	</SpawnGnome>
+	<SpawnGnome_Quest>
+		<Action type="createobject" name="GnomeInYourHome" count="1" save="true" showUnlock="false" panCamera="false" enableCharacterOverlay="true" />
+		<Action type="updateVariable" variable="GnomeSpawnPending" value="0" />
+		<Action type="scheduleScript" mode="create" script="XMAS2016_GnomeScripts:SetGnomeIdleState" shouldSave="true" relativeTime="1s" />
+		<Action type="actionSequence" script="MiscScripts:GoToInGame" />
+		<Action type="hudTip" text="UI_XMAS2016_GnomeGame_hudTip" time="5s" />
+		<Action type="sound" sound="Gnome_Tap" />
+		<Action type="checkExpression" expression="RadarAfterSpawn">
+			<ExpressionCase value="1">
+				<Action type="updateVariable" variable="RadarAfterSpawn" value="0" />
+				<Action type="actionSequence" script="XMAS2016_GnomeScripts:GnomeRadarButtonPressed" />
+			</ExpressionCase>
+		</Action>
+	</SpawnGnome_Quest>
+	<SetGnomeIdleState parallel="true">
+		<Action type="updateVariable" disableEvents="true" variable="GnomeIdleState" value="rand(3)" />
+		<Action type="checkExpression" expression="GnomeIdleState">
+			<ExpressionCase value="0">
+				<Action type="setcontroller" character="GnomeInYourHome" controller="gnome_idle1" block="false" focus="false" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="setcontroller" character="GnomeInYourHome" controller="gnome_idle2" block="false" focus="false" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="setcontroller" character="GnomeInYourHome" controller="gnome_idle3" block="false" focus="false" />
+			</ExpressionCase>
+		</Action>
+	</SetGnomeIdleState>
+	<RemoveRadarArrows ignoreHUD="true">
+		<Action type="removeGameHelper" name="GnomeInYourHome" />
+		<Action type="sound" sound="XMAS2016_GnomeInYourHome_RadarDeactivate" />
+		<Action type="stopSoundKit" sound="XMAS2016_GnomeInYourHome_RadarActivate" />
+		<Action type="setObjectVariable" variable="RadarActive" value="0" disableEvents="false">
+			<Objects>
+				<ObjectByName name="GnomeInYourHome" />
+			</Objects>
+		</Action>
+	</RemoveRadarArrows>
+	<ShowGnomeRadar ignoreHUD="true">
+		<Action type="if">
+			<If expression="GnomeRadarCooldownRemaining &lt; 0">
+				<Then>
+					<Action type="addGameHelper" name="GnomeInYourHome" bsv="ico_xmas2016_gnomeradaringame" arrowAnim="gnomeradararrow" imageAnim="gnomeradarcircle" yOffset="-120" onScreenArrow="true" onScreenArrowAngle="180" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeRadarTimeRemaining" value="GnomeRadarTime" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeRadarCooldownRemaining" value="GnomeRadarCooldownTime" />
+					<Action type="sound" sound="XMAS2016_GnomeInYourHome_RadarActivate" />
+					<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+						<Attribute name="config">
+							<AttributeSet name="RadarButton">
+								<Attribute name="active" value="false" />
+							</AttributeSet>
+							<AttributeSet name="RadarIcon">
+								<Attribute name="image" value="ico_mhud_xmas2016_minigame_gnomeradaricon_inactive" />
+							</AttributeSet>
+							<AttributeSet name="RadarButtonBaseL">
+								<Attribute name="color" value="000000A9" />
+							</AttributeSet>
+							<AttributeSet name="RadarButtonBaseR">
+								<Attribute name="color" value="000000A9" />
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</ShowGnomeRadar>
+	<GnomeRadarDoItButton>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="XMAS2016_GnomeScripts:GnomeRadar_InTown_Start" />
+		</Action>
+	</GnomeRadarDoItButton>
+	<GnomeRadarButtonPressed ignoreHUD="true">
+		<Action type="actionSequence" script="XMAS2016_GnomeScripts:GnomeRadar_InTown_Start" />
+	</GnomeRadarButtonPressed>
+	<GnomeRadar_InTown_Start>
+		<Action type="sound" sound="XMAS2016_GnomeInYourHome_RadarActivate" />
+		<Action type="customTouch">
+			<Attribute name="config">
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="GnomeGameHUD" />
+					<Attribute name="config" value="GnomeGameHUD.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="IfActive">
+							<Attribute name="active" value="false" />
+						</AttributeSet>
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="XMAS2016_GnomeScripts:GnomeRadar_InTown_End" />
+						</AttributeSet>
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="RadarAnim">
+							<Attribute name="image" value="ico_xmas2016_gnomeradarhudiconingame" />
+							<Attribute name="animation" value="readyonly" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="GnomeInYourHome" />
+					<Attribute name="ignoreObjectTypes" value="building" />
+					<Attribute name="runOnTouchScriptsInstantly" value="false" />
+				</AttributeSet>
+				<AttributeSet name="onTouchScripts">
+					<Attribute name="GnomeInYourHome" value="XMAS2016_GnomeScripts:GnomeTapped_RadarActive" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="addGameHelper" name="GnomeInYourHome" bsv="ico_xmas2016_gnomeradaringame" arrowAnim="gnomeradararrow" imageAnim="gnomeradarcircle" yOffset="-120" onScreenArrow="true" onScreenArrowAngle="180" />
+		<Action type="scheduleScript" mode="replace" script="XMAS2016_GnomeScripts:GnomeRadar_InTown_End" shouldSave="false" relativeTime="30s" ignoreObject="true" />
+		<Action type="setObjectVariable" variable="RadarActive" value="1" disableEvents="false">
+			<Objects>
+				<ObjectByName name="GnomeInYourHome" />
+			</Objects>
+		</Action>
+	</GnomeRadar_InTown_Start>
+	<GnomeRadar_InTown_End>
+		<Action type="scheduleScript" mode="delete" script="XMAS2016_GnomeScripts:GnomeRadar_InTown_End" ignoreObject="true" />
+		<Action type="sound" sound="XMAS2016_GnomeInYourHome_RadarDeactivate" />
+		<Action type="stopSoundKit" sound="XMAS2016_GnomeInYourHome_RadarActivate" />
+		<Action type="returnToInGameState" waitForState="true" />
+		<Action type="removeGameHelper" name="GnomeInYourHome" />
+		<Action type="setObjectVariable" variable="RadarActive" value="0" disableEvents="false">
+			<Objects>
+				<ObjectByName name="GnomeInYourHome" />
+			</Objects>
+		</Action>
+	</GnomeRadar_InTown_End>
+	<GnomeTapped_RadarActive>
+		<Action type="actionSequence" script="XMAS2016_GnomeScripts:GnomeRadar_InTown_End" />
+		<Action type="runScript" script="XMAS2016_GnomeScripts:GnomeTapped" />
+	</GnomeTapped_RadarActive>
+	<ShowGnomeRewards>
+		<Action type="sound" sound="XMAS2016_GnomeInYourHome_RewardScreen" />
+		<Action type="showMenu" menu="gnomeradarrewardpopup" scriptResProvider="gnomeradarrewardpopup.mns" menuConfig="XMAS2016_GnomeReward_MenuConfig:MenuConfig" buttonsConfig="XMAS2016_GnomeReward_MenuConfig:ButtonsConfig" waitUntilDismissed="true" />
+	</ShowGnomeRewards>
+	<ShowTopUp>
+		<Action type="showMenu" menu="scriptedresourcetopup" scriptResProvider="resourcetopup.mns" menuConfig="XMAS2016_TopUp_MenuConfig:MenuConfig" buttonsConfig="XMAS2016_TopUp_MenuConfig:ButtonsConfig" waitUntilDismissed="true" />
+	</ShowTopUp>
+	<HideTopUp>
+		<Action type="sound" sound="UIButton" />
+		<Action type="showMenu" clearShownMenu="true" menu="resourcetopup" scriptResProvider="resourcetopup.mns" menuConfig="XMAS2016_TopUp_MenuConfig:MenuConfig" buttonsConfig="XMAS2016_TopUp_MenuConfig:ButtonsConfig" waitUntilDismissed="true" />
+	</HideTopUp>
+	<TryUpgradeGnome>
+		<Action type="sound" sound="UIButton" />
+		<Action type="if">
+			<If expression="GnomeLevel &lt; GnomeLevelCap">
+				<Then>
+					<Action type="spendResources">
+						<Cost GuiltDust="Selector::getValue('XMASSixteenGnomeUpgradeCost')" />
+						<Success name="XMAS2016_GnomeScripts:UpgradeGnome" />
+						<Failure name="XMAS2016_GnomeScripts:DonutUpgradeGnome" />
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</TryUpgradeGnome>
+	<UpgradeGnome>
+		<Action type="updateVariable" variable="GnomeLevel" value="GnomeLevel + 1" />
+		<Action type="runScript" script="XMAS2016_GnomeScripts:UpgradeGnomeAnimation" />
+	</UpgradeGnome>
+	<UpgradeGnomeAnimation>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="pantoobject" building="GnomeBox" time="0" />
+		<Action type="sound" sound="MoneyMountain_Upgrade01.caf" />
+		<Action type="anim-building-oneshot" postdraw="true" onBuilding="GnomeBox" nowait="true" requiresInGame="true" panCamera="true">
+			<OneShot name="regular" file="CannonUpGrade" animation="Castle_upGrade_4x5" x="0" y="0" />
+			<OneShot name="flipped" file="CannonUpGrade" animation="Castle_upGrade_4x5" x="0" y="0" />
+		</Action>
+		<Action type="delay" time="2" />
+		<Action type="runScript" script="XMAS2016_GnomeScripts:UpgradeGnomeConfirmation" />
+	</UpgradeGnomeAnimation>
+	<UpgradeGnomeConfirmation>
+		<Action type="showMenu" menu="ScriptedNotificationImageLeftMenu" scriptResProvider="ScriptedNotificationImageLeftMenu.mns" menuConfig="XMAS2016_GnomeUpgradePrompt_MenuConfig:MenuConfig" buttonsConfig="XMAS2016_GnomeUpgradePrompt_MenuConfig:ButtonsConfig" waitUntilDismissed="true" />
+	</UpgradeGnomeConfirmation>
+	<DonutUpgradeGnome>
+		<Action type="runScript" script="XMAS2016_GnomeScripts:ShowTopUp" />
+	</DonutUpgradeGnome>
+	<DoDonutUpgradeGnome>
+		<Action type="sound" sound="UIButton" />
+		<Action type="spendResources">
+			<Cost GuiltDust="System::evaluate('Spendable::GuiltDust')" donuts="ceil((Selector::getValue('XMASSixteenGnomeUpgradeCost') - System::evaluate('Spendable::GuiltDust'))*toDouble(System::getConfigValue('__XMAS2016_Spreadsheet_Config:Resources:GuiltDust_DonutCost__')))" />
+			<Success name="XMAS2016_GnomeScripts:UpgradeGnome" />
+			<Failure name="XMAS2016_GnomeScripts:AskGetMore" />
+		</Action>
+	</DoDonutUpgradeGnome>
+	<AskGetMore ignoreHUD="true">
+		<Action type="runScript" script="MiscScripts:AskGetMore">
+			<FormatToken key="titleText" value="UI_XMAS2016_GnomeGame_ExitPopup_title" />
+			<FormatToken key="cancelScript" value="XMAS2016_Scripts:Tab_GnomeInYourHome" />
+			<FormatToken key="mtxStoreScript" value="XMAS2016_GnomeScripts:OpenMTXStore_ReturnToGnomeTab" />
+		</Action>
+	</AskGetMore>
+	<OpenMTXStore_ReturnToGnomeTab>
+		<Action type="actionSequence" script="MiscScripts:OpenMTXStore">
+			<FormatToken key="onLeaveScript" value="XMAS2016_Scripts:Tab_GnomeInYourHome" />
+		</Action>
+	</OpenMTXStore_ReturnToGnomeTab>
+	<BackgroundResumeGnomeGame>
+		<Action type="if">
+			<If expression="GnomeGameActive">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGameResumed" value="true" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="if">
+						<If expression="greaterThanEQ(serverTime(), GnomeCooldownEnd)">
+							<Requirements>
+								<Requirement type="land" land="Springfield" />
+								<Requirement type="character" name="GnomeInYourHome" />
+							</Requirements>
+							<Then>
+								<Action type="pantoobject" building="GnomeBox" time="0" />
+								<Action type="hudTip" text="UI_XMAS2016_GnomeGame_hudTip" time="10s" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="scheduleScript" mode="replace" script="XMAS2016_GnomeScripts:SpawnGnome" shouldSave="true" absoluteTime="GnomeCooldownEnd" asExpression="true" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="GnomeInYourHome" />
+			<True>
+				<Action type="actionSequence" script="XMAS2016_GnomeScripts:PlayGnomeEffect" parseOnDemand="true" />
+			</True>
+		</Action>
+	</BackgroundResumeGnomeGame>
+	<PlayGnomeEffect>
+		<Action type="playCharacterEffect">
+			<Objects>
+				<ObjectByName name="GnomeInYourHome" />
+			</Objects>
+		</Action>
+	</PlayGnomeEffect>
+	<ExitGnomeGame parallel="true">
+		<Action type="if">
+			<If expression="GnomeGameActive">
+				<Then>
+					<Action type="updateVariable" variable="GnomeGameActive" value="0" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGameSocialMenu" value="GnomeGameSocial" />
+					<Action type="updateVariable" variable="GnomeCaughtCount" value="GnomeCaughtCount+1" />
+					<Action type="updateVariable" variable="XMAS2016_DCS_GnomeCaught" value="XMAS2016_DCS_GnomeCaught+1" />
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:RemoveRadarArrows" />
+					<Action type="reward" XMAS2016_TotalGnomeCatches="1" noDrops="true" save="true" suppress_sound="true" />
+					<Action type="if">
+						<If expression="GnomeGameSocial">
+							<Then>
+								<Action type="updateVariable" variable="GnomeSocialCaughtCount" value="GnomeSocialCaughtCount+1" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" variable="GnomeCooldownStart" value="serverTime(0)" />
+								<Action type="updateVariable" variable="GnomeCooldownEnd" value="serverTime(0) + GnomeCooldownTime" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="reward" noDrops="true" GuiltDust="GnomeGuiltDustRewarded" GiftVouchers="GnomeGiftReceiptRewarded" Catnip="GnomeCatnipRewarded" CarvedFigurines="GnomeCarvedFigurinesRewarded" BookOfShadows="GnomeBookOfShadowsRewarded" ChickenFingers="GnomeChickenFingersRewarded" />
+					<Action type="sound" sound="XMAS2016_GnomeInYourHome_Vanish" />
+					<Action type="anim-play" animation="Vanish">
+						<Objects>
+							<ObjectByName name="GnomeInYourHome" />
+						</Objects>
+					</Action>
+					<Action type="if">
+						<Objects>
+							<ObjectByName name="GnomeInYourHome" />
+						</Objects>
+						<If expression="Object::RadarActive">
+							<Then>
+								<Action type="sound" sound="XMAS2016_GnomeInYourHome_RadarDeactivate" />
+								<Action type="stopSoundKit" sound="XMAS2016_GnomeInYourHome_RadarActivate" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="deletecharacter" character="GnomeInYourHome" />
+					<Action type="removeGameHelper" name="GnomeInYourHome" />
+					<Action type="stopSoundKit" sound="GnomeInYourHome_Loop" fadeoutTime="1.5" />
+					<Action type="sound" sound="GnomeInYourHome_End" />
+					<Action type="if">
+						<If expression="!GnomeGameSocial">
+							<Then>
+								<Action type="scheduleScript" mode="replace" script="XMAS2016_GnomeScripts:SpawnGnome" shouldSave="true" absoluteTime="GnomeCooldownEnd" asExpression="true" />
+								<Action type="checkRequirements">
+									<Requirement type="config" key="XMAS2016_GameConfig:Enable:GnomeInTownPN" value="1" />
+									<True>
+										<Action type="scheduleLocalNotification" blueprint="GnomeInTown" scheduleTime="4h" />
+									</True>
+								</Action>
+							</Then>
+						</If>
+					</Action>
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:ShowGnomeRewards" />
+					<Action type="if">
+						<If expression="and(GnomeGameSocial, lessThanEQ(GnomeSocialActionCount,0))">
+							<Then>
+								<Action type="message" text="UI_XMAS2016_GnomeGame_Social_Done_text" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGameSocial" value="0" />
+					<Action type="actionSequence" script="MiscScripts:GoToInGame" />
+					<Action type="scheduleScript" mode="delete" script="XMAS2016_GnomeScripts:Update" />
+				</Then>
+			</If>
+		</Action>
+	</ExitGnomeGame>
+	<FriendTownEmpty>
+		<Action type="if">
+			<If expression="and(GnomeSocialActionResetTime, greaterThan(serverTime(0), GnomeSocialActionResetTime))">
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="title">
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_ExitPopup_title" localise="true" />
+								<Attribute name="font" value="eFont_Special" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_Social_Pending" localise="true" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="left">
+								<Attribute name="image" value="ico_xmas2016_gnomeinyourhome_gnomebox_close" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_OK" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="title">
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_ExitPopup_title" localise="true" />
+								<Attribute name="font" value="eFont_Special" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_Social_BackIn_s" localise="true" parameters="params">
+									<AttributeSet name="params">
+										<Attribute name="0" formula="int((GnomeSocialActionResetTime-serverTime(0))/86400)" />
+										<Attribute name="1" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/3600)), 24)" />
+										<Attribute name="2" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/60)), 60)" />
+										<Attribute name="3" formula="mod(GnomeSocialActionResetTime-serverTime(0), 60)" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_Social_BackIn_ms" localise="true" parameters="params">
+									<Requirement type="formula" formula="greaterThan(mod(int(((GnomeSocialActionResetTime-serverTime(0))/60)), 60), 0)" />
+									<AttributeSet name="params">
+										<Attribute name="0" formula="int((GnomeSocialActionResetTime-serverTime(0))/86400)" />
+										<Attribute name="1" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/3600)), 24)" />
+										<Attribute name="2" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/60)), 60)" />
+										<Attribute name="3" formula="mod(GnomeSocialActionResetTime-serverTime(0), 60)" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_Social_BackIn_hms" localise="true" parameters="params">
+									<Requirement type="formula" formula="greaterThan(mod(int(((GnomeSocialActionResetTime-serverTime(0))/3600)), 24), 0)" />
+									<AttributeSet name="params">
+										<Attribute name="0" formula="int((GnomeSocialActionResetTime-serverTime(0))/86400)" />
+										<Attribute name="1" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/3600)), 24)" />
+										<Attribute name="2" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/60)), 60)" />
+										<Attribute name="3" formula="mod(GnomeSocialActionResetTime-serverTime(0), 60)" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="text" value="UI_XMAS2016_GnomeGame_Social_BackIn_dhms" localise="true" parameters="params">
+									<Requirement type="formula" formula="greaterThan(int((GnomeSocialActionResetTime-serverTime(0))/86400), 0)" />
+									<AttributeSet name="params">
+										<Attribute name="0" formula="int((GnomeSocialActionResetTime-serverTime(0))/86400)" />
+										<Attribute name="1" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/3600)), 24)" />
+										<Attribute name="2" formula="mod(int(((GnomeSocialActionResetTime-serverTime(0))/60)), 60)" />
+										<Attribute name="3" formula="mod(GnomeSocialActionResetTime-serverTime(0), 60)" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="left">
+								<Attribute name="image" value="ico_xmas2016_gnomeinyourhome_gnomebox_close" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_OK" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</FriendTownEmpty>
+	<GiveSocialRewards>
+		<Action type="if">
+			<If expression="1">
+				<Then>
+					<Action type="updateVariable" variable="GnomeGameActive" value="0" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGameSocialMenu" value="GnomeGameSocial" />
+					<Action type="updateVariable" disableEvents="true" variable="GnomeGameSocial" value="0" />
+					<Action type="reward" noDrops="true" GuiltDust="GnomeGuiltDustRewarded" GiftVouchers="GnomeGiftReceiptRewarded" Catnip="GnomeCatnipRewarded" CarvedFigurines="GnomeCarvedFigurinesRewarded" BookOfShadows="GnomeBookOfShadowsRewarded" ChickenFingers="GnomeChickenFingersRewarded" />
+					<Action type="actionSequence" script="XMAS2016_GnomeScripts:ShowGnomeRewards" />
+					<Action type="actionSequence" script="MiscScripts:GoToInGame" />
+				</Then>
+			</If>
+		</Action>
+	</GiveSocialRewards>
+	<ConsumeSocialGnomeAction>
+		<Action type="if">
+			<If expression="GnomeSocialActionResetTime == 0">
+				<Then>
+					<Action type="updateVariable" variable="GnomeSocialActionResetTime" value="System::evaluate('Calendar::Next')" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" variable="GnomeSocialActionCount" value="GnomeSocialActionCount-1" />
+	</ConsumeSocialGnomeAction>
+	<ResetSocialGnomeActions parallel="true">
+		<Action type="updateVariable" variable="GnomeSocialActionResetTime" value="0" />
+		<Action type="updateVariable" variable="GnomeSocialActionCount" value="toDouble(System::getConfigValue('__XMAS2016_Spreadsheet_Config:Gnome:DailySocialGameCap__'))" />
+	</ResetSocialGnomeActions>
+	<FindGnome>
+		<Action type="sound" sound="UIButton" />
+		<Action type="returnToInGameState" waitForState="true" />
+		<Action type="checkRequirements">
+			<Requirement type="character" name="GnomeInYourHome" />
+			<True>
+				<Action type="actionSequence" script="XMAS2016_GnomeScripts:GnomeRadarButtonPressed" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="RadarAfterSpawn" value="1" />
+			</False>
+		</Action>
+	</FindGnome>
+</ScriptPackage>

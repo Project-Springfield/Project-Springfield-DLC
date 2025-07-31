@@ -1,0 +1,280 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="UntroubledVasesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="TSTOTE_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="TSTOTE_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="TSTOTE_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="TSTOTE_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_TSTOTE_IntroPanelTitle" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_TSTOTE_IntroPanelText1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_TSTOTE_IntroPanelText2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_TSTOTE_IntroPanelText3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_TSTOTE_IntroPanelText4" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_TSTOTE_IntroPanelText5" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_UntroubledVases_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="UntroubledVasesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_TSTOTE_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_UntroubledVases_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_TSTOTE_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="TSTOTE_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="TSTOTE_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="TSTOTE_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="TSTOTE_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="TSTOTE_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_TSTOTE_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="TSTOTE_OnePanel" />
+		<Action type="runScript" script="TSTOTE_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="TSTOTE_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="TSTOTE_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="TSTOTE_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="TSTOTE_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="TSTOTE_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<RecommendStoreCategory_TSTOTEWave1 ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Timed" />
+		<Action type="recommendation" recType="Event" name="TSTOTE_TSTOTEWave1_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TSTOTEWave1>
+	<EnterStoreCategory_TSTOTEWave1 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TSTOTEWave1_Category" />
+	</EnterStoreCategory_TSTOTEWave1>
+	<RecommendStoreCategory_TSTOTEWave2 ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="recommendation" recType="Event" name="TSTOTE_TSTOTEWave2_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Promoted" name="TSTOTE_TSTOTEWave1_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TSTOTEWave2>
+	<EnterStoreCategory_TSTOTEWave2 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TSTOTEWave2_Category" />
+	</EnterStoreCategory_TSTOTEWave2>
+	<RecommendStoreCategory_TSTOTEWave3 ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="clearRecommendations" category="Special" />
+		<Action type="recommendation" recType="Event" name="TSTOTE_TSTOTEWave3_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Promoted" name="TSTOTE_TSTOTEWave2_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Special" name="TSTOTE_TSTOTEWave1_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TSTOTEWave3>
+	<EnterStoreCategory_TSTOTEWave3 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TSTOTEWave3_Category" />
+	</EnterStoreCategory_TSTOTEWave3>
+	<RecommendStoreCategory_TSTOTEWave4 ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="clearRecommendations" category="Special" />
+		<Action type="clearRecommendations" category="Timed" />
+		<Action type="recommendation" recType="Event" name="TSTOTE_TSTOTEWave4_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Promoted" name="TSTOTE_TSTOTEWave3_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Special" name="TSTOTE_TSTOTEWave2_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Timed" name="TSTOTE_TSTOTEWave1_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TSTOTEWave4>
+	<EnterStoreCategory_TSTOTEWave4 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TSTOTEWave4_Category" />
+	</EnterStoreCategory_TSTOTEWave4>
+	<RecommendStoreCategory_TSTOTEWave5 ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="clearRecommendations" category="Special" />
+		<Action type="clearRecommendations" category="Timed" />
+		<Action type="clearRecommendations" category="DoIt" />
+		<Action type="recommendation" recType="Event" name="TSTOTE_TSTOTEWave5_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Promoted" name="TSTOTE_TSTOTEWave4_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Special" name="TSTOTE_TSTOTEWave3_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="Timed" name="TSTOTE_TSTOTEWave2_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="recommendation" recType="DoIt" name="TSTOTE_TSTOTEWave1_OnePanel" eventName="UI_TSTOTE_Title" limitedTime="true" limitedTimeEndDate="TSTOTE_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_TSTOTEWave5>
+	<EnterStoreCategory_TSTOTEWave5 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="TSTOTEWave5_Category" />
+	</EnterStoreCategory_TSTOTEWave5>
+	<EndGameDonutReward>
+		<Action type="if">
+			<If expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),13);">
+				<Then>
+					<Action type="reward" donuts="1300" />
+					<Action type="message" text="UI_13YearReward" />
+				</Then>
+			</If>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),12);">
+				<Then>
+					<Action type="reward" donuts="1200" />
+					<Action type="message" text="UI_12YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),11);">
+				<Then>
+					<Action type="reward" donuts="1100" />
+					<Action type="message" text="UI_11YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),10);">
+				<Then>
+					<Action type="reward" donuts="1000" />
+					<Action type="message" text="UI_10YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),9);">
+				<Then>
+					<Action type="reward" donuts="900" />
+					<Action type="message" text="UI_9YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),8);">
+				<Then>
+					<Action type="reward" donuts="800" />
+					<Action type="message" text="UI_8YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),7);">
+				<Then>
+					<Action type="reward" donuts="700" />
+					<Action type="message" text="UI_7YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),6);">
+				<Then>
+					<Action type="reward" donuts="600" />
+					<Action type="message" text="UI_6YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),5);">
+				<Then>
+					<Action type="reward" donuts="500" />
+					<Action type="message" text="UI_5YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),4);">
+				<Then>
+					<Action type="reward" donuts="400" />
+					<Action type="message" text="UI_4YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),3);">
+				<Then>
+					<Action type="reward" donuts="300" />
+					<Action type="message" text="UI_3YearReward" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#;var a = Land::getStats();greaterThanEQ(ceil(a['landAgeYears']),2);">
+				<Then>
+					<Action type="reward" donuts="200" />
+					<Action type="message" text="UI_2YearReward" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="reward" donuts="100" />
+					<Action type="message" text="UI_1YearReward" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setVariable" boolVariable="DonutDayRainEffect" boolValue="true" />
+		<Action type="scheduleScript" mode="replace" script="DonutDay_Scripts:StopRain" shouldSave="true" relativeTime="7s" persistUntilComplete="true" localLandOnly="true" />
+	</EndGameDonutReward>
+</ScriptPackage>

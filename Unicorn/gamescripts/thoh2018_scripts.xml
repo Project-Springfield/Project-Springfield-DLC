@@ -1,0 +1,2676 @@
+﻿<ScriptPackage>
+	<Crowd_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="0" />
+	</Crowd_Init>
+	<Crowd_Tapped parallel="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="mod(Object::CrowdState+1,3)" asExpression="true" />
+	</Crowd_Tapped>
+	<OfferingStone_Tapped>
+		<Action type="anim-play" animation="ActiveNoLoop" nowait="true" />
+	</OfferingStone_Tapped>
+	<AutoApply_CountGrampaSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOH2018_Scripts:AutoApply_CountGrampaSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_CountGrampaSkin_End>
+	<AutoApply_CountGrampaSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="CountGrampa" fromInventory="true" />
+	</AutoApply_CountGrampaSkin_Delayed>
+	<AutoApply_WereMilhouseSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOH2018_Scripts:AutoApply_WereMilhouseSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_WereMilhouseSkin_End>
+	<AutoApply_WereMilhouseSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="WereMilhouse" fromInventory="true" />
+	</AutoApply_WereMilhouseSkin_Delayed>
+	<AutoApply_MummyWiggumSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOH2018_Scripts:AutoApply_MummyWiggumSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_MummyWiggumSkin_End>
+	<AutoApply_MummyWiggumSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="MummyWiggum" fromInventory="true" />
+	</AutoApply_MummyWiggumSkin_Delayed>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="THOH2018_EventHubTabValue">
+			<ExpressionCase value="0">
+				<Action type="runScript" script="THOH2018_Scripts:Tab_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="runScript" script="THOH2018_Scripts:Tab_Crafting" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="THOH2018_Scripts:Tab_BuildingFinder" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="runScript" script="THOH2018_Scripts:Tab_DigSite" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="runScript" script="THOH2018_Scripts:Tab_FlandersTome" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<GuidePanel_Event>
+		<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+		<Action type="updateVariable" variable="THOH2018_EventGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:PrizeTrackGuide_Config" />
+	</GuidePanel_Event>
+	<Tab_PrizeTrack>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf expression="THOH2018_EventGuideSeen">
+				<Then>
+					<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+					<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+						<Extras>
+							<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+							<Attribute name="specialEvent" value="THOH2018_Event" />
+							<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						</Extras>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:GuidePanel_Event" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_PrizeTrack>
+	<ActOnePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_THOH2018_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_THOH2018_Act2Prize6_LG" darken="true" />
+	</ActOnePrizeTrackTab>
+	<ActTwoPrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_THOH2018_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_THOH2018_Act3Prize6_LG" darken="true" />
+	</ActTwoPrizeTrackTab>
+	<ActOneDigSitePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_THOH2018_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_THOH2018_Act2Prize6_LG" darken="true" />
+	</ActOneDigSitePrizeTrackTab>
+	<ActTwoDigSitePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_THOH2018_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_THOH2018_Act3Prize6_LG" darken="true" />
+	</ActTwoDigSitePrizeTrackTab>
+	<GuidePanel_Crafting>
+		<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="1" />
+		<Action type="updateVariable" variable="THOH2018_CraftingGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:CraftingGuide_Config" />
+	</GuidePanel_Crafting>
+	<GuidePanel_Crafting_Center>
+		<Action type="updateVariable" variable="THOH2018_CraftingGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:CraftingGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_Crafting_Center>
+	<GuidePanel_ExcavationSite_ReturnToExcavationMinigame>
+		<Action type="updateVariable" variable="THOH2018_DigSiteGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:DigSiteGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="THOH2018_Scripts_ExcavationSite:ReturnFromStore" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_ExcavationSite_ReturnToExcavationMinigame>
+	<Tab_Crafting>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf expression="THOH2018_CraftingGuideSeen">
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="gamestate" state="GameState_HubCraftingMenu" not="true" />
+							<Then>
+								<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="1" />
+								<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+									<Extras>
+										<Attribute name="MenuConfig" value="THOH2018_CraftingConfig:CraftingMenu" />
+										<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+										<Attribute name="onLoadScript" value="THOH2018_Scripts_Crafting:UpdateCrafting" />
+										<Attribute name="specialEvent" value="THOH2018_Event" />
+									</Extras>
+								</Action>
+							</Then>
+						</If>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="THOH2018_CraftingBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:GuidePanel_Crafting" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_Crafting>
+	<Tab_Crafting_ScrollTo>
+		<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="1" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false" formatMe="deep">
+			<Extras>
+				<Attribute name="MenuConfig" value="THOH2018_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="onLoadScript" value="THOH2018_Scripts_Crafting:UpdateCrafting" />
+				<Attribute name="specialEvent" value="THOH2018" />
+				<Attribute name="ItemToScrollTo" value="{ItemToScrollTo}" />
+			</Extras>
+		</Action>
+		<Action type="markBadgeViewed" badgeName="THOH2018_CraftingBadge" />
+	</Tab_Crafting_ScrollTo>
+	<GetMoreCraftingCurrency>
+		<Action type="if">
+			<If expression="#program;                 var characterList = Character::getAllInstancesAsArray();                 foreach(characterList as character)                 {                     if (Character::isPossessed(character))                     {                         var characterPosX = Character::getPositionX(character);                         var characterPosZ = Character::getPositionZ(character);                         Camera::snapToPosition(characterPosX, characterPosZ);                         return true;                     }                 }                 return false;">
+				<Then></Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="goToGameObject">
+						<Object name="OldRuins" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</GetMoreCraftingCurrency>
+	<GuidePanel_BuildingFinder ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="THOH2018_Scripts:GuidePanel_BuildingFinder_NoSound" />
+	</GuidePanel_BuildingFinder>
+	<GuidePanel_BuildingFinder_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="2" />
+		<Action type="updateVariable" variable="THOH2018_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:BuildingFinderGuide_Config" />
+	</GuidePanel_BuildingFinder_NoSound>
+	<GuidePanel_BuildingFinder_Center>
+		<Action type="updateVariable" variable="THOH2018_BuildingFinderGuideSeen" value="2" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:BuildingFinderGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_BuildingFinder_Center>
+	<OpenMenu_BuildingFinder>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="2" />
+				<Action type="markBadgeViewed" badgeName="THOH2018_BuildingFinderBadge" />
+				<Action type="gotoState" state="GameState_BuildingFinder">
+					<Extras>
+						<Attribute name="menuConfig" value="THOH2018_MenuConfig:THOH2018_BuildingFinder" />
+						<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="specialEvent" value="THOH2018_Event" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMenu_BuildingFinder>
+	<Tab_BuildingFinder>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="THOH2018_Requirements:BuildingFinder_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If expression="THOH2018_BuildingFinderGuideSeen">
+							<Then>
+								<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="2" />
+								<Action type="actionSequence" script="THOH2018_Scripts:OpenMenu_BuildingFinder" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="actionSequence" script="THOH2018_Scripts:GuidePanel_BuildingFinder" />
+								<Action type="updateVariable" variable="THOH2018_BuildingFinderGuideSeen" value="1" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_BuildingFinder>
+	<GuidePanel_DigSite ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="THOH2018_Scripts:GuidePanel_DigSite_NoSound" />
+	</GuidePanel_DigSite>
+	<GuidePanel_DigSite_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="3" />
+		<Action type="updateVariable" variable="THOH2018_DigSiteGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:DigSiteGuide_Config" />
+	</GuidePanel_DigSite_NoSound>
+	<GuidePanel_DigSite_Center>
+		<Action type="updateVariable" variable="THOH2018_DigSiteGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:DigSiteGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_DigSite_Center>
+	<OpenMenu_DigSite>
+		<Action type="markBadgeViewed" badgeName="THOH2018_DigSiteBadge" />
+		<Action type="gotoState" state="GameState_HubPrizeTrack">
+			<Extras>
+				<Attribute name="specialEvent" value="THOH2018_DigSite" />
+				<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_DigSite" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+	</OpenMenu_DigSite>
+	<Tab_DigSite>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="THOH2018_Requirements:DigSite_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If expression="THOH2018_DigSiteGuideSeen">
+							<Then>
+								<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="3" />
+								<Action type="actionSequence" script="THOH2018_Scripts:OpenMenu_DigSite" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="actionSequence" script="THOH2018_Scripts:GuidePanel_DigSite" />
+								<Action type="updateVariable" variable="THOH2018_DigSiteGuideSeen" value="1" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_DigSite>
+	<GoToDigSite>
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="OldRuins" />
+				<Then>
+					<Action type="returnToInGameState" />
+					<Action type="pantoobject" building="OldRuins" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="OldRuins" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="OldRuins" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="THOH2018_Scripts:GoToPurchaseOldRuins" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToDigSite>
+	<GoTo_DigSite_Or_JobList>
+		<Action type="if">
+			<If>
+				<Requirement type="special currency" currency="THOH2018_CurrencyDigging" amount="1" />
+				<Then>
+					<Action type="runScript" script="THOH2018_Scripts:GoToDigSite" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="place building" building="HolyForge" />
+							<Then>
+								<Action type="returnToInGameState" />
+								<Action type="pantoobject" building="HolyForge" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+							</Then>
+						</If>
+						<ElseIf>
+							<Requirement type="building owned" building="HolyForge" />
+							<Then>
+								<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="HolyForge" inventory="true" />
+							</Then>
+						</ElseIf>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_DigSite_Or_JobList>
+	<GuidePanel_FlandersTome ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="THOH2018_Scripts:GuidePanel_FlandersTome_NoSound" />
+	</GuidePanel_FlandersTome>
+	<GuidePanel_FlandersTome_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="4" />
+		<Action type="updateVariable" variable="THOH2018_FlandersTomeGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:FlandersTomeGuide_Config" />
+	</GuidePanel_FlandersTome_NoSound>
+	<GuidePanel_FlandersTome_Center>
+		<Action type="updateVariable" variable="THOH2018_FlandersTomeGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="THOH2018_GuidePanelsConfig:FlandersTomeGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_FlandersTome_Center>
+	<OpenMenu_FlandersTome>
+		<Action type="markBadgeViewed" badgeName="THOH2018_FlandersTomeBadge" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="Config_PrizeTrack:DummyGuidePanel_Config" />
+		<Action type="gotoState" state="GameState_EventLevelPrizeTrack">
+			<Extras>
+				<Attribute name="specialEvent" value="THOH2018_EventLevel" />
+				<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_FlandersTome" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+	</OpenMenu_FlandersTome>
+	<Tab_FlandersTome>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="THOH2018_Requirements:FlandersTome_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If expression="THOH2018_FlandersTomeGuideSeen">
+							<Then>
+								<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="4" />
+								<Action type="actionSequence" script="THOH2018_Scripts:OpenMenu_FlandersTome" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="actionSequence" script="THOH2018_Scripts:GuidePanel_FlandersTome" />
+								<Action type="updateVariable" variable="THOH2018_FlandersTomeGuideSeen" value="1" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_FlandersTome>
+	<VampireConvert parallel="true" interruptable="false">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="ActOne_Convert_More" />
+			<True>
+				<Action type="actionSequence" script="THOH2018_Scripts:CantConvert" />
+				<Action type="anim-play" animation="Change_Hearts_And_Minds_Active" autodetectFlip="true" />
+				<Action type="stop" />
+				<Action type="anim-play" animation="Change_Hearts_And_Minds_Idle" autodetectFlip="true" nowait="true" />
+				<Action type="stop" object0="1" />
+				<Action type="skin-backup" object0="1" />
+				<Action type="if" object0="1">
+					<If expression="#program;                         var defChar = Script::getObjectInstance();                         var defName = Object::getProperty(defChar, 'Name');                         return SpecialEvent::IsCharInList('THOH2018_Event', 'AverageConvertable', defName);">
+						<Then>
+							<Action type="skin-set" skin="VampireMinion_Medium" />
+						</Then>
+					</If>
+					<ElseIf expression="#program;                         var defChar = Script::getObjectInstance();                         var defName = Object::getProperty(defChar, 'Name');                         return SpecialEvent::IsCharInList('THOH2018_Event', 'SmallConvertable', defName);">
+						<Then>
+							<Action type="skin-set" skin="VampireMinion_Small" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="skin-set" skin="VampireMinion_Large" />
+						</Then>
+					</Else>
+				</Action>
+				<Action type="anim-play" animation="Transform" object0="1" invertFlip="true" nowait="true" />
+				<Action type="possessCharacter" object0="1" isPossessed="true" />
+				<Action type="if" object0="1">
+					<If>
+						<Requirements>
+							<Requirement type="building" building="OldRuins" />
+						</Requirements>
+						<Then>
+							<Action type="actionSequence" script="THOH2018_Scripts:OrbitOldRuins" />
+						</Then>
+					</If>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables+1" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_Countess" />
+	</VampireConvert>
+	<WerewolfConvert parallel="true" interruptable="false">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="ActTwo_Convert_More" />
+			<True>
+				<Action type="actionSequence" script="THOH2018_Scripts:CantConvert" />
+				<Action type="anim-play" animation="Primal_Workout" autodetectFlip="true" />
+				<Action type="stop" />
+				<Action type="anim-play" animation="Primal_Workout_Idle" autodetectFlip="true" nowait="true" />
+				<Action type="stop" object0="1" />
+				<Action type="skin-backup" object0="1" />
+				<Action type="if" object0="1">
+					<If expression="#program;                         var defChar = Script::getObjectInstance();                         var defName = Object::getProperty(defChar, 'Name');                         return SpecialEvent::IsCharInList('THOH2018_Event', 'AverageConvertable', defName);">
+						<Then>
+							<Action type="skin-set" skin="WerewolfMinion_Medium" />
+						</Then>
+					</If>
+					<ElseIf expression="#program;                         var defChar = Script::getObjectInstance();                         var defName = Object::getProperty(defChar, 'Name');                         return SpecialEvent::IsCharInList('THOH2018_Event', 'SmallConvertable', defName);">
+						<Then>
+							<Action type="skin-set" skin="WerewolfMinion_Small" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="skin-set" skin="WerewolfMinion_Large" />
+						</Then>
+					</Else>
+				</Action>
+				<Action type="anim-play" animation="Transform" object0="1" invertFlip="true" nowait="true" />
+				<Action type="possessCharacter" object0="1" isPossessed="true" />
+				<Action type="if" object0="1">
+					<If>
+						<Requirements>
+							<Requirement type="building" building="OldRuins" />
+						</Requirements>
+						<Then>
+							<Action type="actionSequence" script="THOH2018_Scripts:OrbitOldRuins" />
+						</Then>
+					</If>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables+1" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_SheWolf" />
+	</WerewolfConvert>
+	<MummyConvert parallel="true" interruptable="false">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="ActThree_Convert_More" />
+			<True>
+				<Action type="actionSequence" script="THOH2018_Scripts:CantConvert" />
+				<Action type="anim-play" animation="Summon_Sandstorm" autodetectFlip="true" />
+				<Action type="stop" />
+				<Action type="anim-play" animation="Summon_Sandstorm_Idle" autodetectFlip="true" nowait="true" />
+				<Action type="stop" object0="1" />
+				<Action type="skin-backup" object0="1" />
+				<Action type="if" object0="1">
+					<If expression="#program;                         var defChar = Script::getObjectInstance();                         var defName = Object::getProperty(defChar, 'Name');                         return SpecialEvent::IsCharInList('THOH2018_Event', 'AverageConvertable', defName);">
+						<Then>
+							<Action type="skin-set" skin="MummyMinion_Medium" />
+						</Then>
+					</If>
+					<ElseIf expression="#program;                         var defChar = Script::getObjectInstance();                         var defName = Object::getProperty(defChar, 'Name');                         return SpecialEvent::IsCharInList('THOH2018_Event', 'SmallConvertable', defName);">
+						<Then>
+							<Action type="skin-set" skin="MummyMinion_Small" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="skin-set" skin="MummyMinion_Large" />
+						</Then>
+					</Else>
+				</Action>
+				<Action type="anim-play" animation="Transform" object0="1" invertFlip="true" nowait="true" />
+				<Action type="possessCharacter" object0="1" isPossessed="true" />
+				<Action type="if" object0="1">
+					<If>
+						<Requirements>
+							<Requirement type="building" building="OldRuins" />
+						</Requirements>
+						<Then>
+							<Action type="actionSequence" script="THOH2018_Scripts:OrbitOldRuins" />
+						</Then>
+					</If>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables+1" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_MrsMummy" />
+	</MummyConvert>
+	<VampireConvertGeneric parallel="true" cache="true">
+		<Action type="skin-backup" />
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'AverageConvertable', defName);">
+				<Then>
+					<Action type="skin-set" skin="VampireMinion_Medium" />
+				</Then>
+			</If>
+			<ElseIf expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'SmallConvertable', defName);">
+				<Then>
+					<Action type="skin-set" skin="VampireMinion_Small" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="skin-set" skin="VampireMinion_Large" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="possessCharacter" isPossessed="true" />
+		<Action type="actionSequence" script="THOH2018_Scripts:OrbitOldRuins" />
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables+1" />
+			</True>
+		</Action>
+	</VampireConvertGeneric>
+	<WerewolfConvertGeneric parallel="true" cache="true">
+		<Action type="skin-backup" />
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'AverageConvertable', defName);">
+				<Then>
+					<Action type="skin-set" skin="WerewolfMinion_Medium" />
+				</Then>
+			</If>
+			<ElseIf expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'SmallConvertable', defName);">
+				<Then>
+					<Action type="skin-set" skin="WerewolfMinion_Small" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="skin-set" skin="WerewolfMinion_Large" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="possessCharacter" isPossessed="true" />
+		<Action type="actionSequence" script="THOH2018_Scripts:OrbitOldRuins" />
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables+1" />
+			</True>
+		</Action>
+	</WerewolfConvertGeneric>
+	<MummyConvertGeneric parallel="true" cache="true">
+		<Action type="skin-backup" />
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'AverageConvertable', defName);">
+				<Then>
+					<Action type="skin-set" skin="MummyMinion_Medium" />
+				</Then>
+			</If>
+			<ElseIf expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'SmallConvertable', defName);">
+				<Then>
+					<Action type="skin-set" skin="MummyMinion_Small" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="skin-set" skin="MummyMinion_Large" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="possessCharacter" isPossessed="true" />
+		<Action type="actionSequence" script="THOH2018_Scripts:OrbitOldRuins" />
+		<Action type="checkRequirements">
+			<Requirement type="players land" />
+			<True>
+				<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables+1" />
+			</True>
+		</Action>
+	</MummyConvertGeneric>
+	<SpawnGeneric parallel="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var chance = trunc(randRange(0, 3));
+                    var created;
+                    if (chance == 0) {
+                    created = Character::createInstance('GenericSF_Small', false, false);
+                    }
+                    elseif (chance == 1) {
+                    created = Character::createInstance('GenericSF_Medium', false, false);
+                    }
+                    else {
+                    created = Character::createInstance('GenericSF_Large', false, false);
+                    }
+                    if (Requirements::checkRequirementList('THOH2018_Requirements:CountessNPCSpawn'))
+                    Script::runOnObjectInstance('THOH2018_Scripts:VampireConvertGeneric', created);
+                    elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActTwo'))
+                    Script::runImmediately('THOH2018_Scripts:WerewolfConvertGeneric', created);
+                    elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActThree'))
+                    Script::runImmediately('THOH2018_Scripts:MummyConvertGeneric', created);
+                ]]></Program>
+		</Action>
+	</SpawnGeneric>
+	<ConvertableOnCharacterLost parallel="true">
+		<Action type="program" ignoreObject="true">
+			<Program><![CDATA[#program;
+                    //Count how many is possessed
+                    //If count < current amount then someone who was possessed was stored in the inventory
+                    var characterInstanceList = Character::getAllInstancesAsArray();
+                    var possessedCount = 0;
+                    foreach(characterInstanceList as instance)
+                    {
+                        if (Character::isPossessed(instance))
+                        {
+                            possessedCount++;
+                        }
+                    }
+                    var currentTappablesCount = User::getVariable('THOH2018_Total_Tappables');
+                    if(currentTappablesCount > possessedCount)
+                    {
+                        var amountPrizeTrack = toDouble(System::getConfigValue('__THOH2018_GameConfig:TappablePrizeReward:Amount__'));
+                        var amountCrafting = toDouble(System::getConfigValue('__THOH2018_GameConfig:TappableCraftReward:Amount__'));
+                        User::addCurrencyAmount('THOH2018_ActivePrizeTrackCurrency', amountPrizeTrack);
+                        User::addCurrencyAmount('THOH2018_CurrencyCrafting', amountCrafting);
+                        User::addCurrencyAmount('THOH2018_CurrencyCraftingLifeTime', amountCrafting);
+
+                        var tappablesTapped = User::getVariable('THOH2018_Tappables_Tapped');
+                        User::setVariable('THOH2018_Tappables_Tapped', tappablesTapped + 1, false);
+                        User::setVariable('THOH2018_Total_Tappables', possessedCount, false);
+                    }
+                ]]></Program>
+		</Action>
+	</ConvertableOnCharacterLost>
+	<RevertSingle parallel="true" cache="true">
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'Generics', defName);">
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="anim-play" animation="Squish" invertFlip="true" nowait="true" />
+		<Action type="delay" time="0.25" />
+		<Action type="playflyby" flybyName="Squish" radius="15" unitScale="0.13" centerOnObject="true" playbackFPS="30" />
+		<Action type="anim-waitforend" />
+		<Action type="if">
+			<If expression="#program;                 var character = Script::getObjectInstance();                 var skin = Character::getSkin(character);                 if( skin == 'VampireMinion_Small' ||                     skin == 'VampireMinion_Medium' ||                     skin == 'VampireMinion_Large')                 {                     return true;                 }                 return false;">
+				<Then>
+					<Action type="sound" sound="THOH2018_VampireTap" />
+				</Then>
+			</If>
+			<ElseIf expression="#program;                 var character = Script::getObjectInstance();                 var skin = Character::getSkin(character);                 if( skin == 'WerewolfMinion_Small' ||                     skin == 'WerewolfMinion_Medium' ||                     skin == 'WerewolfMinion_Large')                 {                     return true;                 }                 return false;">
+				<Then>
+					<Action type="sound" sound="THOH2018_WereWolfTap" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#program;                 var character = Script::getObjectInstance();                 var skin = Character::getSkin(character);                 if( skin == 'MummyMinion_Small' ||                     skin == 'MummyMinion_Medium' ||                     skin == 'MummyMinion_Large')                 {                     return true;                 }                 return false;">
+				<Then>
+					<Action type="sound" sound="THOH2018_MummyTap" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="skin-restore" />
+		<Action type="movement-restore" />
+		<Action type="possessCharacter" isPossessed="false" />
+		<Action type="anim-play" animation="Victory_Pose" invertFlip="true" nowait="true" />
+		<Action type="anim-waitforend" />
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return SpecialEvent::IsCharInList('THOH2018_Event', 'Generics', defName);">
+				<Then>
+					<Action type="fade" fade="outmax" />
+					<Action type="deletecharacter" fireCharacterLostEvent="false" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="active quest" quest="THOH2018_DCS_ClearMonsterMinions" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="THOH2018_DCS_MonsterMinions" intValue="THOH2018_DCS_MonsterMinions+1" />
+			</True>
+		</Action>
+	</RevertSingle>
+	<TappableTapped_Single parallel="true" cache="true" ignoreHUD="true">
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 return Character::isPossessed(defChar);">
+				<Then>
+					<Action type="runScript" script="THOH2018_Scripts:RevertSingle" />
+					<Action type="actionSequence" script="THOH2018_Scripts:Tappable_Reward" />
+					<Action type="checkRequirements">
+						<Requirement type="players land" />
+						<True>
+							<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables-1" />
+							<Action type="if">
+								<If>
+									<Requirement type="formula" formula="THOH2018_Total_Tappables == 0" />
+									<Then>
+										<Action type="hudTip" text="UI_THOH2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+									</Then>
+								</If>
+							</Action>
+						</True>
+					</Action>
+					<Action type="runScript" script="THOH2018_Scripts:UpdateConvertTarget" />
+				</Then>
+			</If>
+		</Action>
+	</TappableTapped_Single>
+	<TappableTapped_Single_Simple parallel="true" cache="true">
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 return Character::isPossessed(defChar);">
+				<Then>
+					<Action type="runScript" script="THOH2018_Scripts:RevertSingle" />
+					<Action type="actionSequence" script="THOH2018_Scripts:Tappable_Reward" />
+					<Action type="checkRequirements">
+						<Requirement type="players land" />
+						<True>
+							<Action type="setVariable" intVariable="THOH2018_Total_Tappables" intValue="THOH2018_Total_Tappables-1" />
+							<Action type="if">
+								<If>
+									<Requirement type="formula" formula="THOH2018_Total_Tappables == 0" />
+									<Then>
+										<Action type="hudTip" text="UI_THOH2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+									</Then>
+								</If>
+							</Action>
+						</True>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</TappableTapped_Single_Simple>
+	<ConvertableTapped parallel="true" cache="true" ignoreHUD="true">
+		<Action type="runScriptOnAll" character="any" in_radius="Selector::getValue('THOH2018_TapRadius')" radius_delay="0.3" script="THOH2018_Scripts:TappableTapped_Single_Simple" />
+		<Action type="actionSequence" script="THOH2018_Scripts:TappableTapped_Single" />
+	</ConvertableTapped>
+	<UpdateConvertTarget_NPC ignoreHUD="true" cache="true">
+		<Action type="program" ignoreObject="true">
+			<Program><![CDATA[
+                    #program;
+                    var targetChar = SpecialEvent::GetRandCharFromList('THOH2018_Event', 'AllConvertable', 'SkinRestrict');
+                    var followChar;
+                    var animationArray = Array::create();
+                    var currentTargetChar;
+                    if (Requirements::checkRequirementList('THOH2018_Requirements:CountessNPCSpawn'))
+                    {
+                        followChar = Land::getFirstInstanceOfObject(Character::find('CountessDraculaNPC'));
+                        currentTargetChar = Character::getFollowingCharacter(followChar);
+                        if(!isNULL(followChar))
+                        {
+                            Array::addValueForKey(animationArray, 'Front_Walk', 'CountessDracula_Change_Hearts_And_Minds_Front_Walk');
+                            Array::addValueForKey(animationArray, 'Back_Walk', 'CountessDracula_Change_Hearts_And_Minds_Back_Walk');
+                            Array::addValueForKey(animationArray, 'Idle', 'CountessDracula_Change_Hearts_And_Minds_Idle');
+                            Array::addValueForKey(animationArray, 'Idle_Blink', 'CountessDracula_Change_Hearts_And_Minds_Idle');
+                        }
+                    }
+                    elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActTwo'))
+                    {
+                        followChar = Land::getFirstInstanceOfObject(Character::find('SheWolfNPC'));
+                        currentTargetChar = Character::getFollowingCharacter(followChar);
+                        if(!isNULL(followChar))
+                        {
+                            Array::addValueForKey(animationArray, 'Front_Walk', 'SheWolf_Primal_Workout_Front_Walk');
+                            Array::addValueForKey(animationArray, 'Back_Walk', 'SheWolf_Primal_Workout_Back_Walk');
+                            Array::addValueForKey(animationArray, 'Idle', 'SheWolf_Primal_Workout_Idle');
+                            Array::addValueForKey(animationArray, 'Idle_Blink', 'SheWolf_Primal_Workout_Idle');
+                        }
+                    }
+                    elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActThree'))
+                    {
+                        followChar = Land::getFirstInstanceOfObject(Character::find('MrsMummyNPC'));
+                        currentTargetChar = Character::getFollowingCharacter(followChar);
+                        if(!isNULL(followChar))
+                        {
+                            Array::addValueForKey(animationArray, 'Front_Walk', 'MrsMummy_Summon_Sandstorm_Front_Walk');
+                            Array::addValueForKey(animationArray, 'Back_Walk', 'MrsMummy_Summon_Sandstorm_Back_Walk');
+                            Array::addValueForKey(animationArray, 'Idle', 'MrsMummy_Summon_Sandstorm_Idle');
+                            Array::addValueForKey(animationArray, 'Idle_Blink', 'MrsMummy_Summon_Sandstorm_Idle');
+                        }
+                    }
+                    //Following a valid person and they are not busy so return
+                    if(!isNULL(currentTargetChar) && Object::getProperty(currentTargetChar, 'Job::Object::RemainingTime') == '')
+                    {
+                        Character::followCharacter(followChar,currentTargetChar);
+                        return;
+                    }
+                    //Not following a valid target, find a new person
+                    elseif (!isNULL(targetChar))
+                    {
+                        Character::followCharacter(followChar,targetChar);
+                        Character::setAnimationRemapsFromArray(followChar, animationArray);
+                    }
+                    //No canidate to follow, orbit home
+                    else
+                    {
+                        Character::clearAnimationRemaps(followChar);
+                        Script::runImmediately('THOH2018_Scripts:SimpsonHomeOrbit', followChar);
+                    }
+                ]]></Program>
+		</Action>
+	</UpdateConvertTarget_NPC>
+	<OnCharacterGained parallel="true">
+		<Action type="if">
+			<If expression="#program;                 var defChar = Script::getObjectInstance();                 var defName = Object::getProperty(defChar, 'Name');                 return !SpecialEvent::IsCharInList('THOH2018_Event', 'Generics', defName);">
+				<Then>
+					<Action type="runScript" script="THOH2018_Scripts:UpdateConvertTarget" />
+				</Then>
+			</If>
+		</Action>
+	</OnCharacterGained>
+	<OnCharacterLost parallel="true">
+		<Action type="runScript" script="THOH2018_Scripts:ConvertableOnCharacterLost" />
+		<Action type="runScript" script="THOH2018_Scripts:UpdateConvertTarget" />
+	</OnCharacterLost>
+	<OnJobAssigned parallel="true" ignoreHUD="true" cache="true">
+		<Action type="scheduleScript" mode="replace" script="THOH2018_Scripts:UpdateConvertTarget" shouldSave="false" relativeTime="1s" />
+	</OnJobAssigned>
+	<UpdateConvertTarget parallel="true" ignoreHUD="true" cache="true">
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_Countess" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_SheWolf" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_MrsMummy" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_NPC" />
+	</UpdateConvertTarget>
+	<UpdateConvertTarget_Countess ignoreHUD="true" cache="true">
+		<Action type="program" ignoreObject="true">
+			<Program><![CDATA[
+                    #program;
+                    if (System::evaluate('Job::CreateMonsterMinions_Countess::Active'))
+                    {
+                        var targetChar = SpecialEvent::GetRandCharFromList('THOH2018_Event', 'AllConvertable', 'SkinRestrict');
+                        var followChar = Land::getFirstInstanceOfObject(Character::find('CountessDracula'));
+                        var currentTargetChar = Character::getFollowingCharacter(followChar);
+                        var stickOnCharacter = false;
+
+                        if(!isNULL(currentTargetChar))
+                        {
+                            var isPossessed = Character::isPossessed(currentTargetChar);
+                            var isNotOnAJob = Object::getProperty(currentTargetChar, 'Job::Object::RemainingTime') == '';
+                            if(!isPossessed && isNotOnAJob)
+                            {
+                                stickOnCharacter = true;
+                            }
+                        }
+
+                        if(stickOnCharacter)
+                        {
+                            Character::followCharacter(followChar,currentTargetChar);
+                            return;
+                        }
+                        //If you can follow someone AND (you have no current follow target OR your current target is possessed)
+                        if (!isNULL(targetChar))
+                        {
+                            Character::followCharacter(followChar,targetChar);
+                        }
+                        else
+                        {
+                            Script::runImmediately('THOH2018_Scripts:SimpsonHomeOrbit', followChar);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+	</UpdateConvertTarget_Countess>
+	<UpdateConvertTarget_SheWolf ignoreHUD="true" cache="true">
+		<Action type="program" ignoreObject="true">
+			<Program><![CDATA[
+                    #program;
+                    if (System::evaluate('Job::CreateMonsterMinions_SheWolf::Active'))
+                    {
+                        var targetChar = SpecialEvent::GetRandCharFromList('THOH2018_Event', 'AllConvertable', 'SkinRestrict');
+                        var followChar = Land::getFirstInstanceOfObject(Character::find('SheWolf'));
+                        var currentTargetChar = Character::getFollowingCharacter(followChar);
+                        var stickOnCharacter = false;
+
+                        if(!isNULL(currentTargetChar))
+                        {
+                            var isPossessed = Character::isPossessed(currentTargetChar);
+                            var isNotOnAJob = Object::getProperty(currentTargetChar, 'Job::Object::RemainingTime') == '';
+                            if(!isPossessed && isNotOnAJob)
+                            {
+                                stickOnCharacter = true;
+                            }
+                        }
+
+                        if(stickOnCharacter)
+                        {
+                            Character::followCharacter(followChar,currentTargetChar);
+                            return;
+                        }
+                        if (!isNULL(targetChar))
+                        {
+                            Character::followCharacter(followChar,targetChar);
+                        }
+                        else
+                        {
+                            Script::runImmediately('THOH2018_Scripts:SimpsonHomeOrbit', followChar);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+	</UpdateConvertTarget_SheWolf>
+	<UpdateConvertTarget_MrsMummy ignoreHUD="true" cache="true">
+		<Action type="program" ignoreObject="true">
+			<Program><![CDATA[
+                    #program;
+                    if (System::evaluate('Job::CreateMonsterMinions_MrsMummy::Active'))
+                    {
+                        var targetChar = SpecialEvent::GetRandCharFromList('THOH2018_Event', 'AllConvertable', 'SkinRestrict');
+                        var followChar = Land::getFirstInstanceOfObject(Character::find('Womenhet'));
+                        var currentTargetChar = Character::getFollowingCharacter(followChar);
+                        var stickOnCharacter = false;
+
+                        if(!isNULL(currentTargetChar))
+                        {
+                            var isPossessed = Character::isPossessed(currentTargetChar);
+                            var isNotOnAJob = Object::getProperty(currentTargetChar, 'Job::Object::RemainingTime') == '';
+                            if(!isPossessed && isNotOnAJob)
+                            {
+                                stickOnCharacter = true;
+                            }
+                        }
+
+                        if(stickOnCharacter)
+                        {
+                            Character::followCharacter(followChar,currentTargetChar);
+                            return;
+                        }
+                        if (!isNULL(targetChar))
+                        {
+                            Character::followCharacter(followChar,targetChar);
+                        }
+                        else
+                        {
+                            Script::runImmediately('THOH2018_Scripts:SimpsonHomeOrbit', followChar);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+	</UpdateConvertTarget_MrsMummy>
+	<CountessConvertComplete_SetDefaultMovement>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" />
+		</Action>
+		<Action type="updateVariable" variable="ActOne_Convert_More" value="0" />
+	</CountessConvertComplete_SetDefaultMovement>
+	<SheWolfConvertComplete_SetDefaultMovement>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" />
+		</Action>
+		<Action type="updateVariable" variable="ActTwo_Convert_More" value="0" />
+	</SheWolfConvertComplete_SetDefaultMovement>
+	<MrsMummyConvertComplete_SetDefaultMovement>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" />
+		</Action>
+		<Action type="updateVariable" variable="ActThree_Convert_More" value="0" />
+	</MrsMummyConvertComplete_SetDefaultMovement>
+	<CanConvert>
+		<Action type="if">
+			<If>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="reqList" location="THOH2018_Requirements:CountessNPCSpawn" />
+					<Requirement type="formula" formula="System::evaluate('Job::CreateMonsterMinions_Countess::Active')" />
+				</Requirement>
+				<Then>
+					<Action type="updateVariable" variable="ActOne_Convert_More" value="1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="reqList" location="THOH2018_Requirements:ActTwo" />
+					<Requirement type="formula" formula="System::evaluate('Job::CreateMonsterMinions_SheWolf::Active')" />
+				</Requirement>
+				<Then>
+					<Action type="updateVariable" variable="ActTwo_Convert_More" value="1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="reqList" location="THOH2018_Requirements:ActThree" />
+					<Requirement type="formula" formula="System::evaluate('Job::CreateMonsterMinions_MrsMummy::Active')" />
+				</Requirement>
+				<Then>
+					<Action type="updateVariable" variable="ActThree_Convert_More" value="1" />
+				</Then>
+			</If>
+		</Action>
+	</CanConvert>
+	<CantConvert>
+		<Action type="updateVariable" variable="ActOne_Convert_More" value="0" />
+		<Action type="updateVariable" variable="ActTwo_Convert_More" value="0" />
+		<Action type="updateVariable" variable="ActThree_Convert_More" value="0" />
+	</CantConvert>
+	<SelectMove>
+		<Action type="if">
+			<If expression="#program;                      var masterCharInstance = Land::getFirstInstanceOfObject(Character::find('CountessDraculaNPC'));                     if(!isNULL(Character::getFollowingCharacter(masterCharInstance)))                         return true;                     }                     var masterCharInstance2 = Land::getFirstInstanceOfObject(Character::find('SheWolfNPC'));                     if(!isNULL(Character::getFollowingCharacter(masterCharInstance2)))                     {                         return true;                     }                     var masterCharInstance3 = Land::getFirstInstanceOfObject(Character::find('MrsMummyNPC'));                     if(!isNULL(Character::getFollowingCharacter(masterCharInstance3)))                     {                         return true;                     }                     var masterCharInstance4 = Land::getFirstInstanceOfObject(Character::find('CountessDracula'));                     if(!isNULL(Character::getFollowingCharacter(masterCharInstance4)))                     {                         return true;                     }                     var masterCharInstance5 = Land::getFirstInstanceOfObject(Character::find('SheWolf'));                     if(!isNULL(Character::getFollowingCharacter(masterCharInstance5)))                     {                         return true;                     }                     var masterCharInstance6 = Land::getFirstInstanceOfObject(Character::find('Womenhet'));                     if(!isNULL(Character::getFollowingCharacter(masterCharInstance6)))                     {                         return true;                     }                  var targetChar = SpecialEvent::GetRandCharFromList('THOH2018_Event', 'AllConvertable', 'SkinRestrict');                 return (!isNULL(targetChar));">
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:CanConvert" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:SpawnGeneric" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="runScript" script="THOH2018_Scripts:UpdateConvertTarget" />
+	</SelectMove>
+	<SimpsonHomeOrbit>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="SimpsonHome" orbitBuildingNameRandomInstance="true" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+		</Action>
+	</SimpsonHomeOrbit>
+	<DestroyAllTappables>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var characterInstanceList = Character::getAllInstancesAsArray();
+                    var tappablesTapped = User::getVariable('THOH2018_Tappables_Tapped');
+                    foreach(characterInstanceList as instance)
+                    {
+                        if (Character::isPossessed(instance))
+                        {
+                            tappablesTapped++;
+                            Script::runOnObjectInstance('THOH2018_Scripts:RevertSingle', instance);
+                            Script::runImmediately('THOH2018_Scripts:Tappable_Reward', instance);
+                        }
+                    }
+                    User::setVariable('THOH2018_Tappables_Tapped', tappablesTapped, false);
+                    User::setVariable('THOH2018_Total_Tappables', 0, false);
+                ]]></Program>
+		</Action>
+		<Action type="runScript" script="THOH2018_Scripts:UpdateConvertTarget" />
+	</DestroyAllTappables>
+	<DestroyAllTappablesInstantlyCharacterHelper>
+		<Action type="skin-restore" />
+		<Action type="movement-restore" />
+		<Action type="possessCharacter" isPossessed="false" />
+	</DestroyAllTappablesInstantlyCharacterHelper>
+	<DestroyAllTappablesInstantly>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    // reset all tappables
+                    var characterInstanceList = Character::getAllInstancesAsArray();
+                    var amountTapped = 0;
+                    foreach(characterInstanceList as instance)
+                    {
+                        if (Character::isPossessed(instance))
+                        {
+                            if(SpecialEvent::IsCharInList('THOH2018_Event', 'Generics', Object::getProperty(instance, 'Name')))
+                            {
+                                Character::deleteInstance(instance);
+                            }
+                            else //Is a converted Springfielder, restore it back to default
+                            {
+                                Script::runImmediately('THOH2018_Scripts:DestroyAllTappablesInstantlyCharacterHelper', instance);
+                            }
+                            amountTapped++;
+                        }
+                    }
+                    
+                    // update variables
+                    var amountPrizeTrack = toDouble(System::getConfigValue('__THOH2018_GameConfig:TappablePrizeReward:Amount__'));
+                    var amountCrafting = toDouble(System::getConfigValue('__THOH2018_GameConfig:TappableCraftReward:Amount__'));
+                    User::addCurrencyAmount('THOH2018_ActivePrizeTrackCurrency', amountPrizeTrack * amountTapped);
+                    User::addCurrencyAmount('THOH2018_CurrencyCrafting', amountCrafting * amountTapped);
+                    User::addCurrencyAmount('THOH2018_CurrencyCraftingLifeTime', amountCrafting * amountTapped);
+                    
+                    var tappablesTapped = User::getVariable('THOH2018_Tappables_Tapped');
+                    User::setVariable('THOH2018_Tappables_Tapped', tappablesTapped + amountTapped, false);
+                    User::setVariable('THOH2018_Total_Tappables', 0, false);
+                ]]></Program>
+		</Action>
+	</DestroyAllTappablesInstantly>
+	<GoTo_Tappables ignoreHUD="true">
+		<Action type="if">
+			<If expression="#program;     var characterList = Character::getAllInstancesAsArray();     foreach(characterList as character)     {     if (Character::isPossessed(character))     {     var characterPosX = Character::getPositionX(character);     var characterPosZ = Character::getPositionZ(character);     Camera::snapToPosition(characterPosX, characterPosZ);     return true;     }     }     return false;">
+				<Then></Then>
+			</If>
+			<ElseIf expression="#program;     var charInstance = Land::getFirstInstanceOfObject(Character::find('GenericSF_Small'));     if(!isNULL(charInstance))     {      return true;     }">
+				<Then>
+					<Action type="pantoobject" time="0" character="GenericSF_Small" flagsToAvoid="delete" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#program;     var charInstance = Land::getFirstInstanceOfObject(Character::find('GenericSF_Medium'));     if(!isNULL(charInstance))     {     return true;     }">
+				<Then>
+					<Action type="pantoobject" time="0" character="GenericSF_Medium" flagsToAvoid="delete" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="#program;     var charInstance = Land::getFirstInstanceOfObject(Character::find('GenericSF_Large'));     if(!isNULL(charInstance))     {     return true;     }">
+				<Then>
+					<Action type="pantoobject" time="0" character="GenericSF_Large" flagsToAvoid="delete" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="hudTip" text="UI_THOH2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_Tappables>
+	<AcornKirk_PurchaseInInventoryHudTip runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="consumableCount" name="AcornKirk" requireCountMin="1" />
+				</Requirements>
+				<Then>
+					<Action type="hudTip" text="UI_EoS2015_ItemInInventory" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</AcornKirk_PurchaseInInventoryHudTip>
+	<RadioactiveMilhouse_PurchaseInInventoryHudTip runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="consumableCount" name="RadioactiveMilhouse" requireCountMin="1" />
+				</Requirements>
+				<Then>
+					<Action type="hudTip" text="UI_EoS2015_ItemInInventory" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</RadioactiveMilhouse_PurchaseInInventoryHudTip>
+	<SquirrelLuann_PurchaseInInventoryHudTip runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="consumableCount" name="SquirrelLuann" requireCountMin="1" />
+				</Requirements>
+				<Then>
+					<Action type="hudTip" text="UI_EoS2015_ItemInInventory" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</SquirrelLuann_PurchaseInInventoryHudTip>
+	<DevilFlanders_PurchaseInInventoryHudTip runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="consumableCount" name="DevilFlanders" requireCountMin="1" />
+				</Requirements>
+				<Then>
+					<Action type="hudTip" text="UI_EoS2015_ItemInInventory" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</DevilFlanders_PurchaseInInventoryHudTip>
+	<OnLoadConvert parallel="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var targetChar = SpecialEvent::GetRandCharFromList('THOH2018_Event', 'AllConvertable', 'SkinRestrict');
+                    if (!isNULL(targetChar)){
+                        if (Requirements::checkRequirementList('THOH2018_Requirements:CountessNPCSpawn'))
+                            Script::runImmediately('THOH2018_Scripts:VampireConvertGeneric', targetChar);
+                        elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActTwo'))
+                            Script::runImmediately('THOH2018_Scripts:WerewolfConvertGeneric', targetChar);
+                        elseif (Requirements::checkRequirementList('THOH2018_Requirements:ActThree'))
+                            Script::runImmediately('THOH2018_Scripts:MummyConvertGeneric', targetChar);
+                    }
+                    else{
+                        Script::run('THOH2018_Scripts:SpawnGeneric');
+                    }
+                ]]></Program>
+		</Action>
+	</OnLoadConvert>
+	<OnLandLoad>
+		<Action type="actionSequence" script="THOH2018_Scripts:SyncSocialLicensePurchase" />
+		<Action type="actionSequence" script="THOH2018_Scripts:SyncDigSitePrizeTrackUnlocks" />
+		<Action type="actionSequence" script="THOH2018_Scripts:SyncFlandersTomeLevel" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var characterInstanceList = Character::getAllInstancesAsArray();
+                    var possessedCount = 0;
+                    foreach(characterInstanceList as instance)
+                    {
+                        if (Character::isPossessed(instance))
+                        {
+                            Script::runOnObjectInstance('THOH2018_Scripts:OrbitOldRuins', instance);
+                            possessedCount++;
+                        }
+                    }
+                    User::setVariable('THOH2018_Total_Tappables', possessedCount, false);
+                ]]></Program>
+		</Action>
+	</OnLandLoad>
+	<SyncSocialLicensePurchase parallel="true">
+		<Action type="if">
+			<If>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="consumable" name="THOH2018_SocialLicense" />
+					<Requirement type="consumable" name="THOH2018_SocialLicense2" />
+					<Requirement type="consumable" name="THOH2018_SocialLicense3" />
+				</Requirement>
+				<Then>
+					<Action type="setVariable" boolVariable="THOH2018_SocialUpgrade_Purchased" boolValue="true" />
+				</Then>
+			</If>
+		</Action>
+	</SyncSocialLicensePurchase>
+	<SyncDigSitePrizeTrackUnlocks parallel="true">
+		<Action type="if">
+			<If>
+				<Requirement type="special currency" currency="THOH2018_Act1PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack1_Prize5__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P5" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P4" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P1" intValue="1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act1PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack1_Prize4__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P4" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act1PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack1_Prize3__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act1PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack1_Prize2__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act1PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack1_Prize1__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT1_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="special currency" currency="THOH2018_Act2PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack2_Prize5__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P5" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P4" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P1" intValue="1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act2PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack2_Prize4__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P4" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act2PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack2_Prize3__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act2PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack2_Prize2__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act2PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack2_Prize1__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT2_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="special currency" currency="THOH2018_Act3PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack3_Prize5__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P5" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P4" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P1" intValue="1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act3PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack3_Prize4__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P4" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act3PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack3_Prize3__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P3" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act3PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack3_Prize2__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P2" intValue="1" />
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="special currency" currency="THOH2018_Act3PrizeTrackCurrencyReward" amount="__THOH2018_BalanceConfig:DigSite_PrizeTrack:PrizeTrack3_Prize1__" />
+				<Then>
+					<Action type="setVariable" intVariable="THOH2018_DigSite_PT3_P1" intValue="1" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SyncDigSitePrizeTrackUnlocks>
+	<SyncFlandersTomeLevel parallel="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    // NOTE: tome level is off by 1 (1 higher than it should be)
+                    // there's probably a cleaner way to do this, but this works in a pinch
+                    var tomeLevel = 1;
+                    var currentLifetimeCrafting = User::getCurrencyAmount('THOH2018_CurrencyCraftingLifeTime');
+                    if (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize24__')))
+                    {
+                        tomeLevel = 24;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize23__')))
+                    {
+                        tomeLevel = 24;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize22__')))
+                    {
+                        tomeLevel = 23;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize21__')))
+                    {
+                        tomeLevel = 22;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize20__')))
+                    {
+                        tomeLevel = 21;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize19__')))
+                    {
+                        tomeLevel = 20;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize18__')))
+                    {
+                        tomeLevel = 19;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize17__')))
+                    {
+                        tomeLevel = 18;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize16__')))
+                    {
+                        tomeLevel = 17;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize15__')))
+                    {
+                        tomeLevel = 16;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize14__')))
+                    {
+                        tomeLevel = 15;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize13__')))
+                    {
+                        tomeLevel = 14;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize12__')))
+                    {
+                        tomeLevel = 13;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize11__')))
+                    {
+                        tomeLevel = 12;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize10__')))
+                    {
+                        tomeLevel = 11;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize9__')))
+                    {
+                        tomeLevel = 10;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize8__')))
+                    {
+                        tomeLevel = 9;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize7__')))
+                    {
+                        tomeLevel = 8;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize6__')))
+                    {
+                        tomeLevel = 7;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize5__')))
+                    {
+                        tomeLevel = 6;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize4__')))
+                    {
+                        tomeLevel = 5;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize3__')))
+                    {
+                        tomeLevel = 4;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize2__')))
+                    {
+                        tomeLevel = 3;
+                    }
+                    elseif (currentLifetimeCrafting >= toDouble(System::getConfigValue('__THOH2018_BalanceConfig:FlandersTomeTargets:Prize1__')))
+                    {
+                        tomeLevel = 2;
+                    }
+                    
+                    User::setVariable('FlandersTomeLevel', tomeLevel, false);
+                ]]></Program>
+		</Action>
+	</SyncFlandersTomeLevel>
+	<OrbitOldRuins parallel="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="building" building="OldRuins" />
+				</Requirements>
+				<Then>
+					<Action type="if">
+						<If expression="randRange(0,4) &gt; 3">
+							<Then>
+								<Action type="setMovementBehavior">
+									<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="OldRuins" orbitMaxDistance="9" orbitBuildingLocator="Locator1" faceOrbitBuilding="false" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+								</Action>
+							</Then>
+						</If>
+						<ElseIf expression="randRange(0,3) &gt; 2">
+							<Then>
+								<Action type="setMovementBehavior">
+									<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="OldRuins" orbitMaxDistance="9" orbitBuildingLocator="Locator2" faceOrbitBuilding="false" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="randRange(0,2) &gt; 1">
+							<Then>
+								<Action type="setMovementBehavior">
+									<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="OldRuins" orbitMaxDistance="9" orbitBuildingLocator="Locator3" faceOrbitBuilding="false" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="setMovementBehavior">
+									<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="OldRuins" orbitMaxDistance="9" orbitBuildingLocator="Locator4" faceOrbitBuilding="false" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+								</Action>
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</OrbitOldRuins>
+	<SpawnScript ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="THOH2018_Requirements:Event_Active" />
+				<Requirement type="reqList" location="THOH2018_Requirements:TappableSpawnRequirement" />
+			</Requirements>
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="System::evaluate('Job::CreateMonsterMinions_Countess::Active')" />
+							<Requirement type="formula" formula="System::evaluate('Job::CreateMonsterMinions_SheWolf::Active')" />
+							<Requirement type="formula" formula="System::evaluate('Job::CreateMonsterMinions_MrsMummy::Active')" />
+							<Requirement type="characterunlocked" name="CountessDraculaNPC" />
+							<Requirement type="characterunlocked" name="SheWolfNPC" />
+							<Requirement type="characterunlocked" name="MrsMummyNPC" />
+						</Requirement>
+						<Then>
+							<Action type="actionSequence" script="THOH2018_Scripts:SelectMove" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="actionSequence" script="THOH2018_Scripts:SpawnGeneric" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</SpawnScript>
+	<LoadSpawnScript parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="THOH2018_Requirements:Event_Active" />
+				<Requirement type="reqList" location="THOH2018_Requirements:TappableSpawnRequirement" />
+			</Requirements>
+			<True>
+				<Action type="actionSequence" script="THOH2018_Scripts:OnLoadConvert" />
+			</True>
+		</Action>
+	</LoadSpawnScript>
+	<SpawnFullHudTip>
+		<Action type="hudTip" text="UI_THOH2018_TownFull" time="3s" queue="true" waitForHUD="true" />
+	</SpawnFullHudTip>
+	<EventLevelUp>
+		<Action type="updateVariable" variable="FlandersTomeLevel" value="FlandersTomeLevel+1" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="THOH2018_Requirements:FlandersTome_CurrentLevel_IsCoolDown" />
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:EventLevelUpMessage_CoolDown" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="THOH2018_Requirements:FlandersTome_CurrentLevel_IsTapRadius" />
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:EventLevelUpMessage_TapRadius" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="THOH2018_Requirements:FlandersTome_CurrentLevel_IsSitePayout" />
+				<Then>
+					<Action type="actionSequence" script="THOH2018_Scripts:EventLevelUpMessage_SitePayout" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</EventLevelUp>
+	<EventLevelUpMessage_CoolDown>
+		<Action type="if">
+			<If expression="FlandersTomeLevel==24">
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="title">
+								<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_title" localise="true" />
+								<Attribute name="font" value="eFont_Special" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_finalCooldownText" localise="true" parameters="params" />
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="left">
+								<Attribute name="image" value="ICO_PRIZ_THOH2018_CooldownUpgrade_LG" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_OK" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="genericMessage">
+						<Attribute name="config">
+							<AttributeSet name="title">
+								<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_title" localise="true" />
+								<Attribute name="font" value="eFont_Special" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="message">
+								<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_cooldownText" localise="true" parameters="params">
+									<AttributeSet name="params">
+										<Attribute name="0" formula="Selector::getValue('THOH2018_FlandersTomeCooldown')/3600" />
+									</AttributeSet>
+								</Attribute>
+								<Attribute name="font" value="eFont_Normal" />
+								<Attribute name="color" value="FFFFFFFF" />
+							</AttributeSet>
+							<AttributeSet name="left">
+								<Attribute name="image" value="ICO_PRIZ_THOH2018_CooldownUpgrade_LG" />
+							</AttributeSet>
+							<AttributeSet name="button_OK">
+								<Attribute name="button_text">
+									<AttributeSet name="text">
+										<Attribute name="text" value="UI_OK" localise="true" />
+									</AttributeSet>
+								</Attribute>
+							</AttributeSet>
+						</Attribute>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</EventLevelUpMessage_CoolDown>
+	<EventLevelUpMessage_TapRadius>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_title" localise="true" />
+					<Attribute name="font" value="eFont_Special" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_tapRadiusText" localise="true" parameters="params" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_PRIZ_THOH2018_RadiusUpgrade_LG" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</EventLevelUpMessage_TapRadius>
+	<EventLevelUpMessage_SitePayout>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_title" localise="true" />
+					<Attribute name="font" value="eFont_Special" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_THOH2018_FlandersTome_Upgraded_rewardText" localise="true" parameters="params">
+						<AttributeSet name="params">
+							<Attribute name="0" formula="(Selector::getValue('THOH2018_ExcavationSitePayoutMultiplier')-1)*100" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_PRIZ_THOH2018_DigSiteUpgrade_LG" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</EventLevelUpMessage_SitePayout>
+	<FlandersTome_Start parallel="true">
+		<Action type="if">
+			<If expression="#program;     var characterInstanceList = Character::getAllInstancesAsArray();     foreach(characterInstanceList as instance)     {      if (Character::isPossessed(instance))      {       return true;      }     }     return false;">
+				<Then>
+					<Action type="actionSequence" script="MiscScripts:GoToInGameWithSound" />
+					<Action type="playflyby" centerOnObject="true" flybyName="BlastEffect" radius="18" unitScale="0.13" playbackFPS="50">
+						<Objects>
+							<ObjectByName name="FlandersFamilyTome" />
+						</Objects>
+					</Action>
+					<Action type="setMiniGameState" building="FlandersFamilyTome" name="FlandersTome" state="Playing" />
+					<Action type="setMiniGameState" building="FlandersFamilyTome" name="FlandersTome" state="Ready" />
+					<Action type="anim-play" onBuilding="FlandersFamilyTome" animation="Tap" nowait="true" />
+					<Action type="actionSequence" script="THOH2018_Scripts:DestroyAllTappables" />
+					<Action type="runScript" script="THOH2018_Scripts:FlandersTome_AllTappablesCollected" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MiscScripts:GoToInGameWithSound" />
+					<Action type="runScript" script="THOH2018_Scripts:FlandersTome_NoTappables" />
+				</Then>
+			</Else>
+		</Action>
+	</FlandersTome_Start>
+	<FlandersTome_AllTappablesCollected>
+		<Action type="hudTip" text="UI_THOH2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+	</FlandersTome_AllTappablesCollected>
+	<FlandersTome_NoTappables>
+		<Action type="message" text="UI_THOH2018_NoTappables" />
+	</FlandersTome_NoTappables>
+	<FlandersTome_Rush parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="rushMinigame" minigame="FlandersTome" />
+	</FlandersTome_Rush>
+	<SpawnFriendTappables>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    // Loading into a friends land means they see their friend's springfielders converted
+                    // revert them back since they cannot be tapped
+                    var characterInstanceList = Character::getAllInstancesAsArray();
+                    foreach(characterInstanceList as instance)
+                    {
+                        if (Character::isPossessed(instance))
+                        {
+                            Script::runImmediately('THOH2018_Scripts:DestroyAllTappablesInstantlyCharacterHelper', instance);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="friendlevel" level="15" />
+				</Requirements>
+				<Then>
+					<Action type="program">
+						<Program><![CDATA[#program;for (var i=0; i < 40; i++)
+                                {
+                                Script::run('THOH2018_Scripts:SpawnGeneric');
+                                }
+                            ]]></Program>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="10" />
+				</Requirements>
+				<Then>
+					<Action type="program">
+						<Program><![CDATA[#program;for (var i=0; i < 30; i++)
+                                {
+                                Script::run('THOH2018_Scripts:SpawnGeneric');
+                                }
+                            ]]></Program>
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="5" />
+				</Requirements>
+				<Then>
+					<Action type="program">
+						<Program><![CDATA[#program;
+                                for (var i=0; i < 20; i++)
+                                {
+                                Script::run('THOH2018_Scripts:SpawnGeneric');
+                                }
+                            ]]></Program>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</SpawnFriendTappables>
+	<TappableTapped_Friend>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="THOH2018_Tappables_Tapped_Friend" intValue="THOH2018_Tappables_Tapped_Friend+1" />
+				<Action type="checkRequirements" ignoreObject="false">
+					<Requirements>
+						<Requirement type="active quest" quest="THOH2018_DCS_ClearMonsterMinionsFriendsTown" />
+					</Requirements>
+					<True>
+						<Action type="setVariable" intVariable="THOH2018_DCS_MonsterMinions_Friends" intValue="THOH2018_DCS_MonsterMinions_Friends+1" />
+					</True>
+				</Action>
+				<Action type="actionSequence" script="THOH2018_Scripts:Tappable_Reward_Friend" />
+				<Action type="friendActionPerformed" />
+				<Action type="runScript" script="THOH2018_Scripts:RevertSingle" />
+			</True>
+		</Action>
+	</TappableTapped_Friend>
+	<Tappable_Reward parallel="true" cache="true">
+		<Action type="reward" save="true" THOH2018_ActivePrizeTrackCurrency="__THOH2018_GameConfig:TappablePrizeReward:Amount__" chance="__THOH2018_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" THOH2018_CurrencyCrafting="__THOH2018_GameConfig:TappableCraftReward:Amount__" chance="__THOH2018_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" noDrops="true" THOH2018_CurrencyCraftingLifeTime="__THOH2018_GameConfig:TappableCraftReward:Amount__" chance="__THOH2018_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="setVariable" intVariable="THOH2018_Tappables_Tapped" intValue="THOH2018_Tappables_Tapped+1" />
+	</Tappable_Reward>
+	<Tappable_Reward_Friend parallel="true" cache="true">
+		<Action type="reward" save="true" THOH2018_ActivePrizeTrackCurrency="selector THOH2018_PTCurrencyPerFriendAction" chance="__THOH2018_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" THOH2018_CurrencyCrafting="selector THOH2018_CraftingCurrencyPerFriendAction" chance="__THOH2018_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" noDrops="true" THOH2018_CurrencyCraftingLifeTime="selector THOH2018_CraftingCurrencyPerFriendAction" chance="__THOH2018_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Tappable_Reward_Friend>
+	<SocialLicensePurchased>
+		<Action type="setVariable" boolVariable="THOH2018_SocialUpgrade_Purchased" boolValue="true" />
+		<Action type="notification" icon="ICO_STOR_THOH2018_License_Popup" title="UI_THOH2018_SocialLicense" text="CON_Music_License1_excitingtext" button="UI_OK" />
+	</SocialLicensePurchased>
+	<FriendsHUDInfo ignoreHUD="true" parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="THOH2018_UpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="THOH2018_Scripts:FriendsHUDInfoAux" />
+	</FriendsHUDInfo>
+	<FriendsHUDInfoAux ignoreHUD="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2018_Requirements:ActOne" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_THOH2018_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2018_PT1" icon="ICO_CUR_THOH2018_CurrencyAct1_LG">
+							<Variable name="THOH2018_Act1PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="THOH2018_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_THOH2018_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="__THOH2018_GameConfig:OutOfFriendActions:OutOfFriendActionsText__" icon="ICO_CUR_THOH2018_CurrencyAct1_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2018_Requirements:ActTwo" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_THOH2018_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2018_PT2" icon="ICO_CUR_THOH2018_CurrencyAct2_LG">
+							<Variable name="THOH2018_Act2PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="THOH2018_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_THOH2018_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="__THOH2018_GameConfig:OutOfFriendActions:OutOfFriendActionsText__" icon="ICO_CUR_THOH2018_CurrencyAct2_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2018_Requirements:ActThree" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_THOH2018_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_THOH2018_PT3" icon="ICO_CUR_THOH2018_CurrencyAct3_LG">
+							<Variable name="THOH2018_Act3PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="THOH2018_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_THOH2018_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="__THOH2018_GameConfig:OutOfFriendActions:OutOfFriendActionsText__" icon="ICO_CUR_THOH2018_CurrencyAct3_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</FriendsHUDInfoAux>
+	<SpawnCountessNPC>
+		<Action type="actionSequence" script="THOH2018_Scripts:ClearAllNPC" />
+		<Action type="createobject" name="CountessDraculaNPC" save="true" showUnlock="false" panCamera="false" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_NPC" />
+	</SpawnCountessNPC>
+	<SpawnSheWolfNPC>
+		<Action type="actionSequence" script="THOH2018_Scripts:ClearAllNPC" />
+		<Action type="createobject" name="SheWolfNPC" save="true" showUnlock="false" panCamera="false" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_NPC" />
+	</SpawnSheWolfNPC>
+	<SpawnMrsMummyNPC>
+		<Action type="actionSequence" script="THOH2018_Scripts:ClearAllNPC" />
+		<Action type="createobject" name="MrsMummyNPC" save="true" showUnlock="false" panCamera="false" />
+		<Action type="actionSequence" script="THOH2018_Scripts:UpdateConvertTarget_NPC" />
+	</SpawnMrsMummyNPC>
+	<ClearCountessNPC>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var CD = Land::getFirstInstanceOfObject(Character::find('CountessDraculaNPC'));
+                    if (!isNULL(CD))
+                    {
+                        Character::deleteInstance(CD);
+                    }
+                ]]></Program>
+		</Action>
+	</ClearCountessNPC>
+	<ClearSheWolfNPC>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var SW = Land::getFirstInstanceOfObject(Character::find('SheWolfNPC'));
+                    if (!isNULL(SW))
+                    {
+                        Character::deleteInstance(SW);
+                    }
+                ]]></Program>
+		</Action>
+	</ClearSheWolfNPC>
+	<ClearMrsMummyNPC>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var MM = Land::getFirstInstanceOfObject(Character::find('MrsMummyNPC'));
+                    if (!isNULL(MM))
+                    {
+                        Character::deleteInstance(MM);
+                    }
+                ]]></Program>
+		</Action>
+	</ClearMrsMummyNPC>
+	<ClearAllNPC>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var CD = Land::getFirstInstanceOfObject(Character::find('CountessDraculaNPC'));
+                    if (!isNULL(CD)){
+                    Character::deleteInstance(CD);
+                    }
+                    var SW = Land::getFirstInstanceOfObject(Character::find('SheWolfNPC'));
+                    if (!isNULL(SW)){
+                    Character::deleteInstance(SW);
+                    }
+                    var MM = Land::getFirstInstanceOfObject(Character::find('MrsMummyNPC'));
+                    if (!isNULL(MM)){
+                    Character::deleteInstance(MM);
+                    }
+                ]]></Program>
+		</Action>
+	</ClearAllNPC>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="THOH2018_Category" />
+	</EnterStoreCategory>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="THOH2018_ThreePanel" />
+		<Action type="recommendation" recType="Event" name="THOH2018_ThreePanel" eventName="UI_THOH2018_Title" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<RecommendStoreOnePanel ignoreHUD="true">
+		<Action type="clearRecommendations" category="Event" name="THOH2018_ThreePanel" />
+		<Action type="clearRecommendations" category="Event" name="THOH2018_OnePanel" />
+		<Action type="recommendation" recType="Event" name="THOH2018_OnePanel" eventName="UI_THOH2018_Title" limitedTime="true" limitedTimeEndDate="THOH2018_EndDate" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreOnePanel>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="THOH2018_Category" />
+	</EnterStoreCategory>
+	<UnlockStoreCategory>
+		<Action type="setVariable" intVariable="THOH2018_Store_Unlocked" intValue="1" />
+	</UnlockStoreCategory>
+	<StoreNotification_MysteryJackOLantern>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2018_Requirements:MysteryJackOLantern_MysteryBox_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CON_THOH2018_MysteryJackOLantern_MysteryBox_name" text="BLD_MysteryJackOLantern_upsell_desc" icon="ICO_PRIZ_THOH2018_MysteryJackOLantern_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="THOH2018_MysteryJackOLantern_MysteryBox" menuCategory="THOH2018_Category" />
+			</True>
+		</Action>
+	</StoreNotification_MysteryJackOLantern>
+	<StoreNotification_MonstersCastle>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="MonstersCastle" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_MonstersCastle_name" text="BLD_MonstersCastle_upsell_desc" icon="ICO_PRIZ_THOH2018_MonstersCastle_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MonstersCastle" menuCategory="THOH2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_MonstersCastle>
+	<StoreNotification_VoodooHexesCurses>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="VoodooHexesCurses" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_VoodooHexesAndCurses_name" text="BLD_VoodooHexesCurses_upsell_desc" icon="ICO_PRIZ_THOH2018_VoodooHexesCurses_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="VoodooHexesCurses" menuCategory="THOH2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_VoodooHexesCurses>
+	<StoreNotification_CursedTomb>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="CursedTomb" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_CursedTomb_name" text="BLD_CursedTomb_upsell_desc" icon="ICO_PRIZ_THOH2018_CursedTomb_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="CursedTomb" menuCategory="THOH2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CursedTomb>
+	<StoreNotification_SpringfieldCursedForest>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="SpringfieldCursedForest" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_SpringfieldCursedForest_name" text="BLD_SpringfieldCursedForest_upsell_desc" icon="ICO_PRIZ_THOH2018_SpringfieldCursedForest_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="SpringfieldCursedForest" menuCategory="THOH2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_SpringfieldCursedForest>
+	<StoreNotification_TweenLitInc>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TweenLitInc" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TweenLitInc_name" text="BLD_TweenLitInc_upsell_desc" icon="ICO_PRIZ_THOH2018_TweenLitInc_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TweenLitInc" menuCategory="THOH2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TweenLitInc>
+	<StoreNotification_TongueKissPoint>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TongueKissPoint" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TongueKissPoint_name" text="BLD_TongueKissPoint_upsell_desc" icon="ICO_PRIZ_THOH2018_TongueKissPoint_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TongueKissPoint" menuCategory="THOH2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TongueKissPoint>
+	<StoreNotification_TruckloadOf300Donuts>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="THOH2018_Requirements:Witch_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_WitchTHOH2018_name" text="UNK_TruckloadOf300Donuts_upsell_desc" icon="ICO_PRIZ_THOH2018_TruckloadOf300Donuts_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="300" />
+			</True>
+		</Action>
+	</StoreNotification_TruckloadOf300Donuts>
+	<StoreNotification_LastChance>
+		<Action type="reparseBuildMenu" />
+		<Action type="notificationLarge" title="UI_THOH2018_LastChance_Notification_Title" text="UI_THOH2018_LastChance_Notification_Desc" icon="ICO_PRIZ_THOH2018_LastChanceSale_LG" button="UI_OK" />
+		<Action type="focusOnMenuItem" menuCategory="THOH2018_Category" />
+	</StoreNotification_LastChance>
+	<GoToDraculaLaLand>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="place building" building="DraculaLaLand" />
+						<Then>
+							<Action type="pantoobject" building="DraculaLaLand" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="building owned" building="DraculaLaLand" />
+						<Then>
+							<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="DraculaLaLand" inventory="true" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+							<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+								<Extras>
+									<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+									<Attribute name="specialEvent" value="THOH2018_Event" />
+									<Attribute name="prizeListIndex" value="0" />
+									<Attribute name="selectPrize" value="2" />
+									<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+								</Extras>
+							</Action>
+							<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToDraculaLaLand>
+	<GoToBazaar>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="place building" building="Bazaar" />
+						<Then>
+							<Action type="pantoobject" building="Bazaar" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="building owned" building="Bazaar" />
+						<Then>
+							<Action type="focusOnMenuItem" menuCategory="Buildings" itemName="Bazaar" inventory="true" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+							<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+								<Extras>
+									<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+									<Attribute name="specialEvent" value="THOH2018_Event" />
+									<Attribute name="prizeListIndex" value="2" />
+									<Attribute name="selectPrize" value="2" />
+									<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+								</Extras>
+							</Action>
+							<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBazaar>
+	<GoToBarkingGoodButchery>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="BarkingGoodButchery" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="BarkingGoodButchery" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="THOH2018_Event" />
+								<Attribute name="prizeListIndex" value="1" />
+								<Attribute name="selectPrize" value="2" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBarkingGoodButchery>
+	<GoToSheWolf>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="SheWolf" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="SheWolf" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="THOH2018_Event" />
+								<Attribute name="prizeListIndex" value="1" />
+								<Attribute name="selectPrize" value="5" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToSheWolf>
+	<GoToRearange_OldRuins>
+		<Action type="pantoobject" building="OldRuins" fakeTouch="false" time="0" />
+		<Action type="gotoState" state="GameState_Rearrange" />
+	</GoToRearange_OldRuins>
+	<GoToCountessDracula>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="CountessDracula" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="CountessDracula" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="THOH2018_Event" />
+								<Attribute name="prizeListIndex" value="0" />
+								<Attribute name="selectPrize" value="5" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToCountessDracula>
+	<GoToMrsMummy>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="Womenhet" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="Womenhet" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="THOH2018_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="THOH2018_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="THOH2018_Event" />
+								<Attribute name="prizeListIndex" value="2" />
+								<Attribute name="selectPrize" value="5" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="THOH2018_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMrsMummy>
+	<EnterPlacementMode_ArrangementBonus parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="THOH2018_Requirements:ArrangementBonus_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="10s" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_OldRuins" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_THOH2018_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_THOH2018_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="THOH2018_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_THOH2018_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="THOH2018_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</EnterPlacementMode_ArrangementBonus>
+	<PlacementConfirm_OldRuins parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="OldRuins_ABDelta != 0" />
+			</Requirements>
+			<True>
+				<Action type="scheduleScript" mode="replace" script="THOH2018_Scripts:ShowDelayedArrangementBonusHudTip" shouldSave="false" relativeTime="2s" />
+				<Action type="floatText" building="OldRuins">
+					<Attribute name="config">
+						<AttributeSet name="text">
+							<Attribute name="text" value="{0}% {1}" parameters="textParams">
+								<AttributeSet name="textParams">
+									<Attribute name="0" formula="OldRuins_ABDelta" />
+									<Attribute name="1" value="UI_THOH2018_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="1" value="UI_THOH2018_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="THOH2018_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="1" value="UI_THOH2018_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="THOH2018_Requirements:ActThree" />
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_XSBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+							<Attribute name="name" value="OldRuins_Delta" />
+							<Attribute name="duration" value="2s" />
+							<Attribute name="speed" value="2" />
+							<Attribute name="resetTime" value="true" />
+							<Attribute name="isUnique" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="setVariable" intVariable="OldRuins_ABDelta" intValue="0" />
+			</True>
+		</Action>
+	</PlacementConfirm_OldRuins>
+	<ShowDelayedArrangementBonusHudTip parallel="true" runQueueState="RunInAnyState">
+		<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+		<Action type="checkRequirements">
+			<Requirement type="building" building="OldRuins" />
+			<True>
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="3s" />
+							<Attribute name="queue" value="true" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_Adjust_OldRuins" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_THOH2018_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_THOH2018_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="THOH2018_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_THOH2018_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="THOH2018_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="1" />
+									<Attribute name="text" formula="#program;                                     var object = Land::getFirstInstanceOfObject(Building::find('OldRuins'));                                     return toString(round(((toDouble(Building::getArrangeBonus(object)))*100))/100);" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="2" />
+									<Attribute name="text" value="%" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</ShowDelayedArrangementBonusHudTip>
+	<GoTo_Prestige ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="formula" formula="System::evaluate('Minigame::FlandersTome::Ready')" />
+					<Requirement type="formula" formula="#program;                         var characterList = Character::getAllInstancesAsArray();                         foreach(characterList as character)                         {                             if (Character::isPossessed(character))                             {                                 return true;                             }                         }                         return false;" />
+				</Requirements>
+				<Then>
+					<Action type="pantoobject" building="FlandersFamilyTome" fakeTouch="false" time="0" />
+					<Action type="gotoState" state="GameState_BuildingSelected">
+						<Extras>
+							<Attribute name="BuildingName" value="FlandersFamilyTome" />
+						</Extras>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf expression="#program;     var characterList = Character::getAllInstancesAsArray();     foreach(characterList as character)     {     if (Character::isPossessed(character))     {     var characterPosX = Character::getPositionX(character);     var characterPosZ = Character::getPositionZ(character);     Camera::snapToPosition(characterPosX, characterPosZ);     return true;     }     }     return false;">
+				<Then></Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="formula" formula="THOH2018_CurrencyDigging &gt; 0" />
+				</Requirements>
+				<Then>
+					<Action type="pantoobject" building="OldRuins" fakeTouch="false" time="0" />
+					<Action type="gotoState" state="GameState_BuildingSelected">
+						<Extras>
+							<Attribute name="BuildingName" value="OldRuins" />
+						</Extras>
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="reqList" location="THOH2018_Requirements:Tappables_Unlocked" />
+					<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+				</Requirements>
+				<Then>
+					<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="hudTip" text="UI_THOH2018_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_Prestige>
+	<Prestige_Act1>
+		<Action type="reward">
+			<Item type="consumable" name="THOH2018_Prestige_Act1" useImmediately="true" />
+		</Action>
+	</Prestige_Act1>
+	<Prestige_Act2>
+		<Action type="reward">
+			<Item type="consumable" name="THOH2018_Prestige_Act2" useImmediately="true" />
+		</Action>
+	</Prestige_Act2>
+	<Prestige_Act3>
+		<Action type="reward">
+			<Item type="consumable" name="THOH2018_Prestige_Act3" useImmediately="true" />
+		</Action>
+	</Prestige_Act3>
+	<GoToPurchaseOldRuins ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="OldRuins" />
+				<Then>
+					<Action type="pantoobject" building="OldRuins" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="OldRuins" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="OldRuins" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" itemName="OldRuinsLandUnlock" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToPurchaseOldRuins>
+	<OldRuinsLandUnlock>
+		<Action type="reward">
+			<Item type="building" name="OldRuins" useImmediately="true" />
+		</Action>
+		<Action type="unlockLandForEvent" building="OldRuins" squareSize="3" />
+	</OldRuinsLandUnlock>
+	<GoTo_HolyForgeJobList>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="building" building="HolyForge" />
+				</Requirements>
+				<Then>
+					<Action type="pantoobject" time="0" building="HolyForge" fakeTouch="false" />
+					<Action type="sound" sound="DigSite_PickAxeJob" />
+					<Action type="gotoState" state="GameState_JobList" extras="THOH2018_MenuConfig:HolyForgeJobList" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="place building" building="HolyForge" />
+				<Then>
+					<Action type="pantoobject" time="0" building="HolyForge" fakeTouch="false" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="building owned" building="HolyForge" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="HolyForge" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" itemName="HolyForge" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_HolyForgeJobList>
+	<GoTo_HauntedCrossroads>
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="HauntedCrossroads" />
+			<False>
+				<Action type="focusOnMenuItem" itemName="HauntedCrossroads" inventory="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" building="HauntedCrossroads" />
+			</True>
+		</Action>
+	</GoTo_HauntedCrossroads>
+	<AutoConsumeWizardLisaSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="THOH2018_Scripts:AutoConsumeWizardLisaSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoConsumeWizardLisaSkin_End>
+	<AutoConsumeWizardLisaSkin_Delayed parallel="true">
+		<Action type="consumable" consumable="WizardLisa" fromInventory="true" />
+	</AutoConsumeWizardLisaSkin_Delayed>
+	<GrantMissingKrustylandEntranceBuildings>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="KrustylandEntranceBase" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="KrustylandEntranceBase" />
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="ItchyScratchyCorner" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="ItchyScratchyCorner" />
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="SideshowMelCorner" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="building" name="SideshowMelCorner" />
+				</Action>
+			</True>
+		</Action>
+	</GrantMissingKrustylandEntranceBuildings>
+	<DCS_Reset_Tappables>
+		<Action type="updateVariable" variable="THOH2018_DCS_MonsterMinions" value="0" />
+	</DCS_Reset_Tappables>
+	<DCS_Reset_CompleteDigs>
+		<Action type="updateVariable" variable="THOH2018_DCS_CompleteDigs" value="0" />
+	</DCS_Reset_CompleteDigs>
+	<DCS_Reset_FriendTappables>
+		<Action type="updateVariable" variable="THOH2018_DCS_MonsterMinions_Friends" value="0" />
+	</DCS_Reset_FriendTappables>
+	<IncantationBundleReward>
+		<Action type="reward" save="true" THOH2018_CurrencyCrafting="1000" />
+		<Action type="reward" save="true" THOH2018_CurrencyCraftingLifeTime="1000" />
+	</IncantationBundleReward>
+	<GoTo_RearrangeFlowers>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var flowerInstanceList = Land::getAllInstancesFromGroup('Flowers');
+                    foreach (flowerInstanceList as currentFlower)
+                    {
+                        var gridX = toDouble(Object::getProperty(currentFlower, 'GridX'));
+                        var gridY = toDouble(Object::getProperty(currentFlower, 'GridY'));
+                        
+                        // convert grid to block
+                        // Note: we don't have to worry about x < 0 or y == 0, so trunc works for this
+                        var blockX = trunc(gridX / 16);
+                        var blockY = trunc(gridY / 16);
+                        
+                        if (Land::hasBlock(toDouble(blockX), toDouble(blockY)))
+                        {
+                            var worldX = gridToWorld(gridX);
+                            var worldY = gridToWorld(gridY);
+                            Camera::snapToPosition(worldX, worldY);
+                            System::setGameState('GameState_Rearrange');
+                            
+                            return;
+                        }
+                    }
+                    Script::run('THOH2018_Scripts:GoTo_PlaceFlowers')
+                ]]></Program>
+		</Action>
+	</GoTo_RearrangeFlowers>
+	<GoTo_PlaceFlowers>
+		<Action type="if">
+			<If>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="item" item="Flowers00" checkInventoryOnly="true" />
+					<Requirement type="item" item="Flowers01" checkInventoryOnly="true" />
+					<Requirement type="item" item="Flowers02" checkInventoryOnly="true" />
+					<Requirement type="item" item="Flowers03" checkInventoryOnly="true" />
+					<Requirement type="item" item="Snapdragon" checkInventoryOnly="true" />
+					<Requirement type="item" item="RoseBush" checkInventoryOnly="true" />
+					<Requirement type="item" item="KrustylandFlowers01" checkInventoryOnly="true" />
+					<Requirement type="item" item="KrustylandFlowers02" checkInventoryOnly="true" />
+					<Requirement type="item" item="KrustylandFlowers03" checkInventoryOnly="true" />
+					<Requirement type="item" item="KrustylandFlowers04" checkInventoryOnly="true" />
+				</Requirement>
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Nature" inventory="true" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Nature" />
+				</Then>
+			</Else>
+		</Action>
+	</GoTo_PlaceFlowers>
+	<Flower_Stored parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="MumsTheWord_2" />
+			<True>
+				<Action type="updateVariable" variable="FlowersStored_Count" value="FlowersStored_Count + 1" />
+			</True>
+		</Action>
+	</Flower_Stored>
+	<SetGrampaSkinToCountGrampa ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var grampa = Land::getFirstInstanceOfObject(Character::find('Grampa'));
+                    Character::setSkin(grampa, 'CountGrampa');
+                ]]></Program>
+		</Action>
+	</SetGrampaSkinToCountGrampa>
+	<DraculalaLandActiveDone parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="DraculaLaLandEastNeutral" onBuilding="DraculaLaLandEast" isController="true" />
+	</DraculalaLandActiveDone>
+	<PetTapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</PetTapped>
+</ScriptPackage>

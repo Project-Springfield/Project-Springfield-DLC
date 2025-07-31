@@ -1,0 +1,182 @@
+﻿<ScriptPackage>
+	<PoliceTank_JobDone ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="Kwik-E-Mart" />
+			</Requirements>
+			<True>
+				<Action type="sound" sound="sfx_MuchApu_Police_Tank_Tap.caf" />
+				<Action type="pantoobject" building="Kwik-E-Mart" time="0" />
+				<Action type="shakeCamera" length="6" magnitude="10" />
+				<Action type="runScriptOnAll" building="Kwik-E-Mart" script="KwikEMart_Wrecked" package="MuchApuAboutSomething_Scripts" maxNum="1" />
+			</True>
+		</Action>
+	</PoliceTank_JobDone>
+	<PoliceTank_Tapped parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR" not="true">
+					<Requirement type="active job" job="FireTheTank" />
+					<Requirement type="active job" job="RecordATankCommercial" />
+					<Requirement type="active job" job="TryToFigureOutTheTank" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="sound" sound="sfx_MuchApu_Police_Tank_Tap.caf" />
+				<Action type="anim-play" building="PoliceTank" animation="Active03" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="quest" quest="PoliceTank_4" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="building" building="Kwik-E-Mart" />
+							<Requirement type="building" building="Kwik-E-MartFranchise" />
+							<Requirement type="building" building="QuickAndFresh" />
+							<Requirement type="building" building="BrownHouse" />
+						</Requirement>
+					</Requirements>
+					<True>
+						<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="SelectRandomBuilding" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</PoliceTank_Tapped>
+	<SelectRandomBuilding parallel="true" ignoreHUD="true">
+		<Action type="random">
+			<Action type="checkRequirements">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="building" building="Kwik-E-Mart" />
+						<Requirement type="building" building="Kwik-E-MartFranchise" />
+					</Requirement>
+				</Requirements>
+				<True>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="building" building="Kwik-E-Mart" />
+						</Requirements>
+						<True>
+							<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_KwikEMart" />
+						</True>
+						<False>
+							<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_KwikEMartFranchise" />
+						</False>
+					</Action>
+				</True>
+				<False>
+					<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="SelectRandomBuilding" />
+				</False>
+			</Action>
+			<Action type="checkRequirements">
+				<Requirements>
+					<Requirement type="building" building="QuickAndFresh" />
+				</Requirements>
+				<True>
+					<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_QuickAndFresh" />
+				</True>
+				<False>
+					<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="SelectRandomBuilding" />
+				</False>
+			</Action>
+			<Action type="checkRequirements">
+				<Requirements>
+					<Requirement type="building" building="BrownHouse" />
+				</Requirements>
+				<True>
+					<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="PoliceTank_Destroy_BrownHouse" />
+				</True>
+				<False>
+					<Action type="runScript" package="MuchApuAboutSomething_Scripts" script="SelectRandomBuilding" />
+				</False>
+			</Action>
+		</Action>
+	</SelectRandomBuilding>
+	<PoliceTank_Destroy_KwikEMart parallel="true">
+		<Action type="pantoobject" building="Kwik-E-Mart" minSpeed="500" maxSpeed="500" />
+		<Action type="shakeCamera" length="6" magnitude="10" />
+		<Action type="runScriptOnAll" building="Kwik-E-Mart" script="KwikEMart_Wrecked" package="MuchApuAboutSomething_Scripts" maxNum="1" />
+	</PoliceTank_Destroy_KwikEMart>
+	<PoliceTank_Destroy_KwikEMartFranchise parallel="true">
+		<Action type="pantoobject" building="Kwik-E-MartFranchise" minSpeed="500" maxSpeed="500" />
+		<Action type="shakeCamera" length="6" magnitude="10" />
+		<Action type="runScriptOnAll" building="Kwik-E-MartFranchise" script="KwikEMartFranchise_Wrecked" package="MuchApuAboutSomething_Scripts" maxNum="1" />
+	</PoliceTank_Destroy_KwikEMartFranchise>
+	<PoliceTank_Destroy_QuickAndFresh parallel="true">
+		<Action type="pantoobject" building="QuickAndFresh" minSpeed="500" maxSpeed="500" />
+		<Action type="shakeCamera" length="6" magnitude="10" />
+		<Action type="runScriptOnAll" building="QuickAndFresh" script="QuickAndFresh_Wrecked" package="MuchApuAboutSomething_Scripts" maxNum="1" />
+	</PoliceTank_Destroy_QuickAndFresh>
+	<PoliceTank_Destroy_BrownHouse parallel="true">
+		<Action type="pantoobject" building="BrownHouse" minSpeed="500" maxSpeed="500" />
+		<Action type="shakeCamera" length="6" magnitude="10" />
+		<Action type="runScriptOnAll" building="BrownHouse" script="BrownHouse_Wrecked" package="MuchApuAboutSomething_Scripts" maxNum="1" />
+	</PoliceTank_Destroy_BrownHouse>
+	<QuickAndFresh_Wrecked parallel="true">
+		<Action type="setBuildingSkin" skinName="QuickAndFresh_Wrecked" />
+		<Action type="anim-building-oneshot">
+			<OneShot name="regular" file="QuickNFreshDestroy" animation="Destroy" x="0" y="0" />
+		</Action>
+	</QuickAndFresh_Wrecked>
+	<KwikEMart_Wrecked parallel="true">
+		<Action type="setBuildingSkin" skinName="KwikEMart_Wrecked" />
+		<Action type="anim-building-oneshot">
+			<OneShot name="regular" file="KwikEMartDestroy" animation="Destroy" x="0" y="0" />
+		</Action>
+		<Action type="setVariable" intVariable="KwikEMart_Destroyed" intValue="KwikEMart_Destroyed+1" />
+	</KwikEMart_Wrecked>
+	<KwikEMartFranchise_Wrecked parallel="true">
+		<Action type="setBuildingSkin" skinName="KwikEMartFranchise_Wrecked" />
+		<Action type="anim-building-oneshot">
+			<OneShot name="regular" file="KwikEMartDestroy" animation="Destroy" x="0" y="0" />
+		</Action>
+	</KwikEMartFranchise_Wrecked>
+	<BrownHouse_Wrecked parallel="true">
+		<Action type="setBuildingSkin" skinName="BrownHouse_Wrecked" />
+	</BrownHouse_Wrecked>
+	<PoliceTank_FixAll parallel="true" cache="true">
+		<Action type="runScriptOnAll" building="QuickAndFresh" script="QuickAndFresh_Fixed" package="MuchApuAboutSomething_Scripts" />
+		<Action type="runScriptOnAll" building="Kwik-E-Mart" script="KwikEMart_Fixed" package="MuchApuAboutSomething_Scripts" />
+		<Action type="runScriptOnAll" building="Kwik-E-MartFranchise" script="KwikEMartFranchise_Fixed" package="MuchApuAboutSomething_Scripts" />
+		<Action type="runScriptOnAll" building="BrownHouse" script="BrownHouse_Fixed" package="MuchApuAboutSomething_Scripts" />
+		<Action type="runScriptOnAll" building="SpringfieldElementary" script="SpringfieldElementary_Fixed" package="CountyFair_Scripts" />
+	</PoliceTank_FixAll>
+	<QuickAndFresh_Fixed parallel="true">
+		<Action type="setBuildingSkin" skinName="QuickAndFresh" useDefault="true" />
+	</QuickAndFresh_Fixed>
+	<KwikEMart_Fixed parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="greaterThan(KwikEMart_Destroyed, 0)" />
+				<Requirement type="jobs done" character="Apu" job="CleanUpTheMess" count="1" />
+			</Requirements>
+			<True>
+				<Action type="setBuildingSkin" skinName="Kwik-E-Mart" useDefault="true" />
+				<Action type="setVariable" intVariable="KwikEMart_Destroyed" intValue="0" />
+			</True>
+		</Action>
+	</KwikEMart_Fixed>
+	<KwikEMartFranchise_Fixed parallel="true">
+		<Action type="setBuildingSkin" skinName="Kwik-E-MartFranchise" useDefault="true" />
+	</KwikEMartFranchise_Fixed>
+	<BrownHouse_Fixed parallel="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="System::evaluate('Skin::BrownHouse_Wrecked::Building::BrownHouse::TotalCount')&gt;0" />
+			</Requirements>
+			<True>
+				<Action type="setBuildingSkin" skinName="BrownHouse" useDefault="true" />
+			</True>
+		</Action>
+	</BrownHouse_Fixed>
+	<PoliceTank_FixAll_Temp parallel="true">
+		<Action type="runScriptOnAll" building="Kwik-E-Mart" script="KwikEMart_Fixed_Temp" package="MuchApuAboutSomething_Scripts" />
+		<Action type="runScriptOnAll" building="Kwik-E-MartFranchise" script="KwikEMartFranchise_Fixed_Temp" package="MuchApuAboutSomething_Scripts" />
+	</PoliceTank_FixAll_Temp>
+	<KwikEMart_Fixed_Temp parallel="true">
+		<Action type="setBuildingSkin" skinName="Kwik-E-Mart" useDefault="true" />
+		<Action type="setVariable" intVariable="KwikEMart_Destroyed" intValue="0" />
+	</KwikEMart_Fixed_Temp>
+	<KwikEMartFranchise_Fixed_Temp parallel="true">
+		<Action type="setBuildingSkin" skinName="Kwik-E-MartFranchise" useDefault="true" />
+	</KwikEMartFranchise_Fixed_Temp>
+</ScriptPackage>

@@ -1,0 +1,40 @@
+﻿<TelemetryFamilies>
+	<HomerTheHeretic>
+		<SessionCounters>
+			<Counter name="HTH_KarmaFromJobs" />
+			<Counter name="HTH_KarmaFromFountain" />
+		</SessionCounters>
+		<SessionEvents>
+			<Event id="5202">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Jobs" />
+				<Parameter1 type="Enumeration" source="StrictlyPositiveCounter" extra="HTH_KarmaFromJobs" />
+			</Event>
+			<Event id="5202">
+				<Parameter0 type="Enumeration" source="FixedString" extra="PennyFountain" />
+				<Parameter1 type="Enumeration" source="StrictlyPositiveCounter" extra="HTH_KarmaFromFountain" />
+			</Event>
+		</SessionEvents>
+		<TriggerEffects>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnSpecialCurrencyGainedFromIndicator" />
+				<Filter type="matching" key="Source" string="CollectingLuckyPennies" />
+				<Response type="logEvent">
+					<Event id="5203">
+						<Parameter0 type="Enumeration" source="FormulaAsInt" extra="{Trigger::Amount}" />
+						<Parameter1 type="Enumeration" source="FormulaAsInt" extra="HTH_Telemetry_TimeSinceLastPennyFountainCollection" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnSpecialCurrencyGainedFromIndicator" />
+				<Filter type="matching" key="Source" string="CollectingLuckyPennies" not="true" />
+				<Response type="incrementCounter" counter="HTH_KarmaFromJobs" increment="{Trigger::Amount}" />
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnSpecialCurrencyGainedFromIndicator" />
+				<Filter type="matching" key="Source" string="CollectingLuckyPennies" />
+				<Response type="incrementCounter" counter="HTH_KarmaFromFountain" increment="{Trigger::Amount}" />
+			</TriggerEffect>
+		</TriggerEffects>
+	</HomerTheHeretic>
+</TelemetryFamilies>

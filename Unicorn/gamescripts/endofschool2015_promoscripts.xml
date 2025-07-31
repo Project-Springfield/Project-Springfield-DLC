@@ -1,0 +1,135 @@
+﻿<ScriptPackage>
+	<EndOfSchool2015_Start>
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+		<Action type="setVariable" boolVariable="PROMO_STARTED" boolValue="false" />
+	</EndOfSchool2015_Start>
+	<EndOfSchool2015_Recommend parallel="true">
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="EndOfSchool2015_CatActive" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="EndOfSchool2015_Phase1" />
+					<True>
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item1" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item2" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item3" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item4" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item5" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item6" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item7" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item8" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item9" />
+						<Action type="recommendation" recType="Promoted" name="EoS2015_Item10" />
+						<Action type="recommendation" recType="Event" name="GoToEndOfSchool2015" eventName="UI_EoS2015_title" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="EndOfSchool2015_Phase2" />
+							<True>
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item4" />
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item5" />
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item6" />
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item7" />
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item8" />
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item9" />
+								<Action type="recommendation" recType="Promoted" name="EoS2015_Item10" />
+								<Action type="recommendation" recType="Event" name="GoToEndOfSchool2015" eventName="UI_EoS2015_title" />
+							</True>
+							<False>
+								<Action type="checkRequirements">
+									<Requirement type="variable" variable="EndOfSchool2015_Phase3" />
+									<True>
+										<Action type="recommendation" recType="Promoted" name="EoS2015_Item7" />
+										<Action type="recommendation" recType="Promoted" name="EoS2015_Item8" />
+										<Action type="recommendation" recType="Promoted" name="EoS2015_Item9" />
+										<Action type="recommendation" recType="Promoted" name="EoS2015_Item10" />
+										<Action type="recommendation" recType="Event" name="GoToEndOfSchool2015" eventName="UI_EoS2015_title" />
+									</True>
+								</Action>
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</EndOfSchool2015_Recommend>
+	<EndOfSchool2015_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_1a_Gil" revealSpeed="medium" emotion="sad" />
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_2a_Gil" revealSpeed="medium" emotion="sad" />
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_3a_Gil" revealSpeed="medium" emotion="annoyed" />
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_4a_Gil" revealSpeed="medium" emotion="sad" />
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_5a_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_6a_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Gil" text="QST_EoS2015Start_3_dlg_Start_7a_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="checkRequirements">
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="variable" variable="EndOfSchool2015_Phase2" />
+						<Requirement type="variable" variable="EndOfSchool2015_Phase3" />
+					</Requirement>
+					<True>
+						<Action type="setVariable" boolVariable="EndOfSchool2015_Day2_Played" boolValue="true" />
+						<Action type="dialogue" character="Gil" text="QST_EoS2015Day2_3_dlg_Start_1_Gil" revealSpeed="medium" />
+						<Action type="dialogue" character="Gil" text="QST_EoS2015Day2_3_dlg_Start_2_Gil" revealSpeed="medium" />
+					</True>
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="EndOfSchool2015_Phase3" />
+					<True>
+						<Action type="setVariable" boolVariable="EndOfSchool2015_Day3_Played" boolValue="true" />
+						<Action type="dialogue" character="Gil" text="QST_EoS2015Day3_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="sad" />
+						<Action type="dialogue" character="Gil" text="QST_EoS2015Day3_3_dlg_Start_2_Gil" revealSpeed="medium" />
+					</True>
+				</Action>
+				<Action type="setVariable" boolVariable="EndOfSchool2015_CatActive" boolValue="true" />
+				<Action type="runScript" script="EndOfSchool2015_Recommend" package="EndOfSchool2015_PromoScripts" />
+				<Action type="setVariable" boolVariable="EndOfSchool2015_INDICATOR_ACTIVE" boolValue="false" />
+				<Action type="displayPromo" character="PromoGilPermanent" />
+				<Action type="setVariable" boolVariable="ClickedGil" boolValue="true" />
+				<Action type="deletecharacter" character="PromoGilPermanent" />
+			</True>
+		</Action>
+	</EndOfSchool2015_Display>
+	<EndOfSchool2015_DisplayPromo>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" character="PromoGilPermanent" />
+	</EndOfSchool2015_DisplayPromo>
+	<EndOfSchool2015_Purchase>
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Purchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Purchased_3_dlg_Start_2_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Purchased_3_dlg_Start_3a_Gil" revealSpeed="medium" />
+	</EndOfSchool2015_Purchase>
+	<EndOfSchool2015_Cancel>
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Cancelled_3_dlg_Start_1_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Cancelled_3_dlg_Start_2_Gil" revealSpeed="medium" />
+		<Action type="setVariable" boolVariable="ShowPromoCancelDialogue" boolValue="false" />
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</EndOfSchool2015_Cancel>
+	<KillGil_EndOfSchool2015 ignoreHUD="true" parallel="true">
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+	</KillGil_EndOfSchool2015>
+	<EndOfSchool2015_EventEnd ignoreHUD="true" parallel="true">
+		<Action type="clearRecommendations" category="Event" />
+		<Action type="clearRecommendations" category="Promoted" />
+	</EndOfSchool2015_EventEnd>
+	<EoS2015_OpenCat>
+		<Action type="focusOnMenuItem" menuCategory="EndOfSchool2015" />
+	</EoS2015_OpenCat>
+	<EndOfSchool2015_Phase2Start>
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Day2_3_dlg_Start_1_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Day2_3_dlg_Start_2_Gil" revealSpeed="medium" />
+	</EndOfSchool2015_Phase2Start>
+	<EndOfSchool2015_Phase3Start>
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Day3_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Gil" text="QST_EoS2015Day3_3_dlg_Start_2_Gil" revealSpeed="medium" />
+	</EndOfSchool2015_Phase3Start>
+</ScriptPackage>

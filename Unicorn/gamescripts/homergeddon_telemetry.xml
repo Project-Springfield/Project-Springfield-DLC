@@ -1,0 +1,88 @@
+﻿<TelemetryFamilies>
+	<Homergeddon>
+		<Requirement type="variable" variable="Homergeddon" />
+		<SessionCounters>
+			<Counter name="Homergeddon_AssaultJobsCompleted" />
+			<Counter name="Homergeddon_FortifyJobsCompleted" />
+		</SessionCounters>
+		<SessionEvents>
+			<Event id="9903">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Homergeddon_Act1PrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Homergeddon_Act1PrizeTrackCurrency" />
+			</Event>
+			<Event id="9903">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Homergeddon_Act2PrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Homergeddon_Act2PrizeTrackCurrency" />
+			</Event>
+			<Event id="9903">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Homergeddon_Act3PrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Homergeddon_Act3PrizeTrackCurrency" />
+			</Event>
+			<Event id="9903">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Homergeddon_CraftingCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Homergeddon_CraftingCurrency" />
+			</Event>
+			<Event id="9903">
+				<Parameter0 type="Enumeration" source="FixedString" extra="Homergeddon_CraftingXP" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="Homergeddon_CraftingXP" />
+			</Event>
+			<Event id="9905">
+				<Parameter0 type="Score" source="Counter" extra="Homergeddon_AssaultJobsCompleted" />
+				<Parameter1 type="Score" source="Counter" extra="Homergeddon_FortifyJobsCompleted" />
+			</Event>
+		</SessionEvents>
+		<TriggerEffects>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnItemCrafted" />
+				<Response type="logEvent">
+					<Event id="9904">
+						<Parameter0 type="Enumeration" source="FixedString" extra="{Trigger::ObjectName}" />
+						<Parameter1 type="Enumeration" source="FormulaAsInt" extra="{Trigger::Amount}" />
+						<Parameter2 type="Enumeration" source="FormulaAsInt" extra="{Trigger::PremiumCost}" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnBuildingPlaced" />
+				<Filter type="matching" key="OriginalCostSpendable" string="Homergeddon_CraftingCurrency" />
+				<Filter type="matching" key="FromInventory" formula="0" />
+				<Response type="logEvent">
+					<Event id="9904">
+						<Parameter0 type="Enumeration" source="FixedString" extra="{Trigger::ObjectName}" />
+						<Parameter1 type="Enumeration" source="FixedString" extra="1" />
+						<Parameter2 type="Enumeration" source="FixedString" extra="0" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="TriggerType" string="OnJobRushed" />
+					<Filter type="matching" key="TriggerType" string="OnJobCompleted" />
+				</Filter>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="Source" string="AdultsAssaultMegaPlayscape" />
+					<Filter type="matching" key="Source" string="AdultsAssaultMegaPlayscapeSansLocators" />
+					<Filter type="matching" key="Source" string="KidsAssaultMegaPlayscape" />
+					<Filter type="matching" key="Source" string="KidsAssaultMegaPlayscapeSansLocators" />
+					<Filter type="matching" key="Source" string="KidsAssaultJunkBase" />
+					<Filter type="matching" key="Source" string="KidsAssaultJunkBaseSansLocators" />
+					<Filter type="matching" key="Source" string="AssaultRuffianFort" />
+					<Filter type="matching" key="Source" string="AssaultRuffianFortSansLocators" />
+				</Filter>
+				<Response type="incrementCounter" counter="Homergeddon_AssaultJobsCompleted" increment="1" />
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="TriggerType" string="OnJobRushed" />
+					<Filter type="matching" key="TriggerType" string="OnJobCompleted" />
+				</Filter>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="Source" string="KidsFortifyMegaPlayscape" />
+					<Filter type="matching" key="Source" string="AdultsFortifyMegaPlayscape" />
+					<Filter type="matching" key="Source" string="AdultsFortifyJunkBase" />
+				</Filter>
+				<Response type="incrementCounter" counter="Homergeddon_FortifyJobsCompleted" increment="1" />
+			</TriggerEffect>
+		</TriggerEffects>
+	</Homergeddon>
+</TelemetryFamilies>

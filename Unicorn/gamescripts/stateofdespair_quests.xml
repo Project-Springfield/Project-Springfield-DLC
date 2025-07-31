@@ -1,0 +1,643 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="216000" name="StateOfMine_1" />
+		<DataID id="216001" name="StateOfMine_2" />
+		<DataID id="216002" name="StateOfMine_3" />
+		<DataID id="216003" name="StateOfMine_4" />
+		<DataID id="216004" name="StateOfMine_5" />
+		<DataID id="216005" name="InterStateDebacle" />
+		<DataID id="216006" name="GetToThePoint_1" />
+		<DataID id="216007" name="GetToThePoint_2" />
+		<DataID id="216008" name="GetToThePoint_3" />
+		<DataID id="216009" name="GetToThePoint_4" />
+		<DataID id="216010" name="MysterySpot_1" />
+		<DataID id="216011" name="MysterySpot_2" />
+		<DataID id="216012" name="SkipAndZip_1" />
+		<DataID id="216013" name="SkipAndZip_2" />
+		<DataID id="216014" name="BowTieBirdie_1" />
+		<DataID id="216015" name="BowTieBirdie_2" />
+		<DataID id="216016" name="WritingOnTheWall_1" />
+		<DataID id="216017" name="WritingOnTheWall_2" />
+		<DataID id="216018" name="PublicServant_1" />
+		<DataID id="216019" name="PublicServant_2" />
+		<DataID id="216020" name="PublicServant_3" />
+		<DataID id="216021" name="PublicServant_4" />
+		<DataID id="216022" name="PublicServant_5" />
+		<DataID id="216023" name="IntoHarmsWay_1" />
+		<DataID id="216024" name="IntoHarmsWay_2" />
+		<DataID id="216025" name="IntoHarmsWay_3" />
+		<DataID id="216026" name="IntoHarmsWay_4" />
+		<DataID id="216027" name="IntoHarmsWay_5" />
+		<DataID id="216028" name="YoungAtHeart_1" />
+		<DataID id="216029" name="YoungAtHeart_2" />
+		<DataID id="216800" name="StateOfDespair_Completed" />
+		<DataID id="216801" name="StateOfDespair_IntroPanel" />
+		<DataID id="216802" name="StateOfDespair_72HourWarning" onDeprecated="retain" endDate="StateOfDespair_End" />
+		<DataID id="216803" name="StateOfDespair_24HourWarning" onDeprecated="retain" endDate="StateOfDespair_End" />
+		<DataID id="216804" name="StateOfDespair_EventExpired" />
+		<DataID id="216805" name="StateOfDespair_MasterQuest" />
+		<DataID id="216900" name="StateOfDespair_RecommendStore" onDeprecated="delete" endDate="StateOfDespair_End" />
+	</MasterList>
+	<Quest id="216800" name="StateOfDespair_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="StateOfMine_5" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216801" name="StateOfDespair_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="InterStateDebacle" />
+			<Requirement type="time" end="StateOfDespair_End" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="216802" name="StateOfDespair_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::StateOfDespair_End')-fromHours(72)]_" end="_[System::evaluate('Date::StateOfDespair_End')-fromHours(24)]_" />
+			<Requirement type="variable" variable="StateOfDespair_Complete" not="true" />
+			<Requirement type="quest" quest="StateOfDespair_IntroPanel" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="216803" name="StateOfDespair_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::StateOfDespair_End')-fromHours(24)]_" end="StateOfDespair_End" />
+			<Requirement type="variable" variable="StateOfDespair_Complete" not="true" />
+			<Requirement type="quest" quest="StateOfDespair_IntroPanel" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="216804" name="StateOfDespair_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="StateOfDespair_End" triggerEvent="true" />
+			<Requirement type="variable" variable="StateOfDespair_Complete" not="true" />
+			<Requirement type="quest" quest="StateOfDespair_IntroPanel" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="216805" name="StateOfDespair_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_Expired" not="true" />
+			<Requirement type="variable" variable="StateOfDespair_Complete" not="true" />
+			<Requirement type="reqList" location="StateOfDespair_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="StateOfMine_5" />
+					<Requirement type="variable" variable="StateOfDespair_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="StateOfMine_1">
+				<Requirement type="quest started" quest="StateOfMine_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="StateOfMine_2">
+				<Requirement type="quest started" quest="StateOfMine_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="StateOfMine_3">
+				<Requirement type="quest started" quest="StateOfMine_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="StateOfMine_4">
+				<Requirement type="quest started" quest="StateOfMine_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="StateOfMine_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="216000" name="StateOfMine_1" tags="mainquest" icon="StateOfDespair_Event" sidebarIconScript="StateOfDespair_Scripts:OpenMasterQuest" questMenuConfigPath="StateOfDespair_QuestConfig:StateOfDespair_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="InterStateDebacle" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_1_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="StruggleToBuildAMysteryBox" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::StateOfDespair_Currency')" amount="__StateOfDespair_GameConfig:ResourceQuantities:StateOfDespair_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="StateOfDespair_Scripts:ShowJobList" textpoolName="QST_StateOfDespair_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="CookPastaInMicrowave" />
+					<Job name="ThrowPastaAtWallsToSeeIfItSticks" />
+					<Job name="SamplePastasOfTheWorld" />
+					<Job name="EarnPastaForGoodGrades" />
+					<Job name="EatUngodlyAmountsOfPasta" />
+					<Job name="BuyDiscountedPastaInBulk" />
+					<Job name="PutPastaInDaddysGun" />
+					<Job name="PickPastaFromHisMop" />
+					<Job name="ScrapePastaOffBottomOfBarStools" />
+					<Job name="3DPrintPasta" />
+					<Job name="StealPastaFromWork" />
+					<Job name="WriteALawRemovingPastaAsAStarch" />
+					<Job name="ChokeOnPasta" />
+					<Job name="SentencePastaToLifeOnParole" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="StateOfDespair_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="StateOfDespair_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="216001" name="StateOfMine_2" tags="mainquest" icon="StateOfDespair_Event" sidebarIconScript="StateOfDespair_Scripts:OpenMasterQuest" questMenuConfigPath="StateOfDespair_QuestConfig:StateOfDespair_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="StateOfMine_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_2_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="HaveAnEatingContest" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::StateOfDespair_Currency')" amount="__StateOfDespair_GameConfig:ResourceQuantities:StateOfDespair_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="StateOfDespair_Scripts:ShowJobList" textpoolName="QST_StateOfDespair_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="CookPastaInMicrowave" />
+					<Job name="ThrowPastaAtWallsToSeeIfItSticks" />
+					<Job name="SamplePastasOfTheWorld" />
+					<Job name="EarnPastaForGoodGrades" />
+					<Job name="EatUngodlyAmountsOfPasta" />
+					<Job name="BuyDiscountedPastaInBulk" />
+					<Job name="PutPastaInDaddysGun" />
+					<Job name="PickPastaFromHisMop" />
+					<Job name="ScrapePastaOffBottomOfBarStools" />
+					<Job name="3DPrintPasta" />
+					<Job name="StealPastaFromWork" />
+					<Job name="WriteALawRemovingPastaAsAStarch" />
+					<Job name="ChokeOnPasta" />
+					<Job name="SentencePastaToLifeOnParole" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="StateOfDespair_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="StateOfDespair_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="216002" name="StateOfMine_3" tags="mainquest" icon="StateOfDespair_Event" sidebarIconScript="StateOfDespair_Scripts:OpenMasterQuest" questMenuConfigPath="StateOfDespair_QuestConfig:StateOfDespair_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="StateOfMine_2" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_3_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="MakeACaseForSpringfield" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::StateOfDespair_Currency')" amount="__StateOfDespair_GameConfig:ResourceQuantities:StateOfDespair_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="StateOfDespair_Scripts:ShowJobList" textpoolName="QST_StateOfDespair_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="CookPastaInMicrowave" />
+					<Job name="ThrowPastaAtWallsToSeeIfItSticks" />
+					<Job name="SamplePastasOfTheWorld" />
+					<Job name="EarnPastaForGoodGrades" />
+					<Job name="EatUngodlyAmountsOfPasta" />
+					<Job name="BuyDiscountedPastaInBulk" />
+					<Job name="PutPastaInDaddysGun" />
+					<Job name="PickPastaFromHisMop" />
+					<Job name="ScrapePastaOffBottomOfBarStools" />
+					<Job name="3DPrintPasta" />
+					<Job name="StealPastaFromWork" />
+					<Job name="WriteALawRemovingPastaAsAStarch" />
+					<Job name="ChokeOnPasta" />
+					<Job name="SentencePastaToLifeOnParole" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="StateOfDespair_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="StateOfDespair_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="216003" name="StateOfMine_4" tags="mainquest" icon="StateOfDespair_Event" sidebarIconScript="StateOfDespair_Scripts:OpenMasterQuest" questMenuConfigPath="StateOfDespair_QuestConfig:StateOfDespair_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="StateOfMine_3" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_4_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Burns" job="UseBlackmailToSolveProblems" quantity="1" />
+			<Objective type="complete job" character="Snake" job="UseViolenceToSolveProblems" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::StateOfDespair_Currency')" amount="__StateOfDespair_GameConfig:ResourceQuantities:StateOfDespair_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="StateOfDespair_Scripts:ShowJobList" textpoolName="QST_StateOfDespair_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="CookPastaInMicrowave" />
+					<Job name="ThrowPastaAtWallsToSeeIfItSticks" />
+					<Job name="SamplePastasOfTheWorld" />
+					<Job name="EarnPastaForGoodGrades" />
+					<Job name="EatUngodlyAmountsOfPasta" />
+					<Job name="BuyDiscountedPastaInBulk" />
+					<Job name="PutPastaInDaddysGun" />
+					<Job name="PickPastaFromHisMop" />
+					<Job name="ScrapePastaOffBottomOfBarStools" />
+					<Job name="3DPrintPasta" />
+					<Job name="StealPastaFromWork" />
+					<Job name="WriteALawRemovingPastaAsAStarch" />
+					<Job name="ChokeOnPasta" />
+					<Job name="SentencePastaToLifeOnParole" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="StateOfDespair_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="StateOfDespair_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="216004" name="StateOfMine_5" tags="mainquest" icon="StateOfDespair_Event" sidebarIconScript="StateOfDespair_Scripts:OpenMasterQuest" questMenuConfigPath="StateOfDespair_QuestConfig:StateOfDespair_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="StateOfDespair_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="StateOfMine_4" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_5_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="StateOfMine_5_End" />
+		<Objectives>
+			<Objective type="complete job" group="NormalSpringfielders" job="Celebrate_Springfielders" quantity="3" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::StateOfDespair_Currency')" amount="__StateOfDespair_GameConfig:ResourceQuantities:StateOfDespair_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="StateOfDespair_Scripts:ShowJobList" textpoolName="QST_StateOfDespair_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="CookPastaInMicrowave" />
+					<Job name="ThrowPastaAtWallsToSeeIfItSticks" />
+					<Job name="SamplePastasOfTheWorld" />
+					<Job name="EarnPastaForGoodGrades" />
+					<Job name="EatUngodlyAmountsOfPasta" />
+					<Job name="BuyDiscountedPastaInBulk" />
+					<Job name="PutPastaInDaddysGun" />
+					<Job name="PickPastaFromHisMop" />
+					<Job name="ScrapePastaOffBottomOfBarStools" />
+					<Job name="3DPrintPasta" />
+					<Job name="StealPastaFromWork" />
+					<Job name="WriteALawRemovingPastaAsAStarch" />
+					<Job name="ChokeOnPasta" />
+					<Job name="SentencePastaToLifeOnParole" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="StateOfDespair_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="StateOfDespair_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="216005" name="InterStateDebacle" tags="mainquest" icon="StateOfDespair_Event">
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="time" start="StateOfDespair_Start" end="StateOfDespair_End" triggerEvent="true" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="StateOfDespair_End" triggerEvent="true" />
+		</ExpiryData>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="InterStateDebacle_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="InterStateDebacle_End" />
+		<Objectives>
+			<Objective type="build" building="BrownHouse" quantity="1" progress="quest" rewardsCollected="yes" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216006" name="GetToThePoint_1" tags="sidequest" icon="SkyFingerMonument">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="time" start="StateOfDespair_End" />
+					<Requirement type="level" level="5" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="time" start="StateOfDespair_End" not="true" />
+					<Requirement type="level" level="20" />
+				</Requirement>
+			</Requirement>
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="reqList" location="StateOfDespair_Requirements:StoreCategory_Unlocked" />
+				<Requirement type="time" start="StateOfDespair_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_1_Start" triggerType="character" character="Quimby" />
+		<Objectives>
+			<Objective type="complete job" character="Ned" job="RantAboutFireAndBrimstone" quantity="1" />
+		</Objectives>
+		<JobsStartedScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_1_Obj_1_Completed" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216007" name="GetToThePoint_2" tags="sidequest" icon="SkyFingerMonument">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GetToThePoint_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_2_Start" triggerType="character" character="BlueHairedLawyer" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_2_End" />
+		<Objectives>
+			<Objective type="build" building="SkyFingerMonument" quantity="1" rewardsCollected="true" ignoreNewInventory="true" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216008" name="GetToThePoint_3" tags="sidequest" icon="SkyFingerMonument">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GetToThePoint_2" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_3_Start" triggerType="character" character="Quimby" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ComposeALimerickToSkyFinger" quantity="1" />
+		</Objectives>
+		<JobsStartedScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_3_Obj_1_Completed" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216009" name="GetToThePoint_4" tags="sidequest" icon="SkyFingerMonument">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GetToThePoint_3" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_4_Start" triggerType="character" character="Quimby" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="GetToThePoint_4_End" />
+		<Objectives>
+			<Objective type="play minigame" name="SkyFingerMonument" progress="quest" count="1" ignoreBlockedVisibiltyReqs="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216010" name="MysterySpot_1" tags="sidequest" icon="SpringfieldMysterySpot">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="SpringfieldMysterySpot" quantity="1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="MysterySpot_1_Start" triggerType="character" character="Milhouse" />
+		<Objectives>
+			<Objective type="complete job" character="Milhouse" job="PlayInTheMirrorMaze" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216011" name="MysterySpot_2" tags="sidequest" icon="SpringfieldMysterySpot">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MysterySpot_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="MysterySpot_2_Start" triggerType="character" character="Krusty" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="MysterySpot_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="ReflectOnHisParentingSkills" quantity="1" />
+			<Objective type="complete job" character="SophieKrustofski" job="LetHerEyesGlazeOver" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SophieKrustofski" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216012" name="SkipAndZip_1" tags="sidequest" icon="MuseumOfZippers">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="MuseumOfZippers" quantity="1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="SkipAndZip_1_Start" triggerType="character" character="Martin" />
+		<Objectives>
+			<Objective type="complete job" character="Martin" job="SearchForWetPaintToWatchDry" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216013" name="SkipAndZip_2" tags="sidequest" icon="MuseumOfZippers">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SkipAndZip_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="SkipAndZip_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="GetAbandonedForHerGoodBehavior" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216014" name="BowTieBirdie_1" tags="sidequest" icon="PotBellyPigeonFeeder">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="PotBellyPigeonFeeder" quantity="1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="BowTieBirdie_1_Start" triggerType="character" character="Marge" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="BowTieBirdie_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="FillPigeonFeeder" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216015" name="BowTieBirdie_2" tags="sidequest" icon="PotBellyPigeonFeeder">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="BowTieBirdie_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="BowTieBirdie_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="FeedThePigeons" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216016" name="WritingOnTheWall_1" tags="sidequest" icon="FieldTripMemorial">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="FieldTripMemorial" quantity="1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="WritingOnTheWall_1_Start" triggerType="character" character="Willy" />
+		<Objectives>
+			<Objective type="complete job" character="Willy" job="AddBartsNameToTheWall" quantity="1" />
+			<Objective type="tap building" building="FieldTripMemorial" quantity="3" GoToEnabled="true" GoToBehaviour="script" GoToScript="StateOfDespair_Scripts:GoToFieldTripMemorial" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216017" name="WritingOnTheWall_2" tags="sidequest" icon="FieldTripMemorial">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="WritingOnTheWall_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="WritingOnTheWall_2_Start" triggerType="character" character="Skinner" />
+		<Objectives>
+			<Objective type="complete job" character="Skinner" job="BecomeAnEdgelord" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216018" name="PublicServant_1" tags="sidequest" icon="GovernorMaryBailey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="GovernorMaryBailey" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="PublicServant_1_Start" triggerType="character" character="GovernorMaryBailey" />
+		<Objectives>
+			<Objective type="complete job" character="GovernorMaryBailey" job="BragAboutWinningTheElection" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216019" name="PublicServant_2" tags="sidequest" icon="GovernorMaryBailey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PublicServant_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="PublicServant_2_Start" triggerType="character" character="GovernorMaryBailey" />
+		<Objectives>
+			<Objective type="complete job" character="GovernorMaryBailey" job="LaunderMoney" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216020" name="PublicServant_3" tags="sidequest" icon="GovernorMaryBailey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PublicServant_2" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="PublicServant_3_Start" triggerType="character" character="GovernorMaryBailey" />
+		<Objectives>
+			<Objective type="complete job" character="GovernorMaryBailey" job="GetPublicImageAdvice" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216021" name="PublicServant_4" tags="sidequest" icon="GovernorMaryBailey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PublicServant_3" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="PublicServant_4_Start" triggerType="character" character="GovernorMaryBailey" />
+		<Objectives>
+			<Objective type="complete job" character="GovernorMaryBailey" job="GiveMoneyAway" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216022" name="PublicServant_5" tags="sidequest" icon="GovernorMaryBailey">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PublicServant_4" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="PublicServant_5_Start" triggerType="character" character="GovernorMaryBailey" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="PublicServant_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="GovernorMaryBailey" job="RecordAPoliticalAd" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216023" name="IntoHarmsWay_1" tags="premiumquest" icon="JudgeConstanceHarm">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="JuvenileCourthouse" quantity="1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_1_Start" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeConstanceHarm" job="SternlyContemplateBabies" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216024" name="IntoHarmsWay_2" tags="premiumquest" icon="JudgeConstanceHarm">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IntoHarmsWay_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_2_Start" triggerType="character" character="JudgeConstanceHarm" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeConstanceHarm" job="AssignLawyersToTheCase" quantity="1" />
+		</Objectives>
+		<JobsStartedScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_2_Obj_1_Completed" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216025" name="IntoHarmsWay_3" tags="premiumquest" icon="JudgeConstanceHarm">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IntoHarmsWay_2" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_3_Start" triggerType="character" character="JudgeConstanceHarm" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeConstanceHarm" job="SharpenPencils" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216026" name="IntoHarmsWay_4" tags="premiumquest" icon="JudgeConstanceHarm">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IntoHarmsWay_3" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_4_Start" triggerType="character" character="JudgeConstanceHarm" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeConstanceHarm" job="HandOutSubpoenas" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216027" name="IntoHarmsWay_5" tags="premiumquest" icon="JudgeConstanceHarm">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IntoHarmsWay_4" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_5_Start" triggerType="character" character="JudgeConstanceHarm" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="IntoHarmsWay_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="JudgeConstanceHarm" job="PassALenientSentence" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216028" name="YoungAtHeart_1" tags="premiumquest" icon="JuvenileCourthouse">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="IntoHarmsWay_5" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="YoungAtHeart_1_Start" triggerType="character" character="JudgeConstanceHarm" />
+		<EndScript package="StateOfDespair_Scripts_Dialogue" name="YoungAtHeart_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="CreateMagicalMemories" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="216029" name="YoungAtHeart_2" tags="premiumquest" icon="JuvenileCourthouse">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="YoungAtHeart_1" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts_Dialogue" name="YoungAtHeart_2_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="Bejewel" quantity="1" />
+		</Objectives>
+		<JobsStartedScript package="StateOfDespair_Scripts_Dialogue" name="YoungAtHeart_2_Obj_1_Completed" />
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="216900" name="StateOfDespair_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="StateOfDespair_Requirements:StoreCategory_Unlocked" />
+		</Requirements>
+		<StartScript package="StateOfDespair_Scripts" name="RecommendStoreCategory" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

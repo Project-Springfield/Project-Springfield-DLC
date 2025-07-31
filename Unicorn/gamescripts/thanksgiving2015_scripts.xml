@@ -1,0 +1,374 @@
+﻿<ScriptPackage>
+	<EnterThanksgivingCategory>
+		<Action type="focusOnMenuItem" menuCategory="Thanksgiving2015" />
+	</EnterThanksgivingCategory>
+	<Thanksgiving2015_PlayCon>
+		<Action type="gotoState" state="GameState_InGame" />
+	</Thanksgiving2015_PlayCon>
+	<DrumsticksSmall parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="KingSizeThanksgiving_1" />
+				<Requirement type="active quest" quest="KingSizeThanksgiving_2" />
+				<Requirement type="active quest" quest="KingSizeThanksgiving_3" />
+				<Requirement type="active quest" quest="KingSizeThanksgiving_4" />
+			</Requirement>
+			<True>
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="setVariable" intVariable="TG2015_DrumsticksFromSmall" intValue="TG2015_DrumsticksFromSmall + 3" />
+			</True>
+			<False>
+				<Action type="reward" money="110" donuts="0" xp="0" />
+			</False>
+		</Action>
+	</DrumsticksSmall>
+	<DrumsticksLarge parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="KingSizeThanksgiving_1" />
+				<Requirement type="active quest" quest="KingSizeThanksgiving_2" />
+				<Requirement type="active quest" quest="KingSizeThanksgiving_3" />
+				<Requirement type="active quest" quest="KingSizeThanksgiving_4" />
+			</Requirement>
+			<True>
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="reward" save="true" Thanksgiving2015_Drumsticks="1" suppress_sound="true" />
+				<Action type="setVariable" intVariable="TG2015_DrumsticksFromLarge" intValue="TG2015_DrumsticksFromLarge + 6" />
+			</True>
+			<False>
+				<Action type="reward" money="175" donuts="0" xp="0" />
+			</False>
+		</Action>
+	</DrumsticksLarge>
+	<DrumstickSingle parallel="true">
+		<Action type="reward" Thanksgiving2015_Drumsticks="1" suppress_sound="true" save="true" />
+		<Action type="setVariable" formatMe="true" intVariable="TG2015_DrumsticksFrom{from}" intValue="TG2015_DrumsticksFrom{from} + 1" />
+	</DrumstickSingle>
+	<DrumsticksDouble parallel="true">
+		<Action type="reward" Thanksgiving2015_Drumsticks="1" suppress_sound="true" save="true" />
+		<Action type="reward" Thanksgiving2015_Drumsticks="1" suppress_sound="true" save="true" />
+		<Action type="setVariable" formatMe="true" intVariable="TG2015_DrumsticksFrom{from}" intValue="TG2015_DrumsticksFrom{from} + 2" />
+	</DrumsticksDouble>
+	<TG_SacaPuritanCombo ignoreHUD="true">
+		<Action type="reward">
+			<Item type="consumable" name="PuritanFlanders" useImmediately="true" />
+			<Item type="consumable" name="Sacagawea" useImmediately="true" />
+		</Action>
+	</TG_SacaPuritanCombo>
+	<InitialTurkeySpawn parallel="true">
+		<Action type="sound" sound="291_turkey_REVISED_2.caf" />
+		<Action type="createobject" name="Turkey_TG2015" count="7" showUnlock="false" save="true" panCamera="false" />
+	</InitialTurkeySpawn>
+	<TurkeyReward parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="TurkeyTalk" />
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="active quest" quest="KingSizeThanksgiving_1" />
+					<Requirement type="formula" formula="lessThan(System::evaluate('Spendable::Thanksgiving2015_Drumsticks'), 20)" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="active quest" quest="KingSizeThanksgiving_2" />
+					<Requirement type="formula" formula="lessThan(System::evaluate('Spendable::Thanksgiving2015_Drumsticks'), 80)" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="active quest" quest="KingSizeThanksgiving_3" />
+					<Requirement type="formula" formula="lessThan(System::evaluate('Spendable::Thanksgiving2015_Drumsticks'), 70)" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="active quest" quest="KingSizeThanksgiving_4" />
+					<Requirement type="formula" formula="lessThan(System::evaluate('Spendable::Thanksgiving2015_Drumsticks'), 100)" />
+				</Requirement>
+			</Requirement>
+			<True>
+				<Action type="runScript" script="DrumstickSingle" package="Thanksgiving2015_Scripts">
+					<FormatToken key="from" value="Turkey" />
+				</Action>
+			</True>
+			<False>
+				<Action type="reward" save="true" xp="5" suppress_sound="true" />
+			</False>
+		</Action>
+	</TurkeyReward>
+	<TapTurkey parallel="true">
+		<Action type="runScript" script="Thanksgiving2015_Scripts:TurkeyReward" />
+		<Action type="stop" character="Turkey_TG2015" />
+		<Action type="sound" sound="291_turkey_REVISED_2.caf" />
+		<Action type="playanimation" character="Turkey_TG2015" animation="tap_1" shadow="false" />
+		<Action type="anim-waitforend" />
+		<Action type="deletecharacter" character="Turkey_TG2015" />
+	</TapTurkey>
+	<Thanksgiving2015_LandLoad ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="variable" variable="Thanksgiving2015_StoreAvailable" />
+					</Requirements>
+					<True>
+						<Action type="recommendation" recType="Event" eventName="UI_TG2015_EventTitle" name="EnterThanksgiving2015Category" />
+					</True>
+				</Action>
+				<Action type="if">
+					<If expression="!Thanksgiving2015_QuestStarted">
+						<Then>
+							<Action type="setVariable" boolVariable="Thanksgiving2015_StartQuests" boolValue="false" addTempIfNotExisting="true" />
+							<Action type="setVariable" boolVariable="Thanksgiving2015_StartQuests" boolValue="true" addTempIfNotExisting="true" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="variable" variable="Thanksgiving2015_PreExpiryDisplayed72" not="true" />
+							<Requirement type="time" start="_[System::evaluate('Date::Thanksgiving2015_End')-fromHours(72)]_" end="_[System::evaluate('Date::Thanksgiving2015_End')-fromHours(24)]_" />
+						</Requirements>
+						<Then>
+							<Action type="runScript" script="Thanksgiving2015_Scripts:Thanksgiving2015_ExpirationMessage72">
+								<FormattingConfig path="Thanksgiving2015_MenuConfig:ExpirationFormattedText" />
+							</Action>
+							<Action type="setVariable" boolVariable="Thanksgiving2015_PreExpiryDisplayed72" boolValue="true" />
+							<Action type="runScript" script="Thanksgiving2015_OpenMasterQuest" package="Thanksgiving2015_Scripts" waitUntilComplete="true" />
+							<Action type="recommendation" recType="Event" eventName="UI_TG2015_EventTitle" name="EnterTG2015Category" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="variable" variable="Thanksgiving2015_PreExpiryDisplayed24" not="true" />
+							<Requirement type="time" start="_[System::evaluate('Date::Thanksgiving2015_End')-fromHours(24)]_" end="Thanksgiving2015_End" />
+						</Requirements>
+						<Then>
+							<Action type="runScript" script="Thanksgiving2015_Scripts:Thanksgiving2015_ExpirationMessage24">
+								<FormattingConfig path="Thanksgiving2015_MenuConfig:ExpirationFormattedText" />
+							</Action>
+							<Action type="setVariable" boolVariable="Thanksgiving2015_PreExpiryDisplayed24" boolValue="true" />
+							<Action type="runScript" script="Thanksgiving2015_OpenMasterQuest" package="Thanksgiving2015_Scripts" waitUntilComplete="true" />
+							<Action type="recommendation" recType="Event" eventName="UI_TG2015_EventTitle" name="EnterTG2015Category" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="variable" variable="Thanksgiving2015_ExpiryDisplayed" not="true" />
+							<Requirement type="time" start="Thanksgiving2015_End" />
+						</Requirements>
+						<Then>
+							<Action type="checkRequirements">
+								<Requirement type="active quest" quest="KingSizeThanksgiving_5" />
+								<False>
+									<Action type="runScript" script="Thanksgiving2015_Scripts:Thanksgiving2015_ExpirationMessage0">
+										<FormattingConfig path="Thanksgiving2015_MenuConfig:ExpirationFormattedText" />
+									</Action>
+								</False>
+							</Action>
+							<Action type="clearRecommendations" category="Event" />
+							<Action type="setVariable" boolVariable="Thanksgiving2015_ExpiryDisplayed" boolValue="true" />
+							<Action type="setVariable" boolVariable="Thanksgiving2015_EventExpired" boolValue="true" />
+							<Action type="runScript" script="Thanksgiving2015_OpenMasterQuest" package="Thanksgiving2015_Scripts" waitUntilComplete="true" />
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+		</Action>
+	</Thanksgiving2015_LandLoad>
+	<StoreCatRecommend parallel="true">
+		<Action type="recommendation" recType="Event" eventName="UI_TG2015_EventTitle" name="EnterThanksgiving2015Category" />
+	</StoreCatRecommend>
+	<Thanksgiving2015_ExpirationMessage72>
+		<Action type="message" text="{FormattedExpiration72}" formatMe="true" />
+	</Thanksgiving2015_ExpirationMessage72>
+	<Thanksgiving2015_ExpirationMessage24>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="true" />
+	</Thanksgiving2015_ExpirationMessage24>
+	<Thanksgiving2015_ExpirationMessage0>
+		<Action type="message" text="{FormattedExpiration0}" formatMe="true" />
+	</Thanksgiving2015_ExpirationMessage0>
+	<Thanksgiving2015_OpenMasterQuest>
+		<Action type="gotoState" state="GameState_QuestProgress">
+			<Extras>
+				<Attribute name="questParentDelegate" value="KingSizeThanksgiving_Master" />
+			</Extras>
+		</Action>
+	</Thanksgiving2015_OpenMasterQuest>
+	<Thanksgiving2015_CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="Thanksgiving2015_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="Thanksgiving2015_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</Thanksgiving2015_CheckIfEnd>
+	<GetTribalChief ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="building" building="CaesarsPowWowCasino" />
+				<Requirement type="place building" building="CaesarsPowWowCasino" />
+			</Requirement>
+			<True>
+				<Action type="pantoobject" building="CaesarsPowWowCasino" time="0s" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="CaesarsPowWowCasino" menuCategory="Thanksgiving2015" />
+			</False>
+		</Action>
+	</GetTribalChief>
+	<Thanksgiving2015_CollectCurrencyGoTo ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="runScript" script="Thanksgiving2015_Scripts:Thanksgiving2015_OpenResourceMenu" />
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</Thanksgiving2015_CollectCurrencyGoTo>
+	<Thanksgiving2015_OpenResourceMenu ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="active quest" quest="KingSizeThanksgiving_1" />
+				<Then>
+					<Action type="gotoState" state="GameState_SpecialEventJobList">
+						<Extras>
+							<Attribute name="SpecialEvent" value="Thanksgiving2015_Event" />
+							<Attribute name="JobList" value="Thanksgiving2015_JL_KST01" />
+						</Extras>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="active quest" quest="KingSizeThanksgiving_2" />
+				<Then>
+					<Action type="gotoState" state="GameState_SpecialEventJobList">
+						<Extras>
+							<Attribute name="SpecialEvent" value="Thanksgiving2015_Event" />
+							<Attribute name="JobList" value="Thanksgiving2015_JL_KST02" />
+						</Extras>
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="active quest" quest="KingSizeThanksgiving_3" />
+				<Then>
+					<Action type="gotoState" state="GameState_SpecialEventJobList">
+						<Extras>
+							<Attribute name="SpecialEvent" value="Thanksgiving2015_Event" />
+							<Attribute name="JobList" value="Thanksgiving2015_JL_KST03" />
+						</Extras>
+					</Action>
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="active quest" quest="KingSizeThanksgiving_4" />
+				<Then>
+					<Action type="gotoState" state="GameState_SpecialEventJobList">
+						<Extras>
+							<Attribute name="SpecialEvent" value="Thanksgiving2015_Event" />
+							<Attribute name="JobList" value="Thanksgiving2015_JL_KST04" />
+						</Extras>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Thanksgiving2015_OpenResourceMenu>
+	<ShowMiniEventPanel>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="language" language="CHS_CN" />
+				<Requirement type="language" language="CHT_CN" />
+				<Requirement type="language" language="DAN_DK" />
+				<Requirement type="language" language="DUT_NL" />
+				<Requirement type="language" language="ENG_US" />
+				<Requirement type="language" language="FRE_FR" />
+				<Requirement type="language" language="GER_DE" />
+				<Requirement type="language" language="ITA_IT" />
+				<Requirement type="language" language="KOR_KR" />
+				<Requirement type="language" language="NOR_NR" />
+				<Requirement type="language" language="SWE_SE" />
+				<Requirement type="language" language="THA_TH" />
+				<Requirement type="language" language="TUR_TR" />
+			</Requirement>
+			<True>
+				<Action type="miniEventPanel">
+					<Attribute name="config">
+						<AttributeSet name="playButtonText">
+							<Attribute name="text" value="UI_TG2015_PlayButton" localise="true" />
+						</AttributeSet>
+						<AttributeSet name="playButtonTextHL">
+							<Attribute name="text" value="UI_TG2015_PlayButton" localise="true" />
+						</AttributeSet>
+						<AttributeSet name="titleText">
+							<Attribute name="text" value="UI_TG2015_EventTitle" localise="true" />
+							<Attribute name="color" value="ffcb1bff" />
+						</AttributeSet>
+						<AttributeSet name="timeLeft">
+							<Attribute name="text" value="UI_TG2015_IntroPanel_BottomText_Dec" localise="true" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="textColumn1">
+							<Attribute name="text" value="UI_TG2015_IntroPanel_TextColumn1" localise="true" />
+							<Attribute name="color" value="000000FF" />
+						</AttributeSet>
+						<AttributeSet name="textColumn2">
+							<Attribute name="text" value="UI_TG2015_IntroPanel_TextColumn2" localise="true" />
+							<Attribute name="color" value="000000FF" />
+						</AttributeSet>
+						<AttributeSet name="textColumn3">
+							<Attribute name="text" value="UI_TG2015_IntroPanel_TextColumn3" localise="true" />
+							<Attribute name="color" value="000000FF" />
+						</AttributeSet>
+						<AttributeSet name="panel">
+							<Attribute name="image" value="BSE_Thanksgiving2015_MiniEventPanel" />
+						</AttributeSet>
+						<AttributeSet name="playButton">
+							<Attribute name="color" value="0091F1FF" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+			<False>
+				<Action type="notification" title="UI_TG2015_EventTitle" button="UI_OK" text="UI_TG2015_IntroPanel_BottomText_Dec" icon="ICO_Thanksgining2015_Prize_HomerKingSize_MD" />
+			</False>
+		</Action>
+	</ShowMiniEventPanel>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Score" param2="0" param3Type="UserLevel" eventId="3531" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="SmallReward{task}" param2Type="Score" param2="{small}" param3Type="UserLevel" eventId="3532" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="LargeReward{task}" param2Type="Score" param2="{large}" param3Type="UserLevel" eventId="3532" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="TapTurkey{task}" param2Type="Score" param2="{turkey}" param3Type="UserLevel" eventId="3532" />
+		<Action type="setVariable" intVariable="TG2015_DrumsticksFromSmall" intValue="0" />
+		<Action type="setVariable" intVariable="TG2015_DrumsticksFromLarge" intValue="0" />
+		<Action type="setVariable" intVariable="TG2015_DrumsticksFromTurkey" intValue="0" />
+	</LogTelemetry>
+	<HomerSkinSwitch ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="TheFatAndTheFutilest_5" />
+				<Requirement type="formula" formula="System::evaluate('Quest::TheFatAndTheFutilest_5::CurrentProgress')==3" />
+			</Requirements>
+			<True>
+				<Action type="skin-set" skin="Homer" />
+			</True>
+		</Action>
+	</HomerSkinSwitch>
+	<WorkFromHomeStation_Tapped parallel="true">
+		<Action type="sound" sound="sfx_ThanksGiving_WorkFromHome_Tap.caf" />
+	</WorkFromHomeStation_Tapped>
+	<TurkeyStuffingMachine_Tapped ignoreHUD="true">
+		<Action type="sound" sound="sfx_Thanksgiving_Turkey_Stuffing_Machine.caf" />
+		<Action type="delay" time="2" />
+		<Action type="sound" sound="sfx_Thanksgiving_Turkey_Stuffing_Machine.caf" />
+	</TurkeyStuffingMachine_Tapped>
+	<BuffetTable_Tapped parallel="true">
+		<Action type="sound" sound="sfx_ThanksGiving_360Buffet_Table.caf" />
+	</BuffetTable_Tapped>
+</ScriptPackage>

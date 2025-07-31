@@ -1,0 +1,907 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="249000" name="THOHXXXII_Event" />
+		<DataID id="249001" name="THOHXXXII_Event_Week1" />
+		<DataID id="249002" name="THOHXXXII_Event_Week2" />
+		<DataID id="249003" name="THOHXXXII_Event_Week3" />
+		<DataID id="249004" name="THOHXXXII_Event_Week4" />
+	</MasterList>
+	<SpecialEvent id="249000" name="THOHXXXII_Event">
+		<Variable name="THOHXXXII_PreExpiryDisplayed24" value="false" />
+		<Variable name="THOHXXXII_PreExpiryDisplayed72" value="false" />
+		<Variable name="THOHXXXII_IntroSeen" value="false" />
+		<Variable name="THOHXXXII_EventHubTabValue" value="false" />
+		<Variable name="THOHXXXII_Store" value="false" />
+		<Variable name="THOHXXXII_StackOf60Donuts_Purchased" value="false" />
+		<Variable name="THOHXXXII_TrayOf132Donuts_Purchased" value="false" />
+		<Variable name="DinosaursTapped" value="0" />
+		<Variable name="BankedDinosaurTappables" value="0" />
+		<onExit destroyHUD="true" />
+		<Promo eventName="THOHXXXII_RatsCourtMallGilPromo" questID="249800" type="building" object="RatsCourtMall" yes="BTN_150Donuts" visualEndDate="THOHXXXII_RatsCourtMall_OUT" menu="THOHXXXIIDynamicTextPromo" menuConfig="THOHXXXII_GameConfig:RatsCourtMall_PromoMenuConfig">
+			<Cost donuts="150" />
+		</Promo>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_THOHXXXII_Event">
+				<Requirements>
+					<Requirement type="reqList" location="THOHXXXII_Requirements:EventCompleted" not="true" />
+					<Requirement type="reqList" location="THOHXXXII_Requirements:EventMasterQuestsStarted" />
+					<Requirement type="time" start="THOHXXXII_Start" end="THOHXXXII_End" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="time" end="THOHXXXII_End" />
+				</Requirements>
+				<RunScript>
+					<Script name="OpenEventHub" package="THOHXXXII_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<Overrides>
+			<Override what="music" from="MainMusic" to="THoHXXXI_Ambient" />
+			<Override what="music" from="FriendMusic" to="THoHXXXI_Ambient" />
+		</Overrides>
+		<EventHub menuConfig="Config_EventHub:Default">
+			<Tabs>
+				<Tab name="Tab_THOHXXXII_Questline1" icon="ICO_CUR_THOHXXXII_Act1Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="WelcomeToGeriatricPark_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOHXXXII_EventHubTabValue==0" />
+					</HighlightRequirements>
+					<Script name="Tab_Week1" package="THOHXXXII_Scripts" />
+				</Tab>
+				<Tab name="Tab_THOHXXXII_Questline2" icon="ICO_CUR_THOHXXXII_Act2Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="ThisMeansDinoWar_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOHXXXII_EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="Tab_Week2" package="THOHXXXII_Scripts" />
+				</Tab>
+				<Tab name="Tab_THOHXXXII_Questline3" icon="ICO_CUR_THOHXXXII_Act3Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="TheMutantArmyOfDrHibbert_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOHXXXII_EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="Tab_Week3" package="THOHXXXII_Scripts" />
+				</Tab>
+				<Tab name="Tab_THOHXXXII_Questline4" icon="ICO_CUR_THOHXXXII_Act4Currency_LG">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="BetterFightingThroughScience_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOHXXXII_EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="Tab_Week4" package="THOHXXXII_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="THOHXXXII_Act1PrizeTrackCurrency">
+					<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive1" />
+				</Resource>
+				<Resource type="THOHXXXII_Act2PrizeTrackCurrency">
+					<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive2" />
+				</Resource>
+				<Resource type="THOHXXXII_Act3PrizeTrackCurrency">
+					<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive3" />
+				</Resource>
+				<Resource type="THOHXXXII_Act4PrizeTrackCurrency">
+					<Requirement type="reqList" location="THOHXXXII_Requirements:MasterQuestActive4" />
+				</Resource>
+			</ResourceTypes>
+		</EventHub>
+		<Buildings override="true">
+			<Building id="249005" name="GeriatricParkDome">
+				<BuildMenuText text="__THOHXXXII_GameConfig:EarnsCurrency:EventCurrency__" />
+			</Building>
+			<Building id="249006" name="Rigel7MilitaryBase">
+				<BuildMenuText text="__THOHXXXII_GameConfig:EarnsCurrency:EventCurrency__" />
+			</Building>
+			<Building id="249007" name="MadDrHibbertsManor">
+				<BuildMenuText text="__THOHXXXII_GameConfig:EarnsCurrency:EventCurrency__" />
+			</Building>
+			<Building id="249008" name="VanBruntAndChurchillAdAgency">
+				<BuildMenuText text="__THOHXXXII_GameConfig:EarnsCurrency:EventCurrency__" />
+			</Building>
+		</Buildings>
+		<SpawnOverTime character="DinosaurTappable" loggedOnSpawnTime="75" loggedOffSpawnTime="750" maxAllowedInTown="50" regularBankMax="30" premiumBankMax="40" spawnInstances="1" bankVariable="BankedDinosaurTappables" allowPartialBanking="false" errorReplacementScript="THOHXXXII_Scripts:SpawnFullHudTip" errorTitle="UI_June2015_BallFull_title" errorBody="UI_AwesomeTappable_TownFull" alwaysCheckRequirements="true">
+			<Subland value="Springfield" />
+			<Requirement type="reqList" location="THOHXXXII_Requirements:DinosaursShouldSpawn" />
+		</SpawnOverTime>
+	</SpecialEvent>
+	<SpecialEvent id="249001" name="THOHXXXII_Event_Week1">
+		<EventCurrencyJobLists>
+			<JobList name="THOHXXXII_Questline1_JL_1">
+				<Title value="QST_WelcomeToGeriatricPark_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline1_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffOutFossilSkulls" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline1_JL_2">
+				<Title value="QST_WelcomeToGeriatricPark_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline1_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffOutFossilSkulls" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline1_JL_3">
+				<Title value="QST_WelcomeToGeriatricPark_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline1_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffOutFossilSkulls" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline1_JL_4">
+				<Title value="QST_WelcomeToGeriatricPark_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline1_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffOutFossilSkulls" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline1_JL_5">
+				<Title value="QST_WelcomeToGeriatricPark_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline1_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act1PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="SniffOutFossilSkulls" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DigUpFossilSkulls" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="249006" name="DigUpFossilSkulls">
+				<Reward THOHXXXII_Act1PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:RegularJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="249007" name="SniffOutFossilSkulls">
+				<Reward THOHXXXII_Act1PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="249002" name="THOHXXXII_Event_Week2">
+		<EventCurrencyJobLists>
+			<JobList name="THOHXXXII_Questline2_JL_1">
+				<Title value="QST_ThisMeansDinoWar_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline2_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline2_JL_2">
+				<Title value="QST_ThisMeansDinoWar_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline2_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline2_JL_3">
+				<Title value="QST_ThisMeansDinoWar_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline2_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline2_JL_4">
+				<Title value="QST_ThisMeansDinoWar_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline2_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline2_JL_5">
+				<Title value="QST_ThisMeansDinoWar_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline2_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act2PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="TryNotToDrinkHilarium" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="CollectHilarium" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="249022" name="CollectHilarium">
+				<Reward THOHXXXII_Act2PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:RegularJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="249023" name="TryNotToDrinkHilarium">
+				<Reward THOHXXXII_Act2PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="249003" name="THOHXXXII_Event_Week3">
+		<EventCurrencyJobLists>
+			<JobList name="THOHXXXII_Questline3_JL_1">
+				<Title value="QST_TheMutantArmyOfDrHibbert_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline3_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline3_JL_2">
+				<Title value="QST_TheMutantArmyOfDrHibbert_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline3_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline3_JL_3">
+				<Title value="QST_TheMutantArmyOfDrHibbert_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline3_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline3_JL_4">
+				<Title value="QST_TheMutantArmyOfDrHibbert_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline3_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline3_JL_5">
+				<Title value="QST_TheMutantArmyOfDrHibbert_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline3_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act3PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="ExtractDNA" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="DonateDNA" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="249044" name="DonateDNA">
+				<Reward THOHXXXII_Act3PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:RegularJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="249045" name="ExtractDNA">
+				<Reward THOHXXXII_Act3PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="249004" name="THOHXXXII_Event_Week4">
+		<EventCurrencyJobLists>
+			<JobList name="THOHXXXII_Questline4_JL_1">
+				<Title value="QST_BetterFightingThroughScience_1_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline4_ResourceList1__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SentientLardLadStatue" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline4_JL_2">
+				<Title value="QST_BetterFightingThroughScience_2_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline4_ResourceList2__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SentientLardLadStatue" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline4_JL_3">
+				<Title value="QST_BetterFightingThroughScience_3_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline4_ResourceList3__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SentientLardLadStatue" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline4_JL_4">
+				<Title value="QST_BetterFightingThroughScience_4_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline4_ResourceList4__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SentientLardLadStatue" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+			<JobList name="THOHXXXII_Questline4_JL_5">
+				<Title value="QST_BetterFightingThroughScience_5_1_name" />
+				<ResourceGenerator resourceCapSelector="__THOHXXXII_GameConfig:ResourceQuantities:THOHXXXII_Questline4_ResourceList5__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="THOHXXXII_Act4PrizeTrackCurrency" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="THOHXXXII_Ratio" menuConfig="Config_MiniEvents:ResourceGeneratorConfig">
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SentientLardLadStatue" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="PantherMarge" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="SuperintendentChalmers" skin="MechaChalmers" />
+						<CustomGetNowScript package="THOHXXXII_Scripts" name="GoToRigel7ArmyBase" />
+					</Slot>
+					<Slot tipText="UI_PremiumSlot_tiptext">
+						<Job name="StealSyringesFromTheHospital" character="Grampasaurus" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Burns" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Smithers" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Bart" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Lisa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Grampa" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Frink" />
+					</Slot>
+					<Slot>
+						<Job name="FindSyringesOnTheBeach" character="Skinner" />
+					</Slot>
+				</ResourceGenerator>
+			</JobList>
+		</EventCurrencyJobLists>
+		<Jobs override="true">
+			<Job id="249064" name="FindSyringesOnTheBeach">
+				<Reward THOHXXXII_Act4PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:RegularJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HStandard_XP__" />
+			</Job>
+			<Job id="249065" name="StealSyringesFromTheHospital">
+				<Reward THOHXXXII_Act4PrizeTrackCurrency="__THOHXXXII_GameConfig:CurrencyRewards:PremiumJobReward__" xp="__THOHXXXII_GameConfig:CurrencyRewards:4HPremium_XP__" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>

@@ -1,0 +1,1306 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NorthwardBoundMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NorthwardBound_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NorthwardBound_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="NorthwardBound_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="NorthwardBound_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NorthwardBound_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_NorthwardBound_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_NorthwardBound_IntroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_NorthwardBound_IntroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NorthwardBound_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="NorthwardBound_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="NorthwardBound_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="NorthwardBound_NorthwardBound_OnePanel" eventName="UI_NorthwardBound_Title" limitedTime="true" limitedTimeEndDate="NorthwardBound_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="NorthwardBoundMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_NorthwardBound_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_NorthwardBound_OutroPanelText_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_NorthwardBound_OutroPanelText_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_NorthwardBound_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_NorthwardBound_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="NorthwardBound_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="NorthwardBound_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="NorthwardBound_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="NorthwardBound_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="NorthwardBound_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_NorthwardBound_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="NorthwardBound_OnePanel" />
+		<Action type="runScript" script="NorthwardBound_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</DisplayExpiry>
+	<EventCompleted>
+		<Action type="setVariable" boolVariable="NorthwardBound_Complete" boolValue="true" />
+	</EventCompleted>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="NorthwardBound_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="NorthwardBound_MasterQuest" />
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<ShowJobList ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="AFailOfTwoCities_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NorthwardBound_Event" />
+									<Attribute name="JobList" value="NorthwardBound_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFailOfTwoCities_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NorthwardBound_Event" />
+									<Attribute name="JobList" value="NorthwardBound_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFailOfTwoCities_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NorthwardBound_Event" />
+									<Attribute name="JobList" value="NorthwardBound_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFailOfTwoCities_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NorthwardBound_Event" />
+									<Attribute name="JobList" value="NorthwardBound_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="AFailOfTwoCities_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="NorthwardBound_Event" />
+									<Attribute name="JobList" value="NorthwardBound_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList>
+	<NewFrontier_ShowJobListWood ignoreHUD="true">
+		<Action type="gotoState" state="GameState_SpecialEventJobList">
+			<Extras>
+				<Attribute name="SpecialEvent" value="NewFrontier" />
+				<Attribute name="JobList" value="NewFrontier_FixBridge_Wood" />
+			</Extras>
+		</Action>
+	</NewFrontier_ShowJobListWood>
+	<NewFrontier_ShowJobListNails ignoreHUD="true">
+		<Action type="gotoState" state="GameState_SpecialEventJobList">
+			<Extras>
+				<Attribute name="SpecialEvent" value="NewFrontier" />
+				<Attribute name="JobList" value="NewFrontier_FixBridge_Nails" />
+			</Extras>
+		</Action>
+	</NewFrontier_ShowJobListNails>
+	<CheckIfEnd ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="NorthwardBound_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="NorthwardBound_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<RecommendStoreCategory_NorthwardBound ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="NorthwardBound_BlackFriday2021_OnePanel" />
+		<Action type="recommendation" recType="Event" name="NorthwardBound_BlackFriday2021_OnePanel" eventName="UI_BlackFriday2021_Title" limitedTime="true" limitedTimeEndDate="NorthwardBound_End" />
+		<Action type="clearRecommendations" category="Event" name="NorthwardBound_NorthwardBound_OnePanel" />
+		<Action type="recommendation" recType="Event" name="NorthwardBound_NorthwardBound_OnePanel" eventName="UI_NorthwardBound_Title" limitedTime="true" limitedTimeEndDate="NorthwardBound_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_NorthwardBound>
+	<EnterStoreCategory_NorthwardBound ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="NorthwardBound_Category" />
+	</EnterStoreCategory_NorthwardBound>
+	<EnterStoreCategory_BlackFriday2021 ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2021_Category" />
+	</EnterStoreCategory_BlackFriday2021>
+	<OpenMasterQuest_BlackFriday2021>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="BlackFriday2021_MasterQuest" />
+						<Attribute name="specialEvent" value="NorthwardBound" />
+						<Attribute name="showEventProgressMenu" value="true" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest_BlackFriday2021>
+	<ShowBlackFriday2021GuidePanel>
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="NorthwardBound_GameConfig:BlackFriday2021Guide_Config" />
+	</ShowBlackFriday2021GuidePanel>
+	<OpenDonutStore>
+		<Action type="actionSequence" script="MiscScripts:OpenMTXStore">
+			<FormatToken key="onLeaveScript" value="NorthwardBound_Scripts:OpenMasterQuest_BlackFriday2021" />
+		</Action>
+	</OpenDonutStore>
+	<BFFiveGoldenTokens2021>
+		<Action type="reward" save="true" GoldBoxTokens="5" />
+	</BFFiveGoldenTokens2021>
+	<BFSevenGoldenTokens2021>
+		<Action type="reward" save="true" GoldBoxTokens="7" />
+	</BFSevenGoldenTokens2021>
+	<BFTenGoldenTokens2021>
+		<Action type="reward" save="true" GoldBoxTokens="10" />
+	</BFTenGoldenTokens2021>
+	<BFFifteenGoldenTokens2021>
+		<Action type="reward" save="true" GoldBoxTokens="15" />
+	</BFFifteenGoldenTokens2021>
+	<GoToGoldMysteryBox2021>
+		<Action type="focusOnMenuItem" menuCategory="BlackFriday2021_Category" itemName="NorthwardBound_GoldMysteryBox2021" />
+	</GoToGoldMysteryBox2021>
+	<GoToNorthwardBoundTokenExchange>
+		<Action type="focusOnMenuItem" itemName="GoldenTokenForDozenDonuts" menuCategory="Currency" />
+	</GoToNorthwardBoundTokenExchange>
+	<FrontierWagon_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="FrontierWagonArrangement" value="mod(Object::FrontierWagonArrangement+1,3)" asExpression="true" />
+	</FrontierWagon_Tapped>
+	<CactusBundleReward>
+		<Action type="focusOnMenuItem" itemName="NorthwardBound_CactusBundle" inventory="true" />
+	</CactusBundleReward>
+	<RockPileBundleReward>
+		<Action type="focusOnMenuItem" itemName="NorthwardBound_RockPileBundle" inventory="true" />
+	</RockPileBundleReward>
+	<RockPillarBundleReward>
+		<Action type="focusOnMenuItem" itemName="NorthwardBound_RockPillarBundle" inventory="true" />
+	</RockPillarBundleReward>
+	<WoodenBarrelBundleReward>
+		<Action type="focusOnMenuItem" itemName="NorthwardBound_WoodenBarrelBundle" inventory="true" />
+	</WoodenBarrelBundleReward>
+	<TownPlaza_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="BuildingLevel" value="2" onType="building" onObject="TownPlaza" />
+	</TownPlaza_Init>
+	<TownPlaza_MaxUpgrade ignoreHUD="true">
+		<Action type="updateVariable" variable="NorthwardBound_TownPlazaUpgrades" value="true" />
+	</TownPlaza_MaxUpgrade>
+	<ForgottenGoldTreasure_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="BuildingLevel" value="2" onType="building" onObject="ForgottenGoldTreasure" />
+		<Action type="setBuildingSkin" building="ForgottenGoldTreasure" skinName="ForgottenGold03" />
+	</ForgottenGoldTreasure_Init>
+	<ForgottenGoldTreasure_MaxUpgrade ignoreHUD="true">
+		<Action type="updateVariable" variable="NorthwardBound_ForgottenGoldTreasureUpgrades" value="true" />
+	</ForgottenGoldTreasure_MaxUpgrade>
+	<Give_HellfishItems>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="HellfishMonument" not="true" />
+			<True>
+				<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+					<Item type="building" name="HellfishMonument" />
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="HellfishTreasureChest" not="true" />
+			<True>
+				<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+					<Item type="building" name="HellfishTreasureChest" />
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="Grampa" unlockedskin="HellfishAbe" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="character" name="Grampa" not="true" />
+					<True>
+						<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+							<Item type="consumable" name="HellfishAbe" useImmediately="true" />
+						</Action>
+					</True>
+					<False>
+						<Action type="reward">
+							<Item type="consumable" name="HellfishAbe" useImmediately="true" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</Give_HellfishItems>
+	<Give_FuriousD>
+		<Action type="reward">
+			<Item type="character" name="FuriousD" useImmediately="true" />
+		</Action>
+	</Give_FuriousD>
+	<NorthwardBound_JackpotRealtyGeneratingCash>
+		<Action type="message" text="QST_BuffaloBridge_3_dlg_End_1_SystemMessage" />
+	</NorthwardBound_JackpotRealtyGeneratingCash>
+	<NorthwardBound_JackpotRealtyGeneratingProspectorMaps>
+		<Action type="message" text="QST_BuffaloBridge_3_dlg_End_2_SystemMessage" />
+	</NorthwardBound_JackpotRealtyGeneratingProspectorMaps>
+	<NorthwardBound_JackpotRealtyGeneratingCash_NFComplete>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="JackpotRealty" />
+			<True>
+				<Action type="message" text="QST_BuffaloBridge_3_dlg_End_3_SystemMessage" />
+			</True>
+		</Action>
+	</NorthwardBound_JackpotRealtyGeneratingCash_NFComplete>
+	<NewFrontier_UnlockCanyon1>
+		<Action type="unlockLand" block="11,-2" skipUnavailableBlocks="false" />
+	</NewFrontier_UnlockCanyon1>
+	<NewFrontier_UnlockCanyon2>
+		<Action type="unlockLand" block="11,-3" skipUnavailableBlocks="false" />
+	</NewFrontier_UnlockCanyon2>
+	<NewFrontier_UnlockCanyon3>
+		<Action type="unlockLand" block="11,-4" skipUnavailableBlocks="false" />
+	</NewFrontier_UnlockCanyon3>
+	<NewFrontier_UnlockCanyon4>
+		<Action type="unlockLand" block="11,-5" skipUnavailableBlocks="false" />
+	</NewFrontier_UnlockCanyon4>
+	<NewFrontier_UnlockCanyon5>
+		<Action type="unlockLand" block="11,-6" skipUnavailableBlocks="false" />
+	</NewFrontier_UnlockCanyon5>
+	<NewFrontier_UnlockCanyon6>
+		<Action type="unlockLand" block="11,-7" skipUnavailableBlocks="false" />
+	</NewFrontier_UnlockCanyon6>
+	<NorthwardBound_UnlockDirtRoads>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="WildWest2016_GainedDirtRoads" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="WildWest2016_GainedDirtRoads" boolValue="true" />
+				<Action type="notification" title="CON_DirtRoadDrawing_name" button="UI_OK" text="UI_DirtRoadUnlock_notif" icon="Icon_DirtRoadTiles" />
+			</True>
+		</Action>
+	</NorthwardBound_UnlockDirtRoads>
+	<ShowNewFrontierGuidePanel>
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="NorthwardBound_GameConfig:NewFrontierGuide_Config" />
+	</ShowNewFrontierGuidePanel>
+	<IansCar_IansCarStart parallel="true">
+		<Action type="setObjectVariable" variable="IansCarActive" value="1" allowOrphan="false" onType="building" onObject="IansCar" />
+		<Action type="anim-play" onBuilding="IansCar" animation="Neutral" />
+	</IansCar_IansCarStart>
+	<IansCar_IansCarDone parallel="true">
+		<Action type="setObjectVariable" variable="IansCarActive" value="0" allowOrphan="false" onType="building" onObject="IansCar" />
+		<Action type="anim-play" onBuilding="IansCar" animation="Neutral" />
+	</IansCar_IansCarDone>
+	<FrontTownActiveDone parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="FrontierTownEast_Out" onBuilding="FrontierTownEast" isController="true" />
+	</FrontTownActiveDone>
+	<JackpotRealtyUpsell>
+		<Action type="notification" title="BLD_JackpotRealty_name" button="UI_OK" text="UI_JackpotRealty_notif" icon="ICO_PRIZ_NorthwardBound_BlackFridayPrize8_LG" />
+		<Action type="runScript" script="NorthwardBound_Scripts:OpenMasterQuest_BlackFriday2021" waitUntilComplete="true" />
+	</JackpotRealtyUpsell>
+	<MineDonutVein>
+		<Action type="setObjectVariable" variable="DonutVeinMined" value="1" />
+		<Action type="sound" sound="ConstructionYard" />
+		<Action type="delay" time="0.25" />
+		<Action type="if">
+			<If expression="or(greaterThanEQ(rand(100), 99-GoldenPickaxeBonus), and(DonutVeinsMined==149,!GotDonutVeinJackpot)">
+				<Then>
+					<Action type="reward" donuts="100" noDrops="true" />
+					<Action type="sound" sound="Casino_Slots_Icon1Match" />
+					<Action type="updateVariable" variable="GotDonutVeinJackpot" value="true" />
+					<Action type="notificationLarge" title="UI_DonutVein_jackpot" button="UI_OK" text="UI_DonutVeinJackpot" icon="ICO_PRIZ_NorthwardBound_Donuts_100" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="setLocalVariable" variable="DonutVeinRoll" value="rand(100)" />
+					<Action type="if">
+						<If expression="greaterThanEQ(DonutVeinRoll, 90)">
+							<Then>
+								<Action type="reward" donuts="3" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{3Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_3" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</If>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 82)">
+							<Then>
+								<Action type="reward" donuts="4" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{4Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_4" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 73)">
+							<Then>
+								<Action type="reward" donuts="5" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{5Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_5" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 63)">
+							<Then>
+								<Action type="reward" donuts="6" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{6Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_6" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 54)">
+							<Then>
+								<Action type="reward" donuts="7" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{7Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_7" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 46)">
+							<Then>
+								<Action type="reward" donuts="8" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{8Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_7" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 39)">
+							<Then>
+								<Action type="reward" donuts="9" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{9Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_7" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 33)">
+							<Then>
+								<Action type="reward" donuts="10" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{10Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_7" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 28)">
+							<Then>
+								<Action type="reward" donuts="11" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{11Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_7" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 23)">
+							<Then>
+								<Action type="reward" donuts="12" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{12Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 19)">
+							<Then>
+								<Action type="reward" donuts="13" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{13Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 15)">
+							<Then>
+								<Action type="reward" donuts="14" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{14Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 12)">
+							<Then>
+								<Action type="reward" donuts="15" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{15Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 9)">
+							<Then>
+								<Action type="reward" donuts="16" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{16Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 6)">
+							<Then>
+								<Action type="reward" donuts="17" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{17Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 4)">
+							<Then>
+								<Action type="reward" donuts="18" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{18Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<ElseIf expression="greaterThanEQ(DonutVeinRoll, 2)">
+							<Then>
+								<Action type="reward" donuts="19" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{19Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_12" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="reward" donuts="20" noDrops="true" />
+								<Action type="notification" title="UI_DonutVein_title" button="UI_OK" text="{20Donuts}" icon="ICO_PRIZ_NorthwardBound_Donuts_20" formatMe="root">
+									<FormattingConfig path="NorthwardBound_GameConfig:DonutVeinNotifTexts" />
+								</Action>
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" variable="DonutVeinsMined" value="DonutVeinsMined + 1" />
+	</MineDonutVein>
+	<NewFrontier_InitialSpawns parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="NewFrontierHasInitialized" not="true" />
+			<True>
+				<Action type="updateVariable" variable="NewFrontierHasInitialized" value="true" />
+				<Action type="actionSequence" script="NorthwardBound_Scripts:NewFrontier_SpawnCanyons" />
+				<Action type="actionSequence" script="NorthwardBound_Scripts:NewFrontier_SpawnProspectorsShack" />
+				<Action type="actionSequence" script="NorthwardBound_Scripts:NewFrontier_SpawnTreesAndVeins" />
+			</True>
+		</Action>
+	</NewFrontier_InitialSpawns>
+	<FlipInitVariable parallel="true">
+		<Action type="updateVariable" variable="NewFrontierHasInitialized" value="true" />
+	</FlipInitVariable>
+	<NewFrontier_SpawnCanyons parallel="true">
+		<Action type="createobject">
+			<Object name="NewFrontierCanyon" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="178" yPos="-16" />
+			<Object name="NewFrontierCanyon" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="178" yPos="-32" />
+			<Object name="NewFrontierCanyon_BrokenBridge" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="178" yPos="-48" />
+			<Object name="NewFrontierCanyon" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="178" yPos="-64" />
+			<Object name="NewFrontierCanyon" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="178" yPos="-80" />
+			<Object name="NewFrontierCanyon_Waterfall" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="176" yPos="-96" />
+		</Action>
+	</NewFrontier_SpawnCanyons>
+	<NewFrontier_SpawnProspectorsShack>
+		<Action type="createobject">
+			<Object name="ProspectorsShack_Dummy" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="201" yPos="-49" orientation="SW" />
+		</Action>
+	</NewFrontier_SpawnProspectorsShack>
+	<RemoveDuplicateProspectorShack>
+		<Action type="deletebuilding" building="ProspectorsShack_Dummy" />
+	</RemoveDuplicateProspectorShack>
+	<NewFrontier_FixBridge>
+		<Action type="replaceobject" from="NewFrontierCanyon_BrokenBridge" to="NewFrontierCanyon_FixedBridge" ignoreObject="false" />
+		<Action type="replaceobject" from="ProspectorsShack_Dummy" to="ProspectorsShack" ignoreObject="false" />
+		<Action type="unlockLand" block="12,-4" skipUnavailableBlocks="false" />
+		<Action type="reward" ProspectorMaps="10" noDrops="true" suppress_sound="true" save="true" />
+	</NewFrontier_FixBridge>
+	<GoToProspectorsShack>
+		<Action type="pantoobject" building="ProspectorsShack" fakeTouch="true" />
+	</GoToProspectorsShack>
+	<NewFrontier_SpawnTreesAndVeins parallel="true">
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="204" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="195" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="199" yPos="-98" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="205" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="196" yPos="-106" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="202" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="206" yPos="-93" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="197" yPos="-83" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="204" yPos="-84" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="194" yPos="-89" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="193" yPos="-85" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="194" yPos="-65" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="204" yPos="-77" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="197" yPos="-72" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="192" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="204" yPos="-66" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="192" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="194" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="200" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="193" yPos="-50" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="202" yPos="-55" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="205" yPos="-62" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="197" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="198" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="196" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="202" yPos="-34" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="194" yPos="-42" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="202" yPos="-39" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="202" yPos="-42" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="197" yPos="-18" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="201" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="197" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="192" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="220" yPos="-39" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="211" yPos="-37" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="215" yPos="-34" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="221" yPos="-42" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="212" yPos="-42" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="218" yPos="-27" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="222" yPos="-29" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="213" yPos="-19" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="220" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="210" yPos="-25" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="209" yPos="-21" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="210" yPos="-97" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="220" yPos="-109" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="213" yPos="-104" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="208" yPos="-103" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="220" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="208" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="210" yPos="-92" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="216" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="209" yPos="-82" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="217" yPos="-86" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="221" yPos="-94" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="214" yPos="-73" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="212" yPos="-66" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="218" yPos="-66" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="210" yPos="-74" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="218" yPos="-71" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="218" yPos="-74" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="213" yPos="-50" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="217" yPos="-52" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="213" yPos="-58" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="208" yPos="-50" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="236" yPos="-54" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="231" yPos="-50" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="237" yPos="-58" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="228" yPos="-58" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="234" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="238" yPos="-109" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="229" yPos="-99" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="236" yPos="-100" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="226" yPos="-105" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="225" yPos="-101" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="226" yPos="-33" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="236" yPos="-45" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="229" yPos="-40" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="224" yPos="-39" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="236" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="224" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="226" yPos="-76" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="232" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="225" yPos="-66" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="233" yPos="-70" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="237" yPos="-78" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="234" yPos="-68" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="230" yPos="-89" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="228" yPos="-82" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="234" yPos="-82" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="226" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="234" yPos="-87" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="234" yPos="-90" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="229" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="233" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="229" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="224" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="250" yPos="-81" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="243" yPos="-85" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="247" yPos="-82" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="253" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="244" yPos="-90" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="250" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="254" yPos="-45" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="245" yPos="-35" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="252" yPos="-36" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="242" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="241" yPos="-37" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="242" yPos="-17" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="252" yPos="-29" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="245" yPos="-24" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="240" yPos="-23" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="252" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="240" yPos="-27" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="242" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="248" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="241" yPos="-50" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="249" yPos="-54" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="253" yPos="-62" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="246" yPos="-105" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="244" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="250" yPos="-98" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="242" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="250" yPos="-103" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="250" yPos="-106" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="245" yPos="-66" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="249" yPos="-68" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="245" yPos="-74" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="240" yPos="-66" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="268" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="259" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="263" yPos="-98" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="260" yPos="-106" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="266" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="270" yPos="-93" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="268" yPos="-84" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="258" yPos="-89" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="257" yPos="-85" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="258" yPos="-65" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="268" yPos="-77" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="261" yPos="-72" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="256" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="256" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="258" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="264" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="257" yPos="-50" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="269" yPos="-62" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="261" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="262" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="260" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="266" yPos="-34" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="258" yPos="-42" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="266" yPos="-39" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="261" yPos="-18" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="265" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="261" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="256" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="284" yPos="-39" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="275" yPos="-37" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="279" yPos="-34" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="285" yPos="-42" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="282" yPos="-27" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="286" yPos="-29" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="284" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="274" yPos="-25" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="273" yPos="-21" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="284" yPos="-109" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="277" yPos="-104" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="272" yPos="-103" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="284" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="272" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="274" yPos="-92" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="280" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="273" yPos="-82" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="281" yPos="-86" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="285" yPos="-94" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="278" yPos="-73" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="276" yPos="-66" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="282" yPos="-66" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="282" yPos="-71" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="282" yPos="-74" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="277" yPos="-50" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="281" yPos="-52" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="277" yPos="-58" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="272" yPos="-50" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="300" yPos="-54" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="295" yPos="-50" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="301" yPos="-58" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="292" yPos="-58" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="298" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="302" yPos="-109" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="293" yPos="-99" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="300" yPos="-100" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="289" yPos="-101" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="290" yPos="-33" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="293" yPos="-40" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="288" yPos="-39" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="300" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="288" yPos="-43" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="296" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="289" yPos="-66" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="297" yPos="-70" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="301" yPos="-78" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="298" yPos="-68" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="294" yPos="-89" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="292" yPos="-82" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="290" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="298" yPos="-87" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="298" yPos="-90" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="293" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="297" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="293" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="288" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="314" yPos="-81" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="307" yPos="-85" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="317" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="308" yPos="-90" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="314" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="309" yPos="-35" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="316" yPos="-36" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="306" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="305" yPos="-37" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="306" yPos="-17" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="316" yPos="-29" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="304" yPos="-23" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="316" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="304" yPos="-27" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="312" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="305" yPos="-50" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="313" yPos="-54" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="317" yPos="-62" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="310" yPos="-105" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="314" yPos="-98" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="306" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="314" yPos="-106" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="309" yPos="-66" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="313" yPos="-68" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="304" yPos="-66" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="332" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="323" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="333" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="324" yPos="-106" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="330" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="334" yPos="-93" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="325" yPos="-83" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="332" yPos="-84" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="322" yPos="-89" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="332" yPos="-77" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="325" yPos="-72" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="320" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="332" yPos="-66" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="320" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="322" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="328" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="321" yPos="-50" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="329" yPos="-54" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="325" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="326" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="330" yPos="-34" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="322" yPos="-42" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="330" yPos="-39" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="330" yPos="-42" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="325" yPos="-18" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="329" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="325" yPos="-26" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="348" yPos="-39" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="339" yPos="-37" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="343" yPos="-34" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="349" yPos="-42" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="346" yPos="-27" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="341" yPos="-19" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="348" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="338" yPos="-25" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="337" yPos="-21" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="338" yPos="-97" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="348" yPos="-109" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="341" yPos="-104" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="336" yPos="-103" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="348" yPos="-98" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="344" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="337" yPos="-82" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="345" yPos="-86" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="349" yPos="-94" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="342" yPos="-73" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="340" yPos="-66" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="346" yPos="-66" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="338" yPos="-74" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="346" yPos="-71" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="341" yPos="-50" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="341" yPos="-58" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="336" yPos="-50" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="364" yPos="-54" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="359" yPos="-50" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="356" yPos="-58" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="362" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="366" yPos="-109" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="357" yPos="-99" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="354" yPos="-105" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="353" yPos="-101" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="354" yPos="-33" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="364" yPos="-45" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="357" yPos="-40" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="352" yPos="-39" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="352" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="354" yPos="-76" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="360" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="361" yPos="-70" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="365" yPos="-78" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="362" yPos="-68" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="358" yPos="-89" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="356" yPos="-82" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="362" yPos="-82" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="362" yPos="-87" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="362" yPos="-90" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="357" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="357" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="352" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="378" yPos="-81" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="371" yPos="-85" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="375" yPos="-82" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="381" yPos="-90" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="378" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="382" yPos="-45" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="373" yPos="-35" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="380" yPos="-36" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="369" yPos="-37" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="370" yPos="-17" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="380" yPos="-29" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="368" yPos="-23" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="380" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="368" yPos="-27" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="376" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="369" yPos="-50" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="377" yPos="-54" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="381" yPos="-62" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="374" yPos="-105" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="378" yPos="-98" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="370" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="378" yPos="-103" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="378" yPos="-106" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="373" yPos="-66" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="377" yPos="-68" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="373" yPos="-74" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="396" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="387" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="391" yPos="-98" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="388" yPos="-106" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="394" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="398" yPos="-93" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="389" yPos="-83" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="386" yPos="-89" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="386" yPos="-65" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="389" yPos="-72" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="384" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="384" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="386" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="392" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="385" yPos="-50" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="389" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="390" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="388" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="386" yPos="-42" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="394" yPos="-42" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="389" yPos="-18" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="393" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="384" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="412" yPos="-39" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="403" yPos="-37" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="407" yPos="-34" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="413" yPos="-42" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="410" yPos="-27" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="414" yPos="-29" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="412" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="402" yPos="-25" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="412" yPos="-109" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="400" yPos="-103" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="412" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="400" yPos="-107" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="408" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="401" yPos="-82" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="409" yPos="-86" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="413" yPos="-94" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="406" yPos="-73" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="402" yPos="-74" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="410" yPos="-71" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="410" yPos="-74" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="405" yPos="-50" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="405" yPos="-58" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="400" yPos="-50" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="428" yPos="-54" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="429" yPos="-58" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="420" yPos="-58" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="426" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="428" yPos="-100" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="418" yPos="-105" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="417" yPos="-101" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="418" yPos="-33" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="428" yPos="-45" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="421" yPos="-40" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="416" yPos="-39" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="418" yPos="-76" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="424" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="417" yPos="-66" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="426" yPos="-68" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="422" yPos="-89" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="426" yPos="-82" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="418" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="426" yPos="-87" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="421" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="425" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="421" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="416" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="442" yPos="-81" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="435" yPos="-85" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="445" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="436" yPos="-90" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="442" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="437" yPos="-35" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="444" yPos="-36" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="434" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="433" yPos="-37" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="437" yPos="-24" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="432" yPos="-23" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="444" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="432" yPos="-27" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="434" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="440" yPos="-59" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="441" yPos="-54" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="445" yPos="-62" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="438" yPos="-105" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="436" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="434" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="442" yPos="-103" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="442" yPos="-106" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="437" yPos="-66" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="441" yPos="-68" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="432" yPos="-66" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="460" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="451" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="455" yPos="-98" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="458" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="462" yPos="-93" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="453" yPos="-83" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="460" yPos="-84" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="450" yPos="-65" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="460" yPos="-77" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="453" yPos="-72" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="448" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="450" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="456" yPos="-59" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="449" yPos="-50" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="453" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="454" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="452" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="458" yPos="-34" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="450" yPos="-42" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="453" yPos="-18" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="457" yPos="-20" orientation="SW" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="476" yPos="-39" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="467" yPos="-37" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="468" yPos="-42" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="474" yPos="-27" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="476" yPos="-20" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="466" yPos="-25" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="465" yPos="-21" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="469" yPos="-104" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="464" yPos="-103" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="476" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="464" yPos="-107" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="472" yPos="-91" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="473" yPos="-86" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="477" yPos="-94" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="470" yPos="-73" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="466" yPos="-74" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="474" yPos="-71" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="474" yPos="-74" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="469" yPos="-50" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="464" yPos="-50" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="492" yPos="-54" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="493" yPos="-58" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="490" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="485" yPos="-99" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="492" yPos="-100" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="482" yPos="-105" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="492" yPos="-45" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="485" yPos="-40" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="480" yPos="-39" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="492" yPos="-34" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="488" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="481" yPos="-66" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="489" yPos="-70" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="490" yPos="-68" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="486" yPos="-89" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="490" yPos="-82" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="482" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="490" yPos="-87" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="485" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="485" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="480" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="506" yPos="-81" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="499" yPos="-85" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="509" yPos="-90" orientation="SW" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="506" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="510" yPos="-45" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="498" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="497" yPos="-37" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="498" yPos="-17" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="496" yPos="-23" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="508" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="496" yPos="-27" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="498" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="504" yPos="-59" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="509" yPos="-62" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="502" yPos="-105" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="500" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="506" yPos="-103" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="506" yPos="-106" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="501" yPos="-66" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="505" yPos="-68" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="496" yPos="-66" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="524" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="515" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="516" yPos="-106" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="522" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="526" yPos="-93" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="514" yPos="-89" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="513" yPos="-85" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="514" yPos="-65" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="524" yPos="-77" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="512" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="512" yPos="-75" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="520" yPos="-59" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="521" yPos="-54" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="525" yPos="-62" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="517" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="518" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="516" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="522" yPos="-39" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="522" yPos="-42" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="517" yPos="-18" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="521" yPos="-20" orientation="SW" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="540" yPos="-39" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="531" yPos="-37" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="535" yPos="-34" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="538" yPos="-27" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="542" yPos="-29" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="533" yPos="-19" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="529" yPos="-21" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="530" yPos="-97" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="528" yPos="-103" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="540" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="528" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="530" yPos="-92" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="536" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="529" yPos="-82" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="534" yPos="-73" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="532" yPos="-66" orientation="SW" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="538" yPos="-66" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="538" yPos="-74" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="533" yPos="-50" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="537" yPos="-52" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="533" yPos="-58" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="556" yPos="-54" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="557" yPos="-58" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="554" yPos="-107" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="549" yPos="-99" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="556" yPos="-100" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="546" yPos="-105" orientation="SW" />
+			<Object name="NewFrontierTreeBunch04" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="556" yPos="-45" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="549" yPos="-40" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="544" yPos="-39" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="556" yPos="-34" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="552" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="545" yPos="-66" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="553" yPos="-70" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="554" yPos="-68" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="550" yPos="-89" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="554" yPos="-82" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="546" yPos="-90" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="554" yPos="-87" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="549" yPos="-18" orientation="SW" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="549" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="544" yPos="-18" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="570" yPos="-81" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="563" yPos="-85" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="567" yPos="-82" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="570" yPos="-43" orientation="SW" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="574" yPos="-45" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="572" yPos="-36" orientation="SW" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="562" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="562" yPos="-17" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="565" yPos="-24" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="560" yPos="-23" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="560" yPos="-27" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="562" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="568" yPos="-59" />
+			<Object name="NewFrontierTreeBunch02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="569" yPos="-54" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="566" yPos="-105" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="564" yPos="-98" orientation="SW" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="562" yPos="-106" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="570" yPos="-106" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="565" yPos="-66" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="569" yPos="-68" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="560" yPos="-66" />
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="createobject">
+			<Object name="Buffalo02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="588" yPos="-103" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="579" yPos="-101" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="583" yPos="-98" />
+			<Object name="NewFrontierTreeBunch05" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="580" yPos="-106" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="586" yPos="-91" />
+			<Object name="NewFrontierTreeBunch06" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="590" yPos="-93" />
+			<Object name="NewFrontierTreeBunch09" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="577" yPos="-85" />
+			<Object name="NewFrontierTreeBunch00" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="578" yPos="-65" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="576" yPos="-71" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="576" yPos="-75" orientation="SW" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="578" yPos="-60" orientation="SW" />
+			<Object name="DonutVein03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="584" yPos="-59" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="589" yPos="-62" />
+			<Object name="Buffalo01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="581" yPos="-61" />
+			<Object name="DonutVein02" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="582" yPos="-41" orientation="SW" />
+			<Object name="NewFrontierTreeBunch07" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="580" yPos="-34" orientation="SW" />
+			<Object name="NewFrontierTreeBunch08" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="586" yPos="-42" orientation="SW" />
+			<Object name="DonutVein01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="581" yPos="-18" />
+			<Object name="NewFrontierTreeBunch01" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="581" yPos="-26" />
+			<Object name="NewFrontierTreeBunch03" count="1" save="true" panCamera="false" defineSpawnPosition="true" xPos="576" yPos="-18" />
+		</Action>
+	</NewFrontier_SpawnTreesAndVeins>
+</ScriptPackage>

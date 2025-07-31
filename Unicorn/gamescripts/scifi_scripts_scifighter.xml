@@ -1,0 +1,1721 @@
+﻿<ScriptPackage>
+	<PauseMovement cache="true">
+		<Action type="addAttractor" continuous="true" onType="building" onObject="MultiVac" group="RobotSciFighters" duration="unlimited" radius="1000" speedMul="0" repathInterval="50" attractionPointType="locator" locator="AttackPoint" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_TAPPABLE" value="0" />
+	</PauseMovement>
+	<AllowMovement cache="true">
+		<Action type="addAttractor" continuous="true" onType="building" onObject="MultiVac" group="RobotSciFighters" duration="unlimited" radius="1000" speedMul="SF_SPEEDBONUS" repathInterval="50" attractionPointType="locator" locator="AttackPoint" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_TAPPABLE" value="1" />
+	</AllowMovement>
+	<RobotSpawn_Standard1 cache="true">
+		<Action type="createobject" name="Robot_SciFighter" count="1" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+	</RobotSpawn_Standard1>
+	<RobotSpawn_Standard2 cache="true">
+		<Action type="createobject" name="Robot_SciFighter" count="2" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+	</RobotSpawn_Standard2>
+	<RobotSpawn_Standard3 cache="true">
+		<Action type="createobject" name="Robot_SciFighter" count="3" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+	</RobotSpawn_Standard3>
+	<RobotSpawn_Advanced1 cache="true">
+		<Action type="createobject" name="AdvancedRobot_SciFighter" count="1" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+	</RobotSpawn_Advanced1>
+	<RobotSpawn_Advanced2 cache="true">
+		<Action type="createobject" name="AdvancedRobot_SciFighter" count="2" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+	</RobotSpawn_Advanced2>
+	<SetCustomTouch>
+		<Action type="customTouch">
+			<Attribute name="allowCameraMovement" value="false" />
+			<Attribute name="unloadScript" value="SciFi_Scripts_SciFighter:UnloadCustomTouch" />
+			<Attribute name="config">
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="SciFighterHUD" />
+					<Attribute name="config" value="SciFighterHUD.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="SciFi_Scripts_SciFighter:QuitGame" />
+						</AttributeSet>
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="ConsumableButton">
+							<Attribute name="script" value="SciFi_Scripts_SciFighter:FireHomerkaze" />
+							<Attribute name="visible" value="false">
+								<Requirements>
+									<Requirement type="variable" variable="SF_HomerkazeUnlocked" not="true" />
+								</Requirements>
+							</Attribute>
+							<Attribute name="active" value="true" />
+							<Attribute name="active" value="false">
+								<Requirements>
+									<Requirement type="formula" formula="SciFi_Homerkazes==0" />
+								</Requirements>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="ConsumableIcon">
+							<Attribute name="image" value="ICO_MHUD_SciFi_FlashBulb" />
+							<Attribute name="image" value="ICO_MHUD_SciFi_FlashBulb_Disabled">
+								<Requirements>
+									<Requirement type="formula" formula="SciFi_Homerkazes==0" />
+								</Requirements>
+							</Attribute>
+							<Attribute name="visible" value="false">
+								<Requirements>
+									<Requirement type="variable" variable="SF_HomerkazeUnlocked" not="true" />
+								</Requirements>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="CounterNumber">
+							<Attribute name="text" formula="SciFi_Homerkazes" localise="false" />
+							<Attribute name="visible" value="false">
+								<Requirements>
+									<Requirement type="variable" variable="SF_HomerkazeUnlocked" not="true" />
+								</Requirements>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="CounterBase">
+							<Attribute name="visible" value="false">
+								<Requirements>
+									<Requirement type="variable" variable="SF_HomerkazeUnlocked" not="true" />
+								</Requirements>
+							</Attribute>
+						</AttributeSet>
+						<AttributeSet name="Time01Anim">
+							<Attribute name="image" value="ICO_SciFi2016_CounterClock" />
+							<Attribute name="animation" value="timer_static_0" />
+						</AttributeSet>
+						<AttributeSet name="Time02Anim">
+							<Attribute name="image" value="ICO_SciFi2016_CounterClock" />
+							<Attribute name="animation" value="timer_static_0" />
+						</AttributeSet>
+						<AttributeSet name="TimeColonAnim">
+							<Attribute name="image" value="ICO_SciFi2016_CounterClock" />
+							<Attribute name="animation" value="timer_static_colon" />
+						</AttributeSet>
+						<AttributeSet name="Time03Anim">
+							<Attribute name="image" value="ICO_SciFi2016_CounterClock" />
+							<Attribute name="animation" value="timer_static_2" />
+						</AttributeSet>
+						<AttributeSet name="Time04Anim">
+							<Attribute name="image" value="ICO_SciFi2016_CounterClock" />
+							<Attribute name="animation" value="timer_static_0" />
+						</AttributeSet>
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="BattleIntroAnimDimmedBG">
+							<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="Robot_SciFighter|AdvancedRobot_SciFighter|MechaHawkFlyBy" />
+					<Attribute name="ignoreObjectTypes" value="building" />
+					<Attribute name="runOnTouchScriptsInstantly" value="true" />
+				</AttributeSet>
+				<AttributeSet name="onTouchStartedScripts">
+					<Attribute name="Robot_SciFighter" value="SciFi_Scripts_SciFighter:RobotTapped" />
+					<Attribute name="AdvancedRobot_SciFighter" value="SciFi_Scripts_SciFighter:AdvRobotTapped" />
+					<Attribute name="MechaHawkFlyBy" value="SciFi_Scripts_SciFighter:MechaHawkFlyByTapped" />
+				</AttributeSet>
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</SetCustomTouch>
+	<UnloadCustomTouch ignoreHUD="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ClearScreenEffect" />
+		<Action type="runScriptOnAll" character="Robot_SciFighter" script="SciFi_Scripts_SciFighter:DestroyTappableRobots" />
+		<Action type="runScriptOnAll" character="AdvancedRobot_SciFighter" script="SciFi_Scripts_SciFighter:DestroyTappableRobots" />
+		<Action type="removeAttractor" onType="building" onObject="MultiVac" />
+		<Action type="if">
+			<If expression="SF_MECHAHAWK==1">
+				<Then>
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:SpawnOutMechaHawk" ignoreObject="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="removeBuildingOverlay" building="MultiVac" name="HPBar" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+	</UnloadCustomTouch>
+	<UpdateOverlay cache="true">
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreen_Alpha" show="true">
+			<Tint r="SF_RGB_R" g="SF_RGB_G" b="SF_RGB_B" a="SF_RGB_A" tweenDuration="0.3" />
+		</Action>
+	</UpdateOverlay>
+	<MechaHawkDeathReset parallel="true">
+		<Action type="updateVariable" disableEvents="false" variable="SF_MechaHawkDefeated" value="0" />
+	</MechaHawkDeathReset>
+	<AdvRobotInjured cache="true" parallel="true">
+		<Action type="sound" sound="SciFighter_Drone_Tap" />
+		<Action type="anim-remap">
+			<AnimationRemap>
+				<Remap from="Attack" to="LH_Attack" />
+				<Remap from="Back_Walk" to="LH_Back_Walk" />
+				<Remap from="Front_Walk" to="LH_Front_Walk" />
+				<Remap from="Idle" to="LH_Idle" />
+				<Remap from="Idle_Blink" to="LH_Idle_Blink" />
+				<Remap from="Out" to="LH_Out" />
+				<Remap from="Tap" to="LH_Tap" />
+			</AnimationRemap>
+		</Action>
+	</AdvRobotInjured>
+	<RobotSuccessAnim cache="true" parallel="true">
+		<Action type="shakeCamera" length="8" magnitude="4" waitUntilComplete="false" />
+		<Action type="anim-play" animation="attack" nowait="true" />
+	</RobotSuccessAnim>
+	<RobotSuccessAnim_Delete cache="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="anim-waitforend" />
+		<Action type="deletecharacter" />
+	</RobotSuccessAnim_Delete>
+	<SpawnInMechaHawk parallel="true">
+		<Action type="spawnFlyBy" flyBy="MechaHawkInOut" />
+		<Action type="anim-play" flyBy="MechaHawkInOut" animation="In" />
+		<Action type="removeFlyBy" flyBy="MechaHawkInOut" />
+		<Action type="if">
+			<If expression="!SF_GAMELOST &amp;&amp; !SF_GAMEWON">
+				<Then>
+					<Action type="spawnFlyBy" flyBy="MechaHawkFlyBy" />
+				</Then>
+			</If>
+		</Action>
+	</SpawnInMechaHawk>
+	<SpawnOutMechaHawk parallel="true">
+		<Action type="updateVariable" disableEvents="true" variable="SF_MECHAHAWK" value="0" />
+		<Action type="removeFlyBy" flyBy="MechaHawkFlyBy" />
+		<Action type="spawnFlyBy" flyBy="MechaHawkInOut" />
+		<Action type="anim-play" flyBy="MechaHawkInOut" animation="Out" />
+		<Action type="removeFlyBy" flyBy="MechaHawkInOut" />
+	</SpawnOutMechaHawk>
+	<StartSciFighter_Check>
+		<Action type="if">
+			<If expression="and(greaterThan(System::evaluate('Selector::SmartDeviceResourceCap'), 0), greaterThanEQ(User::getVariable('SmartDevice'), System::evaluate('Selector::SmartDeviceResourceCap'))) || greaterThanEQ(User::getVariable('Junk'), toDouble(System::getConfigValue('__Monorail_Config:SpendableValues:JunkMax__')))">
+				<Then>
+					<Action type="userConfirmation" text="UI_SciFighter_StartConfirmation" title="QST_SF_DCS_SciFighter_Play" var="confirm_start" rightButtonColor="A61F0CFF" useBackButtonAsCancel="true" />
+					<Action type="checkExpression" expression="confirm_start">
+						<ExpressionCase value="0">
+							<Action type="sound" sound="UIButton" ignoreObject="true" />
+							<Action type="returnToInGameState" />
+						</ExpressionCase>
+						<ExpressionCase value="1">
+							<Action type="sound" sound="UIButton" ignoreObject="true" />
+							<Action type="actionSequence" script="SciFi_Scripts_SciFighter:StartSciFighter" />
+						</ExpressionCase>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:StartSciFighter" />
+				</Then>
+			</Else>
+		</Action>
+	</StartSciFighter_Check>
+	<StartSciFighter>
+		<Action type="sound" sound="UIButton" />
+		<Action type="if">
+			<If expression="!SciFi_Event">
+				<Then>
+					<Action type="setBuildingSkin" building="MultiVac" skinName="MultiVac" useDefault="true" />
+					<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="MultiVac" variable="Damage" value="0" asExpression="true" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:SciFighterPostEventIntroSequence" ignoreObject="true" />
+				</Then>
+			</If>
+			<ElseIf expression="SciFighterWon==1||SciFighterLost==1">
+				<Then>
+					<Action type="setBuildingSkin" building="MultiVac" skinName="MultiVac" useDefault="true" />
+					<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="MultiVac" variable="Damage" value="0" asExpression="true" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:SciFighterIntroSequence" ignoreObject="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="MultiVac" variable="Damage" value="0" asExpression="true" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:StartSciFighterFTUETapped" ignoreObject="true" />
+				</Then>
+			</Else>
+		</Action>
+	</StartSciFighter>
+	<SciFighterIntroSequence>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:InitVariables" />
+		<Action type="pantoobject" building="MultiVac" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+		<Action type="if">
+			<If expression="SF_SkipEMP==0">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_Tappables:DestroyAllTappables_MultiVac">
+						<Objects>
+							<ObjectByName name="MultiVac" />
+						</Objects>
+					</Action>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SkipEMP" value="1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="hideAllCharacters" exceptCharacters="Robot_SciFighter|Robot_Tappable|AdvancedRobot_SciFighter" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" exceptFlyBys="MechaHawkFlyBy|MechaHawkInOut" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SetCustomTouch" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+		<Action type="scheduleScript" mode="create" script="SciFi_Scripts_SciFighter:SciFighterStart" shouldSave="false" relativeTime="2s" />
+	</SciFighterIntroSequence>
+	<SciFighterPostEventIntroSequence>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:InitVariables" />
+		<Action type="pantoobject" building="MultiVac" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+		<Action type="hideAllCharacters" exceptCharacters="Robot_SciFighter|AdvancedRobot_SciFighter" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" exceptFlyBys="MechaHawkFlyBy|MechaHawkInOut" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SetCustomTouch" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+		<Action type="scheduleScript" mode="create" script="SciFi_Scripts_SciFighter:SciFighterStart_Post" shouldSave="false" relativeTime="2s" />
+	</SciFighterPostEventIntroSequence>
+	<StartSciFighterFTUETapped>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="pantoobject" building="MultiVac" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+		<Action type="actionSequence" script="SciFi_Scripts_Tappables:DestroyAllTappables_MultiVac">
+			<Objects>
+				<ObjectByName name="MultiVac" />
+			</Objects>
+		</Action>
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:InitVariables" />
+		<Action type="hideAllCharacters" exceptCharacters="Robot_SciFighter|Robot_Tappable|AdvancedRobot_SciFighter" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" exceptFlyBys="MechaHawkFlyBy|MechaHawkInOut" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SetCustomTouch" />
+		<Action type="scheduleScript" mode="create" script="SciFi_Scripts_SciFighter:SciFighterFTUEIntroSequence" shouldSave="false" relativeTime="2s" />
+	</StartSciFighterFTUETapped>
+	<SciFighterFTUEIntroSequence ignoreHUD="true">
+		<Action type="sound" sound="SciFighter_Ambience_Loop" />
+		<Action type="actionSequence" script="SciFi_Scripts_Dialogue_Core:SciFighterLoadedDialogue_Start" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="SciFi_MenuConfig_SciFighter:SciFiGuide_SciFighter">
+			<Extras>
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="SciFi_Scripts_SciFighter:SciFighterFTUEIntroSequence_Finish" />
+			</Extras>
+		</Action>
+	</SciFighterFTUEIntroSequence>
+	<SciFighterFTUEIntroSequence_Finish ignoreHUD="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SetCustomTouch" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+		<Action type="updateVariable" disableEvents="true" variable="SciFighterFTUESeen" value="1" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterStart" />
+	</SciFighterFTUEIntroSequence_Finish>
+	<SciFighterStart ignoreHUD="true">
+		<Action type="sound" sound="SciFighter_Ambience_Loop" />
+		<Action type="hideAllCharacters" exceptCharacters="Robot_SciFighter|AdvancedRobot_SciFighter" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" exceptFlyBys="MechaHawkFlyBy|MechaHawkInOut" />
+		<Action type="delay" time="1" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+		<Action type="createobject" name="Robot_SciFighter" count="SF_StartingRobots" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="25.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+		<Action type="if">
+			<If expression="SF_AdvRobotSeen==0">
+				<Requirements>
+					<Requirement type="formula" formula="SciFighterLost||SciFighterWon" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+						<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+					</Requirement>
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="AdvancedRobot_SciFighter" count="1" save="false" panCamera="true" building="MultiVac" awayFromSpawnLocMin="12.0f" awayFromSpawnLocMax="12.0f" showFadeIn="false" animation="in" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+					<Action type="delay" time="1" />
+					<Action type="notificationLarge" title="CHA_DronePet_name" button="UI_OK" text="UI_SciFighter_DroneFirstTime" icon="CharacterSets_SciFighterDrone" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotSeen" value="1" />
+					<Action type="pantoobject" building="MultiVac" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+				</Then>
+			</If>
+			<ElseIf expression="(SF_MechaHawkSeen==0)&amp;&amp;(SF_AdvRobotSeen==1)">
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+					<Action type="notificationLarge" title="CHA_MechaHawk_name" button="UI_OK" text="UI_SciFighter_MechaHawkFirstTime" icon="Menu_SciFi_MechaHawk_Notification" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_MechaHawkSeen" value="1" />
+				</Then>
+			</ElseIf>
+		</Action>
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:SciFighterStart_Countdown" shouldSave="true" relativeTime="1s" />
+	</SciFighterStart>
+	<SciFighterStart_Post ignoreHUD="true">
+		<Action type="sound" sound="SciFighter_Ambience_Loop" />
+		<Action type="hideAllCharacters" exceptCharacters="Robot_SciFighter|AdvancedRobot_SciFighter" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" exceptFlyBys="MechaHawkFlyBy|MechaHawkInOut" />
+		<Action type="delay" time="1" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+		<Action type="createobject" name="Robot_SciFighter" count="SF_StartingRobots" save="false" panCamera="false" building="MultiVac" awayFromSpawnLocMin="25.0f" awayFromSpawnLocMax="30.0f" showFadeIn="false" animation="in" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:SciFighterStart_Countdown" shouldSave="true" relativeTime="1s" />
+	</SciFighterStart_Post>
+	<SciFighterStart_Countdown parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="updateVariable" disableEvents="true" variable="SF_COUNTDOWN" value="SF_COUNTDOWN+1" />
+		<Action type="checkExpression" expression="SF_COUNTDOWN">
+			<ExpressionCase value="1">
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+							<Attribute name="animation" value="Countdown_3" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:SciFighterStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="SciFighter_Countdown_Counter" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+							<Attribute name="animation" value="Countdown_2" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:SciFighterStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="SciFighter_Countdown_Counter" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+							<Attribute name="animation" value="Countdown_1" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:SciFighterStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="SciFighter_Countdown_Counter" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="checkRequirements">
+					<Requirement type="language" language="FRE_FR" />
+					<False>
+						<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+							<Attribute name="config">
+								<AttributeSet name="BattleIntroAnim">
+									<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+									<Attribute name="animation" value="Countdown_0" />
+									<Attribute name="visible" value="true" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+					</False>
+					<True>
+						<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+							<Attribute name="config">
+								<AttributeSet name="BattleIntroAnim">
+									<Attribute name="image" value="ICO_SciFi2016_BattleIntro" />
+									<Attribute name="animation" value="Countdown_0_fr" />
+									<Attribute name="visible" value="true" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+					</True>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:SciFighterStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:UpdateTimer" shouldSave="true" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="SciFighter_Countdown_End" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterStart_InitializeHealthBar" />
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</ExpressionCase>
+		</Action>
+	</SciFighterStart_Countdown>
+	<SciFighterStart_InitializeHealthBar parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar01" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar01_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</SciFighterStart_InitializeHealthBar>
+	<InitVariables>
+		<Action type="updateVariable" disableEvents="true" variable="SF_PAUSED" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_UNPAUSED" value="1" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_INMAIN" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_GAMELOST" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_GAMEWON" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_FRAMECNT" value="SF_GameLength" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_HAWKDAMAGE" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_MECHAHAWK" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_CHARGING" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_ATTACKING" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_TAPPABLE" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_STARTED" value="1" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_HOMERKAZEACTIVE" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_COUNTDOWN" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_REWARD1" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_REWARD2" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_REWARD3" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_R" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_G" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_B" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="0.7" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RobotRewards" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotsRewards" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT2" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT3" value="0" />
+		<Action type="if">
+			<If expression="SciFi_Event">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_BaseReward" value="__SciFi_SciFighterConfig:SciFighterPayouts:BaseReward_Event__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_CompletionReward" value="__SciFi_SciFighterConfig:SciFighterPayouts:CompletionReward_Event__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_PerSecondReward" value="__SciFi_SciFighterConfig:SciFighterPayouts:PerSecondReward_Event__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_BaseReward_RP" value="__SciFi_SciFighterConfig:SciFighterPayouts:BaseReward_RP__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_CompletionReward_RP" value="__SciFi_SciFighterConfig:SciFighterPayouts:CompletionReward_RP__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_PerSecondReward_RP" value="__SciFi_SciFighterConfig:SciFighterPayouts:PerSecondReward_RP__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_BaseReward_FB" value="__SciFi_SciFighterConfig:SciFighterPayouts:BaseReward_FB__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_CompletionReward_FB" value="__SciFi_SciFighterConfig:SciFighterPayouts:CompletionReward_FB__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_PerSecondReward_FB" value="__SciFi_SciFighterConfig:SciFighterPayouts:PerSecondReward_FB__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotEvent" value="__SciFi_BalancingConfig:SciFighterPayouts:EventCurrency__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotEvent" value="__SciFi_BalancingConfig:SciFighterPayouts:AdvEventCurrency__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft1" value="__SciFi_BalancingConfig:SciFighterPayouts:RobotParts__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft1Chance" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft1" value="__SciFi_BalancingConfig:SciFighterPayouts:AdvRobotParts__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft1Chance" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft2" value="__SciFi_BalancingConfig:SciFighterPayouts:RobotParts__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft2Chance" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft2" value="__SciFi_BalancingConfig:SciFighterPayouts:AdvRobotParts__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft2Chance" value="1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_BaseReward" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_BaseReward_1__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_CompletionReward" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_CompletionReward_1__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_PerSecondReward" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_PerSecondReward_1__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_BaseReward_RP" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_BaseReward_2__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_CompletionReward_RP" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_CompletionReward_2__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_PerSecondReward_RP" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_PerSecondReward_2__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_BaseReward_FB" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_BaseReward_3__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_CompletionReward_FB" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_CompletionReward_3__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_PerSecondReward_FB" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEvent_PerSecondReward_3__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotEvent" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEventCurrency1__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotEvent" value="__SciFi_SciFighterConfig:SciFighterPayouts:AdvPostEventCurrency1__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft1" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEventCurrency2__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft1Chance" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft1" value="__SciFi_SciFighterConfig:SciFighterPayouts:AdvPostEventCurrency2__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft1Chance" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft2" value="__SciFi_SciFighterConfig:SciFighterPayouts:PostEventCurrency3__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotCraft2Chance" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft2" value="__SciFi_SciFighterConfig:SciFighterPayouts:AdvPostEventCurrency3__" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotCraft2Chance" value="1" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="LowSpeedBonus" value="__SciFi_SciFighterConfig:SciFighter:LowSpeedBonus__" />
+		<Action type="updateVariable" disableEvents="true" variable="MediumSpeedBonus" value="__SciFi_SciFighterConfig:SciFighter:MediumSpeedBonus__" />
+		<Action type="updateVariable" disableEvents="true" variable="HighSpeedBonus" value="__SciFi_SciFighterConfig:SciFighter:HighSpeedBonus__" />
+		<Action type="updateVariable" disableEvents="true" variable="MediumHawkSpeedBonus" value="__SciFi_SciFighterConfig:SciFighter:MediumHawkSpeedBonus__" />
+		<Action type="updateVariable" disableEvents="true" variable="HighHawkSpeedBonus" value="__SciFi_SciFighterConfig:SciFighter:HighHawkSpeedBonus__" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_KazeRadius" value="__SciFi_SciFighterConfig:SciFighter:HomerkazeRadius__" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_MaxDamage" value="5" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_HawkMaxDamage" value="__SciFi_SciFighterConfig:SciFighter:HawkMaxDamage__" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="MediumSpeedBonus" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_NextHawkSpawn" value="10" />
+	</InitVariables>
+	<FireHomerkaze parallel="true" cache="true">
+		<Action type="if">
+			<If expression="greaterThan(SciFi_Homerkazes, 0) &amp;&amp; SF_GAMEWON==0 &amp;&amp; SF_GAMELOST==0 &amp;&amp; SF_INMAIN==1 &amp;&amp; or(greaterThan(System::evaluate('Character::Robot_SciFighter::TotalCount'), 0), greaterThan(System::evaluate('Character::AdvancedRobot_SciFighter::TotalCount'), 0))">
+				<Then>
+					<Action type="loseResources" SciFi_Homerkazes="1" />
+					<Action type="sound" sound="SciFighter_Homerkaze" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:UpdateHomerkazeHUD" />
+					<Action type="setVariable" intVariable="SF_DCS_SciFighter_Consumable" intValue="SF_DCS_SciFighter_Consumable + 1" />
+					<Action type="runScriptOnAll" character="Robot_SciFighter" in_radius="SF_KazeRadius" radius_delay="0" script="DestroyTappableRobots" package="SciFi_Scripts_SciFighter" />
+					<Action type="runScriptOnAll" character="AdvancedRobot_SciFighter" in_radius="SF_KazeRadius" radius_delay="0" script="DestroyTappableAdvRobot" package="SciFi_Scripts_SciFighter" />
+					<Action type="playflyby" flybyName="IRSTapEffect" radius="SF_KazeRadius" unitScale="0.13" playbackFPS="24" centerOnObject="true" onGround="true" character="MultiVac" />
+					<Action type="flashScreen" colour="White" speed="20" />
+				</Then>
+			</If>
+		</Action>
+	</FireHomerkaze>
+	<UpdateHomerkazeHUD parallel="true" cache="true">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="CounterNumber">
+					<Attribute name="text" formula="SciFi_Homerkazes" localise="false" />
+				</AttributeSet>
+				<AttributeSet name="ConsumableButton">
+					<Attribute name="active" value="false">
+						<Requirements>
+							<Requirement type="formula" formula="SciFi_Homerkazes==0" />
+						</Requirements>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="ConsumableIcon">
+					<Attribute name="image" value="ICO_MHUD_SciFi_FlashBulb" />
+					<Attribute name="image" value="ICO_MHUD_SciFi_FlashBulb_Disabled">
+						<Requirements>
+							<Requirement type="formula" formula="SciFi_Homerkazes==0" />
+						</Requirements>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="delay" time="1" />
+	</UpdateHomerkazeHUD>
+	<QuitGame parallel="true" exclusive="true">
+		<Action type="if">
+			<If expression="greaterThan(SF_FRAMECNT, 0) &amp;&amp; !SF_PAUSED &amp;&amp; !SF_GAMELOST &amp;&amp; !SF_GAMEWON &amp;&amp; !(SF_COUNTDOWN &lt; 5)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_PAUSED" value="1" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:ShowQuitPrompt" ignoreObject="true" />
+				</Then>
+			</If>
+		</Action>
+	</QuitGame>
+	<ShowQuitPrompt ignoreHUD="true">
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+		<Action type="userConfirmation" text="UI_SciFighter_ExitConfirmation" title="UI_SciFighterExitTitle" var="confirm_exit" rightButtonColor="A61F0CFF" useBackButtonAsCancel="true" />
+		<Action type="checkExpression" expression="confirm_exit">
+			<ExpressionCase value="0">
+				<Action type="updateVariable" disableEvents="true" variable="SF_PAUSED" value="0" />
+				<Action type="updateVariable" disableEvents="true" variable="SF_UNPAUSED" value="1" />
+				<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:UpdateTimer" shouldSave="true" relativeTime="1s" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="scheduleScript" mode="delete" script="SciFi_Scripts_SciFighter:*" />
+				<Action type="runScript" script="SciFi_Scripts_SciFighter:GameOver_Loss" ignoreObject="true" />
+			</ExpressionCase>
+		</Action>
+	</ShowQuitPrompt>
+	<GameOver_Win parallel="true">
+		<Action type="if">
+			<If expression="SF_GAMELOST==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_GAMEWON" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_INMAIN" value="0" />
+					<Action type="if">
+						<If expression="SciFi_Event">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_SkipEMP" value="0" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+					<Action type="if">
+						<If expression="SciFi_Event &amp;&amp; SF_MechaHawkDefeated==1">
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="active quest" quest="JudgmentDay_1" allowDeprecate="true" />
+								<Requirement type="active quest" quest="JudgmentDay_2" allowDeprecate="true" />
+								<Requirement type="active quest" quest="JudgmentDay_3" allowDeprecate="true" />
+								<Requirement type="active quest" quest="JudgmentDay_4" allowDeprecate="true" />
+								<Requirement type="active quest" quest="JudgmentDay_5" allowDeprecate="true" />
+							</Requirement>
+							<Then>
+								<Action type="updateVariable" disableEvents="false" variable="SF_JudgmentDay_MechaDefeated" value="1" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="scheduleScript" mode="delete" script="SciFi_Scripts_SciFighter:*" />
+					<Action type="pantoobject" building="MultiVac" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+					<Action type="delay" time="1" />
+					<Action type="sound" sound="SciFighter_EMP" />
+					<Action type="anim-building-oneshot" postdraw="true" nowait="true" onBuilding="MultiVac">
+						<OneShot name="regular" file="EMPPulse" animation="Active" x="0" y="0" />
+					</Action>
+					<Action type="delay" time="1" />
+					<Action type="runScriptOnAll" character="Robot_SciFighter" script="SciFi_Scripts_SciFighter:DestroyTappableRobotsEnd" />
+					<Action type="runScriptOnAll" character="AdvancedRobot_SciFighter" script="SciFi_Scripts_SciFighter:DestroyTappableRobotsEnd" />
+					<Action type="removeAttractor" onType="building" onObject="MultiVac" />
+					<Action type="if">
+						<If expression="SF_MECHAHAWK==1">
+							<Then>
+								<Action type="runScript" script="SciFi_Scripts_SciFighter:SpawnOutMechaHawk" ignoreObject="true" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="removeBuildingOverlay" building="MultiVac" name="HPBar" />
+					<Action type="scheduleScript" mode="create" script="SciFi_Scripts_SciFighter:GameOver_WinComplete" shouldSave="true" relativeTime="1s" />
+				</Then>
+			</If>
+		</Action>
+	</GameOver_Win>
+	<GameOver_WinComplete ignoreHUD="true">
+		<Action type="setVariable" boolVariable="SciFighterWon" boolValue="true" />
+		<Action type="scheduleScript" mode="delete" script="SciFi_Scripts_SciFighter:*" />
+		<Action type="setVariable" intVariable="SF_DCS_SciFighter_Wins" intValue="SF_DCS_SciFighter_Wins + 1" />
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Object::Damage')==0">
+				<Then>
+					<Action type="setVariable" intVariable="SF_DCS_SciFighter_NoDamage" intValue="SF_DCS_SciFighter_NoDamage + 1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="SF_STARTED" value="0" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ClearScreenEffect" />
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts:MultiVac_SkinReset" shouldSave="true" relativeTime="1h" />
+		<Action type="setMiniGameState" building="MultiVac" name="SciFighter" state="Playing" />
+		<Action type="setMiniGameState" building="MultiVac" name="SciFighter" state="Ready" />
+		<Action type="runScriptOnAll" character="Robot_SciFighter" script="SciFi_Scripts_SciFighter:RobotTeleportOut" />
+		<Action type="runScriptOnAll" character="AdvancedRobot_SciFighter" script="SciFi_Scripts_SciFighter:RobotTeleportOut" />
+		<Action type="stopSoundKit" sound="SciFighter_Ambience_Loop" fadeoutTime="1.5" />
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:ExitGame" />
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:SciFighterTelemetry" />
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:Rewards_Win" />
+	</GameOver_WinComplete>
+	<GameOver_Loss parallel="true">
+		<Action type="if">
+			<If expression="SF_GAMEWON==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_INMAIN" value="0" />
+					<Action type="if">
+						<If expression="SciFi_Event">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_SkipEMP" value="0" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+					<Action type="scheduleScript" mode="delete" script="SciFi_Scripts_SciFighter:*" />
+					<Action type="pantoobject" building="MultiVac" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+					<Action type="setBuildingSkin" building="MultiVac" skinName="MultiVac_Wrecked" />
+					<Action type="anim-building-oneshot" onBuilding="MultiVac" nowait="true">
+						<OneShot name="regular" file="MultiVacExplosion" animation="Explosion" x="0" y="0" />
+					</Action>
+					<Action type="scheduleScript" mode="replace" script="SciFi_Scripts:MultiVac_SkinReset" shouldSave="true" relativeTime="1h" />
+					<Action type="delay" time="2" />
+					<Action type="runScriptOnAll" character="Robot_SciFighter" script="SciFi_Scripts_SciFighter:RobotTeleportOut" />
+					<Action type="runScriptOnAll" character="AdvancedRobot_SciFighter" script="SciFi_Scripts_SciFighter:RobotTeleportOut" />
+					<Action type="removeAttractor" onType="building" onObject="MultiVac" />
+					<Action type="if">
+						<If expression="SF_MECHAHAWK==1">
+							<Then>
+								<Action type="runScript" script="SciFi_Scripts_SciFighter:SpawnOutMechaHawk" ignoreObject="true" />
+							</Then>
+						</If>
+					</Action>
+					<Action type="removeBuildingOverlay" building="MultiVac" name="HPBar" />
+					<Action type="scheduleScript" mode="create" script="SciFi_Scripts_SciFighter:GameOver_LossComplete" shouldSave="true" relativeTime="1s" />
+				</Then>
+			</If>
+		</Action>
+	</GameOver_Loss>
+	<GameOver_LossComplete ignoreHUD="true">
+		<Action type="if">
+			<If expression="SciFi_Event">
+				<Then>
+					<Action type="setVariable" boolVariable="SciFighterLost" boolValue="true" />
+					<Action type="if">
+						<If>
+							<Requirement type="quest started" quest="JudgmentDay_1" />
+							<Then>
+								<Action type="setVariable" boolVariable="MechaHawkSciFighterLost" boolValue="true" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+		<Action type="scheduleScript" mode="delete" script="SciFi_Scripts_SciFighter:*" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_STARTED" value="0" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ClearScreenEffect" />
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts:MultiVac_SkinReset" shouldSave="true" relativeTime="1h" />
+		<Action type="setMiniGameState" building="MultiVac" name="SciFighter" state="Playing" />
+		<Action type="setMiniGameState" building="MultiVac" name="SciFighter" state="Ready" />
+		<Action type="runScriptOnAll" character="Robot_SciFighter" script="SciFi_Scripts_SciFighter:RobotTeleportOut" />
+		<Action type="runScriptOnAll" character="AdvancedRobot_SciFighter" script="SciFi_Scripts_SciFighter:RobotTeleportOut" />
+		<Action type="stopSoundKit" sound="SciFighter_Ambience_Loop" fadeoutTime="1.5" />
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:ExitGame" />
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:SciFighterTelemetry" />
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:Rewards_Loss" />
+	</GameOver_LossComplete>
+	<ExitGame ignoreHUD="true">
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:DoExitGame" />
+	</ExitGame>
+	<DoExitGame ignoreHUD="true">
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="gotoState" state="GameState_InGame" />
+	</DoExitGame>
+	<UpdateTimer parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="System::evaluate('Game::State::GameState_CustomTouch')">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateTimer_InState" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ClearScreenEffect" />
+				</Then>
+			</Else>
+		</Action>
+	</UpdateTimer>
+	<UpdateTimer_InState cache="true">
+		<Action type="if">
+			<If expression="SF_PAUSED==0">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateTimer_NotPaused" />
+				</Then>
+			</If>
+		</Action>
+	</UpdateTimer_InState>
+	<UpdateTimer_NotPaused cache="true">
+		<Action type="if">
+			<If expression="SF_UNPAUSED==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_FRAMECNT" value="SF_FRAMECNT-1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="SF_FRAMECNT==0">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateAnimatedTimer" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:GameOver_Win" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateTimer_NotEnded" />
+				</Then>
+			</Else>
+		</Action>
+	</UpdateTimer_NotPaused>
+	<UpdateTimer_NotEnded cache="true">
+		<Action type="if">
+			<If expression="SF_INMAIN==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_INMAIN" value="1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_SciFighter:UpdateTimer" shouldSave="true" relativeTime="1s" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateAnimatedTimer" />
+		<Action type="if">
+			<If expression="SF_UNPAUSED==0">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="SF_UNPAUSED==1">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:AllowMovement" />
+					<Action type="updateVariable" disableEvents="true" variable="SF_UNPAUSED" value="0" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="lessThanEQ(SF_FRAMECNT,5)">
+				<Then>
+					<Action type="sound" sound="DCS_OpenWindow" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="SF_FRAMECNT==SF_NextHawkSpawn &amp;&amp; SF_MechaHawkSeen==1">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:MechaHawkSpawned" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="SF_MECHAHAWK==1">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateTimer_UpdateMechaHawk" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateTimer_UpdateScreenAndSpeed" />
+	</UpdateTimer_NotEnded>
+	<UpdateTimer_UpdateScreenAndSpeed cache="true">
+		<Action type="if">
+			<If expression="SF_FRAMECNT==20">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="MediumSpeedBonus" />
+				</Then>
+			</If>
+			<ElseIf expression="SF_FRAMECNT==10">
+				<Then>
+					<Action type="if">
+						<If expression="SF_MECHAHAWK==0">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="HighSpeedBonus" />
+								<Action type="actionSequence" script="SciFi_Scripts_SciFighter:AllowMovement" />
+							</Then>
+						</If>
+						<ElseIf expression="SF_MECHAHAWK==1">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="HighHawkSpeedBonus" />
+								<Action type="actionSequence" script="SciFi_Scripts_SciFighter:AllowMovement" />
+							</Then>
+						</ElseIf>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</UpdateTimer_UpdateScreenAndSpeed>
+	<UpdateTimer_UpdateMechaHawk cache="true">
+		<Action type="checkExpression" expression="SF_ATTACKING">
+			<ExpressionCase value="0">
+				<Action type="updateVariable" disableEvents="true" variable="SF_ATTACKING" value="1" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="checkExpression" expression="SF_CHARGING">
+					<ExpressionCase value="0">
+						<Action type="updateVariable" disableEvents="true" variable="SF_CHARGING" value="1" />
+					</ExpressionCase>
+					<ExpressionCase value="1">
+						<Action type="updateVariable" disableEvents="true" variable="SF_CHARGING" value="2" />
+					</ExpressionCase>
+					<ExpressionCase value="2">
+						<Action type="updateVariable" disableEvents="true" variable="SF_CHARGING" value="3" />
+					</ExpressionCase>
+					<ExpressionCase value="3">
+						<Action type="updateVariable" disableEvents="true" variable="SF_ATTACKING" value="2" />
+						<Action type="runScript" script="SciFi_Scripts_SciFighter:MechaHawk_Attack" />
+					</ExpressionCase>
+				</Action>
+			</ExpressionCase>
+		</Action>
+	</UpdateTimer_UpdateMechaHawk>
+	<UpdateAnimatedTimer cache="true">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="Time03Anim">
+					<Attribute name="loop" value="false" />
+					<Attribute name="animation" value="Timer_Static_{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="floor(SF_FRAMECNT/10)" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="Time04Anim">
+					<Attribute name="loop" value="false" />
+					<Attribute name="animation" value="Timer_Static_{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="mod(SF_FRAMECNT,10)" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</UpdateAnimatedTimer>
+	<ClearScreenEffect ignoreHUD="true">
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreen_Alpha" show="false" />
+	</ClearScreenEffect>
+	<RobotSpawn cache="true">
+		<Action type="if">
+			<If expression="!SciFi_Event">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act2" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf expression="SF_AdvRobotSeen==0">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act1" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="SF_AdvRobotSeen==1 &amp;&amp; SF_MechaHawkSeen==0">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act2" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act3" parseOnDemand="true" />
+				</Then>
+			</Else>
+		</Action>
+	</RobotSpawn>
+	<RobotSpawn_Act1 cache="true">
+		<Action type="if">
+			<If expression="greaterThanEQ(SF_FRAMECNT, 10)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act1_10" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(SF_FRAMECNT, 0)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act1_0" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RobotSpawn_Act1>
+	<RobotSpawn_Act1_10 cache="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard2" />
+	</RobotSpawn_Act1_10>
+	<RobotSpawn_Act1_0 cache="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard3" />
+	</RobotSpawn_Act1_0>
+	<RobotSpawn_Act2 cache="true">
+		<Action type="if">
+			<If expression="greaterThanEQ(SF_FRAMECNT, 10)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act2_10" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(SF_FRAMECNT, 0)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act2_0" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RobotSpawn_Act2>
+	<RobotSpawn_Act2_10 cache="true">
+		<Action type="updateVariable" disableEvents="true" variable="RoboSpawnRandom" value="rand(100)" />
+		<Action type="if">
+			<If expression="lessThan(RoboSpawnRandom, 40)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Advanced1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard1" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard1" />
+	</RobotSpawn_Act2_10>
+	<RobotSpawn_Act2_0 cache="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Advanced1" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard1" />
+	</RobotSpawn_Act2_0>
+	<RobotSpawn_Act3 cache="true">
+		<Action type="if">
+			<If expression="greaterThanEQ(SF_FRAMECNT, 10)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act3_10" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(SF_FRAMECNT, 0)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Act3_0" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RobotSpawn_Act3>
+	<RobotSpawn_Act3_10 cache="true">
+		<Action type="updateVariable" disableEvents="true" variable="RoboSpawnRandom" value="rand(100)" />
+		<Action type="if">
+			<If expression="lessThan(RoboSpawnRandom, 60)">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Advanced1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard1" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard1" />
+	</RobotSpawn_Act3_10>
+	<RobotSpawn_Act3_0 cache="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Advanced1" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSpawn_Standard1" />
+	</RobotSpawn_Act3_0>
+	<CastleReached_Robot parallel="true" cache="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSuccessAnim" />
+		<Action type="setObjectVariable" disableEvents="true" variable="Done" value="1" />
+		<Action type="delay" time="0.4" />
+		<Action type="sound" sound="SciFighter_Robot_Attack" />
+		<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="MultiVac" variable="Damage" value="Object::Damage+1" asExpression="true" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:MultiVacDamaged" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSuccessAnim_Delete" />
+	</CastleReached_Robot>
+	<CastleReached_AdvRobot parallel="true" cache="true">
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSuccessAnim" />
+		<Action type="setObjectVariable" disableEvents="true" variable="Done" value="1" />
+		<Action type="delay" time="0.4" />
+		<Action type="sound" sound="SciFighter_Drone_Attack" />
+		<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="MultiVac" variable="Damage" value="Object::Damage+1" asExpression="true" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:MultiVacDamaged" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:RobotSuccessAnim_Delete" />
+	</CastleReached_AdvRobot>
+	<MultiVacDamaged parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="(greaterThanEQ(System::evaluate('Building::MultiVac::Object::Damage'), SF_MaxDamage) &amp;&amp; SF_GAMELOST==0)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_GAMELOST" value="1" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:GameOver_Loss" ignoreObject="true" />
+				</Then>
+			</If>
+			<ElseIf expression="(greaterThanEQ(System::evaluate('Building::MultiVac::Object::Damage'), SF_VisualDamageThreshold) &amp;&amp; SF_GAMELOST==0)">
+				<Then>
+					<Action type="setBuildingSkin" building="MultiVac" skinName="MultiVac_Damaged" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</MultiVacDamaged>
+	<UpdateHealthBar cache="true">
+		<Action type="removeBuildingOverlay" building="MultiVac" name="HPBar" />
+		<Action type="scheduleScript" mode="delete" script="SciFi_Scripts_SciFighter:UpdateHealthBar_ResetAlpha" />
+		<Action type="checkExpression" expression="min(System::evaluate('Building::MultiVac::Object::Damage'), 5)">
+			<ExpressionCase value="1">
+				<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar_DMG_1" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar_DMG_2" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar_DMG_3" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar_DMG_4" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar_DMG_5" parseOnDemand="true" />
+			</ExpressionCase>
+		</Action>
+		<Action type="if">
+			<If expression="(SF_GAMEWON!=1) &amp;&amp; (SF_GAMELOST!=1)">
+				<Then>
+					<Action type="scheduleScript" mode="create" script="SciFi_Scripts_SciFighter:UpdateHealthBar_ResetAlpha" shouldSave="true" relativeTime="1s" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+				</Then>
+			</If>
+		</Action>
+	</UpdateHealthBar>
+	<UpdateHealthBar_DMG_1 cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar02" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar02_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_R" value="0.31" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_G" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="1" />
+	</UpdateHealthBar_DMG_1>
+	<UpdateHealthBar_DMG_2 cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar03" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar03_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_R" value="0.48" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_G" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="1" />
+	</UpdateHealthBar_DMG_2>
+	<UpdateHealthBar_DMG_3 cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar04" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar04_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_R" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_G" value="0.75" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="1" />
+	</UpdateHealthBar_DMG_3>
+	<UpdateHealthBar_DMG_4 cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar05" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar05_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_R" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_G" value="0.27" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="1" />
+	</UpdateHealthBar_DMG_4>
+	<UpdateHealthBar_DMG_5 cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::MultiVac::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar06" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="MultiVac" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_SciFi2016_BuildingHPBar" anim="HPBar06_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_R" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_G" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="1" />
+	</UpdateHealthBar_DMG_5>
+	<UpdateHealthBar_ResetAlpha parallel="true" cache="true">
+		<Action type="updateVariable" disableEvents="true" variable="SF_RGB_A" value="0.7" />
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateOverlay" />
+	</UpdateHealthBar_ResetAlpha>
+	<MechaHawkSpawned parallel="true">
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:SpawnInMechaHawk" ignoreObject="true" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_MECHAHAWK" value="1" />
+		<Action type="if">
+			<If expression="greaterThan(SF_FRAMECNT, 20)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="LowHawkSpeedBonus" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(SF_FRAMECNT, 10)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="MediumHawkSpeedBonus" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="HighHawkSpeedBonus" />
+				</Then>
+			</Else>
+		</Action>
+	</MechaHawkSpawned>
+	<MechaHawkDeath parallel="true">
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:SpawnOutMechaHawk" ignoreObject="true" />
+		<Action type="if">
+			<If expression="greaterThan(SF_FRAMECNT, 20)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="LowSpeedBonus" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(SF_FRAMECNT, 10)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="MediumSpeedBonus" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_SPEEDBONUS" value="HighSpeedBonus" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="actionSequence" script="SciFi_Scripts_SciFighter:AllowMovement" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_HAWKDAMAGE" value="0" />
+	</MechaHawkDeath>
+	<MechaHawkFlyByTapped parallel="true" cache="true">
+		<Action type="if">
+			<If expression="#fast; SF_TAPPABLE==1 &amp;&amp; SF_ATTACKING!=2">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:MechaHawkTapped_Action" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</MechaHawkFlyByTapped>
+	<MechaHawkTapped_Action cache="true">
+		<Action type="sound" sound="SciFighter_MechaHawk_Tap" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_HAWKDAMAGE" value="SF_HAWKDAMAGE+1" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_CHARGING" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="SF_ATTACKING" value="0" />
+		<Action type="if">
+			<If expression="greaterThanEQ(SF_HAWKDAMAGE, SF_HawkMaxDamage)">
+				<Then>
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:MechaHawkDeath" />
+					<Action type="updateVariable" disableEvents="false" variable="SF_MechaHawkDefeated" value="1" />
+				</Then>
+			</If>
+		</Action>
+	</MechaHawkTapped_Action>
+	<MechaHawkTapped_Action_ResetAnim parallel="true" cache="true">
+		<Action type="anim-play" animation="Charging" waitforend="false" nowait="true" loop="true" flyBy="MechaHawkFlyBy" />
+	</MechaHawkTapped_Action_ResetAnim>
+	<MechaHawk_Attack parallel="true" cache="true">
+		<Action type="anim-play" flyBy="MechaHawkFlyBy" animation="Attack" nowait="true" />
+		<Action type="sound" sound="SciFighter_MechaHawk_Attack" />
+		<Action type="delay" time="1" />
+		<Action type="if">
+			<If expression="!SF_GAMELOST &amp;&amp; !SF_GAMEWON">
+				<Then>
+					<Action type="shakeCamera" length="12" magnitude="6" waitUntilComplete="false" />
+					<Action type="flashScreen" colour="White" speed="5" />
+					<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="MultiVac" variable="Damage" value="Object::Damage+1" asExpression="true" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:UpdateHealthBar" parseOnDemand="true" />
+					<Action type="anim-building-oneshot" onBuilding="MultiVac" nowait="true">
+						<OneShot name="regular" file="MultiVacExplosion" animation="Explosion" x="0" y="0" />
+					</Action>
+					<Action type="if">
+						<If expression="(greaterThanEQ(System::evaluate('Building::MultiVac::Object::Damage'), SF_MaxDamage) &amp;&amp; SF_GAMELOST==0)">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_GAMELOST" value="1" />
+								<Action type="actionSequence" script="SciFi_Scripts_SciFighter:PauseMovement" parseOnDemand="true" />
+								<Action type="runScript" script="SciFi_Scripts_SciFighter:GameOver_Loss" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_CHARGING" value="0" />
+								<Action type="updateVariable" disableEvents="true" variable="SF_ATTACKING" value="0" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="anim-play" flyBy="MechaHawkFlyBy" animation="Charging" nowait="true" loop="true" />
+				</Then>
+			</If>
+		</Action>
+	</MechaHawk_Attack>
+	<RobotTapped parallel="true" cache="true">
+		<Action type="if">
+			<If expression="#fast; (SF_TAPPABLE==1) &amp;&amp; (Object::Done==0)">
+				<Then>
+					<Action type="playflyby" flybyName="BlastEffect" radius="1" unitScale="0.13" playbackFPS="50" />
+					<Action type="if">
+						<If expression="#fast; SF_MECHAHAWK==1 &amp;&amp; Object::Tapped==0">
+							<Then>
+								<Action type="sound" sound="SciFighter_Robot_Shield" />
+								<Action type="setObjectVariable" disableEvents="true" variable="Tapped" value="1" allowOrphan="false" />
+							</Then>
+						</If>
+						<ElseIf expression="SF_MECHAHAWK==1">
+							<Then>
+								<Action type="sound" sound="SciFighter_Robot_Tap" />
+								<Action type="actionSequence" script="SciFi_Scripts_SciFighter:DestroyTappableRobots" parseOnDemand="true" />
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="sound" sound="SciFighter_Robot_Tap" />
+								<Action type="actionSequence" script="SciFi_Scripts_SciFighter:DestroyTappableRobots" parseOnDemand="true" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</RobotTapped>
+	<AdvRobotTapped parallel="true" cache="true">
+		<Action type="if">
+			<If expression="#fast; (SF_TAPPABLE==1) &amp;&amp; (Object::Done==0)">
+				<Then>
+					<Action type="playflyby" flybyName="BlastEffect" radius="1" unitScale="0.13" playbackFPS="50" />
+					<Action type="setObjectVariable" disableEvents="true" variable="Tapped" value="Object::Tapped+1" asExpression="true" allowOrphan="false" />
+					<Action type="if">
+						<If expression="SF_MECHAHAWK==1">
+							<Then>
+								<Action type="if">
+									<If expression="Object::Tapped==3">
+										<Then>
+											<Action type="sound" sound="SciFighter_Drone_Tap" />
+											<Action type="actionSequence" script="SciFi_Scripts_SciFighter:DestroyTappableAdvRobot" parseOnDemand="true" />
+										</Then>
+									</If>
+									<ElseIf expression="Object::Tapped==2">
+										<Then>
+											<Action type="sound" sound="SciFighter_Drone_Tap" />
+											<Action type="actionSequence" script="SciFi_Scripts_SciFighter:AdvRobotInjured" parseOnDemand="true" />
+										</Then>
+									</ElseIf>
+									<ElseIf expression="Object::Tapped==1">
+										<Then>
+											<Action type="sound" sound="SciFighter_Drone_Shield" />
+										</Then>
+									</ElseIf>
+								</Action>
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="if">
+									<If expression="greaterThanEQ(Object::Tapped, 2)">
+										<Then>
+											<Action type="sound" sound="SciFighter_Drone_Tap" />
+											<Action type="actionSequence" script="SciFi_Scripts_SciFighter:DestroyTappableAdvRobot" parseOnDemand="true" />
+										</Then>
+									</If>
+									<ElseIf expression="Object::Tapped==1">
+										<Then>
+											<Action type="actionSequence" script="SciFi_Scripts_SciFighter:AdvRobotInjured" parseOnDemand="true" />
+										</Then>
+									</ElseIf>
+								</Action>
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</AdvRobotTapped>
+	<DestroyTappableRobots parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Delete==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_RobotRewards" value="SF_RobotRewards + 1" />
+					<Action type="setVariable" intVariable="SF_DCS_SciFighter_Robots" intValue="SF_DCS_SciFighter_Robots + 1" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+					<Action type="stop" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:DestroyAnimation" />
+				</Then>
+			</If>
+		</Action>
+	</DestroyTappableRobots>
+	<DestroyTappableAdvRobot parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Delete==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_AdvRobotsRewards" value="SF_AdvRobotsRewards + 1" />
+					<Action type="setVariable" intVariable="SF_DCS_SciFighter_Robots" intValue="SF_DCS_SciFighter_Robots + 1" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+					<Action type="stop" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:DestroyAnimation" />
+				</Then>
+			</If>
+		</Action>
+	</DestroyTappableAdvRobot>
+	<DestroyTappableRobotsEnd parallel="true">
+		<Action type="if">
+			<If expression="Object::Delete==0">
+				<Then>
+					<Action type="setVariable" intVariable="SF_DCS_SciFighter_Robots" intValue="SF_DCS_SciFighter_Robots + 1" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+					<Action type="stop" />
+					<Action type="runScript" script="SciFi_Scripts_SciFighter:DestroyAnimation" />
+				</Then>
+			</If>
+		</Action>
+	</DestroyTappableRobotsEnd>
+	<DestroyAnimation parallel="true" cache="true">
+		<Action type="anim-play" animation="Tap" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" />
+	</DestroyAnimation>
+	<RobotTeleportOut parallel="true">
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+		<Action type="anim-play" animation="out" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" />
+	</RobotTeleportOut>
+	<RushSciFighterCooldown parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="rushMinigame" minigame="SciFighter" />
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts:MultiVac_SkinReset" shouldSave="true" relativeTime="4s" />
+	</RushSciFighterCooldown>
+	<Rewards_Win ignoreHUD="true">
+		<Action type="if">
+			<If expression="SciFi_Event">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterRewards_Win" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterRewards_Robots" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ShowSciFighterRewardPanel_Win" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="if">
+						<If expression="User::getVariable('SmartDevice') &lt; System::evaluate('Selector::SmartDeviceResourceCap')">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="min(4, (SF_BaseReward + SF_CompletionReward) + ((SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)) + ((SF_RobotRewards*SF_RobotEvent)+ (SF_AdvRobotsRewards*SF_AdvRobotEvent))))" />
+								<Action type="if">
+									<If expression="HeightsMultiplierActive || toDouble(System::getConfigValue('__Multipliers_GameConfig:SpringfieldHeightsMultiplier:MultiplierActive__'))">
+										<Then>
+											<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="SF_PAYOUT1*toDouble(System::getConfigValue('__Multipliers_GameConfig:SpringfieldHeightsMultiplier:Multiplier__'))" />
+										</Then>
+									</If>
+								</Action>
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="0" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="if">
+						<If expression="User::getVariable('Junk') &lt; toDouble(System::getConfigValue('__Monorail_Config:SpendableValues:JunkMax__'))">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT2" value="min(500, (SF_BaseReward_RP + SF_CompletionReward_RP) + ((SF_PerSecondReward_RP*(SF_GameLength-SF_FRAMECNT)) + (ceil((SF_RobotRewards*SF_RobotCraft1)*SF_RobotCraft1Chance)+((SF_AdvRobotsRewards*SF_AdvRobotCraft1)*SF_AdvRobotCraft1Chance))))" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT2" value="0" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT3" value="min(500, (SF_BaseReward_FB + SF_CompletionReward_FB) + ((SF_PerSecondReward_FB*(SF_GameLength-SF_FRAMECNT)) + (ceil((SF_RobotRewards*SF_RobotCraft2)*SF_RobotCraft2Chance)+((SF_AdvRobotsRewards*SF_AdvRobotCraft2)*SF_AdvRobotCraft2Chance))))" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterRewards_Post" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ShowSciFighterRewardPanel_Win_Post" />
+				</Then>
+			</Else>
+		</Action>
+	</Rewards_Win>
+	<Rewards_Loss ignoreHUD="true">
+		<Action type="if">
+			<If expression="SciFi_Event">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterRewards_Loss" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterRewards_Robots" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ShowSciFighterRewardPanel_Loss" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="if">
+						<If expression="User::getVariable('SmartDevice') &lt; System::evaluate('Selector::SmartDeviceResourceCap')">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="min(4, SF_BaseReward + ((SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)) + ((SF_RobotRewards*SF_RobotEvent)+ (SF_AdvRobotsRewards*SF_AdvRobotEvent))))" />
+								<Action type="if">
+									<If expression="HeightsMultiplierActive || toDouble(System::getConfigValue('__Multipliers_GameConfig:SpringfieldHeightsMultiplier:MultiplierActive__'))">
+										<Then>
+											<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="SF_PAYOUT1*toDouble(System::getConfigValue('__Multipliers_GameConfig:SpringfieldHeightsMultiplier:Multiplier__'))" />
+										</Then>
+									</If>
+								</Action>
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT1" value="0" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="if">
+						<If expression="User::getVariable('Junk') &lt; toDouble(System::getConfigValue('__Monorail_Config:SpendableValues:JunkMax__'))">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT2" value="min(500, SF_BaseReward_RP + ((SF_PerSecondReward_RP*(SF_GameLength-SF_FRAMECNT)) + (ceil((SF_RobotRewards*SF_RobotCraft1)*SF_RobotCraft1Chance)+((SF_AdvRobotsRewards*SF_AdvRobotCraft1)*SF_AdvRobotCraft1Chance))))" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT2" value="0" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="updateVariable" disableEvents="true" variable="SF_PAYOUT3" value="min(500, SF_BaseReward_FB + ((SF_PerSecondReward_FB*(SF_GameLength-SF_FRAMECNT)) + (ceil((SF_RobotRewards*SF_RobotCraft2)*SF_RobotCraft2Chance)+((SF_AdvRobotsRewards*SF_AdvRobotCraft2)*SF_AdvRobotCraft2Chance))))" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:SciFighterRewards_Post" />
+					<Action type="actionSequence" script="SciFi_Scripts_SciFighter:ShowSciFighterRewardPanel_Loss_Post" />
+				</Then>
+			</Else>
+		</Action>
+	</Rewards_Loss>
+	<ShowSciFighterRewardPanel_Win>
+		<Action type="showMenu" menu="SciFighterRewardNotification" scriptResProvider="SciFighterRewardNotification.mns" menuConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardNotificationConfig_Win" buttonsConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardButtonConfig" />
+	</ShowSciFighterRewardPanel_Win>
+	<ShowSciFighterRewardPanel_Win_Post>
+		<Action type="showMenu" menu="SciFighterRewardNotification" scriptResProvider="SciFighterRewardNotification.mns" menuConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardNotificationConfig_Win_Post" buttonsConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardButtonConfig" />
+	</ShowSciFighterRewardPanel_Win_Post>
+	<ShowSciFighterRewardPanel_Loss>
+		<Action type="showMenu" menu="SciFighterRewardNotification" scriptResProvider="SciFighterRewardNotification.mns" menuConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardNotificationConfig_Lose" buttonsConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardButtonConfig" />
+	</ShowSciFighterRewardPanel_Loss>
+	<ShowSciFighterRewardPanel_Loss_Post>
+		<Action type="showMenu" menu="SciFighterRewardNotification" scriptResProvider="SciFighterRewardNotification.mns" menuConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardNotificationConfig_Lose_Post" buttonsConfig="SciFi_MenuConfig_SciFighter:SciFighterRewardButtonConfig" />
+	</ShowSciFighterRewardPanel_Loss_Post>
+	<SciFighterRewards_Post parallel="true">
+		<Action type="if">
+			<If>
+				<Requirement type="land block" land="Springfield" count="1" min="true" block="3,-4" />
+				<Then>
+					<Action type="reward" save="true" SmartDevice="SF_PAYOUT1" suppress_sound="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest started" quest="RailingOn_1" />
+					<Requirement type="quest started" quest="ARailOfOneCity_5" />
+					<Requirement type="quest started" quest="BringAllTheJunkToTheYard" />
+				</Requirement>
+				<Then>
+					<Action type="reward" save="true" Junk="SF_PAYOUT2" suppress_sound="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="reward" save="true" xp="SF_PAYOUT3" suppress_sound="true" />
+	</SciFighterRewards_Post>
+	<SciFiTelemetry_PostLog ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest started" quest="RailingOn_1" />
+						<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						<Requirement type="quest started" quest="BringAllTheJunkToTheYard" />
+					</Requirement>
+					<Requirement type="land block" land="Springfield" count="1" min="true" block="3,-4" />
+				</Requirements>
+				<Then>
+					<Action type="logevent" eventId="3867" param1Type="Enumeration" param1AsFormula="SF_GameLength-SF_FRAMECNT" param2Type="Enumeration" param2AsFormula="SF_PAYOUT1" param3Type="Enumeration" param3AsFormula="SF_PAYOUT2" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest started" quest="RailingOn_1" />
+					<Requirement type="quest started" quest="ARailOfOneCity_5" />
+					<Requirement type="quest started" quest="BringAllTheJunkToTheYard" />
+				</Requirement>
+				<Then>
+					<Action type="logevent" eventId="3867" param1Type="Enumeration" param1AsFormula="SF_GameLength-SF_FRAMECNT" param2Type="Enumeration" param2AsFormula="0" param3Type="Enumeration" param3AsFormula="SF_PAYOUT2" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="land block" land="Springfield" count="1" min="true" block="3,-4" />
+				<Then>
+					<Action type="logevent" eventId="3867" param1Type="Enumeration" param1AsFormula="SF_GameLength-SF_FRAMECNT" param2Type="Enumeration" param2AsFormula="SF_PAYOUT1" param3Type="Enumeration" param3AsFormula="0" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="logevent" eventId="3867" param1Type="Enumeration" param1AsFormula="SF_GameLength-SF_FRAMECNT" param2Type="Enumeration" param2AsFormula="0" param3Type="Enumeration" param3AsFormula="0" />
+				</Then>
+			</Else>
+		</Action>
+	</SciFiTelemetry_PostLog>
+	<SciFighterRewards_Win parallel="true">
+		<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="min(300, (SF_CompletionReward+SF_BaseReward)+(SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)))" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_RPAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency1="min(300, (SF_CompletionReward_RP+SF_BaseReward_RP)+(SF_PerSecondReward_RP*(SF_GameLength-SF_FRAMECNT)))" suppress_sound="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_FBAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency2="min(300, (SF_CompletionReward_FB+SF_BaseReward_FB)+(SF_PerSecondReward_FB*(SF_GameLength-SF_FRAMECNT)))" suppress_sound="true" />
+			</True>
+		</Action>
+	</SciFighterRewards_Win>
+	<SciFighterRewards_Loss parallel="true">
+		<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="min(300, SF_BaseReward+(SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)))" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_RPAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency1="min(300, SF_BaseReward_RP+(SF_PerSecondReward_RP*(SF_GameLength-SF_FRAMECNT)))" suppress_sound="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_FBAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency2="min(300, SF_BaseReward_FB+(SF_PerSecondReward_FB*(SF_GameLength-SF_FRAMECNT)))" suppress_sound="true" />
+			</True>
+		</Action>
+	</SciFighterRewards_Loss>
+	<SciFighterRewards_Robots parallel="true">
+		<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="min(300, (SF_RobotRewards*SF_RobotEvent)+(SF_AdvRobotsRewards*SF_AdvRobotEvent))" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_RPAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency1="min(300, ceil(((SF_RobotRewards*SF_RobotCraft1)*SF_RobotCraft1Chance) + ((SF_AdvRobotsRewards*SF_AdvRobotCraft1)*SF_AdvRobotCraft1Chance)))" suppress_sound="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_FBAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency2="min(300, ceil(((SF_RobotRewards*SF_RobotCraft2)*SF_RobotCraft2Chance) + ((SF_AdvRobotsRewards*SF_AdvRobotCraft2)*SF_AdvRobotCraft2Chance)))" suppress_sound="true" />
+			</True>
+		</Action>
+	</SciFighterRewards_Robots>
+	<SciFighterTelemetry ignoreHUD="true">
+		<Action type="if">
+			<If expression="(SF_GameLength-SF_FRAMECNT)==0">
+				<Then>
+					<Action type="if">
+						<If expression="!SciFi_Event || SF_RPAvailable">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_REWARD1" value="(SF_BaseReward + SF_CompletionReward) + ((SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)) + ((SF_RobotRewards*SF_RobotEvent)+ (SF_AdvRobotsRewards*SF_AdvRobotEvent)))" />
+								<Action type="updateVariable" disableEvents="true" variable="SF_REWARD2" value="(SF_BaseReward_RP + SF_CompletionReward_RP) + ((SF_PerSecondReward_RP*(SF_GameLength-SF_FRAMECNT)) + (ceil((SF_RobotRewards*SF_RobotCraft1)*SF_RobotCraft1Chance)+((SF_AdvRobotsRewards*SF_AdvRobotCraft1)*SF_AdvRobotCraft1Chance)))" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_REWARD1" value="(SF_BaseReward + SF_CompletionReward) + ((SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)) + ((SF_RobotRewards*SF_RobotEvent)+ (SF_AdvRobotsRewards*SF_AdvRobotEvent)))" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="if">
+						<If expression="!SciFi_Event || SF_RPAvailable">
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_REWARD1" value="SF_BaseReward + ((SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)) + ((SF_RobotRewards*SF_RobotEvent)+ (SF_AdvRobotsRewards*SF_AdvRobotEvent)))" />
+								<Action type="updateVariable" disableEvents="true" variable="SF_REWARD2" value="SF_BaseReward_RP + ((SF_PerSecondReward_RP*(SF_GameLength-SF_FRAMECNT)) + (ceil((SF_RobotRewards*SF_RobotCraft1)*SF_RobotCraft1Chance)+((SF_AdvRobotsRewards*SF_AdvRobotCraft1)*SF_AdvRobotCraft1Chance)))" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="updateVariable" disableEvents="true" variable="SF_REWARD1" value="SF_BaseReward + ((SF_PerSecondReward*(SF_GameLength-SF_FRAMECNT)) + ((SF_RobotRewards*SF_RobotEvent)+ (SF_AdvRobotsRewards*SF_AdvRobotEvent)))" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="runScript" script="SciFi_Scripts_SciFighter:SciFiTelemetry_Log" />
+	</SciFighterTelemetry>
+	<SciFiTelemetry_Log ignoreHUD="true">
+		<Action type="logevent" eventId="3867" param1Type="Enumeration" param1AsFormula="SF_GameLength-SF_FRAMECNT" param2Type="Enumeration" param2AsFormula="SF_REWARD1" param3Type="Enumeration" param3AsFormula="SF_REWARD2" />
+	</SciFiTelemetry_Log>
+</ScriptPackage>

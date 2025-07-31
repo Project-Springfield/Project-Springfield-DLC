@@ -1,0 +1,547 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="162000" name="GamesOfTheirOwn_1" onDeprecated="delete" endDate="SpringfieldGames_End" />
+		<DataID id="162001" name="GamesOfTheirOwn_2" onDeprecated="delete" endDate="SpringfieldGames_End" />
+		<DataID id="162002" name="SpringfieldGames_Intro" />
+		<DataID id="162003" name="SpringfieldGames_Master" />
+		<DataID id="162004" name="SpringfieldGames_1" />
+		<DataID id="162005" name="SpringfieldGames_2" />
+		<DataID id="162006" name="SpringfieldGames_3" />
+		<DataID id="162007" name="APricklyObsession_1" />
+		<DataID id="162008" name="APricklyObsession_2" />
+		<DataID id="162009" name="APricklyObsession_2B" />
+		<DataID id="162010" name="APricklyObsession_3" />
+		<DataID id="162011" name="SpringfieldGames_4" />
+		<DataID id="162012" name="SpringfieldGames_5" />
+		<DataID id="162013" name="SpringfieldGames_6" />
+		<DataID id="162014" name="GoKartRacing" />
+		<DataID id="162015" name="HalfPipe" />
+		<DataID id="162016" name="CristoOfSpringfield" />
+		<DataID id="162017" name="UpsellLugash" />
+		<DataID id="162025" name="PlaySaxForPins" onDeprecated="delete" endDate="SpringfieldGames_End" />
+		<DataID id="162026" name="FindFatov" />
+		<DataID id="162050" name="MysteryLockerPromo" onDeprecated="delete" endDate="SpringfieldGames_End" />
+		<DataID id="162100" name="RewardFatov" />
+		<DataID id="162101" name="PinStandPlaced" />
+		<DataID id="162110" name="SpringfieldGames_72HourWarning" />
+		<DataID id="162111" name="SpringfieldGames_24HourWarning" />
+		<DataID id="162112" name="SpringfieldGames_EventExpired" />
+		<DataID id="162114" name="SpringfieldGames_PrizeTrackEnded" />
+		<DataID id="162115" name="SpringfieldGames_Outro" />
+	</MasterList>
+	<Quest id="162000" name="GamesOfTheirOwn_1" tags="sidequest" icon="SpringfieldGames_EventIcon">
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Requirements>
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="level" level="20" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="GamesOfTheirOwn_1_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="PetitionForSpringfieldGames" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="GamesOfTheirOwn_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162001" name="GamesOfTheirOwn_2" tags="sidequest" icon="SpringfieldGames_EventIcon">
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="GamesOfTheirOwn_1" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="GamesOfTheirOwn_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Snake" job="PlanTouristScams" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Wiggum" job="PlanPoliceAssistance" quantity="1" progress="quest" />
+			<Objective type="complete job" character="Quimby" job="AnnounceTheSpringfieldGames" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="GamesOfTheirOwn_2_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162002" name="SpringfieldGames_Intro" tags="sidequest">
+		<Requirement type="variable" variable="SpringfieldGames_Part1Done" />
+		<StartScript package="SpringfieldGames_Scripts" name="ShowMiniEventPanel" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162003" name="SpringfieldGames_Master" tags="sidequest" icon="SpringfieldGames_EventIcon" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_1_QuestConfig" suspendOnReqFailed="true" repeatable="true">
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+			<Requirement type="variable" variable="SpringfieldGames_Complete" not="true" />
+			<Requirement type="quest" quest="SpringfieldGames_Intro" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="SpringfieldGames_1" />
+				<Requirement type="active quest" quest="SpringfieldGames_2" />
+				<Requirement type="active quest" quest="SpringfieldGames_3" />
+				<Requirement type="active quest" quest="SpringfieldGames_4" />
+				<Requirement type="active quest" quest="SpringfieldGames_5" />
+				<Requirement type="active quest" quest="SpringfieldGames_6" />
+			</Requirement>
+		</Requirements>
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="SpringfieldGames_6" />
+					<Requirement type="variable" variable="SpringfieldGames_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="SpringfieldGames_1">
+				<Requirement type="quest started" quest="SpringfieldGames_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldGames_2">
+				<Requirement type="quest started" quest="SpringfieldGames_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldGames_3">
+				<Requirement type="quest started" quest="SpringfieldGames_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldGames_4">
+				<Requirement type="quest started" quest="SpringfieldGames_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldGames_5">
+				<Requirement type="quest started" quest="SpringfieldGames_6" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldGames_6"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="162004" name="SpringfieldGames_1" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_1_QuestConfig" forceObjectiveHighlight="true" showRewards="true" preventSuspend="true">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="quest" quest="SpringfieldGames_Intro" />
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="SpringfieldGames_Expired" />
+		</AntiReqs>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_1_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="IntimidateSpringfielders" quantity="1" progress="quest" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldGames_ParticipationRibbons')" amount="__SpringfieldGames_GameConfig:ResourceQuantities:ResourceList01__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:SpringfieldGames_OpenResourceMenu" textpoolName="QST_SpringfieldGames_1_2_obj_2">
+				<HighlightJobList>
+					<Job name="SuggestEvents_Premium" />
+					<Job name="SuggestEvents" />
+					<Job name="Fatov_Exercise" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<QuestParent quest="SpringfieldGames_Master" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldGames_Master" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162005" name="SpringfieldGames_2" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_2_QuestConfig" forceObjectiveHighlight="true" showRewards="true" preventSuspend="true">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_1" />
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="SpringfieldGames_Expired" />
+		</AntiReqs>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_2_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="IncludeGoKartRacingForTheKids" quantity="1" progress="quest" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldGames_ParticipationRibbons')" amount="__SpringfieldGames_GameConfig:ResourceQuantities:ResourceList02__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:SpringfieldGames_OpenResourceMenu" textpoolName="QST_SpringfieldGames_1_2_obj_2">
+				<HighlightJobList>
+					<Job name="GetExcitedForTheGames_Premium" />
+					<Job name="GetExcitedForTheGames" />
+					<Job name="GetExcitedForGoKarts" />
+					<Job name="Fatov_Exercise" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<QuestParent quest="SpringfieldGames_Master" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldGames_Master" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_2_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162006" name="SpringfieldGames_3" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_3_QuestConfig" forceObjectiveHighlight="true" showRewards="true" preventSuspend="true">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_2" />
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="SpringfieldGames_Expired" />
+		</AntiReqs>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_3_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="EncourageAdultsToStartTraining" quantity="1" progress="quest" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldGames_ParticipationRibbons')" amount="__SpringfieldGames_GameConfig:ResourceQuantities:ResourceList03__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:SpringfieldGames_OpenResourceMenu" textpoolName="QST_SpringfieldGames_1_2_obj_2">
+				<HighlightJobList>
+					<Job name="TrainTheKidsInSecret" />
+					<Job name="ReluctantlyTrainForTheGames" />
+					<Job name="TrainForTheGoKartRaces" />
+					<Job name="Fatov_Exercise" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<QuestParent quest="SpringfieldGames_Master" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldGames_Master" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162007" name="APricklyObsession_1" tags="sidequest" icon="SpringfieldGames_Pins">
+		<Priority types="FeatureUnlock" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_3" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="APricklyObsession_1_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="VisitTheSpringfieldPinStand" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162008" name="APricklyObsession_2" tags="sidequest" icon="SpringfieldGames_Pins">
+		<Priority types="FeatureUnlock" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="APricklyObsession_1" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="APricklyObsession_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="BuyTheSpringyPin" quantity="1" progress="quest" />
+		</Objectives>
+	</Quest>
+	<Quest id="162009" name="APricklyObsession_2B" tags="sidequest" icon="SpringfieldGames_Pins" textpoolName="QST_APricklyObsession_2_1_name">
+		<Priority types="FeatureUnlock" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="APricklyObsession_2" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="APricklyObsession_2B_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="BuyTheSpringyPin" quantity="1" progress="lifetime" textpoolName="QST_APricklyObsession_2_2_obj_1" />
+			<Objective type="complete job" character="Lisa" job="BuyJustOneMorePin" quantity="1" progress="quest" textpoolName="QST_APricklyObsession_2_2_obj_2" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="APricklyObsession_2B_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162010" name="APricklyObsession_3" tags="sidequest" icon="SpringfieldGames_Pins">
+		<Priority types="FeatureUnlock" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="APricklyObsession_2B" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="APricklyObsession_3_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" quantity="1" progress="quest">
+				<Job name="PlayTheSaxForPins_Pins" />
+				<Job name="PlayTheSaxForPins_Ribbons" />
+				<Job name="PlayTheSaxForPins" />
+			</Objective>
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="APricklyObsession_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162011" name="SpringfieldGames_4" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_4_QuestConfig" forceObjectiveHighlight="true" showRewards="true" preventSuspend="true">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_3" />
+			<Requirement type="quest started" quest="APricklyObsession_1" />
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="SpringfieldGames_Expired" />
+		</AntiReqs>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_4_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="LightTheGamesCauldron" quantity="1" progress="quest" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldGames_ParticipationRibbons')" amount="__SpringfieldGames_GameConfig:ResourceQuantities:ResourceList04__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:SpringfieldGames_OpenResourceMenu" textpoolName="QST_SpringfieldGames_1_2_obj_2">
+				<HighlightJobList>
+					<Job name="TrainTheKidsInSecret" />
+					<Job name="TrainForTheDodecathalon" />
+					<Job name="TrainForTheGoKartRaces" />
+					<Job name="Fatov_Exercise" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<QuestParent quest="SpringfieldGames_Master" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldGames_Master" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_4_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162012" name="SpringfieldGames_5" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_5_QuestConfig" forceObjectiveHighlight="true" showRewards="true" preventSuspend="true">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_4" />
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="SpringfieldGames_Expired" />
+		</AntiReqs>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_5_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ExplainTheDodecathlonRules" quantity="1" progress="quest" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldGames_ParticipationRibbons')" amount="__SpringfieldGames_GameConfig:ResourceQuantities:ResourceList05__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:SpringfieldGames_OpenResourceMenu" textpoolName="QST_SpringfieldGames_1_2_obj_2">
+				<HighlightJobList>
+					<Job name="TrainTheKidsInSecret" />
+					<Job name="CompeteInTheDodecathalon" />
+					<Job name="TrainForTheGoKartRaces" />
+					<Job name="Fatov_Exercise" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<QuestParent quest="SpringfieldGames_Master" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldGames_Master" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_5_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162013" name="SpringfieldGames_6" questMenuConfigPath="SpringfieldGames_QuestConfigs:SpringfieldGames_6_QuestConfig" forceObjectiveHighlight="true" showRewards="true" preventSuspend="true">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_5" />
+			<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="SpringfieldGames_Expired" />
+		</AntiReqs>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_6_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Quimby" job="WatchTheGoKartRaces" quantity="1" progress="quest" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldGames_ParticipationRibbons')" amount="__SpringfieldGames_GameConfig:ResourceQuantities:ResourceList06__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:SpringfieldGames_OpenResourceMenu" textpoolName="QST_SpringfieldGames_1_2_obj_2">
+				<HighlightJobList>
+					<Job name="WatchTheGoKarts_Premium" />
+					<Job name="CompeteInGoKartRaces" />
+					<Job name="Fatov_Exercise" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<QuestParent quest="SpringfieldGames_Master" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldGames_Master" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="SpringfieldGames_6_End" />
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="162014" name="GoKartRacing" tags="sidequest" icon="SpringfieldGames_GoKart">
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="SpringfieldGames_6" />
+			<Requirement type="building" building="GoKartTrack" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="GoKartRacing_Start" triggerType="building" building="GoKartTrack" />
+		<Objectives>
+			<Objective type="gamble" building="GoKartTrack" GoToBehaviour="doit" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="GoKartRacing_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162015" name="HalfPipe" tags="sidequest" icon="HalfPipe">
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="building" building="HalfPipe" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="HalfPipe_Start" triggerType="character" character="Bart" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="DoTricksOnTheHalfPipe" quantity="1" progress="quest" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts_Dialogue" name="HalfPipe_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="162016" name="CristoOfSpringfield" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="SpringfieldGames_3" />
+			<Requirement type="building" building="CristoSpringfield" not="true" />
+			<Requirement type="time" end="SpringfieldGames_End" />
+			<Requirement type="formula" formula="greaterThanEQ(System::evaluate('Event::JobDone::Job::ReluctantlyTrainForTheGames'), 1)" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="CristoOfSpringfield_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162017" name="UpsellLugash" tags="dummy">
+		<Requirements>
+			<Requirement type="conditional" logic="OR" not="true">
+				<Requirement type="building" building="LugashsGym" />
+				<Requirement type="place building" building="LugashsGym" />
+				<Requirement type="item" item="LugashsGym" />
+			</Requirement>
+			<Requirement type="quest" quest="SpringfieldGames_2" />
+			<Requirement type="time" end="SpringfieldGames_End" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="UpsellLugash_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162025" name="PlaySaxForPins" tags="sidequest" icon="Lisa_PinCollector" suspendOnReqFailed="true" repeatable="true">
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Requirements>
+			<Requirement type="quest" quest="APricklyObsession_3" />
+			<Requirement type="quest" quest="RewardFatov" not="true" />
+			<Requirement type="formula" formula="PinsCollected==6" not="true" />
+			<Requirement type="variable" variable="LisaChaser_Active" />
+		</Requirements>
+		<AntiReqs behaviour="ignore">
+			<AntiReq type="variable" variable="LisaChaser_Active" not="true" />
+		</AntiReqs>
+		<Objectives>
+			<Objective type="collect custom expression" expression="PlaySaxForPins_Complete" amount="1" progress="lifetime" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:PanToLisa">
+				<HighlightJobList>
+					<Job name="PlayTheSaxForPins_Pins" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts" name="Reset_PlaySaxForPins" />
+	</Quest>
+	<Quest id="162026" name="FindFatov" tags="sidequest" icon="Fatov" suspendOnReqFailed="true" repeatable="true">
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Requirements>
+			<Requirement type="quest" quest="SpringfieldGames_3" />
+			<Requirement type="quest" quest="RewardFatov" not="true" />
+			<Requirement type="variable" variable="Fatov_Active" />
+		</Requirements>
+		<Objectives>
+			<Objective type="collect custom expression" expression="Fatov_Collected" amount="1" progress="lifetime" GoToBehaviour="script" GoToScript="SpringfieldGames_Scripts:PanToFatov" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts" name="Reset_FindFatov" />
+	</Quest>
+	<Quest id="162050" name="MysteryLockerPromo" tags="sidequest" icon="">
+		<Requirements>
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="character" name="Bart" unlockedskin="Jockey_Bart" not="true" />
+					<Requirement type="item" item="SpringfieldGames_JockeyAndFurious" not="true" />
+					<Requirement type="item" item="Jockey_Bart" not="true" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="character" name="Marge" unlockedskin="Tennis_Marge" not="true" />
+					<Requirement type="item" item="Tennis_Marge" not="true" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="character" name="Ralph" unlockedskin="Ballet_Ralph" not="true" />
+					<Requirement type="item" item="Ballet_Ralph" not="true" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="character" name="CBGuy" unlockedskin="KungFu_CBGuy" not="true" />
+					<Requirement type="item" item="KungFu_CBGuy" not="true" />
+				</Requirement>
+				<Requirement type="conditional" logic="AND">
+					<Requirement type="character" name="Grampa" unlockedskin="Toreador_Grampa" not="true" />
+					<Requirement type="item" item="Toreador_Grampa" not="true" />
+				</Requirement>
+			</Requirement>
+			<Requirement type="conditional" logic="AND">
+				<Requirement type="level" level="5" />
+				<Requirement type="time" end="SpringfieldGames_End" />
+				<Requirement type="quest" quest="SpringfieldGames_1" />
+				<Requirement type="building" building="SpringfieldElementary" />
+				<Requirement type="variable" variable="SpringfieldGames_Expired" not="true" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="MysteryLockerPromo_Start" triggerType="character" character="Skinner" />
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+	</Quest>
+	<Quest id="162100" name="RewardFatov" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="Pin1Collected" />
+			<Requirement type="variable" variable="Pin2Collected" />
+			<Requirement type="variable" variable="Pin3Collected" />
+			<Requirement type="variable" variable="Pin4Collected" />
+			<Requirement type="variable" variable="Pin5Collected" />
+			<Requirement type="variable" variable="Pin6Collected" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_PinCollectionScripts" name="AwardFatov" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162101" name="PinStandPlaced" tags="dummy">
+		<Requirements>
+			<Requirement type="building" building="SpringfieldPinStand" />
+			<Requirement type="time" end="SpringfieldGames_End" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts_Dialogue" name="PinStandPlaced_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162110" name="SpringfieldGames_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="SpringfieldGames_1" />
+			<Requirement type="variable" variable="SpringfieldGames_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SpringfieldGames_End')-fromHours(72)]_" end="_[System::evaluate('Date::SpringfieldGames_End')-fromHours(24)]_" />
+			<Requirement type="variable" variable="SpringfieldGames_Complete" not="true" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts" name="SpringfieldGames_72HourWarning" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162111" name="SpringfieldGames_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="SpringfieldGames_1" />
+			<Requirement type="variable" variable="SpringfieldGames_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SpringfieldGames_End')-fromHours(24)]_" end="SpringfieldGames_End" />
+			<Requirement type="variable" variable="SpringfieldGames_Complete" not="true" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts" name="SpringfieldGames_24HourWarning" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162112" name="SpringfieldGames_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="SpringfieldGames_1" />
+			<Requirement type="variable" variable="SpringfieldGames_ExpiryDisplayed" not="true" />
+			<Requirement type="time" start="SpringfieldGames_End" />
+			<Requirement type="variable" variable="SpringfieldGames_Complete" not="true" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts" name="SpringfieldGames_Expired" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="162114" name="SpringfieldGames_PrizeTrackEnded" tags="dummy">
+		<Requirements>
+			<Requirement type="quest started" quest="SpringfieldGames_1" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="variable" variable="SpringfieldGames_Complete" />
+				<Requirement type="variable" variable="SpringfieldGames_Expired" />
+			</Requirement>
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="SpringfieldGames_Scripts" name="SpringfieldGames_PrizeTrackEnded" />
+	</Quest>
+	<Quest id="162115" name="SpringfieldGames_Outro" tags="dummy">
+		<Requirements>
+			<Requirement type="quest" quest="SpringfieldGames_6" />
+		</Requirements>
+		<StartScript package="SpringfieldGames_Scripts" name="ShowMiniEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

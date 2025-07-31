@@ -1,0 +1,104 @@
+﻿<ScriptPackage>
+	<ChateauMaison_Award>
+		<Action type="SilentlyUnlockSkin" skin="ChateauMaison_Restored" />
+		<Action type="setBuildingSkin" building="ChateauMaison" skinName="ChateauMaison_Restored" />
+		<Action type="pantoobject" time="0" building="ChateauMaison" fakeTouch="false" />
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="GrapeStompingVat" />
+		</Action>
+	</ChateauMaison_Award>
+	<GoTo_PlaneBot parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" time="0" building="PlaneBot" fakeTouch="false" />
+			</True>
+		</Action>
+	</GoTo_PlaneBot>
+	<GoTo_ShintoShrine parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" time="0" building="ShintoShrine" fakeTouch="false" />
+			</True>
+		</Action>
+	</GoTo_ShintoShrine>
+	<PlaneBot_Transform>
+		<Action type="pantoobject" time="0" building="PlaneBot" fakeTouch="false" />
+		<Action type="setObjectVariable" onType="building" onObject="PlaneBot" variable="State" value="1" asExpression="true" allowOrphan="false" />
+		<Action type="anim-play" onBuilding="PlaneBot" animation="Active02" waitforend="true" />
+	</PlaneBot_Transform>
+	<GoToRonaldo ignoreHUD="true">
+		<Action type="returnToInGameState" waitForState="true" />
+		<Action type="checkRequirements">
+			<Requirement type="character" name="Ronaldo" />
+			<True>
+				<Action type="pantoobject" time="0" character="Ronaldo" fakeTouch="true" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="FilthyAngelsOrphanage" inventory="true" />
+			</False>
+		</Action>
+	</GoToRonaldo>
+	<GoToPaintedHomes ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="MenuConfig" value="AroundTheWorld_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="AroundTheWorld_Scripts_Crafting:UpdateCrafting" />
+						<Attribute name="specialEvent" value="AroundTheWorld" />
+						<Attribute name="ItemToScrollTo" value="BLD_PaintedHome1_name" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</GoToPaintedHomes>
+	<EiffelTower_RandomizeFlag parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="EiffelTower" variable="State" value="rand(2)" asExpression="true" allowOrphan="true" />
+	</EiffelTower_RandomizeFlag>
+	<GoTo_SpringfieldAirport ignoreHUD="true">
+		<Action type="returnToInGameState" waitForState="true" />
+		<Action type="collectIndicator" building="SpringfieldAirport" />
+		<Action type="pantoobject" time="0" building="SpringfieldAirport" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+	</GoTo_SpringfieldAirport>
+	<GrapeStompingVat_JobDone parallel="true">
+		<Action type="sound" sound="BART_GRAPE_STOMP_DONE" />
+	</GrapeStompingVat_JobDone>
+	<SpringfieldAirport_JobBegin parallel="true">
+		<Action type="updateVariable" variable="SpringfieldAirport_Active" value="SpringfieldAirport_Active+1" />
+		<Action type="runScriptOnAll" buildingGroup="AirportItems" script="AroundTheWorld_Scripts_Misc_Permanent:SpringfieldAirport_ForceAnim" />
+	</SpringfieldAirport_JobBegin>
+	<SpringfieldAirport_JobDone parallel="true">
+		<Action type="updateVariable" variable="SpringfieldAirport_Active" value="max(0, SpringfieldAirport_Active-1)" />
+		<Action type="runScriptOnAll" buildingGroup="AirportItems" script="AroundTheWorld_Scripts_Misc_Permanent:SpringfieldAirport_ForceAnim" />
+	</SpringfieldAirport_JobDone>
+	<SpringfieldAirport_ForceAnim parallel="true">
+		<Action type="triggerActiveBuildingAnim" animate="false" />
+	</SpringfieldAirport_ForceAnim>
+	<NorbertReward>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="active quest" quest="NorbertVanWowton_2" />
+				<Requirement type="building owned" building="NorbertsPlane" not="true" />
+			</Requirements>
+			<True>
+				<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+					<Item type="building" name="NorbertsPlane" />
+				</Action>
+			</True>
+		</Action>
+	</NorbertReward>
+</ScriptPackage>

@@ -1,0 +1,718 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="260000" name="PartyWoes" />
+		<DataID id="260001" name="TheGreatestTrickEverPerformed_1" />
+		<DataID id="260002" name="TheGreatestTrickEverPerformed_2" />
+		<DataID id="260003" name="TheGreatestTrickEverPerformed_3" />
+		<DataID id="260004" name="TheGreatestTrickEverPerformed_4" />
+		<DataID id="260005" name="TheGreatestTrickEverPerformed_5" />
+		<!-- <DataID id="260006" name="TheCardsHaveFallen" /> -->
+		<!-- <DataID id="260007" name="TheCardsDontLie" /> -->
+		<!-- <DataID id="260008" name="TheCardsDontLieFortuneTellerOnly" /> -->
+		<DataID id="260010" name="TheGrandReturn_1" />
+		<DataID id="260011" name="TheGrandReturn_2" />
+		<DataID id="260012" name="TheGrandReturn_3" />
+		<DataID id="260013" name="TheGrandReturn_4" />
+		<DataID id="260014" name="YouAreGettingVerySleepy_1" />
+		<DataID id="260015" name="YouAreGettingVerySleepy_2" />
+		<DataID id="260016" name="YouAreGettingVerySleepy_3" />
+		<DataID id="260017" name="YouAreGettingVerySleepy_4" />
+		<DataID id="260018" name="YouAreGettingVerySleepy_5" />
+		<DataID id="260019" name="TheEdgeOfTheKillotuine_1" />
+		<DataID id="260020" name="TheEdgeOfTheKillotuine_2" />
+		<DataID id="260021" name="TheEdgeOfTheKillotuine_3" />
+		<DataID id="260022" name="TheEdgeOfTheKillotuine_4" />
+		<DataID id="260023" name="TheEdgeOfTheKillotuine_5" />
+		<DataID id="260024" name="MovingInHexFilledCircles_1" />
+		<DataID id="260025" name="MovingInHexFilledCircles_2" />
+		<DataID id="260026" name="MovingInHexFilledCircles_3" />
+		<DataID id="260027" name="MovingInHexFilledCircles_4" />
+		<DataID id="260028" name="MovingInHexFilledCircles_5" />
+		<DataID id="260600" name="TragicMagic_Completed" />
+		<DataID id="260601" name="TragicMagic_IntroPanel" />
+		<DataID id="260602" name="TragicMagic_72HourWarning" onDeprecated="retain" endDate="TragicMagic_End" />
+		<DataID id="260603" name="TragicMagic_24HourWarning" onDeprecated="retain" endDate="TragicMagic_End" />
+		<DataID id="260604" name="TragicMagic_EventExpired" />
+		<DataID id="260605" name="TragicMagic_MasterQuest" />
+		<!-- <DataID id="260700" name="AutoApply_TheGreatSimpsinaSkin" /> -->
+		<DataID id="260900" name="TragicMagic_RecommendStore" onDeprecated="delete" endDate="TragicMagic_End" />
+	</MasterList>
+	<Quest id="260600" name="TragicMagic_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="TheCardsHaveFallen" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260601" name="TragicMagic_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="PartyWoes" />
+			<Requirement type="time" end="TragicMagic_End" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="260602" name="TragicMagic_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TragicMagic_End')-fromHours(72)]_" end="_[System::evaluate('Date::TragicMagic_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="TragicMagic_Complete" not="true" />
+			<Requirement type="quest" quest="TragicMagic_IntroPanel" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="260603" name="TragicMagic_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TragicMagic_End')-fromHours(24)]_" end="TragicMagic_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TragicMagic_Complete" not="true" />
+			<Requirement type="quest" quest="TragicMagic_IntroPanel" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="260604" name="TragicMagic_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="TragicMagic_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TragicMagic_Complete" not="true" />
+			<Requirement type="quest" quest="TragicMagic_IntroPanel" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="260605" name="TragicMagic_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_Expired" not="true" />
+			<Requirement type="variable" variable="TragicMagic_Complete" not="true" />
+			<Requirement type="reqList" location="TragicMagic_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheGreatestTrickEverPerformed_5" />
+					<Requirement type="variable" variable="TragicMagic_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheGreatestTrickEverPerformed_1">
+				<Requirement type="quest started" quest="TheGreatestTrickEverPerformed_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatestTrickEverPerformed_2">
+				<Requirement type="quest started" quest="TheGreatestTrickEverPerformed_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatestTrickEverPerformed_3">
+				<Requirement type="quest started" quest="TheGreatestTrickEverPerformed_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatestTrickEverPerformed_4">
+				<Requirement type="quest started" quest="TheGreatestTrickEverPerformed_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheGreatestTrickEverPerformed_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="260000" name="PartyWoes" tags="sidequest" icon="TragicMagic_Event">
+		<Requirements>
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="TragicMagic_Start" end="TragicMagic_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="PartyWoes_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="PartyWoes_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="LookForHerMagiciansOutfit" quantity="1" />
+			<Objective type="complete job" character="Homer" job="ChaseAfterTheGarbageTruck" quantity="1" />
+			<Objective type="complete job" character="Bart" job="SearchForPhotosOfHis1stBirthdayParty" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="TragicMagic_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="260001" name="TheGreatestTrickEverPerformed_1" tags="mainquest" icon="TragicMagic_Currency" sidebarIconScript="TragicMagic_Scripts:OpenMasterQuest" questMenuConfigPath="TragicMagic_QuestConfig:TragicMagic_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_Expired" not="true" />
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="TragicMagic_IntroPanel" />
+			<Requirement type="time" start="TragicMagic_Start" end="TragicMagic_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_1_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TragicMagic_Currency')" amount="__TragicMagic_GameConfig:ResourceQuantities:TragicMagic_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TragicMagic_Scripts:ShowJobList" textpoolName="QST_TragicMagic_Collect_obj">
+				<HighlightJobList>
+					<Job name="OrderMagicWandsForSale" />
+					<Job name="StealMagicWandsFromOtherMagicians" />
+					<Job name="PurchaseMagicWands" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="SummonTheLardBeastOfDonuth" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="BanishTheBeast" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Hudson" job="WatchAndBeAmazed" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Hudson" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="GrumbleAboutCourtneysPresence" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TragicMagic_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TragicMagic_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="260002" name="TheGreatestTrickEverPerformed_2" tags="mainquest" icon="TragicMagic_Currency" sidebarIconScript="TragicMagic_Scripts:OpenMasterQuest" questMenuConfigPath="TragicMagic_QuestConfig:TragicMagic_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_Expired" not="true" />
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="TheGreatestTrickEverPerformed_1" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_2_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TragicMagic_Currency')" amount="__TragicMagic_GameConfig:ResourceQuantities:TragicMagic_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TragicMagic_Scripts:ShowJobList" textpoolName="QST_TragicMagic_Collect_obj">
+				<HighlightJobList>
+					<Job name="OrderMagicWandsForSale" />
+					<Job name="StealMagicWandsFromOtherMagicians" />
+					<Job name="PurchaseMagicWands" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="TheGreatSimpsina" job="PerformHerHardestMagicTrick" quantity="1" />
+			<Objective type="complete job" character="CreggDemon" job="MAGICFREEKEveryone" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CreggDemon" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="WorryThatThisIsntAppropriate" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TragicMagic_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TragicMagic_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="260003" name="TheGreatestTrickEverPerformed_3" tags="mainquest" icon="TragicMagic_Currency" sidebarIconScript="TragicMagic_Scripts:OpenMasterQuest" questMenuConfigPath="TragicMagic_QuestConfig:TragicMagic_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_Expired" not="true" />
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="TheGreatestTrickEverPerformed_2" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_3_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TragicMagic_Currency')" amount="__TragicMagic_GameConfig:ResourceQuantities:TragicMagic_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TragicMagic_Scripts:ShowJobList" textpoolName="QST_TragicMagic_Collect_obj">
+				<HighlightJobList>
+					<Job name="OrderMagicWandsForSale" />
+					<Job name="StealMagicWandsFromOtherMagicians" />
+					<Job name="PurchaseMagicWands" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="VisitPrincessOpals" quantity="1" />
+			<Objective type="complete job" character="Selma" job="TakeLisaToPrincessOpals" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Selma" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="PrincessOpal" job="BeThankfulForADistraction" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PrincessOpal" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TragicMagic_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TragicMagic_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="260004" name="TheGreatestTrickEverPerformed_4" tags="mainquest" icon="TragicMagic_Currency" sidebarIconScript="TragicMagic_Scripts:OpenMasterQuest" questMenuConfigPath="TragicMagic_QuestConfig:TragicMagic_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_Expired" not="true" />
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="TheGreatestTrickEverPerformed_3" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_4_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TragicMagic_Currency')" amount="__TragicMagic_GameConfig:ResourceQuantities:TragicMagic_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TragicMagic_Scripts:ShowJobList" textpoolName="QST_TragicMagic_Collect_obj">
+				<HighlightJobList>
+					<Job name="OrderMagicWandsForSale" />
+					<Job name="StealMagicWandsFromOtherMagicians" />
+					<Job name="PurchaseMagicWands" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="TakeLisaToTheMagicPalace" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="TryNotToPanic_TM" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TragicMagic_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TragicMagic_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="260005" name="TheGreatestTrickEverPerformed_5" tags="mainquest" icon="TragicMagic_Currency" sidebarIconScript="TragicMagic_Scripts:OpenMasterQuest" questMenuConfigPath="TragicMagic_QuestConfig:TragicMagic_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TragicMagic_Expired" not="true" />
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="TheGreatestTrickEverPerformed_4" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_5_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGreatestTrickEverPerformed_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TragicMagic_Currency')" amount="__TragicMagic_GameConfig:ResourceQuantities:TragicMagic_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TragicMagic_Scripts:ShowJobList" textpoolName="QST_TragicMagic_Collect_obj">
+				<HighlightJobList>
+					<Job name="OrderMagicWandsForSale" />
+					<Job name="StealMagicWandsFromOtherMagicians" />
+					<Job name="PurchaseMagicWands" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="TheGreatSimpsina" job="PerformAnExceptionallyDangerousEscape" quantity="1" />
+			<Objective type="complete job" character="Marge" job="TakeMattersIntoHerOwnHands" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="NotNoticeMargeHasDisappeared" quantity="1" />
+			<Objective type="complete job" character="CreggDemon" job="BeEntertainedDespiteHisBestEfforts" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CreggDemon" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="WatchTheEscape" quantity="20" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TragicMagic_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TragicMagic_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260006" name="TheCardsHaveFallen" tags="sidequest" icon="TragicMagic_Event">
+		<Requirements>
+			<Requirement type="level" level="10" />
+			<Requirement type="quest" quest="TheGreatestTrickEverPerformed_5" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheCardsHaveFallen_Start" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheCardsHaveFallen_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ClimbOutOfTheGorge" quantity="1" />
+			<Objective type="complete job" character="CreggDemon" job="BegrudginglyAdmitHeLost" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="CreggDemon" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="StopToRefuelTheMotorcycle" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Nelson" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260007" name="TheCardsDontLie" tags="sidequest" icon="PrincessOpal">
+		<Requirements>
+			<Requirement type="building" building="TarotTable" />
+			<Requirement type="characterunlocked" name="PrincessOpal" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheCardsDontLie_Start" triggerType="character" character="PrincessOpal" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheCardsDontLie_End" />
+		<Objectives>
+			<Objective type="complete job" character="PrincessOpal" job="ReadFortunesOpalSolo" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FortuneTeller" not="true" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="PrincessOpal" job="ReadFortunes" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FortuneTeller" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260008" name="TheCardsDontLieFortuneTellerOnly" tags="sidequest" icon="FortuneTeller" textpoolName="QST_TheCardsDontLie_1_name">
+		<Requirements>
+			<Requirement type="building" building="TarotTable" />
+			<Requirement type="characterunlocked" name="FortuneTeller" />
+			<Requirement type="characterunlocked" name="PrincessOpal" not="true" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheCardsDontLieFortuneTellerOnly_Start" triggerType="character" character="FortuneTeller" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheCardsDontLieFortuneTellerOnly_End" />
+		<Objectives>
+			<Objective type="complete job" character="FortuneTeller" job="ReadFortunesFTSolo" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260010" name="TheGrandReturn_1" tags="sidequest" icon="Lisa_GreatSimpsina">
+		<Requirements>
+			<Requirement type="character" name="Lisa" unlockedskin="TheGreatSimpsina" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_1_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGreatSimpsina" job="PerformForRaymondo" quantity="1" />
+			<Objective type="complete job" character="TheGreatRaymondo" job="WatchProudly" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="TheGreatRaymondo" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260011" name="TheGrandReturn_2" tags="sidequest" icon="Lisa_GreatSimpsina">
+		<Requirements>
+			<Requirement type="quest" quest="TheGrandReturn_1" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_2_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGreatSimpsina" job="PracticeMagicConjuringTEMP" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="BeAmazedByHerSister" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260012" name="TheGrandReturn_3" tags="sidequest" icon="Lisa_GreatSimpsina">
+		<Requirements>
+			<Requirement type="quest" quest="TheGrandReturn_2" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_3_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGreatSimpsina" job="ShowOffMagicTEMP" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="PerformAsAnOpeningAct" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="WatchTheShow_TM" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260013" name="TheGrandReturn_4" tags="sidequest" icon="Lisa_GreatSimpsina">
+		<Requirements>
+			<Requirement type="quest" quest="TheGrandReturn_3" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_4_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheGrandReturn_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGreatSimpsina" job="ExplainStageMagicToAWizard" quantity="1" />
+			<Objective type="complete job" character="AngelicaButton" job="TryToUnderstand" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="AngelicaButton" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260014" name="YouAreGettingVerySleepy_1" tags="sidequest" icon="Mesmerino">
+		<Requirements>
+			<Requirement type="character" name="Mesmerino" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_1_Start" triggerType="character" character="Mesmerino" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mesmerino" job="FileInsurancePaperworkForMarvinsVisit" quantity="1" />
+			<Objective type="complete job" character="MarvinMonroe" job="RemainObliviouslyHypnotized" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="MarvinMonroe" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260015" name="YouAreGettingVerySleepy_2" tags="sidequest" icon="Mesmerino">
+		<Requirements>
+			<Requirement type="quest" quest="YouAreGettingVerySleepy_1" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_2_Start" triggerType="character" character="Mesmerino" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mesmerino" job="PracticeHypnotismTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260016" name="YouAreGettingVerySleepy_3" tags="sidequest" icon="Mesmerino">
+		<Requirements>
+			<Requirement type="quest" quest="YouAreGettingVerySleepy_2" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_3_Start" triggerType="character" character="Mesmerino" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mesmerino" job="HypnotizeOnlookersTEMP" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="GetHypnotized" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260017" name="YouAreGettingVerySleepy_4" tags="sidequest" icon="Mesmerino">
+		<Requirements>
+			<Requirement type="quest" quest="YouAreGettingVerySleepy_3" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_4_Start" triggerType="character" character="Mesmerino" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="PerformAStandUpSet" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Mesmerino" job="WatchTheSetAndTakeNotes" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="HeckleKrusty" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260018" name="YouAreGettingVerySleepy_5" tags="sidequest" icon="Mesmerino">
+		<Requirements>
+			<Requirement type="quest" quest="YouAreGettingVerySleepy_4" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_5_Start" triggerType="character" character="Mesmerino" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="YouAreGettingVerySleepy_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Mesmerino" job="HypnotizeKrusty" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="DroolOnHimselfWhileHypnotized" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260019" name="TheEdgeOfTheKillotuine_1" tags="sidequest" icon="Diablo">
+		<Requirements>
+			<Requirement type="character" name="Diablo" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_1_Start" triggerType="character" character="Diablo" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Diablo" job="CharmHisAudienceTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260020" name="TheEdgeOfTheKillotuine_2" tags="sidequest" icon="Diablo">
+		<Requirements>
+			<Requirement type="quest" quest="TheEdgeOfTheKillotuine_1" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_2_Start" triggerType="character" character="Diablo" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Diablo" job="PerformAnotherMagicTrick" quantity="1" />
+			<Objective type="complete job" character="Quimby" job="WatchAngrily" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260021" name="TheEdgeOfTheKillotuine_3" tags="sidequest" icon="Diablo">
+		<Requirements>
+			<Requirement type="quest" quest="TheEdgeOfTheKillotuine_2" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_3_Start" triggerType="character" character="Diablo" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Diablo" job="HoldAssistantTryouts" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="AuditionForTheAssistantRole" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260022" name="TheEdgeOfTheKillotuine_4" tags="sidequest" icon="Diablo">
+		<Requirements>
+			<Requirement type="quest" quest="TheEdgeOfTheKillotuine_3" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_4_Start" triggerType="character" character="Diablo" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Diablo" job="HoldAuditionFinals" quantity="1" />
+			<Objective type="complete job" character="Xoxchitla" job="AuditionForDiablo" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Xoxchitla" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Smithers" skin="MysteriousWaylon" job="AuditionForDiablo" quantity="1">
+				<BranchCondition>
+					<Requirement type="character" name="Smithers" unlockedskin="MysteriousWaylon" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260023" name="TheEdgeOfTheKillotuine_5" tags="sidequest" icon="Diablo">
+		<Requirements>
+			<Requirement type="quest" quest="TheEdgeOfTheKillotuine_4" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="TheEdgeOfTheKillotuine_5_Start" triggerType="character" character="Diablo" />
+		<Objectives>
+			<Objective type="complete job" character="Diablo" job="TrainMonkeysTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260024" name="MovingInHexFilledCircles_1" tags="sidequest" icon="PrincessOpal">
+		<Requirements>
+			<Requirement type="character" name="PrincessOpal" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_1_Start" triggerType="character" character="PrincessOpal" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="PrincessOpal" job="TasteMislabeledPotionsTEMP" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260025" name="MovingInHexFilledCircles_2" tags="sidequest" icon="PrincessOpal">
+		<Requirements>
+			<Requirement type="quest" quest="MovingInHexFilledCircles_1" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_2_Start" triggerType="character" character="PrincessOpal" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="PrincessOpal" job="WonderWhatShesGottenHerselfInto" quantity="1" />
+			<Objective type="complete job" character="FatTony" job="WonderWhyHeKeepsTrustingFrankie" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FatTony" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Legs" job="TakeFrankieTheSquealerOutside" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Legs" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Louie" job="TakeFrankieTheSquealerOutside" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Louie" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="FrankieTheSquealer" job="PrepareForEducation" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FrankieTheSquealer" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260026" name="MovingInHexFilledCircles_3" tags="sidequest" icon="PrincessOpal">
+		<Requirements>
+			<Requirement type="quest" quest="MovingInHexFilledCircles_2" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_3_Start" triggerType="character" character="PrincessOpal" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_3_End" />
+		<Objectives>
+		<!--<Objective type="complete job" character="PrincessOpal" job="ReadTarotCardsTEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="TarotTable" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="PrincessOpal" job="ReadTarotCardsTEMP" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="TarotTable" not="true" />
+				</BranchCondition>
+			</Objective>-->
+			<Objective type="complete job" character="FatTony" job="ThinkOfFutureOpportunities" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FatTony" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260027" name="MovingInHexFilledCircles_4" tags="sidequest" icon="PrincessOpal">
+		<Requirements>
+			<Requirement type="quest" quest="MovingInHexFilledCircles_3" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_4_Start" triggerType="character" character="PrincessOpal" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="PrincessOpal" job="FindAPotionThatllHelp" quantity="1" />
+			<Objective type="complete job" character="Snake" job="WonderWhatTheFaxMachineIs" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Snake" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="260028" name="MovingInHexFilledCircles_5" tags="sidequest" icon="PrincessOpal">
+		<Requirements>
+			<Requirement type="quest" quest="MovingInHexFilledCircles_4" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_5_Start" triggerType="character" character="PrincessOpal" />
+		<EndScript package="TragicMagic_Scripts_Dialogue" name="MovingInHexFilledCircles_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="PrincessOpal" job="HaveDinnerWithFatTony" quantity="1" />
+			<Objective type="complete job" character="FatTony" job="BeAPerfectGentleman" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="FatTony" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="260700" name="AutoApply_TheGreatSimpsinaSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="TheGreatSimpsina" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Lisa" unlockedskin="TheGreatSimpsina" not="true" />
+			<Requirement type="characterunlocked" name="Lisa" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TragicMagic_Scripts" name="AutoApply_TheGreatSimpsinaSkin_End" />
+	</Quest>
+	<Quest id="260900" name="TragicMagic_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TragicMagic_Requirements:StoreCategory_TragicMagic_Unlocked" />
+		</Requirements>
+		<StartScript package="TragicMagic_Scripts" name="RecommendStoreCategory_TragicMagic" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

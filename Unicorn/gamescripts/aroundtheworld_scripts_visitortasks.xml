@@ -1,0 +1,1713 @@
+﻿<ScriptPackage>
+	<VisitorTask_GoTo ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="returnToInGameState" waitForState="true" />
+				<Action type="collectIndicator" building="SpringfieldAirport" />
+				<Action type="pantoobject" time="0" building="SpringfieldAirport" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+		</Action>
+	</VisitorTask_GoTo>
+	<VisitorTask_JobStarted parallel="true">
+		<Action type="updateVariable" variable="AtW_DCS_SentCitizens" value="AtW_DCS_SentCitizens+1" />
+		<Action type="updateVariable" variable="AroundTheWorld_FlightsSent" value="AroundTheWorld_FlightsSent+1" />
+		<Action type="updateVariable" variable="AroundTheWorld_FlightsSent2" value="AroundTheWorld_FlightsSent2+1" />
+		<Action type="if">
+			<If expression="AroundTheWorld_PlaneTickets &gt;= (toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:AirportJobs:TicketSoftCap__'))-1)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="TicketSpentTime" value="time()" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="TicketCount" value="AroundTheWorld_PlaneTickets" />
+	</VisitorTask_JobStarted>
+	<NorbertsTasks_JobStartedAtLocation parallel="true">
+		<Action type="updateVariable" variable="SpringfieldAirport_Active" value="SpringfieldAirport_Active+1" />
+		<Action type="runScriptOnAll" buildingGroup="AirportItems" script="AroundTheWorld_Scripts_VisitorTasks:AnimateAirportItems" />
+	</NorbertsTasks_JobStartedAtLocation>
+	<NorbertsTasks_JobComplete parallel="true">
+		<Action type="updateVariable" variable="SpringfieldAirport_Active" value="max(0, SpringfieldAirport_Active-1)" />
+		<Action type="runScriptOnAll" buildingGroup="AirportItems" script="AroundTheWorld_Scripts_VisitorTasks:AnimateAirportItems" />
+	</NorbertsTasks_JobComplete>
+	<SpringfieldAirport_Stored parallel="true">
+		<Action type="if">
+			<If expression="SpringfieldAirport_Active&gt;0">
+				<Then>
+					<Action type="runScriptOnAll" buildingGroup="AirportItems" script="AroundTheWorld_Scripts_VisitorTasks:AnimateAirportItems" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" variable="SpringfieldAirport_Active" value="0" />
+	</SpringfieldAirport_Stored>
+	<AnimateAirportItems parallel="true">
+		<Action type="triggerActiveBuildingAnim" animate="false" />
+	</AnimateAirportItems>
+	<VisitorTask_ResetJobStarted parallel="true">
+		<Action type="updateVariable" variable="AroundTheWorld_FlightsSent2" value="0" />
+		<Action type="updateVariable" variable="LuggagePrizesEarned" value="0" />
+	</VisitorTask_ResetJobStarted>
+	<VisitorTask_CorrectJobStarted>
+		<Action type="hudTip" text="UI_CorrectJobSent_tip" time="10s" requiresActiveHUD="false" />
+		<Action type="logevent" eventId="7008" param1Type="Enumeration" param1AsFormula="ATW_VisitorTasks_CurrentDay" param2Type="Enumeration" param2AsFormula="ATW_VisitorTasks_TasksCompleted+1" param3Type="Enumeration" param3="Success" />
+	</VisitorTask_CorrectJobStarted>
+	<VisitorTask_WrongJobStarted parallel="true">
+		<Action type="logevent" eventId="7008" param1Type="Enumeration" param1AsFormula="ATW_VisitorTasks_CurrentDay" param2Type="Enumeration" param2AsFormula="ATW_VisitorTasks_TasksCompleted+1" param3Type="Enumeration" param3="Fail" />
+	</VisitorTask_WrongJobStarted>
+	<VisitorTasks_Task01Complete>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+				<Then>
+					<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_DayComplete_Title" button="UI_Collect" icon="ico_aroundtheworld_francepins_pack2_lg" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+				<Then>
+					<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_DayComplete_Title" button="UI_Collect" icon="ico_aroundtheworld_japanpins_pack2_lg" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_DayComplete_Title" button="UI_Collect" icon="ico_aroundtheworld_brazilpins_pack2_lg" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="reward" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_Balancingconfig:NorbertsTasks:BaseReward1_Event__" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="1" />
+		<Action type="updateVariable" variable="AtW_DCS_CompleteNorbertTask" value="AtW_DCS_CompleteNorbertTask+1" />
+		<Action type="updateVariable" variable="AroundTheWorld_FlightsSent2" value="AroundTheWorld_FlightsSent2+1" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:SetNorbertPushNote" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="AroundTheWorld_GuideSeen" value="1" />
+			</Requirements>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_PrizeTrack_Help_Norbert" />
+				<Action type="updateVariable" variable="AroundTheWorld_GuideSeen" value="1" />
+			</False>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+			</True>
+		</Action>
+	</VisitorTasks_Task01Complete>
+	<VisitorTasks_Task02Complete>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+				<Then>
+					<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_DayComplete_Title" button="UI_Collect" icon="ico_aroundtheworld_francepins_pack3_lg" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+				<Then>
+					<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_DayComplete_Title" button="UI_Collect" icon="ico_aroundtheworld_japanpins_pack3_lg" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_DayComplete_Title" button="UI_Collect" icon="ico_aroundtheworld_brazilpins_pack3_lg" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="reward" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_Balancingconfig:NorbertsTasks:BaseReward2_Event__" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="2" />
+		<Action type="updateVariable" variable="AtW_DCS_CompleteNorbertTask" value="AtW_DCS_CompleteNorbertTask+1" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:SetNorbertPushNote" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Task02Complete>
+	<VisitorTasks_Task03Complete>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="if">
+			<If expression="LuggagePrizes_Globe&gt;0 &amp;&amp; LuggagePrizes_GlobeEarned==0">
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="Globe" />
+					</Action>
+					<Action type="updateVariable" variable="LuggagePrizes_GlobeEarned" value="1" />
+				</Then>
+			</If>
+			<ElseIf expression="LuggagePrizes_BLPlane&gt;0 &amp;&amp; LuggagePrizes_BLPlaneEarned==0">
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="BlackLeatherPlane" />
+					</Action>
+					<Action type="updateVariable" variable="LuggagePrizes_BLPlaneEarned" value="1" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="LuggagePrizes_Norbert&gt;0 &amp;&amp; LuggagePrizes_NorbertEarned==0">
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActThree" />
+				<Then>
+					<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+						<Item type="building" name="NorbertsPlane" />
+					</Action>
+					<Action type="deletecharacter" character="Norbert_Temp" />
+					<Action type="updateVariable" variable="LuggagePrizes_NorbertEarned" value="1" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+							<Then>
+								<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_TaskComplete_Text" button="UI_Collect" icon="ICO_PRIZ_AroundTheWorld_LostLuggageFrancePins_MD" />
+							</Then>
+						</If>
+						<ElseIf>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+							<Then>
+								<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_TaskComplete_Text" button="UI_Collect" icon="ICO_PRIZ_AroundTheWorld_LostLuggageJapanPins_MD" />
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="notification" title="UI_NorbertsTasks_TaskComplete_Title" text="UI_NorbertsTasks_TaskComplete_Text" button="UI_Collect" icon="ICO_PRIZ_AroundTheWorld_LostLuggageBrazilPins_MD" />
+							</Then>
+						</Else>
+					</Action>
+					<Action type="reward" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_Balancingconfig:NorbertsTasks:BaseReward3_Event__">
+						<Item type="consumable" name="AtW_Premium_LostLuggage_MysteryBox" useImmediately="true" />
+					</Action>
+					<Action type="updateVariable" variable="LuggagePrizes_BoxesEarned" value="LuggagePrizes_BoxesEarned+1" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="3" />
+		<Action type="updateVariable" variable="AtW_DCS_CompleteNorbertTask" value="AtW_DCS_CompleteNorbertTask+1" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:SetNorbertPushNote" />
+		<Action type="reward" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_Balancingconfig:NorbertsTasks:BaseReward3_Event__" />
+	</VisitorTasks_Task03Complete>
+	<SetNorbertPushNote>
+		<Action type="checkRequirements">
+			<Requirement type="config" key="AroundTheWorld_GameConfig:Enable:NorbertTasks" value="1" />
+			<True>
+				<Action type="scheduleLocalNotification" blueprint="NewNorbertTasks" scheduleTime="24h" />
+			</True>
+		</Action>
+	</SetNorbertPushNote>
+	<PanToNorbert cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="character" name="Norbert" />
+			<True>
+				<Action type="pantoobject" time="0" character="Norbert" fakeTouch="false" />
+			</True>
+			<False>
+				<Action type="pantoobject" time="0" character="Norbert_Temp" fakeTouch="false" />
+			</False>
+		</Action>
+	</PanToNorbert>
+	<VisitorTasks_Day01_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="1" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+				<Then>
+					<Action type="updateVariable" variable="LuggageStep" value="0" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+				<Then>
+					<Action type="updateVariable" variable="LuggageStep" value="1" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="updateVariable" variable="LuggageStep" value="2" />
+				</Then>
+			</Else>
+		</Action>
+	</VisitorTasks_Day01_Start>
+	<VisitorTasks_Day01_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="1" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day01_Complete>
+	<VisitorTasks_Day02_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="2" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="updateVariable" variable="AroundTheWorld_FlightsSent2" value="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:TheMysteriousGlobeIntro_Start" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day02_Start>
+	<VisitorTasks_Day02_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="2" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day02_Complete>
+	<VisitorTasks_Day03_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="3" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day03_Start>
+	<VisitorTasks_Day03_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="3" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day03_Complete>
+	<VisitorTasks_Day04_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="4" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day04_Start>
+	<VisitorTasks_Day04_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="4" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day04_Complete>
+	<VisitorTasks_Day05_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="5" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day05_Start>
+	<VisitorTasks_Day05_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="5" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day05_Complete>
+	<VisitorTasks_Day06_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="6" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day06_Start>
+	<VisitorTasks_Day06_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="6" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day06_Complete>
+	<VisitorTasks_Day07_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="7" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day07_Start>
+	<VisitorTasks_Day07_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="7" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day07_Complete>
+	<VisitorTasks_Day08_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="8" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day08_Start>
+	<VisitorTasks_Day08_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="8" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day08_Complete>
+	<VisitorTasks_Day09_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="9" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day09_Start>
+	<VisitorTasks_Day09_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="9" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day09_Complete>
+	<VisitorTasks_Day10_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="10" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day10_Start>
+	<VisitorTasks_Day10_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="10" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day10_Complete>
+	<VisitorTasks_Day11_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="11" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day11_Start>
+	<VisitorTasks_Day11_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="11" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day11_Complete>
+	<VisitorTasks_Day12_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="12" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day12_Start>
+	<VisitorTasks_Day12_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="12" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day12_Complete>
+	<VisitorTasks_Day13_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="13" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="updateVariable" variable="LuggageStep" value="1" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_ResetJobStarted" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:TheEndangeredPlaneIntro_Start" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day13_Start>
+	<VisitorTasks_Day13_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="13" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day13_Complete>
+	<VisitorTasks_Day14_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="14" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day14_Start>
+	<VisitorTasks_Day14_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="14" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day14_Complete>
+	<VisitorTasks_Day15_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="15" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day15_Start>
+	<VisitorTasks_Day15_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="15" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day15_Complete>
+	<VisitorTasks_Day16_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="16" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day16_Start>
+	<VisitorTasks_Day16_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="16" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day16_Complete>
+	<VisitorTasks_Day17_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="17" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day17_Start>
+	<VisitorTasks_Day17_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="17" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day17_Complete>
+	<VisitorTasks_Day18_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="18" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day18_Start>
+	<VisitorTasks_Day18_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="18" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day18_Complete>
+	<VisitorTasks_Day19_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="19" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day19_Start>
+	<VisitorTasks_Day19_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="19" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day19_Complete>
+	<VisitorTasks_Day20_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="20" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day20_Start>
+	<VisitorTasks_Day20_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="20" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day20_Complete>
+	<VisitorTasks_Day21_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="21" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day21_Start>
+	<VisitorTasks_Day21_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="21" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day21_Complete>
+	<VisitorTasks_Day22_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="22" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day22_Start>
+	<VisitorTasks_Day22_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="22" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day22_Complete>
+	<VisitorTasks_Day23_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="23" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day23_Start>
+	<VisitorTasks_Day23_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="23" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day23_Complete>
+	<VisitorTasks_Day24_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="24" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day24_Start>
+	<VisitorTasks_Day24_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="24" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day24_Complete>
+	<VisitorTasks_Day25_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="25" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="updateVariable" variable="LuggageStep" value="2" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_ResetJobStarted" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:NorbertVanWowtonIntro_Start" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day25_Start>
+	<VisitorTasks_Day25_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="25" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day25_Complete>
+	<VisitorTasks_Day26_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="26" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day26_Start>
+	<VisitorTasks_Day26_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="26" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day26_Complete>
+	<VisitorTasks_Day27_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="27" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day27_Start>
+	<VisitorTasks_Day27_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="27" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day27_Complete>
+	<VisitorTasks_Day28_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="28" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day28_Start>
+	<VisitorTasks_Day28_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="28" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day28_Complete>
+	<VisitorTasks_Day29_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="29" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day29_Start>
+	<VisitorTasks_Day29_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="29" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day29_Complete>
+	<VisitorTasks_Day30_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="30" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day30_Start>
+	<VisitorTasks_Day30_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="30" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day30_Complete>
+	<VisitorTasks_Day31_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="31" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day31_Start>
+	<VisitorTasks_Day31_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="31" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day31_Complete>
+	<VisitorTasks_Day32_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="32" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day32_Start>
+	<VisitorTasks_Day32_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="32" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day32_Complete>
+	<VisitorTasks_Day33_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="33" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day33_Start>
+	<VisitorTasks_Day33_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="33" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day33_Complete>
+	<VisitorTasks_Day34_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="34" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day34_Start>
+	<VisitorTasks_Day34_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="34" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day34_Complete>
+	<VisitorTasks_Day35_Start>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_StartTime" intValue="serverTime(0)" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_CurrentDay" intValue="35" />
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_TasksCompleted" intValue="0" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:PanToNorbert" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:NorbertsTask_GenericIntro_Selector" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+	</VisitorTasks_Day35_Start>
+	<VisitorTasks_Day35_Complete>
+		<Action type="setVariable" intVariable="ATW_VisitorTasks_LastDayCompleted" intValue="35" />
+		<Action type="notification" title="UI_NorbertsTasks_DayComplete_Title" button="UI_OK" text="UI_NorbertsTasks_DayComplete_Text" icon="ICO_MHUB_AroundTheWorld_VisitorsTasks" />
+	</VisitorTasks_Day35_Complete>
+	<NorbertsTask_GenericIntro_Selector>
+		<Action type="checkExpression" expression="rand(5)">
+			<ExpressionCase value="0">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:NorbertsTasks_GenericIntro_1" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:NorbertsTasks_GenericIntro_2" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:NorbertsTasks_GenericIntro_3" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:NorbertsTasks_GenericIntro_4" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Dialogue_Event:NorbertsTasks_GenericIntro_5" parseOnDemand="true" />
+			</ExpressionCase>
+		</Action>
+	</NorbertsTask_GenericIntro_Selector>
+	<NorbertsTasks_JobSent_Algiers parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day07_Task03" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day18_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Algiers>
+	<NorbertsTasks_JobSent_AndorraLaVelle parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day18_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_AndorraLaVelle>
+	<NorbertsTasks_JobSent_BuenosAires parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day02_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_BuenosAires>
+	<NorbertsTasks_JobSent_Sydney parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day04_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day07_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Sydney>
+	<NorbertsTasks_JobSent_Vienna parallel="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Vienna>
+	<NorbertsTasks_JobSent_Bridgetown parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day09_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day20_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Bridgetown>
+	<NorbertsTasks_JobSent_Waterloo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day13_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Waterloo>
+	<NorbertsTasks_JobSent_Brussels parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day12_Task02" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day20_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Brussels>
+	<NorbertsTasks_JobSent_Manaus parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day16_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Manaus>
+	<NorbertsTasks_JobSent_RioDeJaneiro parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day12_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_RioDeJaneiro>
+	<NorbertsTasks_JobSent_Ottawa parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day17_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Ottawa>
+	<NorbertsTasks_JobSent_Santiago parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day11_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Santiago>
+	<NorbertsTasks_JobSent_Qufu parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day23_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Qufu>
+	<NorbertsTasks_JobSent_Xian parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day07_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day09_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Xian>
+	<NorbertsTasks_JobSent_SanJose parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day32_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_SanJose>
+	<NorbertsTasks_JobSent_Havana parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day08_Task02" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day23_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Havana>
+	<NorbertsTasks_JobSent_Prague parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day19_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day27_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Prague>
+	<NorbertsTasks_JobSent_Helsingor parallel="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Helsingor>
+	<NorbertsTasks_JobSent_Alexandria parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day05_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day22_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Alexandria>
+	<NorbertsTasks_JobSent_Giza parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day23_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Giza>
+	<NorbertsTasks_JobSent_London parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day15_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_London>
+	<NorbertsTasks_JobSent_Winchester parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day16_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day32_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Winchester>
+	<NorbertsTasks_JobSent_AddisAbaba parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day21_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_AddisAbaba>
+	<NorbertsTasks_JobSent_Helsinki parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day11_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Helsinki>
+	<NorbertsTasks_JobSent_Nantes parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day27_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Nantes>
+	<NorbertsTasks_JobSent_Paris parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day15_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Paris>
+	<NorbertsTasks_JobSent_Neuschwanstein parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day06_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Neuschwanstein>
+	<NorbertsTasks_JobSent_Berlin parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day11_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Berlin>
+	<NorbertsTasks_JobSent_Athens parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day05_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Athens>
+	<NorbertsTasks_JobSent_Marathon parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day10_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Marathon>
+	<NorbertsTasks_JobSent_NuevaGuatemala parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day35_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_NuevaGuatemala>
+	<NorbertsTasks_JobSent_Conarky parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day01_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Conarky>
+	<NorbertsTasks_JobSent_Budapest parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day17_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Budapest>
+	<NorbertsTasks_JobSent_Reykjavik parallel="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Reykjavik>
+	<NorbertsTasks_JobSent_Darjeeling parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day08_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Darjeeling>
+	<NorbertsTasks_JobSent_Mumbai parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day32_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Mumbai>
+	<NorbertsTasks_JobSent_Babylon parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day09_Task02" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day26_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Babylon>
+	<NorbertsTasks_JobSent_Cork parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day31_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day34_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Cork>
+	<NorbertsTasks_JobSent_Jerusalem parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day21_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Jerusalem>
+	<NorbertsTasks_JobSent_Milan parallel="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Milan>
+	<NorbertsTasks_JobSent_Rome parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day16_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Rome>
+	<NorbertsTasks_JobSent_Kingston parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day06_Task02" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day24_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Kingston>
+	<NorbertsTasks_JobSent_Tokyo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day12_Task03" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day19_Task02" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day31_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Tokyo>
+	<NorbertsTasks_JobSent_Amman parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day35_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Amman>
+	<NorbertsTasks_JobSent_Byblos parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day18_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day28_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Byblos>
+	<NorbertsTasks_JobSent_Monrovia parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day22_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day31_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Monrovia>
+	<NorbertsTasks_JobSent_Skopje parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day24_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Skopje>
+	<NorbertsTasks_JobSent_Antananarivo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day04_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Antananarivo>
+	<NorbertsTasks_JobSent_Timbuktu parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day30_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Timbuktu>
+	<NorbertsTasks_JobSent_MexicoCity parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day03_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_MexicoCity>
+	<NorbertsTasks_JobSent_Ulaanbaatar parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day13_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Ulaanbaatar>
+	<NorbertsTasks_JobSent_Casablanca parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day10_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day25_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Casablanca>
+	<NorbertsTasks_JobSent_Kathmandu parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day10_Task03" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day22_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Kathmandu>
+	<NorbertsTasks_JobSent_Amsterdam parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day25_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Amsterdam>
+	<NorbertsTasks_JobSent_Mordor parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day14_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Mordor>
+	<NorbertsTasks_JobSent_Lagos parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day34_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Lagos>
+	<NorbertsTasks_JobSent_Oslo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day28_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Oslo>
+	<NorbertsTasks_JobSent_PanamaCity parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day29_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_PanamaCity>
+	<NorbertsTasks_JobSent_Lima parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day08_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day19_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Lima>
+	<NorbertsTasks_JobSent_Warsaw parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day03_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Warsaw>
+	<NorbertsTasks_JobSent_Lisbon parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day33_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Lisbon>
+	<NorbertsTasks_JobSent_Transylvania parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day02_Task03" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day26_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Transylvania>
+	<NorbertsTasks_JobSent_Moscow parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day14_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Moscow>
+	<NorbertsTasks_JobSent_Siberia parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day05_Task03" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day33_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Siberia>
+	<NorbertsTasks_JobSent_Mecca parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day29_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Mecca>
+	<NorbertsTasks_JobSent_Edinburgh parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day21_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day30_Task03" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Edinburgh>
+	<NorbertsTasks_JobSent_Johhanesburg parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day17_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Johhanesburg>
+	<NorbertsTasks_JobSent_Seoul parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day03_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Seoul>
+	<NorbertsTasks_JobSent_Madrid parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day14_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Madrid>
+	<NorbertsTasks_JobSent_Pamplona parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day06_Task03" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Pamplona>
+	<NorbertsTasks_JobSent_Stockholm parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day01_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Stockholm>
+	<NorbertsTasks_JobSent_Geneva parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day34_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Geneva>
+	<NorbertsTasks_JobSent_Damascus parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day26_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Damascus>
+	<NorbertsTasks_JobSent_Bangkok parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day20_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day27_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Bangkok>
+	<NorbertsTasks_JobSent_Istanbul parallel="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Istanbul>
+	<NorbertsTasks_JobSent_Troy parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day01_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Troy>
+	<NorbertsTasks_JobSent_Augusta parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day25_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Augusta>
+	<NorbertsTasks_JobSent_Gotham parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day24_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Gotham>
+	<NorbertsTasks_JobSent_Hollywood parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day02_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day13_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Hollywood>
+	<NorbertsTasks_JobSent_NewYork parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day29_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_NewYork>
+	<NorbertsTasks_JobSent_SanFrancisco parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day28_Task01" />
+				<Requirement type="active quest" quest="AtW_VisitorTasks_Day30_Task02" />
+			</Requirement>
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_SanFrancisco>
+	<NorbertsTasks_JobSent_WashingtonDC parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day15_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_WashingtonDC>
+	<NorbertsTasks_JobSent_Woodstock parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day33_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Woodstock>
+	<NorbertsTasks_JobSent_Cardiff parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day35_Task01" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Cardiff>
+	<NorbertsTasks_JobSent_Zambezi parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="AtW_VisitorTasks_Day04_Task02" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_CorrectJobStarted" />
+			</True>
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_WrongJobStarted" />
+			</False>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_JobStarted" />
+	</NorbertsTasks_JobSent_Zambezi>
+</ScriptPackage>

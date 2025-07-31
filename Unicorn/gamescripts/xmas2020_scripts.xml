@@ -1,0 +1,868 @@
+﻿<ScriptPackage>
+	<ShowEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2020MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="XMAS2020_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="XMAS2020_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="XMAS2020_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="XMAS2020_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_XMAS2020_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_XMAS2020_IntroPanelFooter" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_XMAS2020_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_XMAS2020_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2020_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="setVariable" boolVariable="XMAS2020_IntroSeen" boolValue="true" />
+		<Action type="updateVariable" variable="XMAS2020_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="XMAS2020_ClashOfCreedsChristmasRoyale_OnePanel" eventName="UI_XMAS2020_Title" limitedTime="true" limitedTimeEndDate="XMAS2020_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowEventIntro>
+	<ShowEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2020MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_XMAS2020_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_XMAS2020_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_XMAS2020_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2020_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_XMAS2020_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="XMAS2020_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="XMAS2020_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="XMAS2020_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="XMAS2020_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="XMAS2020_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_XMAS2020_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2020_OnePanel" />
+		<Action type="runScript" script="XMAS2020_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="XMAS2020_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="XMAS2020_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="XMAS2020_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="XMAS2020_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="XMAS2020_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="XMAS2020_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="XMAS2020_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="XMAS2020_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<EventCompleted_Week1>
+		<Action type="setVariable" boolVariable="XMAS2020_Week1_Complete" boolValue="true" />
+	</EventCompleted_Week1>
+	<EventCompleted_Week2>
+		<Action type="setVariable" boolVariable="XMAS2020_Week2_Complete" boolValue="true" />
+	</EventCompleted_Week2>
+	<EventCompleted_Week3>
+		<Action type="setVariable" boolVariable="XMAS2020_Week3_Complete" boolValue="true" />
+	</EventCompleted_Week3>
+	<EventCompleted_Week4>
+		<Action type="setVariable" boolVariable="XMAS2020_Week4_Complete" boolValue="true" />
+	</EventCompleted_Week4>
+	<Tab_Week1>
+		<Action type="actionSequence" script="XMAS2020_Scripts:CheckForCultFlyingSaucer" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="XMAS2020_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2020_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2020_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2020_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2020_Start" end="XMAS2020_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="SpaceCadet_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2020_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpaceCadet_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2020_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpaceCadet_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2020_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpaceCadet_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2020_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpaceCadet_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2020_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2020_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<Tab_Week2>
+		<Action type="actionSequence" script="XMAS2020_Scripts:CheckForCultFlyingSaucer" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="XMAS2020_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2020_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2020_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2020_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2020_Start" end="XMAS2020_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="HallowedBeThyShame_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2020_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="HallowedBeThyShame_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2020_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HallowedBeThyShame_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2020_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HallowedBeThyShame_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2020_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="HallowedBeThyShame_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2020_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2020_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<Tab_Week3>
+		<Action type="actionSequence" script="XMAS2020_Scripts:CheckForCultFlyingSaucer" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="XMAS2020_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2020_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2020_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2020_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2020_Start" end="XMAS2020_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="TireFireAndBrimstone_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2020_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TireFireAndBrimstone_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2020_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TireFireAndBrimstone_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2020_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TireFireAndBrimstone_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2020_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TireFireAndBrimstone_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2020_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2020_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<Tab_Week4>
+		<Action type="actionSequence" script="XMAS2020_Scripts:CheckForCultFlyingSaucer" waitUntilComplete="true" />
+		<Action type="updateVariable" variable="XMAS2020_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2020_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2020_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2020_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2020_Start" end="XMAS2020_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="StupidVsSexy_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2020_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="StupidVsSexy_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2020_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StupidVsSexy_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2020_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StupidVsSexy_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2020_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="StupidVsSexy_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2020_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2020_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2020_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2020_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2020_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2020_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2020_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2020_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<CheckForCultFlyingSaucer>
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="HallowedBeThyShame_3" not="true" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building owned" building="CultFlyingSaucer" />
+					<True>
+						<Action type="updateVariable" variable="XMAS2020_ShowMysteryBoxToken" value="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="XMAS2020_ShowMysteryBoxToken" value="false" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</CheckForCultFlyingSaucer>
+	<AutoApply_SexySantaMargeSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="XMAS2020_Scripts:AutoApply_SexySantaMargeSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_SexySantaMargeSkin_End>
+	<AutoApply_SexySantaMargeSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="SexySantaMarge" fromInventory="true" />
+	</AutoApply_SexySantaMargeSkin_Delayed>
+	<RecommendStoreCategory_ClashOfCreedsChristmasRoyale ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2020_ClashOfCreedsChristmasRoyale_OnePanel" />
+		<Action type="recommendation" recType="Event" name="XMAS2020_ClashOfCreedsChristmasRoyale_OnePanel" eventName="UI_XMAS2020_Title" limitedTime="true" limitedTimeEndDate="XMAS2020_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory_ClashOfCreedsChristmasRoyale>
+	<EnterStoreCategory_ClashOfCreedsChristmasRoyale ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="ClashOfCreedsChristmasRoyale_Category" />
+	</EnterStoreCategory_ClashOfCreedsChristmasRoyale>
+	<EnterStoreCategory_HolidayFacades ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="HolidayFacades_Category" />
+	</EnterStoreCategory_HolidayFacades>
+	<RewardOneHoliday2020MysteryBoxToken>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_XMAS2020_MysteryBoxTokenSingular" icon="ICO_CUR_XMAS2020_MysteryBoxToken_LG" button="UI_OK" />
+		<Action type="reward" save="true" XMAS2020_Holiday2020MysteryBoxToken="1" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2020_Requirements:Holiday2020MysteryBox_Available" />
+			<True>
+				<Action type="consumable" consumable="XMAS2020_Holiday2020MysteryBox" fromInventory="false" />
+			</True>
+			<False>
+				<Action type="scheduleScript" mode="create" script="XMAS2020_Scripts:GoToXMAS2020TokenExchange" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
+			</False>
+		</Action>
+	</RewardOneHoliday2020MysteryBoxToken>
+	<RewardOneHoliday2020MysteryBoxToken_Store>
+		<Action type="notification" title="UI_MysteryBoxToken" text="UI_XMAS2020_MysteryBoxTokenSingular" icon="ICO_CUR_XMAS2020_MysteryBoxToken_LG" button="UI_OK" />
+		<Action type="reward" save="true" XMAS2020_Holiday2020MysteryBoxToken="1" />
+		<Action type="consumable" consumable="XMAS2020_Holiday2020MysteryBox" fromInventory="false" />
+	</RewardOneHoliday2020MysteryBoxToken_Store>
+	<RewardOneHoliday2020MysteryBoxTokens_Store>
+		<Action type="notification" title="UI_MysteryBoxTokensFive" text="UI_XMAS2020_MysteryBoxTokenPlural" icon="ICO_CUR_XMAS2020_MysteryBoxToken_LG" button="UI_OK" />
+		<Action type="reward" save="true" XMAS2020_Holiday2020MysteryBoxToken="5" />
+		<Action type="consumable" consumable="XMAS2020_Holiday2020MysteryBox" fromInventory="false" />
+	</RewardOneHoliday2020MysteryBoxTokens_Store>
+	<XMAS2020TokenForDozenDonuts>
+		<Action type="notification" title="MTX_DozenDonuts_name" text="MTX_DozenDonuts_name" icon="ICO_Thanksgiving2018_DozenDonutsPopup_LG" button="UI_OK" />
+		<Action type="reward" save="true" donuts="12" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" XMAS2020_Holiday2020MysteryBoxToken="1" />
+			<True>
+				<Action type="runScript" script="XMAS2020_Scripts:GoToXMAS2020TokenExchange" />
+			</True>
+		</Action>
+	</XMAS2020TokenForDozenDonuts>
+	<GoToXMAS2020TokenExchange>
+		<Action type="focusOnMenuItem" itemName="XMAS2020TokenForDozenDonuts" menuCategory="ClashOfCreedsChristmasRoyale_Category" />
+	</GoToXMAS2020TokenExchange>
+	<XMAS2020TicketForThreeDonuts>
+		<Action type="notification" title="CON_OfferingBoard_DonutBonus_name" text="UI_Prestige_ThreeDonuts" icon="ICO_PRIZ_Donuts_3" button="UI_OK" />
+		<Action type="reward" save="true" donuts="3" />
+		<Action type="checkRequirements">
+			<Requirement type="currency" XMAS2020_SantasWonderlandTicket="1" />
+			<True>
+				<Action type="runScript" script="XMAS2020_Scripts:GoToXMAS2020TicketExchange" />
+			</True>
+		</Action>
+	</XMAS2020TicketForThreeDonuts>
+	<GoToXMAS2020TicketExchange>
+		<Action type="focusOnMenuItem" itemName="XMAS2020TicketForThreeDonuts" menuCategory="ClashOfCreedsChristmasRoyale_Category" />
+	</GoToXMAS2020TicketExchange>
+	<RewardTokenInsteadOfCultFlyingSaucer>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="XMAS2020_ShowMysteryBoxToken" />
+			<True>
+				<Action type="runScript" script="XMAS2020_Scripts:RewardOneHoliday2020MysteryBoxToken" />
+			</True>
+		</Action>
+	</RewardTokenInsteadOfCultFlyingSaucer>
+	<TowneCentreAtSpringfieldeGlenneActiveDone parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="TowneCentreAtSpringfieldeGlenneEastNeutral" onBuilding="TowneCentreAtSpringfieldeGlenneEast" isController="true" />
+	</TowneCentreAtSpringfieldeGlenneActiveDone>
+	<JewishWalkOfFameActiveDone parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="JewishWalkOfFameEastNeutral" onBuilding="JewishWalkOfFameEast" isController="true" />
+	</JewishWalkOfFameActiveDone>
+	<ToyTownActiveDone parallel="true" ignoreHUD="true">
+		<Action type="anim-play" animation="ToyTownEastNeutral" onBuilding="ToyTownEast" isController="true" />
+	</ToyTownActiveDone>
+	<AdvanceToJobTwo>
+		<Action type="updateVariable" variable="YahwehJobStep1" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep2" value="true" />
+	</AdvanceToJobTwo>
+	<AdvanceToJobThree>
+		<Action type="updateVariable" variable="YahwehJobStep2" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep3" value="true" />
+	</AdvanceToJobThree>
+	<AdvanceToJobFour>
+		<Action type="updateVariable" variable="YahwehJobStep3" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep4" value="true" />
+	</AdvanceToJobFour>
+	<AdvanceToJobFive>
+		<Action type="updateVariable" variable="YahwehJobStep4" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep5" value="true" />
+	</AdvanceToJobFive>
+	<AdvanceToJobSix>
+		<Action type="updateVariable" variable="YahwehJobStep5" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep6" value="true" />
+	</AdvanceToJobSix>
+	<AdvanceToJobSeven>
+		<Action type="updateVariable" variable="YahwehJobStep6" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep7" value="true" />
+	</AdvanceToJobSeven>
+	<AdvanceToJobEight>
+		<Action type="updateVariable" variable="YahwehJobStep7" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep8" value="true" />
+	</AdvanceToJobEight>
+	<ResetToJobOne>
+		<Action type="updateVariable" variable="YahwehJobStep8" value="false" />
+		<Action type="updateVariable" variable="YahwehJobStep1" value="true" />
+		<Action type="scheduleScript" mode="create" script="XMAS2020_Scripts:YahwehResetNotification" shouldSave="true" relativeTime="3s" />
+	</ResetToJobOne>
+	<YahwehResetNotification>
+		<Action type="random">
+			<Action type="notification" title="UI_YahwehJobResetTitle" text="UI_YahwehJobReset1_desc" icon="ICO_PRIZ_XMAS2020_Yahweh_LG" button="UI_OK" />
+			<Action type="notification" title="UI_YahwehJobResetTitle" text="UI_YahwehJobReset2_desc" icon="ICO_PRIZ_XMAS2020_Yahweh_LG" button="UI_OK" />
+			<Action type="notification" title="UI_YahwehJobResetTitle" text="UI_YahwehJobReset3_desc" icon="ICO_PRIZ_XMAS2020_Yahweh_LG" button="UI_OK" />
+			<Action type="notification" title="UI_YahwehJobResetTitle" text="UI_YahwehJobReset4_desc" icon="ICO_PRIZ_XMAS2020_Yahweh_LG" button="UI_OK" />
+			<Action type="notification" title="UI_YahwehJobResetTitle" text="UI_YahwehJobReset5_desc" icon="ICO_PRIZ_XMAS2020_Yahweh_LG" button="UI_OK" />
+		</Action>
+	</YahwehResetNotification>
+	<God_Available_Notification>
+		<Action type="notification" title="CHA_God_name" text="UI_GodReturns_desc" icon="ICO_PRIZ_XMAS2020_God_LG" button="UI_GoTo" />
+		<Action type="focusOnMenuItem" itemName="TenCommandments" menuCategory="ClashOfCreedsChristmasRoyale_Category" />
+	</God_Available_Notification>
+	<Yahweh_Acquired_Notification>
+		<Action type="scheduleScript" mode="create" script="XMAS2020_Scripts:Yahweh_Acquired_Notification_delayed" shouldSave="true" relativeTime="1s" />
+	</Yahweh_Acquired_Notification>
+	<Yahweh_Acquired_Notification_delayed>
+		<Action type="notification" title="CHA_Yahweh_name" text="UI_YahwehUnlocked_desc" icon="ICO_PRIZ_XMAS2020_Yahweh_LG" button="UI_OK" />
+	</Yahweh_Acquired_Notification_delayed>
+	<GoToCurrencyStore ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="XMAS2020_Requirements:XMAS2020_DozenDonutsPlus50_Visible" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_DozenDonutsPlus50" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="variable" variable="XMAS2020_DozenDonuts_Purchased" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_DozenDonuts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="XMAS2020_Requirements:XMAS2020_StackOfDonutsPlus50_Visible" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_StackOfDonutsPlus50" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="variable" variable="XMAS2020_StackOfDonuts_Purchased" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_StackOfDonuts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="XMAS2020_Requirements:XMAS2020_TrayOfDonutsPlus50_Visible" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_TrayOfDonutsPlus50" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="variable" variable="XMAS2020_TrayOfDonuts_Purchased" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_TrayOfDonuts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="XMAS2020_Requirements:XMAS2020_TruckloadOfDonutsPlus50_Visible" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_TruckloadOfDonutsPlus50" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="variable" variable="XMAS2020_TruckloadOfDonuts_Purchased" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_TruckloadOfDonuts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="XMAS2020_Requirements:XMAS2020_StoreFullOfDonutsPlus50_Visible" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_StoreFullOfDonutsPlus50" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="variable" variable="XMAS2020_StoreFullOfDonuts_Purchased" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_StoreFullOfDonuts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="XMAS2020_Requirements:XMAS2020_BoatloadOfDonutsPlus50_Visible" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_BoatloadOfDonutsPlus50" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="variable" variable="XMAS2020_BoatloadOfDonuts_Purchased" not="true" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" itemName="XMAS2020_BoatloadOfDonuts" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Currency" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</GoToCurrencyStore>
+	<XMAS2020_Event_Variable_SetFalse ignoreHUD="true">
+		<Action type="setVariable" boolVariable="XMAS2020_Event" boolValue="false" />
+	</XMAS2020_Event_Variable_SetFalse>
+	<Give_RigellianChristmasFireplace>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="RigellianChristmasFireplace" />
+		</Action>
+	</Give_RigellianChristmasFireplace>
+	<Give_SnowBank>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="SnowBank" />
+		</Action>
+	</Give_SnowBank>
+	<Give_RigellianChristmasSpaceship>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="RigellianChristmasSpaceship" />
+		</Action>
+	</Give_RigellianChristmasSpaceship>
+	<Give_ColdTrain>
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="ColdTrain" />
+		</Action>
+	</Give_ColdTrain>
+	<Give_SantaKang>
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="Kang" not="true" />
+			<True>
+				<Action type="reward">
+					<Item type="character" name="Kang" useImmediately="true" />
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="characterunlocked" name="Kang" unlockedskin="SantaKang" not="true" />
+				<Requirement type="consumableCount" name="SantaKang" requireCountMin="1" not="true" />
+			</Requirements>
+			<True>
+				<Action type="reward">
+					<Item type="consumable" name="SantaKang" useImmediately="true" />
+				</Action>
+			</True>
+		</Action>
+	</Give_SantaKang>
+	<GoTo_DCS_2_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_2_Joblist" />
+	</GoTo_DCS_2_Joblist>
+	<GoTo_DCS_3_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_3_Joblist" />
+	</GoTo_DCS_3_Joblist>
+	<GoTo_DCS_5_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_5_Joblist" />
+	</GoTo_DCS_5_Joblist>
+	<GoTo_DCS_6_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_6_Joblist" />
+	</GoTo_DCS_6_Joblist>
+	<GoTo_DCS_7_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_7_Joblist" />
+	</GoTo_DCS_7_Joblist>
+	<GoTo_DCS_11_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_11_Joblist" />
+	</GoTo_DCS_11_Joblist>
+	<GoTo_DCS_12_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_12_Joblist" />
+	</GoTo_DCS_12_Joblist>
+	<GoTo_DCS_13_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_13_Joblist" />
+	</GoTo_DCS_13_Joblist>
+	<GoTo_DCS_15_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_15_Joblist" />
+	</GoTo_DCS_15_Joblist>
+	<GoTo_DCS_17_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_17_Joblist" />
+	</GoTo_DCS_17_Joblist>
+	<GoTo_DCS_18_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_18_Joblist" />
+	</GoTo_DCS_18_Joblist>
+	<GoTo_DCS_20_Joblist>
+		<Action type="gotoState" state="GameState_JobList" extras="XMAS2020_QuestConfig:DCS_20_Joblist" />
+	</GoTo_DCS_20_Joblist>
+</ScriptPackage>

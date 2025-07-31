@@ -1,0 +1,164 @@
+﻿<TelemetryFamilies>
+	<THOH2018>
+		<Requirement type="time" start="THOH2018_StartDate" end="THOH2018_EndDate" />
+		<SessionCounters>
+			<Counter name="THOH2018_PickaxeJobsCompleted" />
+			<Counter name="THOH2018_PickaxesEarned" />
+		</SessionCounters>
+		<SessionEvents>
+			<Event id="66001">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_Act1PrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_Act1PrizeTrackCurrency" />
+			</Event>
+			<Event id="66001">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_Act2PrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_Act2PrizeTrackCurrency" />
+			</Event>
+			<Event id="66001">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_Act3PrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_Act3PrizeTrackCurrency" />
+			</Event>
+			<Event id="66002">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_CraftingXP" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_CraftingXP" />
+			</Event>
+			<Event id="66002">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_CraftingCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_CraftingCurrency" />
+			</Event>
+			<Event id="66002">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_CurrencyDigging" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_CurrencyDigging" />
+			</Event>
+			<Event id="66002">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_Act1PrizeTrackCurrencyReward" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_Act1PrizeTrackCurrencyReward" />
+			</Event>
+			<Event id="66002">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_Act2PrizeTrackCurrencyReward" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_Act2PrizeTrackCurrencyReward" />
+			</Event>
+			<Event id="66002">
+				<Parameter0 type="Enumeration" source="FixedString" extra="THOH2018_Act3PrizeTrackCurrencyReward" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="THOH2018_Act3PrizeTrackCurrencyReward" />
+			</Event>
+			<Event id="66003">
+				<Parameter0 type="Enumeration" source="FixedString" extra="LayersCleared" />
+				<Parameter1 type="Enumeration" source="VariableAsInt" extra="THOH2018_DigSiteLayersCleared" />
+			</Event>
+			<Event id="66003">
+				<Parameter0 type="Enumeration" source="FixedString" extra="PickaxesSpent" />
+				<Parameter1 type="Enumeration" source="VariableAsInt" extra="THOH2018_DigSitePickaxesSpent" />
+			</Event>
+			<Event id="66004">
+				<Parameter0 type="Enumeration" source="FixedString" extra="CraftingLevel" />
+				<Parameter1 type="Score" source="VariableAsInt" extra="THOH2018_CraftingLevel" />
+			</Event>
+			<Event id="66004">
+				<Parameter0 type="Enumeration" source="FixedString" extra="FlandersTomeLevel" />
+				<Parameter1 type="Score" source="VariableAsInt" extra="FlandersTomeLevel" />
+			</Event>
+			<Event id="66006">
+				<Parameter0 type="Enumeration" source="FixedString" extra="PicaxeStation" />
+				<Parameter1 type="Score" source="StrictlyPositiveCounter" extra="THOH2018_PickaxeJobsCompleted" />
+			</Event>
+			<Event id="66006">
+				<Parameter0 type="Enumeration" source="FixedString" extra="PicaxeEarned" />
+				<Parameter1 type="Score" source="StrictlyPositiveCounter" extra="THOH2018_PickaxesEarned" />
+			</Event>
+		</SessionEvents>
+		<TriggerEffects>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnItemCrafted" />
+				<Response type="logEvent">
+					<Event id="66005">
+						<Parameter0 type="Enumeration" source="FixedString" extra="{Trigger::ObjectName}" />
+						<Parameter1 type="Enumeration" source="FormulaAsInt" extra="{Trigger::Amount}" />
+						<Parameter2 type="Enumeration" source="FormulaAsInt" extra="{Trigger::PremiumCost}" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnBuildingPlaced" />
+				<Filter type="matching" key="OriginalCostSpendable" string="THOH2018_CraftingCurrency" />
+				<Filter type="matching" key="FromInventory" formula="0" />
+				<Response type="logEvent">
+					<Event id="66005">
+						<Parameter0 type="Enumeration" source="FixedString" extra="{Trigger::ObjectName}" />
+						<Parameter1 type="Enumeration" source="FixedString" extra="1" />
+						<Parameter2 type="Enumeration" source="FixedString" extra="0" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="TriggerType" string="OnJobRushed" />
+					<Filter type="matching" key="TriggerType" string="OnJobCompleted" />
+				</Filter>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="Source" string="MangleAPickaxeShape_Temp" />
+					<Filter type="matching" key="Source" string="HandForgePickaxe_Temp" />
+					<Filter type="matching" key="Source" string="BorrowLisasPickaxe_Temp" />
+					<Filter type="matching" key="Source" string="RecycleOldPickaxe_Temp" />
+					<Filter type="matching" key="Source" string="MistakeACrowbarForAPickaxe_Temp " />
+					<Filter type="matching" key="Source" string="MangleAPickaxeShape" />
+					<Filter type="matching" key="Source" string="HandForgePickaxe" />
+					<Filter type="matching" key="Source" string="BorrowLisasPickaxe" />
+					<Filter type="matching" key="Source" string="RecycleOldPickaxe" />
+					<Filter type="matching" key="Source" string="MistakeACrowbarForAPickaxe" />
+					<Filter type="matching" key="Source" string="SharpenARoughPickaxe" />
+					<Filter type="matching" key="Source" string="InsistThePickaxeIsAMattock" />
+					<Filter type="matching" key="Source" string="HaveAPickaxeDelivered" />
+					<Filter type="matching" key="Source" string="WhineForAPickaxe" />
+					<Filter type="matching" key="Source" string="RecoverConfiscatedPickaxe" />
+					<Filter type="matching" key="Source" string="CommandRatsToStealAPickaxe" />
+					<Filter type="matching" key="Source" string="TradeBartsSoulForAPickaxe" />
+					<Filter type="matching" key="Source" string="ThreatenAPickaxeOffOfSomeone" />
+					<Filter type="matching" key="Source" string="BringInRecoveredPickaxe" />
+					<Filter type="matching" key="Source" string="SlowlyStealAPickaxe" />
+					<Filter type="matching" key="Source" string="UnHexAPickaxe" />
+				</Filter>
+				<Response type="incrementCounter" counter="THOH2018_PickaxeJobsCompleted" increment="1" />
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="TriggerType" string="OnJobRushed" />
+					<Filter type="matching" key="TriggerType" string="OnJobCompleted" />
+				</Filter>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="Source" string="MangleAPickaxeShape_Temp" />
+					<Filter type="matching" key="Source" string="HandForgePickaxe_Temp" />
+					<Filter type="matching" key="Source" string="BorrowLisasPickaxe_Temp" />
+					<Filter type="matching" key="Source" string="RecycleOldPickaxe_Temp" />
+					<Filter type="matching" key="Source" string="MistakeACrowbarForAPickaxe_Temp " />
+					<Filter type="matching" key="Source" string="MangleAPickaxeShape" />
+					<Filter type="matching" key="Source" string="HandForgePickaxe" />
+					<Filter type="matching" key="Source" string="BorrowLisasPickaxe" />
+					<Filter type="matching" key="Source" string="RecycleOldPickaxe" />
+					<Filter type="matching" key="Source" string="MistakeACrowbarForAPickaxe" />
+					<Filter type="matching" key="Source" string="SharpenARoughPickaxe" />
+					<Filter type="matching" key="Source" string="InsistThePickaxeIsAMattock" />
+					<Filter type="matching" key="Source" string="HaveAPickaxeDelivered" />
+					<Filter type="matching" key="Source" string="WhineForAPickaxe" />
+					<Filter type="matching" key="Source" string="RecoverConfiscatedPickaxe" />
+				</Filter>
+				<Response type="incrementCounter" counter="THOH2018_PickaxesEarned" increment="__THOH2018_BalanceConfig:CurrencyRewards:RegularJobReward_CraftingCurrency__" />
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="TriggerType" string="OnJobRushed" />
+					<Filter type="matching" key="TriggerType" string="OnJobCompleted" />
+				</Filter>
+				<Filter type="logic" conditional="or">
+					<Filter type="matching" key="Source" string="CommandRatsToStealAPickaxe" />
+					<Filter type="matching" key="Source" string="TradeBartsSoulForAPickaxe" />
+					<Filter type="matching" key="Source" string="ThreatenAPickaxeOffOfSomeone" />
+					<Filter type="matching" key="Source" string="BringInRecoveredPickaxe" />
+					<Filter type="matching" key="Source" string="SlowlyStealAPickaxe" />
+					<Filter type="matching" key="Source" string="UnHexAPickaxe" />
+				</Filter>
+				<Response type="incrementCounter" counter="THOH2018_PickaxesEarned" increment="__THOH2018_BalanceConfig:CurrencyRewards:PremiumJobReward_CraftingCurrency__" />
+			</TriggerEffect>
+		</TriggerEffects>
+	</THOH2018>
+</TelemetryFamilies>

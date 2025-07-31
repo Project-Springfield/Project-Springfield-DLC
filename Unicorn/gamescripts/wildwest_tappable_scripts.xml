@@ -1,0 +1,472 @@
+﻿<ScriptPackage>
+	<WWTappable_RadiusTap parallel="true">
+		<Action type="sound" sound="Bandit_Tap" />
+		<Action type="runScriptOnAll" character="WW_MasterTappable" in_radius="__WildWest_GameConfig:Misc:TapRadius__" radius_delay="0" script="WWTappable_Reward" package="WildWest_Tappable_Scripts" />
+		<Action type="runScript" character="WW_MasterTappable" script="WWTappable_Reward" package="WildWest_Tappable_Scripts" />
+	</WWTappable_RadiusTap>
+	<WWTappable_Reward parallel="true">
+		<Action type="playCharacterAnimation" animation="Tap" />
+		<Action type="fade" fade="outmax" />
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:PrizeTrack_Chance__" WW_ActivePrizeTrackCurrency="__WildWest_BalancingConfig:Tappables:PrizeTrack_Num__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_BalancingConfig:Tappables:TreasureHunter_Chance__" WW_Prospectors="__WildWest_BalancingConfig:Tappables:TreasureHunter_Num__">
+				<Requirement type="variable" variable="WildWest_Act3" />
+			</Reward>
+			<Reward chance="__WildWest_BalancingConfig:Tappables:TreasureHunter_ChanceAct2__" WW_Prospectors="__WildWest_BalancingConfig:Tappables:TreasureHunter_Num__">
+				<Requirement type="variable" variable="WildWest_Act2" />
+			</Reward>
+			<Reward chance="__WildWest_BalancingConfig:Tappables:TreasureHunter_ChanceAct1__" WW_Prospectors="__WildWest_BalancingConfig:Tappables:TreasureHunter_Num__">
+				<Requirement type="variable" variable="WildWest_Act1" />
+			</Reward>
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:GoldCoins_Chance__" WW_GoldCoins="__WildWest_BalancingConfig:Tappables:GoldCoins_Num__">
+				<Requirement type="quest started" quest="TheGoldTheDadAndTheGummy_2" />
+			</Reward>
+			<Reward chance="__WildWest_GameConfig:Tappables:Guns_Chance__" WW_Guns="__WildWest_BalancingConfig:Tappables:Guns_Num__">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+						<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+					</Requirement>
+					<Requirement type="variable" variable="WildWest_Act3" />
+				</Requirements>
+			</Reward>
+			<Reward chance="__WildWest_GameConfig:Tappables:Guns_ChanceAct2__" WW_Guns="__WildWest_BalancingConfig:Tappables:Guns_Num__">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+						<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+					</Requirement>
+					<Requirement type="variable" variable="WildWest_Act2" />
+				</Requirements>
+			</Reward>
+			<Reward chance="__WildWest_GameConfig:Tappables:Hats_Chance__" WW_Hats="__WildWest_BalancingConfig:Tappables:Hats_Num__">
+				<Requirements>
+					<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+					<Requirement type="variable" variable="WildWest_Act3" />
+				</Requirements>
+			</Reward>
+			<Reward chance="__WildWest_GameConfig:Tappables:Hats_ChanceAct2__" WW_Hats="__WildWest_BalancingConfig:Tappables:Hats_Num__">
+				<Requirements>
+					<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+					<Requirement type="variable" variable="WildWest_Act2" />
+				</Requirements>
+			</Reward>
+			<Reward chance="__WildWest_GameConfig:Tappables:Hats_ChanceAct1__" WW_Hats="__WildWest_BalancingConfig:Tappables:Hats_Num__">
+				<Requirements>
+					<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+					<Requirement type="variable" variable="WildWest_Act1" />
+				</Requirements>
+			</Reward>
+			<Reward chance="__WildWest_GameConfig:Tappables:Pickaxe_Chance__" WW_Pickaxes="__WildWest_BalancingConfig:Tappables:Pickaxe_Num__" />
+		</Action>
+		<Action type="reward" WW_BanditsTapped="1" noDrops="true" />
+		<Action type="deletecharacter" character="WW_MasterTappable" />
+		<Action type="checkRequirements">
+			<Requirement type="character" name="WW_MasterTappable" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="ShowTappableClearedMessage" boolValue="true" />
+			</True>
+		</Action>
+	</WWTappable_Reward>
+	<WWTappable_Tapped_Friend>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="sound" sound="Bandit_Tap" />
+				<Action type="playCharacterAnimation" animation="Tap" />
+				<Action type="fade" fade="outmax" />
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__WildWest_GameConfig:Tappables:PrizeTrack_Chance__" WW_ActivePrizeTrackCurrency="selector WildWest_PrizeTrackCurrencyPerSocial" FriendPoint="selector friendPointsReward" money="selector WildWest_MoneyPerSocial" xp="selector WildWest_XpPerSocial" />
+				</Action>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__WildWest_GameConfig:Tappables:GoldCoins_Chance__" WW_GoldCoins="selector WildWest_GoldCoinsCurrencyPerSocial">
+						<Requirement type="quest started" quest="TheGoldTheDadAndTheGummy_2" />
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:Guns_Chance__" WW_Guns="selector WildWest_GunCurrencyPerSocial">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+								<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+							</Requirement>
+							<Requirement type="variable" variable="WildWest_Act3" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:Guns_ChanceAct2__" WW_Guns="selector WildWest_GunCurrencyPerSocial">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+								<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+							</Requirement>
+							<Requirement type="variable" variable="WildWest_Act2" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:Hats_Chance__" WW_Hats="selector WildWest_HatCurrencyPerSocial">
+						<Requirements>
+							<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+							<Requirement type="variable" variable="WildWest_Act3" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:Hats_ChanceAct2__" WW_Hats="selector WildWest_HatCurrencyPerSocial">
+						<Requirements>
+							<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+							<Requirement type="variable" variable="WildWest_Act2" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:Hats_ChanceAct1__" WW_Hats="selector WildWest_HatCurrencyPerSocial">
+						<Requirements>
+							<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+							<Requirement type="variable" variable="WildWest_Act1" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:Pickaxe_Chance__" WW_Pickaxes="selector WildWest_PickaxeCurrencyPerSocial" />
+				</Action>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="ProspectorLicense_Purchased" />
+					<True>
+						<Action type="rewardchoice" suppress_sound="true">
+							<Reward chance="__WildWest_GameConfig:Tappables:PrizeTrack_Chance__" WW_ActivePrizeTrackCurrency="selector WildWest_PrizeTrackCurrencyPerSocial" />
+						</Action>
+						<Action type="rewardchoice" suppress_sound="true">
+							<Reward chance="__WildWest_GameConfig:Tappables:GoldCoins_Chance__" WW_GoldCoins="selector WildWest_GoldCoinsCurrencyPerSocial">
+								<Requirement type="quest started" quest="TheGoldTheDadAndTheGummy_2" />
+							</Reward>
+							<Reward chance="__WildWest_GameConfig:Tappables:Guns_Chance__" WW_Guns="selector WildWest_GunCurrencyPerSocial">
+								<Requirements>
+									<Requirement type="conditional" logic="OR">
+										<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+										<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+									</Requirement>
+									<Requirement type="variable" variable="WildWest_Act3" />
+								</Requirements>
+							</Reward>
+							<Reward chance="__WildWest_GameConfig:Tappables:Guns_ChanceAct2__" WW_Guns="selector WildWest_GunCurrencyPerSocial">
+								<Requirements>
+									<Requirement type="conditional" logic="OR">
+										<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+										<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+									</Requirement>
+									<Requirement type="variable" variable="WildWest_Act2" />
+								</Requirements>
+							</Reward>
+							<Reward chance="__WildWest_GameConfig:Tappables:Hats_Chance__" WW_Hats="selector WildWest_HatCurrencyPerSocial">
+								<Requirements>
+									<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+									<Requirement type="variable" variable="WildWest_Act3" />
+								</Requirements>
+							</Reward>
+							<Reward chance="__WildWest_GameConfig:Tappables:Hats_ChanceAct2__" WW_Hats="selector WildWest_HatCurrencyPerSocial">
+								<Requirements>
+									<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+									<Requirement type="variable" variable="WildWest_Act2" />
+								</Requirements>
+							</Reward>
+							<Reward chance="__WildWest_GameConfig:Tappables:Hats_ChanceAct1__" WW_Hats="selector WildWest_HatCurrencyPerSocial">
+								<Requirements>
+									<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+									<Requirement type="variable" variable="WildWest_Act1" />
+								</Requirements>
+							</Reward>
+							<Reward chance="__WildWest_GameConfig:Tappables:Pickaxe_Chance__" WW_Pickaxes="selector WildWest_PickaxeCurrencyPerSocial" />
+						</Action>
+					</True>
+				</Action>
+				<Action type="deletecharacter" character="WW_MasterTappable" />
+				<Action type="friendActionPerformed" />
+			</True>
+		</Action>
+	</WWTappable_Tapped_Friend>
+	<KillSocialTappable parallel="true" cache="true">
+		<Action type="sound" sound="Bandit_Tap" />
+		<Action type="stop" character="WW_SocialTappable" />
+		<Action type="playanimation" character="WW_SocialTappable" animation="Squish" />
+		<Action type="reward" save="true" WW_Score="10" noDrops="true" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="level" level="5" />
+				<Requirement type="quest" quest="MyPad" />
+			</Requirements>
+			<True>
+				<Action type="rewardchoice" suppress_sound="true">
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_GoldCoinsCurrency_Chance__" WW_GoldCoins="__WildWest_BalancingConfig:Tappables:SocialTappable_GoldCoinsCurrency_Num__">
+						<Requirement type="quest started" quest="TheGoldTheDadAndTheGummy_2" />
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_GunsCurrency_Chance__" WW_Guns="__WildWest_BalancingConfig:Tappables:SocialTappable_GunsCurrency_Num__">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+								<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+							</Requirement>
+							<Requirement type="variable" variable="WildWest_Act3" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_GunsCurrency_ChanceAct2__" WW_Guns="__WildWest_BalancingConfig:Tappables:SocialTappable_GunsCurrency_Num__">
+						<Requirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+								<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+							</Requirement>
+							<Requirement type="variable" variable="WildWest_Act2" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_HatsCurrency_Chance__" WW_Hats="__WildWest_BalancingConfig:Tappables:SocialTappable_HatsCurrency_Num__">
+						<Requirements>
+							<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+							<Requirement type="variable" variable="WildWest_Act3" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_HatsCurrency_ChanceAct2__" WW_Hats="__WildWest_BalancingConfig:Tappables:SocialTappable_HatsCurrency_Num__">
+						<Requirements>
+							<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+							<Requirement type="variable" variable="WildWest_Act2" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_HatsCurrency_ChanceAct1__" WW_Hats="__WildWest_BalancingConfig:Tappables:SocialTappable_HatsCurrency_Num__">
+						<Requirements>
+							<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+							<Requirement type="variable" variable="WildWest_Act1" />
+						</Requirements>
+					</Reward>
+					<Reward chance="__WildWest_GameConfig:Tappables:SocialTappable_PickaxeCurrency_Chance__" WW_Pickaxes="__WildWest_BalancingConfig:Tappables:SocialTappable_PickaxeCurrency_Num__" />
+				</Action>
+				<Action type="removetimedcharacter" script="FriendHasKilledSocialTappable" package="WildWest_Tappable_Scripts" character="WW_SocialTappable" text="UI_THOH2015_MaxTappables_Snakes" event="145000" />
+			</True>
+		</Action>
+	</KillSocialTappable>
+	<SpawnLocalSocialTappable parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest started" quest="OnceUponATimeInSpringfield_6" />
+			<True>
+				<Action type="reward" save="true" WW_Score="10" noDrops="true" suppress_sound="true" />
+				<Action type="addlocaltimedcharacter" character="WW_SocialTappable" event="145000" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="config" key="WildWest_GameConfig:Enable:TreasureHunterDeployed" value="1" />
+						<Requirement type="friendvariable" variable="WildWest_Active" />
+					</Requirements>
+					<True>
+						<Action type="sendPeerNotification" blueprint="TreasureHunterDeployed" />
+					</True>
+				</Action>
+				<Action type="sound" sound="Friends_TreasureHunter_Drop" />
+				<Action type="createobject" name="WW_SocialTappable" count="1" save="false" panCamera="false" showFadeIn="false" teleportCamera="true" />
+			</True>
+		</Action>
+	</SpawnLocalSocialTappable>
+	<SpawnFriendSocialTappable parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest started" quest="OnceUponATimeInSpringfield_6" />
+			<True>
+				<Action type="addfriendtimedcharacter" character="WW_SocialTappable" event="145000" />
+			</True>
+		</Action>
+	</SpawnFriendSocialTappable>
+	<FriendHasKilledSocialTappable parallel="true" cache="true">
+		<Action type="removefriendstimedcharacter" character="WW_SocialTappable" event="145000" />
+		<Action type="reward" save="true" WW_Score="5" noDrops="true" suppress_sound="true" />
+	</FriendHasKilledSocialTappable>
+	<GoToTappable>
+		<Action type="returnToInGameState" />
+		<Action type="if">
+			<If>
+				<Requirement type="quest started" quest="TheUnfinished_1" />
+				<Then>
+					<Action type="checkRequirements">
+						<Requirements>
+							<Requirement type="land" land="Springfield" />
+						</Requirements>
+						<True>
+							<Action type="checkRequirements">
+								<Requirement type="character" name="WW_MasterTappable" />
+								<True>
+									<Action type="pantoobject" character="WW_MasterTappable" time="0" />
+								</True>
+								<False>
+									<Action type="message" text="UI_WildWest_Tappables_Empty" />
+								</False>
+							</Action>
+						</True>
+						<False>
+							<Action type="gotoState" state="GameState_InGame" />
+							<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+						</False>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</GoToTappable>
+	<BanditSpawned>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_InGame" />
+				<Requirement type="variable" variable="BanditSpawnTelemetryTime" />
+			</Requirements>
+			<True>
+				<Action type="runScript" package="WildWest_Scripts" script="ShowWantedPoster" />
+			</True>
+		</Action>
+		<Action type="setVariable" boolVariable="GainedBandit" boolValue="true" />
+		<Action type="setVariable" intVariable="BanditStartTime" intValue="0" />
+		<Action type="setVariable" dateVariable="BanditSpawnTelemetryTime" />
+	</BanditSpawned>
+	<WWTappable_Spawn parallel="true">
+		<Action type="playCharacterAnimation" animation="Spawn" />
+	</WWTappable_Spawn>
+	<BanditTapped ignoreHUD="true">
+		<Action type="setVariable" intVariable="BanditTaps" intValue="BanditTaps+1" />
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:Bandit_GoldCoinsCurrency_Chance__" WW_GoldCoins="__WildWest_BalancingConfig:Tappables:Bandit_GoldCoinNum__">
+				<Requirement type="quest started" quest="TheGoldTheDadAndTheGummy_2" />
+			</Reward>
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:Bandit_GunsCurrency_Chance__" WW_Guns="__WildWest_BalancingConfig:Tappables:Bandit_GunNum__">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest started" quest="AFistfulOfBothers_2" />
+					<Requirement type="quest started" quest="AFistfulOfBothers_2BRANCH" />
+				</Requirement>
+			</Reward>
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:Bandit_HatCurrency_Chance__" WW_Hats="__WildWest_BalancingConfig:Tappables:Bandit_HatNum__">
+				<Requirement type="quest started" quest="OnceUponATimeInSpringfield_5" />
+			</Reward>
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:Bandit_PickaxeCurrency_Chance__" WW_Pickaxes="__WildWest_BalancingConfig:Tappables:Bandit_PickaxeNum__" />
+		</Action>
+		<Action type="rewardchoice" suppress_sound="true">
+			<Reward chance="__WildWest_GameConfig:Tappables:Bandit_SocialCurrency_Chance__" WW_Prospectors="__WildWest_BalancingConfig:Tappables:Bandit_SocialNum__">
+				<Requirement type="quest started" quest="OnceUponATimeInSpringfield_6" />
+			</Reward>
+		</Action>
+		<Action type="reward" WW_ActivePrizeTrackCurrency="__WildWest_BalancingConfig:Tappables:Bandit_Tap_PrizeTrack_Amount__" suppress_sound="true" />
+		<Action type="checkExpression" expression="BanditTaps">
+			<ExpressionCase value="1">
+				<Action type="sound" sound="Wanted_Bandit_Tap" />
+				<Action type="playanimation" character="Bandit" animation="Flinch" />
+				<Action type="flashObject" object="Bandit" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+				<Action type="runScript" script="BanditNitroBoost" package="WildWest_Tappable_Scripts" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="sound" sound="Wanted_Bandit_Tap" />
+				<Action type="playanimation" character="Bandit" animation="Flinch" />
+				<Action type="flashObject" object="Bandit" color="FF00FFFF" period="0.25" instanceDuration="0.15" />
+				<Action type="runScript" script="BanditNitroBoost" package="WildWest_Tappable_Scripts" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="sound" sound="Wanted_Bandit_Tap" />
+				<Action type="playanimation" character="Bandit" animation="Flinch" />
+				<Action type="flashObject" object="Bandit" color="FF00FFFF" period="0.2" instanceDuration="0.13" />
+				<Action type="runScript" script="BanditNitroBoost" package="WildWest_Tappable_Scripts" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="flashObject" object="Bandit" remove="true" />
+				<Action type="reward" WW_TimedBanditTapped="1" noDrops="true" />
+				<Action type="sound" sound="Bandit_Tap" />
+				<Action type="playanimation" character="Bandit" animation="Squish" />
+				<Action type="setVariable" boolVariable="GainedBandit" boolValue="false" />
+				<Action type="setVariable" dateVariable="BanditStartTime" />
+				<Action type="setVariable" boolVariable="BanditRespawnReady" boolValue="false" />
+				<Action type="deletecharacter" character="Bandit" />
+				<Action type="runScript" script="SendBanditTelemetry" package="WildWest_Tappable_Scripts" ignoreObject="true">
+					<FormatToken key="banditSpawnTimeStamp" value="_[BanditSpawnTelemetryTime]_" />
+					<FormatToken key="banditSpawnDuration" value="_[serverTime(0) - BanditSpawnTelemetryTime]_" />
+				</Action>
+			</ExpressionCase>
+		</Action>
+	</BanditTapped>
+	<SendBanditTelemetry parallel="true" runQueueState="RunInAnyState" ignoreHUD="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{banditSpawnTimeStamp}" param2Type="Enumeration" param2="{banditSpawnDuration}" param3Type="UserLevel" eventId="3678"></Action>
+	</SendBanditTelemetry>
+	<BanditNitroBoost parallel="true" ignoreHUD="true">
+		<Action type="setVariable" boolVariable="BanditTurboMode" boolValue="true" />
+		<Action type="delay" time="3.5" />
+		<Action type="setVariable" boolVariable="BanditTurboMode" boolValue="false" />
+	</BanditNitroBoost>
+	<BanditReset>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="character" name="Bandit" />
+					<False>
+						<Action type="createobject" name="Bandit" count="1" save="true" panCamera="false" />
+					</False>
+				</Action>
+				<Action type="setVariable" boolVariable="BanditRespawnReady" boolValue="true" />
+				<Action type="setVariable" intVariable="BanditTaps" intValue="0" />
+			</True>
+		</Action>
+	</BanditReset>
+	<Tappables_Empty>
+		<Action type="message" text="UI_WildWest_Tappables_Empty" />
+		<Action type="setVariable" boolVariable="ShowTappableClearedMessage" boolValue="false" />
+	</Tappables_Empty>
+	<SpawnFakeFriendMasterTappable>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="fakefriend" />
+				<Requirement type="variable" variable="BanditsSpawning" />
+			</Requirements>
+			<True>
+				<Action type="createobject" name="WW_MasterTappable" count="20" save="true" panCamera="false" />
+			</True>
+		</Action>
+	</SpawnFakeFriendMasterTappable>
+	<SpawnFirstFriendMasterTappable>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest" quest="MyPad" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="fakefriend" not="true" />
+				<Requirement type="friendlevel" level="5" />
+				<Requirement type="friendlevel" level="10" not="true" />
+				<Requirement type="variable" variable="BanditsSpawning" />
+			</Requirements>
+			<True>
+				<Action type="createobject" name="WW_MasterTappable" count="20" save="true" panCamera="false" />
+			</True>
+		</Action>
+	</SpawnFirstFriendMasterTappable>
+	<SpawnSecondFriendMasterTappable>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="fakefriend" not="true" />
+				<Requirement type="friendlevel" level="10" />
+				<Requirement type="friendlevel" level="15" not="true" />
+				<Requirement type="variable" variable="BanditsSpawning" />
+			</Requirements>
+			<True>
+				<Action type="createobject" name="WW_MasterTappable" count="25" save="true" panCamera="false" />
+			</True>
+		</Action>
+	</SpawnSecondFriendMasterTappable>
+	<SpawnThirdFriendMasterTappable>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="fakefriend" not="true" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="friendlevel" level="15" />
+				<Requirement type="variable" variable="BanditsSpawning" />
+			</Requirements>
+			<True>
+				<Action type="createobject" name="WW_MasterTappable" count="30" save="true" panCamera="false" />
+			</True>
+		</Action>
+	</SpawnThirdFriendMasterTappable>
+	<SpawnFullHudTip>
+		<Action type="hudTip" text="UI_WildWest_SpawnOverTime_Error_Body" time="3s" queue="true" waitForHUD="true" />
+	</SpawnFullHudTip>
+	<BanditTapFixer>
+		<Action type="setVariable" intVariable="BanditTaps" intValue="0" />
+	</BanditTapFixer>
+</ScriptPackage>

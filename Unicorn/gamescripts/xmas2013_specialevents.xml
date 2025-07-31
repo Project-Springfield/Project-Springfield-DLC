@@ -1,0 +1,660 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="4016" name="XMAS2013">
+		<GuideData title="UI_XMAS2013Guide_name" tip="UI_XMAS2013Guide_tip" step1="UI_XMAS2013Guide_panel01" step2="UI_XMAS2013Guide_panel02" step3="UI_XMAS2013Guide_panel03" img1="ICO_HELP_XMAS_Step1Image" img2="ICO_HELP_XMAS_Step2Image" img3="ICO_HELP_XMAS_Step3Image" countdownText="UI_XMAS2013Guide_countdown" endDate="XMASThirteenEndDate"></GuideData>
+		<HUDCurrencies buttonType="guide">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Currency type="GiftCards" />
+			<Currency type="Gifts" />
+		</HUDCurrencies>
+		<FriendHUDCurrencies buttonType="guide">
+			<Currency type="GiftCards" />
+			<Currency type="Gifts" />
+			<Requirements>
+				<Requirement type="quest" quest="TooMuchOfAGoodThing01" />
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+		</FriendHUDCurrencies>
+		<FriendHUD useTwoActions="true" regularActionText="UI_FriendsMap_ActionsRemaining" specialActionText="UI_XMAS2013_FriendTown_GiftBagsDropped" specialActionLimit="5" tipText="UI_XMAS2013_FriendTown_TextTip">
+			<Requirements>
+				<Requirement type="quest started" quest="DoUntoOthers" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="XMAS2013" />
+				</Requirement>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+		</FriendHUD>
+		<FriendsMap showCurrencyForFriends="true" icon="ICO_FMAP_XMAS_Giftcard.rgb" type="GiftCards" type2="specialActionLimit" icon2="ICO_FMAP_XMAS_GiftBag.rgb" screenEffect="SnowFall" type1FakeFriend="true" type2FakeFriend="true" />
+		<LoopScript package="XMAS2013_Scripts" script="WindSound" interval="20s" interval_variance="5s" loop="true" playThenWait="false" />
+		<Variable name="bankedPresents" value="0" />
+		<BuildingRespawner maxInstancesToRespawn="20" sequenceDuration="4s" respawnOnLandVisitThreshold="1h">
+			<Item buildingName="SmallPresent" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+			<Item buildingName="LargePresent" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+			<Item buildingName="SmallGiftBag" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+			<Item buildingName="LargeGiftBag" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+			<Item buildingName="GoldenGiftBag" idleGroundAnimation="Ground" idleWaterAnimation="Water" />
+			<RespawnAroundBuilding buildingName="PresentDepot" />
+		</BuildingRespawner>
+		<Variable name="bankedPresents1" value="0" />
+		<Variable name="numSpawnedOverLifetimeSBOTI1" value="0" />
+		<CustomGetMore>
+			<GetMoreRule mode="friend" file="XMAS2013_GiftBagBuildMenu.xml" getMorePromptTitle="UI_XMAS2013_OutOfGiftBags_Title" getMorePromptDescription="UI_XMAS2013_OutOfGiftBags_Body">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2013" />
+					<Requirement type="friendlevel" level="1" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="fakefriend" />
+						<Requirement type="friendvariable" variable="XMAS2013" />
+					</Requirement>
+					<Requirement type="land" land="Springfield" />
+				</Requirements>
+				<SpendableCurrency name="Gifts" />
+			</GetMoreRule>
+			<GetMoreRule mode="game" file="XMAS2013_SpinTokenBuildMenu.xml" getMorePromptTitle="UI_XMAS2013_OutOfSpinTokens_Title" getMorePromptDescription="UI_XMAS2013_OutOfSpinTokens_Body">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2013" />
+				</Requirements>
+				<SpendableCurrency name="SpinTokens" />
+			</GetMoreRule>
+		</CustomGetMore>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_SpinToken_SE" counter="true" identifier="SpinTokens">
+				<Minigame name="HolidayWheel" />
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="quest started" quest="DollarsToDonuts" />
+				</Requirements>
+			</Button>
+			<Button mode="friend" icon="ICO_FHUD_XMAS_GiftBag_SE" counter="true" identifier="Gifts" useSpecialActionLimit="true">
+				<Requirements>
+					<Requirement type="quest started" quest="DoUntoOthers" />
+					<Requirement type="variable" variable="XMAS2013" />
+					<Requirement type="friendlevel" level="1" />
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="fakefriend" />
+						<Requirement type="building" building="PresentDepot" />
+					</Requirement>
+					<Requirement type="land" land="Springfield" />
+				</Requirements>
+				<BuildingSpawnMode maxAllowedPerTown="60" popup_OutOfCurrencyTitle="UI_XMAS2013_OutOfGiftBags_Title" popup_OutOfCurrencyText="UI_XMAS2013_OutOfGiftBags_Body" popup_ExceedAllowedTownMaxTitle="UI_XMAS2013_NoRoomForGiftBags_Title" popup_ExceedAllowedTownMaxText="UI_XMAS2013_NoRoomForGiftBags_Body">
+					<Cost Gifts="1" />
+					<LocalScript>
+						<Script name="SpawnGiftBag" package="XMAS2013_Scripts" />
+					</LocalScript>
+					<Item buildingName="SmallGiftBag" chance="77" gridTypeDropPriorityOrder="none" friendScript="AddFriendSmallGiftBag" package="XMAS2013_Scripts" />
+					<Item buildingName="LargeGiftBag" chance="23" gridTypeDropPriorityOrder="none" friendScript="AddFriendLargeGiftBag" package="XMAS2013_Scripts" />
+				</BuildingSpawnMode>
+			</Button>
+		</SpecialButtons>
+		<Variable name="bankedGifts" value="0" />
+		<Variable name="showNumberOfPresentsInLand" value="true" owner="0" />
+		<Variable name="HolidayWheelBucket01" value="0" />
+		<Variable name="HolidayWheelBucket02" value="0" />
+		<Variable name="HolidayWheelBucket03" value="0" />
+		<Variable name="HolidayWheelBucket04" value="0" />
+		<Variable name="HolidayWheelBucket05" value="0" />
+		<Variable name="HolidayWheelBucket06" value="0" />
+		<Variable name="HolidayWheelBucket07" value="0" />
+		<Variable name="HolidayWheelBucket08" value="0" />
+		<Variable name="HolidayWheelBucket09" value="0" />
+		<Variable name="HolidayWheelBucket10" value="0" />
+		<Variable name="PresentsCollectedObjective" value="0" />
+		<Variable name="GiftBagsGivenObjective" value="0" />
+		<Variable name="OpenedTenPresents" value="false" />
+		<PrizeLists state="GameState_SpecialEventPrizeList">
+			<PrizeList id="1" type="community">
+				<Attributes>
+					<Attribute name="nameText" value="UI_XMAS2013_CommunityPrizeMenu_Title" />
+					<Attribute name="completeTitle" value="UI_XMAS2013_CommunityPrizeMenu_CompleteTitle" />
+					<Attribute name="completeText" value="UI_XMAS2013_CommunityPrizeMenu_Complete" />
+					<Attribute name="messageText" value="UI_XMAS2013_CommunityPrizesAwardDesc" />
+					<Attribute name="infoText" value="UI_XMAS2013_CommunityPrizeMenu_InfoText" />
+					<Attribute name="subTitleText" value="UI_XMAS2013_CommunityPrizeMenu_SubTitleText" />
+					<Attribute name="totalText" value="UI_XMAS2013_CommunityPrizeMenu_GlobalTotal" />
+					<Attribute name="tipText" value="UI_WhackingDayPrizeAward_tip" />
+					<Attribute name="menuTipText" value="UI_XMAS2013_CommunityPrizeMenu_MenuTipText" />
+					<Attribute name="currency1" value="Gifts" />
+					<Attribute name="currency2" value="donuts" />
+					<Attribute name="goalReachedTitle" value="UI_XMAS2013_CommunityPrizeMenu_GoalReached_Title" />
+					<Attribute name="goalReachedText" value="UI_XMAS2013_CommunityPrizeMenu_GoalReached_Text" />
+					<Attribute name="backgroundRewardIcon" value="ICO_PRIZ_AWRD_XMAS_MenuBaseImage" />
+				</Attributes>
+				<Prize name="BLD_HolidayTotemPole_name" listIcon="ICO_XMAS_ChristmasTotem_MD" useImmediately="false" rewardIcon="ICO_XMAS_ChristmasTotem_LG">
+					<Requirements>
+						<Requirement type="community currency" currency="GiftsGiven" thresholdIndex="0" />
+						<Requirement type="quest" quest="TooMuchOfAGoodThing02" />
+						<Requirement type="land" land="Springfield" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="HolidayTotemPole" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SantasWorkshop_name" listIcon="ICO_XMAS_SantasWorkshop_MD" useImmediately="false" rewardIcon="ICO_XMAS_SantasWorkshop_LG">
+					<Requirements>
+						<Requirement type="community currency" currency="GiftsGiven" thresholdIndex="1" />
+						<Requirement type="quest" quest="TooMuchOfAGoodThing02" />
+						<Requirement type="land" land="Springfield" />
+					</Requirements>
+					<Reward>
+						<Item type="building" name="SantasWorkshop" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_EbenezerBurns_name" listIcon="ICO_XMAS_EbenezerBurns_MD" rewardIcon="ICO_XMAS_EbenezerBurns_LG">
+					<Requirements>
+						<Requirement type="community currency" currency="GiftsGiven" thresholdIndex="2" />
+						<Requirement type="quest" quest="TooMuchOfAGoodThing02" />
+						<Requirement type="land" land="Springfield" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="EbenezerBurns" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_TheYesGuy_name" listIcon="ICO_XMAS_TheYesGuy_MD" rewardIcon="ICO_XMAS_TheYesGuy_LG">
+					<Requirements>
+						<Requirement type="community currency" currency="GiftsGiven" thresholdIndex="3" />
+						<Requirement type="quest" quest="TooMuchOfAGoodThing02" />
+						<Requirement type="land" land="Springfield" />
+					</Requirements>
+					<Reward>
+						<Item type="character" name="TheYesGuy" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_CCT_name" listIcon="ICO_XMAS_CCT_MD" rewardIcon="ICO_XMAS_CCT_LG">
+					<Requirements>
+						<Requirement type="community currency" currency="GiftsGiven" thresholdIndex="4" />
+						<Requirement type="quest" quest="TooMuchOfAGoodThing02" />
+						<Requirement type="land" land="Springfield" />
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="CCT" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="0" type="local">
+				<Attributes>
+					<Attribute name="nameText" value="UI_XMAS2013_PersonalPrizeMenu_Title" />
+					<Attribute name="completeText" value="UI_XMAS2013_PersonalPrizeMenu_Complete" />
+					<Attribute name="messageText" value="UI_XMAS2013_PersonalPrizesAwardDesc" />
+					<Attribute name="countText" value="UI_XMAS2013_PrizesGiftCardCount" />
+					<Attribute name="getnowText" value="UI_WhackingDayPrizes_getnow" />
+					<Attribute name="backgroundRewardIcon" value="ICO_PRIZ_AWRD_XMAS_MenuBaseImage" />
+					<Attribute name="tipText" value="UI_XMAS2013_PersonalPrizeMenu_Tip" />
+					<Attribute name="currency1" value="GiftCards" />
+					<Attribute name="currency2" value="donuts" />
+				</Attributes>
+				<Prize name="BLD_EggNogBar_name" listIcon="ICO_XMAS_EggNogBar_MD" useImmediately="false" rewardIcon="ICO_XMAS_EggNogBar_LG" rush_rate="4">
+					<Requirement type="special currency" currency="GiftCards" amount="250" />
+					<Reward>
+						<Item type="building" name="EggNogBar" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_HolidayTree_name" listIcon="ICO_XMAS_HolidayTree_MD" useImmediately="false" rewardIcon="ICO_XMAS_HolidayTree_LG" rush_rate="17">
+					<Requirement type="special currency" currency="GiftCards" amount="1500" />
+					<Reward>
+						<Item type="building" name="HolidayTree" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SpringfieldMall_name" listIcon="ICO_XMAS_SpringfieldMall_MD" useImmediately="false" rewardIcon="ICO_XMAS_SpringfieldMall_LG" rush_rate="20">
+					<Requirement type="special currency" currency="GiftCards" amount="3000" />
+					<Reward>
+						<Item type="building" name="SpringfieldMall" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_ElfHome_name" listIcon="ICO_XMAS_ElfHome_MD" useImmediately="false" rewardIcon="ICO_XMAS_ElfHome_LG" rush_rate="34">
+					<Requirement type="special currency" currency="GiftCards" amount="6000" />
+					<Reward>
+						<Item type="building" name="ElfHome" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SpringfieldSkatingRink_name" listIcon="ICO_XMAS_SpringfieldSkatingRink_MD" useImmediately="false" rewardIcon="ICO_XMAS_SpringfieldSkatingRink_LG" rush_rate="37">
+					<Requirement type="special currency" currency="GiftCards" amount="10000" />
+					<Reward>
+						<Item type="building" name="SpringfieldSkatingRink" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_HappyElvesRide_name" listIcon="ICO_XMAS_HappyElvesRide_MD" useImmediately="false" rewardIcon="ICO_XMAS_HappyElvesRide_LG" rush_rate="27">
+					<Requirement type="special currency" currency="GiftCards" amount="14000" />
+					<Reward>
+						<Item type="building" name="HappyElvesRide" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_ChristmasRaccoon_name" listIcon="ICO_XMAS_ChristmasRaccoon_MD" rewardIcon="ICO_XMAS_ChristmasRaccoon_LG" rush_rate="23">
+					<Requirement type="special currency" currency="GiftCards" amount="18000" />
+					<Reward>
+						<Item type="character" name="ChristmasRaccoon" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_SantaSuit_name" listIcon="ICO_XMAS_SantaFlanders_MD" rewardIcon="ICO_XMAS_SantaFlanders_LG" rush_rate="20">
+					<Requirement type="special currency" currency="GiftCards" amount="22000" />
+					<Reward>
+						<Item type="consumable" name="SantaSuit" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_PlowKingsPlow_name" listIcon="ICO_XMAS_PlowKingsPlow_MD" useImmediately="false" rewardIcon="ICO_XMAS_PlowKingsPlow_LG" rush_rate="16">
+					<Requirement type="special currency" currency="GiftCards" amount="26000" />
+					<Reward>
+						<Item type="building" name="PlowKingsPlow" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_Costingtons_name" listIcon="ICO_XMAS_Costington_MD" useImmediately="false" rewardIcon="ICO_XMAS_Costington_LG" rush_rate="13">
+					<Requirement type="special currency" currency="GiftCards" amount="30000" />
+					<Reward>
+						<Item type="building" name="Costingtons" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<PrizeListButton>
+			<Requirements>
+				<Requirement type="variable" variable="enablePrizeList" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="OpenedTenPresents" />
+			</Requirements>
+		</PrizeListButton>
+		<Overrides>
+			<Override what="menu" from="ICO_Prizes.rgb" to="ICO_MHUD_XMAS_Prizes.rgb" />
+			<Override what="menu" from="ICO_Prizes_Personal.rgb" to="ICO_XMAS_Prizes_Personal.rgb" />
+			<Override what="menu" from="ICO_Prizes_Community.rgb" to="ICO_XMAS_Prizes_Community.rgb" />
+		</Overrides>
+		<BonusRewardSets>
+			<BonusRewardSet name="xmasDay" modifier="2">
+				<Requirement type="time" start="ChristmasBonusPayoutStart" end="ChristmasBonusPayoutEnd" />
+			</BonusRewardSet>
+		</BonusRewardSets>
+		<Variable name="XMAS2013" value="true" />
+		<Variable name="enablePrizeList" value="true" />
+		<Jobs>
+			<Job name="DeliverPresents">
+				<Reward GiftCards="17" xp="45" />
+			</Job>
+			<Job name="EducateKidsOnTheMeaningOfChristmas">
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="GoACarollin">
+				<Reward GiftCards="42" xp="100" />
+			</Job>
+			<Job name="ServeThePoor">
+				<Reward GiftCards="7" xp="17" />
+			</Job>
+			<Job name="CelebrateTheHolidays">
+				<Reward GiftCards="60" xp="150" />
+			</Job>
+			<Job name="GetSlightlyTooReligiousAsSanta">
+				<Reward GiftCards="27" xp="70" />
+				<Requirement type="active quest" quest="FlandersDualColoredDreamcoat01" />
+			</Job>
+			<Job name="DeliverATooReligiousSermon">
+				<Reward GiftCards="7" xp="17" />
+				<Requirement type="active quest" quest="FlandersDualColoredDreamcoat02" />
+			</Job>
+			<Job name="MakeASnowmanTEMP">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing03" />
+				<Reward GiftCards="50" xp="125" />
+			</Job>
+			<Job name="MakeSnowAngelsTEMP">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing03" />
+				<Reward GiftCards="22" xp="55" />
+			</Job>
+			<Job name="PonderTheMeaningOfTheHolidays">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing13" />
+				<Reward GiftCards="60" xp="150" />
+			</Job>
+			<Job name="DestroyGiftCards">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing17" />
+				<Reward GiftCards="7" xp="17" />
+			</Job>
+			<Job name="ReadFinePrint">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing19" />
+				<Reward GiftCards="42" xp="100" />
+			</Job>
+			<Job name="CelebratePanchaGanapati">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing06" />
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="SetUpAGiftCardPromotion">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing04" />
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="CountUpFamilyMembers">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing07" />
+				<Reward GiftCards="60" xp="150" />
+			</Job>
+			<Job name="BuyNewThrowPillows">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing05" />
+				<Reward GiftCards="42" xp="100" />
+			</Job>
+			<Job name="UseCreditToPayOffCredit">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing08" />
+				<Reward GiftCards="50" xp="125" />
+			</Job>
+			<Job name="BuildAHouseOfGiftCards">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing09" />
+				<Reward GiftCards="42" xp="100" />
+			</Job>
+			<Job name="EatAtARestaurant">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing10" />
+				<Reward GiftCards="17" xp="45" />
+			</Job>
+			<Job name="EnjoyABeer">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing11" />
+				<Reward GiftCards="17" xp="45" />
+			</Job>
+			<Job name="ShopForLovedOnes">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing12" />
+				<Reward GiftCards="22" xp="55" />
+			</Job>
+			<Job name="Overeat">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing14" />
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="DrinkTooMuch">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing15" />
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="StampedeStores">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing16" />
+				<Reward GiftCards="42" xp="100" />
+			</Job>
+			<Job name="HuntForTheSimpsons">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing18" />
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="HideFromSpringfielders">
+				<Requirement type="active quest" quest="TooMuchOfAGoodThing18" />
+				<Reward GiftCards="60" xp="150" />
+			</Job>
+			<Job name="PunishingTheLactoseIntolerant" time="24h">
+				<Reward SpinTokens="1" money="0" xp="30" />
+			</Job>
+			<Job name="SendHomerAHolidayGift">
+				<Requirement type="active quest" quest="ABontOfFriendship" />
+				<Reward GiftCards="35" xp="90" />
+			</Job>
+			<Job name="PretendToSkiTEMP">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing03" />
+				<Reward GiftCards="27" xp="70" />
+			</Job>
+			<Job name="BeANutcrackerTEMP">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing03" />
+				<Reward GiftCards="35" xp="90" />
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingTEMP">
+				<Requirement type="quest started" quest="TooMuchOfAGoodThing03" />
+				<Reward GiftCards="35" xp="90" />
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingRod">
+				<Reward GiftCards="35" xp="90" />
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingTodd">
+				<Reward GiftCards="35" xp="90" />
+			</Job>
+			<Job name="ComplainOnTheInternet">
+				<Requirement type="active quest" quest="RighteousIndignation01" />
+			</Job>
+			<Job name="RaiseAStinkOnTheForums">
+				<Requirement type="active quest" quest="RighteousIndignation02" />
+			</Job>
+			<Job name="StirUpInternetHate">
+				<Requirement type="active quest" quest="RighteousIndignation03" />
+			</Job>
+			<Job name="BackOffEA">
+				<Requirement type="active quest" quest="RighteousIndignation04" />
+			</Job>
+			<Job name="ShopForHolidayDonuts">
+				<Requirement type="active quest" quest="TheGreatDonutCaper01" />
+			</Job>
+			<Job name="SearchShopsForHolidayDonuts">
+				<Requirement type="active quest" quest="TheGreatDonutCaper02" />
+			</Job>
+			<Job name="GoToChurchTemp">
+				<Requirement type="active quest" quest="MrPlow06" />
+			</Job>
+			<Job name="RuinChristmas">
+				<Requirement type="active quest" quest="TheCostOfDoingBusiness01" />
+			</Job>
+			<Job name="RuinChristmas2">
+				<Requirement type="active quest" quest="TheCostOfDoingBusiness05" />
+			</Job>
+			<Job name="WorkOnTheWeapon">
+				<Requirement type="active quest" quest="AHolidayHymn04" />
+			</Job>
+			<Job name="BlastHolidaySpirits">
+				<Requirement type="active quest" quest="AHolidayHymn05" />
+			</Job>
+			<Job name="RecordAMrPlowAttackAd">
+				<Requirement type="active quest" quest="TheOnceAndFutureKing02" />
+			</Job>
+			<Job name="FrameMrPlow">
+				<Requirement type="active quest" quest="TheOnceAndFutureKing04" />
+			</Job>
+			<Job name="SpendAFortuneMonitoringEmployees">
+				<Requirement type="active quest" quest="TheCostOfDoingBusiness04" />
+			</Job>
+		</Jobs>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="PresentDepot" />
+			</LandInfo>
+		</LandInfos>
+	</SpecialEvent>
+	<SpecialEvent id="4017" name="XMAS2013_FriendActions">
+		<List name="GiftCardsJobs">
+			<String name="IncomeTax3" />
+			<String name="MarkingUpPrices" />
+			<String name="MarkingUpPricesFranchise" />
+			<String name="IncomeTax1" />
+			<String name="IncomeTax7" />
+			<String name="IncomeTax0" />
+			<String name="ThawingMeatPatties" />
+			<String name="ThawingMeatPattiesFranchise" />
+			<String name="IncomeTax2" />
+			<String name="IncomeTax8" />
+			<String name="IncomeTax4" />
+			<String name="IncomeTax5" />
+			<String name="FryingEverythingInSight" />
+			<String name="IncomeTax9" />
+			<String name="CollectingLibraryFines" />
+			<String name="ProvidingSarcasticService" />
+			<String name="IncomeTax6" />
+			<String name="GettingWired" />
+			<String name="CollectionPlate" />
+			<String name="SpreadingGossip" />
+			<String name="GildingTruffles" />
+			<String name="EmptyingSpitValves" />
+			<String name="WarmingUpCoffees" />
+			<String name="SpicingUpMeatballs" />
+			<String name="ServingTime" />
+			<String name="PerformingExperiments" />
+			<String name="TwistingCrullers" />
+			<String name="PoppingCorn" />
+			<String name="BottlingDuff" />
+			<String name="UnleashingDoomsdayDevices" />
+			<String name="StaringAtNeptune" />
+			<String name="SweetSweetLemonaide" />
+			<String name="CollectingWelfare" />
+			<String name="OverdueRent" />
+			<String name="MoneyFoundInSock" />
+			<String name="IncubatingZombies" />
+			<String name="IncubatingPetZombies" />
+			<String name="SellingEvilAndCursedFrogurt" />
+			<String name="ScaringUnsuspectingGuests" />
+			<String name="IncubatingZombies02" />
+			<String name="PointlesslyAcceleratingParticles" />
+			<String name="PuttingUpWantedPosters" />
+			<String name="RaisingPretentiousKids" />
+			<String name="PeddlingPills" />
+			<String name="CuttingEdgeMedicalProcedures" />
+			<String name="PuttingMsInFrontOfProductNames" />
+			<String name="RackingPins" />
+			<String name="RegurgitatingIdeas" />
+			<String name="SuckingConsumersDry" />
+			<String name="FeedingReindeer" />
+			<String name="SellingExcessPricelessArtifacts" />
+			<String name="OverchargingCelebrityDiners" />
+			<String name="InvestigatingWhereTheRemoteIs" />
+			<String name="OvercomplicatingSimpleCuisine" />
+			<String name="CausingCavities" />
+			<String name="CapitalizingOnInsecureRelationships" />
+			<String name="LosingGolfBalls" />
+			<String name="RakingSandGardens" />
+			<String name="PretendingToBeACollege" />
+			<String name="IrishingUpDrinks" />
+			<String name="BoringSchoolchildren" />
+			<String name="OverchargingForLuxuryBoxes" />
+			<String name="DenyingSteroidUse" />
+			<String name="ChargingHourlyRates" />
+			<String name="InflatingDreamsOfGymnasticStardom" />
+			<String name="YellingAtCustomers" />
+			<String name="NotConductingLegitimateBusiness" />
+			<String name="BloodMoney" />
+			<String name="FusingCuisines" />
+			<String name="ListeningToPinsDrop" />
+			<String name="WrappingPresents" />
+			<String name="AttractingSnakes01" />
+			<String name="AttractingSnakes02" />
+			<String name="AttractingSnakes03" />
+			<String name="MassProducingAntiques" />
+			<String name="ServingSameStuffAsAtLuigis" />
+			<String name="NotBeingUsed" />
+			<String name="IncomeTax10" />
+			<String name="DrivingSmallRetailersOutOfBusiness" />
+			<String name="DolingOutMeds" />
+			<String name="CrushingHope" />
+			<String name="IgnoringTheFirstRuleOfRobotics" />
+			<String name="LayingDownAntTraps" />
+			<String name="StitchingAndPatchingItchyAndScratchy" />
+			<String name="DiscountingRadiumFilledCompasses" />
+			<String name="UnleashingTheTurbanator" />
+			<String name="InkingYetAnotherTribalTattoo" />
+			<String name="AssuringAuthoritiesItsNotAFront" />
+			<String name="StuffingMuffinBaskets" />
+			<String name="DecipheringSecretGovernmentPlans" />
+			<String name="InducingVertigo" />
+			<String name="ServingFoodToTheExtreme" />
+			<String name="PayingOffHealthAuthorities" />
+			<String name="IncomeTax11" />
+			<String name="HidingAffairs" />
+			<String name="EatingCraftservice" />
+			<String name="PunishingDelts" />
+			<String name="GivingInsomniacsAPlaceToGo" />
+			<String name="IncomeTax12" />
+			<String name="BuildingToys" />
+			<String name="CuttingWages" />
+			<String name="PunishingTheLactoseIntolerant" />
+			<String name="LooseningSlots" />
+			<String name="NotUsingTheKitchens" />
+			<String name="PayingTVWritersOnHiatus" />
+			<String name="CallingFattyThingsLowFat" />
+			<String name="SpinningVinyl" />
+			<String name="BeingUnvisited" />
+			<String name="SellingFerretLikePoodles" />
+			<String name="WorshippingTheHolyDonut" />
+			<String name="IgnoringTheFirstRuleOfRobotics" />
+			<String name="ViolatingEveryBuildingCode" />
+			<String name="LayingDownAntTraps" />
+			<String name="PuttingCursesOnNonPayingCustomers" />
+			<String name="SwindlingAllowances" />
+			<String name="StuffingMammoths" />
+			<String name="IncubatingSpirits1" />
+			<String name="IncubatingSpirits2" />
+			<String name="FormingIntoCliques" />
+			<String name="ClaimingThingsAreScience" />
+			<String name="LosingPaperwork" />
+		</List>
+		<Jobs override="true" list="GiftCardsJobs">
+			<Job>
+				<SocialBonusReward>
+					<Reward GiftCards="10" xp="1" chanceType="s" chance="1" />
+					<IconOverride name="ICO_GAME_XMAS_Giftcard1_PU" />
+				</SocialBonusReward>
+			</Job>
+		</Jobs>
+		<Buildings override="true">
+			<Building name="SpringfieldElementary">
+				<Vandalism>
+					<Reward type="Vandalism" chance="1" chanceType="s" money="15" xp="1" GiftCards="10" />
+					<Reward type="Clean" chance="1" chanceType="s" money="15" xp="1" />
+					<OneShot name="Clean" file="GrafittiCleanupFlipped" x="238" y="-317.75" />
+					<OneShot name="Spray" file="GrafittiVandalismFlipped" x="246.75" y="-331" />
+					<OneShot name="CleanFlipped" file="GrafittiCleanup" x="-66" y="-235" />
+					<OneShot name="SprayFlipped" file="GrafittiVandalism" x="-68" y="-264" />
+				</Vandalism>
+			</Building>
+			<Building name="MoesTavern">
+				<Vandalism>
+					<Reward type="Vandalism" chance="1" chanceType="s" money="15" xp="1" GiftCards="10" />
+					<Reward type="Clean" chance="1" chanceType="s" money="15" xp="1" />
+					<OneShot name="Clean" file="GrafittiCleanupFlipped" x="95" y="-102" />
+					<OneShot name="Spray" file="GrafittiVandalismFlipped" x="101" y="-129" />
+					<OneShot name="CleanFlipped" file="GrafittiCleanup" x="-128" y="-123" />
+					<OneShot name="SprayFlipped" file="GrafittiVandalism" x="-136" y="-148" />
+				</Vandalism>
+			</Building>
+			<Building name="PoliceStation">
+				<Vandalism>
+					<Reward type="Vandalism" chance="1" chanceType="s" money="15" xp="1" GiftCards="10" />
+					<Reward type="Clean" chance="1" chanceType="s" money="15" xp="1" />
+					<OneShot name="Clean" file="GrafittiCleanupFlipped" x="73" y="-256" />
+					<OneShot name="Spray" file="GrafittiVandalismFlipped" x="75" y="-273" />
+					<OneShot name="CleanFlipped" file="GrafittiCleanup" x="-1" y="-224" />
+					<OneShot name="SprayFlipped" file="GrafittiVandalism" x="-16" y="-234" />
+				</Vandalism>
+			</Building>
+			<Building name="TownHall">
+				<Vandalism>
+					<Reward type="Vandalism" chance="1" chanceType="s" money="15" xp="1" GiftCards="10" />
+					<Reward type="Clean" chance="1" chanceType="s" money="15" xp="1" />
+					<OneShot name="Clean" file="GrafittiCleanup" x="-10" y="-329" />
+					<OneShot name="Spray" file="GrafittiVandalism" x="-14" y="-342" />
+					<OneShot name="CleanFlipped" file="GrafittiCleanupFlipped" x="-9" y="-318" />
+					<OneShot name="SprayFlipped" file="GrafittiVandalismFlipped" x="19" y="-346" />
+				</Vandalism>
+			</Building>
+			<Building name="EggNogBar">
+				<JobRename job="PunishingTheLactoseIntolerant" name="JOB_GeneratingSpinToken_name" />
+			</Building>
+			<Building name="ElfHome">
+				<Job removeTaxJob="true" />
+			</Building>
+		</Buildings>
+		<Jobs>
+			<Job name="WrappingPresents">
+				<Reward GiftCards="75" xp="45" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="4018" name="XMAS2013_HideUnlockedChars">
+		<List name="HiddenUntilUnlockedCharacters">
+			<String name="CandyKevin" />
+			<String name="MrCostington" />
+			<String name="TheYesGuy" />
+			<String name="SnowMonster" />
+			<String name="ChristmasRaccoon" />
+			<String name="TheGrumple" />
+		</List>
+		<Characters override="true" list="HiddenUntilUnlockedCharacters">
+			<Character>
+				<HideUntilUnlocked hidden="true" />
+			</Character>
+		</Characters>
+		<FakeFriendOverride>
+			<Building name="SimpsonHome" skin="Decorated_SimpsonHome" />
+			<Building name="BrownHouse" skin="Decorated_BrownHouse" />
+			<Building name="FlandersHome" skin="Decorated_FlandersHome" />
+			<Building name="PurpleHouse" skin="Decorated_PurpleHouse" />
+			<Building name="BlueHouse" skin="Decorated_BlueHouse" />
+			<Building name="VanHoutenHome" skin="Decorated_VanHoutenHome" />
+			<Building name="PinkHouse" skin="Decorated_PinkHouse" />
+			<Building name="WhiteHouse" skin="Decorated_WhiteHouse" />
+			<Building name="WilliesShack" skin="Decorated_WilliesShack" />
+			<Building name="OrangeHouse" skin="Decorated_OrangeHouse" />
+			<Building name="MuntzHouse" skin="Decorated_MuntzHouse" />
+			<Building name="KrabappelApartment" skin="Decorated_KrabappelApartment" />
+			<Building name="FrinksLab" skin="Decorated_FrinksLab" />
+			<Building name="VolcanoLair" skin="Decorated_VolcanoLair" />
+			<Building name="CletusFarm" skin="Decorated_CletusFarm" />
+		</FakeFriendOverride>
+	</SpecialEvent>
+</SpecialEvents>

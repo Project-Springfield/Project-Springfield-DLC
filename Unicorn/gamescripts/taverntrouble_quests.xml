@@ -1,0 +1,596 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="246000" name="MenOfBrewWords" />
+		<DataID id="246001" name="TheLongWayHomer_1" />
+		<DataID id="246002" name="TheLongWayHomer_2" />
+		<DataID id="246003" name="TheLongWayHomer_3" />
+		<DataID id="246004" name="TheLongWayHomer_4" />
+		<DataID id="246005" name="TheLongWayHomer_5" />
+		<DataID id="246006" name="HomewardBored" />
+		<DataID id="246007" name="FailingTheTrendTest_1" />
+		<DataID id="246008" name="FailingTheTrendTest_2" />
+		<DataID id="246009" name="FailingTheTrendTest_3" />
+		<DataID id="246010" name="FailingTheTrendTest_4" />
+		<DataID id="246011" name="TakeFromTheRichGiveToThePorpoise_1" />
+		<DataID id="246012" name="TakeFromTheRichGiveToThePorpoise_2" />
+		<DataID id="246013" name="TakeFromTheRichGiveToThePorpoise_3" />
+		<DataID id="246014" name="TakeFromTheRichGiveToThePorpoise_4" />
+		<DataID id="246015" name="TakeFromTheRichGiveToThePorpoise_5" />
+		<DataID id="246016" name="AStarIsBroken_1" />
+		<DataID id="246017" name="AStarIsBroken_2" />
+		<DataID id="246018" name="AStarIsBroken_3" />
+		<DataID id="246019" name="AStarIsBroken_4" />
+		<DataID id="246020" name="AStarIsBroken_5" />
+		<DataID id="246600" name="TavernTrouble_Completed" />
+		<DataID id="246601" name="TavernTrouble_IntroPanel" />
+		<DataID id="246602" name="TavernTrouble_72HourWarning" onDeprecated="retain" endDate="TavernTrouble_End" />
+		<DataID id="246603" name="TavernTrouble_24HourWarning" onDeprecated="retain" endDate="TavernTrouble_End" />
+		<DataID id="246604" name="TavernTrouble_EventExpired" />
+		<DataID id="246605" name="TavernTrouble_MasterQuest" />
+		<!-- <DataID id="246700" name="AutoApply_RobinHoodHomerSkin" /> -->
+		<DataID id="246900" name="TavernTrouble_RecommendStore" onDeprecated="delete" endDate="TavernTrouble_End" />
+	</MasterList>
+	<Quest id="246600" name="TavernTrouble_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="HomewardBored" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="246601" name="TavernTrouble_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="MenOfBrewWords" />
+			<Requirement type="time" end="TavernTrouble_End" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="246602" name="TavernTrouble_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TavernTrouble_End')-fromHours(72)]_" end="_[System::evaluate('Date::TavernTrouble_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="TavernTrouble_Complete" not="true" />
+			<Requirement type="quest" quest="TavernTrouble_IntroPanel" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="246603" name="TavernTrouble_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TavernTrouble_End')-fromHours(24)]_" end="TavernTrouble_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TavernTrouble_Complete" not="true" />
+			<Requirement type="quest" quest="TavernTrouble_IntroPanel" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="246604" name="TavernTrouble_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="TavernTrouble_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TavernTrouble_Complete" not="true" />
+			<Requirement type="quest" quest="TavernTrouble_IntroPanel" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="246605" name="TavernTrouble_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_Expired" not="true" />
+			<Requirement type="variable" variable="TavernTrouble_Complete" not="true" />
+			<Requirement type="reqList" location="TavernTrouble_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheLongWayHomer_5" />
+					<Requirement type="variable" variable="TavernTrouble_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheLongWayHomer_1">
+				<Requirement type="quest started" quest="TheLongWayHomer_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheLongWayHomer_2">
+				<Requirement type="quest started" quest="TheLongWayHomer_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheLongWayHomer_3">
+				<Requirement type="quest started" quest="TheLongWayHomer_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheLongWayHomer_4">
+				<Requirement type="quest started" quest="TheLongWayHomer_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheLongWayHomer_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="246000" name="MenOfBrewWords" tags="sidequest" icon="TavernTrouble_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="TavernTrouble_Start" end="TavernTrouble_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="MenOfBrewWords_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="MenOfBrewWords_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="InsistHesTheDrinkInventingGenius" quantity="1" />
+			<Objective type="complete job" character="Moe" job="InsistHeCanCreateABetterDrink" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Moe" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246001" name="TheLongWayHomer_1" tags="mainquest" icon="TavernTrouble_Currency" sidebarIconScript="TavernTrouble_Scripts:OpenMasterQuest" questMenuConfigPath="TavernTrouble_QuestConfig:TavernTrouble_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TavernTrouble_IntroPanel" />
+			<Requirement type="time" start="TavernTrouble_Start" end="TavernTrouble_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_1_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TavernTrouble_Currency')" amount="__TavernTrouble_GameConfig:ResourceQuantities:TavernTrouble_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TavernTrouble_Scripts:ShowJobList" textpoolName="QST_TavernTrouble_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectOldBottleCaps" />
+					<Job name="BuyDrinksForTheBottleCaps" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GoOnAndOnAboutMoe" quantity="1" />
+			<Objective type="complete job" job="GetSickOfHomer" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TavernTrouble_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TavernTrouble_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="246002" name="TheLongWayHomer_2" tags="mainquest" icon="TavernTrouble_Currency" sidebarIconScript="TavernTrouble_Scripts:OpenMasterQuest" questMenuConfigPath="TavernTrouble_QuestConfig:TavernTrouble_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLongWayHomer_1" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_2_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TavernTrouble_Currency')" amount="__TavernTrouble_GameConfig:ResourceQuantities:TavernTrouble_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TavernTrouble_Scripts:ShowJobList" textpoolName="QST_TavernTrouble_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectOldBottleCaps" />
+					<Job name="BuyDrinksForTheBottleCaps" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DrinkTenDuffs" quantity="1" />
+			<Objective type="complete job" job="CutHomerOff" quantity="2">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Wiggum" />
+						<Requirement type="characterunlocked" name="Lou" />
+						<Requirement type="characterunlocked" name="Eddie" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TavernTrouble_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TavernTrouble_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="246003" name="TheLongWayHomer_3" tags="mainquest" icon="TavernTrouble_Currency" sidebarIconScript="TavernTrouble_Scripts:OpenMasterQuest" questMenuConfigPath="TavernTrouble_QuestConfig:TavernTrouble_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLongWayHomer_2" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_3_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TavernTrouble_Currency')" amount="__TavernTrouble_GameConfig:ResourceQuantities:TavernTrouble_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TavernTrouble_Scripts:ShowJobList" textpoolName="QST_TavernTrouble_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectOldBottleCaps" />
+					<Job name="BuyDrinksForTheBottleCaps" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="PutOnAParkaBeforeSlurpingMoreRamen" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TavernTrouble_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TavernTrouble_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="246004" name="TheLongWayHomer_4" tags="mainquest" icon="TavernTrouble_Currency" sidebarIconScript="TavernTrouble_Scripts:OpenMasterQuest" questMenuConfigPath="TavernTrouble_QuestConfig:TavernTrouble_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLongWayHomer_3" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_4_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TavernTrouble_Currency')" amount="__TavernTrouble_GameConfig:ResourceQuantities:TavernTrouble_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TavernTrouble_Scripts:ShowJobList" textpoolName="QST_TavernTrouble_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectOldBottleCaps" />
+					<Job name="BuyDrinksForTheBottleCaps" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="ApplyACunningDisguise" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TavernTrouble_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TavernTrouble_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="246005" name="TheLongWayHomer_5" tags="mainquest" icon="TavernTrouble_Currency" sidebarIconScript="TavernTrouble_Scripts:OpenMasterQuest" questMenuConfigPath="TavernTrouble_QuestConfig:TavernTrouble_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TavernTrouble_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLongWayHomer_4" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_5_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TheLongWayHomer_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TavernTrouble_Currency')" amount="__TavernTrouble_GameConfig:ResourceQuantities:TavernTrouble_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TavernTrouble_Scripts:ShowJobList" textpoolName="QST_TavernTrouble_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectOldBottleCaps" />
+					<Job name="BuyDrinksForTheBottleCaps" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DramaticallyDoffHisDisguise" quantity="1" />
+			<Objective type="complete job" character="Moe" job="BeStartledByHomersRuse" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Moe" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Barney" job="BeConfusedAboutWhatsHappening" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TavernTrouble_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TavernTrouble_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="246006" name="HomewardBored" tags="sidequest" icon="TavernTrouble_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheLongWayHomer_5" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="HomewardBored_Start" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="HomewardBored_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="CreateANewDrinkWithMoe" quantity="1" />
+			<Objective type="complete job" character="Moe" job="CreateANewDrinkWithHomer" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Moe" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="246007" name="FailingTheTrendTest_1" tags="sidequest" icon="HarvBannister">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="HarvBannister" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_1_Start" triggerType="character" character="HarvBannister" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="HarvBannister" job="HireGroundskeeperWillyAsHisContractor" quantity="1" />
+			<Objective type="complete job" character="Willy" job="RemodelInsideOfTipsyMcStaggers" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Willy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246008" name="FailingTheTrendTest_2" tags="sidequest" icon="HarvBannister">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FailingTheTrendTest_1" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_2_Start" triggerType="character" character="HarvBannister" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="HarvBannister" job="InstallVideoGames" quantity="1" />
+			<Objective type="complete job" job="CriticizeHarvsChoiceOfGames" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246009" name="FailingTheTrendTest_3" tags="sidequest" icon="HarvBannister">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FailingTheTrendTest_2" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_3_Start" triggerType="character" character="HarvBannister" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="HarvBannister" job="PurchaseTheAllScottishSportsPackage" quantity="1" />
+			<Objective type="complete job" character="Willy" job="WatchCaberTossingAndShinty" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Willy" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" job="PretendToUnderstandRulesOfShinty" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246010" name="FailingTheTrendTest_4" tags="sidequest" icon="HarvBannister">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="FailingTheTrendTest_3" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_4_Start" triggerType="character" character="HarvBannister" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="FailingTheTrendTest_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="HarvBannister" job="LaunchFireworks" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="WatchFireworksSetRestaurantOnFire" quantity="1" />
+			<Objective type="complete job" character="Bart" job="EnjoyFireworksAccident" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="TryToPutOutTheFire" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="246011" name="TakeFromTheRichGiveToThePorpoise_1" tags="sidequest" icon="Homer_RobinHood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Homer" unlockedskin="RobinHoodHomer" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="TheLongWayHomer_4" />
+				<Requirement type="time" start="TavernTrouble_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_1_Start" triggerType="character" character="Homer" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RobinHoodHomer" job="AccidentallyScareBurns" quantity="1" />
+			<Objective type="complete job" character="Burns" job="OfferUpHisMoneyToSaveHisLife" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Burns" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246012" name="TakeFromTheRichGiveToThePorpoise_2" tags="sidequest" icon="Homer_RobinHood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TakeFromTheRichGiveToThePorpoise_1" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_2_Start" triggerType="character" character="Homer" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RobinHoodHomer" job="AccidentallyRobTheRich" quantity="1" />
+			<Objective type="complete job" character="ArthurFortune" job="GiveUpHisMoney" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ArthurFortune" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246013" name="TakeFromTheRichGiveToThePorpoise_3" tags="sidequest" icon="Homer_RobinHood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TakeFromTheRichGiveToThePorpoise_2" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_3_Start" triggerType="character" character="Homer" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RobinHoodHomer" job="GiveUpHisBooty" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_3_2_obj_2" />
+			<Objective type="complete job" character="SeaCaptain" job="HitTheGrog" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_3_2_obj_3">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SeaCaptain" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lenny" job="SwimBackAshore_Lenny" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_3_2_obj_4">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lenny" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Carl" job="SwimBackAshore_Carl" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_3_2_obj_5">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246014" name="TakeFromTheRichGiveToThePorpoise_4" tags="sidequest" icon="Homer_RobinHood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TakeFromTheRichGiveToThePorpoise_3" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_4_Start" triggerType="character" character="Homer" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RobinHoodHomer" job="GetBeatUpByKingSnorky" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_4_2_obj_2" />
+			<Objective type="complete job" character="Wiggum" job="CowerInFear" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_4_2_obj_3">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246015" name="TakeFromTheRichGiveToThePorpoise_5" tags="sidequest" icon="Homer_RobinHood">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TakeFromTheRichGiveToThePorpoise_4" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_5_Start" triggerType="character" character="Homer" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="TakeFromTheRichGiveToThePorpoise_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RobinHoodHomer" job="HelpPositionTheShrimpNet" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_5_2_obj_1" />
+			<Objective type="complete job" character="SexyPirate" job="StrikeASexyPose" quantity="1" textpoolName="QST_TakeFromTheRichGiveToThePorpoise_5_2_obj_3">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SexyPirate" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="246016" name="AStarIsBroken_1" tags="sidequest" icon="Colette">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Colette" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="TheLongWayHomer_4" />
+				<Requirement type="time" start="TavernTrouble_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_1_Start" triggerType="character" character="Colette" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Colette" job="TalkAboutAuditioning" quantity="1" />
+			<Objective type="complete job" character="Marge" job="BeFascinatedByColettesStories_Marge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246017" name="AStarIsBroken_2" tags="sidequest" icon="Colette">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AStarIsBroken_1" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_2_Start" triggerType="character" character="Colette" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Colette" job="TellCelebrityStories" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="BeFascinatedByColettesStories_Springfielders" quantity="3" />
+			<Objective type="complete job" character="Wolfcastle" job="ResentNotBeingTheCenterOfAttention" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wolfcastle" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246018" name="AStarIsBroken_3" tags="sidequest" icon="Colette">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AStarIsBroken_2" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_3_Start" triggerType="character" character="Colette" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Colette" job="ExplainHowHardItIsToBeAWomanInHollywood" quantity="1" />
+			<Objective type="complete job" character="Opal" job="BeHorrifiedAndFascinatedAtTheSameTime" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Opal" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Krusty" job="CallHisAgentManagerPublicistAndLawyer" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246019" name="AStarIsBroken_4" tags="sidequest" icon="Colette">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AStarIsBroken_3" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_4_Start" triggerType="character" character="Colette" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Colette" job="TellHerLifeStory" quantity="1" />
+			<Objective type="complete job" character="Diane" job="FallAsleepListeningToColettesLifeStory" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Diane" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Jeremy" job="Quit_Jeremy" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Jeremy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="246020" name="AStarIsBroken_5" tags="sidequest" icon="Colette">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AStarIsBroken_4" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_5_Start" triggerType="character" character="Colette" />
+		<EndScript package="TavernTrouble_Scripts_Dialogue" name="AStarIsBroken_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Colette" job="ExplainHerPastMistakes" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="ReactInShockAndAnger" quantity="3" />
+			<Objective type="complete job" character="Opal" job="PretendLikeSheDoesntKnowWhoColetteIs" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Opal" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="246700" name="AutoApply_RobinHoodHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="RobinHoodHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="RobinHoodHomer" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TavernTrouble_Scripts" name="AutoApply_RobinHoodHomerSkin_End" />
+	</Quest>
+	<Quest id="246900" name="TavernTrouble_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TavernTrouble_Requirements:StoreCategory_TavernTrouble_Unlocked" />
+		</Requirements>
+		<StartScript package="TavernTrouble_Scripts" name="RecommendStoreCategory_TavernTrouble" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

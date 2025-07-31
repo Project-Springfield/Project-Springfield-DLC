@@ -1,0 +1,2093 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="163000" name="THOH2016_Event" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163001" name="THOH2016_EventLevel" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163002" name="THOH2016_Social" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163003" name="THOH2016_Effects" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163004" name="THOH2016_Social_Act1" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163005" name="THOH2016_Social_Act2" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163006" name="THOH2016_Social_Act3" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163007" name="BlinkyMonster_Promo" onDeprecated="delete" enabled="FLAG_THOH2016" />
+		<DataID id="163008" name="GiantMonsterTimer_Fix" onDeprecated="delete" enabled="FLAG_THOH2016" />
+	</MasterList>
+	<SpecialEvent id="163000" name="THOH2016_Event">
+		<Variable name="THOH2016" value="true" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="THOH2016_Scripts:THOH2016LandLoad" />
+		</OnEvent>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="MAGOffice" priority="1" />
+			</LandInfo>
+		</LandInfos>
+		<PrizeListButton icon="ICO_MHUD_THOH2016_Event">
+			<Requirement type="land" land="Springfield" />
+			<BadgeRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="checkBadge" badgeName="THOH2016_PrizeTrackBadge" />
+					<Requirement type="checkBadge" badgeName="THOH2016_Store" />
+				</Requirement>
+			</BadgeRequirements>
+			<Script name="THOH2016_Scripts:PrizeListButtonPressed" />
+		</PrizeListButton>
+		<HUDCurrencies buttonType="guide" guideButtonScript="THOH2016_Scripts:TabPressed_PrizeTrack_Help">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<Currency type="THOH2016_ActivePrizeTrackCurrency" />
+			<Currency type="THOH2016_MonsterCoins" />
+		</HUDCurrencies>
+		<Overrides>
+			<Override what="menu" from="ICO_GenericButtonOverlay.rgb" to="ICO_THOH_ButtonSlimeCorner01.rgb|ICO_THOH_ButtonSlime01.rgb|ICO_THOH_ButtonSlime02.rgb|ICO_THOH_ButtonSlime03.rgb|ICO_THOH_ButtonSlime01.rgb|ICO_THOH_ButtonSlime02.rgb|ICO_THOH_ButtonSlime03.rgb" />
+			<Override what="menu" from="ICO_GenericButtonOverlayCorner.rgb" to="ICO_THOH_ButtonSlimeCorner01.rgb|ICO_THOH_ButtonSlimeCorner02.rgb" />
+			<Override what="menu" from="ICO_GenericButtonArrow.rgb" to="ICO_THOH_ButtonSlimeArrow.rgb" />
+			<Override what="menu" from="ICO_GenericSpecialEventButtonOverlay.rgb" to="ICO_THOH_ButtonSlimeSE01.rgb|ICO_THOH_ButtonSlimeSE02.rgb" />
+			<Override what="menu" from="FriendsIcon" to="ICO_MHUD_THOH2016_Friends.rgb" />
+		</Overrides>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_THOH2016_TrickOrTreat">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+				</Requirements>
+				<ExclamationMark>
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Bart::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Bart_Temp::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Lisa::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Martin::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Milhouse::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Nelson::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Ralph::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Rod::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Todd::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Dolph::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Jimbo::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Kearney::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_Shauna::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_SherriandTerri::Waiting')" />
+							<Requirement type="formula" formula="System::evaluate('Job::TrickOrTreat2016_SqueakyVoiceTeen::Waiting')" />
+						</Requirement>
+					</Requirements>
+				</ExclamationMark>
+				<RunScript>
+					<Script name="THOH2016_Scripts:FindTrickOrTreater" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<StaticButtons>
+			<BuildButton></BuildButton>
+			<MoveButton></MoveButton>
+			<FriendButton>
+				<Script package="THOH2016_Scripts" name="OnFriendButtonPressed" />
+			</FriendButton>
+		</StaticButtons>
+		<Variable name="CurrentMonsterID" value="0" owner="0" />
+		<Buildings override="true">
+			<Building name="ConstructionYard">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="indicator_THOH2016_FuneralCoins.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="and(THOH2016_MonsterCoins &gt;= THOH2016_MaxCraftProgress, THOH2016_StoreLevel &lt; THOH2016_MaxStoreLevel)" />
+					</Requirements>
+				</TouchIcon>
+				<OnEvent event="BuildingTouched" onObject="ConstructionYard" user="local">
+					<Script name="THOH2016_Scripts:TabPressed_MonsterStore" />
+				</OnEvent>
+			</Building>
+			<Building name="MAGOffice">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="indicator_THOH2016_MonsterBattle.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="quest started" quest="LostInLaMonstra_1" />
+						<Requirement type="formula" formula="System::evaluate('Building::GiantMonster::PlacedCount') &gt; 0" />
+					</Requirements>
+				</TouchIcon>
+				<ScriptTrigger description="UI_THOH2016_MonsterBattle_Title2" buttonLabel="UI_THOH2016_MonsterBattle_FightBtn" buttonColor="b73affff" allowedInFriendLand="false">
+					<Requirements>
+						<Requirement type="quest started" quest="LostInLaMonstra_1" />
+					</Requirements>
+					<Script onButtonPressed="THOH2016_Scripts:TabPressed_MonsterBattle" />
+				</ScriptTrigger>
+			</Building>
+			<Building name="MedievalRichHouse">
+				<Sell allowed="false" storeoverride="false" />
+				<TouchIcon value="indicator_THOH2016_TrickOrTreat.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Bart" />
+								<Requirement type="active quest" quest="MonsterCandy" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Bart" />
+								<Requirement type="quest" quest="MonsterCandy" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Lisa" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="quest" quest="LostInLaMonstra_19" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Martin" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level2_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Milhouse" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level1_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Nelson" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level4_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Ralph" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level7_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Rod" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level11_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Todd" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level13_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Dolph" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level17_Target__" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Jimbo" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="time" start="THOHXXVII_ActThree" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Kearney" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="time" start="THOHXXVII_ActThree" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="Shauna" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="time" start="THOHXXVII_ActTwo" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="SherriandTerri" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+								<Requirement type="time" start="THOHXXVII_ActTwo" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="IdleCharacter" character="SqueakyVoiceTeen" />
+								<Requirement type="quest" quest="MonsterCandy" objective="1" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</TouchIcon>
+				<JobCensusData enable="true" gotoOtherLandColour="CE7901FF" premiumBackgroundColour="000000D9" premiumToolTip="UI_THOH2015_Act2Census_SimpsonHome_PremiumTip">
+					<Job name="TrickOrTreat2016_Lisa" />
+					<Job name="TrickOrTreat2016_Bart" />
+					<Job name="TrickOrTreat2016_Bart_Temp" />
+					<Job name="TrickOrTreat2016_Martin" />
+					<Job name="TrickOrTreat2016_Milhouse" />
+					<Job name="TrickOrTreat2016_Nelson" />
+					<Job name="TrickOrTreat2016_Ralph" />
+					<Job name="TrickOrTreat2016_Rod" />
+					<Job name="TrickOrTreat2016_Todd" />
+					<Job name="TrickOrTreat2016_Dolph" />
+					<Job name="TrickOrTreat2016_Jimbo" />
+					<Job name="TrickOrTreat2016_Kearney" />
+					<Job name="TrickOrTreat2016_Shauna" />
+					<Job name="TrickOrTreat2016_SherriandTerri" />
+					<Job name="TrickOrTreat2016_SqueakyVoiceTeen" />
+				</JobCensusData>
+			</Building>
+			<Building name="BurnsFamilyCrypt">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Burns_Family_Crypt__" />
+			</Building>
+			<Building name="CountBurnsCastle">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Counts_Burns_Castle__" />
+			</Building>
+			<Building name="MadDoctorsCastle">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Mad_Doctors_Castle__" />
+			</Building>
+			<Building name="ShinningHotel">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Shinning_Hotel__" />
+			</Building>
+			<Building name="MedievalCathedral">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Medieval_Cathedral__" />
+			</Building>
+			<Building name="BellTower">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Bell_Tower__" />
+			</Building>
+			<Building name="LargeMausoleum">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Medival_Mausoleum__" />
+			</Building>
+			<Building name="HouseOnScaryHill">
+				<BuildMenuText text="UI_HouseOnScaryHill_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:House_on_Scary_Hill__" />
+			</Building>
+			<Building name="BattleDome">
+				<BuildMenuText text="UI_BattleDome_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Building>
+			<Building name="HellementarySchool">
+				<BuildMenuText text="UI_HellementarySchool_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Hellementary_School__" />
+			</Building>
+			<Building name="GingerbreadHouse">
+				<BuildMenuText text="UI_HellementarySchool_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Building>
+			<Building name="DriveInTheater">
+				<BuildMenuText text="UI_HellementarySchool_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Building>
+			<Building name="BurnsCoffin">
+				<BuildMenuText text="UI_HellementarySchool_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Building>
+			<Building id="163502" name="CoveredBridge">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Covered_Bridge__" />
+			</Building>
+			<Building id="163503" name="WolfRock">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Wolf_Rock__" />
+			</Building>
+			<Building id="163504" name="DarkCarriage">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Dark_Carriage__" />
+			</Building>
+			<Building id="163506" name="SkullIsland">
+				<BuildMenuText text="UI_SkullIsland_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Monster_Island__" />
+			</Building>
+			<Building id="163517" name="ZombieSandwich">
+				<BuildMenuText text="UI_ZombieSandwich_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Zombie_Sandwich__" />
+			</Building>
+			<Building id="163518" name="MonsterCouch">
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Monster_Couch__" />
+			</Building>
+			<Building id="163522" name="SpiderWillie">
+				<BuildMenuText text="UI_SpiderWillie_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+				<ConstructionReward THOH2016_EventLevelPoints="__THOH2016_Spreadsheet_Config:MAGPoints:Nightmare_Willie__" />
+			</Building>
+			<Building id="163525" name="TownSquare">
+				<ConstructionReward THOH2016_EventLevelPoints="selector TownSquare_MAG" />
+			</Building>
+			<Building name="CemeteryPlot">
+				<BuildMenuText text="UI_THOH2016_ExcitingText_Fights" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Building>
+			<Building name="HermansMilitaryAntiques">
+				<BuildMenuText text="UI_THOH2016_ExcitingText_Fights" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Building>
+			<Building name="SpookyHouse">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Spooky_House__" />
+			</Building>
+			<Building name="VampireCasket">
+				<ConstructionReward THOH2016_EventLevelPoints="selector VampireCasket_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Vampire_Casket__" />
+			</Building>
+			<Building name="IronWall">
+				<ConstructionReward THOH2016_EventLevelPoints="selector IronWall_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Iron_Wall__" />
+			</Building>
+			<Building name="GargoyleWall">
+				<ConstructionReward THOH2016_EventLevelPoints="selector GargoyleWall_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Gargoyle_Wall__" />
+			</Building>
+			<Building name="DeadTree">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Dead_Tree__" />
+			</Building>
+			<Building name="FlyingBats">
+				<ConstructionReward THOH2016_EventLevelPoints="selector FlyingBats_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Flying_Bats__" />
+			</Building>
+			<Building name="SpookyBrambles">
+				<ConstructionReward THOH2016_EventLevelPoints="selector SpookyBrambles_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Spooky_Brambles__" />
+			</Building>
+			<Building name="Catacombs">
+				<ConstructionReward THOH2016_EventLevelPoints="selector Catacombs_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Catacombs__" />
+			</Building>
+			<Building name="SpookyCabin">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Spooky_Cabin__" />
+			</Building>
+			<Building name="Pyre">
+				<ConstructionReward THOH2016_EventLevelPoints="selector Pyre_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Pyre__" />
+			</Building>
+			<Building name="CastleWall">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Castle_Wall__" />
+			</Building>
+			<Building name="SpookyGrove">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Spooky_Grove__" />
+			</Building>
+			<Building name="HayCart">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Hay_Cart__" />
+			</Building>
+			<Building name="HangingStreetLamp">
+				<ConstructionReward THOH2016_EventLevelPoints="selector HangingStreetLamp_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Hanging_Streetlamp__" />
+			</Building>
+			<Building name="ForestCave">
+				<ConstructionReward THOH2016_EventLevelPoints="selector ForestCave_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Forest_Cave__" />
+			</Building>
+			<Building name="ForestGrove">
+				<ConstructionReward THOH2016_EventLevelPoints="selector ForestGrove_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Forest_Grove__" />
+			</Building>
+			<Building name="MorticianCarriage">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Mortician_Carriage__" />
+			</Building>
+			<Building name="Ruins">
+				<ConstructionReward THOH2016_EventLevelPoints="selector Ruins_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Ruins__" />
+			</Building>
+			<Building name="BrambleHedge">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Bramble_Hedge__" />
+			</Building>
+			<Building name="SpookyTree">
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Spooky_Tree__" />
+			</Building>
+			<Building name="HauntedStables">
+				<ConstructionReward THOH2016_EventLevelPoints="selector HauntedStables_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Haunted_Stables__" />
+			</Building>
+			<Building name="Shipwreck">
+				<ConstructionReward THOH2016_EventLevelPoints="selector Shipwreck_MAG" />
+				<Cost THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:CraftItems:Shipwreck__" />
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job name="SetUpTrainingExercises" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest started" quest="MadMonstersFurryRoad_5" />
+				</Requirements>
+				<Reward THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Premium_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Lisa" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="quest" quest="LostInLaMonstra_19" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Bart" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MonsterCandy" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Bart_Temp" time="6s">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="active quest" quest="MonsterCandy" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="20" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Martin" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level2_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Milhouse" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level1_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Nelson" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level4_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Ralph" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level7_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Rod" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level11_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Todd" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level13_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Dolph" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level17_Target__" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Reward_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Jimbo" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="time" start="THOHXXVII_ActThree" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Premium_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Kearney" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="time" start="THOHXXVII_ActThree" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Premium_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_Shauna" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="time" start="THOHXXVII_ActTwo" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Premium_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_SherriandTerri" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+					<Requirement type="time" start="THOHXXVII_ActTwo" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Premium_TorT_PTCurrency__" />
+			</Job>
+			<Job name="TrickOrTreat2016_SqueakyVoiceTeen" time="__THOH2016_Spreadsheet_Config:Jobs:TimeSeconds__">
+				<Requirements>
+					<Requirement type="quest" quest="MyPad" />
+					<Requirement type="quest" quest="MonsterCandy" objective="1" />
+				</Requirements>
+				<Reward THOH2016_MonsterCoins="__THOH2016_Spreadsheet_Config:Jobs:Reward_Crafting__" THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:Jobs:Premium_TorT_PTCurrency__" />
+			</Job>
+			<Job name="FightGiantMonster_Homer">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Homer')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Apu">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Apu')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Ned">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Ned')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Cletus">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Cletus')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Krusty">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Krusty')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Skinner">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Skinner')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Willie">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Willy')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_ComicBookGuy">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('CBGuy')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Lovejoy">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Lovejoy')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Marge">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Marge')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Moe">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Moe')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Herman">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Herman')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_CrazyIguanaLady">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('CrazyCatLady')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Death">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Death')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_Frinkenstein">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('Frinkenstein')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_GravediggerBilly">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('GravediggerBilly')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_SpaceMarshmallow">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('SpaceMarshmallow')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="FightGiantMonster_BlinkyMonster">
+				<Reward THOH2016_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__THOH2016_Spreadsheet_Config:GiantMonsters:EventCurrencyValue__')) * toDouble(Object::getVariable(Land::getFirstInstanceOfObject(Character::find('BlinkyMonster')), 'MonsterJobMultiplier'))" />
+			</Job>
+			<Job name="TrainingHungryChildren" time="20h">
+				<Reward THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:BuildingJobs:Reward_PTCurrency__" xp="40" />
+			</Job>
+			<Job name="PavingRoadsWithGoodIntentions" time="20h">
+				<Reward THOH2016_ActivePrizeTrackCurrency="__THOH2016_Spreadsheet_Config:BuildingJobs:Reward_PTCurrency__" xp="40" />
+			</Job>
+			<Job id="163061" name="ExperimentWithFilmStyles">
+				<Requirement type="active quest" quest="LostInLaMonstra_2" />
+			</Job>
+			<Job id="163062" name="ShootSomePickups">
+				<Requirement type="active quest" quest="LostInLaMonstra_6" />
+			</Job>
+			<Job id="163063" name="InvestInNewTechnology">
+				<Requirement type="active quest" quest="LostInLaMonstra_7" />
+			</Job>
+			<Job id="163064" name="CatchConflictsOnCamera">
+				<Requirement type="active quest" quest="LostInLaMonstra_11" />
+			</Job>
+			<Job id="163065" name="ReconsiderHerFilmPlans">
+				<Requirement type="active quest" quest="LostInLaMonstra_12" />
+			</Job>
+			<Job id="163066" name="RecutQuimbysMovie">
+				<Requirement type="active quest" quest="LostInLaMonstra_18" />
+			</Job>
+			<Job id="163067" name="TakeAStuntActingClass">
+				<Requirement type="active quest" quest="LostInLaMonstra_4" />
+			</Job>
+			<Job id="163068" name="GetSomeNewHeadshots">
+				<Requirement type="active quest" quest="LostInLaMonstra_5" />
+			</Job>
+			<Job id="163069" name="GetLennyATowel">
+				<Requirement type="active quest" quest="LostInLaMonstra_8" />
+			</Job>
+			<Job id="163070" name="ArgueProMonsterViews">
+				<Requirement type="active quest" quest="LostInLaMonstra_15" />
+			</Job>
+			<Job id="163071" name="GetTheMonstersToBeHappyDrunk">
+				<Requirement type="active quest" quest="LostInLaMonstra_17" />
+			</Job>
+			<Job id="163072" name="GetRealQuiet">
+				<Requirement type="active quest" quest="LostInLaMonstra_10" />
+			</Job>
+			<Job id="163073" name="FigureOutHowToUseABullhornThingy">
+				<Requirement type="active quest" quest="LostInLaMonstra_13" />
+			</Job>
+			<Job id="163074" name="DrawStoryboardsInCrayon">
+				<Requirement type="active quest" quest="LostInLaMonstra_14" />
+			</Job>
+			<Job id="163075" name="PlayLisasProMonsterDocumentary">
+				<Requirement type="active quest" quest="LostInLaMonstra_19" />
+			</Job>
+			<Job id="163076" name="ConsiderTheirOptions">
+				<Requirement type="active quest" quest="LostInLaMonstra_9" />
+			</Job>
+			<Job id="163077" name="GetReadyToRally">
+				<Requirement type="active quest" quest="LostInLaMonstra_16" />
+			</Job>
+			<Job id="163078" name="SetUpAComplicatedShot">
+				<Requirement type="active quest" quest="LostInLaMonstra_3" />
+			</Job>
+			<Job id="163150" name="RaceAcrossTheSchoolGym">
+				<Requirement type="active quest" quest="GlucoseGames_1" />
+			</Job>
+			<Job id="163151" name="ChooseWiselyForHisTeam">
+				<Requirement type="active quest" quest="GlucoseGames_2" />
+			</Job>
+			<Job id="163152" name="EnsureFairnessInTheGames">
+				<Requirement type="active quest" quest="GlucoseGames_3" />
+			</Job>
+			<Job id="163153" name="TryToManageTheChaos">
+				<Requirement type="active quest" quest="GlucoseGames_4" />
+			</Job>
+		</Jobs>
+		<Characters override="true">
+			<Character name="SmallMonster">
+				<TouchPriority value="100" />
+				<AABB w="5" h="5" y="1" />
+				<OnEvent onObject="SmallMonster" event="CharacterGained" user="local">
+					<Script name="THOH2016_Scripts:SmallMonster_Spawn" />
+				</OnEvent>
+				<OnEvent onObject="SmallMonster" event="CharacterTouched" user="local">
+					<Script name="THOH2016_Scripts:SmallMonster_Tapped_Radius" />
+				</OnEvent>
+				<OnEvent onObject="SmallMonster" event="CharacterTouched" user="remote">
+					<Script name="THOH2016_Scripts:SmallMonster_TapAnimation" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="THOH2016_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="friendlevel" level="10" not="true" />
+					</Requirements>
+					<Script name="THOH2016_Scripts:SpawnMonsters_LowLevelFriend" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="THOH2016_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="10" />
+						<Requirement type="friendlevel" level="15" not="true" />
+					</Requirements>
+					<Script name="THOH2016_Scripts:SpawnMonsters_MidLevelFriend" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="variable" variable="THOH2016_Social" />
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="15" />
+					</Requirements>
+					<Script name="THOH2016_Scripts:SpawnMonsters_HighLevelFriend" />
+				</OnEvent>
+			</Character>
+			<Character name="SmallMonster_M">
+				<TouchPriority value="100" />
+				<AABB w="5" h="5" y="1" />
+				<OnEvent onObject="SmallMonster_M" event="CharacterGained" user="local">
+					<Script name="THOH2016_Scripts:SmallMonster_Spawn_M" />
+				</OnEvent>
+				<OnEvent onObject="SmallMonster_M" event="CharacterTouched" user="local">
+					<Script name="THOH2016_Scripts:SmallMonsterM_Tapped_Radius" />
+				</OnEvent>
+			</Character>
+			<Character name="SmallMonster_L">
+				<TouchPriority value="100" />
+				<AABB w="5" h="5" y="1" />
+				<OnEvent onObject="SmallMonster_L" event="CharacterGained" user="local">
+					<Script name="THOH2016_Scripts:SmallMonster_Spawn_L" />
+				</OnEvent>
+				<OnEvent onObject="SmallMonster_L" event="CharacterTouched" user="local">
+					<Script name="THOH2016_Scripts:SmallMonsterL_Tapped_Radius" />
+				</OnEvent>
+			</Character>
+			<Character name="Booberella">
+				<BuildMenuText text="UI_HellementarySchool_ExcitingText" />
+				<CustomMenu useMenuConfig="Casino_MenuConfig:ExcitingInventory" />
+			</Character>
+		</Characters>
+		<Variable name="THOH2016_PrizeTrack1_Unlocked" value="0" />
+		<Variable name="THOH2016_PrizeTrack2_Unlocked" value="0" />
+		<Variable name="THOH2016_PrizeTrack3_Unlocked" value="0" />
+		<Variable name="THOH2016_NewStoreLevel" value="0" />
+		<Badges>
+			<Badge name="THOH2016_PrizeTrackBadge">
+				<Condition variable="THOH2016_PrizeTrack1_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+				</Condition>
+				<Condition variable="THOH2016_PrizeTrack2_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+				</Condition>
+				<Condition variable="THOH2016_PrizeTrack3_Unlocked" repeatable="false">
+					<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+				</Condition>
+			</Badge>
+			<Badge name="THOH2016_Store">
+				<Condition variable="THOH2016_NewStoreLevel" repeatable="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="System::evaluate('Spendable::THOH2016_MonsterCoins') &gt;= THOH2016_MaxCraftProgress" />
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+		<Notifications location="THOH2016_Notifications:Notifications">
+			<Notification name="MaxMonstersPN" />
+			<Notification name="MaxMonsters24HPN" />
+			<Notification name="MaxMonsters_MPN" />
+			<Notification name="MaxMonsters_M24HPN" />
+			<Notification name="MaxMonsters_LPN" />
+			<Notification name="MaxMonsters_L24HPN" />
+			<Notification name="MaxGiantMonstersPN" />
+			<Notification name="MaxGiantMonsters24HPN" />
+		</Notifications>
+		<Variable name="THOH2016_EventHubTabValue" value="1" owner="0" />
+		<EventHub menuConfig="June2015_EventHubMenuConfig:EventHub">
+			<Tabs>
+				<Tab name="Tab_THOH2016PrizeTrack" icon="ICO_MHUB_THOH2016_PrizeTrack">
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOH2016_EventHubTabValue==1" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="THOH2016_PrizeTrackBadge" />
+					</BadgeRequirements>
+					<Script name="THOH2016_Scripts:TabPressed_PrizeTrack" />
+				</Tab>
+				<Tab name="Tab_MonsterBattle" icon="ICO_MHUB_THOH2016_MonsterBattle">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="LostInLaMonstra_1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOH2016_EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="THOH2016_Scripts:TabPressed_MonsterBattle" />
+				</Tab>
+				<Tab name="Tab_MonsterStore" icon="ICO_MHUB_THOH2016_Crafting">
+					<DisplayRequirements>
+						<Requirement type="quest" quest="HowMuchIsThatWerewolfInTheWindow" objective="1" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOH2016_EventHubTabValue==3" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="THOH2016_Store" />
+					</BadgeRequirements>
+					<Script name="THOH2016_Scripts:TabPressed_MonsterStore" />
+				</Tab>
+				<Tab name="Tab_THOH2016EventLevel" icon="ICO_MHUB_THOH2016_EventLevels">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="THOHEventLevels" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="THOH2016_EventHubTabValue==4" />
+					</HighlightRequirements>
+					<Script name="THOH2016_Scripts:TabPressed_EventLevel" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="THOH2016_ActivePrizeTrackCurrency"></Resource>
+				<Resource type="THOH2016_MonsterCoins"></Resource>
+			</ResourceTypes>
+		</EventHub>
+		<Variable name="THOH2016_PT1_P1" value="0" />
+		<Variable name="THOH2016_PT1_P2" value="0" />
+		<Variable name="THOH2016_PT1_P3" value="0" />
+		<Variable name="THOH2016_PT1_P4" value="0" />
+		<Variable name="THOH2016_PT1_P5" value="0" />
+		<Variable name="THOH2016_PT1_P6" value="0" />
+		<Variable name="THOH2016_PT1_P7" value="0" />
+		<Variable name="THOH2016_PT2_P1" value="0" />
+		<Variable name="THOH2016_PT2_P2" value="0" />
+		<Variable name="THOH2016_PT2_P3" value="0" />
+		<Variable name="THOH2016_PT2_P4" value="0" />
+		<Variable name="THOH2016_PT2_P5" value="0" />
+		<Variable name="THOH2016_PT2_P6" value="0" />
+		<Variable name="THOH2016_PT2_P7" value="0" />
+		<Variable name="THOH2016_PT3_P1" value="0" />
+		<Variable name="THOH2016_PT3_P2" value="0" />
+		<Variable name="THOH2016_PT3_P3" value="0" />
+		<Variable name="THOH2016_PT3_P4" value="0" />
+		<Variable name="THOH2016_PT3_P5" value="0" />
+		<Variable name="THOH2016_PT3_P6" value="0" />
+		<Variable name="THOH2016_PT3_P7" value="0" />
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="THOH2016_MenuConfig:PrizeTrack1">
+				<Prize name="BLD_TownSquare_Name" infoTitleText="UI_THOH2016_Track1Prize1_info" listIcon="ICO_PRIZ_THOH2016_TownSquare_MD" rewardIcon="ICO_PRIZ_THOH2016_TownSquare_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="TownSquare" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT1_P1" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_BellTower_Name" infoTitleText="UI_THOH2016_Track1Prize2_info" listIcon="ICO_PRIZ_THOH2016_BellTower_MD" rewardIcon="ICO_PRIZ_THOH2016_BellTower_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="BellTower" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT1_P2" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MonsterCoinPack_Small_name" infoTitleText="UI_THOH2016_TrackPrizePack_info" listIcon="ICO_THOH2016_FuneralCoins_Pack1" rewardIcon="ICO_THOH2016_FuneralCoins_Pack1_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_ObolsEarnedSmall" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MonsterCoinPack_Small" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT1_P3" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_BurnsFamilyCrypt_name" infoTitleText="UI_THOH2016_Track1Prize4_info" listIcon="ICO_PRIZ_THOH2016_BurnsCrypt_MD" rewardIcon="ICO_PRIZ_THOH2016_BurnsCrypt_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="BurnsFamilyCrypt" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT1_P4" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_CountBurnsCastle_name" infoTitleText="UI_THOH2016_Track1Prize5_info" listIcon="ICO_PRIZ_THOH2016_CountBurnsCastle_MD" rewardIcon="ICO_PRIZ_THOH2016_CountBurnsCastle_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="CountBurnsCastle" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT1_P5" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MonsterCoinPack_Small_name" infoTitleText="UI_THOH2016_TrackPrizePack_info" listIcon="ICO_THOH2016_FuneralCoins_Pack1" rewardIcon="ICO_THOH2016_FuneralCoins_Pack1_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_ObolsEarnedSmall" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize6_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize6__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MonsterCoinPack_Small" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT1_P6" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_SpaceMarshmallow_name" infoTitleText="UI_THOH2016_Track1Prize7_info" listIcon="ICO_PRIZ_THOH2016_MeteorAndSpaceMarshmallow_MD" rewardIcon="ICO_PRIZ_THOH2016_MeteorAndSpaceMarshmallow_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize7_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT1Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack1:Prize7__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="MeteorEgg" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT1_P7" value="1" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="THOH2016_MenuConfig:PrizeTrack2">
+				<Prize name="BLD_LargeMausoleum_name" infoTitleText="UI_THOH2016_Track2Prize1_info" listIcon="ICO_PRIZ_THOH2016_LargeMausoleum_MD" rewardIcon="ICO_PRIZ_THOH2016_LargeMausoleum_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="LargeMausoleum" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT2_P1" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_DarkCarriage_name" infoTitleText="UI_THOH2016_Track2Prize2_info" listIcon="ICO_PRIZ_THOH2016_DarkCarriage_MD" rewardIcon="ICO_PRIZ_THOH2016_DarkCarriage_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="DarkCarriage" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT2_P2" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MonsterCoinPack_Medium_name" infoTitleText="UI_THOH2016_TrackPrizePack_info" listIcon="ICO_THOH2016_FuneralCoins_Pack2" rewardIcon="ICO_THOH2016_FuneralCoins_Pack2_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_ObolsEarnedMedium" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MonsterCoinPack_Medium" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT2_P3" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_CoveredBridge_name" infoTitleText="UI_THOH2016_Track2Prize4_info" listIcon="ICO_PRIZ_THOH2016_CoveredBridge_MD" rewardIcon="ICO_PRIZ_THOH2016_CoveredBridge_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="CoveredBridge" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT2_P4" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_MonsterCouch_name" infoTitleText="UI_THOH2016_Track2Prize5_info" listIcon="ICO_PRIZ_THOH2016_MonsterCouch_MD" rewardIcon="ICO_PRIZ_THOH2016_MonsterCouch_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="MonsterCouch" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT2_P5" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MonsterCoinPack_Medium_name" infoTitleText="UI_THOH2016_TrackPrizePack_info" listIcon="ICO_THOH2016_FuneralCoins_Pack2" rewardIcon="ICO_THOH2016_FuneralCoins_Pack2_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_ObolsEarnedMedium" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize6_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize6__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MonsterCoinPack_Medium" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT2_P6" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_Death_name" infoTitleText="UI_THOH2016_Track2Prize7_info" listIcon="ICO_PRIZ_THOH2016_Unlock_Death_MD" rewardIcon="ICO_PRIZ_THOH2016_Unlock_Death_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize7_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT2Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack2:Prize7__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="Death" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT2_P7" value="1" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="2" type="local" menuConfig="THOH2016_MenuConfig:PrizeTrack3">
+				<Prize name="BLD_MedievalCathedral_name" infoTitleText="UI_THOH2016_Track3Prize1_info" listIcon="ICO_PRIZ_THOH2016_MedievalCathedral_MD" rewardIcon="ICO_PRIZ_THOH2016_MedievalCathedral_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="MedievalCathedral" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT3_P1" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_WolfRock_name" infoTitleText="UI_THOH2016_Track3Prize2_info" listIcon="ICO_PRIZ_THOH2016_WolfRock_MD" rewardIcon="ICO_PRIZ_THOH2016_WolfRock_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="WolfRock" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT3_P2" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MonsterCoinPack_Large_name" infoTitleText="UI_THOH2016_TrackPrizePack_info" listIcon="ICO_THOH2016_FuneralCoins_Pack3" rewardIcon="ICO_THOH2016_FuneralCoins_Pack3_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_ObolsEarnedLarge" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MonsterCoinPack_Large" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT3_P3" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_WerewolfFlanders_name" infoTitleText="UI_THOH2016_Track3Prize4_info" listIcon="ICO_PRIZ_THOH2016_WerewolfFlanders_MD" rewardIcon="ICO_PRIZ_THOH2016_WerewolfFlanders_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_WerewolfFlandersEarned" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="WerewolfFlanders" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT3_P4" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_MadDoctorsCastle_name" infoTitleText="UI_THOH2016_Track3Prize5_info" listIcon="ICO_PRIZ_THOH2016_DrFrankensteinsCastle_MD" rewardIcon="ICO_PRIZ_THOH2016_DrFrankensteinsCastle_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="MadDoctorsCastle" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT3_P5" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_MonsterCoinPack_Large_name" infoTitleText="UI_THOH2016_TrackPrizePack_info" listIcon="ICO_THOH2016_FuneralCoins_Pack3" rewardIcon="ICO_THOH2016_FuneralCoins_Pack3_LG.rgb" useImmediately="true" showInventoryPopup="true" itemDoneOverrideText="UI_THOH2016_PrizeTrack_ObolsEarnedLarge" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize6_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize6__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="MonsterCoinPack_Large" useImmediately="true" />
+						<Item type="setvariable" name="THOH2016_PT3_P6" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_Frinkenstein_name" infoTitleText="UI_THOH2016_Track3Prize7_info" listIcon="ICO_PRIZ_THOH2016_Frinkenstein_MD" rewardIcon="ICO_PRIZ_THOH2016_Frinkenstein_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize7_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="THOH2016_PT3Currency" amount="__THOH2016_Spreadsheet_Config:PrizeTrack3:Prize7__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="Frinkenstein" useImmediately="false" />
+						<Item type="setvariable" name="THOH2016_PT3_P7" value="1" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<CustomGetMore>
+			<GetMoreRule mode="any" getMoreReason="" doNothing="true">
+				<SpendableCurrency name="THOH2016_MonsterCoins" />
+			</GetMoreRule>
+		</CustomGetMore>
+		<SpawnOverTime character="SmallMonster" loggedOnSpawnTime="1200" loggedOffSpawnTime="1200" maxAllowedInTown="40" regularBankMax="40" showPopUpIfRegularBankMaxReached="false" bankVariable="BankedSmallMonsters" errorTitle="UI_THOH2016_TownFull_SmallMonsters_Title" errorBody="UI_THOH2016_TownFull_SmallMonsters_Body" weightPerTimeIncrement="4">
+			<Character character="SmallMonster" weight="1">
+				<Requirement type="time" end="THOHXXVII_SmallMonster_SpawnEnd" />
+			</Character>
+			<Character character="SmallMonster_M" weight="2">
+				<Requirement type="time" start="THOHXXVII_SmallMonster_M_SpawnStart" end="THOHXXVII_SmallMonster_M_SpawnEnd" />
+			</Character>
+			<Character character="SmallMonster_L" weight="4">
+				<Requirement type="time" start="THOHXXVII_SmallMonster_L_SpawnStart" />
+			</Character>
+			<Requirement type="quest started" quest="MadMonstersFurryRoad_2" />
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<Variable name="BankedSmallMonsters" value="0" />
+		<Variable name="bankedGiantMonsters" value="0" />
+		<Variable name="THOH2016_StoreLevel" value="1" />
+		<Variable name="THOH2016_MaxStoreLevel" value="15" />
+		<Variable name="THOH2016_CraftProgress" value="0" />
+		<Variable name="THOH2016_MaxCraftProgress" value="99999" />
+		<Variable name="SpookyHouse_New" value="true" />
+		<Variable name="SpookyHouse_Crafted" value="false" />
+		<Variable name="SpookyHouse_TotalCrafted" value="0" />
+		<Variable name="VampireCasket_New" value="true" />
+		<Variable name="VampireCasket_Crafted" value="false" />
+		<Variable name="VampireCasket_TotalCrafted" value="0" />
+		<Variable name="IronWall_New" value="true" />
+		<Variable name="IronWall_Crafted" value="false" />
+		<Variable name="IronWall_TotalCrafted" value="0" />
+		<Variable name="GargoyleWall_New" value="true" />
+		<Variable name="GargoyleWall_Crafted" value="false" />
+		<Variable name="GargoyleWall_TotalCrafted" value="0" />
+		<Variable name="DeadTree_New" value="true" />
+		<Variable name="DeadTree_Crafted" value="false" />
+		<Variable name="DeadTree_TotalCrafted" value="0" />
+		<Variable name="FlyingBats_New" value="true" />
+		<Variable name="FlyingBats_Crafted" value="false" />
+		<Variable name="FlyingBats_TotalCrafted" value="0" />
+		<Variable name="HayCart_New" value="true" />
+		<Variable name="HayCart_Crafted" value="false" />
+		<Variable name="HayCart_TotalCrafted" value="0" />
+		<Variable name="SpookyBrambles_New" value="true" />
+		<Variable name="SpookyBrambles_Crafted" value="false" />
+		<Variable name="SpookyBrambles_TotalCrafted" value="0" />
+		<Variable name="Catacombs_New" value="true" />
+		<Variable name="Catacombs_Crafted" value="false" />
+		<Variable name="Catacombs_TotalCrafted" value="0" />
+		<Variable name="SpookyCabin_New" value="true" />
+		<Variable name="SpookyCabin_Crafted" value="false" />
+		<Variable name="SpookyCabin_TotalCrafted" value="0" />
+		<Variable name="Pyre_New" value="true" />
+		<Variable name="Pyre_Crafted" value="false" />
+		<Variable name="Pyre_TotalCrafted" value="0" />
+		<Variable name="CastleWall_New" value="true" />
+		<Variable name="CastleWall_Crafted" value="false" />
+		<Variable name="CastleWall_TotalCrafted" value="0" />
+		<Variable name="FoggySwamp_New" value="true" />
+		<Variable name="FoggySwamp_Crafted" value="false" />
+		<Variable name="FoggySwamp_TotalCrafted" value="0" />
+		<Variable name="SpookyGrove_New" value="true" />
+		<Variable name="SpookyGrove_Crafted" value="false" />
+		<Variable name="SpookyGrove_TotalCrafted" value="0" />
+		<Variable name="HayTree_New" value="true" />
+		<Variable name="HayTree_Crafted" value="false" />
+		<Variable name="HayTree_TotalCrafted" value="0" />
+		<Variable name="HangingStreetLamp_New" value="true" />
+		<Variable name="HangingStreetLamp_Crafted" value="false" />
+		<Variable name="HangingStreetLamp_TotalCrafted" value="0" />
+		<Variable name="ForestCave_New" value="true" />
+		<Variable name="ForestCave_Crafted" value="false" />
+		<Variable name="ForestCave_TotalCrafted" value="0" />
+		<Variable name="ForestGrove_New" value="true" />
+		<Variable name="ForestGrove_Crafted" value="false" />
+		<Variable name="ForestGrove_TotalCrafted" value="0" />
+		<Variable name="MorticianCarriage_New" value="true" />
+		<Variable name="MorticianCarriage_Crafted" value="false" />
+		<Variable name="MorticianCarriage_TotalCrafted" value="0" />
+		<Variable name="Ruins_New" value="true" />
+		<Variable name="Ruins_Crafted" value="false" />
+		<Variable name="Ruins_TotalCrafted" value="0" />
+		<Variable name="BrambleHedge_New" value="true" />
+		<Variable name="BrambleHedge_Crafted" value="false" />
+		<Variable name="BrambleHedge_TotalCrafted" value="0" />
+		<Variable name="SpookyTree_New" value="true" />
+		<Variable name="SpookyTree_Crafted" value="false" />
+		<Variable name="SpookyTree_TotalCrafted" value="0" />
+		<Variable name="HauntedStables_New" value="true" />
+		<Variable name="HauntedStables_Crafted" value="false" />
+		<Variable name="HauntedStables_TotalCrafted" value="0" />
+		<Variable name="Shipwreck_New" value="true" />
+		<Variable name="Shipwreck_Crafted" value="false" />
+		<Variable name="Shipwreck_TotalCrafted" value="0" />
+		<Variable name="THOH2016_EventLevel" value="0" />
+		<Variable name="EventLevelWalker" value="0" />
+		<Variable name="THOH2016_MonsterTaps" value="0" />
+		<Variable name="Herman_EarlyAccess" value="1" />
+		<Variable name="SherriTerri_EarlyAccess" value="1" />
+		<Variable name="Jimbo_EarlyAccess" value="1" />
+		<Variable name="DCS_GiantMonsters1" value="0" />
+		<Variable name="DCS_GiantMonsters2" value="0" />
+		<Variable name="DCS_GiantMonsters3" value="0" />
+		<Variable name="DCS_SmallMonsters" value="0" />
+		<Variable name="GiantMonstersKilled" value="0" />
+		<Variable name="CrazyIguanaLady_BundleBought" value="0" />
+		<Variable name="MonsterCounter" value="0" />
+		<Variable name="MonsterBattleGuideViewed" value="0" />
+	</SpecialEvent>
+	<SpecialEvent id="163001" name="THOH2016_EventLevel">
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="THOH2016_MenuConfig:EventLevelConfig">
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level1_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level1a" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Milhouse" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level1b" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Milhouse" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level1c" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Milhouse" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize1A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize1B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize1C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level2_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level2obols" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Martin" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize2" listIcon="ICO_THOH2016_FuneralCoins_Pack1" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level3_Target__" />
+					<Prize name="UI_THOH2016_EventLevel_Prize3A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize3B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize3C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level4_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level4obols" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Nelson" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize4" listIcon="ICO_THOH2016_FuneralCoins_Pack1" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_THOH2016_EventLevel_Prize5" listIcon="ICO_PRIZ_THOH2016_MedievalGate01_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc3" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level5_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level6_Target__" />
+					<Prize name="UI_THOH2016_EventLevel_Prize6A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize6B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize6C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level7_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level7obols" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Ralph" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize7" listIcon="ICO_THOH2016_FuneralCoins_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level8_Target__" />
+					<Prize name="UI_THOH2016_EventLevel_Prize8A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize8B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize8C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level9_Target__" />
+					<Prize name="UI_THOH2016_EventLevel_Prize9A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize9B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize9C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_THOH2016_EventLevel_Prize10" listIcon="ICO_PRIZ_THOH2016_MedievalGate02_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc4" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level10_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level11_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level5a" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Rod" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level5b" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Rod" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level5c" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Rod" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize11A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize11B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize11C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_THOH2016_EventLevel_Prize12" listIcon="ICO_THOH2016_FuneralCoins_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level12_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level13_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level6a" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Todd" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level6b" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Todd" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level6c" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Todd" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize13A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize13B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize13C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_THOH2016_EventLevel_Prize14" listIcon="ICO_THOH2016_FuneralCoins_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level14_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_THOH2016_EventLevel_Prize15" listIcon="ICO_PRIZ_THOH2016_MedievalGate03_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc4" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level15_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_THOH2016_EventLevel_Prize16" listIcon="ICO_THOH2016_FuneralCoins_Pack3" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level16_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level17_Target__" />
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level7a" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Dolph" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level7b" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Dolph" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_eventlevel_JobUnlock" listIcon="ICO_PRIZ_THOH2016_TrickOrTreat_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_eventlevel_desc_level7c" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="characterunlocked" name="Dolph" />
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize17A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize17B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize17C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_THOH2016_EventLevel_Prize18" listIcon="ICO_THOH2016_FuneralCoins_Pack3" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc2" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level18_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level19_Target__" />
+					<Prize name="UI_THOH2016_EventLevel_Prize19A" listIcon="ICO_THOH2016_FilmStrip_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize19B" listIcon="ICO_THOH2016_Clapboard_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_THOH2016_EventLevel_Prize19C" listIcon="ICO_THOH2016_Megaphone_Pack2" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc1" largeSizeIcon="true" showRewardPopup="false">
+						<ActiveRequirements>
+							<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="THOH2016_EventLevelUp" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_THOH2016_EventLevel_Prize20" listIcon="ICO_PRIZ_THOH2016_MedievalGate04_MD" rewardIcon="" showInventoryPopup="true" useImmediately="true" baseRushCost="1" infoOverrideText="UI_THOH2016_EventLevel_Desc4" largeSizeIcon="true" showRewardPopup="false">
+					<Requirement type="special currency" currency="THOH2016_EventLevelPoints" amount="__THOH2016_Spreadsheet_Config:EventLevel:Level20_Target__" />
+					<Reward>
+						<Item type="consumable" name="THOH2016_EventLevelUp" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+	</SpecialEvent>
+	<SpecialEvent id="163002" name="THOH2016_Social">
+		<Variable name="THOH2016_Social" value="true" />
+		<Variable name="THOH2016_SocialUpgrade_Purchased" value="0" />
+		<Variable name="THOH2016_SocialCount" value="0" />
+		<SuppressFriendActions shop="true" farm="true" pushnotes="false" vandalism="false"></SuppressFriendActions>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" icon="ICO_CUR_THOH2016_FilmStrip_SM.rgb" type="THOH2016_PT1Currency" icon2="ICO_CUR_THOH2016_Clapboard_SM.rgb" type2="THOH2016_PT2Currency" icon3="ICO_CUR_THOH2016_Megaphone_SM.rgb" type3="THOH2016_PT3Currency">
+			<Currency type="THOH2016_PT1Currency">
+				<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act1" />
+			</Currency>
+			<Currency type="THOH2016_PT2Currency">
+				<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act2" />
+			</Currency>
+			<Currency type="THOH2016_PT3Currency">
+				<Requirement type="reqList" location="THOH2016_GameConfig:Requirement_Act3" />
+			</Currency>
+			<Script name="THOH2016_Scripts:THOH2016FriendsHUDInfo" />
+		</FriendsMap>
+		<FriendHUDCurrencies buttonType="guide">
+			<Currency type="THOH2016_ActivePrizeTrackCurrency" />
+		</FriendHUDCurrencies>
+		<List name="Camera_able">
+			<String name="AdultEducationAnnex" />
+			<String name="AllNightGym" />
+			<String name="AsiaDeCuba" />
+			<String name="AztecTheatre" />
+			<String name="BadDreamHouse" />
+			<String name="Bowlarama" />
+			<String name="BurnsManor" />
+			<String name="BusinessmansSocialClub" />
+			<String name="Channel6" />
+			<String name="CoolBrownHouse" />
+			<String name="CryptoBarn" />
+			<String name="DrHibbertFamilyPractice" />
+			<String name="DuffBrewery" />
+			<String name="DuffStadium" />
+			<String name="ElChemistri" />
+			<String name="FatTonysCompound" />
+			<String name="FilmSet" />
+			<String name="FirstChurchOfLardLad" />
+			<String name="FirstChurchofSpringfield" />
+			<String name="FlandersHome" />
+			<String name="FortSensible" />
+			<String name="FrinksLab" />
+			<String name="GildedTruffle" />
+			<String name="GulpNBlow" />
+			<String name="HouseOfEvil" />
+			<String name="HowardsFlowers" />
+			<String name="JustRainsticks" />
+			<String name="KrabappelApartment" />
+			<String name="KrustyBurger" />
+			<String name="KrustyBurgerFranchise" />
+			<String name="KrustyluStudios" />
+			<String name="LardLadsDonuts" />
+			<String name="LugashsGym" />
+			<String name="Luigis" />
+			<String name="MalariaZone" />
+			<String name="MappleStore" />
+			<String name="MoesTavern" />
+			<String name="MuchAdoAboutMuffins" />
+			<String name="MyFirstTattoo" />
+			<String name="OFlanagansPub" />
+			<String name="OpenAirStage" />
+			<String name="OrangeHouse" />
+			<String name="PetCemetery" />
+			<String name="PhineasQButterfats" />
+			<String name="PimentoGrove" />
+			<String name="PinkHouse" />
+			<String name="PlanetHype" />
+			<String name="PoliceStation" />
+			<String name="PowerPlant" />
+			<String name="PowerPlantBuildings" />
+			<String name="PowerPlantLot" />
+			<String name="PumpkinHouse" />
+			<String name="PurpleHouse" />
+			<String name="SantasVillage" />
+			<String name="SimpsonHome" />
+			<String name="SirPuttsALot" />
+			<String name="SleepEazyMotel" />
+			<String name="SprawlMart" />
+			<String name="SpringfieldBuddhistTemple" />
+			<String name="SpringfieldCemetery" />
+			<String name="SpringfieldColiseum" />
+			<String name="SpringfieldCommunityCenter" />
+			<String name="SpringfieldDowns" />
+			<String name="SpringfieldElementary" />
+			<String name="SpringfieldGeneralHospital" />
+			<String name="SpringfieldLibrary" />
+			<String name="SpringfieldPenitentiary" />
+			<String name="SpringfieldPostOffice" />
+			<String name="SpringfieldRetirementCastle" />
+			<String name="SuperCollider" />
+			<String name="SwankyFish" />
+			<String name="TheFryingDutchman" />
+			<String name="TheItchyAndScratchyStore" />
+			<String name="TownHall" />
+			<String name="TryNSave" />
+			<String name="TurbanOutfitters" />
+			<String name="Ultrahouse2" />
+			<String name="VanHoutenHome" />
+			<String name="VolcanoLair" />
+			<String name="WolfcastlesMansion" />
+			<String name="ZestysPizza" />
+			<String name="SpringfieldWaxMuseum" />
+			<String name="Calmwood" />
+			<String name="KampKrusty" />
+			<String name="SpringfieldHighSchool" />
+			<String name="Knowledgeum" />
+			<String name="DMV" />
+			<String name="StusDisco" />
+			<String name="SpinsterCityApartments" />
+			<String name="SpringfieldPetShop" />
+			<String name="GingerbreadHouse" />
+			<String name="NoiseLandVideoArcade" />
+			<String name="SpringfieldMuseumOfNaturalHistory" />
+			<String name="BachelorArms" />
+			<String name="CrackerFactory" />
+			<String name="CaesarsPowWowCasino" />
+			<String name="SpringfieldCountyCourtHouse" />
+			<String name="SpringfieldGroceryStore" />
+			<String name="Costingtons" />
+			<String name="EggNogBar" />
+			<String name="SpringfieldSkatingRink" />
+			<String name="SpringfieldMall" />
+			<String name="SingingSirloin" />
+			<String name="MadameChaos" />
+			<String name="ShamRockCafe" />
+			<String name="GuineaPigRescueCenter" />
+			<String name="BlockoStore" />
+			<String name="JohnnyFiestas" />
+			<String name="FireworksCandyAndPuppyDogs" />
+			<String name="StonecutterDaycareCenter" />
+			<String name="AbandonedStore" />
+			<String name="AhFudgeFactory" />
+			<String name="LottoNLiquor" />
+			<String name="SanjaysHouse" />
+			<String name="ApusApartment" />
+			<String name="ItchyScratchyStudio" />
+			<String name="KBBLRadio" />
+			<String name="MansionOfSolidGold" />
+			<String name="TunnelOfLove" />
+			<String name="SleepingItchysCastle" />
+			<String name="ItchyAndScratchyGiftShop" />
+			<String name="RadioactiveManTheRide" />
+			<String name="DuffPavilion" />
+			<String name="WetAndSmokeyStuntShow" />
+			<String name="KrustysHauntedCondo" />
+			<String name="ScratchysFleaDipper" />
+			<String name="VikingBoatRide" />
+			<String name="KrustylandHotel" />
+			<String name="EyeballsOfDeath" />
+			<String name="MtKrustmore" />
+			<String name="KrustylandBurger2" />
+			<String name="ItchyAndScratchyGiftShop2" />
+			<String name="TwirlNHurl" />
+			<String name="HappyElvesRide" />
+			<String name="KrustysGiantWheel" />
+			<String name="TavernOnTheScream" />
+			<String name="KrustysOnePlateMaximumBuffet" />
+			<String name="HonestJohnsComputers" />
+			<String name="TheHappySumo" />
+			<String name="BloatersAtTheSquidport" />
+			<String name="ZiffCorpOfficeBuilding" />
+			<String name="TheHungryHun" />
+			<String name="IndoorTennisCourts" />
+			<String name="KrustysMansion" />
+			<String name="SpookyHouse" />
+			<String name="MakeAThingWorkshop" />
+			<String name="ToyWorkshop" />
+			<String name="IcePalace" />
+			<String name="SequelStop" />
+			<String name="MontgomeryBurnsStatePrison" />
+			<String name="NationalBankOfSpringfield" />
+			<String name="DeathMountain" />
+			<String name="ZenithCityApartment1" />
+			<String name="ZenithCityApartment2" />
+			<String name="ZenithCityApartment3" />
+			<String name="TarPits" />
+			<String name="BeerNBrawl" />
+			<String name="TheCastleOfEqualia" />
+			<String name="DAmicoSummerHome" />
+			<String name="RanchoRelaxo" />
+			<String name="OldAbandonedWarehouse" />
+			<String name="MunicipalHouseOfPancakes" />
+			<String name="LovejoyResidence" />
+			<String name="Shortys" />
+			<String name="ItBlows" />
+			<String name="ConstructionSite" />
+			<String name="KaneManor" />
+			<String name="Monsarno" />
+			<String name="SpringfieldOperaHouse" />
+			<String name="OldSimpsonFarm" />
+			<String name="ItalianVilla" />
+			<String name="ItsAWonderfulKnife" />
+			<String name="MonsarnoLibrary" />
+			<String name="MonsarnoPrimateResources" />
+			<String name="MonsarnoCafeteria" />
+			<String name="MonsarnoHumanResources" />
+			<String name="BlarneyCastle" />
+			<String name="MonroesTherapyCenter" />
+			<String name="RedBlazerRealty" />
+			<String name="HealthSpa" />
+			<String name="PlasticSurgeryCenter" />
+			<String name="MontessoriSchool" />
+			<String name="IncubatorThinkTank" />
+			<String name="PoloFieldHouse" />
+			<String name="DeluxeCondo_First" />
+			<String name="SpringfieldSlaughterhouse" />
+			<String name="SpringfieldYMCA" />
+			<String name="BurnsBasketBallStadium" />
+			<String name="Sportacus" />
+			<String name="SpringfieldArms" />
+			<String name="TheGridiron" />
+			<String name="SimpsonsLaserTag" />
+			<String name="UriahsHeapRecyclingCenter" />
+			<String name="LittleLisasRecyclingPlant" />
+			<String name="RailYard" />
+			<String name="MonorailCafe" />
+			<String name="MalibuStacyHQ" />
+			<String name="StacysDreamHouse" />
+			<String name="WaverlyHillsElementarySchool" />
+			<String name="AjaxSteelMill" />
+			<String name="Shotkickers" />
+			<String name="PowersHouse" />
+			<String name="SeethingSisters" />
+			<String name="ScandalgateHotel" />
+			<String name="PresidentialEstate" />
+			<String name="IRSBuilding" />
+			<String name="WoosterfieldHotel" />
+			<String name="PowellMotors" />
+			<String name="PowellMansion" />
+			<String name="SpookyCampfire" />
+			<String name="SpookyCabin" />
+			<String name="SunkenTemple" />
+			<String name="ReNeducationCenter" />
+			<String name="TentaCorpHQ" />
+			<String name="SpaceTrainingCenter" />
+			<String name="ShuttleHangar" />
+			<String name="SpringfieldConventionCenter" />
+			<String name="BloodbathAndBeyond" />
+			<String name="ShapesGym" />
+			<String name="ThingsUnnecessary" />
+			<String name="SkiChalet" />
+			<String name="WoolyBully" />
+			<String name="YeOldeChocolateShoppe" />
+			<String name="EfcotCenter" />
+			<String name="XmasTreesSlightlyIrregular" />
+			<String name="BuckinghamPayLessMotel" />
+			<String name="SpringfieldOrphanage" />
+			<String name="VirgilsCabin" />
+			<String name="AbercrombieAndRich" />
+			<String name="VictorsSecret" />
+			<String name="DuffCenterArena" />
+			<String name="SpringfieldAnimalShelter" />
+			<String name="GingerbreadMansion" />
+			<String name="BestSnowmanEver" />
+			<String name="ExoticPettingZoo" />
+			<String name="ReindeerBurgerTruck" />
+			<String name="FortressOfLonelitude" />
+			<String name="MoonshineShack" />
+			<String name="BobsVictorianHouse" />
+			<String name="OverpassDiner" />
+			<String name="CenterForGeriatricMedicine" />
+			<String name="ShotgunPetes" />
+			<String name="MaisonDerriere" />
+			<String name="SpringfieldCountryClub" />
+			<String name="PlatosRepublicCasino" />
+			<String name="HMO" />
+			<String name="OedipusRx" />
+			<String name="TheVastWaistband" />
+			<String name="AynRandSchoolForTots" />
+			<String name="PlaydoughFactory" />
+			<String name="WallEWeasels" />
+			<String name="SlideFactory" />
+			<String name="RubberBabyBuggyBumpersBabysittingService" />
+			<String name="BurnsCasino" />
+			<String name="CletussDiceDen" />
+			<String name="HomersHouseOfCards" />
+			<String name="GamingMoes" />
+			<String name="ImpulseWeddingChapel" />
+			<String name="LuckyCasino" />
+			<String name="NerosPalaceCasino" />
+			<String name="SafariCasino" />
+			<String name="ChineseAcrobaticTheatre" />
+			<String name="Britannia" />
+			<String name="Woodstock" />
+			<String name="PeacockLounge" />
+			<String name="LaBelleFrottage" />
+			<String name="PrivateIsland" />
+			<String name="ExclusiveResort" />
+			<String name="MountainLodge" />
+			<String name="HeightsOperaHouse" />
+			<String name="DeluxeCondo_Complete" />
+			<String name="ValetParking_Complete" />
+			<String name="BusinessCenter_Complete" />
+			<String name="PrivateIsland2" />
+			<String name="PrivateIsland3" />
+			<String name="PrivateIsland4" />
+			<String name="PrivateIsland_Complete" />
+			<String name="OfficialHalloweenHeadquarters" />
+			<String name="SpringfieldMuseum" />
+			<String name="BigTTheatre" />
+			<String name="KwikEMartCentralOffice" />
+			<String name="TownPlaza" />
+			<String name="GeneralStore" />
+			<String name="SwellCargo" />
+			<String name="Corral" />
+			<String name="TopChopBarberShop" />
+			<String name="OrdnanceExpress" />
+			<String name="PartandParcelPostal" />
+			<String name="WiltedRose" />
+			<String name="HootenannyBarn" />
+			<String name="Blacksmith" />
+			<String name="SneedsFeedandSeed" />
+			<String name="WesDoobnersWorldFamousRibHut" />
+			<String name="WildWestFilmSet" />
+			<String name="QuickAndFresh" />
+			<String name="CoconutBabaloo" />
+			<String name="DerKrazyKraut" />
+			<String name="SheSheLounge" />
+			<String name="Googolplex" />
+			<String name="DuffGardens" />
+			<String name="NotreDameOfSpringfield" />
+			<String name="ExplorationInc" />
+			<String name="OrphanAlley" />
+			<String name="SoilantRedFactory" />
+			<String name="SoilantRedFactory_Complete" />
+			<String name="FirstBankOfSpringfield" />
+			<String name="SpirographyFactory" />
+			<String name="SpringfieldBooks" />
+			<String name="WholesomePublishing" />
+			<String name="WonderFilms" />
+			<String name="Coolsville" />
+			<String name="ForTheCriminallyDifferent" />
+			<String name="DrLennysLab" />
+			<String name="DeadLobster" />
+			<String name="MylarBagginsComicBookShop" />
+			<String name="ZenithCityCondo" />
+			<String name="ZenithCityPenthouse" />
+			<String name="ZenithCityOffices" />
+			<String name="BurnsSummerMansion" />
+			<String name="SpringfieldFireDepartment" />
+			<String name="MoesHouse" />
+			<String name="SpringfieldGreenhouse" />
+			<String name="BanditFort" />
+			<String name="ProShop" />
+			<String name="DonutStore" />
+			<String name="BurnsFamilyCrypt" />
+			<String name="CountBurnsCastle" />
+			<String name="MadDoctorsCastle" />
+			<String name="ShinningHotel" />
+			<String name="MedievalCathedral" />
+			<String name="BellTower" />
+			<String name="LargeMausoleum" />
+			<String name="Catacombs" />
+			<String name="HouseOnScaryHill" />
+			<String name="BattleDome" />
+		</List>
+		<BuildingGroupNames>
+			<Group name="CameraBuildings" />
+		</BuildingGroupNames>
+		<Buildings override="true" list="Camera_able">
+			<Building>
+				<Group name="CameraBuildings" />
+				<Vandalism text="UI_FriendAction_THOH2016" suppressRatingChange="true" suppressFriendClean="true" vandalRewardInstant="true" cleanRewardInstant="true" fastBreak="true" forceActive="false" allowCodeFlip="false" useSpecialAction="false">
+					<OneShot name="Clean" file="THOH2016_BuildingOverlay_Filming" animation="StaticEffect" x="0" y="0" position="indicator" />
+					<OneShot name="Spray" file="THOH2016_BuildingOverlay_Filming" animation="StaticEffect" x="0" y="0" position="indicator" />
+					<Anim name="Vandalized" file="THOH2016_BuildingOverlay_Filming" animation="StaticEffect" overlay="true" randomStartFrame="false" position="indicator" postDraw="true" />
+					<CleanIndicator hidden="true" />
+					<SprayIndicator icon="Indicator_THOH2016_MovieCamera" />
+					<Reward type="VandalismScript" script="THOH2016_Scripts:CameraReward" />
+					<Reward type="CleanScript" script="THOH2016_Scripts:CleanCameraReward" />
+					<Sound type="Vandalism" sound="Monorail_FriendAction" />
+					<Sound type="Clean" sound="Monorail_FriendActionClear" />
+				</Vandalism>
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="163003" name="THOH2016_Effects">
+		<Variable name="THOH2016_Effects" value="1" />
+		<Overrides>
+			<Override what="music" from="MainMusic" to="THOH2015_Music" />
+			<Override what="music" from="FriendMusic" to="THOH2015_Music" />
+		</Overrides>
+	</SpecialEvent>
+	<SpecialEvent id="163004" name="THOH2016_Social_Act1">
+		<FriendHUD useTwoActions="false" icon="ICO_CUR_THOH2016_FilmStrip_MD.rgb" tipText="UI_FriendAction_THOH2016_Tip" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="THOH2016_Scripts:THOH2016FriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+	</SpecialEvent>
+	<SpecialEvent id="163005" name="THOH2016_Social_Act2">
+		<FriendHUD useTwoActions="false" icon="ICO_CUR_THOH2016_Clapboard_MD.rgb" tipText="UI_FriendAction_THOH2016_Tip" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="THOH2016_Scripts:THOH2016FriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+	</SpecialEvent>
+	<SpecialEvent id="163006" name="THOH2016_Social_Act3">
+		<FriendHUD useTwoActions="false" icon="ICO_CUR_THOH2016_Megaphone_MD.rgb" tipText="UI_FriendAction_THOH2016_Tip" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="THOH2016_Scripts:THOH2016FriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+	</SpecialEvent>
+	<SpecialEvent id="163007" name="BlinkyMonster_Promo">
+		<Variable name="BlinkyMonster_PromoActive" value="true" />
+		<Variable name="BlinkyMonster_PromoIndicatorActive" value="true" />
+		<Variable name="BlinkyMonster_PromoShowInBuildMenu" value="false" />
+		<Variable name="BlinkyMonster_PromoSeen" value="false" />
+		<Characters override="true">
+			<Character name="PromoGilPermanent">
+				<OnEvent event="CharacterTouched" user="local">
+					<Requirement type="variable" variable="BlinkyMonster_PromoIndicatorActive" />
+					<Script name="Promo_Display" package="THOH2016_Scripts_Promo" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<Promo eventName="BlinkyMonster_Promo" questID="163500" type="building" object="ScaryDock" file="Promo_BlinkyMonsterPromo" yes="BTN_170Donuts" visualEndDate="THOHXXVII_MERCH_BlinkyMonster_End" />
+	</SpecialEvent>
+	<SpecialEvent id="163008" name="GiantMonsterTimer_Fix">
+		<SpawnBuildingOverTime loggedOnSpawnTime="4h" loggedOffSpawnTime="4h" numberToSpawnPerInterval="2" maxTotal="10" bankVariable="bankedGiantMonsters" exceedMaxScript="THOH2016_Scripts_PopUps:GiantMonster_ExceedMax" noSpaceScript="THOH2016_Scripts_PopUps:GiantMonster_NoSpace" popupMessageTimeOut="1m" spawnScript="THOH2016_Scripts:SetGiantMonsterSkin" preferredGridSize="4">
+			<Item buildingName="GiantMonster" />
+			<Requirement type="quest started" quest="LostInLaMonstra_1" />
+			<Subland value="Springfield" />
+		</SpawnBuildingOverTime>
+	</SpecialEvent>
+</SpecialEvents>

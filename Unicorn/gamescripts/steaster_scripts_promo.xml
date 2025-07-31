@@ -1,0 +1,60 @@
+﻿<ScriptPackage>
+	<StEaster_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+		<Action type="setVariable" boolVariable="PROMO_STARTED" boolValue="false" />
+	</StEaster_Start>
+	<StEaster_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" name="NotreDameOfSpringfield" />
+	</StEaster_Recommend>
+	<StEaster_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_Easter2016PromoStartDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Gil" text="QST_Easter2016PromoStartDialogue_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Gil" text="QST_Easter2016PromoStartDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+				<Action type="dialogue" character="Seamus" text="QST_Easter2016PromoStartDialogue_3_dlg_Start_4_Seamus" revealSpeed="medium" emotion="annoyed" />
+				<Action type="recommendation" recType="Promoted" name="NotreDameOfSpringfield" />
+				<Action type="checkRequirements">
+					<Requirement type="time" end="StEaster_Switch" />
+					<True>
+						<Action type="recommendation" recType="Promoted" name="StPats_OnePanel" />
+					</True>
+					<False>
+						<Action type="recommendation" recType="Promoted" name="Easter_OnePanel" />
+					</False>
+				</Action>
+				<Action type="setVariable" boolVariable="StEaster_Promo_INDICATOR_ACTIVE" boolValue="false" />
+				<Action type="setVariable" boolVariable="PROMO_SHOW_IN_BUILD_MENU" boolValue="true" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="StEaster_Promo" />
+				<Action type="runScript" script="StEaster_KillGil" package="StEaster_Scripts_Promo" />
+				<Action type="setVariable" boolVariable="StEaster_PromoSeen" boolValue="true" />
+			</True>
+		</Action>
+	</StEaster_Display>
+	<StEaster_DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="Valentines2016_Promo" />
+	</StEaster_DisplayPromo>
+	<StEaster_Purchase>
+		<Action type="dialogue" character="Seamus" text="QST_Easter2016PromoPurchasedDialogue_3_dlg_Start_1_Seamus" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Seamus" text="QST_Easter2016PromoPurchasedDialogue_3_dlg_Start_2_Seamus" revealSpeed="medium" emotion="happy" />
+		<Action type="clearRecommendations" category="Promoted" name="NotreDameOfSpringfield" />
+	</StEaster_Purchase>
+	<StEaster_Cancel>
+		<Action type="dialogue" character="Gil" text="QST_Easter2016PromoNotPurchasedDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Seamus" text="QST_Easter2016PromoNotPurchasedDialogue_3_dlg_Start_2_Seamus" revealSpeed="medium" emotion="sad" />
+		<Action type="setVariable" boolVariable="ShowPromoCancelDialogue" boolValue="false" />
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</StEaster_Cancel>
+	<StEaster_KillGil ignoreHUD="true">
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</StEaster_KillGil>
+	<StEaster_StoreEnd ignoreHUD="true">
+		<Action type="clearRecommendations" category="Promoted" name="NotreDameOfSpringfield" />
+	</StEaster_StoreEnd>
+</ScriptPackage>

@@ -1,0 +1,516 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="252000" name="DuckAndWonder" />
+		<DataID id="252001" name="PanicAtTheSilo_1" />
+		<DataID id="252002" name="PanicAtTheSilo_2" />
+		<DataID id="252003" name="PanicAtTheSilo_3" />
+		<DataID id="252004" name="PanicAtTheSilo_4" />
+		<DataID id="252005" name="PanicAtTheSilo_5" />
+		<DataID id="252006" name="TheDayAfterNothingHappened" />
+		<DataID id="252007" name="ColdWarBlues_1" />
+		<DataID id="252008" name="ColdWarBlues_2" />
+		<DataID id="252009" name="ColdWarBlues_3" />
+		<DataID id="252010" name="ColdWarBlues_4" />
+		<DataID id="252011" name="LovingIsHalfTheBattle_1" />
+		<DataID id="252012" name="LovingIsHalfTheBattle_2" />
+		<DataID id="252013" name="LovingIsHalfTheBattle_3" />
+		<DataID id="252014" name="LovingIsHalfTheBattle_4" />
+		<DataID id="252015" name="TheWarmRadioactiveGlowOfSuccess_1" />
+		<DataID id="252016" name="TheWarmRadioactiveGlowOfSuccess_2" />
+		<DataID id="252017" name="TheWarmRadioactiveGlowOfSuccess_3" />
+		<DataID id="252018" name="TheWarmRadioactiveGlowOfSuccess_4" />
+		<DataID id="252600" name="NewYears2022_Completed" />
+		<DataID id="252601" name="NewYears2022_IntroPanel" />
+		<DataID id="252602" name="NewYears2022_72HourWarning" onDeprecated="retain" endDate="NewYears2022_End" />
+		<DataID id="252603" name="NewYears2022_24HourWarning" onDeprecated="retain" endDate="NewYears2022_End" />
+		<DataID id="252604" name="NewYears2022_EventExpired" />
+		<DataID id="252605" name="NewYears2022_MasterQuest" />
+		<!-- <DataID id="252700" name="AutoApply_RadioactiveHomerSkin" /> -->
+		<DataID id="252900" name="NewYears2022_RecommendStore" onDeprecated="delete" endDate="NewYears2022_End" />
+		<DataID id="252701" name="dummy_giveDSH_newyears2022" />
+	</MasterList>
+	<Quest id="252600" name="NewYears2022_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="TheDayAfterNothingHappened" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="252601" name="NewYears2022_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="DuckAndWonder" />
+			<Requirement type="time" end="NewYears2022_End" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="252602" name="NewYears2022_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2022_End')-fromHours(72)]_" end="_[System::evaluate('Date::NewYears2022_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2022_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2022_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="252603" name="NewYears2022_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::NewYears2022_End')-fromHours(24)]_" end="NewYears2022_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2022_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2022_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="252604" name="NewYears2022_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="NewYears2022_End" triggerEvent="true" />
+			<Requirement type="variable" variable="NewYears2022_Complete" not="true" />
+			<Requirement type="quest" quest="NewYears2022_IntroPanel" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="252605" name="NewYears2022_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_Expired" not="true" />
+			<Requirement type="variable" variable="NewYears2022_Complete" not="true" />
+			<Requirement type="reqList" location="NewYears2022_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="PanicAtTheSilo_5" />
+					<Requirement type="variable" variable="NewYears2022_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="PanicAtTheSilo_1">
+				<Requirement type="quest started" quest="PanicAtTheSilo_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="PanicAtTheSilo_2">
+				<Requirement type="quest started" quest="PanicAtTheSilo_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="PanicAtTheSilo_3">
+				<Requirement type="quest started" quest="PanicAtTheSilo_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="PanicAtTheSilo_4">
+				<Requirement type="quest started" quest="PanicAtTheSilo_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="PanicAtTheSilo_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="252000" name="DuckAndWonder" tags="sidequest" icon="NewYears2022_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="NewYears2022_Start" end="NewYears2022_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="DuckAndWonder_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="DuckAndWonder_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="CountToThree" quantity="1" />
+			<Objective type="complete job" character="Homer" job="FindMaleSpringfieldersToJoinHisSquidGameTeam" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252001" name="PanicAtTheSilo_1" tags="mainquest" icon="NewYears2022_AirRaidSirens" sidebarIconScript="NewYears2022_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2022_QuestConfig:NewYears2022_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="NewYears2022_IntroPanel" />
+			<Requirement type="time" start="NewYears2022_Start" end="NewYears2022_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_1_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2022_Currency')" amount="__NewYears2022_GameConfig:ResourceQuantities:NewYears2022_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2022_Scripts:ShowJobList" textpoolName="QST_NewYears2022_Collect_obj">
+				<HighlightJobList>
+					<Job name="RepairAirRaidSirens" />
+					<Job name="PolishAirRaidSirens" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="BeImpressedByTheGeneral" quantity="5" />
+			<Objective type="complete job" character="Milhouse" job="BugleReveilleToWelcomeTheGeneral" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="BreakSpeedingLawsDrivingOutOfTown" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2022_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2022_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="252002" name="PanicAtTheSilo_2" tags="mainquest" icon="NewYears2022_AirRaidSirens" sidebarIconScript="NewYears2022_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2022_QuestConfig:NewYears2022_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PanicAtTheSilo_1" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_2_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2022_Currency')" amount="__NewYears2022_GameConfig:ResourceQuantities:NewYears2022_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2022_Scripts:ShowJobList" textpoolName="QST_NewYears2022_Collect_obj">
+				<HighlightJobList>
+					<Job name="RepairAirRaidSirens" />
+					<Job name="PolishAirRaidSirens" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="BlockPopupAdsForMaleVitalitySupplements" quantity="1" />
+			<Objective type="complete job" character="Herman" job="PitchTheWithstandinatorToSpringfielders" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Herman" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2022_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2022_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="252003" name="PanicAtTheSilo_3" tags="mainquest" icon="NewYears2022_AirRaidSirens" sidebarIconScript="NewYears2022_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2022_QuestConfig:NewYears2022_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PanicAtTheSilo_2" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_3_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2022_Currency')" amount="__NewYears2022_GameConfig:ResourceQuantities:NewYears2022_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2022_Scripts:ShowJobList" textpoolName="QST_NewYears2022_Collect_obj">
+				<HighlightJobList>
+					<Job name="RepairAirRaidSirens" />
+					<Job name="PolishAirRaidSirens" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" group="NormalSpringfielders" job="BecomeTooExhaustedToFollowJoe" quantity="5" />
+			<Objective type="complete job" character="StacyLovell" job="UpdateHerMatchcomProfile" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="StacyLovell" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Joe" job="CancelHisCommandPostHoneymoonSuite" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Joe" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2022_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2022_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="252004" name="PanicAtTheSilo_4" tags="mainquest" icon="NewYears2022_AirRaidSirens" sidebarIconScript="NewYears2022_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2022_QuestConfig:NewYears2022_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PanicAtTheSilo_3" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_4_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2022_Currency')" amount="__NewYears2022_GameConfig:ResourceQuantities:NewYears2022_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2022_Scripts:ShowJobList" textpoolName="QST_NewYears2022_Collect_obj">
+				<HighlightJobList>
+					<Job name="RepairAirRaidSirens" />
+					<Job name="PolishAirRaidSirens" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="CutOutAnEntranceForTheShelter" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2022_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2022_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="252005" name="PanicAtTheSilo_5" tags="mainquest" icon="NewYears2022_AirRaidSirens" sidebarIconScript="NewYears2022_Scripts:OpenMasterQuest" questMenuConfigPath="NewYears2022_QuestConfig:NewYears2022_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="NewYears2022_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PanicAtTheSilo_4" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_5_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="PanicAtTheSilo_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::NewYears2022_Currency')" amount="__NewYears2022_GameConfig:ResourceQuantities:NewYears2022_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="NewYears2022_Scripts:ShowJobList" textpoolName="QST_NewYears2022_Collect_obj">
+				<HighlightJobList>
+					<Job name="RepairAirRaidSirens" />
+					<Job name="PolishAirRaidSirens" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="TheGeneral" job="CussUpAStorm" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="CelebrateBeingAlive" quantity="5" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="NewYears2022_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="NewYears2022_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="252006" name="TheDayAfterNothingHappened" tags="sidequest" icon="NewYears2022_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PanicAtTheSilo_5" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="TheDayAfterNothingHappened_Start" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="TheDayAfterNothingHappened_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGeneral" job="AccidentallySetOffNedsHomeAlarm" quantity="1" />
+			<Objective type="complete job" character="Quimby" job="CancelOrderForMoreHonoraryKeyFobs" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="252007" name="ColdWarBlues_1" tags="sidequest" icon="TheGeneral">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="TheGeneral" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="PanicAtTheSilo_1" />
+				<Requirement type="time" start="NewYears2022_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_1_Start" triggerType="character" character="TheGeneral" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGeneral" job="TalkAboutTheColdWar" quantity="1" />
+			<Objective type="complete job" job="CheckCryptoPricesOnTheirPhones" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252008" name="ColdWarBlues_2" tags="sidequest" icon="TheGeneral">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdWarBlues_1" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_2_Start" triggerType="character" character="TheGeneral" />
+		<Objectives>
+			<Objective type="complete job" character="TheGeneral" job="StageAnInvasion_Temp" quantity="1" />
+			<Objective type="complete job" group="NormalSpringfielders" job="IgnoreMilitaryService" quantity="5" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252009" name="ColdWarBlues_3" tags="sidequest" icon="TheGeneral">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdWarBlues_2" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_3_Start" triggerType="character" character="TheGeneral" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="TheGeneral" job="PonderACareerChange" quantity="1" />
+			<Objective type="complete job" character="RasputinTheFriendlyRussian" job="MeasureTheGeneralForTights" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="RasputinTheFriendlyRussian" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252010" name="ColdWarBlues_4" tags="sidequest" icon="TheGeneral">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdWarBlues_3" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_4_Start" triggerType="character" character="TheGeneral" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="ColdWarBlues_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Moe" job="GetQuotesFromGEICOAndStateFarm" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Moe" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="TheGeneral" job="TryToGetABuzzFromPopcornSalt" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="252011" name="LovingIsHalfTheBattle_1" tags="sidequest" icon="Joe">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Joe" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_1_Start" triggerType="character" character="Joe" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Joe" job="PracticeHisKungFuGrip_Temp" quantity="1" />
+			<Objective type="complete job" character="StacyLovell" job="DeleteHerTinderAccountAgain" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="StacyLovell" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252012" name="LovingIsHalfTheBattle_2" tags="sidequest" icon="Joe">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LovingIsHalfTheBattle_1" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_2_Start" triggerType="character" character="Joe" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Joe" job="SplitLogsAsAnActOfService" quantity="1" />
+			<Objective type="complete job" character="StacyLovell" job="SayAffirmationAboutTheLogSplitting" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="StacyLovell" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252013" name="LovingIsHalfTheBattle_3" tags="sidequest" icon="Joe">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LovingIsHalfTheBattle_2" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_3_Start" triggerType="character" character="Joe" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Joe" job="PutInAPreOrderForNorthridgeStacy" quantity="1" />
+			<Objective type="complete job" character="StacyLovell" job="RemindJoeToPickUpCatLitter" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="StacyLovell" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252014" name="LovingIsHalfTheBattle_4" tags="sidequest" icon="Joe">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LovingIsHalfTheBattle_3" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_4_Start" triggerType="character" character="Joe" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="LovingIsHalfTheBattle_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="StacyLovell" job="ReserveTwoRoomsForReunionWeekend" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="StacyLovell" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Joe" job="MemorizeTheFakeBiographyStacyWroteForHim" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="252015" name="TheWarmRadioactiveGlowOfSuccess_1" tags="sidequest" icon="Homer_Radioactive">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Homer" unlockedskin="RadioactiveHomer" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_1_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ShootATikTokAtTheReactorCore" quantity="1" />
+			<Objective type="complete job" character="Carl" job="DropTheOhNoSongAsHomersBackgroundTrack" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252016" name="TheWarmRadioactiveGlowOfSuccess_2" tags="sidequest" icon="Homer_Radioactive">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheWarmRadioactiveGlowOfSuccess_1" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_2_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RadioactiveHomer" job="SpreadRadiationAroundTown_Temp" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252017" name="TheWarmRadioactiveGlowOfSuccess_3" tags="sidequest" icon="Homer_Radioactive">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheWarmRadioactiveGlowOfSuccess_2" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_3_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RadioactiveHomer" job="PutDojaCatSongOnVideo" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="252018" name="TheWarmRadioactiveGlowOfSuccess_4" tags="sidequest" icon="Homer_Radioactive">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheWarmRadioactiveGlowOfSuccess_3" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_4_Start" triggerType="character" character="Homer" />
+		<EndScript package="NewYears2022_Scripts_Dialogue" name="TheWarmRadioactiveGlowOfSuccess_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="RadioactiveHomer" job="LashOutAtTikTokNerds" quantity="1" />
+			<Objective type="complete job" character="Marge" job="StartUsingHerMaidenName" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="252700" name="AutoApply_RadioactiveHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="RadioactiveHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="RadioactiveHomer" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="NewYears2022_Scripts" name="AutoApply_RadioactiveHomerSkin_End" />
+	</Quest>
+	<Quest id="252900" name="NewYears2022_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="NewYears2022_Requirements:StoreCategory_RedAlert_Unlocked" />
+		</Requirements>
+		<StartScript package="NewYears2022_Scripts" name="RecommendStoreCategory_RedAlert" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

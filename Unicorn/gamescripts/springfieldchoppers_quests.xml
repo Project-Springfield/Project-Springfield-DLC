@@ -1,0 +1,594 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="242000" name="ThereGoesMyHeroes" />
+		<DataID id="242001" name="SpringfieldTurfWars_1" />
+		<DataID id="242002" name="SpringfieldTurfWars_2" />
+		<DataID id="242003" name="SpringfieldTurfWars_3" />
+		<DataID id="242004" name="SpringfieldTurfWars_4" />
+		<DataID id="242005" name="SpringfieldTurfWars_5" />
+		<DataID id="242006" name="WhereTheBlubberMeetsTheRoad" />
+		<DataID id="242007" name="ClassinUpTheJoint_1" />
+		<DataID id="242008" name="ClassinUpTheJoint_2" />
+		<DataID id="242009" name="ClassinUpTheJoint_3" />
+		<DataID id="242010" name="ClassinUpTheJoint_4" />
+		<DataID id="242011" name="ClassinUpTheJoint_5" />
+		<DataID id="242012" name="GreasedIrony_1" />
+		<DataID id="242013" name="GreasedIrony_2" />
+		<DataID id="242014" name="GreasedIrony_3" />
+		<DataID id="242015" name="GreasedIrony_4" />
+		<DataID id="242016" name="GreasedIrony_5" />
+		<DataID id="242017" name="TheBullyPulpit_1" />
+		<DataID id="242018" name="TheBullyPulpit_2" />
+		<DataID id="242019" name="TheBullyPulpit_3" />
+		<DataID id="242020" name="TheBullyPulpit_4" />
+		<DataID id="242600" name="SpringfieldChoppers_Completed" />
+		<DataID id="242601" name="SpringfieldChoppers_IntroPanel" />
+		<DataID id="242602" name="SpringfieldChoppers_72HourWarning" onDeprecated="retain" endDate="SpringfieldChoppers_End" />
+		<DataID id="242603" name="SpringfieldChoppers_24HourWarning" onDeprecated="retain" endDate="SpringfieldChoppers_End" />
+		<DataID id="242604" name="SpringfieldChoppers_EventExpired" />
+		<DataID id="242605" name="SpringfieldChoppers_MasterQuest" />
+		<DataID id="242900" name="SpringfieldChoppers_RecommendStore" onDeprecated="delete" endDate="SpringfieldChoppers_End" />
+	</MasterList>
+	<Quest id="242600" name="SpringfieldChoppers_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="WhereTheBlubberMeetsTheRoad" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="242601" name="SpringfieldChoppers_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="ThereGoesMyHeroes" />
+			<Requirement type="time" end="SpringfieldChoppers_End" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="242602" name="SpringfieldChoppers_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SpringfieldChoppers_End')-fromHours(72)]_" end="_[System::evaluate('Date::SpringfieldChoppers_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="SpringfieldChoppers_Complete" not="true" />
+			<Requirement type="quest" quest="SpringfieldChoppers_IntroPanel" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="242603" name="SpringfieldChoppers_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SpringfieldChoppers_End')-fromHours(24)]_" end="SpringfieldChoppers_End" triggerEvent="true" />
+			<Requirement type="variable" variable="SpringfieldChoppers_Complete" not="true" />
+			<Requirement type="quest" quest="SpringfieldChoppers_IntroPanel" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="242604" name="SpringfieldChoppers_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="SpringfieldChoppers_End" triggerEvent="true" />
+			<Requirement type="variable" variable="SpringfieldChoppers_Complete" not="true" />
+			<Requirement type="quest" quest="SpringfieldChoppers_IntroPanel" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="242605" name="SpringfieldChoppers_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_Expired" not="true" />
+			<Requirement type="variable" variable="SpringfieldChoppers_Complete" not="true" />
+			<Requirement type="reqList" location="SpringfieldChoppers_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="SpringfieldTurfWars_5" />
+					<Requirement type="variable" variable="SpringfieldChoppers_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="SpringfieldTurfWars_1">
+				<Requirement type="quest started" quest="SpringfieldTurfWars_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldTurfWars_2">
+				<Requirement type="quest started" quest="SpringfieldTurfWars_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldTurfWars_3">
+				<Requirement type="quest started" quest="SpringfieldTurfWars_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldTurfWars_4">
+				<Requirement type="quest started" quest="SpringfieldTurfWars_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="SpringfieldTurfWars_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="242000" name="ThereGoesMyHeroes" tags="sidequest" icon="SpringfieldChoppers_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="SpringfieldChoppers_Start" end="SpringfieldChoppers_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="ThereGoesMyHeroes_Start" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="ThereGoesMyHeroes_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="GetInitiated" quantity="1" />
+			<Objective type="complete job" character="Meathook" job="SewThePatchOnBartsGangJacket" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Meathook" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ramrod" job="PrepareBartAVirginDaiquiri" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ramrod" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242001" name="SpringfieldTurfWars_1" tags="mainquest" icon="SpringfieldChoppers_Currency" sidebarIconScript="SpringfieldChoppers_Scripts:OpenMasterQuest" questMenuConfigPath="SpringfieldChoppers_QuestConfig:SpringfieldChoppers_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldChoppers_IntroPanel" />
+			<Requirement type="time" start="SpringfieldChoppers_Start" end="SpringfieldChoppers_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_1_Start" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldChoppers_Currency')" amount="__SpringfieldChoppers_GameConfig:ResourceQuantities:SpringfieldChoppers_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldChoppers_Scripts:ShowJobList" textpoolName="QST_SpringfieldChoppers_Collect_obj">
+				<HighlightJobList>
+					<Job name="BorrowGasCansFromPeoplesGarages" />
+					<Job name="SiphonGasFromVehicles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="GoSeeTheStolenBicycleGraveyard" quantity="1" />
+			<Objective type="complete job" character="Nelson" job="ShowBartTheEmptySwimmingPool" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Nelson" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Jimbo" job="CarveBartsNameInTheDivingBoard" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Jimbo" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Dolph" job="CleanTheNecklaceOfUnknownRetainers" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Dolph" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Kearney" job="PickUpHisKidFromSchool" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Kearney" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SpringfieldChoppers_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldChoppers_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="242002" name="SpringfieldTurfWars_2" tags="mainquest" icon="SpringfieldChoppers_Currency" sidebarIconScript="SpringfieldChoppers_Scripts:OpenMasterQuest" questMenuConfigPath="SpringfieldChoppers_QuestConfig:SpringfieldChoppers_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldTurfWars_1" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_2_Start" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldChoppers_Currency')" amount="__SpringfieldChoppers_GameConfig:ResourceQuantities:SpringfieldChoppers_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldChoppers_Scripts:ShowJobList" textpoolName="QST_SpringfieldChoppers_Collect_obj">
+				<HighlightJobList>
+					<Job name="BorrowGasCansFromPeoplesGarages" />
+					<Job name="SiphonGasFromVehicles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GasUpTheHog" quantity="1" />
+			<Objective type="complete job" character="Marge" job="DemandHomerWearHisHelmet" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="RemindHomerHowTheThrottleWorks" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SpringfieldChoppers_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldChoppers_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="242003" name="SpringfieldTurfWars_3" tags="mainquest" icon="SpringfieldChoppers_Currency" sidebarIconScript="SpringfieldChoppers_Scripts:OpenMasterQuest" questMenuConfigPath="SpringfieldChoppers_QuestConfig:SpringfieldChoppers_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldTurfWars_2" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="item" item="Spiros" checkInventoryOnly="true" />
+				<Requirement type="building" building="Spiros" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_3_Start" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldChoppers_Currency')" amount="__SpringfieldChoppers_GameConfig:ResourceQuantities:SpringfieldChoppers_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldChoppers_Scripts:ShowJobList" textpoolName="QST_SpringfieldChoppers_Collect_obj">
+				<HighlightJobList>
+					<Job name="BorrowGasCansFromPeoplesGarages" />
+					<Job name="SiphonGasFromVehicles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="DefendTurfWithHisSlingshot" quantity="1" />
+			<Objective type="complete job" character="WilburNurple" job="CallForPurpleNurpleBackup" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WilburNurple" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Meathook" job="GiveWilburNurpleAPurpleNurple" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Meathook" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ramrod" job="WatchTheFlank" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ramrod" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SpringfieldChoppers_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldChoppers_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="242004" name="SpringfieldTurfWars_4" tags="mainquest" icon="SpringfieldChoppers_Currency" sidebarIconScript="SpringfieldChoppers_Scripts:OpenMasterQuest" questMenuConfigPath="SpringfieldChoppers_QuestConfig:SpringfieldChoppers_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldTurfWars_3" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_4_Start" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldChoppers_Currency')" amount="__SpringfieldChoppers_GameConfig:ResourceQuantities:SpringfieldChoppers_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldChoppers_Scripts:ShowJobList" textpoolName="QST_SpringfieldChoppers_Collect_obj">
+				<HighlightJobList>
+					<Job name="BorrowGasCansFromPeoplesGarages" />
+					<Job name="SiphonGasFromVehicles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DefyDeathInTheBallOfDeath_Homer" quantity="1" />
+			<Objective type="complete job" character="WilburNurple" job="DefyDeathInTheBallOfDeath_WilburNurple" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WilburNurple" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="ReluctantlyCheerOnHomer" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SpringfieldChoppers_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldChoppers_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="242005" name="SpringfieldTurfWars_5" tags="mainquest" icon="SpringfieldChoppers_Currency" sidebarIconScript="SpringfieldChoppers_Scripts:OpenMasterQuest" questMenuConfigPath="SpringfieldChoppers_QuestConfig:SpringfieldChoppers_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SpringfieldChoppers_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldTurfWars_4" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_5_Start" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="SpringfieldTurfWars_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SpringfieldChoppers_Currency')" amount="__SpringfieldChoppers_GameConfig:ResourceQuantities:SpringfieldChoppers_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SpringfieldChoppers_Scripts:ShowJobList" textpoolName="QST_SpringfieldChoppers_Collect_obj">
+				<HighlightJobList>
+					<Job name="BorrowGasCansFromPeoplesGarages" />
+					<Job name="SiphonGasFromVehicles" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="EatItHard" quantity="1" />
+			<Objective type="complete job" character="WilburNurple" job="Prevail" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="WilburNurple" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SpringfieldChoppers_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SpringfieldChoppers_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="242006" name="WhereTheBlubberMeetsTheRoad" tags="sidequest" icon="SpringfieldChoppers_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="SpringfieldTurfWars_5" />
+		</Requirements>
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="WhereTheBlubberMeetsTheRoad_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="242007" name="ClassinUpTheJoint_1" tags="sidequest" icon="Spiro">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="Spiro" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_1_Start" triggerType="character" character="Spiro" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Spiro" job="GoTalkToAbe_Spiro" quantity="1" />
+			<Objective type="complete job" character="RitaLaFleur" job="GoTalkToAbe_RitaLaFleur" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="RitaLaFleur" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Meathook" job="BreakABottleOverRamrodsHead" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Meathook" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ramrod" job="CrackAPoolCueInTwo" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ramrod" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242008" name="ClassinUpTheJoint_2" tags="sidequest" icon="Spiro">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ClassinUpTheJoint_1" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_2_Start" triggerType="character" character="Spiro" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Spiro" job="ClassUpTheJoint" quantity="1">
+				<BranchCondition>
+					<Requirement type="building" building="Spiros" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Spiro" job="ClassUpTheJoint_Backup" quantity="1" textpoolName="QST_ClassinUpTheJoint_2_2_obj_1">
+				<BranchCondition>
+					<Requirement type="building" building="Spiros" not="true" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="RitaLaFleur" job="PracticeTunes" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="RitaLaFleur" />
+					<Requirement type="characterunlocked" name="Grampa" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242009" name="ClassinUpTheJoint_3" tags="sidequest" icon="Spiro">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ClassinUpTheJoint_2" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_3_Start" triggerType="character" character="Spiro" />
+		<Objectives>
+			<Objective type="complete job" group="Youngster" job="HandOutSpirosFlyers" quantity="10" />
+			<Objective type="complete job" character="Spiro" job="PracticeMakingClassyDrinks" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242010" name="ClassinUpTheJoint_4" tags="sidequest" icon="Spiro">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ClassinUpTheJoint_3" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_4_Start" triggerType="character" character="Spiro" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Spiro" job="StrictlyEnforceTheGuestList" quantity="1" />
+			<Objective type="complete job" character="Meathook" job="StartABarFight" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Meathook" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ramrod" job="StartABarFight" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ramrod" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="RitaLaFleur" job="SingThroughTheFighting" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="RitaLaFleur" />
+					<Requirement type="characterunlocked" name="Grampa" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242011" name="ClassinUpTheJoint_5" tags="sidequest" icon="Spiro">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ClassinUpTheJoint_4" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_5_Start" triggerType="character" character="Spiro" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="ClassinUpTheJoint_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Spiro" job="ReOpenSpirosGyrosAndBikerLounge" quantity="1" />
+			<Objective type="complete job" character="Meathook" job="TakeInAShow" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Meathook" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Ramrod" job="HaveAMartini" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Ramrod" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="242012" name="GreasedIrony_1" tags="sidequest" icon="WolfguyJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="WolfguyJack" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_1_Start" triggerType="character" character="WolfguyJack" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfguyJack" job="UpdateTheMenu" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="OrderActualCheese" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242013" name="GreasedIrony_2" tags="sidequest" icon="WolfguyJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GreasedIrony_1" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_2_Start" triggerType="character" character="WolfguyJack" />
+		<Objectives>
+			<Objective type="complete job" character="WolfguyJack" job="DefendTheNewMenu" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="StockGlutenFreeBurgerBuns" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242014" name="GreasedIrony_3" tags="sidequest" icon="WolfguyJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GreasedIrony_2" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_3_Start" triggerType="character" character="WolfguyJack" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfguyJack" job="HitTheAirwaves" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="TapLocalCraftBrews" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242015" name="GreasedIrony_4" tags="sidequest" icon="WolfguyJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GreasedIrony_3" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_4_Start" triggerType="character" character="WolfguyJack" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfguyJack" job="HaveADanceContest" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="BuyOrganicGrassFedCageFreeLettuce" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242016" name="GreasedIrony_5" tags="sidequest" icon="WolfguyJack">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="GreasedIrony_4" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_5_Start" triggerType="character" character="WolfguyJack" />
+		<EndScript package="SpringfieldChoppers_Scripts_Dialogue" name="GreasedIrony_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="WolfguyJack" job="AddADriveThrough" quantity="1" />
+			<Objective type="complete job" character="SqueakyVoiceTeen" job="TryToReturnSoyPickles" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SqueakyVoiceTeen" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="242017" name="TheBullyPulpit_1" tags="sidequest" icon="WilburNurple">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="WilburNurple" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="TheBullyPulpit_1_Start" triggerType="character" character="WilburNurple" />
+		<Objectives>
+			<Objective type="complete job" character="WilburNurple" job="GiveTheKBLYWeatherUpdate" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242018" name="TheBullyPulpit_2" tags="sidequest" icon="WilburNurple">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBullyPulpit_1" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="TheBullyPulpit_2_Start" triggerType="character" character="WilburNurple" />
+		<Objectives>
+			<Objective type="complete job" character="WilburNurple" job="ProwlTheTown" quantity="1" />
+			<Objective type="complete job" character="Bart" job="FollowWilburNurple" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242019" name="TheBullyPulpit_3" tags="sidequest" icon="WilburNurple">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBullyPulpit_2" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="TheBullyPulpit_3_Start" triggerType="character" character="WilburNurple" />
+		<Objectives>
+			<Objective type="complete job" character="WilburNurple" job="GetTipsFromWiggum" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="ImpartHisYearsOfWisdom" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="242020" name="TheBullyPulpit_4" tags="sidequest" icon="WilburNurple">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheBullyPulpit_3" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts_Dialogue" name="TheBullyPulpit_4_Start" triggerType="character" character="WilburNurple" />
+		<Objectives>
+			<Objective type="complete job" character="WilburNurple" job="RecordBullyOnTheStreet" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="242900" name="SpringfieldChoppers_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="SpringfieldChoppers_Requirements:StoreCategory_SpringfieldChoppers_Unlocked" />
+		</Requirements>
+		<StartScript package="SpringfieldChoppers_Scripts" name="RecommendStoreCategory_SpringfieldChoppers" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

@@ -1,0 +1,2182 @@
+﻿<ScriptPackage>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="MoesArk_EventHubTabValue">
+			<ExpressionCase value="0">
+				<Action type="runScript" script="MoesArk_Scripts:Tab_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="runScript" script="MoesArk_Scripts:Tab_BuildingFinder" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<GuidePanel_Event>
+		<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+		<Action type="updateVariable" variable="MoesArk_EventGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="MoesArk_GuidePanelsConfig:PrizeTrackGuide_Config" />
+	</GuidePanel_Event>
+	<EnterPlacementMode_ArrangementBonus parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="MoesArk_Requirements:ArrangementBonus_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="10s" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_MoesArk" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_MoesArk_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_MoesArk_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="MoesArk_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_MoesArk_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="MoesArk_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</EnterPlacementMode_ArrangementBonus>
+	<PlacementConfirm_SpringfieldZooEntrance parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="SpringfieldZooEntrance_ABDelta != 0" />
+			</Requirements>
+			<True>
+				<Action type="scheduleScript" mode="replace" script="MoesArk_Scripts:ShowDelayedArrangementBonusHudTip" shouldSave="false" relativeTime="2s" />
+				<Action type="floatText" building="SpringfieldZooEntrance">
+					<Attribute name="config">
+						<AttributeSet name="text">
+							<Attribute name="text" value="{0}% {1}" parameters="textParams">
+								<AttributeSet name="textParams">
+									<Attribute name="0" formula="SpringfieldZooEntrance_ABDelta" />
+									<Attribute name="1" value="UI_MoesArk_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="1" value="UI_MoesArk_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="MoesArk_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="1" value="UI_MoesArk_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="MoesArk_Requirements:ActThree" />
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_XSBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+							<Attribute name="name" value="SpringfieldZooEntrance_Delta" />
+							<Attribute name="duration" value="2s" />
+							<Attribute name="speed" value="2" />
+							<Attribute name="resetTime" value="true" />
+							<Attribute name="isUnique" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="setVariable" intVariable="SpringfieldZooEntrance_ABDelta" intValue="0" />
+			</True>
+		</Action>
+	</PlacementConfirm_SpringfieldZooEntrance>
+	<GoToRearrange_SpringfieldZooEntrance>
+		<Action type="pantoobject" building="SpringfieldZooEntrance" fakeTouch="false" time="0" />
+		<Action type="gotoState" state="GameState_Rearrange" />
+	</GoToRearrange_SpringfieldZooEntrance>
+	<ShowDelayedArrangementBonusHudTip parallel="true" runQueueState="RunInAnyState">
+		<Action type="hudTip" clear="true" requiresActiveHUD="false" />
+		<Action type="checkRequirements">
+			<Requirement type="building" building="SpringfieldZooEntrance" />
+			<True>
+				<Action type="hudTip">
+					<Attribute name="Objects">
+						<AttributeSet name="TipText">
+							<Attribute name="time" value="3s" />
+							<Attribute name="queue" value="true" />
+							<Attribute name="requiresActiveHUD" value="false" />
+							<Attribute name="text" value="UI_HudTip_ArrangementBonus_Adjust_SpringfieldZooEntrance" localise="true" />
+							<Attribute name="textReplacements">
+								<AttributeSet>
+									<Attribute name="index" value="0" />
+									<Attribute name="text" value="UI_MoesArk_AB_ProgressPopup_Act1_Title" localise="true" />
+									<Attribute name="text" value="UI_MoesArk_AB_ProgressPopup_Act2_Title" localise="true">
+										<Requirement type="reqList" location="MoesArk_Requirements:ActTwo" />
+									</Attribute>
+									<Attribute name="text" value="UI_MoesArk_AB_ProgressPopup_Act3_Title" localise="true">
+										<Requirement type="reqList" location="MoesArk_Requirements:ActThree" />
+									</Attribute>
+									<Attribute name="color" value="55DBFDFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="1" />
+									<Attribute name="text" formula="#program;                                     var object = Land::getFirstInstanceOfObject(Building::find('SpringfieldZooEntrance'));                                     return toString(round(((toDouble(Building::getArrangeBonus(object)))*100))/100);" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet>
+									<Attribute name="index" value="2" />
+									<Attribute name="text" value="%" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+		</Action>
+	</ShowDelayedArrangementBonusHudTip>
+	<Tab_PrizeTrack>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoland" land="Springfield" showPopup="true" />
+				</Then>
+			</If>
+			<ElseIf expression="MoesArk_EventGuideSeen">
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" not="true" />
+							<Then>
+								<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+								<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+									<Extras>
+										<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+										<Attribute name="specialEvent" value="MoesArk_Event" />
+										<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+									</Extras>
+								</Action>
+							</Then>
+						</If>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:GuidePanel_Event" />
+				</Then>
+			</Else>
+		</Action>
+	</Tab_PrizeTrack>
+	<ActOnePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_MoesArk_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_MoesArk_Act2Prize7_LG" darken="true" />
+	</ActOnePrizeTrackTab>
+	<ActTwoPrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_MoesArk_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_MoesArk_Act3Prize7_LG" darken="true" />
+	</ActTwoPrizeTrackTab>
+	<GuidePanel_BuildingFinder ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="runScript" script="MoesArk_Scripts:GuidePanel_BuildingFinder_NoSound" />
+	</GuidePanel_BuildingFinder>
+	<GuidePanel_BuildingFinder_NoSound ignoreHUD="true">
+		<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="1" />
+		<Action type="updateVariable" variable="MoesArk_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="MoesArk_GuidePanelsConfig:BuildingFinderGuide_Config" />
+	</GuidePanel_BuildingFinder_NoSound>
+	<GuidePanel_BuildingFinder_Center>
+		<Action type="updateVariable" variable="MoesArk_BuildingFinderGuideSeen" value="1" />
+		<Action type="gotoState" state="State_HubEventGuidePanel" extras="MoesArk_GuidePanelsConfig:BuildingFinderGuide_Config">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_BuildingFinder_Center>
+	<OpenMenu_BuildingFinder>
+		<Action type="if">
+			<If>
+				<Requirement type="gamestate" state="GameState_BuildingFinder" not="true" />
+				<Then>
+					<Action type="markBadgeViewed" badgeName="MoesArk_BuildingFinderBadge" />
+					<Action type="gotoState" state="GameState_BuildingFinder">
+						<Extras>
+							<Attribute name="menuConfig" value="MoesArk_MenuConfig:MoesArk_BuildingFinder" />
+							<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							<Attribute name="specialEvent" value="MoesArk_Event" />
+						</Extras>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</OpenMenu_BuildingFinder>
+	<Tab_BuildingFinder>
+		<Action type="if">
+			<If>
+				<Requirement type="land" land="Springfield" not="true" />
+				<Then>
+					<Action type="gotoState" state="GameState_InGame" />
+					<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="MoesArk_Requirements:BuildingFinder_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If expression="MoesArk_BuildingFinderGuideSeen">
+							<Then>
+								<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="1" />
+								<Action type="actionSequence" script="MoesArk_Scripts:OpenMenu_BuildingFinder" />
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="actionSequence" script="MoesArk_Scripts:GuidePanel_BuildingFinder" />
+								<Action type="updateVariable" variable="MoesArk_BuildingFinderGuideSeen" value="1" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</ElseIf>
+		</Action>
+	</Tab_BuildingFinder>
+	<ShowSlotsMenu>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalHabitat = Array::getValueForKey(System::script, 'ObjectInstance');
+					var pickerBuilding = Building::getSubBuilding(animalHabitat, 0);
+					GameState_BuildingSelected::setBuilding(pickerBuilding);
+					System::setGameState('GameState_BuildingSelected');
+				]]></Program>
+		</Action>
+	</ShowSlotsMenu>
+	<ShowSlot1Menu>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var slotIndex = 1;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':ShowSlotMenu'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</ShowSlot1Menu>
+	<ShowSlot2Menu>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var slotIndex = 2;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':ShowSlotMenu'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</ShowSlot2Menu>
+	<ShowSlot3Menu>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var slotIndex = 3;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':ShowSlotMenu'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</ShowSlot3Menu>
+	<ShowSlot4Menu>
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var slotIndex = 4;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':ShowSlotMenu'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</ShowSlot4Menu>
+	<SetSlotToEmpty ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalChoice = 0;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':SetSlotToAnimal'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</SetSlotToEmpty>
+	<SetSlotToAnimal1 ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalChoice = 1;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':SetSlotToAnimal'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</SetSlotToAnimal1>
+	<SetSlotToAnimal2 ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalChoice = 2;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':SetSlotToAnimal'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</SetSlotToAnimal2>
+	<SetSlotToAnimal3 ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalChoice = 3;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':SetSlotToAnimal'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</SetSlotToAnimal3>
+	<SetSlotToAnimal4 ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalChoice = 4;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':SetSlotToAnimal'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</SetSlotToAnimal4>
+	<SetSlotToAnimal5 ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+					#program;
+					var animalChoice = 5;
+					var hook = 'MoesArk_GameConfig';
+					Hook::load(hook,false);
+					var compiledHook = Parser::compile(Hook::toString(hook+':SetSlotToAnimal'));
+					Hook::unload(hook,false);
+					Parser::evaluate(compiledHook);
+				]]></Program>
+		</Action>
+	</SetSlotToAnimal5>
+	<GoToPickerBuildingSelected ignoreHUD="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var slotBuilding = Array::getValueForKey(System::script, 'ObjectInstance');
+                    var animalHabitat = Object::getProperty(slotBuilding, 'MasterBuilding');
+                    var pickerBuilding = Building::getSubBuilding(animalHabitat, 0);
+                    GameState_BuildingSelected::setBuilding(pickerBuilding);
+                    System::setGameState('GameState_BuildingSelected');
+                ]]></Program>
+		</Action>
+	</GoToPickerBuildingSelected>
+	<ShowUpgradableBuildingUI>
+		<Action type="pantoobject" useObjectRef="true" />
+		<Action type="gotoState" state="GameState_BuildingUpgradeTrack">
+			<Extras>
+				<Attribute name="fontConfigPath" value="MoesArk_MenuConfig:BuildingUpgradeTrackFontAndColourConfig" />
+			</Extras>
+		</Action>
+	</ShowUpgradableBuildingUI>
+	<OnModularBuildingUpgraded>
+		<Action type="setObjectVariable" variableMode="setRetain" variable="dummy" value="1" disableEvents="true" />
+		<Action type="setObjectVariable" variable="HabitatLevel" value="Object::HabitatLevel+1" asExpression="true" />
+		<Action type="if">
+			<If expression="Object::HabitatLevel == 1">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal1" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf expression="Object::HabitatLevel == 2">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal2" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="Object::HabitatLevel == 3">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal3" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="Object::HabitatLevel == 4">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal4" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="Object::HabitatLevel == 5">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal5" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="Object::HabitatLevel == 6">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal6" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="Object::HabitatLevel == 7">
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:OnModularBuildingUpgradedReal7" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</OnModularBuildingUpgraded>
+	<OnModularBuildingUpgradedReal1>
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel0__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgrade">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="earned">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" stringFormula="{Object::LocalisedName}" />
+							<Attribute name="1" formula="2" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="RewardName">
+					<Attribute name="text" value="UI_Animal_Unlocked" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="rewardGraphic">
+					<Attribute formatMe="true" name="image" value="__MoesArk_GameConfig:{Object::Name}Reward:Reward1Icon__" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</OnModularBuildingUpgradedReal1>
+	<OnModularBuildingUpgradedReal2>
+		<Action formatMe="deep" type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore" ignoreObject="true" onStoreScript="MoesArk_Scripts:OnModularBuildingStore">
+			<Item type="building" name="__MoesArk_GameConfig:{Object::Name}Reward:Extension1__" />
+		</Action>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel1__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+	</OnModularBuildingUpgradedReal2>
+	<OnModularBuildingUpgradedReal3>
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel2__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgrade">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="earned">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" stringFormula="{Object::LocalisedName}" />
+							<Attribute name="1" formula="4" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="RewardName">
+					<Attribute name="text" value="UI_Animal_Unlocked" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="rewardGraphic">
+					<Attribute formatMe="true" name="image" value="__MoesArk_GameConfig:{Object::Name}Reward:Reward3Icon__" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</OnModularBuildingUpgradedReal3>
+	<OnModularBuildingUpgradedReal4>
+		<Action formatMe="deep" type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore" ignoreObject="true" onStoreScript="MoesArk_Scripts:OnModularBuildingStore">
+			<Item type="building" name="__MoesArk_GameConfig:{Object::Name}Reward:Extension2__" />
+		</Action>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel3__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+	</OnModularBuildingUpgradedReal4>
+	<OnModularBuildingUpgradedReal5>
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel4__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgrade">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="earned">
+					<Attribute name="active" value="false" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" stringFormula="{Object::LocalisedName}" />
+							<Attribute name="1" formula="6" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="RewardName">
+					<Attribute name="text" value="UI_Animal_Unlocked" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="rewardGraphic">
+					<Attribute formatMe="true" name="image" value="__MoesArk_GameConfig:{Object::Name}Reward:Reward5Icon__" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</OnModularBuildingUpgradedReal5>
+	<OnModularBuildingUpgradedReal6>
+		<Action formatMe="deep" type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore" ignoreObject="true" onStoreScript="MoesArk_Scripts:OnModularBuildingStore">
+			<Item type="building" name="__MoesArk_GameConfig:{Object::Name}Reward:Extension3__" />
+		</Action>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel5__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+	</OnModularBuildingUpgradedReal6>
+	<OnModularBuildingUpgradedReal7>
+		<Action formatMe="deep" type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore" ignoreObject="true" onStoreScript="MoesArk_Scripts:OnModularBuildingStore">
+			<Item type="building" name="{Object::Name}" />
+		</Action>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="loseResources" formatMe="true" MoesArk_CraftingCurrency="__MoesArk_BalanceConfig:LevelUpCosts:{Object::Name}FromInternalLevel6__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+	</OnModularBuildingUpgradedReal7>
+	<OnModularBuildingStore>
+		<Action type="hudTip" text="UI_Crafting_Nonplaceable_Crafted" time="10s" requiresActiveHUD="false" />
+	</OnModularBuildingStore>
+	<SpringfieldZooEntranceLandUnlock>
+		<Action type="reward">
+			<Item type="building" name="SpringfieldZooEntrance" useImmediately="true" />
+		</Action>
+		<Action type="unlockLandForEvent" building="SpringfieldZooEntrance" squareSize="3" />
+	</SpringfieldZooEntranceLandUnlock>
+	<AutoApply_ButterflyMaggieSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="MoesArk_Scripts:AutoApply_ButterflyMaggieSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_ButterflyMaggieSkin_End>
+	<AutoApply_ButterflyMaggieSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="ButterflyMaggie" fromInventory="true" />
+	</AutoApply_ButterflyMaggieSkin_Delayed>
+	<AutoApply_MadDrHibbertSkin_End parallel="true">
+		<Action type="scheduleScript" mode="create" script="MoesArk_Scripts:AutoApply_MadDrHibbertSkin_Delayed" relativeTime="2s" localLandOnly="true" shouldSave="true" />
+	</AutoApply_MadDrHibbertSkin_End>
+	<AutoApply_MadDrHibbertSkin_Delayed ignoreHUD="true">
+		<Action type="consumable" consumable="MadDrHibbert" fromInventory="true" />
+	</AutoApply_MadDrHibbertSkin_Delayed>
+	<DuffMcSharkTank_Tapped parallel="true" ignoreHUD="true">
+		<Action type="if">
+			<If expression="Object::State == 0">
+				<Then>
+					<Action type="setObjectVariable" variable="State" value="1" asExpression="true" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="ActiveIn" value="1" asExpression="true" allowOrphan="false" />
+				</Then>
+			</If>
+		</Action>
+	</DuffMcSharkTank_Tapped>
+	<DuffMcSharkTank_ActiveIn_Done parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ActiveIn" value="0" asExpression="true" allowOrphan="false" />
+	</DuffMcSharkTank_ActiveIn_Done>
+	<DuffMcSharkTank_Active_Done parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ActiveOut" value="1" asExpression="true" allowOrphan="false" />
+	</DuffMcSharkTank_Active_Done>
+	<DuffMcSharkTank_ActiveOut_Done parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="ActiveOut" value="0" asExpression="true" allowOrphan="false" />
+		<Action type="setObjectVariable" variable="State" value="0" asExpression="true" allowOrphan="false" />
+	</DuffMcSharkTank_ActiveOut_Done>
+	<StackingSheep_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="SheepState" value="0" asExpression="true" allowOrphan="false" />
+		<Action type="setObjectVariable" variable="SheepStateAnim" value="1" asExpression="true" allowOrphan="false" />
+	</StackingSheep_Init>
+	<StackingSheep_Tapped parallel="true" ignoreHUD="true">
+		<Action type="if">
+			<If expression="Object::SheepStateAnim == 1">
+				<Then>
+					<Action type="setObjectVariable" variable="SheepState" value="mod(Object::SheepState+1, 4)" asExpression="true" allowOrphan="false" />
+					<Action type="setObjectVariable" variable="SheepStateAnim" value="0" asExpression="true" allowOrphan="false" />
+				</Then>
+			</If>
+		</Action>
+	</StackingSheep_Tapped>
+	<StackingSheep_AnimDone parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="SheepStateAnim" value="1" asExpression="true" allowOrphan="false" />
+	</StackingSheep_AnimDone>
+	<GoToBaboonUpgrade parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var startBuilding = Land::getFirstInstanceOfObject(Building::find('BaboonCountyUSA'));
+                    Script::runOnObjectInstance('MoesArk_Scripts:ShowUpgradableBuildingUI', startBuilding);
+                ]]></Program>
+		</Action>
+	</GoToBaboonUpgrade>
+	<GoToBaboonExtension ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="BaboonCountyUSAExtension1" />
+				<Then>
+					<Action type="pantoobject" building="BaboonCountyUSAExtension1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="BaboonCountyUSAExtension1" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="BaboonCountyUSAExtension1" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:GoToBaboonUpgrade" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToBaboonExtension>
+	<GoToEmuExperienceUpgrade parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var startBuilding = Land::getFirstInstanceOfObject(Building::find('TheEmuExperience'));
+                    Script::runOnObjectInstance('MoesArk_Scripts:ShowUpgradableBuildingUI', startBuilding);
+                ]]></Program>
+		</Action>
+	</GoToEmuExperienceUpgrade>
+	<GoToEmuExperienceExtension ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="EmuExperienceExtension1" />
+				<Then>
+					<Action type="pantoobject" building="EmuExperienceExtension1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="EmuExperienceExtension1" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="EmuExperienceExtension1" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:GoToEmuExperienceUpgrade" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToEmuExperienceExtension>
+	<GoToWarmongersUpgrade parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var startBuilding = Land::getFirstInstanceOfObject(Building::find('Warmongers'));
+                    Script::runOnObjectInstance('MoesArk_Scripts:ShowUpgradableBuildingUI', startBuilding);
+                ]]></Program>
+		</Action>
+	</GoToWarmongersUpgrade>
+	<GoToWarmongersExtension ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="WarmongersExtension1" />
+				<Then>
+					<Action type="pantoobject" building="WarmongersExtension1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="WarmongersExtension1" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="WarmongersExtension1" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:GoToWarmongersUpgrade" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToWarmongersExtension>
+	<GoToBigCatCountryUpgrade parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var startBuilding = Land::getFirstInstanceOfObject(Building::find('BigCatCountry'));
+                    Script::runOnObjectInstance('MoesArk_Scripts:ShowUpgradableBuildingUI', startBuilding);
+                ]]></Program>
+		</Action>
+	</GoToBigCatCountryUpgrade>
+	<GoToBigCatCountryExtension ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="BigCatCountryModular1" />
+				<Then>
+					<Action type="pantoobject" building="BigCatCountryModular1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="BigCatCountryModular1" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="BigCatCountryModular1" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:GoToBigCatCountryUpgrade" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToBigCatCountryExtension>
+	<GoToGreatPlainsUpgrade parallel="true" runQueueState="RunInAnyState">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var startBuilding = Land::getFirstInstanceOfObject(Building::find('GreatPlains'));
+                    Script::runOnObjectInstance('MoesArk_Scripts:ShowUpgradableBuildingUI', startBuilding);
+                ]]></Program>
+		</Action>
+	</GoToGreatPlainsUpgrade>
+	<GoToGreatPlainsExtension ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="GreatPlainsModular1" />
+				<Then>
+					<Action type="pantoobject" building="GreatPlainsModular1" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="GreatPlainsModular1" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="GreatPlainsModular1" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MoesArk_Scripts:GoToGreatPlainsUpgrade" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToGreatPlainsExtension>
+	<BuildAZoo_EndScript>
+		<Action type="setVariable" intVariable="MoesArk_CraftingQuest_NextStartTime" intValue="serverTime(0) + ConfigValue('__MoesArk_GameConfig:CraftingQuest:StartTimeDelay__')" />
+	</BuildAZoo_EndScript>
+	<GoTo_Tappables ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="#program;       if(User::getVariable('BankedZooVisitors') &gt; 0)       {       return false;       }       else       {       var character = Character::find('ZooVisitor');       var characterInstanceList = Land::getAllInstancesOfObject(character);       foreach(characterInstanceList as instance)       {       if(!Object::getDelete(instance))       {       return false;       }       }       }       return true;">
+						<Then>
+							<Action type="hudTip" text="UI_MoesArk_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="pantoobject" time="0" character="ZooVisitor" flagsToAvoid="delete" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Tappables>
+	<GoTo_Prestige ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="#program;                         if(User::getVariable('BankedZooVisitors') &gt; 0)                         {                         return true;                         }                         else                         {                         var character = Character::find('ZooVisitor');                         var characterInstanceList = Land::getAllInstancesOfObject(character);                         foreach(characterInstanceList as instance)                         {                         if(!Object::getDelete(instance))                         {                         return true;                         }                         }                         }                         return false;">
+						<Then>
+							<Action type="pantoobject" time="0" character="ZooVisitor" flagsToAvoid="delete" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="reqList" location="MoesArk_Requirements:HasSpringfieldZooEntranceJobsAvailable" />
+						</Requirements>
+						<Then>
+							<Action type="pantoobject" building="SpringfieldZooEntrance" fakeTouch="false" time="0" />
+							<Action type="gotoState" state="GameState_BuildingSelected">
+								<Extras>
+									<Attribute name="BuildingName" value="SpringfieldZooEntrance" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirements>
+							<Requirement type="reqList" location="MoesArk_Requirements:Tappables_Unlocked" />
+							<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+						</Requirements>
+						<Then>
+							<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+						</Then>
+					</ElseIf>
+					<Else>
+						<Then>
+							<Action type="hudTip" text="UI_MoesArk_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Prestige>
+	<SpawnFullHudTip>
+		<Action type="hudTip" text="UI_MoesArk_TownFull" time="3s" queue="true" waitForHUD="true" />
+	</SpawnFullHudTip>
+	<TappableTapped parallel="true" cache="true">
+		<Action type="runScriptOnAll" character="ZooVisitor" in_radius="5" radius_delay="0.3" script="MoesArk_Scripts:Tappable_Tapped_Single" />
+		<Action type="actionSequence" script="MoesArk_Scripts:Tappable_Tapped_Single" />
+	</TappableTapped>
+	<Tappable_Tapped_Single parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0" asObjectExpression="true">
+				<Then>
+					<Action type="setObjectVariable" variable="TAPPED" value="1" allowOrphan="false" asExpression="true" />
+					<Action type="actionSequence" script="MoesArk_Scripts:Tappable_Reward" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="runScript" script="MoesArk_Scripts:Tappable_AnimateAndDie_Single" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_Tapped_Single>
+	<TappableInvasiveToad_AnimateAndDie_Single parallel="true" cache="true">
+		<Action type="sound" sound="InvasiveToad_Tap" />
+		<Action type="stop" character="InvasiveToad" />
+		<Action type="playanimation" character="InvasiveToad" animation="Squish" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="MoesArk_Requirements:SocialActions_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="removetimedcharacter" script="FriendHasTappedInvasiveToad" package="MoesArk_Scripts" character="InvasiveToad" event="204000" />
+			</True>
+		</Action>
+	</TappableInvasiveToad_AnimateAndDie_Single>
+	<Tappable_AnimateAndDie_Single parallel="true" cache="true">
+		<Action type="sound" sound="ZooVisitor_Tap" />
+		<Action type="anim-play" character="ZooVisitor" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="ZooVisitor" />
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="active quest" quest="MoesArk_DCS_ClearZooVisitors" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="MoesArk_DCS_ZooVisitors" intValue="MoesArk_DCS_ZooVisitors+1" />
+			</True>
+		</Action>
+		<Action type="if">
+			<If expression="#program;     if(User::getVariable('BankedZooVisitors') &gt; 0)     {     return false;     }     else     {     var character = Character::find('ZooVisitor');     var characterInstanceList = Land::getAllInstancesOfObject(character);     foreach(characterInstanceList as instance)     {     if(!Object::getDelete(instance))     {     return false;     }     }     }     return true;">
+				<Then>
+					<Action type="hudTip" text="UI_MoesArk_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+				</Then>
+			</If>
+		</Action>
+	</Tappable_AnimateAndDie_Single>
+	<Tappable_Reward parallel="true" cache="true">
+		<Action type="reward" save="true" MoesArk_ActivePrizeTrackCurrency="__MoesArk_GameConfig:TappablePrizeReward:Amount__" chance="__MoesArk_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" MoesArk_CraftingCurrency="__MoesArk_GameConfig:TappableCraftReward:Amount__" chance="__MoesArk_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" MoesArk_SocialCurrency="__MoesArk_BalanceConfig:Tappables:Award_Social1__" chance="__MoesArk_BalanceConfig:Tappables:DropChance_Social__" chanceType="s" suppress_sound="true" />
+		<Action type="setVariable" intVariable="ZooVisitors_Tapped" intValue="ZooVisitors_Tapped+1" />
+	</Tappable_Reward>
+	<Tappable_Crowd cache="true" parallel="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+					var habitatList = Array::create();
+					
+					if(System::evaluate('Building::TheEmuExperience::LandCount')>0)
+					{
+					Array::pushBack(habitatList,'TheEmuExperience');
+					}
+					
+					if(System::evaluate('Building::BigCatCountry::LandCount')>0)
+					{
+					Array::pushBack(habitatList,'BigCatCountry');
+					}
+					
+					if(System::evaluate('Building::BaboonCountyUSA::LandCount')>0)
+					{
+					Array::pushBack(habitatList,'BaboonCountyUSA');
+					}
+					
+					if(System::evaluate('Building::GreatPlains::LandCount')>0)
+					{
+					Array::pushBack(habitatList,'GreatPlains');
+					}
+					
+					if(System::evaluate('Building::Warmongers::LandCount')>0)
+					{
+					Array::pushBack(habitatList,'Warmongers');
+					}
+					
+					var habitatListSize= Array::size(habitatList);
+					if(habitatListSize == 0)
+					{
+					 Script::runOnObjectInstance('MoesArk_Scripts:Orbit_Nothing', Script::getObjectInstance());
+					}
+					else
+					{
+						var habitat = Array::getValueAtIndex(habitatList, rand(habitatListSize));
+						var habitatScript='MoesArk_Scripts:Orbit_'+ toString(habitat);
+						Script::runOnObjectInstance(habitatScript, Script::getObjectInstance());
+					}
+
+				]]></Program>
+		</Action>
+	</Tappable_Crowd>
+	<Orbit_Nothing>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" />
+		</Action>
+	</Orbit_Nothing>
+	<Orbit_Warmongers>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="Warmongers" orbitBuildingNameRandomInstance="true" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+		</Action>
+	</Orbit_Warmongers>
+	<Orbit_GreatPlains>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="GreatPlains" orbitBuildingNameRandomInstance="true" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+		</Action>
+	</Orbit_GreatPlains>
+	<Orbit_BaboonCountyUSA>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="BaboonCountyUSA" orbitBuildingNameRandomInstance="true" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+		</Action>
+	</Orbit_BaboonCountyUSA>
+	<Orbit_BigCatCountry>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="BigCatCountry" orbitBuildingNameRandomInstance="true" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+		</Action>
+	</Orbit_BigCatCountry>
+	<Orbit_TheEmuExperience>
+		<Action type="setMovementBehavior">
+			<MovementBehavior mode="RandomRelaxed" startState="AtLocation" orbitBuildingName="TheEmuExperience" orbitBuildingNameRandomInstance="true" orbitMaxDistance="10" faceOrbitBuilding="true" orbitFrontDoor="false" randomOrbitMaxOffset="5" />
+		</Action>
+	</Orbit_TheEmuExperience>
+	<Tappable_RefreshCrowdLocations>
+		<Action type="runScriptOnAll" character="ZooVisitor" script="MoesArk_Scripts:Tappable_Crowd" />
+	</Tappable_RefreshCrowdLocations>
+	<HabitatBuildingPlacedEventOverride>
+		<Action type="runScriptOnAll" character="ZooVisitor" script="MoesArk_Scripts:Tappable_Crowd" />
+		<Action type="runScript" script="MoesArk_Scripts:HabitatBuildingPlaced" />
+	</HabitatBuildingPlacedEventOverride>
+	<TheEmuExperienceBuildingPlacedEventOverride>
+		<Action type="runScriptOnAll" character="ZooVisitor" script="MoesArk_Scripts:Tappable_Crowd" />
+		<Action type="runScript" script="MoesArk_Scripts:TheEmuExperienceBuildingPlaced" />
+	</TheEmuExperienceBuildingPlacedEventOverride>
+	<SpawnFriendTappables>
+		<Action type="if">
+			<If>
+				<Requirements>
+					<Requirement type="friendlevel" level="15" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="ZooVisitor" count="40" save="true" panCamera="false" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="10" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="ZooVisitor" count="30" save="true" panCamera="false" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirements>
+					<Requirement type="friendlevel" level="5" />
+				</Requirements>
+				<Then>
+					<Action type="createobject" name="ZooVisitor" count="20" save="true" panCamera="false" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</SpawnFriendTappables>
+	<TappableTapped_Friend>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="setVariable" intVariable="ZooVisitors_Tapped_Friend" intValue="ZooVisitors_Tapped_Friend+1" />
+				<Action type="actionSequence" script="MoesArk_Scripts:Tappable_Reward_Friend" />
+				<Action type="friendActionPerformed" />
+				<Action type="runScript" script="MoesArk_Scripts:Tappable_AnimateAndDie_Friend" />
+			</True>
+		</Action>
+	</TappableTapped_Friend>
+	<Tappable_AnimateAndDie_Friend parallel="true" cache="true">
+		<Action type="sound" sound="ZooVisitor_Tap" />
+		<Action type="stop" />
+		<Action type="anim-play" character="ZooVisitor" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" character="ZooVisitor" />
+	</Tappable_AnimateAndDie_Friend>
+	<Tappable_Reward_Friend parallel="true" cache="true">
+		<Action type="reward" save="true" MoesArk_ActivePrizeTrackCurrency="selector MoesArk_PTCurrencyPerFriendAction" chance="__MoesArk_BalanceConfig:Tappables:DropChance_PTCurrency__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" MoesArk_CraftingCurrency="selector MoesArk_CraftingCurrencyPerFriendAction" chance="__MoesArk_BalanceConfig:Tappables:DropChance_Craft1__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" MoesArk_SocialCurrency="selector MoesArk_SocialCurrencyPerFriendAction" chance="__MoesArk_BalanceConfig:Tappables:DropChance_Social__" chanceType="s" suppress_sound="true" />
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</Tappable_Reward_Friend>
+	<SocialLicensePurchased>
+		<Action type="setVariable" boolVariable="MoesArk_SocialUpgrade_Purchased" boolValue="true" />
+		<Action type="notification" icon="ICO_STOR_MoesArk_License_Popup" title="CON_MoesArk_SocialLicense_name" text="CON_MoesArk_SocialLicense_desc" button="UI_OK" />
+	</SocialLicensePurchased>
+	<SanctuaryGrantsPurchased500>
+		<Action type="reward" save="true" MoesArk_CraftingCurrency="500" />
+		<Action type="notification" icon="ICO_MoesArk_CraftingCurrencyPackSmall" title="CON_MoesArk_CraftingCurrencyBundle_name" text="UI_MoesArk_CraftingCurrencyBundlePurchased300" button="UI_OK" />
+	</SanctuaryGrantsPurchased500>
+	<SanctuaryGrantsPurchased3000>
+		<Action type="reward" save="true" MoesArk_CraftingCurrency="3000" />
+		<Action type="notification" icon="ICO_MoesArk_CraftingCurrencyPackMedium" title="CON_MoesArk_CraftingCurrencyBundle2_name" text="UI_MoesArk_CraftingCurrencyBundlePurchased2500" button="UI_OK" />
+	</SanctuaryGrantsPurchased3000>
+	<SanctuaryGrantsPurchased10000>
+		<Action type="reward" save="true" MoesArk_CraftingCurrency="10000" />
+		<Action type="notification" icon="ICO_MoesArk_CraftingCurrencyPackLarge" title="CON_MoesArk_CraftingCurrencyBundle3_name" text="UI_MoesArk_CraftingCurrencyBundlePurchased5000" button="UI_OK" />
+	</SanctuaryGrantsPurchased10000>
+	<FriendsHUDInfo ignoreHUD="true" parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="MoesArk_UpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="MoesArk_Scripts:FriendsHUDInfoAux" />
+	</FriendsHUDInfo>
+	<FriendsHUDInfoAux ignoreHUD="true" parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="MoesArk_Requirements:ActOne" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_MoesArk_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_MoesArk_PT1" icon="ICO_CUR_MoesArk_Act1Currency_LG">
+							<Variable name="MoesArk_Act1PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="MoesArk_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_MoesArk_Act1PrizeTrackCurrency_Plural" button="UI_OK" text="UI_MoesArk_OutOfFriendActions_PT1" icon="ICO_CUR_MoesArk_Act1Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="MoesArk_Requirements:ActTwo" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_MoesArk_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_MoesArk_PT2" icon="ICO_CUR_MoesArk_Act2Currency_LG">
+							<Variable name="MoesArk_Act2PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="MoesArk_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_MoesArk_Act2PrizeTrackCurrency_Plural" button="UI_OK" text="UI_MoesArk_OutOfFriendActions_PT2" icon="ICO_CUR_MoesArk_Act2Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="MoesArk_Requirements:ActThree" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="30" not="true" />
+					<True>
+						<Action type="notification" title="RES_MoesArk_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="GEN_ResourceListing_MoesArk_PT3" icon="ICO_CUR_MoesArk_Act3Currency_LG">
+							<Variable name="MoesArk_Act3PrizeTrackCurrency_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="MoesArk_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_MoesArk_Act3PrizeTrackCurrency_Plural" button="UI_OK" text="UI_MoesArk_OutOfFriendActions_PT3" icon="ICO_CUR_MoesArk_Act3Currency_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</FriendsHUDInfoAux>
+	<SpawnLocalSocialTappable>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="MoesArk_Requirements:SocialActions_Unlocked" />
+			<True>
+				<Action type="addlocaltimedcharacter" character="InvasiveToad" event="204000" />
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="config" key="MoesArk_GameConfig:Enable:FriendDeployedInvasiveToad" value="1" />
+					</Requirements>
+					<True>
+						<Action type="sendPeerNotification" blueprint="FriendDeployedInvasiveToad" />
+					</True>
+				</Action>
+				<Action type="createobject" name="InvasiveToad" count="1" save="false" panCamera="false" showFadeIn="false" teleportCamera="true" />
+			</True>
+		</Action>
+	</SpawnLocalSocialTappable>
+	<SpawnFriendSocialTappable>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="MoesArk_Requirements:SocialActions_Unlocked" />
+			<True>
+				<Action type="addfriendtimedcharacter" character="InvasiveToad" event="204000" />
+			</True>
+		</Action>
+	</SpawnFriendSocialTappable>
+	<OffLineReward>
+		<Action type="gotoState" state="GameState_TappableReward">
+			<Extras>
+				<Attribute name="MenuConfig" value="MoesArk_TappableRewardMenuConfig:MenuConfig" />
+			</Extras>
+		</Action>
+	</OffLineReward>
+	<InvasiveToadTapped parallel="true" cache="true">
+		<Action type="sound" sound="InvasiveToad_Tap" />
+		<Action type="stop" character="InvasiveToad" />
+		<Action type="playanimation" character="InvasiveToad" animation="Squish" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="reqList" location="MoesArk_Requirements:SocialActions_Unlocked" />
+			</Requirements>
+			<True>
+				<Action type="reward" suppress_sound="true" MoesArk_ActivePrizeTrackCurrency="__MoesArk_GameConfig:Tappables:Social_PTCurrency_Amount__" MoesArk_CraftingCurrency="__MoesArk_GameConfig:Tappables:Social_CraftingCurrency_Amount__" />
+				<Action type="removetimedcharacter" script="FriendHasTappedInvasiveToad" package="MoesArk_Scripts" character="InvasiveToad" event="204000" />
+			</True>
+		</Action>
+	</InvasiveToadTapped>
+	<FriendHasTappedInvasiveToad parallel="true" cache="true">
+		<Action type="removefriendstimedcharacter" character="InvasiveToad" event="204000" />
+	</FriendHasTappedInvasiveToad>
+	<AnimalFeedingArea_Start parallel="true">
+		<Action type="if">
+			<If expression="#program;     if(User::getVariable('BankedZooVisitors') &gt; 0)     {     return true;     }     else     {         var character = Character::find('ZooVisitor');         var characterInstanceList = Land::getAllInstancesOfObject(character);         foreach(characterInstanceList as instance)         {         if(!Object::getDelete(instance))             {                 return true;             }         }                     character = Character::find('InvasiveToad');                     characterInstanceList = Land::getAllInstancesOfObject(character);                     foreach(characterInstanceList as instance)                     {                         if(!Object::getDelete(instance))                         {                             return true;                         }                     }     }     return false;">
+				<Then>
+					<Action type="actionSequence" script="MiscScripts:GoToInGameWithSound" />
+					<Action type="setMiniGameState" building="AnimalFeedingArea" name="AnimalFeedingArea" state="Playing" />
+					<Action type="setMiniGameState" building="AnimalFeedingArea" name="AnimalFeedingArea" state="Ready" />
+					<Action type="anim-play" onBuilding="AnimalFeedingArea" animation="ActiveNoLoop" nowait="true" />
+					<Action type="actionSequence" script="MoesArk_Scripts:DestroyAllTappables" />
+					<Action type="runScript" script="MoesArk_Scripts:AnimalFeedingArea_AllTappablesCollected" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MiscScripts:GoToInGameWithSound" />
+					<Action type="runScript" script="MoesArk_Scripts:AnimalFeedingArea_NoTappables" />
+				</Then>
+			</Else>
+		</Action>
+	</AnimalFeedingArea_Start>
+	<AnimalFeedingArea_AllTappablesCollected>
+		<Action type="hudTip" text="UI_MoesArk_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+	</AnimalFeedingArea_AllTappablesCollected>
+	<AnimalFeedingArea_NoTappables>
+		<Action type="message" text="UI_MoesArk_NoTappables" />
+	</AnimalFeedingArea_NoTappables>
+	<AnimalFeedingArea_Rush parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="rushMinigame" minigame="AnimalFeedingArea" />
+	</AnimalFeedingArea_Rush>
+	<DestroyAllTappables parallel="true">
+		<Action type="anim-play" onBuilding="AnimalFeedingArea" animation="Tap" nowait="true" />
+		<Action type="delay" time="0.75" />
+		<Action type="program">
+			<Program><![CDATA[#program;
+					var prizeCurrencyChance = toDouble(System::getConfigValue('__MoesArk_BalanceConfig:Tappables:DropChance_PTCurrency__')) * 100;
+					var craftCurrencyChance = toDouble(System::getConfigValue('__MoesArk_BalanceConfig:Tappables:DropChance_Craft1__')) * 100;
+                    var socialCurrencyChance = toDouble(System::getConfigValue('__MoesArk_BalanceConfig:Tappables:DropChance_Social__')) * 100;
+					var prizeCurrencyPerTappable = toDouble(System::getConfigValue('__MoesArk_GameConfig:TappablePrizeReward:Amount__'));
+                    var craftingCurrencyPerTappable = toDouble(System::getConfigValue('__MoesArk_GameConfig:TappableCraftReward:Amount__'));
+                    var socialCurrencyPerTappable = toDouble(System::getConfigValue('__MoesArk_GameConfig:TappableSocialReward:Amount__'));
+					var prizeCurrencyTotal = 0;
+                    var craftCurrencyTotal = 0;
+                    var socialCurrencyTotal = 0;
+					var numTapped = 0;
+					
+					var character = Character::find('ZooVisitor');
+					var characterInstanceList = Land::getAllInstancesOfObject(character);
+					foreach(characterInstanceList as instance)
+					{
+                        if( !Object::getDelete(instance) && Object::getVariable(instance, 'TAPPED')!=1)
+                        {
+                            numTapped++;
+                            if (rand(100) <= prizeCurrencyChance)
+                            {
+                                prizeCurrencyTotal += prizeCurrencyPerTappable;
+                            }
+                            if (rand(100) <= craftCurrencyChance)
+                            {
+                                craftCurrencyTotal += craftingCurrencyPerTappable;
+                            }
+                            if (rand(100) <= socialCurrencyChance)
+                            {
+                                socialCurrencyTotal += socialCurrencyPerTappable;
+                            }
+                            Object::setVariable(instance, 'TAPPED', '1', 0, false);
+                            Object::setDelete(instance, true);
+                        
+                            Script::runOnObjectInstance('MoesArk_Scripts:Tappable_AnimateAndDie_Single', instance);
+                        }
+					}
+
+                    character = Character::find('InvasiveToad');
+                    characterInstanceList = Land::getAllInstancesOfObject(character);
+                    foreach(characterInstanceList as instance)
+                    {
+                        if( !Object::getDelete(instance) && Object::getVariable(instance, 'TAPPED')!=1)
+                        {
+                            numTapped++;
+                            if (rand(100) <= prizeCurrencyChance)
+                            {
+                                prizeCurrencyTotal += prizeCurrencyPerTappable;
+                            }
+                            if (rand(100) <= craftCurrencyChance)
+                            {
+                                craftCurrencyTotal += craftingCurrencyPerTappable;
+                            }
+                        
+                            Object::setVariable(instance, 'TAPPED', '1', 0, false);
+                            Object::setDelete(instance, true);
+                        
+                            Script::runOnObjectInstance('MoesArk_Scripts:TappableInvasiveToad_AnimateAndDie_Single', instance);
+                        }
+                    }
+
+					var bankedTappables = User::getVariable('BankedZooVisitors');
+					while( bankedTappables > 0 )
+					{
+                        bankedTappables -= 1;
+                        numTapped++;
+                        if (rand(100) <= prizeCurrencyChance)
+                        {
+                            prizeCurrencyTotal += prizeCurrencyPerTappable;
+                        }
+                        if (rand(100) <= craftCurrencyChance)
+                        {
+                            craftCurrencyTotal += craftingCurrencyPerTappable;
+                        }
+                        if (rand(100) <= socialCurrencyChance)
+                        {
+                            socialCurrencyTotal += socialCurrencyPerTappable;
+                        }
+					}
+					User::setVariable('BankedZooVisitors', 0, true);
+					User::setVariable('ZooVisitors_Tapped', User::getVariable('ZooVisitors_Tapped') + numTapped, true);
+					
+					Global::setVariable('MoesArk_TappableAnimalFeedingArea_EventCurrency', prizeCurrencyTotal);
+					Global::setVariable('MoesArk_TappableAnimalFeedingArea_CraftCurrency', craftCurrencyTotal);
+                    Global::setVariable('MoesArk_TappableAnimalFeedingArea_SocialCurrency', socialCurrencyTotal);
+
+				]]></Program>
+		</Action>
+		<Action type="runScript" script="MoesArk_Scripts:DialogueAndReward" />
+	</DestroyAllTappables>
+	<DialogueAndReward>
+		<Action type="playflyby" centerOnObject="true" flybyName="BlastEffect" radius="15" unitScale="0.13" playbackFPS="18">
+			<Objects>
+				<ObjectByName name="AnimalFeedingArea" />
+			</Objects>
+		</Action>
+		<Action type="actionSequence" script="MoesArk_Scripts_Dialogue:WeStoleAZoo_5_Obj_2_Completed" waitUntilComplete="true" />
+		<Action type="runActionSequenceOnAll" building="AnimalFeedingArea" script="MoesArk_Scripts:DestroyAllTappables_RewardOnBuilding" />
+	</DialogueAndReward>
+	<DestroyAllTappables_RewardOnBuilding>
+		<Action type="reward" save="true" MoesArk_ActivePrizeTrackCurrency="Global::getVariable('MoesArk_TappableAnimalFeedingArea_EventCurrency')" suppress_sound="true" />
+		<Action type="reward" save="true" MoesArk_CraftingCurrency="Global::getVariable('MoesArk_TappableAnimalFeedingArea_CraftCurrency')" suppress_sound="true" />
+		<Action type="reward" save="true" MoesArk_SocialCurrency="Global::getVariable('MoesArk_TappableAnimalFeedingArea_SocialCurrency')" suppress_sound="true" />
+	</DestroyAllTappables_RewardOnBuilding>
+	<AnimalFeedingArea_DecorationTapped_SingleTap parallel="true" ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="time" start="MoesArk_EndDate" />
+			<True>
+				<Action type="anim-play" animation="Tap" nowait="true" />
+			</True>
+		</Action>
+	</AnimalFeedingArea_DecorationTapped_SingleTap>
+	<DCS_Reset_Tappables>
+		<Action type="updateVariable" variable="MoesArk_DCS_ZooVisitors" value="0" />
+	</DCS_Reset_Tappables>
+	<GetMoreCraftingCurrency>
+		<Action type="if">
+			<If expression="#program;                 if(User::getVariable('BankedZooVisitors') &gt; 0)                 {                     return true;                 }                 else                 {                     var character = Character::find('ZooVisitor');                     var characterInstanceList = Land::getAllInstancesOfObject(character);                     foreach(characterInstanceList as instance)                     {                         if(!Object::getDelete(instance))                         {                             return true;                         }                     }                 }                 return false;">
+				<Then>
+					<Action type="pantoobject" time="0" character="ZooVisitor" flagsToAvoid="delete" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+				</Then>
+			</Else>
+		</Action>
+	</GetMoreCraftingCurrency>
+	<GoToBrittanyBrockman>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="BrittanyBrockman" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="BrittanyBrockman" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="MoesArk_Event" />
+								<Attribute name="prizeListIndex" value="0" />
+								<Attribute name="selectPrize" value="6" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBrittanyBrockman>
+	<GoToTRex>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="TRex" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="TRex" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="MoesArk_Event" />
+								<Attribute name="prizeListIndex" value="1" />
+								<Attribute name="selectPrize" value="6" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToTRex>
+	<GoToTeenageHomer>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="TeenageHomer" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="TeenageHomer" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="MoesArk_Event" />
+								<Attribute name="prizeListIndex" value="2" />
+								<Attribute name="selectPrize" value="6" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToTeenageHomer>
+	<GoToMadDrHibbert>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="MadDrHibbert" checkInventoryOnly="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="MadDrHibbert" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="MoesArk_Event" />
+								<Attribute name="prizeListIndex" value="2" />
+								<Attribute name="selectPrize" value="3" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMadDrHibbert>
+	<GoToBigCatCountry_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="BigCatCountry" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="BigCatCountry" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="MoesArk_Event" />
+								<Attribute name="prizeListIndex" value="0" />
+								<Attribute name="selectPrize" value="4" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBigCatCountry_PrizeTrack>
+	<GoToSlimu_PrizeTrack>
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="SlimuAuditorium" />
+				<Then>
+					<Action type="pantoobject" building="SlimuAuditorium" fakeTouch="false" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="item" item="SlimuAuditorium" checkInventoryOnly="true" />
+				<Then>
+					<Action type="focusOnMenuItem" itemName="SlimuAuditorium" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+					<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+						<Extras>
+							<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+							<Attribute name="specialEvent" value="MoesArk_Event" />
+							<Attribute name="prizeListIndex" value="1" />
+							<Attribute name="selectPrize" value="2" />
+							<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+						</Extras>
+					</Action>
+					<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToSlimu_PrizeTrack>
+	<GoToGreatPlains_PrizeTrack>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="GreatPlains" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="GreatPlains" inventory="true" />
+					</True>
+					<False>
+						<Action type="updateVariable" variable="MoesArk_EventHubTabValue" value="0" />
+						<Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true">
+							<Extras>
+								<Attribute name="helpButtonScript" value="MoesArk_Scripts:GuidePanel_Event" />
+								<Attribute name="specialEvent" value="MoesArk_Event" />
+								<Attribute name="prizeListIndex" value="1" />
+								<Attribute name="selectPrize" value="4" />
+								<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+							</Extras>
+						</Action>
+						<Action type="markBadgeViewed" badgeName="MoesArk_PrizeTrackBadge" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToGreatPlains_PrizeTrack>
+	<Prestige_Act1>
+		<Action type="reward">
+			<Item type="consumable" name="MoesArk_Prestige_Act1" useImmediately="true" />
+		</Action>
+	</Prestige_Act1>
+	<Prestige_Act2>
+		<Action type="reward">
+			<Item type="consumable" name="MoesArk_Prestige_Act2" useImmediately="true" />
+		</Action>
+	</Prestige_Act2>
+	<Prestige_Act3>
+		<Action type="reward">
+			<Item type="consumable" name="MoesArk_Prestige_Act3" useImmediately="true" />
+		</Action>
+	</Prestige_Act3>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="MoesArk_ThreePanel" />
+		<Action type="recommendation" recType="Event" name="MoesArk_ThreePanel" eventName="UI_MoesArk_Title" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<RecommendStoreOnePanel ignoreHUD="true">
+		<Action type="clearRecommendations" category="Event" name="MoesArk_ThreePanel" />
+		<Action type="clearRecommendations" category="Event" name="MoesArk_OnePanel" />
+		<Action type="recommendation" recType="Event" name="MoesArk_OnePanel" eventName="UI_MoesArk_Title" limitedTime="true" limitedTimeEndDate="MoesArk_EndDate" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreOnePanel>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="MoesArk_Category" />
+	</EnterStoreCategory>
+	<RecommendRoshHashanahStoreCategory>
+		<Action type="recommendation" recType="Event" name="RoshHashanah_OnePanel" eventName="UI_RoshHashanah_Title" limitedTime="true" limitedTimeEndDate="RoshHashanah2018_EndDate" />
+		<Action type="notificationLarge" title="UI_RoshHashanah_Title" text="UI_MoesArk_RoshHashanah_Notification_Desc" icon="ICO_PRIZ_MoesArk_RoshHashanah2018_LG" button="UI_OK" />
+		<Action type="reward" donuts="10" />
+		<Action type="focusOnMenuItem" menuCategory="RoshHashanah_Category" />
+		<Action type="reparseBuildMenu" />
+	</RecommendRoshHashanahStoreCategory>
+	<EnterRoshHashanahStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="RoshHashanah_Category" />
+	</EnterRoshHashanahStoreCategory>
+	<StoreNotification_BigBugHouse>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="BigBugHouse" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_BigBugHouse_name" text="BLD_BigBugHouse_upsell_desc" icon="ICO_PRIZ_MoesArk_BigBugHouse_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="BigBugHouse" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_BigBugHouse>
+	<StoreNotification_DuffMcSharkTank>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="DuffMcSharkTank" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_DuffMcSharkTank_name" text="BLD_DuffMcSharkTank_upsell_desc" icon="ICO_PRIZ_MoesArk_DuffMcSharkTank_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="DuffMcSharkTank" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_DuffMcSharkTank>
+	<StoreNotification_TaylorHouse>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TaylorHouse" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TaylorHouse_name" text="BLD_TaylorHouse_upsell_desc" icon="ICO_PRIZ_MoesArk_TaylorHouse_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TaylorHouse" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TaylorHouse>
+	<StoreNotification_PinkbeardyYogurt>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="PinkbeardyYogurt" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PinkbeardyYogurt_name" text="BLD_PinkbeardyYogurt_upsell_desc" icon="ICO_PRIZ_MoesArk_PinkbeardyYogurt_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PinkbeardyYogurt" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_PinkbeardyYogurt>
+	<StoreNotification_ChimpRefuge>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="ChimpRefuge" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_ChimpRefuge_name" text="BLD_ChimpRefuge_upsell_desc" icon="ICO_PRIZ_MoesArk_ChimpRefuge_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="ChimpRefuge" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_ChimpRefuge>
+	<StoreNotification_Atlantis>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="Atlantis" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_Atlantis_name" text="BLD_Atlantis_upsell_desc" icon="ICO_PRIZ_MoesArk_Atlantis_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="Atlantis" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_Atlantis>
+	<StoreNotification_CrockyWaters>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="CrockyWaters" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_CrockyWaters_name" text="BLD_CrockyWaters_upsell_desc" icon="ICO_PRIZ_MoesArk_CrockyWaters_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="CrockyWaters" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CrockyWaters>
+	<StoreNotification_ThreeEyedWhale>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="ThreeEyedWhale" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_ThreeEyedWhale_name" text="BLD_ThreeEyedWhale_upsell_desc" icon="ICO_PRIZ_MoesArk_ThreeEyedWhale_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="ThreeEyedWhale" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_ThreeEyedWhale>
+	<StoreNotification_WormTrain>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="WormTrain" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_WormTrain_name" text="BLD_WormTrain_upsell_desc" icon="ICO_PRIZ_MoesArk_WormTrain_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="WormTrain" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_WormTrain>
+	<StoreNotification_GiantLobsterScorpion>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="GiantLobsterScorpion" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_GiantLobsterScorpion_name" text="BLD_GiantLobsterScorpion_upsell_desc" icon="ICO_PRIZ_MoesArk_GiantLobsterScorpion_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="GiantLobsterScorpion" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_GiantLobsterScorpion>
+	<StoreNotification_TowerofBabel>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TowerOfBabel" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TowerofBabel_name" text="BLD_TowerofBabel_upsell_desc" icon="ICO_PRIZ_MoesArk_TowerofBabel_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TowerOfBabel" menuCategory="MoesArk_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TowerofBabel>
+	<StoreNotification_LastChance>
+		<Action type="reparseBuildMenu" />
+		<Action type="notificationLarge" title="UI_MoesArk_LastChance_Notification_Title" text="UI_MoesArk_LastChance_Notification_Desc" icon="ICO_PRIZ_MoesArk_LastChanceSale_LG" button="UI_OK" />
+		<Action type="focusOnMenuItem" menuCategory="MoesArk_Category" />
+	</StoreNotification_LastChance>
+	<StoreNotification_ButterflyMaggie>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="MoesArk_Requirements:ButterflyMaggie_Available" />
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="CHA_ButterflyMaggie_name" text="CHA_ButterflyMaggie_upsell_desc" icon="ICO_STOR_Single_MoesArk_MaggieBundle" button="UI_OK" />
+				<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="300" />
+			</True>
+		</Action>
+	</StoreNotification_ButterflyMaggie>
+	<GoToBigCatCountry>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="BigCatCountry" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="BigCatCountry" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="BigCatCountry" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBigCatCountry>
+	<GoToGreatPlains>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="GreatPlains" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="GreatPlains" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="GreatPlains" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToGreatPlains>
+	<GoToTheEmuExperience>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="TheEmuExperience" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="TheEmuExperience" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="TheEmuExperience" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToTheEmuExperience>
+	<GoToBaboonCountyUSA>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="BaboonCountyUSA" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="BaboonCountyUSA" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="BaboonCountyUSA" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToBaboonCountyUSA>
+	<GoToWarmongers>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="Warmongers" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="Warmongers" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="Warmongers" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToWarmongers>
+	<GoToThreeEyedWhale>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="ThreeEyedWhale" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="ThreeEyedWhale" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="ThreeEyedWhale" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToThreeEyedWhale>
+	<GoToGiantLobsterScorpion>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="GiantLobsterScorpion" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="GiantLobsterScorpion" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="GiantLobsterScorpion" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToGiantLobsterScorpion>
+	<GoToSquidAndSailor>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="SquidAndSailor" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="SquidAndSailor" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="SquidAndSailor" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToSquidAndSailor>
+	<GoToChickenPulledChariot>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="ChickenPulledChariot" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="ChickenPulledChariot" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="ChickenPulledChariot" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToChickenPulledChariot>
+	<GoToFlyingBrachiosaurus>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="FlyingBrachiosaurus" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="FlyingBrachiosaurus" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="FlyingBrachiosaurus" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToFlyingBrachiosaurus>
+	<GoToDuffMcSharkTank>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="DuffMcSharkTank" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="DuffMcSharkTank" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="DuffMcSharkTank" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToDuffMcSharkTank>
+	<GoToPurchaseSpringfieldZooEntrance ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="place building" building="SpringfieldZooEntrance" />
+				<Then>
+					<Action type="pantoobject" building="SpringfieldZooEntrance" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="building owned" building="SpringfieldZooEntrance" />
+				<Then>
+					<Action type="focusOnMenuItem" menuCategory="Decorations" itemName="SpringfieldZooEntrance" inventory="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="focusOnMenuItem" itemName="SpringfieldZooEntranceLandUnlock" />
+				</Then>
+			</Else>
+		</Action>
+	</GoToPurchaseSpringfieldZooEntrance>
+	<GoTo_EmuExperienceJobList>
+		<Action type="pantoobject" time="0" building="SpringfieldZooEntrance" fakeTouch="false" />
+		<Action type="sound" sound="Habitat_Button" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="#program;                 var habitatBuilding = Land::getFirstInstanceOfObject(Building::find('TheEmuExperience'));                 if(isNULL(habitatBuilding))                 {                     return false;                 }                 return true;" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="MoesArk_MenuConfig:VolunteerJobList_EmuExperience" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="TheEmuExperience" inventory="true" />
+			</False>
+		</Action>
+	</GoTo_EmuExperienceJobList>
+	<GoTo_BigCatCountryJobList>
+		<Action type="pantoobject" time="0" building="SpringfieldZooEntrance" fakeTouch="false" />
+		<Action type="sound" sound="Habitat_Button" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="#program;                 var habitatBuilding = Land::getFirstInstanceOfObject(Building::find('BigCatCountry'));                 if(isNULL(habitatBuilding))                 {                     return false;                 }                 return true;" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="MoesArk_MenuConfig:VolunteerJobList_BigCatCountry" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="BigCatCountry" inventory="true" />
+			</False>
+		</Action>
+	</GoTo_BigCatCountryJobList>
+	<GoTo_BaboonCountyUSAJobList>
+		<Action type="pantoobject" time="0" building="SpringfieldZooEntrance" fakeTouch="false" />
+		<Action type="sound" sound="Habitat_Button" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="#program;                 var habitatBuilding = Land::getFirstInstanceOfObject(Building::find('BaboonCountyUSA'));                 if(isNULL(habitatBuilding))                 {                     return false;                 }                 return true;" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="MoesArk_MenuConfig:VolunteerJobList_BaboonCountyUSAJob" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="BaboonCountyUSA" inventory="true" />
+			</False>
+		</Action>
+	</GoTo_BaboonCountyUSAJobList>
+	<GoTo_GreatPlainsJobList>
+		<Action type="pantoobject" time="0" building="SpringfieldZooEntrance" fakeTouch="false" />
+		<Action type="sound" sound="Habitat_Button" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="#program;                 var habitatBuilding = Land::getFirstInstanceOfObject(Building::find('GreatPlains'));                 if(isNULL(habitatBuilding))                 {                     return false;                 }                 return true;" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="MoesArk_MenuConfig:VolunteerJobList_GreatPlainsJob" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="GreatPlains" inventory="true" />
+			</False>
+		</Action>
+	</GoTo_GreatPlainsJobList>
+	<GoTo_WarmongersJobList>
+		<Action type="pantoobject" time="0" building="SpringfieldZooEntrance" fakeTouch="false" />
+		<Action type="sound" sound="Habitat_Button" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="#program;                 var habitatBuilding = Land::getFirstInstanceOfObject(Building::find('Warmongers'));                 if(isNULL(habitatBuilding))                 {                     return false;                 }                 return true;" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="MoesArk_MenuConfig:VolunteerJobList_WarmongersJob" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="Warmongers" inventory="true" />
+			</False>
+		</Action>
+	</GoTo_WarmongersJobList>
+	<TheEmuExperienceBuildingPlaced>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var animalHabitat = Array::getValueForKey(System::script, 'ObjectInstance');
+                    Object::setVariable(animalHabitat, 'Slot1', 2, 0, false);
+                ]]></Program>
+		</Action>
+	</TheEmuExperienceBuildingPlaced>
+	<BigCatCountryHabitatBuildingPlaced>
+		<Action type="actionSequence" script="THOHXXXII_Scripts:BigCatCountryBundleUpgradeCheck" />
+		<Action type="actionSequence" script="MoesArk_Scripts:HabitatBuildingPlacedProgram" />
+	</BigCatCountryHabitatBuildingPlaced>
+	<BaboonCountyHabitatBuildingPlaced>
+		<Action type="actionSequence" script="THOHXXXII_Scripts:BaboonCountyBundleUpgradeCheck" />
+		<Action type="actionSequence" script="MoesArk_Scripts:HabitatBuildingPlacedProgram" />
+	</BaboonCountyHabitatBuildingPlaced>
+	<EmuExperienceHabitatBuildingPlaced>
+		<Action type="actionSequence" script="THOHXXXII_Scripts:EmuExperienceBundleUpgradeCheck" />
+		<Action type="actionSequence" script="MoesArk_Scripts:HabitatBuildingPlacedProgram" />
+	</EmuExperienceHabitatBuildingPlaced>
+	<GreatPlainsHabitatBuildingPlaced>
+		<Action type="actionSequence" script="THOHXXXII_Scripts:GreatPlainsBundleUpgradeCheck" />
+		<Action type="actionSequence" script="MoesArk_Scripts:HabitatBuildingPlacedProgram" />
+	</GreatPlainsHabitatBuildingPlaced>
+	<WarmongersHabitatBuildingPlaced>
+		<Action type="actionSequence" script="THOHXXXII_Scripts:WarmongersBundleUpgradeCheck" />
+		<Action type="actionSequence" script="MoesArk_Scripts:HabitatBuildingPlacedProgram" />
+	</WarmongersHabitatBuildingPlaced>
+	<HabitatBuildingPlacedProgram>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var animalHabitat = Array::getValueForKey(System::script, 'ObjectInstance');
+                    Object::setVariable(animalHabitat, 'Slot1', 1, 0, false);
+                ]]></Program>
+		</Action>
+	</HabitatBuildingPlacedProgram>
+	<VolunteerAtTheEmuExperience_Complete parallel="true">
+		<Action type="logevent" eventId="65001" formatMe="true" param1Type="Enumeration" param1="{Object::Name}" param2Type="Enumeration" param2="TheEmuExperience" />
+	</VolunteerAtTheEmuExperience_Complete>
+	<VolunteerAtBigCatCountry_Complete parallel="true">
+		<Action type="logevent" eventId="65001" formatMe="true" param1Type="Enumeration" param1="{Object::Name}" param2Type="Enumeration" param2="BigCatCountry" />
+	</VolunteerAtBigCatCountry_Complete>
+	<VolunteerAtBaboonCountyUSA_Complete parallel="true">
+		<Action type="logevent" eventId="65001" formatMe="true" param1Type="Enumeration" param1="{Object::Name}" param2Type="Enumeration" param2="BaboonCountyUSA" />
+	</VolunteerAtBaboonCountyUSA_Complete>
+	<VolunteerAtGreatPlains_Complete parallel="true">
+		<Action type="logevent" eventId="65001" formatMe="true" param1Type="Enumeration" param1="{Object::Name}" param2Type="Enumeration" param2="GreatPlains" />
+	</VolunteerAtGreatPlains_Complete>
+	<VolunteerAtWarmongers_Complete parallel="true">
+		<Action type="logevent" eventId="65001" formatMe="true" param1Type="Enumeration" param1="{Object::Name}" param2Type="Enumeration" param2="Warmongers" />
+	</VolunteerAtWarmongers_Complete>
+	<LapsedPlayerKitengeReward>
+		<Action type="notification" title="UI_KitengeReward_Title" button="UI_MiniEvents_OutroPanel_Button" text="UI_KitengeReward_Text" icon="ICO_PRIZ_MoesArk_AfricanTreeResort_MD" />
+		<Action type="rewardWithPlaceStore" attributes="Config_MiniEvents:RewardWithPlaceStore">
+			<Item type="building" name="AfricanTreeResort" />
+		</Action>
+		<Action type="reward" donuts="300" />
+		<Action type="setVariable" intVariable="MoesArk_DonutsRewarded" intValue="1" />
+	</LapsedPlayerKitengeReward>
+	<LapsedPlayerDonutReward>
+		<Action type="reward" donuts="60" />
+		<Action type="setVariable" intVariable="MoesArk_DonutsRewarded" intValue="1" />
+		<Action type="notification" title="UI_MoesArk_DonutReward_Title" button="UI_MiniEvents_OutroPanel_Button" text="UI_DonutGift_Text" icon="DonutBunch_01" />
+	</LapsedPlayerDonutReward>
+	<RecommendTimeTravelingToasterMysteryBox>
+		<Action type="reparseBuildMenu" />
+		<Action type="notificationLarge" title="CON_MoesArk_TimeTravelingToaster_MysteryBox_name" text="CON_MoesArk_TimeTravelingToaster_MysteryBox_upsell_desc" icon="ICO_STOR_Single_MoesArk_TimeTravelToasterBox" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="MoesArk_TimeTravelingToaster_MysteryBox" menuCategory="MoesArk_Category" />
+	</RecommendTimeTravelingToasterMysteryBox>
+	<DisplayFTUCVersionA>
+		<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="2400" />
+	</DisplayFTUCVersionA>
+	<DisplayFTUCVersionB>
+		<Action type="focusOnMenuItem" storeCurrencyType="donuts" storeCurrencyAmount="300" />
+	</DisplayFTUCVersionB>
+	<KrustylandDestroyedRecovery>
+		<Action type="setVariable" intVariable="Krustyland_Destroyed" intValue="1" />
+	</KrustylandDestroyedRecovery>
+	<PetTapped parallel="true">
+		<Action type="anim-play" animation="Tap" />
+	</PetTapped>
+</ScriptPackage>

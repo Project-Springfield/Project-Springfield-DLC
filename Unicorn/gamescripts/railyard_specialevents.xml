@@ -1,0 +1,572 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="155000" name="DilapidatedRailyard_Event" startDate="Railyard_Start" />
+		<DataID id="155001" name="TaskHub_Event" startDate="Railyard_Start" />
+		<DataID id="155002" name="DilapidatedRailyard_RailyardCurrency" startDate="Railyard_Start" />
+		<DataID id="155003" name="DilapidatedRailyard_DilapidatedCurrency" startDate="Railyard_Start" />
+	</MasterList>
+	<SpecialEvent id="155000" name="DilapidatedRailyard_Event">
+		<Variable name="DRailyard_MetalDepotOwned_Not" value="0" />
+		<Variable name="DRailyard_PlasticDepotOwned_Not" value="0" />
+		<Variable name="DRailyard_GlassDepotOwned_Not" value="0" />
+		<Variable name="DRailyard_MonorailStationOwned_Not" value="0" />
+		<Variable name="DRailyard_TetanusStationOwned_Not" value="0" />
+		<Variable name="DRailyard_MallStationOwned_Not" value="0" />
+		<Variable name="Monorail_ProjectsComplete" value="0" />
+		<Variable name="EventHubTabValue" value="2" owner="0" />
+		<Variable name="Railyard_ResourceJob_Available" value="0" />
+		<Variable name="Railyard_ResourceJob_Done" value="0" />
+		<Variable name="RailYard_Active" value="true" />
+		<Variable name="RailYardTab_Active" value="true" />
+		<Badges>
+			<Badge name="FindBuilding">
+				<Condition variable="Railyard_ResourceJob_Available" repeatable="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="reqList" location="Monorail_Config:ShowDumpBadge_Available" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="MetalResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowMetalBadge_Available" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="PlasticResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowPlasticBadge_Available" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="GlassResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowGlassBadge_Available" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+				<Condition variable="Railyard_ResourceJob_Done" repeatable="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="reqList" location="Monorail_Config:ShowDumpBadge_Done" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="MetalResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowMetalBadge_Done" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="PlasticResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowPlasticBadge_Done" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="GlassResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowGlassBadge_Done" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+		<EventHub menuConfig="Railyard_Config:EventHub" generalHub="false">
+			<Tabs>
+				<Tab name="Tab_DailyChallenge" icon="ICO_MHUD_DailyTasksSystem_SE">
+					<DisplayRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="EventHubTabValue==2" />
+							<Requirement type="formula" formula="EventHubTabValue==1" />
+						</Requirement>
+						<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+						<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="State_DailyChallengeSystemMenu" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="OpenDailyChallengeSystemUI" package="DailyTasks_HelperScripts" />
+				</Tab>
+				<Tab name="Tab_ProjectBoard" icon="ICO_HUD_RailyardTaskBook">
+					<DisplayRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="EventHubTabValue==2" />
+							<Requirement type="formula" formula="EventHubTabValue==1" />
+						</Requirement>
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_ProjectBoard" />
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_BuildingFinder" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="TabPressed_DilapidatedProjectBoardPanel" package="Railyard_Scripts" />
+				</Tab>
+				<Tab name="Tab_AspirationalGrind" icon="ICO_MHUB_TimeTravellingToaster_AspirationalGrind">
+					<DisplayRequirements>
+						<Requirement type="quest" quest="AspirationalGrind_Intro" />
+						<Requirement type="active quest" quest="AspirationalGrind_Master" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="Junk" />
+				<Resource type="Metal" />
+				<Resource type="Plastic" />
+				<Resource type="Glass" />
+			</ResourceTypes>
+		</EventHub>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="Railyard_Config:RailyardPrizeTrack">
+				<PrizeEntries>
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost01__" />
+					<Prize name="BLD_MetalDepot_Name" listIcon="ICO_Mono15_MetalDepot" rewardIcon="ICO_Mono15_MetalDepot_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost01__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_MetalDepotOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MetalDepot" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_PlasticDepot_Name" listIcon="ICO_Mono15_PlasticDepot" rewardIcon="ICO_Mono15_PlasticDepot_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost01__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_PlasticDepotOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="PlasticDepot" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_GlassDepot_Name" listIcon="ICO_Mono15_GlassDepot" rewardIcon="ICO_Mono15_GlassDepot_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost01__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_GlassDepotOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="GlassDepot" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_MonorailStation_Name" listIcon="ICO_Mono15_RegularStation" rewardIcon="ICO_Mono15_RegularStation_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost01__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_MonorailStationOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailStation" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_Railyard_Filler_name" infoOverrideText="UI_Railyard_Filler_desc" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost01__" largeSizeIcon="true">
+						<Reward>
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="CurveTrack" />
+							<Item type="building" name="CurveTrack" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost02__" />
+					<Prize name="BLD_PlasticDepot_Name" listIcon="ICO_Mono15_PlasticDepot" rewardIcon="ICO_Mono15_PlasticDepot_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost02__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_MetalDepotOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="PlasticDepot" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_GlassDepot_Name" listIcon="ICO_Mono15_GlassDepot" rewardIcon="ICO_Mono15_GlassDepot_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost02__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_PlasticDepotOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="GlassDepot" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_MonorailStation_name" listIcon="ICO_Mono15_RegularStation" rewardIcon="ICO_Mono15_RegularStation_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost02__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_GlassDepotOwned_Not" />
+							<Requirement type="variable" variable="DRailyard_MonorailStationOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailStation" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_Railyard_Filler_name" infoOverrideText="UI_Railyard_Filler_desc" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost02__" largeSizeIcon="true">
+						<Reward>
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="CurveTrack" />
+							<Item type="building" name="CurveTrack" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost03__" />
+					<Prize name="BLD_GlassDepot_Name" listIcon="ICO_Mono15_GlassDepot" rewardIcon="ICO_Mono15_GlassDepot_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost03__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_MetalDepotOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="GlassDepot" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_MonorailStation_name" listIcon="ICO_Mono15_RegularStation" rewardIcon="ICO_Mono15_RegularStation_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost03__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_MonorailStationOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailStation" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_Railyard_Filler_name" infoOverrideText="UI_Railyard_Filler_desc" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost03__" largeSizeIcon="true">
+						<Reward>
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="CurveTrack" />
+							<Item type="building" name="CurveTrack" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost04__" />
+					<Prize name="BLD_MonorailStation_name" listIcon="ICO_Mono15_RegularStation" rewardIcon="ICO_Mono15_RegularStation_LG.rgb" showInventoryPopup="false" useImmediately="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost04__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="variable" variable="DRailyard_MetalDepotOwned_Not" />
+							<Requirement type="variable" variable="DRailyard_MonorailStationOwned_Not" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailStation" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+						</Reward>
+					</Prize>
+					<Prize name="UI_Railyard_Filler_name" infoOverrideText="UI_Railyard_Filler_desc" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost04__" largeSizeIcon="true">
+						<Reward>
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="StraightTrack" />
+							<Item type="building" name="CurveTrack" />
+							<Item type="building" name="CurveTrack" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+				<Prize name="UI_Railyard_Prize5_name" infoOverrideText="UI_Railyard_Prize5_desc" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost05__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost05__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Railyard_Prize6_name" infoOverrideText="UI_Railyard_Prize6_desc" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost06__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost06__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Railyard_Prize7_name" infoOverrideText="UI_Railyard_Prize7_desc" listIcon="ICO_Mono15_StandardStationpartsSM" rewardIcon="ICO_Mono15_StandardStationpartsSM_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost07__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost07__" />
+					<Reward>
+						<Item type="building" name="MonorailStationMod1" />
+						<Item type="building" name="MonorailStationMod2" />
+						<Item type="building" name="MonorailStationMod3" />
+						<Item type="building" name="MonorailStationMod4" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Railyard_Prize8_name" infoOverrideText="UI_Railyard_Prize8_desc" listIcon="ICO_Railyard_Track10_SM" rewardIcon="ICO_Railyard_Track10_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost08__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost08__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Railyard_Prize9_name" infoOverrideText="UI_Railyard_Prize9_desc" listIcon="ICO_Railyard_Track10_SM" rewardIcon="ICO_Railyard_Track10_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost09__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost09__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+					</Reward>
+				</Prize>
+				<Prize name="UI_Railyard_Prize10_name" infoOverrideText="UI_Railyard_Prize10_desc" listIcon="ICO_Mono15_StandardStationpartsSM" rewardIcon="ICO_Mono15_StandardStationpartsSM_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost10__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost10__" />
+					<Reward>
+						<Item type="building" name="MonorailStationMod1" />
+						<Item type="building" name="MonorailStationMod2" />
+						<Item type="building" name="MonorailStationMod3" />
+						<Item type="building" name="MonorailStationMod4" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_RailYard_name" infoOverrideText="CON_ReplaceRailyard_name" listIcon="ICO_Mono15_CobbRailYard" rewardIcon="ICO_Mono15_CobbRailYard_LG.rgb" useImmediately="true" showInventoryPopup="false" showRewardPopup="false" baseRushCost="__Railyard_Config:RailyardValues:Railyard_RushCost11__" largeSizeIcon="true" dismissMenu="true">
+					<Requirement type="special currency" currency="Dilapidated_Currency" amount="__Railyard_Config:RailyardValues:Railyard_Cost11__" />
+					<Reward>
+						<Item type="consumable" name="ReplaceRailyard" />
+						<Item type="setvariable" name="Monorail_ProjectsComplete" value="3" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<GeneralBuffers>
+			<Buffer name="DilapidatedRailyardProjectBoard" id="1" />
+		</GeneralBuffers>
+		<Buildings override="true">
+			<Building name="SpringfieldDump">
+				<ResourceGenerator resourceCapSelector="__Monorail_Config:SpendableValues:JunkMax__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Junk" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="MonorailTopup" menuConfig="Monorail_Config:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" gotoBuilding="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="quest started" quest="RailingOn_1" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+							<Requirement type="quest started" quest="BringAllTheJunkToTheYard" />
+						</Requirement>
+					</Requirements>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest" quest="ARailOfOneCity_5" />
+								<Requirement type="quest" quest="RailingOn_1" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="CollectJunk" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SaveTheEnvironment" character="Lisa" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="8" />
+							<Requirement type="quest started" quest="Thrillhouse01" />
+						</VisibilityRequirements>
+						<Job name="TryToImpressLisa" character="Milhouse" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="4" />
+							<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+						</VisibilityRequirements>
+						<Job name="DoHisChristianDuty" character="Ned" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="20" />
+							<Requirement type="quest started" quest="ReElectMayorQuimby02" />
+						</VisibilityRequirements>
+						<Job name="PoseForPhotoOp" character="Quimby" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="6" />
+							<Requirement type="quest started" quest="SlackJawedYokel01" />
+						</VisibilityRequirements>
+						<Job name="PutTheNewestSpucklerToWork" character="Cletus" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="10" />
+							<Requirement type="quest started" quest="SchoolhouseCrock04" />
+						</VisibilityRequirements>
+						<Job name="TakeABreakFromRakingLeaves" character="Willy" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="characterunlocked" name="RayPatterson" />
+						</VisibilityRequirements>
+						<Job name="PickUpTrashRay" character="RayPatterson" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Uter_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="45" />
+									</True>
+									<False>
+										<Requirement type="level" level="25" />
+									</False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="Uter" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="LookForDiscardedChocolate" character="Uter" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Brandine_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="time" start="MonorailMerchandizing_Brandine_Start" end="MonorailMerchandizing_Brandine_End" />
+								<Requirement type="characterunlocked" name="Brandine" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="CleanUpNatureUsingNature" character="Brandine" />
+					</Slot>
+					<Slot tipText="UI_Monorail_DeweyLargo_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="40" />
+									</True>
+									<False></False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="DeweyLargo" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="AssembleTheBand" character="DeweyLargo" />
+					</Slot>
+					<Slot tipText="UI_Monorail_JesseGrass_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="JesseGrassRecommendation" />
+								<Requirement type="characterunlocked" name="JesseGrass" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="Redwood_Scripts" name="GetJesseGrass" />
+						<Job name="HealMotherEarth" character="JesseGrass" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="155001" name="TaskHub_Event">
+		<SpecialButtons>
+			<Button icon="ICO_HUD_TaskBook" mode="game" counter="true" identifier="DailyTasksSystem">
+				<Requirements>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="land" land="Springfield" />
+							<Requirement type="land" land="Krustyland" />
+						</Requirement>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="item" item="DilapidatedRailYard" checkInventoryOnly="false" />
+							<Requirement type="item" item="RailYard" checkInventoryOnly="false" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+								<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest" quest="AspirationalGrind_Intro" />
+								<Requirement type="active quest" quest="AspirationalGrind_Master" />
+							</Requirement>
+						</Requirement>
+					</Requirement>
+				</Requirements>
+				<ExclamationMark>
+					<Requirements>
+						<Requirement type="dailyTaskWaitingOnCollection" />
+					</Requirements>
+				</ExclamationMark>
+				<CounterRequirements>
+					<Requirement type="dailyTasksAreAvailable" />
+				</CounterRequirements>
+				<CounterSource type="formula" source="System::evaluate('DailyTasksSystem::AvailableTasks')" />
+				<RunScript>
+					<Script name="TaskHubButtonPressed" package="Railyard_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<EventHub menuConfig="Railyard_Config:EventHub" generalHub="false">
+			<Tabs>
+				<Tab name="Tab_DailyChallenge" icon="ICO_MHUD_DailyTasksSystem_SE">
+					<DisplayRequirements>
+						<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+						<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="DailyTasks_HelperScripts:OpenDailyChallengeSystemUI" />
+				</Tab>
+				<Tab name="Tab_DilapidatedProjectBoard" icon="ICO_HUD_RailyardTaskBook">
+					<DisplayRequirements>
+						<Requirement type="item" item="DilapidatedRailYard" checkInventoryOnly="false" />
+						<Requirement type="variable" variable="RailYardTab_Active" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="TabPressed_DilapidatedProjectBoardPanel" package="Railyard_Scripts" />
+				</Tab>
+				<Tab name="Tab_ProjectBoard" icon="ICO_HUD_RailyardTaskBook">
+					<DisplayRequirements>
+						<Requirement type="item" item="RailYard" checkInventoryOnly="false" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_ProjectBoard" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="TabPressed_RailyardProjectBoardPanel" package="Monorail_Scripts" />
+				</Tab>
+				<Tab name="Tab_AspirationalGrind" icon="ICO_MHUB_TimeTravellingToaster_AspirationalGrind">
+					<DisplayRequirements>
+						<Requirement type="quest" quest="AspirationalGrind_Intro" />
+						<Requirement type="active quest" quest="AspirationalGrind_Master" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+				</Tab>
+			</Tabs>
+		</EventHub>
+	</SpecialEvent>
+	<SpecialEvent id="155002" name="DilapidatedRailyard_RailyardCurrency">
+		<Jobs>
+			<Job name="AggressivelyRecyclingSeaLife" time="4h">
+				<Reward Railyard_Currency="450" xp="15" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+	<SpecialEvent id="155003" name="DilapidatedRailyard_DilapidatedCurrency">
+		<Jobs>
+			<Job name="AggressivelyRecyclingSeaLife" time="4h">
+				<Reward Dilapidated_Currency="450" xp="15" />
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>

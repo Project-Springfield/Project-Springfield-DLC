@@ -1,0 +1,465 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="217000" name="CouplesPortrait" />
+		<DataID id="217001" name="SoloPortrait" />
+		<DataID id="217002" name="AClasslessReunionIntro" />
+		<DataID id="217003" name="AClasslessReunion_1" />
+		<DataID id="217004" name="AClasslessReunion_2" />
+		<DataID id="217005" name="AClasslessReunion_3" />
+		<DataID id="217006" name="AClasslessReunion_4" />
+		<DataID id="217007" name="AClasslessReunion_5" />
+		<DataID id="217008" name="PromAndCircumstance_1" />
+		<DataID id="217009" name="PromAndCircumstance_2" />
+		<DataID id="217010" name="PromAndCircumstance_3" />
+		<DataID id="217011" name="PromAndCircumstance_4" />
+		<DataID id="217012" name="PromAndCircumstance_5" />
+		<!-- <DataID id="217700" name="AutoApply_PromTimeHomerSkin" /> -->
+		<DataID id="217701" name="AwardGhostPirateAirship" />
+		<DataID id="217800" name="ClasslessReunion_Completed" />
+		<DataID id="217801" name="ClasslessReunion_IntroPanel" />
+		<DataID id="217802" name="ClasslessReunion_72HourWarning" onDeprecated="retain" endDate="ClasslessReunion_End" />
+		<DataID id="217803" name="ClasslessReunion_24HourWarning" onDeprecated="retain" endDate="ClasslessReunion_End" />
+		<DataID id="217804" name="ClasslessReunion_EventExpired" />
+		<DataID id="217805" name="ClasslessReunion_MasterQuest" />
+		<DataID id="217900" name="ClasslessReunion_RecommendStore" onDeprecated="delete" endDate="ClasslessReunion_End" />
+		<DataID id="217951" name="ClasslessReunion_Store_PromPhotoBooth" onDeprecated="delete" endDate="ClasslessReunion_End" />
+	</MasterList>
+	<Quest id="217800" name="ClasslessReunion_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="AClasslessReunion_5" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="217801" name="ClasslessReunion_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="AClasslessReunionIntro" />
+			<Requirement type="time" end="ClasslessReunion_End" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="217802" name="ClasslessReunion_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ClasslessReunion_End')-fromHours(72)]_" end="_[System::evaluate('Date::ClasslessReunion_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="ClasslessReunion_Complete" not="true" />
+			<Requirement type="quest" quest="ClasslessReunion_IntroPanel" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="217803" name="ClasslessReunion_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::ClasslessReunion_End')-fromHours(24)]_" end="ClasslessReunion_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ClasslessReunion_Complete" not="true" />
+			<Requirement type="quest" quest="ClasslessReunion_IntroPanel" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="217804" name="ClasslessReunion_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="ClasslessReunion_End" triggerEvent="true" />
+			<Requirement type="variable" variable="ClasslessReunion_Complete" not="true" />
+			<Requirement type="quest" quest="ClasslessReunion_IntroPanel" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="217805" name="ClasslessReunion_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_Expired" not="true" />
+			<Requirement type="variable" variable="ClasslessReunion_Complete" not="true" />
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="AClasslessReunion_5" />
+					<Requirement type="variable" variable="ClasslessReunion_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="AClasslessReunion_1">
+				<Requirement type="quest started" quest="AClasslessReunion_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AClasslessReunion_2">
+				<Requirement type="quest started" quest="AClasslessReunion_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AClasslessReunion_3">
+				<Requirement type="quest started" quest="AClasslessReunion_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AClasslessReunion_4">
+				<Requirement type="quest started" quest="AClasslessReunion_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AClasslessReunion_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="217000" name="CouplesPortrait" tags="premiumquest" icon="PromPhotoBooth">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="PromPhotoBooth" quantity="1" />
+			<Requirement type="building owned" building="MargeSculptureGarden" />
+			<Requirement type="character" name="YoungArtieZiff" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="CouplesPortrait_Start" triggerType="character" character="YoungArtieZiff" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="CouplesPortrait_End" />
+		<Objectives>
+			<Objective type="complete job" character="YoungMarge" job="PoseForAPromPhoto" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="217001" name="SoloPortrait" tags="premiumquest" icon="PromPhotoBooth">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="PromPhotoBooth" quantity="1" />
+			<Requirement type="character" name="TeenageHomer" unlockedskin="PromTimeHomer" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="SoloPortrait_Start" triggerType="character" character="TeenageHomer" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="SoloPortrait_End" />
+		<Objectives>
+			<Objective type="complete job" character="TeenageHomer" skin="PromTimeHomer" job="TryToStayInFocus" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="217002" name="AClasslessReunionIntro" tags="sidequest" icon="ClasslessReunion_Event">
+		<Requirements>
+			<Requirement type="level" level="20" />
+			<Requirement type="time" start="ClasslessReunion_Start" end="ClasslessReunion_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunionIntro_Start" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunionIntro_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="DreamOfRoastPig" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="ClasslessReunion_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="217003" name="AClasslessReunion_1" tags="mainquest" icon="ClasslessReunion_Event" sidebarIconScript="ClasslessReunion_Scripts:OpenMasterQuest" questMenuConfigPath="ClasslessReunion_QuestConfig:ClasslessReunion_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="ClasslessReunion_IntroPanel" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_1_Start" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="TryToConvinceBarneyToStreak" quantity="1" />
+			<Objective type="complete job" character="Barney" job="ClingToHisDignity" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ClasslessReunion_Currency')" amount="__ClasslessReunion_GameConfig:ResourceQuantities:ClasslessReunion_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ClasslessReunion_Scripts:ShowJobList" textpoolName="QST_ClasslessReunion_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="TryOnCrowns" />
+					<Job name="OfferCollectionForCrowns" />
+					<Job name="PawnItemsForCrowns" />
+					<Job name="StealCrownsFromKrustyBurgerPrizes" />
+					<Job name="DigThroughGarbageForCrowns" />
+					<Job name="MeltDownChildrensTrophiesForCrowns" />
+					<Job name="SecretlyCovetCrowns" />
+					<Job name="DigCrownsOutOfLostAndFound" />
+					<Job name="ConfiscateCrownsFromBeautyQueens" />
+					<Job name="BorrowCrownsFromMother" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ClasslessReunion_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ClasslessReunion_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="217004" name="AClasslessReunion_2" tags="mainquest" icon="ClasslessReunion_Event" sidebarIconScript="ClasslessReunion_Scripts:OpenMasterQuest" questMenuConfigPath="ClasslessReunion_QuestConfig:ClasslessReunion_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="AClasslessReunion_1" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_2_Start" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="GetAllDressedUp_Marge" quantity="1" />
+			<Objective type="complete job" character="Homer" job="GetAllDressedUp_Homer" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ClasslessReunion_Currency')" amount="__ClasslessReunion_GameConfig:ResourceQuantities:ClasslessReunion_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ClasslessReunion_Scripts:ShowJobList" textpoolName="QST_ClasslessReunion_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="TryOnCrowns" />
+					<Job name="OfferCollectionForCrowns" />
+					<Job name="PawnItemsForCrowns" />
+					<Job name="StealCrownsFromKrustyBurgerPrizes" />
+					<Job name="DigThroughGarbageForCrowns" />
+					<Job name="MeltDownChildrensTrophiesForCrowns" />
+					<Job name="SecretlyCovetCrowns" />
+					<Job name="DigCrownsOutOfLostAndFound" />
+					<Job name="ConfiscateCrownsFromBeautyQueens" />
+					<Job name="BorrowCrownsFromMother" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ClasslessReunion_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ClasslessReunion_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="217005" name="AClasslessReunion_3" tags="mainquest" icon="ClasslessReunion_Event" sidebarIconScript="ClasslessReunion_Scripts:OpenMasterQuest" questMenuConfigPath="ClasslessReunion_QuestConfig:ClasslessReunion_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="AClasslessReunion_2" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_3_Start" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="ArtieZiff" job="BeOneSmoothOperator" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ArtieZiff" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Marge" job="WaitForHomer" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WaitForFood" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ClasslessReunion_Currency')" amount="__ClasslessReunion_GameConfig:ResourceQuantities:ClasslessReunion_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ClasslessReunion_Scripts:ShowJobList" textpoolName="QST_ClasslessReunion_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="TryOnCrowns" />
+					<Job name="OfferCollectionForCrowns" />
+					<Job name="PawnItemsForCrowns" />
+					<Job name="StealCrownsFromKrustyBurgerPrizes" />
+					<Job name="DigThroughGarbageForCrowns" />
+					<Job name="MeltDownChildrensTrophiesForCrowns" />
+					<Job name="SecretlyCovetCrowns" />
+					<Job name="DigCrownsOutOfLostAndFound" />
+					<Job name="ConfiscateCrownsFromBeautyQueens" />
+					<Job name="BorrowCrownsFromMother" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ClasslessReunion_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ClasslessReunion_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="217006" name="AClasslessReunion_4" tags="mainquest" icon="ClasslessReunion_Event" sidebarIconScript="ClasslessReunion_Scripts:OpenMasterQuest" questMenuConfigPath="ClasslessReunion_QuestConfig:ClasslessReunion_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="AClasslessReunion_3" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_4_Start" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Barney" job="Streak" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Barney" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="ArtieZiff" job="SlinkBackToHisYacht" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ArtieZiff" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ClasslessReunion_Currency')" amount="__ClasslessReunion_GameConfig:ResourceQuantities:ClasslessReunion_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ClasslessReunion_Scripts:ShowJobList" textpoolName="QST_ClasslessReunion_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="TryOnCrowns" />
+					<Job name="OfferCollectionForCrowns" />
+					<Job name="PawnItemsForCrowns" />
+					<Job name="StealCrownsFromKrustyBurgerPrizes" />
+					<Job name="DigThroughGarbageForCrowns" />
+					<Job name="MeltDownChildrensTrophiesForCrowns" />
+					<Job name="SecretlyCovetCrowns" />
+					<Job name="DigCrownsOutOfLostAndFound" />
+					<Job name="ConfiscateCrownsFromBeautyQueens" />
+					<Job name="BorrowCrownsFromMother" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<JobsStartedScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_4_Obj_3_Completed" />
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ClasslessReunion_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ClasslessReunion_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="217007" name="AClasslessReunion_5" tags="mainquest" icon="ClasslessReunion_Event" sidebarIconScript="ClasslessReunion_Scripts:OpenMasterQuest" questMenuConfigPath="ClasslessReunion_QuestConfig:ClasslessReunion_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="ClasslessReunion_Expired" not="true" />
+			<Requirement type="level" level="20" />
+			<Requirement type="quest" quest="AClasslessReunion_4" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_5_Start" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="AClasslessReunion_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Marge" job="DanceTheNightAway" quantity="1" />
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::ClasslessReunion_Currency')" amount="__ClasslessReunion_GameConfig:ResourceQuantities:ClasslessReunion_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="ClasslessReunion_Scripts:ShowJobList" textpoolName="QST_ClasslessReunion_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="TryOnCrowns" />
+					<Job name="OfferCollectionForCrowns" />
+					<Job name="PawnItemsForCrowns" />
+					<Job name="StealCrownsFromKrustyBurgerPrizes" />
+					<Job name="DigThroughGarbageForCrowns" />
+					<Job name="MeltDownChildrensTrophiesForCrowns" />
+					<Job name="SecretlyCovetCrowns" />
+					<Job name="DigCrownsOutOfLostAndFound" />
+					<Job name="ConfiscateCrownsFromBeautyQueens" />
+					<Job name="BorrowCrownsFromMother" />
+				</HighlightJobList>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="ClasslessReunion_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="ClasslessReunion_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="217008" name="PromAndCircumstance_1" tags="sidequest" icon="TeenageHomer_Prom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="TeenageHomer" unlockedskin="PromTimeHomer" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_1_Start" triggerType="character" character="TeenageHomer" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="TeenageHomer" skin="PromTimeHomer" job="TryToEnjoyTheProm" quantity="1" />
+			<Objective type="complete job" character="PrincipalDondelinger" job="StewInHisResentment" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PrincipalDondelinger" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="217009" name="PromAndCircumstance_2" tags="sidequest" icon="TeenageHomer_Prom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PromAndCircumstance_1" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_2_Start" triggerType="character" character="TeenageHomer" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="TeenageHomer" skin="PromTimeHomer" job="PracticePickingUpYoungMarge" quantity="1" />
+			<Objective type="complete job" character="PrincipalDondelinger" job="PlotAgainstPromTimeHomer" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PrincipalDondelinger" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="217010" name="PromAndCircumstance_3" tags="sidequest" icon="TeenageHomer_Prom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PromAndCircumstance_2" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_3_Start" triggerType="character" character="TeenageHomer" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="TeenageHomer" skin="PromTimeHomer" job="BeAtAHairLoss" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="217011" name="PromAndCircumstance_4" tags="sidequest" icon="TeenageHomer_Prom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PromAndCircumstance_3" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_4_Start" triggerType="character" character="SuperintendentChalmers" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="TeenageHomer" skin="PromTimeHomer" job="BeCompletelyOblivious" quantity="1" />
+			<Objective type="complete job" character="PrincipalDondelinger" job="PatrolProm" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PrincipalDondelinger" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="217012" name="PromAndCircumstance_5" tags="sidequest" icon="TeenageHomer_Prom">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PromAndCircumstance_4" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_5_Start" triggerType="character" character="TeenageHomer" />
+		<EndScript package="ClasslessReunion_Scripts_Dialogue" name="PromAndCircumstance_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="TeenageHomer" skin="PromTimeHomer" job="ConsiderTheMeritsOfYoungArtieZiff" quantity="1" />
+			<Objective type="complete job" character="SuperintendentChalmers" job="PlantEvidence" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SuperintendentChalmers" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="217700" name="AutoApply_PromTimeHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="PromTimeHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="TeenageHomer" unlockedskin="PromTimeHomer" not="true" />
+			<Requirement type="characterunlocked" name="TeenageHomer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="ClasslessReunion_Scripts" name="AutoApply_PromTimeHomerSkin_End" />
+	</Quest>
+	<Quest id="217900" name="ClasslessReunion_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="ClasslessReunion_Requirements:StoreCategory_Unlocked" />
+		</Requirements>
+		<StartScript package="ClasslessReunion_Scripts" name="RecommendStoreCategory" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="217951" name="ClasslessReunion_Store_PromPhotoBooth">
+		<Requirements>
+			<Requirement type="quest" quest="ClasslessReunion_RecommendStore" />
+			<Requirement type="time" start="ClasslessReunion_PromPhotoBooth_IN" end="ClasslessReunion_PromPhotoBooth_OUT" />
+		</Requirements>
+		<StartScript name="ClasslessReunion_Scripts:StoreNotification_PromPhotoBooth" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="217701" name="AwardGhostPirateAirship" tags="dummy">
+		<Requirements>
+			<Requirement type="characterunlocked" name="Blackbeard" />
+			<Requirement type="building owned" building="GhostPirateAirship" not="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript name="ClasslessReunion_Scripts:AwardGhostPirateAirship" />
+	</Quest>
+</Quests>

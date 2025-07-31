@@ -1,0 +1,44 @@
+﻿<TelemetryFamilies>
+	<XMAS2017>
+		<Requirement type="variable" variable="XMAS2017" />
+		<SessionCounters></SessionCounters>
+		<SessionEvents>
+			<Event id="9803">
+				<Parameter0 type="Enumeration" source="FixedString" extra="CraftingCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="XMAS2017_CraftingCurrency" />
+			</Event>
+			<Event id="9803">
+				<Parameter0 type="Enumeration" source="FixedString" extra="CraftingXP" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="XMAS2017_CraftingXP" />
+			</Event>
+			<Event id="9803">
+				<Parameter0 type="Enumeration" source="FixedString" extra="ActivePrizeTrackCurrency" />
+				<Parameter1 type="Enumeration" source="SpendableBalance" extra="XMAS2017_ActivePrizeTrackCurrency" />
+			</Event>
+		</SessionEvents>
+		<TriggerEffects>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnItemCrafted" />
+				<Response type="logEvent">
+					<Event id="9804">
+						<Parameter0 type="Enumeration" source="FixedString" extra="{Trigger::ObjectName}" />
+						<Parameter1 type="Enumeration" source="FormulaAsInt" extra="{Trigger::Amount}" />
+						<Parameter2 type="Enumeration" source="FormulaAsInt" extra="{Trigger::PremiumCost}" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+			<TriggerEffect>
+				<Filter type="matching" key="TriggerType" string="OnBuildingPlaced" />
+				<Filter type="matching" key="OriginalCostSpendable" string="XMAS2017_CraftingCurrency" />
+				<Filter type="matching" key="FromInventory" formula="0" />
+				<Response type="logEvent">
+					<Event id="9804">
+						<Parameter0 type="Enumeration" source="FixedString" extra="{Trigger::ObjectName}" />
+						<Parameter1 type="Enumeration" source="FixedString" extra="1" />
+						<Parameter2 type="Enumeration" source="FixedString" extra="0" />
+					</Event>
+				</Response>
+			</TriggerEffect>
+		</TriggerEffects>
+	</XMAS2017>
+</TelemetryFamilies>

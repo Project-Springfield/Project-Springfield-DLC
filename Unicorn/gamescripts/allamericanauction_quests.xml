@@ -1,0 +1,612 @@
+﻿<Quests>
+	<MasterList>
+		<DataID id="226000" name="AllAmericanAuctionIntro" />
+		<DataID id="226001" name="AllAmericanAuction_1" />
+		<DataID id="226002" name="AllAmericanAuction_2" />
+		<DataID id="226003" name="AllAmericanAuction_3" />
+		<DataID id="226004" name="AllAmericanAuction_4" />
+		<DataID id="226005" name="AllAmericanAuction_5" />
+		<DataID id="226006" name="LumberSensible_1" />
+		<DataID id="226007" name="LumberSensible_2" />
+		<DataID id="226008" name="LumberSensible_3" />
+		<DataID id="226009" name="TurningTrashIntoHundos_1" />
+		<DataID id="226010" name="TurningTrashIntoHundos_2" />
+		<DataID id="226011" name="TurningTrashIntoHundos_3" />
+		<DataID id="226012" name="TurningTrashIntoHundos_4" />
+		<DataID id="226013" name="GoldenToken2019_1" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226014" name="GoldenToken2019_2" />
+		<DataID id="226016" name="BeKindRewindTime" />
+		<DataID id="226017" name="BabiesRExpensive" />
+		<DataID id="226018" name="BigStoreBiggerPrices" />
+		<DataID id="226600" name="AllAmericanAuction_Completed" />
+		<DataID id="226601" name="AllAmericanAuction_IntroPanel" />
+		<DataID id="226602" name="AllAmericanAuction_72HourWarning" onDeprecated="retain" endDate="AllAmericanAuction_End" />
+		<DataID id="226603" name="AllAmericanAuction_24HourWarning" onDeprecated="retain" endDate="AllAmericanAuction_End" />
+		<DataID id="226604" name="AllAmericanAuction_EventExpired" />
+		<DataID id="226605" name="AllAmericanAuction_MasterQuest" />
+		<DataID id="226701" name="BlackFriday2019_1" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226702" name="BlackFriday2019_2" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226703" name="BlackFriday2019_3" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226704" name="BlackFriday2019_4" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226705" name="BlackFriday2019_5" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226706" name="BlackFriday2019_6" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226707" name="BlackFriday2019_MasterQuest" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+		<DataID id="226800" name="ShareTheMagic_Notification" />
+		<DataID id="226801" name="ShareTheMagic" />
+		<DataID id="226900" name="AllAmericanAuction_RecommendStore" onDeprecated="delete" endDate="AllAmericanAuction_End" />
+	</MasterList>
+	<Quest id="226600" name="AllAmericanAuction_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_5" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="226601" name="AllAmericanAuction_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuctionIntro" />
+			<Requirement type="time" end="AllAmericanAuction_End" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="226602" name="AllAmericanAuction_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::AllAmericanAuction_End')-fromHours(72)]_" end="_[System::evaluate('Date::AllAmericanAuction_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="AllAmericanAuction_Complete" not="true" />
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="226603" name="AllAmericanAuction_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::AllAmericanAuction_End')-fromHours(24)]_" end="AllAmericanAuction_End" triggerEvent="true" />
+			<Requirement type="variable" variable="AllAmericanAuction_Complete" not="true" />
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="226604" name="AllAmericanAuction_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+			<Requirement type="variable" variable="AllAmericanAuction_Complete" not="true" />
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="226605" name="AllAmericanAuction_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_Expired" not="true" />
+			<Requirement type="variable" variable="AllAmericanAuction_Complete" not="true" />
+			<Requirement type="reqList" location="AllAmericanAuction_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="AllAmericanAuction_5" />
+					<Requirement type="variable" variable="AllAmericanAuction_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="AllAmericanAuction_1">
+				<Requirement type="quest started" quest="AllAmericanAuction_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AllAmericanAuction_2">
+				<Requirement type="quest started" quest="AllAmericanAuction_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AllAmericanAuction_3">
+				<Requirement type="quest started" quest="AllAmericanAuction_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AllAmericanAuction_4">
+				<Requirement type="quest started" quest="AllAmericanAuction_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="AllAmericanAuction_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="226000" name="AllAmericanAuctionIntro" tags="sidequest" icon="AllAmericanAuction_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuctionIntro_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Quimby" job="FlipTheHolidayScript" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="226001" name="AllAmericanAuction_1" tags="mainquest" icon="AllAmericanAuction_Event" sidebarIconScript="AllAmericanAuction_Scripts:OpenMasterQuest" questMenuConfigPath="AllAmericanAuction_QuestConfig:AllAmericanAuction_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AllAmericanAuctionIntro" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_1_Start" />
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllAmericanAuction_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:AllAmericanAuction_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:ShowJobList" textpoolName="QST_AllAmericanAuction_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="AuctionMoreThanTheyOwn" />
+					<Job name="AuctionWayMoreThanTheyOwn" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Moe" job="SellAllOfHisMerchandise" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllAmericanAuction_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllAmericanAuction_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="226002" name="AllAmericanAuction_2" tags="mainquest" icon="AllAmericanAuction_Event" sidebarIconScript="AllAmericanAuction_Scripts:OpenMasterQuest" questMenuConfigPath="AllAmericanAuction_QuestConfig:AllAmericanAuction_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AllAmericanAuction_1" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_2_Start" />
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllAmericanAuction_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:AllAmericanAuction_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:ShowJobList" textpoolName="QST_AllAmericanAuction_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="AuctionMoreThanTheyOwn" />
+					<Job name="AuctionWayMoreThanTheyOwn" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" job="SellSellSell" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllAmericanAuction_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllAmericanAuction_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="226003" name="AllAmericanAuction_3" tags="mainquest" icon="AllAmericanAuction_Event" sidebarIconScript="AllAmericanAuction_Scripts:OpenMasterQuest" questMenuConfigPath="AllAmericanAuction_QuestConfig:AllAmericanAuction_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AllAmericanAuction_2" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_3_Start" />
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllAmericanAuction_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:AllAmericanAuction_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:ShowJobList" textpoolName="QST_AllAmericanAuction_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="AuctionMoreThanTheyOwn" />
+					<Job name="AuctionWayMoreThanTheyOwn" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" job="HaveAThanksgivingMeal" quantity="3" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllAmericanAuction_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllAmericanAuction_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="226004" name="AllAmericanAuction_4" tags="mainquest" icon="AllAmericanAuction_Event" sidebarIconScript="AllAmericanAuction_Scripts:OpenMasterQuest" questMenuConfigPath="AllAmericanAuction_QuestConfig:AllAmericanAuction_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AllAmericanAuction_3" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_4_Start" />
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllAmericanAuction_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:AllAmericanAuction_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:ShowJobList" textpoolName="QST_AllAmericanAuction_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="AuctionMoreThanTheyOwn" />
+					<Job name="AuctionWayMoreThanTheyOwn" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" job="BSharpsReunion" quantity="4" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllAmericanAuction_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllAmericanAuction_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="226005" name="AllAmericanAuction_5" tags="mainquest" icon="AllAmericanAuction_Event" sidebarIconScript="AllAmericanAuction_Scripts:OpenMasterQuest" questMenuConfigPath="AllAmericanAuction_QuestConfig:AllAmericanAuction_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="AllAmericanAuction_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AllAmericanAuction_4" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_5_Start" />
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="AllAmericanAuction_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::AllAmericanAuction_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:AllAmericanAuction_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:ShowJobList" textpoolName="QST_AllAmericanAuction_Questline1_Collect_obj">
+				<HighlightJobList>
+					<Job name="AuctionMoreThanTheyOwn" />
+					<Job name="AuctionWayMoreThanTheyOwn" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Ned" job="SummonAnAmericanLegend" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="AllAmericanAuction_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="AllAmericanAuction_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="226006" name="LumberSensible_1" tags="sidequest" icon="PaulBunyan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="PaulBunyan" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="LumberSensible_1_Start" triggerType="character" character="Ned" />
+		<Objectives>
+			<Objective type="complete job" character="PaulBunyan" job="PlayFetchWithBigBlue" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226007" name="LumberSensible_2" tags="sidequest" icon="PaulBunyan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LumberSensible_1" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="LumberSensible_2_Start" triggerType="character" character="PaulBunyan" />
+		<Objectives>
+			<Objective type="complete job" character="PaulBunyan" job="BuyANewPhone" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226008" name="LumberSensible_3" tags="sidequest" icon="PaulBunyan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="LumberSensible_2" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="LumberSensible_3_Start" triggerType="character" character="Ned" />
+		<Objectives>
+			<Objective type="complete job" character="PaulBunyan" job="GoNutsInAnArboretum" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="226009" name="TurningTrashIntoHundos_1" tags="sidequest" icon="CJProBidder">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="character" name="CJProBidder" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="TurningTrashIntoHundos_1_Start" triggerType="character" character="CJProBidder" />
+		<Objectives>
+			<Objective type="complete job" character="CJProBidder" job="TryOnMultipleTanks" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226010" name="TurningTrashIntoHundos_2" tags="sidequest" icon="CJProBidder">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TurningTrashIntoHundos_1" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="TurningTrashIntoHundos_2_Start" triggerType="character" character="CJProBidder" />
+		<Objectives>
+			<Objective type="complete job" character="CJProBidder" job="GoStorageLockerHunting" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226011" name="TurningTrashIntoHundos_3" tags="sidequest" icon="CJProBidder">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TurningTrashIntoHundos_2" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="TurningTrashIntoHundos_3_Start" triggerType="character" character="CJProBidder" />
+		<Objectives>
+			<Objective type="complete job" character="CJProBidder" job="GetBayonetAppraised" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226012" name="TurningTrashIntoHundos_4" tags="sidequest" icon="CJProBidder">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TurningTrashIntoHundos_3" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="TurningTrashIntoHundos_4_Start" triggerType="character" character="CJProBidder" />
+		<Objectives>
+			<Objective type="complete job" character="CJProBidder" job="GoStorageLockerHuntingAgain" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="226013" name="GoldenToken2019_1" tags="sidequest" textpoolName="QST_BlackFriday2019_1_1_name" icon="AnimalFriendlyThanksgiving_CurrencyMysteryBox">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="reqList" location="AllAmericanAuction_Requirements:StoreCategory_Unlocked" />
+			<Requirement type="quest" quest="AllAmericanAuction_RecommendStore" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="GoldenToken2019_1_Start" />
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="GoldenToken2019_1_End" />
+		<Objectives>
+			<Objective type="use consumable" consumable="Thanksgiving2018_Gold_MysteryBox" quantity="1" suppressCompleteSound="true" textpoolName="QST_BlackFriday2019_1_2_obj_1" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:GoToGoldMysteryBox" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226014" name="GoldenToken2019_2" tags="sidequest" textpoolName="QST_BlackFriday2019_2_1_name" icon="AnimalFriendlyThanksgiving_CurrencyMysteryBox">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="time" start="AllAmericanAuction_End" end="Blargsgiving_Start" />
+			<Requirement type="currency" GoldBoxTokens="1" />
+			<Requirement type="quest" quest="MyPad" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="GoldenToken2019_2_Start" />
+		<Objectives>
+			<Objective type="lose special currency" currency="GoldBoxTokens" quantity="1" textpoolName="QST_BlackFriday2019_2_2_obj_1" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:GoToGoldenTokenForDozenDonuts" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226016" name="BeKindRewindTime" tags="sidequest" icon="VHSVillage">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="VHSVillage" quantity="1" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="BeKindRewindTime_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="BeNostalgic" quantity="1" />
+			<Objective type="complete job" character="Bart" job="BreakVHSTapes" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226017" name="BabiesRExpensive" tags="sidequest" icon="BabiesBThis">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="BabiesBThis" quantity="1" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="BabiesRExpensive_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" job="ProtestBabyStores" quantity="1" />
+			<Objective type="complete job" character="Maggie" job="GoShopping_Maggie" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Maggie" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226018" name="BigStoreBiggerPrices" tags="sidequest" icon="CostMoFoods">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="building" building="CostMo" quantity="1" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts_Dialogue" name="BigStoreBiggerPrices_Start" triggerType="character" character="Marge" />
+		<Objectives>
+			<Objective type="complete job" character="Ned" job="Flee" quantity="1" />
+			<Objective type="complete job" character="Homer" job="PlayPingPongWithHimself" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226707" name="BlackFriday2019_MasterQuest" tags="sidequest" repeatable="true" icon="AnimalFriendlyThanksgiving_CurrencyMysteryBox">
+		<Requirements>
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="active quest" quest="BlackFriday2019_1" />
+				<Requirement type="active quest" quest="BlackFriday2019_2" />
+				<Requirement type="active quest" quest="BlackFriday2019_3" />
+				<Requirement type="active quest" quest="BlackFriday2019_4" />
+				<Requirement type="active quest" quest="BlackFriday2019_5" />
+				<Requirement type="active quest" quest="BlackFriday2019_6" />
+			</Requirement>
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="quest" quest="BlackFriday2019_6" />
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="BlackFriday2019_1">
+				<Requirement type="quest" quest="BlackFriday2019_1" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2019_2">
+				<Requirement type="quest" quest="BlackFriday2019_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2019_3">
+				<Requirement type="quest" quest="BlackFriday2019_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2019_4">
+				<Requirement type="quest" quest="BlackFriday2019_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2019_5">
+				<Requirement type="quest" quest="BlackFriday2019_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="BlackFriday2019_6">
+				<Requirement type="quest" quest="BlackFriday2019_6" not="true" />
+			</QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="226701" name="BlackFriday2019_1" questMenuConfigPath="AllAmericanAuction_QuestConfig:BlackFriday2019_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" triggerEvent="true" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2019_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:BlackFriday_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2018_1_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2019_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2019_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="BlackFriday2019_1_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226702" name="BlackFriday2019_2" questMenuConfigPath="AllAmericanAuction_QuestConfig:BlackFriday2019_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+			<Requirement type="quest started" quest="BlackFriday2019_1" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2019_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:BlackFriday_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2018_2_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2019_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2019_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="BlackFriday2019_2_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226703" name="BlackFriday2019_3" questMenuConfigPath="AllAmericanAuction_QuestConfig:BlackFriday2019_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+			<Requirement type="quest started" quest="BlackFriday2019_1" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2019_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:BlackFriday_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2018_3_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2019_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2019_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="BlackFriday2019_3_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226704" name="BlackFriday2019_4" questMenuConfigPath="AllAmericanAuction_QuestConfig:BlackFriday2019_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+			<Requirement type="quest started" quest="BlackFriday2019_1" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2019_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:BlackFriday_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2018_4_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2019_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2019_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="BlackFriday2019_4_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226705" name="BlackFriday2019_5" questMenuConfigPath="AllAmericanAuction_QuestConfig:BlackFriday2019_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+			<Requirement type="quest started" quest="BlackFriday2019_1" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2019_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:BlackFriday_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2018_5_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2019_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2019_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="BlackFriday2019_5_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226706" name="BlackFriday2019_6" questMenuConfigPath="AllAmericanAuction_QuestConfig:BlackFriday2019_Item6_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="quest" quest="AllAmericanAuction_IntroPanel" />
+			<Requirement type="quest started" quest="BlackFriday2019_1" />
+			<Requirement type="time" start="AllAmericanAuction_Start" end="AllAmericanAuction_End" />
+		</Requirements>
+		<ExpiryData>
+			<Requirement type="time" start="AllAmericanAuction_End" triggerEvent="true" />
+		</ExpiryData>
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::BlackFriday2019_Currency')" amount="__AllAmericanAuction_GameConfig:ResourceQuantities:BlackFriday_ResourceList6__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" textpoolName="QST_BlackFriday2018_6_2_obj_1" GoToEnabled="true" GoToBehaviour="script" GoToScript="AllAmericanAuction_Scripts:OpenDonutStore"></Objective>
+		</Objectives>
+		<QuestParent quest="BlackFriday2019_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="BlackFriday2019_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndScript package="AllAmericanAuction_Scripts_Dialogue" name="BlackFriday2019_6_End" />
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="226900" name="AllAmericanAuction_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="AllAmericanAuction_Requirements:StoreCategory_Unlocked" />
+		</Requirements>
+		<StartScript package="AllAmericanAuction_Scripts" name="RecommendStoreCategory" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="226800" name="ShareTheMagic_Notification" tags="dummy">
+		<Requirements>
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="MagicalMaggie_Start" end="MagicalMaggie_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript name="AllAmericanAuction_Scripts:MagicalMaggie_Notification_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript name="AllAmericanAuction_Scripts:MagicalMaggie_Notification_End" />
+	</Quest>
+	<Quest id="226801" name="ShareTheMagic" tags="sidequest" icon="Maggie" textpoolName="qst_sharethemagic_1_1_name">
+		<Requirements>
+			<Requirement type="quest" quest="ShareTheMagic_Notification" />
+			<Requirement type="characterunlocked" name="Maggie" />
+			<Requirement type="time" start="MagicalMaggie_Start" end="MagicalMaggie_End" triggerEvent="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="complete job" character="Maggie" job="ShareTheMagic" quantity="1" progress="quest" textpoolName="qst_sharethemagic_1_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+</Quests>

@@ -1,0 +1,599 @@
+﻿<ScriptPackage>
+	<TriggerMaggieVideo>
+		<Action type="triggerVideo" file="maggieoutro" ext="mp4" skippable="yes" />
+	</TriggerMaggieVideo>
+	<TriggerMaggieIntro>
+		<Action type="triggerVideo" file="maggieintro" ext="mp4" skippable="yes" />
+	</TriggerMaggieIntro>
+	<StartFindMinigame>
+		<Action type="setMiniGameState" building="PlaydoughFactory" name="FindMaggie" state="Ready" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="1" />
+		<Action type="setVariable" intVariable="AllowMaggieOverlays" intValue="1" />
+		<Action type="gotoState" state="State_FindMinigame">
+			<Extras>
+				<Attribute name="gameConfig" value="Maggie_MinigameConfig:FindMinigameConfig" />
+			</Extras>
+		</Action>
+	</StartFindMinigame>
+	<SetUpFindMinigame parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScriptOnAll" script="Maggie_Scripts:ResetBuildings" buildingGroup="FindMinigame" />
+		<Action type="runScriptOnRandom" buildingGroup="FindMinigame" package="Maggie_Scripts" script="PlaceABaby" activeOnly="true" numToRun="1" />
+		<Action type="sound" sound="sfx_Maggie_3_2_1_Go.caf" />
+	</SetUpFindMinigame>
+	<ResetBuildings parallel="true" otherScriptsCanRunOnObject="true" runQueueState="RunInAnyState">
+		<Action type="setObjectVariable" variable="Baby" value="0" />
+		<Action type="setObjectVariable" variable="MaggieIn" value="0" />
+		<Action type="setObjectVariable" variable="Maggie" value="0" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+	</ResetBuildings>
+	<CleanUpFindMinigame runQueueState="RunInAnyState">
+		<Action type="setMiniGameState" building="PlaydoughFactory" name="FindMaggie" state="Ready" />
+		<Action type="fade" character="Maggie" fade="in" />
+		<Action type="fade" character="Maggie" fade="off" />
+	</CleanUpFindMinigame>
+	<ExitFindMinigame parallel="true" runQueueState="RunInAnyState">
+		<Action type="userConfirmation" text="UI_Maggie_Minigame_quit_text" title="UI_Maggie_Minigame_quit_title" var="confirm_quitmaggie" rightButtonColor="A61F0CFF" useBackButtonAsCancel="true" />
+		<Action type="checkExpression" expression="confirm_quitmaggie">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="SendTelemetry" package="Maggie_Scripts">
+					<FormatToken key="attemptcount" value="_[MaggieFoundCount]_" />
+					<FormatToken key="status" value="GiveUp" />
+				</Action>
+				<Action type="runScriptOnAll" buildingGroup="FindMinigame" script="RemoveABaby" package="Maggie_Scripts" />
+				<Action type="setMiniGameState" building="PlaydoughFactory" name="FindMaggie" state="Ready" />
+				<Action type="interruptScript">
+					<Interrupt package="Maggie_Scripts" script="FindIntro">
+						<InCategory category="any" />
+					</Interrupt>
+				</Action>
+				<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+				<Action type="fade" character="Maggie" fade="in" />
+				<Action type="fade" character="Maggie" fade="off" />
+				<Action type="gotoState" state="GameState_InGame" />
+			</ExpressionCase>
+		</Action>
+	</ExitFindMinigame>
+	<FindIntro parallel="true" runQueueState="RunInAnyState" interruptable="true">
+		<Action type="fade" character="Maggie" fade="out" />
+		<Action type="addBuildingOverlay" building="PlaydoughFactory" order="1">
+			<EffectOverlay name="MaggieIntro" bsv3="Maggie_Hiding_PlaydoughFactory_Maggie.bcell" anim="Maggie_Hiding_PlaydoughFactory_Maggie.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" />
+		</Action>
+		<Action type="pantoobject" offsetX="350" offsetZ="-350" building="PlaydoughFactory" fakeTouch="false" zoom="2.0" time="0" />
+		<Action type="delay" time="6.2" />
+		<Action type="pantoobject" offsetX="350" offsetZ="-350" building="PlaydoughFactory" fakeTouch="false" zoom="0.01" time="0" />
+		<Action type="removeBuildingOverlay" building="PlaydoughFactory" name="MaggieIntro" />
+	</FindIntro>
+	<FindOuttro_Pass parallel="true" runQueueState="RunInAnyState"></FindOuttro_Pass>
+	<ShowMaggieCount parallel="true" runQueueState="RunInAnyState">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="pantoobject" building="PlaydoughFactory" fakeTouch="true" fakeTouchAvoidsIndicators="true" time="1" />
+	</ShowMaggieCount>
+	<FindOuttro_Fail parallel="true" runQueueState="RunInAnyState">
+		<Action type="runScriptOnAll" buildingGroup="FindMinigame" script="RemoveABaby_Fail" package="Maggie_Scripts" />
+		<Action type="fade" character="Maggie" fade="in" />
+		<Action type="fade" character="Maggie" fade="off" />
+	</FindOuttro_Fail>
+	<PlaceABaby parallel="true" otherScriptsCanRunOnObject="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="State_FindMinigame" />
+			<True>
+				<Action type="setObjectVariable" variable="Baby" value="1" scope="-1" />
+				<Action type="triggerActiveBuildingAnim" animate="true" />
+				<Action type="setObjectVariable" variable="MaggieIn" value="1" />
+				<Action type="delay" time="2.7" />
+				<Action type="setObjectVariable" variable="MaggieIn" value="0" />
+				<Action type="setObjectVariable" variable="Maggie" value="1" />
+			</True>
+		</Action>
+	</PlaceABaby>
+	<FindMinigameOnLandEnter>
+		<Action type="setMiniGameState" building="PlaydoughFactory" name="FindMaggie" state="Ready" />
+	</FindMinigameOnLandEnter>
+	<RemoveABaby parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::Baby==1" />
+			<True>
+				<Action type="setVariable" intVariable="AllowMaggieOverlays" intValue="0" />
+				<Action type="triggerActiveBuildingAnim" animate="false" />
+				<Action type="setObjectVariable" variable="Baby" value="0" />
+				<Action type="setObjectVariable" variable="MaggieIn" value="0" />
+				<Action type="setObjectVariable" variable="Maggie" value="0" />
+				<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+			</True>
+		</Action>
+	</RemoveABaby>
+	<RemoveABaby_Fail parallel="true" runQueueState="RunInAnyState">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="Object::Baby==1" />
+			<True>
+				<Action type="setObjectVariable" variable="Maggie" value="0" />
+				<Action type="setObjectVariable" variable="MaggieOut" value="1" />
+				<Action type="runScript" formatMe="true" script="PanTo{Object::Name}" package="Maggie_Scripts" waitUntilComplete="true" />
+				<Action type="runScript" script="SendTelemetry" package="Maggie_Scripts">
+					<FormatToken key="attemptcount" value="_[MaggieFoundCount]_" />
+					<FormatToken key="status" value="Fail" />
+				</Action>
+				<Action type="runScript" script="ShowBabyFailMessage" package="Maggie_Scripts" />
+				<Action type="setVariable" intVariable="AllowMaggieOverlays" intValue="0" />
+			</True>
+		</Action>
+	</RemoveABaby_Fail>
+	<FindBabyEnd parallel="true" runQueueState="RunInAnyState">
+		<Action type="setObjectVariable" variable="Maggie" value="0" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="1" />
+		<Action type="runScript" formatMe="true" script="PanTo{Object::Name}" package="Maggie_Scripts" waitUntilComplete="true" />
+		<Action type="setVariable" intVariable="MaggieFoundCount" intValue="MaggieFoundCount+1" />
+		<Action type="setVariable" intVariable="AnimateFoundCount" intValue="1" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+		<Action type="reward" money="500" xp="200" />
+		<Action type="runScript" script="ShowBabyPassMessage" package="Maggie_Scripts" />
+		<Action type="triggerActiveBuildingAnim" animate="false" />
+		<Action type="deleteObjectVariable" variable="Baby" />
+		<Action type="runScript" script="SendTelemetry" package="Maggie_Scripts">
+			<FormatToken key="attemptcount" value="_[MaggieFoundCount]_" />
+			<FormatToken key="status" value="Success" />
+		</Action>
+	</FindBabyEnd>
+	<ShowBabyPassMessage>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_title_win" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="resultText">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_win" localise="true" />
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_reward" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="500" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="200" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_GENR_MONEY_XS:*" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Attribute name="image" value="ICO_GENR_XP_XS:*" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ICO_Maggie_Popup" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_message" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="script" value="Maggie_Scripts:ShowMaggieCount" />
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowBabyPassMessage>
+	<ShowBabyFailMessage>
+		<Action type="triggerActiveBuildingAnim" animate="false" />
+		<Action type="deleteObjectVariable" variable="Baby" />
+		<Action type="reward" money="250" xp="100" />
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="underlinedBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="underlinedTitle">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_title_fail" localise="true" />
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="resultText">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_fail" localise="true" />
+					<Attribute name="font" value="eFont_XLBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardBranch">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="extraRewardText">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_reward" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="250" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Amount">
+					<Attribute name="text" value="{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="100" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_NormalBold" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="extraReward1_Image">
+					<Attribute name="image" value="ICO_GENR_MONEY_XS:*" />
+				</AttributeSet>
+				<AttributeSet name="extraReward2_Image">
+					<Attribute name="image" value="ICO_GENR_XP_XS:*" />
+				</AttributeSet>
+				<AttributeSet name="largeImage">
+					<Attribute name="image" value="ICO_Maggie_Popup" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_Maggie_Minigame_results_message" localise="true" />
+					<Attribute name="font" value="eFont_Normal" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="script" value="MiscScripts:GoToInGame" />
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_Collect" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowBabyFailMessage>
+	<PanToZiffCorpOfficeBuilding parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="400" offsetZ="-400" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="400" offsetZ="-400" fakeTouch="false" time="1" zoom="2.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="400" offsetZ="-400" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToZiffCorpOfficeBuilding>
+	<PanToSimpsonHome parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToSimpsonHome>
+	<PanToCletusFarm parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="150" offsetZ="150" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="150" offsetZ="150" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="150" offsetZ="150" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToCletusFarm>
+	<PanToKrustyBurger parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" zoom="6.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToKrustyBurger>
+	<PanToVanHoutenHome parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="125" offsetZ="-125" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="125" offsetZ="-125" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="125" offsetZ="-125" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToVanHoutenHome>
+	<PanToSpringfieldElementary parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" zoom="6.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToSpringfieldElementary>
+	<PanToSpringfieldLibrary parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToSpringfieldLibrary>
+	<PanToAndroidsDungeon parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="175" offsetZ="-175" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="175" offsetZ="-175" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="175" offsetZ="-175" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToAndroidsDungeon>
+	<PanToFirstChurchofSpringfield parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="275" offsetZ="-275" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="275" offsetZ="-275" fakeTouch="false" time="1" zoom="3.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="275" offsetZ="-275" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToFirstChurchofSpringfield>
+	<PanToMoesTavern parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="150" offsetZ="-150" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="150" offsetZ="-150" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="150" offsetZ="-150" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToMoesTavern>
+	<PanToPoliceStation parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="175" offsetZ="-175" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="175" offsetZ="-175" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="175" offsetZ="-175" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToPoliceStation>
+	<PanToLuigis parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="125" offsetZ="-125" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="125" offsetZ="-125" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="125" offsetZ="-125" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToLuigis>
+	<PanToSpringfieldRetirementCastle parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="75" offsetZ="-75" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="75" offsetZ="-75" fakeTouch="false" time="1" zoom="6.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="75" offsetZ="-75" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToSpringfieldRetirementCastle>
+	<PanToTownHall parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="100" offsetZ="-100" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="100" offsetZ="-100" fakeTouch="false" time="1" zoom="6.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="100" offsetZ="-100" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToTownHall>
+	<PanToSpringfieldWaxMuseum parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="50" offsetZ="-50" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToSpringfieldWaxMuseum>
+	<PanToBrownHouse>
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="6.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToBrownHouse>
+	<PanToPurpleHouse parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="200" offsetZ="-200" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToPurpleHouse>
+	<PanToBlueHouse parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToBlueHouse>
+	<PanToPinkHouse parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToPinkHouse>
+	<PanToWhiteHouse parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="5.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToWhiteHouse>
+	<PanToOrangeHouse parallel="true" runQueueState="RunInAnyState">
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" useObjectRef="true" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="6.0" useObjectRef="true" />
+		<Action type="delay" time="4.1" />
+		<Action type="pantoobject" offsetX="0" offsetZ="0" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+		<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+		<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+	</PanToOrangeHouse>
+	<PanToLardLadsDonuts parallel="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="Object::Flipped::AsInt==0" asObjectExpression="true">
+				<Then>
+					<Action type="pantoobject" offsetX="300" offsetZ="-400" fakeTouch="false" time="1" useObjectRef="true" />
+					<Action type="pantoobject" offsetX="300" offsetZ="-400" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+					<Action type="delay" time="4.1" />
+					<Action type="pantoobject" offsetX="300" offsetZ="-400" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+					<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+					<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="pantoobject" offsetX="400" offsetZ="-700" fakeTouch="false" time="1" useObjectRef="true" />
+					<Action type="pantoobject" offsetX="400" offsetZ="-700" fakeTouch="false" time="1" zoom="4.0" useObjectRef="true" />
+					<Action type="delay" time="4.1" />
+					<Action type="pantoobject" offsetX="400" offsetZ="-700" fakeTouch="false" time="1" zoom="1.0" useObjectRef="true" />
+					<Action type="setObjectVariable" variable="MaggieOut" value="0" />
+					<Action type="setVariable" intVariable="WasInFindMinigame" intValue="0" />
+				</Then>
+			</Else>
+		</Action>
+	</PanToLardLadsDonuts>
+	<SendTelemetry parallel="true" runQueueState="RunInAnyState">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{attemptcount}" param2Type="Enumeration" param2="{status}" param3Type="UserLevel" eventId="3529"></Action>
+	</SendTelemetry>
+	<StatusMenuPrizeAnimDone parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" intVariable="AnimateFoundCount" intValue="0" />
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirement type="formula" formula="greaterThan(MaggieFoundCount,2)" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+			</True>
+		</Action>
+	</StatusMenuPrizeAnimDone>
+	<FindMinigameAward parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" intVariable="AwardFindMinigame" intValue="0" />
+	</FindMinigameAward>
+	<Maggie_PrizeReward parallel="true" runQueueState="RunInAnyState">
+		<Action type="setVariable" intVariable="MaggieFoundCount" intValue="0" />
+		<Action type="setVariable" intVariable="AwardFindMinigame" intValue="1" />
+	</Maggie_PrizeReward>
+	<AwardPrestige>
+		<Action type="reward">
+			<Item type="consumable" name="Maggie_MinigameReward" useImmediately="true" />
+		</Action>
+	</AwardPrestige>
+	<SearchForRosaPart parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="active quest" quest="TheEndOfTheBeginning_16" />
+			<True>
+				<Action type="reward" save="true" ROSAPart="1" suppress_sound="true" />
+			</True>
+		</Action>
+	</SearchForRosaPart>
+	<GoToFindROSAPartsJobList>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Maggie_Scripts:FindROSAPartsJobList" />
+		</Action>
+	</GoToFindROSAPartsJobList>
+	<FindROSAPartsJobList>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="PowerPlantLot" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_JobList" extras="Maggie_MinigameConfig:FindROSAPartJobList" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="PowerPlantLot" not="true" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="PowerPlantLot" menuCategory="Buildings" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="PowerPlantLot" inventory="true" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</FindROSAPartsJobList>
+	<GoToCraftROSA>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Maggie_Scripts:CraftROSA" />
+		</Action>
+	</GoToCraftROSA>
+	<CraftROSA>
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+			<Extras>
+				<Attribute name="MenuConfig" value="Maggie_MinigameConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</CraftROSA>
+	<RewardROSAPart>
+		<Action type="reward" save="true" ROSAPart="1" />
+	</RewardROSAPart>
+	<MaggieWanderEnd ignoreHUD="true" parallel="true" runQueueState="NeverQueueScript" cache="true">
+		<Action type="if">
+			<If expression="System::evaluate('Job::MakeMaggieCelebrateLikeIts1879::Active') == 0 &amp;&amp; System::evaluate('Job::ShareTheMagic::Active') == 0">
+				<Then>
+					<Action type="checkRequirements" ignoreObject="false">
+						<Requirements>
+							<Requirement type="formula" formula="Object::MoveGroup==1" />
+						</Requirements>
+						<True>
+							<Action type="anim-play" animation="Crawl_Front_Out" flipped="Crawl_Back_Out" />
+							<Action type="setObjectVariable" variable="MoveGroup" value="0" disableEvents="true" />
+							<Action type="setCharacterController" controller="MaggieWalk" />
+						</True>
+						<False>
+							<Action type="anim-play" animation="Crawl_Front_In" flipped="Crawl_Back_In" />
+							<Action type="setObjectVariable" variable="MoveGroup" value="1" disableEvents="true" />
+							<Action type="setCharacterController" controller="MaggieCrawl" />
+						</False>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</MaggieWanderEnd>
+	<FloatTest ignoreHUD="true" parallel="true" cache="true">
+		<Action type="anim-play" animation="Float_Front_In" flipped="Float_Back_In" />
+		<Action type="setCharacterController" controller="MaggieFloat" />
+	</FloatTest>
+	<FloatEndTest ignoreHUD="true" parallel="true" cache="true">
+		<Action type="anim-play" animation="Float_Front_Out" flipped="Float_Back_Out" />
+		<Action type="setCharacterController" controller="MaggieWalk" />
+	</FloatEndTest>
+	<GoToMaggie>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="item" item="Maggie" checkInventoryOnly="true" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="Maggie" inventory="true" menuCategory="Characters" />
+			</True>
+			<False>
+				<Action type="pantoobject" character="Maggie" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToMaggie>
+	<GuidePanel_Maggie>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Maggie_MinigameConfig:MaggieMiniGamePanel">
+			<Extras>
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</GuidePanel_Maggie>
+	<TapRosa parallel="true">
+		<Action type="sound" sound="sfx_winter2015_rosa_tap.caf" />
+		<Action type="playanimation" character="ROSA" animation="Tap" />
+	</TapRosa>
+</ScriptPackage>

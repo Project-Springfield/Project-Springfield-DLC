@@ -1,0 +1,45 @@
+﻿<ScriptPackage>
+	<BlinkyMonsterPromo_Start ignoreHUD="true">
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+	</BlinkyMonsterPromo_Start>
+	<BlinkyMonsterPromo_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Promoted" name="BlinkyMonster_Promo" />
+	</BlinkyMonsterPromo_Recommend>
+	<BlinkyMonsterPromo_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoStart_3_dlg_Start_1_Gil" revealSpeed="medium" />
+				<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoStart_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+				<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoStart_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="selling" />
+				<Action type="recommendation" recType="Promoted" name="BlinkyMonster_Promo" />
+				<Action type="recommendation" recType="Event" eventName="UI_THOH2016_Name" name="THOH2016_OnePanel" />
+				<Action type="setVariable" boolVariable="BlinkyMonster_PromoIndicatorActive" boolValue="false" />
+				<Action type="setVariable" boolVariable="BlinkyMonster_PromoShowInBuildMenu" boolValue="true" />
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="displayPromo" event="BlinkyMonster_Promo" />
+				<Action type="runScript" script="KillGil" package="MiscScripts" />
+				<Action type="setVariable" boolVariable="BlinkyMonster_PromoSeen" boolValue="true" />
+			</True>
+		</Action>
+	</BlinkyMonsterPromo_Display>
+	<BlinkyMonster_DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="BlinkyMonster_Promo" />
+	</BlinkyMonster_DisplayPromo>
+	<BlinkyMonsterPromo_Purchase>
+		<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoPurchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoPurchased_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+		<Action type="clearRecommendations" category="Promoted" name="BlinkyMonster_Promo" />
+		<Action type="setVariable" boolVariable="BlinkyMonster_PromoShowInBuildMenu" boolValue="false" />
+	</BlinkyMonsterPromo_Purchase>
+	<BlinkyMonsterPromo_Cancel>
+		<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoNotPurchased_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Gil" text="QST_BlinkyMonsterPromo_PromoNotPurchased_3_dlg_Start_2_Gil" revealSpeed="medium" emotion="sad" />
+		<Action type="setVariable" boolVariable="ShowPromoCancelDialogue" boolValue="false" />
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</BlinkyMonsterPromo_Cancel>
+</ScriptPackage>

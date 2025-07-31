@@ -1,0 +1,1019 @@
+﻿<ScriptPackage>
+	<RecommendSciFi>
+		<Action type="recommendation" recType="Event" eventName="UI_SciFI_Title" name="SciFi_ThreePanel" />
+		<Action type="recommendation" recType="Event" eventName="UI_SciFI_Title" name="SciFi_OnePanel" />
+	</RecommendSciFi>
+	<EnterSciFiStoreCategory>
+		<Action type="focusOnMenuItem" menuCategory="SciFi" />
+	</EnterSciFiStoreCategory>
+	<SciFiLandLoad parallel="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="and(System::evaluate('Game::State::GameState_CustomTouch'), greaterThan(SF_FRAMECNT, 0))">
+				<Then>
+					<Action type="if">
+						<If expression="and(SF_PAUSED==0, SF_INMAIN==1)">
+							<Then>
+								<Action type="actionSequence" script="SciFi_Scripts_SciFighter:QuitGame" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="SF_STARTED" value="0" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    
+                    var anomTapped = User::getVariable('AnomaliesTapped');
+                    if(anomTapped >=1)
+                    {
+                        var anomTappedTime = User::getVariable('AnomalyTappedTime');
+                        var diff = floor((time() - anomTappedTime) / 7200);
+                        User::setVariable('AnomaliesTapped',max(0,anomTapped-diff),false);
+                        User::setVariable('AnomalyTappedTime',anomTappedTime+(7200*diff),false);
+                    }
+                    
+                    ]]></Program>
+		</Action>
+	</SciFiLandLoad>
+	<MultiVacTapped_FTUE parallel="true">
+		<Action type="gotoState" state="GameState_InGame" />
+	</MultiVacTapped_FTUE>
+	<Build_SkyberdineSystems>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="FutureDuffSign" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="SkyberdineSystems" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_SkyberdineSystems>
+	<Build_FutureDuffSign>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="FutureDuffSign" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="FutureDuffSign" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_FutureDuffSign>
+	<Build_SimpsonsHoverCar>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="SimpsonsHoverCar" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="SimpsonsHoverCar" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_SimpsonsHoverCar>
+	<Build_HoloTheater>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="HoloTheater" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="HoloTheater" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_HoloTheater>
+	<Build_FutureSimpsonsHouse>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="FutureSimpsonsHouse" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="FutureSimpsonsHouse" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_FutureSimpsonsHouse>
+	<Build_AstroHouse>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="AstroHouse" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="AstroHouse" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_AstroHouse>
+	<Build_KwikEMart2054>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="KwikEMart2054" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="KwikEMart2054" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_KwikEMart2054>
+	<Build_CryoStasisMemorial>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="CryoStasisMemorial" />
+					<False>
+						<Action type="runScript" script="SciFi_Scripts:TabPressed_PrizeTrack" />
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="CryoStasisMemorial" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_CryoStasisMemorial>
+	<Build_DreamHouse>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="HomersAboveGroundUnderseaHouse" />
+					<False>
+						<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+						<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+							<Extras>
+								<Attribute name="MenuConfig" value="SciFi_CraftingConfig:CraftingMenu" />
+								<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+								<Attribute name="ItemToScrollTo" value="BLD_HomersAboveGroundUnderseaHouse_name" />
+							</Extras>
+						</Action>
+					</False>
+					<True>
+						<Action type="focusOnMenuItem" itemName="HomersAboveGroundUnderseaHouse" inventory="true" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Build_DreamHouse>
+	<TabPressed_PrizeTrack ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="PrizeTrack" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="GameState_HubPrizeTrack">
+			<Extras>
+				<Attribute name="specialEvent" value="SciFi_Event" />
+				<Attribute name="helpButtonScript" value="SciFi_Scripts:TabPressed_PrizeTrack_Help" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+	</TabPressed_PrizeTrack>
+	<TabPressed_PrizeTrack_Help ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="SciFi_MenuConfig:SciFiGuide_PrizeTrack" />
+	</TabPressed_PrizeTrack_Help>
+	<TabPressed_SciFighter ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="SciFighter" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_HubDataDrivenMenu" forceState="false">
+			<Extras>
+				<Attribute name="menuName" value="SciFighterMinigameHUB" />
+				<Attribute name="scriptResProvider" value="SciFighterMinigameHUB.mns" />
+				<Attribute name="menuConfig" value="SciFi_MenuConfig:SciFighterEventHubMenuConfig" />
+				<Attribute name="buttonsConfig" value="SciFi_MenuConfig:SciFighterEventHubButtonsConfig" />
+				<Attribute name="progressBarsConfig" value="SciFi_MenuConfig:SciFighterEventHubProgressBarConfig" />
+				<Attribute name="specialEvent" value="SciFi_Event" />
+			</Extras>
+		</Action>
+	</TabPressed_SciFighter>
+	<TabPressed_SciFighter_Help ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="SciFi_MenuConfig_SciFighter:SciFiGuide_SciFighter" />
+	</TabPressed_SciFighter_Help>
+	<GuidePanel_SciFighter_Exit ignoreHUD="true">
+		<Action type="if">
+			<If expression="SciFi_Event">
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts:TabPressed_SciFighter" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="SciFi_Scripts:ExitSciFighterGuide" />
+				</Then>
+			</Else>
+		</Action>
+	</GuidePanel_SciFighter_Exit>
+	<ExitSciFighterGuide ignoreHUD="true">
+		<Action type="runScript" script="MiscScripts:ReturnToGameState" />
+	</ExitSciFighterGuide>
+	<TabPressed_Crafting ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+				<Action type="markBadgeViewed" badgeName="Crafting" />
+				<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="specialEvent" value="SciFi_Event" />
+						<Attribute name="MenuConfig" value="SciFi_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_Crafting>
+	<TabPressed_Crafting_Help ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="SciFi_MenuConfig:SciFiGuide_Crafting" />
+	</TabPressed_Crafting_Help>
+	<PrizeTrack2Selected ignoreHUD="true">
+		<Action type="notification" title="UI_SciFi_PrizeTrack_Title" button="UI_OK" text="UI_SciFi_PrizeTrackLocked_1" tooltip="UI_SciFi_PrizeTrackLocked_2" icon="ICO_PRIZ_SciFi_PresidentLisa_MD" darken="true" />
+	</PrizeTrack2Selected>
+	<PrizeTrack3Selected ignoreHUD="true">
+		<Action type="notification" title="UI_SciFi_PrizeTrack_Title" button="UI_OK" text="UI_SciFi_PrizeTrackLocked_1" tooltip="UI_SciFi_PrizeTrackLocked_2" icon="ICO_PRIZ_SciFi_MechaHawk_MD" darken="true" />
+	</PrizeTrack3Selected>
+	<SciFiFriendsHUDInfo parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="SciFiUpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="SciFi_Scripts:SciFiFriendsHUDInfoAux" />
+	</SciFiFriendsHUDInfo>
+	<SciFiFriendsHUDInfoAux>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="90" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="RobotSalvageCard_Purchased" />
+							<True>
+								<Action type="notification" title="RES_SciFi_PT1Currency_plural" button="UI_OK" text="GEN_ResourceListing_SciFi_PT1_Card" icon="ICO_CUR_SciFi2016_DarkMatter_LG">
+									<Variable name="SCIFI_PT1_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="SCIFI_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_SciFi_PT1Currency_plural" button="UI_OK" text="GEN_ResourceListing_SciFi_PT1" icon="ICO_CUR_SciFi2016_DarkMatter_LG">
+									<Variable name="SCIFI_PT1_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="SCIFI_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_SciFi_PT1Currency_plural" button="UI_OK" text="UI_SciFi_OutOfFriendActions_PT1" icon="ICO_CUR_SciFi2016_DarkMatter_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="90" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="RobotSalvageCard_Purchased" />
+							<True>
+								<Action type="notification" title="RES_SciFi_PT2Currency_plural" button="UI_OK" text="GEN_ResourceListing_SciFi_PT2_Card" icon="ICO_CUR_SciFi2016_Time_LG">
+									<Variable name="SCIFI_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="SCIFI_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_SciFi_PT2Currency_plural" button="UI_OK" text="GEN_ResourceListing_SciFi_PT2" icon="ICO_CUR_SciFi2016_Time_LG">
+									<Variable name="SCIFI_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="SCIFI_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_SciFi_PT2Currency_plural" button="UI_OK" text="UI_SciFi_OutOfFriendActions_PT2" icon="ICO_CUR_SciFi2016_Time_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="90" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="RobotSalvageCard_Purchased" />
+							<True>
+								<Action type="notification" title="RES_SciFi_PT3Currency_plural" button="UI_OK" text="GEN_ResourceListing_SciFi_PT3_Card" icon="ICO_CUR_SciFi2016_Matter_LG">
+									<Variable name="SCIFI_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="SCIFI_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_SciFi_PT3Currency_plural" button="UI_OK" text="GEN_ResourceListing_SciFi_PT3" icon="ICO_CUR_SciFi2016_Matter_LG">
+									<Variable name="SCIFI_PT2_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="SCIFI_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_SciFi_PT3Currency_plural" button="UI_OK" text="UI_SciFi_OutOfFriendActions_PT3" icon="ICO_CUR_SciFi2016_Matter_LG"></Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</SciFiFriendsHUDInfoAux>
+	<RideTheMech_Place parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Job::RideTheMech::Active')">
+				<Then>
+					<Action type="setObjectVariable" variable="MechRobotActive" value="1" allowOrphan="false" onType="building" onObject="MechRobot" />
+					<Action type="anim-play" onBuilding="MechRobot" animation="Neutral2" />
+				</Then>
+			</If>
+		</Action>
+	</RideTheMech_Place>
+	<RideTheMech_Toggle>
+		<Action type="setObjectVariable" variable="MechRobotActive" value="mod(Object::MechRobotActive+1, 2)" asExpression="true" allowOrphan="false" onType="building" onObject="MechRobot" ignoreObject="true" />
+		<Action type="anim-play" onBuilding="MechRobot" animation="Neutral" />
+	</RideTheMech_Toggle>
+	<Printer_LvlUp parallel="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="                 #program;                 var activeMenus = Menu::getActiveMenusAsArray();                                  for (var i=0; i &lt; Array::size(activeMenus); i++)                 {                     var menuName = Array::getValueAtIndex(activeMenus, i);                     if (menuName == 'eMenu_HubCrafting')                     {                         return(1);                     }                 }                                  return(0);                 ">
+				<Then>
+					<Action type="systemButton" systemButtonName="back" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="setObjectVariable" variable="AnimState" value="rand(3)" asExpression="true" allowOrphan="false" onType="building" onObject="3DPrinter" />
+		<Action type="anim-play" onBuilding="3DPrinter" animation="3DPrinter_Craft" isController="true" nowait="true" />
+		<Action type="scheduleScript" mode="replace" script="SciFi_Scripts_Crafting:CraftingLevelReached" shouldSave="true" relativeTime="1s" />
+	</Printer_LvlUp>
+	<Printer_JobStart ignoreHUD="true">
+		<Action type="updateVariable" disableEvents="false" variable="Printer_JobStarted" value="time()" />
+		<Action type="setObjectVariable" variable="AnimState" value="rand(3)" asExpression="true" allowOrphan="false" onType="building" onObject="3DPrinter" />
+	</Printer_JobStart>
+	<RestInCryoStarted_Grampa parallel="true">
+		<Action type="setObjectVariable" variable="GrampaActive" value="1" allowOrphan="false" onType="building" onObject="CryoStasisMemorial" />
+		<Action type="anim-play" onBuilding="CryoStasisMemorial" animation="Neutral" />
+	</RestInCryoStarted_Grampa>
+	<RestInCryoDone_Grampa parallel="true">
+		<Action type="setObjectVariable" variable="GrampaActive" value="0" allowOrphan="false" onType="building" onObject="CryoStasisMemorial" />
+		<Action type="anim-play" onBuilding="CryoStasisMemorial" animation="Neutral" />
+	</RestInCryoDone_Grampa>
+	<RestInCryoStarted_Jasper parallel="true">
+		<Action type="setObjectVariable" variable="JasperActive" value="1" allowOrphan="false" onType="building" onObject="CryoStasisMemorial" />
+		<Action type="anim-play" onBuilding="CryoStasisMemorial" animation="Neutral" />
+	</RestInCryoStarted_Jasper>
+	<RestInCryoDone_Jasper parallel="true">
+		<Action type="setObjectVariable" variable="JasperActive" value="0" allowOrphan="false" onType="building" onObject="CryoStasisMemorial" />
+		<Action type="anim-play" onBuilding="CryoStasisMemorial" animation="Neutral" />
+	</RestInCryoDone_Jasper>
+	<WarpThisWay_DoIt>
+		<Action type="checkRequirements">
+			<Requirement type="item" item="TeleporterAlpha" />
+			<True>
+				<Action type="focusOnMenuItem" itemName="TeleporterAlpha" inventory="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="TeleporterOmega" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="TeleporterOmega" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" time="0" building="TeleporterAlpha" fakeTouch="true" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</WarpThisWay_DoIt>
+	<TeleportToAlpha>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="TeleporterAlpha" />
+			<True>
+				<Action type="sound" sound="sfx_ea_tsto_teleporter_tap.caf" />
+				<Action type="pantoobject" building="TeleporterAlpha" blockTouches="true" time="0" />
+				<Action type="flashScreen" colour="White" speed="6" />
+				<Action type="setVariable" intVariable="TeleportersUsed" intValue="TeleportersUsed+1" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="TeleporterAlpha" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToAlpha>
+	<TeleportToOmega>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="TeleporterOmega" />
+			<True>
+				<Action type="sound" sound="sfx_ea_tsto_teleporter_tap.caf" />
+				<Action type="pantoobject" building="TeleporterOmega" blockTouches="true" time="0" />
+				<Action type="flashScreen" colour="White" speed="6" />
+				<Action type="setVariable" intVariable="TeleportersUsed" intValue="TeleportersUsed+1" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="TeleporterOmega" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToOmega>
+	<TeleportToZeta>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="TeleporterZeta" />
+			<True>
+				<Action type="sound" sound="sfx_ea_tsto_teleporter_tap.caf" />
+				<Action type="pantoobject" building="TeleporterZeta" blockTouches="true" time="0" />
+				<Action type="flashScreen" colour="White" speed="6" />
+				<Action type="setVariable" intVariable="TeleportersUsed" intValue="TeleportersUsed+1" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="TeleporterZeta" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToZeta>
+	<TeleportToTheta>
+		<Action type="checkRequirements">
+			<Requirement type="building" building="TeleporterTheta" />
+			<True>
+				<Action type="sound" sound="sfx_ea_tsto_teleporter_tap.caf" />
+				<Action type="pantoobject" building="TeleporterTheta" blockTouches="true" time="0" />
+				<Action type="flashScreen" colour="White" speed="6" />
+				<Action type="setVariable" intVariable="TeleportersUsed" intValue="TeleportersUsed+1" />
+				<Action type="checkRequirements">
+					<Requirement type="players land" />
+					<True>
+						<Action type="gotoState" state="GameState_InGame" />
+					</True>
+					<False>
+						<Action type="gotoState" state="FriendState_InGame" parentState="ActiveState" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="if">
+					<If>
+						<Requirement type="players land" />
+						<Then>
+							<Action type="userConfirmation" text="UI_TeleportErrorBody" title="UI_TeleportErrorTitle" var="confirm_gotoTeleporter" text_yes="ui_storage" text_no="ui_close" />
+							<Action type="checkExpression" expression="confirm_gotoTeleporter">
+								<ExpressionCase value="1">
+									<Action type="focusOnMenuItem" itemName="TeleporterTheta" inventory="true" />
+								</ExpressionCase>
+							</Action>
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+						</Then>
+					</Else>
+				</Action>
+			</False>
+		</Action>
+	</TeleportToTheta>
+	<GoToRobot parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="System::evaluate('Character::Robot_Tappable::TotalCount') &gt; 0">
+						<Then>
+							<Action type="pantoobject" character="Robot_Tappable" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="returnToInGameState" />
+							<Action type="runScript" script="SciFi_Scripts:NoRobots" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoToRobot>
+	<NoRobots>
+		<Action type="message" text="UI_SciFi_NoRobots" />
+	</NoRobots>
+	<Reset_DCS_RobotsTapped parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_RobotsTapped" intValue="0" />
+	</Reset_DCS_RobotsTapped>
+	<Reset_DCS_SciFighterRobots parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_SciFighter_Robots" intValue="0" />
+	</Reset_DCS_SciFighterRobots>
+	<Reset_DCS_SciFighterWins parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_SciFighter_Wins" intValue="0" />
+	</Reset_DCS_SciFighterWins>
+	<Reset_DCS_SciFighterNoDamage parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_SciFighter_NoDamage" intValue="0" />
+	</Reset_DCS_SciFighterNoDamage>
+	<Reset_DCS_FriendsRobotsTapped parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_FriendsRobotsTapped" intValue="0" />
+	</Reset_DCS_FriendsRobotsTapped>
+	<Reset_DCS_SciFighterConsumables parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_SciFighter_Consumable" intValue="0" />
+	</Reset_DCS_SciFighterConsumables>
+	<Reset_DCS_CraftItemPurchased parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_CraftItemPurchased" intValue="0" />
+	</Reset_DCS_CraftItemPurchased>
+	<Reset_DCS_CraftItemAssembled parallel="true">
+		<Action type="setVariable" intVariable="SF_DCS_CraftItemAssembled" intValue="0" />
+	</Reset_DCS_CraftItemAssembled>
+	<GoToMultiVac>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="MultiVac" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+		</Action>
+	</GoToMultiVac>
+	<GoToHomerkazes>
+		<Action type="focusOnMenuItem" itemName="Con_Homerkazes_5" menuCategory="SciFi" />
+	</GoToHomerkazes>
+	<BigDigiBenJobDone parallel="true">
+		<Action type="if">
+			<If>
+				<Requirement type="players land" />
+				<Then>
+					<Action type="setObjectVariable" variable="ReadyToCollect" value="1" allowOrphan="false" />
+				</Then>
+			</If>
+		</Action>
+	</BigDigiBenJobDone>
+	<BigDigiBenJobStarted parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::BigDigiBen::Object::ReadyToCollect')==1">
+				<Requirement type="players land" />
+				<Then>
+					<Action type="setObjectVariable" variable="ReadyToCollect" value="0" allowOrphan="false" />
+					<Action type="actionSequence" script="SciFi_Scripts_Tappables:DestroyAllTappables_BigDigiBen" />
+				</Then>
+			</If>
+		</Action>
+	</BigDigiBenJobStarted>
+	<CollectFlashes_Done parallel="true">
+		<Action type="setObjectVariable" variable="ReadyToCollect" value="1" allowOrphan="false" />
+	</CollectFlashes_Done>
+	<CollectFlashes_Start parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::PowerPlantLot::Object::ReadyToCollect')==1">
+				<Then>
+					<Action type="setObjectVariable" variable="ReadyToCollect" value="0" allowOrphan="false" />
+					<Action type="reward" SciFi_Homerkazes="1" />
+				</Then>
+			</If>
+		</Action>
+	</CollectFlashes_Start>
+	<GoToCollectAFlash ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="building" building="PowerPlantLot" />
+					<Requirement type="place building" building="PowerPlantLot" />
+				</Requirement>
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="PowerPlantLot" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="item" item="PowerPlantLot" />
+					</Requirements>
+					<True>
+						<Action type="focusOnMenuItem" itemName="PowerPlantLot" inventory="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="PowerPlantLot" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GoToCollectAFlash>
+	<DM2_TeleportHomer parallel="true">
+		<Action type="stop" character="Homer" />
+		<Action type="moveObjectInstance" onType="character" onObject="Homer" xPos="gridToWorld(System::evaluate('Building::MultiVac::Object::GridX')-.25)" yPos="gridToWorld(System::evaluate('Building::MultiVac::Object::GridY')+.25)" forceValid="false" />
+		<Action type="anim-play" character="Homer" animation="Idle" />
+		<Action type="runScript" script="SciFi_Scripts:DM2_TeleportHomer_Pan" />
+	</DM2_TeleportHomer>
+	<DM2_TeleportHomer_Pan ignoreHUD="true">
+		<Action type="delay" time="0.1" />
+		<Action type="pantoobject" building="MultiVac" fakeTouch="false" fakeTouchAvoidsIndicators="true" maxSpeed="800" time="0.5" />
+	</DM2_TeleportHomer_Pan>
+	<DarkMatters5AGoTo parallel="true">
+		<Action type="gotoState" state="GameState_InGame" />
+	</DarkMatters5AGoTo>
+	<DarkMatters5BGoTo parallel="true">
+		<Action type="gotoState" state="GameState_InGame" />
+	</DarkMatters5BGoTo>
+	<HeaveAntimatterIntoTheBlackHole_Complete parallel="true">
+		<Action type="flashScreen" colour="White" speed="8" />
+	</HeaveAntimatterIntoTheBlackHole_Complete>
+	<DeleteAlternateHomer_Strong parallel="true">
+		<Action type="deletecharacter" character="StrongmanHomer_SciFi" />
+	</DeleteAlternateHomer_Strong>
+	<DeleteAlternateHomer_King parallel="true">
+		<Action type="deletecharacter" character="KingSizeHomer_SciFi" />
+	</DeleteAlternateHomer_King>
+	<DeleteAlternateHomer_Barb parallel="true">
+		<Action type="deletecharacter" character="BarbarianHomer_SciFi" />
+	</DeleteAlternateHomer_Barb>
+	<DeleteAlternateHomer_Cool parallel="true">
+		<Action type="deletecharacter" character="CoolHomer_SciFi" />
+	</DeleteAlternateHomer_Cool>
+	<DeleteAlternateHomer_Evil parallel="true">
+		<Action type="deletecharacter" character="EvilHomer_SciFi" />
+		<Action type="setVariable" boolVariable="SciFi_HomersGone" boolValue="true" />
+	</DeleteAlternateHomer_Evil>
+	<DeleteFrankGrimes parallel="true">
+		<Action type="deletecharacter" character="FrankGrimes" />
+	</DeleteFrankGrimes>
+	<RewardEvilHomer ignoreHUD="true">
+		<Action type="if">
+			<If expression="SciFi_HomersGained">
+				<Then>
+					<Action type="createobject" name="EvilHomer" count="1" save="true" building="MultiVac" showUnlock="true" panCamera="true" />
+				</Then>
+			</If>
+		</Action>
+	</RewardEvilHomer>
+	<HoloBundle_Purchased>
+		<Action type="notification" icon="ICO_PRIZ_BFCM_HoloBundle_LG" title="CON_HoloBundle_name" text="QST_HoloBundle_3_dlg_Start_1_SystemMessage" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="HoloBench" inventory="true" />
+	</HoloBundle_Purchased>
+	<RobotAntBundle_Purchased>
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="notification" icon="ICO_STOR_Single_MechanicalAntsBundle" title="CON_RobotAntBundle_name" text="QST_MechanicalAntsBundle_3_dlg_Start_1_SystemMessage" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="RobotAnt1" inventory="true" />
+	</RobotAntBundle_Purchased>
+	<ElectricCarBundle_Purchased>
+		<Action type="notificationLarge" icon="ICO_STOR_Single_ElectricCarBundle" title="CON_ElectricCarBundle_name" text="QST_ElectricCarBundle_3_dlg_Start_1_SystemMessage" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="BlueElectricCar" inventory="true" />
+	</ElectricCarBundle_Purchased>
+	<TeleporterBundle_Purchased>
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="consumable" name="Teleporters_4pack" />
+			</Requirements>
+			<False>
+				<Action type="notification" icon="ICO_STOR_Trans_Alpha_Omega" title="CON_Teleporters_4pack_name" text="QST_TeleportationBundle_3_dlg_Start_1_SystemMessage" button="UI_OK" />
+			</False>
+			<True>
+				<Action type="notification" icon="ICO_PRIZ_BFCM_TeleporterBundle_LG" title="CON_Teleporters_4pack_name" text="QST_TeleportationBundle_3_dlg_Start_1_SystemMessage" button="UI_OK" />
+			</True>
+		</Action>
+		<Action type="focusOnMenuItem" itemName="TeleporterZeta" inventory="true" />
+	</TeleporterBundle_Purchased>
+	<AnneDeroidRebate>
+		<Action type="message" text="UI_EoSRebateAwardMessage_75" dismissOnOKOnly="true" />
+		<Action type="notification" icon="AnneDeroid_Menu" title="CON_AnneDeroid_FrinksLab_name" text="UI_SciFi_AnneDeroid_PurchaseMessage" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="AnneDeroid" inventory="true" />
+	</AnneDeroidRebate>
+	<ChesterRebate>
+		<Action type="message" text="UI_EoSRebateAwardMessage_60" dismissOnOKOnly="true" />
+		<Action type="notification" icon="ICO_STOR_Single_HomeOfTomorrowBundle" title="CON_LampwickHomeBundle_name" text="UI_SciFi_HomeOfTomorrow_PurchaseMessage" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="RocketCar" inventory="true" />
+	</ChesterRebate>
+	<Ant1Rebate>
+		<Action type="message" text="UI_RebateAwardMessage_25" dismissOnOKOnly="true" />
+		<Action type="focusOnMenuItem" itemName="RobotAnt1" inventory="true" />
+	</Ant1Rebate>
+	<Ant2Rebate>
+		<Action type="message" text="UI_RebateAwardMessage_25" dismissOnOKOnly="true" />
+		<Action type="focusOnMenuItem" itemName="RobotAnt2" inventory="true" />
+	</Ant2Rebate>
+	<Ant3Rebate>
+		<Action type="message" text="UI_RebateAwardMessage_25" dismissOnOKOnly="true" />
+		<Action type="focusOnMenuItem" itemName="RobotAnt3" inventory="true" />
+	</Ant3Rebate>
+	<Ant4Rebate>
+		<Action type="message" text="UI_RebateAwardMessage_25" dismissOnOKOnly="true" />
+		<Action type="focusOnMenuItem" itemName="RobotAnt4" inventory="true" />
+	</Ant4Rebate>
+	<Con_Homerkazes_5_Purchased>
+		<Action type="notification" icon="ICO_SciFi_FlashBulb_Pack" title="UI_SciFi_FlashBulbs" text="UI_SciFi_FlashBulbsPurchased" button="UI_OK" />
+	</Con_Homerkazes_5_Purchased>
+	<MultiVac_SkinReset parallel="true">
+		<Action type="setBuildingSkin" building="MultiVac" skinName="MultiVac" useDefault="true" />
+	</MultiVac_SkinReset>
+	<JudgmentDay_ResetMechaDefeated parallel="true">
+		<Action type="updateVariable" disableEvents="false" variable="SF_JudgmentDay_MechaDefeated" value="0" />
+	</JudgmentDay_ResetMechaDefeated>
+	<FrankGrimes_SciFiPurchased parallel="true">
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="ForgottenGrave" />
+		</Action>
+		<Action type="updateVariable" disableEvents="false" variable="SF_FrankGrimesPurchased" value="1" />
+	</FrankGrimes_SciFiPurchased>
+	<RobotSalvageCard_Surfacing>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="ReferAFriendCard_Purchased" not="true" />
+				<Requirement type="time" end="RobotSalvageLicense_EndDate" />
+			</Requirements>
+			<True>
+				<Action type="notification" icon="ICO_STOR_SciFi_RobotSalvageLicense" title="CON_RobotSalvageLicense1_name" text="UI_SciFi_RobotSalvageLicenseAd" button="UI_OK" />
+				<Action type="if">
+					<If>
+						<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="RobotSalvageLicense1" />
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="RobotSalvageLicense2" />
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+						<Then>
+							<Action type="focusOnMenuItem" itemName="RobotSalvageLicense3" />
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+		</Action>
+	</RobotSalvageCard_Surfacing>
+	<RobotSalvageCard_Purchased>
+		<Action type="setVariable" boolVariable="RobotSalvageCard_Purchased" boolValue="true" />
+		<Action type="notification" icon="ICO_STOR_SciFi_RobotSalvageLicense" title="CON_RobotSalvageLicense1_name" text="UI_SciFi_RobotSalvageCardPurchased" button="UI_OK" />
+	</RobotSalvageCard_Purchased>
+	<DestroyQuickAndFresh cache="true">
+		<Action type="setBuildingSkin" skinName="QuickAndFresh_Wrecked" />
+	</DestroyQuickAndFresh>
+	<DestroyKwik-E-MartFranchise cache="true">
+		<Action type="setBuildingSkin" skinName="KwikEMartFranchise_Wrecked" />
+	</DestroyKwik-E-MartFranchise>
+	<DestroyBrownHouse cache="true">
+		<Action type="setBuildingSkin" skinName="BrownHouse_Wrecked" />
+	</DestroyBrownHouse>
+	<DestroySpringfield>
+		<Action type="fadeScreen" colour="White" direction="out" speed="1.0" />
+		<Action type="runActionSequenceOnAll" building="QuickAndFresh" script="SciFi_Scripts:DestroyQuickAndFresh" />
+		<Action type="runActionSequenceOnAll" building="Kwik-E-MartFranchise" script="SciFi_Scripts:DestroyKwik-E-MartFranchise" />
+		<Action type="runActionSequenceOnAll" building="BrownHouse" script="SciFi_Scripts:DestroyBrownHouse" />
+		<Action type="setBuildingSkin" building="SoilantRedFactory" skinName="DrCrabsFactory_Destroyed" />
+		<Action type="setBuildingSkin" building="Kwik-E-Mart" skinName="KwikEMart_Wrecked" />
+		<Action type="setVariable" boolVariable="SciFi_Destruction_Active" boolValue="true" />
+		<Action type="pantoobject" building="SimpsonHome" time="0" />
+		<Action type="fadeScreen" colour="White" direction="in" speed="1.0" />
+	</DestroySpringfield>
+	<FixQuickAndFresh cache="true">
+		<Action type="setBuildingSkin" skinName="QuickAndFresh" useDefault="true" />
+	</FixQuickAndFresh>
+	<FixKwik-E-MartFranchise cache="true">
+		<Action type="setBuildingSkin" skinName="Kwik-E-Mart" useDefault="true" />
+	</FixKwik-E-MartFranchise>
+	<FixBrownHouse cache="true">
+		<Action type="setBuildingSkin" skinName="BrownHouse" useDefault="true" />
+	</FixBrownHouse>
+	<FixSpringfield parallel="true">
+		<Action type="fadeScreen" colour="Black" direction="out" speed="1.0" />
+		<Action type="runActionSequenceOnAll" building="QuickAndFresh" script="SciFi_Scripts:FixQuickAndFresh" />
+		<Action type="runActionSequenceOnAll" building="Kwik-E-MartFranchise" script="SciFi_Scripts:FixKwik-E-MartFranchise" />
+		<Action type="runActionSequenceOnAll" building="BrownHouse" script="SciFi_Scripts:FixBrownHouse" />
+		<Action type="setBuildingSkin" building="SoilantRedFactory" skinName="SoilantRedFactory" useDefault="true" />
+		<Action type="setBuildingSkin" building="Kwik-E-Mart" skinName="Kwik-E-Mart" useDefault="true" />
+		<Action type="setVariable" boolVariable="SciFi_Destruction_Active" boolValue="false" />
+		<Action type="fadeScreen" colour="Black" direction="in" speed="1.0" />
+	</FixSpringfield>
+	<FixSpringfield_NoFade parallel="true">
+		<Action type="runActionSequenceOnAll" building="QuickAndFresh" script="SciFi_Scripts:FixQuickAndFresh" />
+		<Action type="runActionSequenceOnAll" building="Kwik-E-MartFranchise" script="SciFi_Scripts:FixKwik-E-MartFranchise" />
+		<Action type="runActionSequenceOnAll" building="BrownHouse" script="SciFi_Scripts:FixBrownHouse" />
+		<Action type="setBuildingSkin" building="SoilantRedFactory" skinName="SoilantRedFactory" useDefault="true" />
+		<Action type="setBuildingSkin" building="Kwik-E-Mart" skinName="Kwik-E-Mart" useDefault="true" />
+		<Action type="setVariable" boolVariable="SciFi_Destruction_Active" boolValue="false" />
+	</FixSpringfield_NoFade>
+	<Act1_Crossover>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SciFi_ActTwo" end="SciFi_ActThree" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Act1_Exit" package="SciFi_Scripts" />
+			</True>
+		</Action>
+	</Act1_Crossover>
+	<Act1_Exit>
+		<Action type="returnToInGameState" />
+		<Action type="delay" time="1" />
+		<Action type="message" title="UI_XMAS2015_ActTransition_Act2_title" text="UI_XMAS2015_ActTransition_Act2_body" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</Act1_Exit>
+	<Act2_Crossover>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="time" start="SciFi_ActThree" end="SciFi_EndDate" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="Act2_Exit" package="SciFi_Scripts" />
+			</True>
+		</Action>
+	</Act2_Crossover>
+	<Act2_Exit>
+		<Action type="returnToInGameState" />
+		<Action type="delay" time="1" />
+		<Action type="message" title="UI_XMAS2015_ActTransition_Act3_title" text="UI_XMAS2015_ActTransition_Act3_body" />
+		<Action type="setVariable" intVariable="EventHubTabValue" intValue="1" />
+		<Action type="gotoFrontend" reparseOnly="true" />
+	</Act2_Exit>
+	<SciFi_Prestige_Act1_Reward>
+		<Action type="reward">
+			<Item type="consumable" name="SciFi_PrestigeReward_Act1" useImmediately="true" />
+		</Action>
+	</SciFi_Prestige_Act1_Reward>
+	<SciFi_Prestige_Act2_Reward>
+		<Action type="reward">
+			<Item type="consumable" name="SciFi_PrestigeReward_Act2" useImmediately="true" />
+		</Action>
+	</SciFi_Prestige_Act2_Reward>
+	<SciFi_Prestige_Act3_Reward>
+		<Action type="reward">
+			<Item type="consumable" name="SciFi_PrestigeReward_Act3" useImmediately="true" />
+		</Action>
+	</SciFi_Prestige_Act3_Reward>
+	<DoMeASolid_4_Obj1_Complete>
+		<Action type="reward" save="true" SciFi_CraftingCurrency2="100" suppress_sound="true" />
+	</DoMeASolid_4_Obj1_Complete>
+	<FrankGrimes_PlaceGrave_End>
+		<Action type="reward">
+			<Item type="character" name="FrankGrimes" useImmediately="true" />
+		</Action>
+		<Action type="moveObjectInstance" onType="character" onObject="FrankGrimes" xPos="gridToWorld(System::evaluate('Building::ForgottenGrave::Object::GridX')-.25)" yPos="gridToWorld(System::evaluate('Building::ForgottenGrave::Object::GridY')+.25)" forceValid="false" />
+	</FrankGrimes_PlaceGrave_End>
+	<SciFi_Campaign_Award>
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="User::getVariable('SciFi_Campaign_2016', 0)==1" />
+			<True>
+				<Action type="reward" donuts="__SciFi_GameConfig:Campaign:Reward1__" save="true" />
+			</True>
+			<False>
+				<Action type="reward" donuts="__SciFi_GameConfig:Campaign:Reward2__" save="true" />
+			</False>
+		</Action>
+		<Action type="notification" title="UI_DonutGift_Title" button="UI_OK" text="UI_DonutGift_Text" icon="specialprize_donuts" />
+	</SciFi_Campaign_Award>
+</ScriptPackage>

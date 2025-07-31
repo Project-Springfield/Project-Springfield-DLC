@@ -1,0 +1,221 @@
+﻿<ScriptPackage>
+	<Tailgate_Start>
+		<Action type="createobject" name="PromoGilPermanent" save="true" showUnlock="false" panCamera="true" />
+	</Tailgate_Start>
+	<Tailgate_KillGil parallel="true">
+		<Action type="deletecharacter" character="PromoGilPermanent" />
+	</Tailgate_KillGil>
+	<Tailgate_Cancel>
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoNotPurchasedDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="surprised" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoNotPurchasedDialogue_3_dlg_Start_2_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoNotPurchasedDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoNotPurchasedDialogue_3_dlg_Start_4_Gil" revealSpeed="medium" emotion="happy" />
+	</Tailgate_Cancel>
+	<Tailgate_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Event" limitedTime="true" limitedTimeEndDate="Tailgate_End" eventName="UI_Tailgate" name="EnterTailgateCategory" />
+		<Action type="recommendation" recType="Promoted" limitedTime="true" limitedTimeEndDate="Tailgate_End" name="DisplayTailgate_Promo" />
+	</Tailgate_Recommend>
+	<Tailgate_Display>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+			<True>
+				<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Homer" text="QST_TG_PromoStartDialogue_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="confused" />
+				<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="happy" />
+				<Action type="dialogue" character="Homer" text="QST_TG_PromoStartDialogue_3_dlg_Start_4_Homer" revealSpeed="medium" />
+				<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="surprised" />
+				<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_6_Gil" revealSpeed="medium" />
+				<Action type="runScript" package="Tailgate_Scripts" script="Tailgate_Recommend" />
+				<Action type="setVariable" boolVariable="Tailgate_Indicator_Active" boolValue="false" />
+				<Action type="displayPromo" event="Tailgate_Promo" />
+				<Action type="deletecharacter" character="PromoGilPermanent" />
+			</True>
+		</Action>
+	</Tailgate_Display>
+	<Tailgate_DisplayNoIndicator>
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_TG_PromoStartDialogue_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Homer" text="QST_TG_PromoStartDialogue_3_dlg_Start_4_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_5_Gil" revealSpeed="medium" emotion="winking" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoStartDialogue_3_dlg_Start_6_Gil" revealSpeed="medium" emotion="selling" />
+		<Action type="runScript" package="Tailgate_Scripts" script="Tailgate_Recommend" />
+	</Tailgate_DisplayNoIndicator>
+	<Tailgate_Promo_Purchased>
+		<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+		<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoPurchasedDialogue_3_dlg_Start_1_Gil" revealSpeed="medium" emotion="happy" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoPurchasedDialogue_3_dlg_Start_2_Gil" revealSpeed="medium" />
+		<Action type="dialogue" character="Gil" text="QST_TG_PromoPurchasedDialogue_3_dlg_Start_3_Gil" revealSpeed="medium" />
+	</Tailgate_Promo_Purchased>
+	<Tailgate_DisplayPromo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" character="PromoGilPermanent" />
+	</Tailgate_DisplayPromo>
+	<EnterTailgateCategory>
+		<Action type="focusOnMenuItem" menuCategory="Tailgate" />
+	</EnterTailgateCategory>
+	<DisplayTailgate_Promo ignoreHUD="true">
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="displayPromo" event="Tailgate_Promo" />
+	</DisplayTailgate_Promo>
+	<Tailgate_SetInitialLevel parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" onType="building" onObject="Tailgate" variable="BuildingLevel" asObjectExpression="true" value="1" />
+		<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+		<Action type="setVariable" boolVariable="DisplayTailgateIndicator" boolValue="true" />
+	</Tailgate_SetInitialLevel>
+	<Tailgate_IncrementLevel parallel="true" ignoreHUD="true">
+		<Action type="setVariable" intVariable="Tailgate_Level" intValue="Tailgate_Level + 1" />
+		<Action type="setVariable" boolVariable="DisplayTailgateIndicator" boolValue="false" />
+	</Tailgate_IncrementLevel>
+	<Tailgate_IncrementObjectLevel parallel="true">
+		<Action type="setObjectVariable" onType="building" onObject="Tailgate" variable="BuildingLevel" asObjectExpression="true" value="Object::BuildingLevel + 1" />
+		<Action type="completeJob" name="PartyAtTheTailgate" giveRewardsRefunds="true" forceRefundOrCancel="true" jobLimit="none" />
+		<Action type="sound" sound="Tailgate_Upgrade" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" onBuilding="Tailgate">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="checkExpression" expression="System::evaluate('Building::Tailgate::Object::BuildingLevel')">
+			<ExpressionCase value="0">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Finger" building="Tailgate" spawnLocator="SportsFan_Finger" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Finger" building="Tailgate" spawnLocator="SportsFan_Finger" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Finger" building="Tailgate" spawnLocator="SportsFan_Finger" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+		</Action>
+		<Action type="setVariable" intVariable="Tailgate_Level" intValue="Tailgate_Level + 1" />
+		<Action type="setVariable" boolVariable="DisplayTailgateIndicator" boolValue="true" />
+	</Tailgate_IncrementObjectLevel>
+	<Tailgate_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="Tailgate_Tap" />
+		<Action type="gotoState" state="GameState_BuildingSelected">
+			<Extras>
+				<Attribute name="BuildingName" value="Tailgate" />
+				<Attribute name="GoToFarmMode" value="true" />
+			</Extras>
+		</Action>
+	</Tailgate_Tapped>
+	<Tailgate_GoToUpgradeMenu parallel="true" ignoreHUD="true">
+		<Action type="gotoState" state="GameState_QuestProgress">
+			<Extras>
+				<Attribute name="questParentDelegate" value="TailgateMaster" />
+			</Extras>
+		</Action>
+	</Tailgate_GoToUpgradeMenu>
+	<Tailgate_DeleteCharsOnMove parallel="true" runQueueState="RunInAnyState">
+		<Action type="deletecharacter" character="SportsFan_Texting" />
+		<Action type="deletecharacter" character="SportsFan_Cheering" />
+		<Action type="deletecharacter" character="SportsFan_Grill" />
+		<Action type="deletecharacter" character="SportsFan_Finger" />
+		<Action type="deletecharacter" character="SportsFan_Chair" />
+		<Action type="setVariable" boolVariable="Tailgate_CharsDeleted" boolValue="true" />
+	</Tailgate_DeleteCharsOnMove>
+	<Tailgate_SpawnCharsOnMove parallel="true">
+		<Action type="checkExpression" expression="System::evaluate('Building::Tailgate::Object::BuildingLevel')">
+			<ExpressionCase value="0">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Finger" building="Tailgate" spawnLocator="SportsFan_Finger" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Finger" building="Tailgate" spawnLocator="SportsFan_Finger" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="createobject" name="SportsFan_Texting" building="Tailgate" spawnLocator="SportsFan_Texting" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Cheering" building="Tailgate" spawnLocator="SportsFan_Cheering" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Chair" building="Tailgate" spawnLocator="SportsFan_Chair" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Grill" building="Tailgate" spawnLocator="SportsFan_Grill" flipWithBuilding="true" save="true" panCamera="false" />
+				<Action type="createobject" name="SportsFan_Finger" building="Tailgate" spawnLocator="SportsFan_Finger" flipWithBuilding="true" save="true" panCamera="false" />
+			</ExpressionCase>
+		</Action>
+		<Action type="setVariable" boolVariable="Tailgate_CharsDeleted" boolValue="false" />
+	</Tailgate_SpawnCharsOnMove>
+	<HideUpgradeIndicator ignoreHUD="true" parallel="true">
+		<Action type="setVariable" boolVariable="DisplayTailgateIndicator" boolValue="false" />
+	</HideUpgradeIndicator>
+	<Tailgate_LandLoad ignoreHUD="true" parallel="true">
+		<Action type="runScript" package="Tailgate_Scripts" script="Tailgate_DeleteCharsOnMove" />
+		<Action type="runScript" package="Tailgate_Scripts" script="Tailgate_SpawnCharsOnMove" />
+	</Tailgate_LandLoad>
+	<SportsFan_Finger_Tapped parallel="true">
+		<Action type="sound" sound="SportsFan_Finger_Tap" />
+		<Action type="anim-play" animation="Tap_Flipped" />
+	</SportsFan_Finger_Tapped>
+	<SportsFan_Cheering_Tapped parallel="true">
+		<Action type="sound" sound="SportsFan_Cheering_Tap" />
+		<Action type="anim-play" animation="Tap_Flipped" />
+	</SportsFan_Cheering_Tapped>
+	<SportsFan_Texting_Tapped parallel="true">
+		<Action type="sound" sound="SportsFan_Texting_Tap" />
+		<Action type="anim-play" animation="Tap_Flipped" />
+	</SportsFan_Texting_Tapped>
+	<SportsFan_Chair_Tapped parallel="true">
+		<Action type="sound" sound="SportsFan_Chair_Tap" />
+		<Action type="anim-play" animation="Tap_Flipped" />
+	</SportsFan_Chair_Tapped>
+	<SportsFan_Grill_Tapped parallel="true">
+		<Action type="sound" sound="SportsFan_Grill_Tap" />
+		<Action type="anim-play" animation="Tap_Flipped" />
+	</SportsFan_Grill_Tapped>
+	<StadiumBleachersPack_Purchased>
+		<Action type="reward">
+			<Item type="building" name="StadiumBleachers01" />
+			<Item type="building" name="StadiumBleachers01" />
+			<Item type="building" name="StadiumBleachers01" />
+		</Action>
+	</StadiumBleachersPack_Purchased>
+</ScriptPackage>

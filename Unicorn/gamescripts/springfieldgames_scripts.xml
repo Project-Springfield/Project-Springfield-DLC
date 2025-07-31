@@ -1,0 +1,401 @@
+﻿<ScriptPackage>
+	<PrizeTrackOverReload>
+		<Action type="message" text="{PrizeTrackOverReload}" formatMe="true" />
+		<Action type="gotoFrontend" />
+	</PrizeTrackOverReload>
+	<TurnOffLisaChaser>
+		<Action type="setVariable" boolVariable="LisaChaser_Active" boolValue="false" />
+		<Action type="setVariable" intVariable="PlaySaxForPins_Complete" intValue="1" />
+	</TurnOffLisaChaser>
+	<CON_LugashsGym>
+		<Action type="reward" donuts="40" save="true" />
+		<Action type="rewardWithPlaceStore" attributes="Casino_MenuConfig:RewardWithPlaceStore">
+			<Item type="building" name="LugashsGym" />
+		</Action>
+		<Action type="message" text="UI_EoSRebateExciteText_40" dismissOnOKOnly="true" />
+	</CON_LugashsGym>
+	<FlagBundlePurchased>
+		<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+		<Action type="message" text="UI_EoS2015_ItemInInventory" />
+	</FlagBundlePurchased>
+	<FatovFirstSpawn>
+		<Action type="createobject" name="SpringfieldGames_FatovTappable" count="1" showUnlock="false" save="true" panCamera="true" />
+	</FatovFirstSpawn>
+	<PanToLisa>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" waitForState="true" />
+				<Action type="checkRequirements">
+					<Requirement type="IdleCharacter" character="Lisa" />
+					<True>
+						<Action type="runScriptOnAll" character="Lisa" maxNum="1" script="SpringfieldGames_Scripts:SetPinCollectorSkin" />
+					</True>
+				</Action>
+				<Action type="pantoobject" time="0" character="Lisa" fakeTouch="true" />
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</PanToLisa>
+	<SetPinCollectorSkin parallel="true" runQueueState="RunInAnyState">
+		<Action type="skin-set" skin="PinCollectorLisa" />
+	</SetPinCollectorSkin>
+	<PanToFatov>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="pantoobject" time="0" character="SpringfieldGames_FatovTappable" />
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</PanToFatov>
+	<GoKartTrack_Tapped parallel="true">
+		<Action type="sound" sound="GoKartTrack_Tap" />
+	</GoKartTrack_Tapped>
+	<Set_PlaySaxForPin>
+		<Action type="setVariable" intVariable="PlaySaxForPins_Complete" intValue="1" />
+	</Set_PlaySaxForPin>
+	<Reset_PlaySaxForPins>
+		<Action type="updateVariable" variable="PlaySaxForPins_Complete" value="0" />
+	</Reset_PlaySaxForPins>
+	<Reset_FindFatov>
+		<Action type="updateVariable" variable="Fatov_Collected" value="0" />
+	</Reset_FindFatov>
+	<HalfPipe_Tapped parallel="true">
+		<Action type="sound" sound="HalfPipe_Tap" />
+	</HalfPipe_Tapped>
+	<ReplaceGoKartsWithBetting>
+		<Action type="replaceobject" from="GoKartTrack_NoBetting" to="GoKartTrack" ignoreObject="false" />
+	</ReplaceGoKartsWithBetting>
+	<SpringfieldGames_Recommend ignoreHUD="true">
+		<Action type="recommendation" recType="Event" eventName="UI_SpringfieldGames_title" name="EnterSpringfieldGamesCategory" />
+	</SpringfieldGames_Recommend>
+	<OpenMasterQuest>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="SpringfieldGames_Master" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest>
+	<RecommendSpringfieldGames>
+		<Action type="recommendation" recType="Event" name="EnterSpringfieldGamesCategory" />
+	</RecommendSpringfieldGames>
+	<HomerOnLightJob>
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldGamesCauldron" variable="HomerLightCauldron" value="1" />
+		<Action type="setObjectVariable" variable="State" value="1" allowOrphan="false" />
+	</HomerOnLightJob>
+	<LitCauldronSuccessful parallel="true">
+		<Action type="runScript" script="SpringfieldGames_Scripts:RegisterTelemetry_Regular" />
+		<Action type="runScript" script="SpringfieldGames_Scripts:SetCauldronAblaze">
+			<Objects>
+				<ObjectByName name="SpringfieldGamesCauldron" land="local" />
+			</Objects>
+		</Action>
+		<Action type="setObjectVariable" onType="building" onObject="SpringfieldGamesCauldron" variable="HomerLightCauldron" value="0" />
+	</LitCauldronSuccessful>
+	<SetCauldronAblaze parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="System::evaluate('Building::SpringfieldGamesCauldron::Object::State') == 0" />
+			<True>
+				<Action type="setObjectVariable" variable="State" value="1" allowOrphan="false" />
+				<Action type="anim-play" building="SpringfieldGamesCauldron" animation="Neutral" />
+				<Action type="anim-play" building="SpringfieldGamesCauldron" animation="Active_In" />
+			</True>
+		</Action>
+	</SetCauldronAblaze>
+	<SpringfieldGamesCauldron_Tapped parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="SpringfieldGames_4" />
+			<True>
+				<Action type="if">
+					<If expression="!mod(Object::State+1, 2)">
+						<Then>
+							<Action type="anim-play" building="SpringfieldGamesCauldron" animation="Active_Out" />
+						</Then>
+					</If>
+				</Action>
+				<Action type="setObjectVariable" variable="State" value="mod(Object::State+1, 2)" asExpression="true" allowOrphan="false" />
+				<Action type="anim-play" building="SpringfieldGamesCauldron" animation="Neutral" nowait="true" />
+				<Action type="if">
+					<If expression="!mod(Object::State+1, 2)">
+						<Then>
+							<Action type="anim-play" building="SpringfieldGamesCauldron" animation="Active_In" />
+						</Then>
+					</If>
+				</Action>
+			</True>
+		</Action>
+	</SpringfieldGamesCauldron_Tapped>
+	<EnterSpringfieldGamesCategory>
+		<Action type="focusOnMenuItem" menuCategory="SpringfieldGames" />
+	</EnterSpringfieldGamesCategory>
+	<SpringfieldGames_OpenResourceMenu ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+			</Requirements>
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="SpringfieldGames_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SpringfieldGames_Main" />
+									<Attribute name="JobList" value="SpringfieldGames_JL_01" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpringfieldGames_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SpringfieldGames_Main" />
+									<Attribute name="JobList" value="SpringfieldGames_JL_02" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpringfieldGames_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SpringfieldGames_Main" />
+									<Attribute name="JobList" value="SpringfieldGames_JL_03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpringfieldGames_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SpringfieldGames_Main" />
+									<Attribute name="JobList" value="SpringfieldGames_JL_04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpringfieldGames_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SpringfieldGames_Main" />
+									<Attribute name="JobList" value="SpringfieldGames_JL_05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="SpringfieldGames_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="SpringfieldGames_Main" />
+									<Attribute name="JobList" value="SpringfieldGames_JL_06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</SpringfieldGames_OpenResourceMenu>
+	<ShowMiniEventPanel>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="SpringfieldGamesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="quest" quest="SpringfieldGames_Intro" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="quest" quest="SpringfieldGames_Intro" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="quest" quest="SpringfieldGames_Intro" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="quest" quest="SpringfieldGames_Intro" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_SpringfieldGames_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_SpringfieldGames_Intro_TimerMessage" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_SpringfieldGames_Intro_Body2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_SpringfieldGames_Intro_Body1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_SpringfieldGames_Intro_Body3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_SpringfieldGames_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventPanel>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="SpringfieldGamesMiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_SpringfieldGames_Outro_Button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_SpringfieldGames_Outro_Button" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_SpringfieldGames_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value=" " localise="false" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_SpringfieldGames_Outro_Body1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_SpringfieldGames_Outro_Body2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_SpringfieldGames_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<GetLugash parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="place building" building="LugashsGym" />
+			<True>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="LugashsGym" fakeTouch="true" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="LugashsGym" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="LugashsGym" inventory="true" />
+					</True>
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="time" end="SpringfieldGames_End" />
+							<True>
+								<Action type="focusOnMenuItem" itemName="SpringfieldGames_LugashRebate" />
+							</True>
+							<False>
+								<Action type="focusOnMenuItem" itemName="LugashsGym" />
+							</False>
+						</Action>
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GetLugash>
+	<CheckIfEnd parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SpringfieldGames_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="SpringfieldGames_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd>
+	<RemoveAllFatovs parallel="true" runQueueState="RunInAnyState">
+		<Action type="deletecharacter" />
+	</RemoveAllFatovs>
+	<RegisterTelemetry_Regular parallel="true">
+		<Action type="updateVariable" variable="SG_RegularRibbons" value="SG_RegularRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="SG_TotalRibbons" value="SG_TotalRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:RegularJobReward__')" />
+		<Action type="updateVariable" variable="SG_JobRibbons" value="SG_JobRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:RegularJobReward__')" />
+	</RegisterTelemetry_Regular>
+	<RegisterTelemetry_Premium parallel="true">
+		<Action type="updateVariable" variable="SG_PremiumRibbons" value="SG_PremiumRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SG_TotalRibbons" value="SG_TotalRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SG_JobRibbons" value="SG_JobRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Premium>
+	<RegisterTelemetry_Building>
+		<Action type="updateVariable" variable="SG_PremiumRibbons" value="SG_PremiumRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SG_TotalRibbons" value="SG_TotalRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+		<Action type="updateVariable" variable="SG_BuildingRibbons" value="SG_JobRibbons + ConfigValue('__SpringfieldGames_GameConfig:CurrencyRewards:PremiumJobReward__')" />
+	</RegisterTelemetry_Building>
+	<LogTelemetry parallel="true">
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="RegularRibbons_{RegularRibbons}" param3Type="UserLevel" eventId="3668" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="PremiumRibbons_{PremiumRibbons}" param3Type="UserLevel" eventId="3668" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{task}" param2Type="Enumeration" param2="TotalRibbons_{TotalRibbons}" param3Type="UserLevel" eventId="3668" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="Tappables" param2Type="Score" param2="{TappableRibbons}" param3Type="UserLevel" eventId="3669" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="Jobs" param2Type="Score" param2="{JobRibbons}" param3Type="UserLevel" eventId="3669" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="Buildings" param2Type="Score" param2="{BuildingRibbons}" param3Type="UserLevel" eventId="3669" />
+		<Action type="setVariable" intVariable="SG_TappablesRibbons" intValue="0" />
+		<Action type="setVariable" intVariable="SG_JobRibbons" intValue="0" />
+		<Action type="setVariable" intVariable="SG_BuildingRibbons" intValue="0" />
+	</LogTelemetry>
+	<SpringfieldGames_72HourWarning>
+		<Action type="message" text="UI_SpringfieldGames_72HourWarning_Body1" revealSpeed="medium" />
+		<Action type="setVariable" boolVariable="SpringfieldGames_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="SpringfieldGames_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</SpringfieldGames_72HourWarning>
+	<SpringfieldGames_24HourWarning>
+		<Action type="message" text="UI_SpringfieldGames_24HourWarning_Body1" revealSpeed="medium" />
+		<Action type="setVariable" boolVariable="SpringfieldGames_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="SpringfieldGames_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</SpringfieldGames_24HourWarning>
+	<SpringfieldGames_Expired>
+		<Action type="message" text="UI_SpringfieldGames_EventExpired_Body1" revealSpeed="medium" />
+		<Action type="clearRecommendations" category="Event" name="EnterSpringfieldGamesCategory" />
+		<Action type="setVariable" boolVariable="SpringfieldGames_ExpiryDisplayed" boolValue="true" />
+		<Action type="setVariable" boolVariable="SpringfieldGames_EventExpired" boolValue="true" />
+		<Action type="setVariable" intVariable="PlaySaxForPins_Complete" intValue="1" />
+		<Action type="runScript" script="SpringfieldGames_Scripts:OpenMasterQuest" waitUntilComplete="true" />
+	</SpringfieldGames_Expired>
+	<SpringfieldGames_PrizeTrackEnded>
+		<Action type="runScript" script="SpringfieldGames_Scripts:PrizeTrackOverReload">
+			<FormattingConfig path="SpringfieldGames_MenuConfig:ExpirationFormattedText" />
+		</Action>
+	</SpringfieldGames_PrizeTrackEnded>
+</ScriptPackage>

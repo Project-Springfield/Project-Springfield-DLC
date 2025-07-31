@@ -1,0 +1,188 @@
+﻿<ScriptPackage> <!---->
+	<RadiateTaxCollection parallel="true">
+		<Action type="collectTaxRadius" inRadius="999" indicatorsInRadiusOnly="999">
+			<Target state="rewardReady" />
+		</Action>
+		<Action type="playflyby" flybyName="IRSTapEffect" radius="__IRSBuilding_GameConfig:TaxCollectRadius:RadiusAsMax__" unitScale="0.13" playbackFPS="24" centerOnObject="true" onGround="true" />
+	</RadiateTaxCollection>
+	<CollectTax parallel="true">
+		<Action type="collectTax" taxRate="__IRSBuilding_GameConfig:TaxCollect:TaxRate__">
+		</Action>
+	</CollectTax>
+	<TouchIRSBuilding parallel="true">
+		<Action type="pantoobject" building="IRSBuilding" fakeTouch="true" fakeTouchAvoidsIndicators="true" time="0" />
+	</TouchIRSBuilding>
+	<OnUpgradedIRSBuilding>
+		<Action type="setVariable" intVariable="IRS_BUILDING_LEVEL" intValue="IRS_BUILDING_LEVEL+1" />
+		<Action type="setVariable" intVariable="IRS_GRIND_SPENT_TO_LEVEL" intValue="IRS_GRIND_SPENT_TO_LEVEL+Eval(Selector::IRSCostPrevLevel)" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="CannonUpGrade" animation="Castle_upGrade_4x5" x="0" y="0" />
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="lessThan(Eval(Building::IRSBuilding::Object::IRSBuildingLevel),8)" />
+			</Requirements>
+			<True>
+				<Action type="genericMessage">
+					<Attribute name="config">
+						<AttributeSet name="title">
+							<Attribute name="text" value="UI_UpgradePanelIRSLevel_FacadeHint_Title" localise="true" parameters="levelTextData">
+								<AttributeSet name="levelTextData">
+									<Attribute name="0" formula="Eval(Building::IRSBuilding::Object::IRSBuildingLevel)+1" />
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_NormalBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="message">
+							<Attribute name="text" value="UI_UpgradePanelIRSLevelRadius_msg" localise="true" />
+							<Attribute name="font" value="eFont_Normal" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="left">
+							<Attribute name="image" value="ICO_IRSHand_LG" />
+						</AttributeSet>
+						<AttributeSet name="button_OK">
+							<Attribute name="button_text">
+								<AttributeSet name="text">
+									<Attribute name="text" value="UI_OK" localise="true" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</True>
+			<False>
+				<Action type="genericMessage">
+					<Attribute name="config">
+						<AttributeSet name="title">
+							<Attribute name="text" value="UI_UpgradePanelIRSLevel_Title" localise="true" parameters="levelTextData">
+								<AttributeSet name="levelTextData">
+									<Attribute name="0" formula="Eval(Building::IRSBuilding::Object::IRSBuildingLevel)+1" />
+								</AttributeSet>
+							</Attribute>
+							<Attribute name="font" value="eFont_NormalBold" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="message">
+							<Attribute name="text" value="UI_UpgradePanelIRSLevelRadius_msg" localise="true" />
+							<Attribute name="font" value="eFont_Normal" />
+							<Attribute name="color" value="FFFFFFFF" />
+						</AttributeSet>
+						<AttributeSet name="left">
+							<Attribute name="image" value="ICO_IRSHand_LG" />
+						</AttributeSet>
+						<AttributeSet name="button_OK">
+							<Attribute name="button_text">
+								<AttributeSet name="text">
+									<Attribute name="text" value="UI_OK" localise="true" />
+								</AttributeSet>
+							</Attribute>
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</False>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="Eval(Building::IRSBuilding::Object::IRSBuildingLevel)==8" />
+			</Requirements>
+			<True>
+				<Action type="checkExpression" expression="Eval(Building::IRSBuilding::Object::IRSBuildingLevel)">
+					<ExpressionCase value="8">
+						<Action type="reward" ignoreObject="true">
+							<Item type="consumable" name="IRSLevel2" useImmediately="true" />
+							<Item type="script" name="IRSBuilding_Scripts:IRSBuildingSecondSkinAwarded" />
+						</Action>
+						<Action type="genericMessage">
+							<Attribute name="config">
+								<AttributeSet name="title">
+									<Attribute name="text" value="UI_CON_IRSLevel2_msg" localise="true" />
+									<Attribute name="font" value="eFont_Normal" />
+									<Attribute name="color" value="FFFFFFFF" />
+								</AttributeSet>
+								<AttributeSet name="message">
+									<Attribute name="text" value="UI_CON_IRSLevel2_name" localise="true" />
+									<Attribute name="font" value="eFont_LargeBold" />
+									<Attribute name="color" value="FFD51AFF" />
+								</AttributeSet>
+								<AttributeSet name="left">
+									<Attribute name="image" value="IRSLevel2_Menu" />
+								</AttributeSet>
+								<AttributeSet name="bg">
+									<Attribute name="image" value="unlock_lock" />
+								</AttributeSet>
+								<AttributeSet name="button_OK">
+									<Attribute name="button_text">
+										<AttributeSet name="text">
+											<Attribute name="text" value="UI_OK" localise="true" />
+										</AttributeSet>
+									</Attribute>
+								</AttributeSet>
+							</Attribute>
+						</Action>
+					</ExpressionCase>
+				</Action>
+			</True>
+			<False>
+				<Action type="runScript" script="TouchIRSBuilding" package="IRSBuilding_Scripts" />
+			</False>
+		</Action>
+	</OnUpgradedIRSBuilding>
+	<IRSBuildingSecondSkinAwarded>
+		<Action type="dialogue" character="Homer" text="QST_IRSBuilding_SecondSkinAwarded_1" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_IRSBuilding_SecondSkinAwarded_2" revealSpeed="medium" emotion="angry" />
+	</IRSBuildingSecondSkinAwarded>
+	<HouseAlwaysWins01_Start>
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins01_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins01_3_dlg_Start_2_Homer" revealSpeed="medium" emotion="happy" />
+		<Action type="notification" title="UI_UnlockIRS_Title" button="UI_OK" text="QST_HouseAlwaysWins01_3_dlg_Start_3_SystemMessage" icon="IRSLevel1_Menu" />
+	</HouseAlwaysWins01_Start>
+	<HouseAlwaysWins02_Start>
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins02_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="sad" />
+		<Action type="dialogue" character="Lisa" text="QST_HouseAlwaysWins02_3_dlg_Start_2_Lisa" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins02_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="thoughtful" />
+	</HouseAlwaysWins02_Start>
+	<HouseAlwaysWins03_Start>
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins03_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins03_3_dlg_Start_2_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins03_3_dlg_Start_3_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins03_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins03_3_dlg_Start_5_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins03_3_dlg_Start_6_Homer" revealSpeed="medium" emotion="scared" />
+	</HouseAlwaysWins03_Start>
+	<HouseAlwaysWins03_End>
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins03_3_dlg_End_1_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins03_3_dlg_End_2_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins03_3_dlg_End_3_AgentJohnson" revealSpeed="medium" />
+	</HouseAlwaysWins03_End>
+	<HouseAlwaysWins04_Start>
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins04_3_dlg_Start_1_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins04_3_dlg_Start_2_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins04_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="message" text="QST_HouseAlwaysWins04_3_dlg_Start_4_SystemMessage" revealSpeed="medium" />
+	</HouseAlwaysWins04_Start>
+	<HouseAlwaysWins05_Start>
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins05_3_dlg_Start_1_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins05_3_dlg_Start_2_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins05_3_dlg_Start_3_Homer" revealSpeed="medium" emotion="sarcastic" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins05_3_dlg_Start_4_AgentJohnson" revealSpeed="medium" />
+		<Action type="message" text="QST_HouseAlwaysWins05_3_dlg_Start_5_SystemMessage" revealSpeed="medium" />
+	</HouseAlwaysWins05_Start>
+	<HouseAlwaysWins_Delay parallel="true">
+		<Action type="delay" time="3" />
+	</HouseAlwaysWins_Delay>
+	<HouseAlwaysWins06_Start>
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins06_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="mouthfull" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins06_3_dlg_Start_2_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins06_3_dlg_Start_3_Homer" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins06_3_dlg_Start_4_Homer" revealSpeed="medium" emotion="annoyed" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins06_3_dlg_Start_5_Homer" revealSpeed="medium" emotion="thoughtful" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins06_3_dlg_Start_6_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins06_3_dlg_Start_7_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins06_3_dlg_Start_8_Homer" revealSpeed="medium" emotion="confused" />
+		<Action type="dialogue" character="AgentJohnson" text="QST_HouseAlwaysWins06_3_dlg_Start_9_AgentJohnson" revealSpeed="medium" />
+		<Action type="dialogue" character="Homer" text="QST_HouseAlwaysWins06_3_dlg_Start_10_Homer" revealSpeed="medium" emotion="annoyed" />
+		<Action type="message" text="QST_HouseAlwaysWins06_3_dlg_Start_11_SystemMessage" revealSpeed="medium" />
+	</HouseAlwaysWins06_Start>
+</ScriptPackage>

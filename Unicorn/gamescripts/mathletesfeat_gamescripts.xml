@@ -1,0 +1,84 @@
+﻿<ScriptPackage>
+	<HoloFlagInit ignoreHUD="true">
+		<Action type="setObjectVariable" variable="HoloFlagState" value="0" />
+	</HoloFlagInit>
+	<HoloFlag_Touched parallel="true">
+		<Action type="random">
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_01.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_02.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_03.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_04.caf" />
+		</Action>
+		<Action type="setObjectVariable" variable="HoloFlagState" value="mod(Object::HoloFlagState+1,3)" asExpression="true" />
+		<Action type="setVariable" intVariable="HoloFlagTapCount" intValue="1" />
+	</HoloFlag_Touched>
+	<HoloFlag_Touched_ByFriend>
+		<Action type="random">
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_01.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_02.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_03.caf" />
+			<Action type="sound" sound="sfx_EA_TSTO_Mathlete_HoloFlag_Tap_04.caf" />
+		</Action>
+	</HoloFlag_Touched_ByFriend>
+	<PrintIsDead04_GoToScript>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="AntiGutenberg3000" />
+					<True>
+						<Action type="touchCharacter" character="Willy" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="AntiGutenberg3000" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</PrintIsDead04_GoToScript>
+	<AntiGutenberg3000_Touched parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="formula" formula="System::evaluate('Job::FeedTheAntiGutenberg3000::Active')" />
+			<False>
+				<Action type="sound" sound="sfx_EA_TSTO_Mathlete_AntiGutenberg3000_Tap.caf" />
+				<Action type="anim-play" building="AntiGutenberg3000" animation="ActiveNoLoop" />
+				<Action type="anim-play" building="AntiGutenberg3000" animation="ActiveNoLoop" />
+			</False>
+		</Action>
+	</AntiGutenberg3000_Touched>
+	<PanToHoloFlag parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="HoloFlag" />
+					<True>
+						<Action type="pantoobject" building="HoloFlag" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="HoloFlag" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="userConfirmation" text="UI_TravelToSpringfieldForQuest" title="BLD_KrustylandShuttleToSpringfield_name" var="confirm_gotoSprinfield" />
+				<Action type="checkExpression" expression="confirm_gotoSprinfield">
+					<ExpressionCase value="1">
+						<Action type="gotoland" land="Springfield" />
+					</ExpressionCase>
+				</Action>
+			</False>
+		</Action>
+	</PanToHoloFlag>
+	<RecommendHoloFlag>
+		<Action type="recommendation" recType="Promoted" name="HoloFlag" />
+	</RecommendHoloFlag>
+</ScriptPackage>

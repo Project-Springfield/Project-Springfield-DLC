@@ -1,0 +1,148 @@
+﻿<ScriptPackage>
+	<UpgradeSoundAndAnim parallel="true">
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="0" y="0" />
+		</Action>
+	</UpgradeSoundAndAnim>
+	<UnityBuildingUpgradedTelemetry>
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="{Object::Name} {Object::SHLevel}" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+	</UnityBuildingUpgradedTelemetry>
+	<OnBuildingUpgraded>
+		<Action type="setObjectVariable" variableMode="setRetain" variable="dummy" value="1" disableEvents="true" />
+		<Action type="actionSequence" script="SpringfieldHeights_UpgradeScripts:OnBuildingUpgradedReal" parseOnDemand="true" />
+	</OnBuildingUpgraded>
+	<OnBuildingUpgradedReal>
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="reward" formatMe="true" save="true" RealEstateValue="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}__" suppress_sound="true" pauseForScript="true" />
+		<Action type="setObjectVariable" variable="SHLevel" value="Object::SHLevel+1" asExpression="true" />
+		<Action type="runScript" package="SpringfieldHeights_UpgradeScripts" script="UnityBuildingUpgradedTelemetry" />
+		<Action type="loseResources" formatMe="true" Furniture="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:FurnitureCost__" Latte="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:LatteCost__" Pharmaceutical="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:PharmaceuticalCost__" SmartDevice="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:SmartDeviceCost__" YogaMat="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:YogaMatCost__" HollywoodAward="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:HollywoodAwardCost__" Ads="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:AdsCost__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+		<Action type="delay" time="2" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="earned">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" stringFormula="{Object::LocalisedName}" />
+							<Attribute name="1" formula="Object::SHLevel+2" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="iconUpgradeInfo">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_body" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="iconUpgradeMessage">
+					<Attribute name="text" formatMe="true" abbreviatedNumber="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}__" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="realEstateValueIcon">
+					<Attribute name="image" value="ICO_Heights_RealEstate_md" />
+				</AttributeSet>
+				<AttributeSet name="rewardGraphic">
+					<Attribute name="image" formatMe="true" value="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Icon__" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="checkRequirements" ignoreObject="false" formatMe="deep">
+			<Requirements>
+				<Requirement type="formula" formula="Object::SHLevel==4" />
+			</Requirements>
+			<True>
+				<Action type="hudTip" text="UI_{Object::Name}CompleteMessage" time="5s" queue="true" waitForHUD="true" />
+			</True>
+		</Action>
+	</OnBuildingUpgradedReal>
+	<OnModularBuildingUpgraded>
+		<Action type="setObjectVariable" variableMode="setRetain" variable="dummy" value="1" disableEvents="true" />
+		<Action type="actionSequence" script="SpringfieldHeights_UpgradeScripts:OnModularBuildingUpgradedReal" parseOnDemand="true" />
+	</OnModularBuildingUpgraded>
+	<OnModularBuildingUpgradedReal>
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true">
+			<OneShot name="regular" file="GenericBuildingUpgrade" animation="GenericBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="reward" formatMe="true" save="true" RealEstateValue="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}__" suppress_sound="true" pauseForScript="true" />
+		<Action type="setObjectVariable" variable="SHLevel" value="Object::SHLevel+1" asExpression="true" />
+		<Action type="runScript" package="SpringfieldHeights_UpgradeScripts" script="UnityBuildingUpgradedTelemetry" />
+		<Action type="loseResources" formatMe="true" Furniture="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:FurnitureCost__" Latte="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:LatteCost__" Pharmaceutical="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:PharmaceuticalCost__" SmartDevice="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:SmartDeviceCost__" YogaMat="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:YogaMatCost__" HollywoodAward="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:HollywoodAwardCost__" Ads="__SpringfieldHeights_GameConfig:{Object::Name}LevelUpCosts:AdsCost__" />
+		<Action type="loseResources" formatMe="true" donuts="{Object::UpgradeRushCost}" />
+		<Action type="delay" time="2" />
+		<Action type="prizeListRewardMessage">
+			<Attribute name="config">
+				<AttributeSet name="darkenScreen">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="centering">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgrade">
+					<Attribute name="active" value="true" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="text" value="UI_BuildingUpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" stringFormula="{Object::LocalisedName}" />
+							<Attribute name="1" formula="Object::SHLevel+2" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_MediumBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgradeMessage">
+					<Attribute name="text" value="UI_ModularUpgradePanel_body" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="okButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+					<Attribute name="font" value="eFont_Medium" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgradeIcon1">
+					<Attribute formatMe="true" name="image" value="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1Icon__" />
+				</AttributeSet>
+				<AttributeSet name="modularUpgradeIcon2">
+					<Attribute formatMe="true" name="image" value="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward2Icon__" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action formatMe="deep" type="reward" ignoreObject="true">
+			<Item type="building" name="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1__" />
+			<Item type="building" name="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward2__" />
+		</Action>
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1__" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+		<Action type="logevent" formatMe="true" param1Type="Enumeration" param1="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward2__" param2Type="Enumeration" param2="{Object::UpgradeRushCost}" param3Type="UserLevel" eventId="3325" />
+		<Action formatMe="deep" type="focusOnMenuItem" itemName="__SpringfieldHeights_GameConfig:{Object::Name}Reward:Level{Object::SHLevel}Reward1__" inventory="true" />
+	</OnModularBuildingUpgradedReal>
+</ScriptPackage>

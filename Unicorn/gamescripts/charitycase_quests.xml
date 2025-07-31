@@ -1,0 +1,457 @@
+﻿<Quests><!---->
+	<MasterList>
+		<DataID id="280000" name="ReadingTheRoomCC" />
+		<DataID id="280001" name="ColdAsCharity_1" />
+		<DataID id="280002" name="ColdAsCharity_2" />
+		<DataID id="280003" name="ColdAsCharity_3" />
+		<DataID id="280004" name="ColdAsCharity_4" />
+		<DataID id="280005" name="ColdAsCharity_5" />
+		<DataID id="280006" name="SnackDown" />
+		<!-- <DataID id="280007" name="PortfolioPursuit_1" /> -->
+		<!-- <DataID id="280008" name="PortfolioPursuit_2" /> -->
+		<!-- <DataID id="280009" name="PortfolioPursuit_3" /> -->
+		<!-- <DataID id="280010" name="DharmaAndDonuts_1" /> -->
+		<!-- <DataID id="280011" name="DharmaAndDonuts_2" /> -->
+		<!-- <DataID id="280012" name="DharmaAndDonuts_3" /> -->
+		<!-- <DataID id="280013" name="CallingToAccountant_1" /> -->
+		<!-- <DataID id="280014" name="CallingToAccountant_2" /> -->
+		<!-- <DataID id="280015" name="CallingToAccountant_3" /> -->
+		<DataID id="280600" name="CharityCase_Completed" />
+		<DataID id="280601" name="CharityCase_IntroPanel" />
+		<DataID id="280602" name="CharityCase_72HourWarning" onDeprecated="retain" endDate="CharityCase_End" />
+		<DataID id="280603" name="CharityCase_24HourWarning" onDeprecated="retain" endDate="CharityCase_End" />
+		<DataID id="280604" name="CharityCase_EventExpired" />
+		<DataID id="280605" name="CharityCase_MasterQuest" />
+		<DataID id="280900" name="CharityCase_RecommendStore" onDeprecated="delete" endDate="CharityCase_End" />
+	</MasterList>
+	<Quest id="280600" name="CharityCase_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="SnackDown" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="280601" name="CharityCase_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="ReadingTheRoomCC" />
+			<Requirement type="time" end="CharityCase_End" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="280602" name="CharityCase_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::CharityCase_End')-fromHours(72)]_" end="_[System::evaluate('Date::CharityCase_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="CharityCase_Complete" not="true" />
+			<Requirement type="quest" quest="CharityCase_IntroPanel" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="280603" name="CharityCase_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::CharityCase_End')-fromHours(24)]_" end="CharityCase_End" triggerEvent="true" />
+			<Requirement type="variable" variable="CharityCase_Complete" not="true" />
+			<Requirement type="quest" quest="CharityCase_IntroPanel" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="280604" name="CharityCase_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="CharityCase_End" triggerEvent="true" />
+			<Requirement type="variable" variable="CharityCase_Complete" not="true" />
+			<Requirement type="quest" quest="CharityCase_IntroPanel" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="280605" name="CharityCase_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_Expired" not="true" />
+			<Requirement type="variable" variable="CharityCase_Complete" not="true" />
+			<Requirement type="reqList" location="CharityCase_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ColdAsCharity_5" />
+					<Requirement type="variable" variable="CharityCase_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="ColdAsCharity_1">
+				<Requirement type="quest started" quest="ColdAsCharity_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ColdAsCharity_2">
+				<Requirement type="quest started" quest="ColdAsCharity_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ColdAsCharity_3">
+				<Requirement type="quest started" quest="ColdAsCharity_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ColdAsCharity_4">
+				<Requirement type="quest started" quest="ColdAsCharity_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ColdAsCharity_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="280000" name="ReadingTheRoomCC" tags="sidequest" icon="CharityCase_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="CharityCase_Start" end="CharityCase_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="ReadingTheRoom_Start" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="ReadingTheRoom_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="WaitForPretzels" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="PrepareToRiot" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="BuyABagOfPretzels" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="CharityCase_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="280001" name="ColdAsCharity_1" tags="mainquest" icon="CharityCase_Currency" sidebarIconScript="CharityCase_Scripts:OpenMasterQuest" questMenuConfigPath="CharityCase_QuestConfig:CharityCase_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CharityCase_IntroPanel" />
+			<Requirement type="time" start="CharityCase_Start" end="CharityCase_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_1_Start" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CharityCase_Currency')" amount="__CharityCase_GameConfig:ResourceQuantities:CharityCase_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CharityCase_Scripts:ShowJobList" textpoolName="QST_CharityCase_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCalculators" />
+					<Job name="CollectCalculators_Premium" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Quimby" job="KeepSayingInflation" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Quimby" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="PretendHeUnderstandsInflation" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CharityCase_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CharityCase_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="280002" name="ColdAsCharity_2" tags="mainquest" icon="CharityCase_Currency" sidebarIconScript="CharityCase_Scripts:OpenMasterQuest" questMenuConfigPath="CharityCase_QuestConfig:CharityCase_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdAsCharity_1" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_2_Start" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CharityCase_Currency')" amount="__CharityCase_GameConfig:ResourceQuantities:CharityCase_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CharityCase_Scripts:ShowJobList" textpoolName="QST_CharityCase_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCalculators" />
+					<Job name="CollectCalculators_Premium" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="YellAtTheComputer" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="StartToInvestigate" quantity="1" />
+			<Objective type="complete job" character="Bart" job="DeepDiveMisinformation" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CharityCase_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CharityCase_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="280003" name="ColdAsCharity_3" tags="mainquest" icon="CharityCase_Currency" sidebarIconScript="CharityCase_Scripts:OpenMasterQuest" questMenuConfigPath="CharityCase_QuestConfig:CharityCase_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdAsCharity_2" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_3_Start" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CharityCase_Currency')" amount="__CharityCase_GameConfig:ResourceQuantities:CharityCase_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CharityCase_Scripts:ShowJobList" textpoolName="QST_CharityCase_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCalculators" />
+					<Job name="CollectCalculators_Premium" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="DriveToTheRichTexansHouse" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="FretAboutMissingSchool" quantity="1" />
+			<Objective type="complete job" character="Bart" job="PartakeInTheDemocraticComplaintProcess" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CharityCase_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CharityCase_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="280004" name="ColdAsCharity_4" tags="mainquest" icon="CharityCase_Currency" sidebarIconScript="CharityCase_Scripts:OpenMasterQuest" questMenuConfigPath="CharityCase_QuestConfig:CharityCase_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdAsCharity_3" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_4_Start" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CharityCase_Currency')" amount="__CharityCase_GameConfig:ResourceQuantities:CharityCase_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CharityCase_Scripts:ShowJobList" textpoolName="QST_CharityCase_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCalculators" />
+					<Job name="CollectCalculators_Premium" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="ReOpenHerNonprofit" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CharityCase_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CharityCase_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="280005" name="ColdAsCharity_5" tags="mainquest" icon="CharityCase_Currency" sidebarIconScript="CharityCase_Scripts:OpenMasterQuest" questMenuConfigPath="CharityCase_QuestConfig:CharityCase_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="CharityCase_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdAsCharity_4" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_5_Start" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="ColdAsCharity_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::CharityCase_Currency')" amount="__CharityCase_GameConfig:ResourceQuantities:CharityCase_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="CharityCase_Scripts:ShowJobList" textpoolName="QST_CharityCase_Collect_obj">
+				<HighlightJobList>
+					<Job name="CollectCalculators" />
+					<Job name="CollectCalculators_Premium" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="BreatheIntoAPaperBag" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="CharityCase_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="CharityCase_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="280006" name="SnackDown" tags="sidequest" icon="CharityCase_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ColdAsCharity_5" />
+		</Requirements>
+		<EndScript package="CharityCase_Scripts_Dialogue" name="SnackDown_Start" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="280007" name="PortfolioPursuit_1" tags="sidequest" icon="Investo">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="InvestoTheRobot" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="PortfolioPursuit_1_Start" triggerType="character" character="InvestoTheRobot" />
+		<Objectives>
+			<Objective type="complete job" character="InvestoTheRobot" job="KeepTalkingAboutPortfolios" quantity="1" />
+			<Objective type="complete job" character="Marge" job="RollHerEyes_CC" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="ListenToTheGarbageRobot" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="280008" name="PortfolioPursuit_2" tags="sidequest" icon="Investo">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PortfolioPursuit_1" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="PortfolioPursuit_2_Start" triggerType="character" character="InvestoTheRobot" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="PortfolioPursuit_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="BuyAndSell" quantity="1" />
+			<Objective type="complete job" character="InvestoTheRobot" job="ChargeHisBatteries" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="280009" name="PortfolioPursuit_3" tags="sidequest" icon="Investo">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PortfolioPursuit_2" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="PortfolioPursuit_3_Start" triggerType="character" character="InvestoTheRobot" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="PortfolioPursuit_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="TryToRecoverHisLosses" quantity="1" />
+			<Objective type="complete job" character="Frink" job="RethinkHisProtocols" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Frink" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="InvestoTheRobot" job="GetMugged_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="280010" name="DharmaAndDonuts_1" tags="sidequest" icon="BuddhaHomer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="BuddhaHomer" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="DharmaAndDonuts_1_Start" triggerType="character" character="BuddhaHomer" />
+		<Objectives>
+			<Objective type="complete job" character="BuddhaHomer" job="TightenHisLoincloth" quantity="1" />
+			<Objective type="complete job" character="Carl" job="IntroduceHimself_Carl" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lenny" job="IntroduceHimself_Lenny" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lenny" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GetJealousOfBuddhaHomer" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="280011" name="DharmaAndDonuts_2" tags="sidequest" icon="BuddhaHomer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DharmaAndDonuts_1" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="DharmaAndDonuts_2_Start" triggerType="character" character="BuddhaHomer" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="DharmaAndDonuts_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="BuddhaHomer" job="Meditate_CCTEMP" quantity="1" />
+			<Objective type="complete job" character="Homer" job="EmptyHisMindWithoutTrying" quantity="1" />
+			<Objective type="complete job" character="Lenny" job="JudgeTheMeditationOff" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lenny" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="280012" name="DharmaAndDonuts_3" tags="sidequest" icon="BuddhaHomer">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="DharmaAndDonuts_2" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="DharmaAndDonuts_3_Start" triggerType="character" character="BuddhaHomer" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="DharmaAndDonuts_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="BuddhaHomer" job="PreachEnlightenment_TEMP" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="280013" name="CallingToAccountant_1" tags="sidequest" icon="CowboyAccountant">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="characterunlocked" name="CowboyAccountant" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="CallingToAccountant_1_Start" triggerType="character" character="CowboyAccountant" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="CallingToAccountant_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Krusty" job="StressEatFabergéEggs" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="CowboyAccountant" job="CatchKrustyUpToSpeed" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="280014" name="CallingToAccountant_2" tags="sidequest" icon="CowboyAccountant">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CallingToAccountant_1" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="CallingToAccountant_2_Start" triggerType="character" character="CowboyAccountant" />
+		<Objectives>
+			<Objective type="complete job" character="CowboyAccountant" job="CrunchSomeNumbers_TEMP" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="DrinkAndHire" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="280015" name="CallingToAccountant_3" tags="sidequest" icon="CowboyAccountant">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="CallingToAccountant_2" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts_Dialogue" name="CallingToAccountant_3_Start" triggerType="character" character="CowboyAccountant" />
+		<EndScript package="CharityCase_Scripts_Dialogue" name="CallingToAccountant_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="CowboyAccountant" job="UseHisNotarySeal_TEMP" quantity="1" />
+			<Objective type="complete job" character="Krusty" job="SignTheDocument" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Krusty" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="280900" name="CharityCase_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="CharityCase_Requirements:StoreCategory_CharityCase_Unlocked" />
+		</Requirements>
+		<StartScript package="CharityCase_Scripts" name="RecommendStoreCategory_CharityCase" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

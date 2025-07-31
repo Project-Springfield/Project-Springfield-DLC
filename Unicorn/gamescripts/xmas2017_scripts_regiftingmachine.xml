@@ -1,0 +1,829 @@
+﻿<ScriptPackage>
+	<StartReGiftingMachine_Check>
+		<Action type="if">
+			<If expression="and(greaterThan(System::evaluate('Selector::SmartDeviceResourceCap'), 0), greaterThanEQ(User::getVariable('SmartDevice'), System::evaluate('Selector::SmartDeviceResourceCap'))) || greaterThanEQ(User::getVariable('Junk'), toDouble(System::getConfigValue('__Monorail_Config:SpendableValues:JunkMax__')))">
+				<Then>
+					<Action type="userConfirmation" text="UI_SciFighter_StartConfirmation" title="UI_ReGiftingMachine_ReadyTitle" var="confirm_start" rightButtonColor="A61F0CFF" useBackButtonAsCancel="true" />
+					<Action type="checkExpression" expression="confirm_start">
+						<ExpressionCase value="0">
+							<Action type="sound" sound="UIButton" ignoreObject="true" />
+							<Action type="returnToInGameState" />
+						</ExpressionCase>
+						<ExpressionCase value="1">
+							<Action type="sound" sound="UIButton" ignoreObject="true" />
+							<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:StartReGiftingMachine" />
+						</ExpressionCase>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:StartReGiftingMachine" />
+				</Then>
+			</Else>
+		</Action>
+	</StartReGiftingMachine_Check>
+	<StartReGiftingMachine>
+		<Action type="sound" sound="UIButton" />
+		<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="SimpsonHome" variable="Damage" value="0" asExpression="true" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineIntroSequence" ignoreObject="true" />
+	</StartReGiftingMachine>
+	<ReGiftingMachineIntroSequence>
+		<Action type="gotoState" state="GameState_InGame" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:InitVariables" />
+		<Action type="pantoobject" building="SimpsonHome" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+		<Action type="hideAllCharacters" exceptCharacters="RoboFunzo_MiniGame" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="toggleMonorail" stop="true" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:SetCustomTouch" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateOverlay" />
+		<Action type="scheduleScript" mode="create" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart" shouldSave="false" relativeTime="2s" />
+	</ReGiftingMachineIntroSequence>
+	<ReGiftingMachineStart ignoreHUD="true">
+		<Action type="sound" sound="UI_ReGiftingMachineStart_Click" />
+		<Action type="hideAllCharacters" exceptCharacters="RoboFunzo_MiniGame" hide="true" />
+		<Action type="hideAllFlyBys" hide="true" />
+		<Action type="toggleMonorail" stop="true" />
+		<Action type="delay" time="1" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateOverlay" />
+		<Action type="createobject" name="RoboFunzo_MiniGame" count="RM_StartingRoboFunzos" save="false" panCamera="false" showFadeIn="false" building="SimpsonHome" awayFromSpawnLocMin="25.0f" awayFromSpawnLocMax="30.0f" ignoreGrid="true" avoidRoadGridTypes="ocean|river|shoreline" enableCharacterOverlay="true" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:PauseMovement" />
+		<Action type="updateVariable" disableEvents="true" variable="ReGiftingMachine_Active" value="1" />
+		<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart_Countdown" shouldSave="true" relativeTime="1s" />
+	</ReGiftingMachineStart>
+	<ReGiftingMachineStart_Countdown parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="updateVariable" disableEvents="true" variable="RM_COUNTDOWN" value="RM_COUNTDOWN+1" />
+		<Action type="checkExpression" expression="RM_COUNTDOWN">
+			<ExpressionCase value="1">
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+							<Attribute name="animation" value="Countdown_3" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="UI_ReGiftingMachine_Countdown" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+							<Attribute name="animation" value="Countdown_2" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="UI_ReGiftingMachine_Countdown" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+							<Attribute name="animation" value="Countdown_1" />
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="UI_ReGiftingMachine_Countdown" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="checkRequirements">
+					<Requirement type="language" language="FRE_FR" />
+					<False>
+						<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+							<Attribute name="config">
+								<AttributeSet name="BattleIntroAnim">
+									<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+									<Attribute name="animation" value="Countdown_0" />
+									<Attribute name="visible" value="true" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+					</False>
+					<True>
+						<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+							<Attribute name="config">
+								<AttributeSet name="BattleIntroAnim">
+									<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+									<Attribute name="animation" value="Countdown_0_fr" />
+									<Attribute name="visible" value="true" />
+								</AttributeSet>
+							</Attribute>
+						</Action>
+					</True>
+				</Action>
+				<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart_Countdown" shouldSave="false" relativeTime="1s" />
+				<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer" shouldSave="true" relativeTime="1s" />
+				<Action type="delay" time="0.2" />
+				<Action type="sound" sound="SciFighter_Countdown_End" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineStart_InitializeHealthBar" />
+				<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+					<Attribute name="config">
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</Action>
+			</ExpressionCase>
+		</Action>
+	</ReGiftingMachineStart_Countdown>
+	<ReGiftingMachineStart_InitializeHealthBar parallel="true">
+		<Action type="if">
+			<If expression="System::evaluate('Building::SimpsonHome::Flip::AsBool')">
+				<Then>
+					<Action type="addBuildingOverlay" building="SimpsonHome" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar01" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="addBuildingOverlay" building="SimpsonHome" order="1">
+						<EffectOverlay name="HPBar" bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar01_Flipped" randomStartFrame="false" rooted="post" allowInNormal="true" allowInWrecked="false" animLoop="true" ignoreFlip="true" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</ReGiftingMachineStart_InitializeHealthBar>
+	<RushReGiftingMachineCooldown parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="rushMinigame" minigame="ReGiftingMachine" />
+	</RushReGiftingMachineCooldown>
+	<InitVariables>
+		<Action type="updateVariable" disableEvents="true" variable="RM_PAUSED" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_UNPAUSED" value="1" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_INMAIN" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_GAMELOST" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_GAMEWON" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_FRAMECNT" value="RM_GameLength" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_CHARGING" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_ATTACKING" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_TAPPABLE" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_STARTED" value="1" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_HOMERKAZEACTIVE" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_COUNTDOWN" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_REWARD1" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_REWARD2" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_REWARD3" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_RGB_R" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_RGB_G" value="0.78" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_RGB_B" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="0.7" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_RoboFunzoRewards" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_PAYOUT1" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_PAYOUT2" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_PAYOUT3" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_WinPrizeReward" value="__XMAS2017_BalancingConfig:ReGiftingMachinePayouts:Win_PTReward__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_LossPrizeReward" value="__XMAS2017_BalancingConfig:ReGiftingMachinePayouts:Lose_PTReward__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_WinCraftingReward" value="__XMAS2017_BalancingConfig:ReGiftingMachinePayouts:Win_CTReward__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_LossCraftingReward" value="__XMAS2017_BalancingConfig:ReGiftingMachinePayouts:Lose_CTReward__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_WinMiniGameReward" value="__XMAS2017_BalancingConfig:ReGiftingMachinePayouts:Win_RGMReward__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_LossMiniGameReward" value="__XMAS2017_BalancingConfig:ReGiftingMachinePayouts:Lose_RGMReward__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_StartCurrency" value="__XMAS2017_BalancingConfig:ReGiftingMachine:StartCurrency__" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_MaxDamage" value="5" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_SPEEDBONUS" value="22" />
+	</InitVariables>
+	<SetCustomTouch>
+		<Action type="customTouch">
+			<Attribute name="allowCameraMovement" value="false" />
+			<Attribute name="unloadScript" value="XMAS2017_Scripts_ReGiftingMachine:UnloadCustomTouch" />
+			<Attribute name="config">
+				<AttributeSet name="menuConfig">
+					<Attribute name="file" value="SciFighterHUD" />
+					<Attribute name="config" value="SciFighterHUD.mns" />
+					<Attribute name="hud">
+						<AttributeSet name="ExitButton">
+							<Attribute name="script" value="XMAS2017_Scripts_ReGiftingMachine:QuitGame" />
+						</AttributeSet>
+						<AttributeSet name="onBackButton">
+							<Attribute name="mapTo" value="ExitButton" />
+						</AttributeSet>
+						<AttributeSet name="ScoreCounter">
+							<Attribute name="visible" value="true" />
+						</AttributeSet>
+						<AttributeSet name="ScoreText">
+							<Attribute name="text" value="0" localise="true" />
+						</AttributeSet>
+						<AttributeSet name="ConsumableButton">
+							<Attribute name="visible" value="false" />
+							<Attribute name="active" value="false" />
+						</AttributeSet>
+						<AttributeSet name="ConsumableIcon">
+							<Attribute name="image" value="ICO_MHUD_SciFi_FlashBulb_Disabled" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="CounterNumber">
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="CounterBase">
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="Time01Anim">
+							<Attribute name="image" value="ICO_XMAS2017_CounterClock" />
+							<Attribute name="animation" value="timer_static_0" />
+						</AttributeSet>
+						<AttributeSet name="Time02Anim">
+							<Attribute name="image" value="ICO_XMAS2017_CounterClock" />
+							<Attribute name="animation" value="timer_static_0" />
+						</AttributeSet>
+						<AttributeSet name="TimeColonAnim">
+							<Attribute name="image" value="ICO_XMAS2017_CounterClock" />
+							<Attribute name="animation" value="timer_static_colon" />
+						</AttributeSet>
+						<AttributeSet name="Time03Anim">
+							<Attribute name="image" value="ICO_XMAS2017_CounterClock" />
+							<Attribute name="animation" value="timer_static_1" />
+						</AttributeSet>
+						<AttributeSet name="Time04Anim">
+							<Attribute name="image" value="ICO_XMAS2017_CounterClock" />
+							<Attribute name="animation" value="timer_static_5" />
+						</AttributeSet>
+						<AttributeSet name="BattleIntroAnim">
+							<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+						<AttributeSet name="BattleIntroAnimDimmedBG">
+							<Attribute name="image" value="ICO_XMAS2017_ReGiftingIntro" />
+							<Attribute name="visible" value="false" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="touchables">
+					<Attribute name="objects" value="RoboFunzo_MiniGame" />
+					<Attribute name="ignoreObjectTypes" value="building" />
+					<Attribute name="runOnTouchScriptsInstantly" value="true" />
+				</AttributeSet>
+				<AttributeSet name="onTouchStartedScripts">
+					<Attribute name="RoboFunzo_MiniGame" value="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoTapped" />
+				</AttributeSet>
+				<AttributeSet name="HiddenHUDElements">
+					<Attribute name="EntireHUD" value="true" />
+					<Attribute name="BottomButtons" value="true" />
+					<Attribute name="SpecialEventButtons" value="true" />
+					<Attribute name="Sidebar" value="true" />
+					<Attribute name="Taskbar" value="true" />
+					<Attribute name="ShiftSpendable" value="true" />
+					<Attribute name="Info" value="true" />
+					<Attribute name="HUDCurrencies" value="true" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</SetCustomTouch>
+	<UnloadCustomTouch ignoreHUD="true">
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ClearScreenEffect" />
+		<Action type="runScriptOnAll" character="RoboFunzo_MiniGame" script="XMAS2017_Scripts_ReGiftingMachine:FinalDestroyTappableRoboFunzo" />
+		<Action type="removeAttractor" onType="building" onObject="SimpsonHome" />
+		<Action type="removeBuildingOverlay" building="SimpsonHome" name="HPBar" />
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="toggleMonorail" stop="false" />
+	</UnloadCustomTouch>
+	<RoboFunzoTapped parallel="true" cache="true">
+		<Action type="if">
+			<If expression="#fast; (RM_TAPPABLE==1) &amp;&amp; (Object::Done==0)">
+				<Then>
+					<Action type="playflyby" flybyName="BlastEffect" radius="1" unitScale="0.13" playbackFPS="50" />
+					<Action type="sound" sound="RoboFunzo_MiniGame_Tap" />
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:DestroyTappableRoboFunzo" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</RoboFunzoTapped>
+	<DestroyTappableRoboFunzo parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Delete==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_RoboFunzoRewards" value="RM_RoboFunzoRewards + 1" />
+					<Action type="setVariable" intVariable="RM_DCS_ReGiftingMachine_RoboFunzos" intValue="RM_DCS_ReGiftingMachine_RoboFunzos + 1" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+					<Action type="stop" />
+					<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:DestroyAnimation" />
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateRoboFunzoReward" />
+				</Then>
+			</If>
+		</Action>
+	</DestroyTappableRoboFunzo>
+	<FinalDestroyTappableRoboFunzo parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Delete==0">
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+					<Action type="stop" />
+					<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:DestroyAnimation" />
+				</Then>
+			</If>
+		</Action>
+	</FinalDestroyTappableRoboFunzo>
+	<DestroyAnimation parallel="true" cache="true">
+		<Action type="anim-play" animation="Hover_Squish" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" />
+	</DestroyAnimation>
+	<RoboFunzoTeleportOut parallel="true">
+		<Action type="setObjectFlag" flags="delete" />
+		<Action type="setObjectVariable" disableEvents="true" variable="Delete" value="1" />
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" />
+	</RoboFunzoTeleportOut>
+	<QuitGame parallel="true" exclusive="true">
+		<Action type="if">
+			<If expression="greaterThan(RM_FRAMECNT, 0) &amp;&amp; !RM_PAUSED &amp;&amp; !RM_GAMELOST &amp;&amp; !RM_GAMEWON &amp;&amp; !(RM_COUNTDOWN &lt; 5) &amp;&amp; ReGiftingMachine_Active ">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_PAUSED" value="1" />
+					<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ShowQuitPrompt" ignoreObject="true" />
+				</Then>
+			</If>
+		</Action>
+	</QuitGame>
+	<ShowQuitPrompt ignoreHUD="true">
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:PauseMovement" />
+		<Action type="userConfirmation" text="UI_SciFighter_ExitConfirmation" title="UI_SciFighterExitTitle" var="confirm_exit" rightButtonColor="A61F0CFF" useBackButtonAsCancel="true" />
+		<Action type="checkExpression" expression="confirm_exit">
+			<ExpressionCase value="0">
+				<Action type="updateVariable" disableEvents="true" variable="RM_PAUSED" value="0" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_UNPAUSED" value="1" />
+				<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer" shouldSave="true" relativeTime="1s" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="scheduleScript" mode="delete" script="XMAS2017_Scripts_ReGiftingMachine:*" />
+				<Action type="updateVariable" disableEvents="true" variable="ReGiftingMachine_Active" value="0" />
+				<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:GameOver_Loss" ignoreObject="true" />
+			</ExpressionCase>
+		</Action>
+	</ShowQuitPrompt>
+	<PauseMovement cache="true">
+		<Action type="addAttractor" continuous="true" onType="building" onObject="SimpsonHome" character="RoboFunzo_MiniGame" duration="unlimited" radius="1000" speedMul="0" repathInterval="50" attractionPointType="locator" locator="AttackPoint" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_TAPPABLE" value="0" />
+	</PauseMovement>
+	<AllowMovement cache="true">
+		<Action type="addAttractor" continuous="true" onType="building" onObject="SimpsonHome" character="RoboFunzo_MiniGame" duration="unlimited" radius="1000" speedMul="RM_SPEEDBONUS" repathInterval="50" attractionPointType="locator" locator="AttackPoint" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_TAPPABLE" value="1" />
+	</AllowMovement>
+	<GameOver_Win parallel="true">
+		<Action type="if">
+			<If expression="RM_GAMELOST==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_GAMEWON" value="1" />
+					<Action type="updateVariable" disableEvents="true" variable="RM_INMAIN" value="0" />
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:PauseMovement" />
+					<Action type="scheduleScript" mode="delete" script="XMAS2017_Scripts_ReGiftingMachine:*" />
+					<Action type="updateVariable" disableEvents="true" variable="ReGiftingMachine_Active" value="0" />
+					<Action type="pantoobject" building="SimpsonHome" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+					<Action type="delay" time="1" />
+					<Action type="sound" sound="UI_ReGiftingMachine_FinalBurst" />
+					<Action type="if">
+						<If expression="!System::evaluate('Building::SimpsonHome::Flip::AsBool') ">
+							<Then>
+								<Action type="anim-building-oneshot" postdraw="true" nowait="true" onBuilding="SimpsonHome">
+									<OneShot name="regular" file="EMPPulse" animation="Active" x="-100" y="100" />
+								</Action>
+							</Then>
+						</If>
+						<Else>
+							<Then>
+								<Action type="anim-building-oneshot" postdraw="true" nowait="true" onBuilding="SimpsonHome">
+									<OneShot name="regular" file="EMPPulse" animation="Active" x="100" y="100" />
+								</Action>
+							</Then>
+						</Else>
+					</Action>
+					<Action type="delay" time="1" />
+					<Action type="runScriptOnAll" character="RoboFunzo_MiniGame" script="XMAS2017_Scripts_ReGiftingMachine:FinalDestroyTappableRoboFunzo" />
+					<Action type="removeAttractor" onType="building" onObject="SimpsonHome" />
+					<Action type="scheduleScript" mode="create" script="XMAS2017_Scripts_ReGiftingMachine:GameOver_WinComplete" shouldSave="true" relativeTime="1s" />
+				</Then>
+			</If>
+		</Action>
+	</GameOver_Win>
+	<GameOver_WinComplete ignoreHUD="true">
+		<Action type="setVariable" boolVariable="ReGiftingMachineWon" boolValue="true" />
+		<Action type="scheduleScript" mode="delete" script="XMAS2017_Scripts_ReGiftingMachine:*" />
+		<Action type="updateVariable" disableEvents="true" variable="ReGiftingMachine_Active" value="0" />
+		<Action type="setVariable" intVariable="RM_DCS_ReGiftingMachine_Wins" intValue="RM_DCS_ReGiftingMachine_Wins + 1" />
+		<Action type="setVariable" intVariable="RM_Wins" intValue="RM_Wins + 1" />
+		<Action type="loseResources" XMAS2017_MinigameCurrency="__XMAS2017_BalancingConfig:ReGiftingMachine:StartCurrency__" />
+		<Action type="if">
+			<If expression="System::evaluate('Building::SimpsonHome::Object::Damage')==0">
+				<Then>
+					<Action type="setVariable" intVariable="RM_DCS_ReGiftingMachine_NoDamage" intValue="RM_DCS_ReGiftingMachine_NoDamage + 1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="updateVariable" disableEvents="true" variable="RM_STARTED" value="0" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ClearScreenEffect" />
+		<Action type="setMiniGameState" building="ReGiftingMachine" name="ReGiftingMachine" state="Playing" />
+		<Action type="setMiniGameState" building="ReGiftingMachine" name="ReGiftingMachine" state="Ready" />
+		<Action type="runScriptOnAll" character="RoboFunzo_MiniGame" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoTeleportOut" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ExitGame" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineTelemetry" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:Rewards_Win" />
+	</GameOver_WinComplete>
+	<GameOver_Loss parallel="true">
+		<Action type="if">
+			<If expression="RM_GAMEWON==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_INMAIN" value="0" />
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:PauseMovement" />
+					<Action type="scheduleScript" mode="delete" script="XMAS2017_Scripts_ReGiftingMachine:*" />
+					<Action type="updateVariable" disableEvents="true" variable="ReGiftingMachine_Active" value="0" />
+					<Action type="pantoobject" building="SimpsonHome" fakeTouch="false" zoom="0.5" time="0" offsetX="_[gridToWorld(2)]_" offsetZ="_[-gridToWorld(2)]_" />
+					<Action type="delay" time="2" />
+					<Action type="runScriptOnAll" character="RoboFunzo_MiniGame" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoTeleportOut" />
+					<Action type="removeAttractor" onType="building" onObject="SimpsonHome" />
+					<Action type="scheduleScript" mode="create" script="XMAS2017_Scripts_ReGiftingMachine:GameOver_LossComplete" shouldSave="true" relativeTime="1s" />
+				</Then>
+			</If>
+		</Action>
+	</GameOver_Loss>
+	<GameOver_LossComplete ignoreHUD="true">
+		<Action type="scheduleScript" mode="delete" script="XMAS2017_Scripts_ReGiftingMachine:*" />
+		<Action type="updateVariable" disableEvents="true" variable="ReGiftingMachine_Active" value="0" />
+		<Action type="updateVariable" disableEvents="true" variable="RM_STARTED" value="0" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ClearScreenEffect" />
+		<Action type="loseResources" XMAS2017_MinigameCurrency="__XMAS2017_BalancingConfig:ReGiftingMachine:StartCurrency__" />
+		<Action type="setMiniGameState" building="ReGiftingMachine" name="ReGiftingMachine" state="Playing" />
+		<Action type="setMiniGameState" building="ReGiftingMachine" name="ReGiftingMachine" state="Ready" />
+		<Action type="runScriptOnAll" character="RoboFunzo_MiniGame" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoTeleportOut" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ExitGame" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineTelemetry" />
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:Rewards_Loss" />
+	</GameOver_LossComplete>
+	<ExitGame ignoreHUD="true">
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:DoExitGame" />
+	</ExitGame>
+	<DoExitGame ignoreHUD="true">
+		<Action type="hideAllCharacters" hide="false" />
+		<Action type="hideAllFlyBys" hide="false" />
+		<Action type="toggleMonorail" stop="false" />
+		<Action type="gotoState" state="GameState_InGame" />
+	</DoExitGame>
+	<UpdateTimer parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="System::evaluate('Game::State::GameState_CustomTouch')">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer_InState" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ClearScreenEffect" />
+				</Then>
+			</Else>
+		</Action>
+	</UpdateTimer>
+	<UpdateTimer_InState cache="true">
+		<Action type="if">
+			<If expression="RM_PAUSED==0">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer_NotPaused" />
+				</Then>
+			</If>
+		</Action>
+	</UpdateTimer_InState>
+	<UpdateTimer_NotPaused cache="true">
+		<Action type="if">
+			<If expression="RM_UNPAUSED==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_FRAMECNT" value="RM_FRAMECNT-1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="RM_FRAMECNT==0">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateAnimatedTimer" />
+					<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:GameOver_Win" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer_NotEnded" />
+				</Then>
+			</Else>
+		</Action>
+	</UpdateTimer_NotPaused>
+	<UpdateTimer_NotEnded cache="true">
+		<Action type="if">
+			<If expression="RM_INMAIN==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_INMAIN" value="1" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="scheduleScript" mode="replace" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer" shouldSave="true" relativeTime="1s" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateAnimatedTimer" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateRoboFunzoReward" />
+		<Action type="if">
+			<If expression="RM_UNPAUSED==0">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoSpawn" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="RM_UNPAUSED==1">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:AllowMovement" />
+					<Action type="updateVariable" disableEvents="true" variable="RM_UNPAUSED" value="0" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="if">
+			<If expression="lessThanEQ(RM_FRAMECNT,5)">
+				<Then>
+					<Action type="sound" sound="DCS_OpenWindow" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateTimer_UpdateScreenAndSpeed" />
+	</UpdateTimer_NotEnded>
+	<UpdateTimer_UpdateScreenAndSpeed cache="true">
+		<Action type="if">
+			<If expression="RM_FRAMECNT==15">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_SPEEDBONUS" value="24" />
+				</Then>
+			</If>
+			<ElseIf expression="RM_FRAMECNT==5">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:AllowMovement" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</UpdateTimer_UpdateScreenAndSpeed>
+	<UpdateAnimatedTimer cache="true">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="Time03Anim">
+					<Attribute name="loop" value="false" />
+					<Attribute name="animation" value="Timer_Static_{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="floor(RM_FRAMECNT/10)" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="Time04Anim">
+					<Attribute name="loop" value="false" />
+					<Attribute name="animation" value="Timer_Static_{0}" parameters="textParams">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="mod(RM_FRAMECNT,10)" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</UpdateAnimatedTimer>
+	<UpdateRoboFunzoReward cache="true">
+		<Action type="updateMenuItem" menu="eMenu_CustomTouch">
+			<Attribute name="config">
+				<AttributeSet name="ScoreText">
+					<Attribute name="text" value="{0}" parameters="textParams" localise="true">
+						<AttributeSet name="textParams">
+							<Attribute name="0" formula="(RM_RoboFunzoRewards)" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</UpdateRoboFunzoReward>
+	<RoboFunzoSpawn cache="true">
+		<Action type="if">
+			<If expression="greaterThanEQ(RM_FRAMECNT, 10)">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoSpawn_10" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf expression="greaterThan(RM_FRAMECNT, 0)">
+				<Then>
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoSpawn_Standard1" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RoboFunzoSpawn>
+	<RoboFunzoSpawn_10 cache="true">
+		<Action type="createobject" name="RoboFunzo_MiniGame" count="2" save="false" panCamera="false" showFadeIn="false" building="SimpsonHome" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="35.0f" ignoreGrid="true" avoidRoadGridTypes="ocean|river|shoreline" enableCharacterOverlay="true" />
+	</RoboFunzoSpawn_10>
+	<RoboFunzoSpawn_Standard1 cache="true">
+		<Action type="createobject" name="RoboFunzo_MiniGame" count="1" save="false" panCamera="false" showFadeIn="false" building="SimpsonHome" awayFromSpawnLocMin="30.0f" awayFromSpawnLocMax="35.0f" ignoreGrid="true" avoidRoadGridTypes="ocean|river|shoreline" enableCharacterOverlay="true" />
+	</RoboFunzoSpawn_Standard1>
+	<CastleReached_RoboFunzo parallel="true" cache="true">
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoSuccessAnim" />
+		<Action type="setObjectVariable" disableEvents="true" variable="Done" value="1" />
+		<Action type="delay" time="0.4" />
+		<Action type="sound" sound="SciFighter_Robot_Attack" />
+		<Action type="setObjectVariable" disableEvents="true" onType="building" onObject="SimpsonHome" variable="Damage" value="Object::Damage+1" asExpression="true" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateHealthBar" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:SimpsonHomeDamaged" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:RoboFunzoSuccessAnim_Delete" />
+	</CastleReached_RoboFunzo>
+	<RoboFunzoSuccessAnim cache="true" parallel="true">
+		<Action type="shakeCamera" length="8" magnitude="4" waitUntilComplete="false" />
+		<Action type="anim-play" animation="Hover_Destroy" nowait="true" />
+	</RoboFunzoSuccessAnim>
+	<RoboFunzoSuccessAnim_Delete cache="true" parallel="true" runQueueState="RunInAnyState">
+		<Action type="anim-waitforend" />
+		<Action type="deletecharacter" />
+	</RoboFunzoSuccessAnim_Delete>
+	<SimpsonHomeDamaged parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="if">
+			<If expression="(greaterThanEQ(System::evaluate('Building::SimpsonHome::Object::Damage'), RM_MaxDamage) &amp;&amp; RM_GAMELOST==0)">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_GAMELOST" value="1" />
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:PauseMovement" />
+					<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:GameOver_Loss" ignoreObject="true" />
+				</Then>
+			</If>
+		</Action>
+	</SimpsonHomeDamaged>
+	<UpdateHealthBar cache="true">
+		<Action type="checkExpression" expression="min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5)">
+			<ExpressionCase value="1">
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_R" value="0.31" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_G" value="0.78" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="1" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_R" value="0.48" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_G" value="0.78" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="1" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_R" value="0.78" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_G" value="0.75" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="1" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_R" value="0.78" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_G" value="0.27" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="1" />
+			</ExpressionCase>
+			<ExpressionCase value="5">
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_R" value="0.78" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_G" value="0" />
+				<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="1" />
+			</ExpressionCase>
+		</Action>
+		<Action type="scheduleScript" mode="delete" script="XMAS2017_Scripts_ReGiftingMachine:UpdateHealthBar_ResetAlpha" />
+		<Action type="if">
+			<If expression="(RM_GAMEWON!=1) &amp;&amp; (RM_GAMELOST!=1)">
+				<Then>
+					<Action type="scheduleScript" mode="create" script="XMAS2017_Scripts_ReGiftingMachine:UpdateHealthBar_ResetAlpha" shouldSave="true" relativeTime="1s" />
+					<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateOverlay" />
+				</Then>
+			</If>
+		</Action>
+	</UpdateHealthBar>
+	<UpdateHealthBar_ResetAlpha parallel="true" cache="true">
+		<Action type="updateVariable" disableEvents="true" variable="RM_RGB_A" value="0.7" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateOverlay" />
+	</UpdateHealthBar_ResetAlpha>
+	<UpdateOverlay cache="true">
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreen_Alpha" show="true">
+			<Tint r="RM_RGB_R" g="RM_RGB_G" b="RM_RGB_B" a="RM_RGB_A" tweenDuration="0.3" />
+		</Action>
+	</UpdateOverlay>
+	<ClearScreenEffect ignoreHUD="true">
+		<Action type="showScreenEffect" screenEffect="ScriptDarkScreen_Alpha" show="false" />
+	</ClearScreenEffect>
+	<ReGiftingMachineTelemetry ignoreHUD="true">
+		<Action type="if">
+			<If expression="(RM_GameLength-RM_FRAMECNT)==0">
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_REWARD1" value="RM_WinPrizeReward" />
+					<Action type="updateVariable" disableEvents="true" variable="RM_REWARD2" value="(RM_WinCraftingReward*RM_RoboFunzoRewards)" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="updateVariable" disableEvents="true" variable="RM_REWARD1" value="RM_LossPrizeReward" />
+					<Action type="updateVariable" disableEvents="true" variable="RM_REWARD2" value="(RM_LossCraftingReward*RM_RoboFunzoRewards)" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="runScript" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineTelemetry_Log" />
+	</ReGiftingMachineTelemetry>
+	<ReGiftingMachineTelemetry_Log ignoreHUD="true">
+		<Action type="logevent" eventId="9806" param1Type="Enumeration" param1AsFormula="RM_GameLength-RM_FRAMECNT" param2Type="Enumeration" param2AsFormula="RM_REWARD1" param3Type="Enumeration" param3AsFormula="RM_REWARD2" />
+	</ReGiftingMachineTelemetry_Log>
+	<Rewards_Win ignoreHUD="true">
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineRewards_Win" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateRoboFunzoReward" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ShowReGiftingMachineRewardPanel_Win" />
+	</Rewards_Win>
+	<Rewards_Loss ignoreHUD="true">
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ReGiftingMachineRewards_Loss" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:UpdateRoboFunzoReward" />
+		<Action type="actionSequence" script="XMAS2017_Scripts_ReGiftingMachine:ShowReGiftingMachineRewardPanel_Loss" />
+	</Rewards_Loss>
+	<Trigger_MysteryBox ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2017_Requirements:ActOne" />
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="XMAS2017_Act2_MysteryBox_LoopCount &gt;= 2" />
+					<False>
+						<Action type="reward">
+							<Item type="consumable" name="XMAS2017_Act2_MysteryBox" useImmediately="true" />
+						</Action>
+					</False>
+					<True>
+						<Action type="rewardWithPlaceStore" attributes="XMAS2017_MenuConfig_ReGiftingMachine:RewardWithPlaceStore">
+							<Item type="consumable" name="XMAS2017_CraftingPack1" useImmediately="true" />
+						</Action>
+					</True>
+				</Action>
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="XMAS2017_Act1_MysteryBox_LoopCount &gt;= 2" />
+					<False>
+						<Action type="reward">
+							<Item type="consumable" name="XMAS2017_Act1_MysteryBox" useImmediately="true" />
+						</Action>
+					</False>
+					<True>
+						<Action type="rewardWithPlaceStore" attributes="XMAS2017_MenuConfig_ReGiftingMachine:RewardWithPlaceStore">
+							<Item type="consumable" name="XMAS2017_CraftingPack1" useImmediately="true" />
+						</Action>
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</Trigger_MysteryBox>
+	<Trigger_MysteryBox_End ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2017_Requirements:ActOne" />
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="XMAS2017_Act2_MysteryBox_LoopCount &gt;= 2" />
+					<False>
+						<Action type="updateVariable" variable="RM_Act2MysteryBoxCounter" value="(RM_Act2MysteryBoxCounter+1)" />
+					</False>
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="formula" formula="XMAS2017_Act2_MysteryBox_PopupCount == 0" />
+							<True>
+								<Action type="message" text="UI_ReGiftingMachine_CraftingRewardText" revealSpeed="medium" />
+								<Action type="updateVariable" variable="XMAS2017_Act2_MysteryBox_PopupCount" value="1" />
+							</True>
+						</Action>
+					</True>
+				</Action>
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="formula" formula="XMAS2017_Act1_MysteryBox_LoopCount &gt;= 2" />
+					<False>
+						<Action type="updateVariable" variable="RM_Act1MysteryBoxCounter" value="(RM_Act1MysteryBoxCounter+1)" />
+					</False>
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="formula" formula="XMAS2017_Act1_MysteryBox_PopupCount == 0" />
+							<True>
+								<Action type="message" text="UI_ReGiftingMachine_CraftingRewardText" revealSpeed="medium" />
+								<Action type="updateVariable" variable="XMAS2017_Act1_MysteryBox_PopupCount" value="1" />
+							</True>
+						</Action>
+					</True>
+				</Action>
+			</True>
+		</Action>
+		<Action type="setVariable" intVariable="RM_Wins" intValue="0" />
+	</Trigger_MysteryBox_End>
+	<ReGiftingMachineRewards_Win parallel="true">
+		<Action type="reward" save="true" XMAS2017_ActivePrizeTrackCurrency="RM_WinPrizeReward" suppress_sound="true" />
+		<Action type="reward" save="true" XMAS2017_CraftingCurrency="(RM_WinCraftingReward*RM_RoboFunzoRewards)" suppress_sound="true" />
+		<Action type="reward" save="true" XMAS2017_MinigameCurrency="RM_WinMiniGameReward" suppress_sound="true" />
+	</ReGiftingMachineRewards_Win>
+	<ReGiftingMachineRewards_Loss parallel="true">
+		<Action type="reward" save="true" XMAS2017_ActivePrizeTrackCurrency="RM_LossPrizeReward" suppress_sound="true" />
+		<Action type="reward" save="true" XMAS2017_CraftingCurrency="(RM_LossCraftingReward*RM_RoboFunzoRewards)" suppress_sound="true" />
+		<Action type="reward" save="true" XMAS2017_MinigameCurrency="RM_LossMiniGameReward" suppress_sound="true" />
+	</ReGiftingMachineRewards_Loss>
+	<ShowReGiftingMachineRewardPanel_Win>
+		<Action type="sound" sound="UI_ReGiftingMachine_Win" />
+		<Action type="showMenu" menu="SciFighterRewardNotification" scriptResProvider="SciFighterRewardNotification.mns" menuConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineRewardNotificationConfig_Win" progressBarsConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineRewardProgressBarConfig" buttonsConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineRewardButtonConfig" />
+	</ShowReGiftingMachineRewardPanel_Win>
+	<ShowReGiftingMachineRewardPanel_Loss>
+		<Action type="sound" sound="UI_ReGiftingMachine_Loss" />
+		<Action type="showMenu" menu="SciFighterRewardNotification" scriptResProvider="SciFighterRewardNotification.mns" menuConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineRewardNotificationConfig_Lose" progressBarsConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineRewardProgressBarConfig" buttonsConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineRewardButtonConfig" />
+	</ShowReGiftingMachineRewardPanel_Loss>
+	<FinishReGiftingMachine parallel="true">
+		<Action type="setMiniGameState" building="ReGiftingMachine" name="ReGiftingMachine" state="Ready" />
+	</FinishReGiftingMachine>
+</ScriptPackage>

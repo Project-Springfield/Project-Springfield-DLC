@@ -1,0 +1,1568 @@
+﻿<ScriptPackage>
+	<SpringfieldAirport_Opened>
+		<Action type="if">
+			<If expression="TicketsReset==0">
+				<Then>
+					<Action type="reward" save="true" AroundTheWorld_PlaneTickets="max(toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:AirportJobs:TicketSoftCap__'))-AroundTheWorld_PlaneTickets, 0)" suppress_sound="true" />
+					<Action type="updateVariable" disableEvents="true" variable="TicketsReset" value="1" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="program">
+						<Program><![CDATA[
+								#program;
+								
+								var actualTickets = User::getVariable('AroundTheWorld_PlaneTickets');
+								var ticketCap = toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:AirportJobs:TicketSoftCap__'));
+								if (actualTickets < ticketCap)
+								{
+									var currentTime = time();
+									var lastTime = User::getVariable('TicketSpentTime');
+									var regenThreshold = secondsFromTimeString(System::getConfigValue('__AroundTheWorld_BalancingConfig:AirportJobs:TicketSpawnTimer__'));
+									
+									var diff = floor((currentTime - lastTime) / regenThreshold);
+									
+									var lastTickets = User::getVariable('TicketCount');
+									
+									if (diff > 0)
+									{
+										if (min(lastTickets+diff, ticketCap) > actualTickets)
+										{
+											Global::setVariable('AtW_PlaneTicketsOwed', min(actualTickets+diff, ticketCap) - actualTickets);
+											User::setVariable('TicketSpentTime', lastTime+(max(0, regenThreshold*diff)),false);
+											Script::run('AroundTheWorld_Scripts_Misc_Event:SpringfieldAirport_Opened_Payout');
+										}
+										else
+										{
+											User::setVariable('TicketSpentTime', lastTime+(max(0, regenThreshold*diff)),false);
+											User::setVariable('TicketCount', actualTickets, false);
+										}
+									}
+								}
+								
+							]]></Program>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</SpringfieldAirport_Opened>
+	<SpringfieldAirport_Opened_Payout parallel="true">
+		<Action type="reward" save="true" AroundTheWorld_PlaneTickets="Global::getVariable('AtW_PlaneTicketsOwed')" suppress_sound="true" />
+		<Action type="updateVariable" disableEvents="true" variable="TicketCount" value="AroundTheWorld_PlaneTickets" />
+	</SpringfieldAirport_Opened_Payout>
+	<AroundTheWorld_Recommend>
+		<Action type="recommendation" recType="Event" name="AroundTheWorld_OnePanel" eventName="UI_AroundTheWorld_Title" />
+		<Action type="recommendation" recType="Event" name="AroundTheWorld_ThreePanel" eventName="UI_AroundTheWorld_Title" />
+	</AroundTheWorld_Recommend>
+	<EnterAtWCategory>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="AroundTheWorldStore" />
+			</True>
+		</Action>
+	</EnterAtWCategory>
+	<EnterSuperbowlCategory>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="SuperbowlStore" />
+			</True>
+		</Action>
+	</EnterSuperbowlCategory>
+	<GoTo_CleatusCon>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="building" building="FootballFieldSection" />
+					<False>
+						<Action type="checkRequirements">
+							<Requirement type="item" item="FootballFieldSection" />
+							<False>
+								<Action type="focusOnMenuItem" itemName="AtW_Cleatus" />
+							</False>
+							<True>
+								<Action type="focusOnMenuItem" itemName="FootballFieldSection" inventory="true" />
+							</True>
+						</Action>
+					</False>
+					<True>
+						<Action type="pantoobject" time="0" building="FootballFieldSection" fakeTouch="false" />
+					</True>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_CleatusCon>
+	<Superbowl_Recommend>
+		<Action type="recommendation" recType="Event" name="Superbowl_OnePanel" eventName="UI_Superbowl_Title" />
+		<Action type="checkRequirements">
+			<Requirement type="quest started" quest="AroundTheWorld_3" />
+			<True>
+				<Action type="clearRecommendations" category="Event" name="AroundTheWorld_OnePanel" />
+				<Action type="clearRecommendations" category="Event" name="AroundTheWorld_ThreePanel" />
+				<Action type="recommendation" recType="Event" name="AroundTheWorld_OnePanel" eventName="UI_AroundTheWorld_Title" />
+				<Action type="recommendation" recType="Event" name="AroundTheWorld_ThreePanel" eventName="UI_AroundTheWorld_Title" />
+			</True>
+		</Action>
+	</Superbowl_Recommend>
+	<EnterValentinesCategory>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="ValentinesStore" />
+			</True>
+		</Action>
+	</EnterValentinesCategory>
+	<Valentines_Recommend>
+		<Action type="recommendation" recType="Event" name="Valentines_OnePanel" eventName="UI_Valentines2017_Title" />
+		<Action type="checkRequirements">
+			<Requirement type="quest started" quest="AroundTheWorld_3" />
+			<True>
+				<Action type="clearRecommendations" category="Event" name="AroundTheWorld_OnePanel" />
+				<Action type="clearRecommendations" category="Event" name="AroundTheWorld_ThreePanel" />
+				<Action type="recommendation" recType="Event" name="AroundTheWorld_OnePanel" eventName="UI_AroundTheWorld_Title" />
+				<Action type="recommendation" recType="Event" name="AroundTheWorld_ThreePanel" eventName="UI_AroundTheWorld_Title" />
+			</True>
+		</Action>
+	</Valentines_Recommend>
+	<SpawnNorbert>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TriggerNorbertPlaneFlyBy" />
+		<Action type="createobject" name="Norbert_Temp" save="true" showUnlock="false" showFadeIn="true" building="SpringfieldAirport" teleportCamera="true" />
+		<Action type="stop" character="Norbert_Temp" />
+	</SpawnNorbert>
+	<GoToNorbert parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" time="0" character="Norbert_Temp" fakeTouch="false" />
+			</True>
+		</Action>
+	</GoToNorbert>
+	<GoToOsakaFlu>
+		<Action type="program">
+			<Program><![CDATA[
+                #program;
+                var osakaFluList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                if(Array::size(osakaFluList) > 0)
+                {
+                    var osakaFlu = Array::getValueAtIndex(osakaFluList, 0);
+                    System::setGameState('GameState_InGame');
+                    
+                    var goToInstance = osakaFlu;
+                    var touristServerID = Object::getVariableAsNumber(osakaFlu,'AttachedToTappable');
+                    if(touristServerID != 0)
+                    {
+                        goToInstance = Land::getCharacterInstanceFromServerID(touristServerID);
+                    }
+                    
+                    Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:OsakaFlu_GoTo', goToInstance);
+                }
+				]]></Program>
+		</Action>
+	</GoToOsakaFlu>
+	<NorbertTapped>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="NorbertTapped" value="true" />
+			<True>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+			</True>
+			<False>
+				<Action type="updateVariable" variable="NorbertTapped" value="true" />
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:NorbertsTasks_StandaloneHelp" />
+			</False>
+		</Action>
+	</NorbertTapped>
+	<TabPressed_GlobeChaseGoTo>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="Globe" />
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="Globe" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="Globe" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="Globe" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_GlobeChaseGoTo>
+	<TabPressed_LeatherPlaneChaseGoTo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="BlackLeatherPlane" />
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="BlackLeatherPlane" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="BlackLeatherPlane" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="BlackLeatherPlane" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_LeatherPlaneChaseGoTo>
+	<TabPressed_NorbertPlaneChaseGoTo parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="NorbertsPlane" />
+			<False>
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+			</False>
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="item" item="NorbertsPlane" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="NorbertsPlane" inventory="true" />
+					</True>
+					<False>
+						<Action type="pantoobject" building="NorbertsPlane" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_NorbertPlaneChaseGoTo>
+	<PrizeListButtonPressed runQueueState="RunInAnyState">
+		<Action type="checkExpression" expression="AtW_EventHubTabValue">
+			<ExpressionCase value="1">
+				<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_PrizeTrack" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+			</ExpressionCase>
+			<ExpressionCase value="3">
+				<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_Crafting" />
+			</ExpressionCase>
+			<ExpressionCase value="4">
+				<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_OsakaFlu" />
+			</ExpressionCase>
+		</Action>
+	</PrizeListButtonPressed>
+	<TabPressed_PrizeTrack ignoreHUD="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:SpringfieldAirport_Opened" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="AtW_PrizeTrackBadge" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="GameState_HubPrizeTrack">
+			<Extras>
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+				<Attribute name="helpButtonScript" value="AroundTheWorld_Scripts_Misc_Event:TabPressed_PrizeTrack_Help" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+			</Extras>
+		</Action>
+	</TabPressed_PrizeTrack>
+	<TabPressed_PrizeTrack_Help ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="1" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_PrizeTrack" />
+	</TabPressed_PrizeTrack_Help>
+	<TabPressed_PrizeTrack_Help_Norbert ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_PrizeTrack_Norbert" />
+	</TabPressed_PrizeTrack_Help_Norbert>
+	<PrizeTrack2Selected ignoreHUD="true">
+		<Action type="notification" title="UI_AtW_PrizeTrack_Title" button="UI_OK" text="UI_AtW_PrizeTrack_FutureTracks" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_AroundTheWorld_SumoStadiumandSumoWrestler_MD" darken="true" />
+	</PrizeTrack2Selected>
+	<PrizeTrack3Selected ignoreHUD="true">
+		<Action type="notification" title="UI_AtW_PrizeTrack_Title" button="UI_OK" text="UI_AtW_PrizeTrack_FutureTracks" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_PRIZ_AroundTheWorld_SambaSchoolandTiago_MD" darken="true" />
+	</PrizeTrack3Selected>
+	<TabPressed_NorbertsTasks ignoreHUD="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:SpringfieldAirport_Opened" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="AtW_NorbertsTasks" />
+		<Action type="setVariable" intVariable="AtW_NobertViewed" intValue="0" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_HubQuestLotChallenges" extras="AroundTheWorld_MenuConfig:HubQuestLotChallengesConfig" />
+	</TabPressed_NorbertsTasks>
+	<TabPressed_NorbertsTasks_Help ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_NorbertsTasks">
+			<Extras>
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</TabPressed_NorbertsTasks_Help>
+	<GuideClosed_NorbertsTasks ignoreHUD="true">
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="AtW_NorbertsTasks" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="2" />
+		<Action type="gotoState" state="GameState_HubQuestLotChallenges" extras="AroundTheWorld_MenuConfig:HubQuestLotChallengesConfig" />
+	</GuideClosed_NorbertsTasks>
+	<NorbertsTasks_StandaloneHelp ignoreHUD="true">
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_NorbertsTasks_Standalone">
+			<Extras>
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+				<Attribute name="useDynamicMenu" value="true" />
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+			</Extras>
+		</Action>
+	</NorbertsTasks_StandaloneHelp>
+	<TabPressed_Crafting ignoreHUD="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:SpringfieldAirport_Opened" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+				<Action type="markBadgeViewed" badgeName="AtW_CraftingBadge" />
+				<Action type="updateVariable" variable="AtW_EventHubTabValue" value="3" />
+				<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+					<Extras>
+						<Attribute name="MenuConfig" value="AroundTheWorld_CraftingConfig:CraftingMenu" />
+						<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+						<Attribute name="onLoadScript" value="AroundTheWorld_Scripts_Crafting:UpdateCrafting" />
+						<Attribute name="specialEvent" value="AroundTheWorld" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</TabPressed_Crafting>
+	<TabPressed_Crafting_Help ignoreHUD="true">
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="3" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_Crafting">
+			<Extras>
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+				<Attribute name="useDynamicMenu" value="true" />
+			</Extras>
+		</Action>
+	</TabPressed_Crafting_Help>
+	<GuideClosed_Crafting ignoreHUD="true">
+		<Action type="sound" sound="UIButton" ignoreObject="true" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="AtW_CraftingBadge" />
+		<Action type="updateVariable" variable="AtW_EventHubTabValue" value="3" />
+		<Action type="gotoState" state="GameState_HubCraftingMenu" forceState="false">
+			<Extras>
+				<Attribute name="MenuConfig" value="AroundTheWorld_CraftingConfig:CraftingMenu" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:GoToInGame" />
+				<Attribute name="onLoadScript" value="AroundTheWorld_Scripts_Crafting:UpdateCrafting" />
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+			</Extras>
+		</Action>
+	</GuideClosed_Crafting>
+	<Crafting_StandaloneHelp ignoreHUD="true">
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_Crafting_Standalone">
+			<Extras>
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+				<Attribute name="useDynamicMenu" value="true" />
+				<Attribute name="Center" value="true" />
+				<Attribute name="ExitButtonScript" value="MiscScripts:ReturnToGameState" />
+			</Extras>
+		</Action>
+	</Crafting_StandaloneHelp>
+	<TabPressed_OsakaFlu>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:SpringfieldAirport_Opened" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="markBadgeViewed" badgeName="AtW_OsakaFluBadge" />
+		<Action type="setVariable" boolVariable="AtW_OsakaFlu_LeveledUp" boolValue="false" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="GameState_HubDataDrivenMenu" forceState="false">
+			<Extras>
+				<Attribute name="menuName" value="osakaflumenu" />
+				<Attribute name="scriptResProvider" value="osakaflumenu.mns" />
+				<Attribute name="menuConfig" value="AroundTheWorld_MenuConfig:OsakaFluMenuConfig" />
+				<Attribute name="buttonsConfig" value="AroundTheWorld_MenuConfig:OsakaFluMenuButtonsConfig" />
+				<Attribute name="checkMenuBranch" value="AroundTheWorld_OsakaFluMenuHooks:CheckMenuBranch" />
+				<Attribute name="getComponentCountForMenu" value="AroundTheWorld_OsakaFluMenuHooks:GetComponentCount" />
+				<Attribute name="getPageComponentName" value="AroundTheWorld_OsakaFluMenuHooks:GetPageComponentName" />
+				<Attribute name="getMenuConfig" value="AroundTheWorld_OsakaFluMenuHooks:GetMenuConfig" />
+				<Attribute name="onMenuButtonNamedSelected" value="AroundTheWorld_OsakaFluMenuHooks:OnMenuButtonNamedSelected" />
+				<Attribute name="specialEvent" value="AroundTheWorld" />
+			</Extras>
+		</Action>
+	</TabPressed_OsakaFlu>
+	<TabPressed_OsakaFlu_Help ignoreHUD="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="scrollEventHubToIndex" scrollToIndex="0" />
+		<Action type="setVariable" intVariable="AtW_EventHubTabValue" intValue="4" />
+		<Action type="gotoState" state="State_HubGuidePanel" extras="AroundTheWorld_MenuConfig:AtWGuide_OsakaFlu" />
+	</TabPressed_OsakaFlu_Help>
+	<TabPressed_OsakaFlu_Exit>
+		<Action type="sound" sound="UIClose" />
+		<Action type="showMenu" clearShownMenu="true" />
+		<Action type="runScript" script="ReturnToGameState" package="MiscScripts" />
+	</TabPressed_OsakaFlu_Exit>
+	<TouristTapped_LocalRadius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0">
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="updateVariable" variable="AroundTheWorld_TappablesTapped" value="AroundTheWorld_TappablesTapped+1" />
+					<Action type="updateVariable" variable="AtW_DCS_TappedTourists" value="AtW_DCS_TappedTourists+1" />
+					<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+					<Action type="runScriptOnAll" character="Tourist" in_radius="5" radius_delay="0.3" script="AroundTheWorld_Scripts_Misc_Event:TouristTapped_InRadius" />
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TouristTapped_LocalFromRadius" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</TouristTapped_LocalRadius>
+	<TouristTapped_InRadius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0">
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="updateVariable" variable="AroundTheWorld_TappablesTapped" value="AroundTheWorld_TappablesTapped+1" />
+					<Action type="updateVariable" variable="AtW_DCS_TappedTourists" value="AtW_DCS_TappedTourists+1" />
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TouristTapped_LocalFromRadius" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</TouristTapped_InRadius>
+	<TouristTapped_LocalFromRadius parallel="true" cache="true">
+		<Action type="sound" sound="Gambler_Tap" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TouristTapped_Local_Reward" />
+		<Action type="if">
+			<If expression="Object::OsakaFluAttached">
+				<Then>
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:RemoveOsakaFluByTap_Local" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TouristTapped_WalkToTouristTrap" />
+	</TouristTapped_LocalFromRadius>
+	<TouristTapped_Remote parallel="true" cache="true">
+		<Action type="anim-play" animation="Tap" />
+	</TouristTapped_Remote>
+	<TouristTapped_Local_Reward cache="true">
+		<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_BalancingConfig:Tappables:EventCurrency__" suppress_sound="true" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:Crafting_Unlocked" />
+				<Then>
+					<Action type="reward" save="true" AroundTheWorld_SkyCredits="__AroundTheWorld_BalancingConfig:Tappables:CraftingCurrency__" chance="1" chanceType="s" suppress_sound="true" />
+				</Then>
+			</If>
+		</Action>
+	</TouristTapped_Local_Reward>
+	<TouristTapped_Remote_Reward cache="true">
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+				<Then>
+					<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_BalancingConfig:Social:SocialReward_Act1__" suppress_sound="true" />
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:Crafting_Unlocked" />
+							<Then>
+								<Action type="reward" save="true" AroundTheWorld_SkyCredits="__AroundTheWorld_BalancingConfig:Social:SocialReward_Crafting_Act1__" chance="1" chanceType="s" suppress_sound="true" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+				<Then>
+					<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_BalancingConfig:Social:SocialReward_Act2__" suppress_sound="true" />
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:Crafting_Unlocked" />
+							<Then>
+								<Action type="reward" save="true" AroundTheWorld_SkyCredits="__AroundTheWorld_BalancingConfig:Social:SocialReward_Crafting_Act2__" chance="1" chanceType="s" suppress_sound="true" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="__AroundTheWorld_BalancingConfig:Social:SocialReward_Act3__" suppress_sound="true" />
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:Crafting_Unlocked" />
+							<Then>
+								<Action type="reward" save="true" AroundTheWorld_SkyCredits="__AroundTheWorld_BalancingConfig:Social:SocialReward_Crafting_Act3__" chance="1" chanceType="s" suppress_sound="true" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+	</TouristTapped_Remote_Reward>
+	<TouristTapped_WalkToTouristTrap parallel="true" cache="true">
+		<Action type="anim-play" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="getBuildingInstance" buildingGroup="TouristTraps" buildingSelectionType="closest" returnVariable="destBuildingID" />
+		<Action type="if">
+			<If expression="destBuildingID">
+				<Then>
+					<Action type="moveToObjectInstance" speed="__AroundTheWorld_GameConfig:Tappables:TouristMoveSpeed__" object="destBuildingID" script="AroundTheWorld_Scripts_Misc_Event:KillTourist" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:KillTourist" />
+				</Then>
+			</Else>
+		</Action>
+	</TouristTapped_WalkToTouristTrap>
+	<KillTourist parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="fade" fade="outmax" />
+		<Action type="deletecharacter" />
+	</KillTourist>
+	<TouristTrap_Tap parallel="true" cache="true">
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:OsakaFlu_CheckForSpread" parseOnDemand="true" />
+		<Action type="updateVariable" variable="AtW_DCS_FriendAttractions" value="AtW_DCS_FriendAttractions+1" />
+		<Action type="runScriptOnAll" character="Tourist" in_radius="20" radius_delay="0.3" script="AroundTheWorld_Scripts_Misc_Event:TouristTrap_Tap_InRadius" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TouristTrap_Tap_reward" />
+		<Action type="updateVariable" variable="destBuildingID" value="Object::UID" />
+	</TouristTrap_Tap>
+	<TouristTrap_Tap_InRadius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="bitwiseAnd([Object::ObjectFlags], 1) == 0">
+				<Then>
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TouristTrap_WalkToTouristTrap" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</TouristTrap_Tap_InRadius>
+	<TouristTrap_WalkToTouristTrap parallel="true" cache="true">
+		<Action type="setObjectVariable" variable="destID" value="destBuildingID" asExpression="true" allowOrphan="false" />
+		<Action type="anim-play" animation="Tap" />
+		<Action type="anim-waitforend" />
+		<Action type="moveToObjectInstance" speed="300" object="Object::destID" script="AroundTheWorld_Scripts_Misc_Event:KillTourist" />
+	</TouristTrap_WalkToTouristTrap>
+	<TouristTrap_Tap_reward cache="true">
+		<Action type="setVariable" intVariable="AroundTheWorld_SocialCount" intValue="AroundTheWorld_SocialCount+1" />
+		<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="selector AroundTheWorld_PTCurrencyPerFriendAction" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="reward" FriendPoint="selector friendPointsReward" money="selector socialMoneyReward" xp="1" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+			</True>
+			<False>
+				<Action type="reward" FriendPoint="selector friendPointsReward" Krustyland_Tickets="selector socialTicketReward" xp="1" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+			</False>
+		</Action>
+	</TouristTrap_Tap_reward>
+	<TouristTrap_CleanReward parallel="true" cache="true">
+		<Action type="reward" AroundTheWorld_SkyCredits="__AroundTheWorld_BalancingConfig:Social:CurrencyPerClean__" suppress_sound="true" FriendPoint="selector friendPointsRewardOwner" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="variable" variable="OsakaFluProgress" count="1" />
+				<Requirement type="variable" variable="OsakaFluLevel" count="5" not="true" />
+			</Requirements>
+			<True>
+				<Action type="reward" AroundTheWorld_OsakaFluXP="__AroundTheWorld_BalancingConfig:Social:CurrencyPerClean__" suppress_sound="true" />
+			</True>
+		</Action>
+	</TouristTrap_CleanReward>
+	<SpawnTourists_LowLevelFriend>
+		<Action type="createobject" name="Tourist" count="10" save="true" panCamera="false" />
+	</SpawnTourists_LowLevelFriend>
+	<SpawnTourists_MidLevelFriend>
+		<Action type="createobject" name="Tourist" count="20" save="true" panCamera="false" />
+	</SpawnTourists_MidLevelFriend>
+	<SpawnTourists_HighLevelFriend>
+		<Action type="createobject" name="Tourist" count="30" save="true" panCamera="false" />
+	</SpawnTourists_HighLevelFriend>
+	<DestroyAllTappables>
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    var character = Character::find('Tourist');
+                    var characterInstanceList = Land::getAllInstancesOfObject(character);
+                    var dcsTappedTourists = User::getVariable('AtW_DCS_TappedTourists');
+                    
+                    var numCharactersTapped = User::getVariable('AroundTheWorld_BankedTappables');
+                    User::setVariable('AroundTheWorld_BankedTappables', 0, true);
+                    
+                    foreach(characterInstanceList as instance)
+                    {
+                        if( !Object::getDelete(instance) &&
+                            Object::getVariableAsNumber(instance, 'OsakaFluAttached')==0)
+                        {
+                            numCharactersTapped++;
+                            dcsTappedTourists++;
+                            
+                            if(Object::getProperty(instance, 'Visible'))
+                            {
+                                Object::setDelete(instance, true);
+                                Character::stopMovement(instance);
+                                Audio::playSingleOnObjectInstance(instance, 'Gambler_Tap');
+                                Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:TouristTapped_WalkToTouristTrap', instance);
+                            }
+                            else
+                            {
+                                Character::deleteInstance(instance);
+                            }
+                        }
+                    }
+					
+                    User::setVariable('AtW_DCS_TappedTourists', dcsTappedTourists, true);
+                    
+					var eventCurrencyPayout = toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:Tappables:EventCurrency__')) * numCharactersTapped;
+					var craftCurrencyPayout = toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:Tappables:CraftingCurrency__')) * numCharactersTapped;
+					
+					Global::setVariable('AtW_TICRewards_EventCurrency', eventCurrencyPayout);
+					Global::setVariable('AtW_TICRewards_CraftCurrency', craftCurrencyPayout);
+                    
+                ]]></Program>
+		</Action>
+		<Action type="delay" time="0.2" />
+		<Action type="runActionSequenceOnAll" building="TouristInformationCenter" script="AroundTheWorld_Scripts_Misc_Event:DestroyAllTappables_RewardOnBuilding" />
+	</DestroyAllTappables>
+	<DestroyAllTappables_RewardOnBuilding>
+		<Action type="playflyby" flybyName="BlastEffect" radius="15" unitScale="0.13" centerOnObject="true" playbackFPS="18" />
+		<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="Global::getVariable('AtW_TICRewards_EventCurrency')" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AroundTheWorld_Requirements:Tappables_Unlocked" />
+			<True>
+				<Action type="reward" save="true" AroundTheWorld_SkyCredits="Global::getVariable('AtW_TICRewards_CraftCurrency')" suppress_sound="true" />
+			</True>
+		</Action>
+	</DestroyAllTappables_RewardOnBuilding>
+	<TouristInformationCenter_Start parallel="true">
+		<Action type="if">
+			<If expression="#program;                             if(User::getVariable('AroundTheWorld_BankedTappables') &gt; 0)                             {                                 return true;                             }                             else                             {                                 var character = Character::find('Tourist');                                 var characterInstanceList = Land::getAllInstancesOfObject(character);                                 foreach(characterInstanceList as instance)                                 {                                     if(!Object::getDelete(instance) &amp;&amp;                                        Object::getVariableAsNumber(instance, 'OsakaFluAttached')==0)                                     {                                         return true;                                     }                                 }                             }                             return false;">
+				<Then>
+					<Action type="actionSequence" script="MiscScripts:GoToInGameWithSound" />
+					<Action type="setMiniGameState" building="TouristInformationCenter" name="TouristInformationCenter" state="Playing" />
+					<Action type="setMiniGameState" building="TouristInformationCenter" name="TouristInformationCenter" state="Ready" />
+					<Action type="updateVariable" variable="AtW_DCS_UsedInfoCenter" value="1" />
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:DestroyAllTappables" />
+					<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TouristInformationCenter_AllTappablesCollected" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="MiscScripts:GoToInGameWithSound" />
+					<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:TouristInformationCenter_NoTappables" />
+				</Then>
+			</Else>
+		</Action>
+	</TouristInformationCenter_Start>
+	<TouristInformationCenter_AllTappablesCollected>
+		<Action type="hudTip" text="UI_AtW_TIC_AllTappablesCleared" time="10s" requiresActiveHUD="false" />
+	</TouristInformationCenter_AllTappablesCollected>
+	<TouristInformationCenter_NoTappables>
+		<Action type="updateVariable" variable="AtW_DCS_UsedInfoCenter" value="1" />
+		<Action type="message" text="UI_AtW_TIC_NoTappables" />
+	</TouristInformationCenter_NoTappables>
+	<TouristInformationCenter_Rush parallel="true">
+		<Action type="sound" sound="UIButton" />
+		<Action type="rushMinigame" minigame="TouristInformationCenter" />
+	</TouristInformationCenter_Rush>
+	<RemoveOsakaFluByTap_Local parallel="true" cache="true">
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="OsakaFluLevel" count="5" not="true" />
+			<True>
+				<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="selector AroundTheWorld_OsakaFluECPerLevel" suppress_sound="true" />
+				<Action type="if">
+					<If>
+						<Requirement type="reqList" location="AroundTheWorld_Requirements:Crafting_Unlocked" />
+						<Then>
+							<Action type="reward" save="true" AroundTheWorld_SkyCredits="selector AroundTheWorld_OsakaFluCCPerLevel" chance="1" chanceType="s" suppress_sound="true" />
+						</Then>
+					</If>
+				</Action>
+			</True>
+		</Action>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var tourist = Script::getObjectInstance();
+                    var osakaFluAttachedServerID = Object::getVariableAsNumber(tourist,'OsakaFluAttached');
+                    if(osakaFluAttachedServerID != 0)
+                    {
+                        Object::setVariable(tourist, 'OsakaFluAttached', '0', 0, false);
+                        var osakaFlu = Land::getCharacterInstanceFromServerID(osakaFluAttachedServerID);
+                        if(!isNULL(osakaFlu))
+                        {
+                            Object::setVariable(osakaFlu, 'AttachedToTappable', '0', 0, false);
+                            Object::setVariable(osakaFlu, 'CooldownEndTime', toString(time() + fromHours(4)), 0, false);
+                            
+                            Character::stopMovement(osakaFlu);
+                            var touristX = Character::getPositionX(tourist);
+                            var touristZ = Character::getPositionZ(tourist);
+                            Character::snapToPosition(osakaFlu,touristX, touristZ);
+                            Character::fadeIn(osakaFlu);
+                            Character::startIdleMovement(osakaFlu);
+                            User::setVariable('OsakaFluTapped', User::getVariable('OsakaFluTapped') + 1, true);
+                            User::setVariable('AtW_DCS_TappedOsaka', User::getVariable('AtW_DCS_TappedOsaka') + 1, true);
+
+                            var osakaList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                            var hasAttachedFlu = false;
+                            foreach(osakaList as osakaFlu)
+                            {
+                                var touristServerID = Object::getVariableAsNumber(osakaFlu,'AttachedToTappable');
+                                if(touristServerID != 0)
+                                {
+                                    hasAttachedFlu = true;
+                                    break;
+                                }
+                            }
+                            if(!hasAttachedFlu)
+                            {
+                                User::setVariable('AtW_ActiveOsakaFlu', 0, true);
+                            }
+                        }
+                    }
+                ]]></Program>
+		</Action>
+		<Action type="scheduleScript" mode="create" script="AroundTheWorld_Scripts_Misc_Event:ScheduleToAttachOsakaFlu" relativeTime="4h" localLandOnly="true" shouldSave="true" />
+	</RemoveOsakaFluByTap_Local>
+	<ScheduleToAttachOsakaFlu parallel="true" cache="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var osakaFluList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                    foreach(osakaFluList as osakaFlu)
+                    {
+                        if( Object::getVariableAsNumber(osakaFlu,'AttachedToTappable') == 0 &&
+                            time() >= Object::getVariableAsNumber(osakaFlu,'CooldownEndTime'))
+                        {
+                            Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:AttachOsakaFlu', osakaFlu);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+	</ScheduleToAttachOsakaFlu>
+	<AttachOsakaFlu parallel="true" cache="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var tourist;
+                    var tourists = Land::getAllInstancesOfObject(Character::find('Tourist'));
+                    if(Array::size(tourists) > 0)
+                    {
+                        foreach(tourists as instance)
+                        {
+                            if( Object::getVariableAsNumber(instance, 'OsakaFluAttached')==0 &&
+                                !Object::getDelete(instance))
+                            {
+                                tourist = instance;
+                                break;
+                            }
+                        }
+                    }
+                    if(isNULL(tourist))
+                    {
+                        tourist = Character::createInstance('Tourist', false, false);
+                    }
+                    if(!isNULL(tourist))
+                    {
+                        var touristServerID = Object::getProperty(tourist, 'UID');
+                        var osakaFlu = Script::getObjectInstance();
+                        var osakaFluServerID = Object::getProperty(osakaFlu, 'UID');
+                        
+                        Object::setVariable(tourist,'OsakaFluAttached', toString(osakaFluServerID), 0, true);
+                        Object::setVariable(osakaFlu, 'AttachedToTappable', toString(touristServerID), 0, false);
+                        Character::fadeOut(osakaFlu);
+                        
+                        User::setVariable('AtW_ActiveOsakaFlu', 1, true);
+                    }
+                ]]></Program>
+		</Action>
+	</AttachOsakaFlu>
+	<CheckForReattachOsakaFluOnLandVisit parallel="true" cache="true">
+		<Action type="program" parseOnDemand="true">
+			<Program><![CDATA[
+                    #program;
+                    var osakaList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                    foreach(osakaList as osakaFlu)
+                    {
+                        var touristServerID = Object::getVariableAsNumber(osakaFlu,'AttachedToTappable');
+                        if(touristServerID != 0)
+                        {
+                            var tourist = Land::getCharacterInstanceFromServerID(touristServerID);
+                            if( !isNULL(tourist) &&
+                                Object::getProperty(osakaFlu, 'UID') == Object::getVariableAsNumber(tourist,'OsakaFluAttached'))
+                            {
+                                Character::fadeOut(osakaFlu);
+                            }
+                            else
+                            {
+                                Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:AttachOsakaFlu', osakaFlu);
+                            }
+                        }
+                        elseif(time() >= Object::getVariableAsNumber(osakaFlu,'CooldownEndTime'))
+                        {
+                            Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:AttachOsakaFlu', osakaFlu);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+	</CheckForReattachOsakaFluOnLandVisit>
+	<OsakaFlu_CheckForInitialSpawn parallel="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var chanceOfInfection = toDouble(System::getConfigValue('__AroundTheWorld_GameConfig:OsakaFlu:InfectionPercentageInitial__'));
+                    seed(User::generateRandomSeed());
+                    var randPercent = rand(100);
+                    if(randPercent < chanceOfInfection)
+                    {
+                        User::setVariable('OsakaFluProgress',1,true);
+                        
+                        var regionConfig = Attributes::createFromPackage('AroundTheWorld_RegionConfig:Regions');
+                        var countryCode = Geo::getGeolocation();
+                        var region = 9;
+                        var regionAsString = Attributes::getValueFromAttributes(regionConfig, countryCode);
+                        if(!isNULL(regionAsString))
+                        {
+                            region = toDouble(regionAsString);
+                        }
+                        var communityCurrencyName = formatInteger('AroundTheWorld_InfectionRegion%02d',region);
+                        var communityCurrentAmount = User::getCurrencyAmount(communityCurrencyName);
+                        if(communityCurrentAmount < 1)
+                        {
+                            User::addCurrencyAmount(communityCurrencyName, 1);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+	</OsakaFlu_CheckForInitialSpawn>
+	<OsakaFlu_InitializeRIV parallel="true">
+		<Action type="program">
+			<Objects>
+				<ObjectByName name="OsakaFluRIV" />
+			</Objects>
+			<Program><![CDATA[
+                    #program;
+                    var countryCode = Geo::getGeolocation();
+                    var currentRIV = Script::getVariableFromProvider('OsakaFluRIV', 'regionIDs');
+                    var updatedRIV = Geo::addGeolocToString(countryCode, currentRIV);
+                    
+                    Object::setVariableForAdHoc('OsakaFluRIV', 'regionIDs', updatedRIV, 0, false);
+                ]]></Program>
+		</Action>
+	</OsakaFlu_InitializeRIV>
+	<OsakaFlu_FTUETriggered>
+		<Action type="message" text="UI_AtW_OsakaFlu_Infected" revealSpeed="medium" />
+	</OsakaFlu_FTUETriggered>
+	<OsakaFlu_SpawnInitial>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var currentProgress = User::getVariable('OsakaFluProgress');
+                    if(currentProgress!=1)
+                    {
+                        User::setVariable('OsakaFluProgress',1,true);
+                        
+                        var regionConfig = Attributes::createFromPackage('AroundTheWorld_RegionConfig:Regions');
+                        var countryCode = Geo::getGeolocation();
+                        var region = 9;
+                        var regionAsString = Attributes::getValueFromAttributes(regionConfig, countryCode);
+                        if(!isNULL(regionAsString))
+                        {
+                            region = toDouble(regionAsString);
+                        }
+                        var communityCurrencyName = formatInteger('AroundTheWorld_InfectionRegion%02d',region);
+                        var communityCurrentAmount = User::getCurrencyAmount(communityCurrencyName);
+                        if(communityCurrentAmount < 1)
+                        {
+                            User::addCurrencyAmount(communityCurrencyName, 1);
+                        }
+                    }
+                ]]></Program>
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:OsakaFlu_Spawn" />
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:CheckForOsakaFluLevelChange" />
+	</OsakaFlu_SpawnInitial>
+	<OsakaFlu_Spawn>
+		<Action type="dynamicCreateObject" script="AroundTheWorld_Scripts_Misc_Event:OsakaFlu_AttachAndPanTo">
+			<SpawnOptions saveToLand="true" />
+			<Objects>
+				<String text="OsakaFlu" />
+			</Objects>
+		</Action>
+		<Action type="if">
+			<If expression="OsakaFluLevel &lt; 5">
+				<Then>
+					<Action type="notification" title="CHA_OsakaFlu_name" text="UI_SystemMessage_NewOsakaUnlocked" icon="ICO_AroundTheWorld_OsakaFluMenu_IconActive" button="UI_OK" />
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="notification" title="CHA_OsakaFlu_name" text="UI_SystemMessage_OsakaFullyUpgraded" icon="ICO_AroundTheWorld_OsakaFluMenu_IconActive" button="UI_OK" />
+				</Then>
+			</Else>
+		</Action>
+	</OsakaFlu_Spawn>
+	<OsakaFlu_AttachAndPanTo>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:AttachOsakaFlu" />
+		<Action type="program">
+			<Program><![CDATA[
+                #program;
+                var osakaFlu = Script::getObjectInstance();
+                var touristServerID = Object::getVariableAsNumber(osakaFlu,'AttachedToTappable');
+                Global::setVariable('ATW_OsakaSpawnedGoToUID', touristServerID);
+            ]]></Program>
+		</Action>
+		<Action type="pantoobject" time="3" UID="Global::getVariable('ATW_OsakaSpawnedGoToUID')" waitUntilComplete="false" />
+	</OsakaFlu_AttachAndPanTo>
+	<OsakaFlu_CheckForSpread parallel="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="true">
+			<Requirements>
+				<Requirement type="quest" quest="AtW_OsakaFlu_Spawn" />
+				<Requirement type="fakefriend" not="true" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:OsakaFlu_CheckForSpread_Eligible" ignoreObject="true" parseOnDemand="true" />
+			</True>
+		</Action>
+	</OsakaFlu_CheckForSpread>
+	<OsakaFlu_CheckForSpread_Eligible parallel="true">
+		<Action type="if">
+			<If expression="rand(100) &lt; toDouble(System::getConfigValue('__AroundTheWorld_GameConfig:OsakaFlu:InfectionPercentageFromFriend__'))">
+				<Then>
+					<Action type="sendScriptToFriend" script="AroundTheWorld_Scripts_Misc_Event:OsakaFlu_SpreadScript" withObjectVariable="Object::regionIDs">
+						<Objects>
+							<ObjectByName name="OsakaFluRIV" land="local" />
+						</Objects>
+					</Action>
+					<Action type="program">
+						<Program><![CDATA[
+                                Telemetry::logEvent(7006,'Enumeration',User::getMayhemID(),'Enumeration',Land::getMayhemID(), 'Enumeration', 'Gave');
+                            ]]></Program>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</OsakaFlu_CheckForSpread_Eligible>
+	<OsakaFlu_SpreadScript>
+		<Action type="checkRequirements" ignoreObject="true">
+			<Requirement type="players land" />
+			<True>
+				<Action type="program" parseOnDemand="true">
+					<Objects>
+						<CopyObject index="3" />
+						<ObjectByName name="OsakaFluRIV" />
+					</Objects>
+					<Program><![CDATA[
+                            #program;
+                            var currentRIV = Script::getVariableFromProvider('OsakaFluRIV', 'regionIDs');
+                            var incomingRIV = Script::getObjectData('Object::regionIDs');
+                            var updatedRIVWithIncoming = Geo::mergeGeolocsStrings(currentRIV, incomingRIV);
+                            
+                            Object::setVariableForAdHoc('OsakaFluRIV', 'regionIDs', updatedRIVWithIncoming, 0, false);
+							
+							Telemetry::logEvent(7006,'Enumeration','0','Enumeration',User::getMayhemID(), 'Enumeration', 'Gave');
+                        ]]></Program>
+				</Action>
+				<Action type="program" parseOnDemand="true" ignoreObject="true">
+					<Program><![CDATA[
+                            #program;
+                            User::setVariable('OsakaFluProgress',1,true);
+                            
+                            var regionConfig = Attributes::createFromPackage('AroundTheWorld_RegionConfig:Regions');
+                            var countryCode = Geo::getGeolocation();
+                            var region = 9;
+                            var regionAsString = Attributes::getValueFromAttributes(regionConfig, countryCode);
+                            if(!isNULL(regionAsString))
+                            {
+                                region = toDouble(regionAsString);
+                            }
+                            var communityCurrencyName = formatInteger('AroundTheWorld_InfectionRegion%02d',region);
+                            var communityCurrentAmount = User::getCurrencyAmount(communityCurrencyName);
+                            if(communityCurrentAmount < 1)
+                            {
+                                User::addCurrencyAmount(communityCurrencyName, 1);
+                            }
+                        ]]></Program>
+				</Action>
+			</True>
+		</Action>
+	</OsakaFlu_SpreadScript>
+	<CheckForOsakaFluLevelChange cache="true" parallel="true">
+		<Action type="checkRequirements" ignoreObject="true">
+			<Requirement type="quest started" quest="AtW_OsakaFlu_Spawn" />
+			<True>
+				<Action type="program" ignoreObject="true">
+					<Program><![CDATA[
+                            #program;
+                            var currentLevel = User::getVariable('OsakaFluLevel');
+                            var level = Selector::getValue('AroundTheWorld_OsakaFluLevelPerXP');
+                            if(level>currentLevel)
+                            {
+                                var delta = level - currentLevel;
+                                User::setVariable('OsakaFluLevel',level,true);
+                                
+                                User::setVariable('AtW_OsakaFlu_LeveledUp',1,true);
+                                
+                                for(var s = 0;s < delta;s++)
+                                {
+                                    Script::run('AroundTheWorld_Scripts_Misc_Event:OsakaFlu_Spawn');
+                                }
+                            }
+                        ]]></Program>
+				</Action>
+			</True>
+		</Action>
+	</CheckForOsakaFluLevelChange>
+	<OnOsakaFluTapped cache="true" parallel="true">
+		<Action type="if">
+			<If expression="Object::AttachedToTappable==0">
+				<Then>
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:TabPressed_OsakaFlu" />
+				</Then>
+			</If>
+		</Action>
+	</OnOsakaFluTapped>
+	<OsakaFlu_GoTo>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="pantoobject" time="0" useObjectRef="true" />
+			</True>
+		</Action>
+	</OsakaFlu_GoTo>
+	<GoTo_Tourist parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+			<True>
+				<Action type="if">
+					<If expression="__AroundTheWorld_GameConfig:Tappables:TouristGotoCheck__">
+						<Then>
+							<Action type="pantoobject" time="0" character="Tourist" flagsToAvoid="delete" fakeTouch="false" />
+						</Then>
+					</If>
+					<Else>
+						<Then>
+							<Action type="pantoobject" time="0" building="SpringfieldAirport" fakeTouch="true" />
+						</Then>
+					</Else>
+				</Action>
+			</True>
+		</Action>
+	</GoTo_Tourist>
+	<Tourist_SetSkin parallel="true" cache="true" runQueueState="RunInAnyState">
+		<Action type="delay" time="0" />
+		<Action type="checkExpression" expression="rand(3)">
+			<ExpressionCase value="0">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:Tourist_SetSkin_Child" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="1">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:Tourist_SetSkin_Female" parseOnDemand="true" />
+			</ExpressionCase>
+			<ExpressionCase value="2">
+				<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:Tourist_SetSkin_Male" parseOnDemand="true" />
+			</ExpressionCase>
+		</Action>
+	</Tourist_SetSkin>
+	<Tourist_SetSkin_Child cache="true">
+		<Action type="if">
+			<If expression="rand(100) &lt; 70">
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ThemedTappables_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+							<Then>
+								<Action type="skin-set" skin="TouristChild_France" />
+							</Then>
+						</If>
+						<ElseIf>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+							<Then>
+								<Action type="skin-set" skin="TouristChild_Japan" />
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="skin-set" skin="TouristChild_Brazil" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="skin-set" skin="TouristChild" />
+				</Then>
+			</Else>
+		</Action>
+	</Tourist_SetSkin_Child>
+	<Tourist_SetSkin_Female cache="true">
+		<Action type="if">
+			<If expression="rand(100) &lt; 70">
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ThemedTappables_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+							<Then>
+								<Action type="skin-set" skin="TouristFemale_France" />
+							</Then>
+						</If>
+						<ElseIf>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+							<Then>
+								<Action type="skin-set" skin="TouristFemale_Japan" />
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="skin-set" skin="TouristFemale_Brazil" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="skin-set" skin="TouristFemale" />
+				</Then>
+			</Else>
+		</Action>
+	</Tourist_SetSkin_Female>
+	<Tourist_SetSkin_Male cache="true">
+		<Action type="if">
+			<If expression="rand(100) &lt; 70">
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ThemedTappables_Unlocked" />
+				<Then>
+					<Action type="if">
+						<If>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+							<Then>
+								<Action type="skin-set" skin="TouristMale_France" />
+							</Then>
+						</If>
+						<ElseIf>
+							<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+							<Then>
+								<Action type="skin-set" skin="TouristMale_Japan" />
+							</Then>
+						</ElseIf>
+						<Else>
+							<Then>
+								<Action type="skin-set" skin="TouristMale_Brazil" />
+							</Then>
+						</Else>
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="delay" time="0" />
+				</Then>
+			</Else>
+		</Action>
+	</Tourist_SetSkin_Male>
+	<KumikoUpsell parallel="true">
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="Kumiko" />
+			<True>
+				<Action type="focusOnMenuItem" itemName="KumikoBundle2" menuCategory="AroundTheWorldStore" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="KumikoBundle1" menuCategory="AroundTheWorldStore" />
+			</False>
+		</Action>
+	</KumikoUpsell>
+	<KumikoBundlePurchased>
+		<Action type="focusOnMenuItem" itemName="KumikoBundle2" inventory="true" />
+	</KumikoBundlePurchased>
+	<KumikoSkinUnlock>
+		<Action type="pantoobject" time="0" character="Kumiko" fakeTouch="false" />
+	</KumikoSkinUnlock>
+	<UterAndChapelUnlock>
+		<Action type="notification" icon="Uter_Menu" title="CON_UterAndChapel_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="TheHungryHun" inventory="true" />
+	</UterAndChapelUnlock>
+	<MexicanBundleReward>
+		<Action type="notification" icon="BanditFort_Menu" title="CON_MexicanBundle_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="BanditFort" inventory="true" />
+	</MexicanBundleReward>
+	<LeKrustyBurgerUnlock>
+		<Action type="notification" icon="LeKrustyBurger_Menu" title="CON_LeKrustyBurger_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="LeKrustyBurger" inventory="true" />
+	</LeKrustyBurgerUnlock>
+	<PaintedHouses1_Purchased>
+		<Action type="notification" icon="PaintedHome01_Menu" title="BLD_PaintedHome1_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="PaintedHome1" inventory="true" />
+	</PaintedHouses1_Purchased>
+	<PaintedHouses2_Purchased>
+		<Action type="notification" icon="PaintedHome02_Menu" title="BLD_PaintedHome2_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="PaintedHome2" inventory="true" />
+	</PaintedHouses2_Purchased>
+	<PaintedHouses3_Purchased>
+		<Action type="notification" icon="PaintedHome03_Menu" title="BLD_PaintedHome3_name" text="UI_AtW_ItemPurchased" button="UI_OK" />
+		<Action type="focusOnMenuItem" itemName="PaintedHome3" inventory="true" />
+	</PaintedHouses3_Purchased>
+	<LicencePurchased>
+		<Action type="setVariable" boolVariable="AtW_LicenceCard_Purchased" boolValue="true" />
+		<Action type="notification" icon="ICO_STOR_AroundTheWorld_Passport_Popup" title="CON_AtW_FriendLicense1_name" text="CON_AtW_FriendLicense2_desc" button="UI_OK" />
+	</LicencePurchased>
+	<LostLuggage_CheckChase parallel="true">
+		<Action type="updateVariable" variable="AtW_DCS_OpenLostLuggageBox" value="AtW_DCS_OpenLostLuggageBox+1" />
+		<Action type="updateVariable" variable="LuggagePrizesEarned" value="LuggagePrizesEarned+1" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+				<Then>
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase_ActOne" parseOnDemand="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+				<Then>
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase_ActTwo" parseOnDemand="true" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase_ActThree" parseOnDemand="true" />
+				</Then>
+			</Else>
+		</Action>
+	</LostLuggage_CheckChase>
+	<LostLuggage_CheckChase_ActOne>
+		<Action type="if">
+			<If expression="LuggagePrizesEarned==7 &amp;&amp; LuggagePrizes_Globe==0">
+				<Then>
+					<Action type="updateVariable" variable="LuggagePrizes_Globe" value="ATW_VisitorTasks_CurrentDay+1" />
+					<Action type="updateVariable" variable="LuggageStep" value="3" />
+				</Then>
+			</If>
+		</Action>
+	</LostLuggage_CheckChase_ActOne>
+	<LostLuggage_CheckChase_ActTwo>
+		<Action type="if">
+			<If expression="LuggagePrizesEarned==7 &amp;&amp; LuggagePrizes_BLPlane==0">
+				<Then>
+					<Action type="updateVariable" variable="LuggagePrizes_BLPlane" value="ATW_VisitorTasks_CurrentDay+1" />
+					<Action type="updateVariable" variable="LuggageStep" value="3" />
+				</Then>
+			</If>
+		</Action>
+	</LostLuggage_CheckChase_ActTwo>
+	<LostLuggage_CheckChase_ActThree>
+		<Action type="if">
+			<If expression="LuggagePrizes_Norbert==0 &amp;&amp;     (LuggagePrizesEarned==7 || ((Box2_LostLuggage_RunwayPiece1+     Box2_LostLuggage_RunwayPiece2+     Box2_LostLuggage_Hangar+     Box2_LostLuggage_Terminal+     Box2_LostLuggage_Plane) &gt;= 7))">
+				<Then>
+					<Action type="updateVariable" variable="LuggagePrizes_Norbert" value="ATW_VisitorTasks_CurrentDay+1" />
+					<Action type="updateVariable" variable="LuggageStep" value="3" />
+				</Then>
+			</If>
+		</Action>
+	</LostLuggage_CheckChase_ActThree>
+	<LostLuggage_RunwayPiece1 parallel="true">
+		<Action type="updateVariable" formatMe="root" variable="Box{BoxNumber}_LostLuggage_RunwayPiece1" value="Box{BoxNumber}_LostLuggage_RunwayPiece1+1">
+			<FormatToken key="BoxNumber" value="_[LuggageStep]_" />
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase" />
+	</LostLuggage_RunwayPiece1>
+	<LostLuggage_RunwayPiece2 parallel="true">
+		<Action type="updateVariable" formatMe="root" variable="Box{BoxNumber}_LostLuggage_RunwayPiece2" value="Box{BoxNumber}_LostLuggage_RunwayPiece2+1">
+			<FormatToken key="BoxNumber" value="_[LuggageStep]_" />
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase" />
+	</LostLuggage_RunwayPiece2>
+	<LostLuggage_FreeLandBlock parallel="true">
+		<Action type="updateVariable" formatMe="root" variable="Box{BoxNumber}_LostLuggage_FreeLandBlock" value="Box{BoxNumber}_LostLuggage_FreeLandBlock+1">
+			<FormatToken key="BoxNumber" value="_[LuggageStep]_" />
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase" />
+	</LostLuggage_FreeLandBlock>
+	<LostLuggage_Hangar parallel="true">
+		<Action type="updateVariable" formatMe="root" variable="Box{BoxNumber}_LostLuggage_Hangar" value="Box{BoxNumber}_LostLuggage_Hangar+1">
+			<FormatToken key="BoxNumber" value="_[LuggageStep]_" />
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase" />
+	</LostLuggage_Hangar>
+	<LostLuggage_Terminal parallel="true">
+		<Action type="updateVariable" formatMe="root" variable="Box{BoxNumber}_LostLuggage_Terminal" value="Box{BoxNumber}_LostLuggage_Terminal+1">
+			<FormatToken key="BoxNumber" value="_[LuggageStep]_" />
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase" />
+	</LostLuggage_Terminal>
+	<LostLuggage_Plane parallel="true">
+		<Action type="updateVariable" formatMe="root" variable="Box{BoxNumber}_LostLuggage_Plane" value="Box{BoxNumber}_LostLuggage_Plane+1">
+			<FormatToken key="BoxNumber" value="_[LuggageStep]_" />
+		</Action>
+		<Action type="actionSequence" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_CheckChase" />
+	</LostLuggage_Plane>
+	<LostLuggage_300Skybucks parallel="true">
+		<Action type="updateVariable" variable="Box3_LostLuggage_300" value="Box3_LostLuggage_300+1" />
+		<Action type="updateVariable" variable="AtW_DCS_OpenLostLuggageBox" value="AtW_DCS_OpenLostLuggageBox+1" />
+	</LostLuggage_300Skybucks>
+	<LostLuggage_500Skybucks parallel="true">
+		<Action type="updateVariable" variable="Box3_LostLuggage_500" value="Box3_LostLuggage_500+1" />
+		<Action type="updateVariable" variable="AtW_DCS_OpenLostLuggageBox" value="AtW_DCS_OpenLostLuggageBox+1" />
+	</LostLuggage_500Skybucks>
+	<LostLuggage_1500Skybucks parallel="true">
+		<Action type="updateVariable" variable="Box3_LostLuggage_1500" value="Box3_LostLuggage_1500+1" />
+		<Action type="updateVariable" variable="AtW_DCS_OpenLostLuggageBox" value="AtW_DCS_OpenLostLuggageBox+1" />
+	</LostLuggage_1500Skybucks>
+	<LostLuggage_OnEnter parallel="true" runQueueState="RunInAnyState">
+		<Action type="scheduleScript" mode="replace" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_ScheduledReopen" shouldSave="true" relativeTime="5s" />
+	</LostLuggage_OnEnter>
+	<LostLuggage_OnPurchase parallel="true" runQueueState="RunInAnyState">
+		<Action type="scheduleScript" mode="delete" script="AroundTheWorld_Scripts_Misc_Event:LostLuggage_ScheduledReopen" />
+	</LostLuggage_OnPurchase>
+	<LostLuggage_ScheduledReopen parallel="true">
+		<Action type="reward">
+			<Requirements>
+				<Requirement type="gamestate" state="GameState_PrizeBox" not="true" />
+			</Requirements>
+			<Item type="consumable" name="AtW_Premium_LostLuggage_MysteryBox" useImmediately="true" />
+		</Action>
+	</LostLuggage_ScheduledReopen>
+	<TriggerNorbertPlaneFlyBy>
+		<Action type="spawnFlyBy" flyBy="Norbert_FlyPlane_Triggered" />
+		<Action type="delay" time="5" />
+		<Action type="removeFlyBy" flyBy="Norbert_FlyPlane_Triggered" />
+	</TriggerNorbertPlaneFlyBy>
+	<AroundTheWorld_Prestige_Act1>
+		<Action type="reward">
+			<Item type="consumable" name="AtW_Prestige_Act1" useImmediately="true" />
+		</Action>
+	</AroundTheWorld_Prestige_Act1>
+	<AroundTheWorld_Prestige_Act2>
+		<Action type="reward">
+			<Item type="consumable" name="AtW_Prestige_Act2" useImmediately="true" />
+		</Action>
+	</AroundTheWorld_Prestige_Act2>
+	<AroundTheWorld_Prestige_Act3>
+		<Action type="reward">
+			<Item type="consumable" name="AtW_Prestige_Act3" useImmediately="true" />
+		</Action>
+	</AroundTheWorld_Prestige_Act3>
+	<DCS_GoToTourist>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="AroundTheWorld_Scripts_Misc_Event:GoTo_Tourist" />
+		</Action>
+	</DCS_GoToTourist>
+	<DCS_Reset_TappedTourists parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_TappedTourists" value="0" />
+	</DCS_Reset_TappedTourists>
+	<DCS_SendOnFlights>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="AroundTheWorld_Scripts_VisitorTasks:VisitorTask_GoTo" />
+		</Action>
+	</DCS_SendOnFlights>
+	<DCS_Reset_SentCitizens parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_SentCitizens" value="0" />
+	</DCS_Reset_SentCitizens>
+	<DCS_GoTo_TouristInformationCenter>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="AroundTheWorld_Scripts_Misc_Event:DCS_GoTo_TouristInformationCenter_Impl" />
+		</Action>
+	</DCS_GoTo_TouristInformationCenter>
+	<DCS_GoTo_TouristInformationCenter_Impl>
+		<Action type="pantoobject" building="TouristInformationCenter" time="0" fakeTouch="true" fakeTouchAvoidsIndicators="true" />
+	</DCS_GoTo_TouristInformationCenter_Impl>
+	<DCS_Reset_UsedInfoCenter parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_UsedInfoCenter" value="0" />
+	</DCS_Reset_UsedInfoCenter>
+	<DCS_Reset_FriendAttractions parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_FriendAttractions" value="0" />
+	</DCS_Reset_FriendAttractions>
+	<DCS_Reset_TappedInfoCenter parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_TappedInfoCenter" value="0" />
+	</DCS_Reset_TappedInfoCenter>
+	<DCS_GoTo_RewardCenter>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="AroundTheWorld_Scripts_Misc_Event:TabPressed_Crafting" />
+		</Action>
+	</DCS_GoTo_RewardCenter>
+	<DCS_Reset_ItemCrafted parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_ItemCrafted" value="0" />
+	</DCS_Reset_ItemCrafted>
+	<DCS_ItemCrafted parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_ItemCrafted" value="AtW_DCS_ItemCrafted+1" />
+	</DCS_ItemCrafted>
+	<DCS_GoTo_Osaka>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="AroundTheWorld_Scripts_Misc_Event:GoToOsakaFlu" />
+		</Action>
+	</DCS_GoTo_Osaka>
+	<DCS_Reset_TappedOsaka parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_TappedOsaka" value="0" />
+	</DCS_Reset_TappedOsaka>
+	<DCS_GoTo_NorbertsTab>
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="AroundTheWorld_Scripts_Misc_Event:TabPressed_NorbertsTasks" />
+		</Action>
+	</DCS_GoTo_NorbertsTab>
+	<DCS_Reset_CompleteNorbetTask parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_CompleteNorbertTask" value="0" />
+	</DCS_Reset_CompleteNorbetTask>
+	<DCS_Reset_OpenLostLuggageBox parallel="true" ignoreHUD="true">
+		<Action type="updateVariable" variable="AtW_DCS_OpenLostLuggageBox" value="0" />
+	</DCS_Reset_OpenLostLuggageBox>
+	<AtWFriendsHUDInfo parallel="true">
+		<Action type="triggerevent" name="ScriptEvent" data="AtWUpdateFriendActionHelpVariables" />
+		<Action type="runScript" script="AroundTheWorld_Scripts_Misc_Event:AtW_FriendsHUDInfoAux" />
+	</AtWFriendsHUDInfo>
+	<AtW_FriendsHUDInfoAux>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AroundTheWorld_Requirements:ActOne" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="90" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="AtW_LicenceCard_Purchased" />
+							<True>
+								<Action type="notification" title="RES_AtW_FrancePin_plural" button="UI_OK" text="GEN_ResourceListing_AtW_Card" icon="ICO_CUR_AroundTheWorld_FrancePin_LG">
+									<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_AtW_FrancePin_plural" button="UI_OK" text="GEN_ResourceListing_AtW" icon="ICO_CUR_AroundTheWorld_FrancePin_LG">
+									<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_AtW_FrancePin_plural" button="UI_OK" text="UI_AtW_OutOfFriendActions" icon="ICO_CUR_AroundTheWorld_FrancePin_LG">
+							<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AroundTheWorld_Requirements:ActTwo" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="90" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="AtW_LicenceCard_Purchased" />
+							<True>
+								<Action type="notification" title="RES_AtW_JapanPin_plural" button="UI_OK" text="GEN_ResourceListing_AtW_Card" icon="ICO_CUR_AroundTheWorld_JapanPin_LG">
+									<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_AtW_JapanPin_plural" button="UI_OK" text="GEN_ResourceListing_AtW" icon="ICO_CUR_AroundTheWorld_JapanPin_LG">
+									<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_AtW_JapanPin_plural" button="UI_OK" text="UI_AtW_OutOfFriendActions" icon="ICO_CUR_AroundTheWorld_JapanPin_LG">
+							<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="AroundTheWorld_Requirements:ActThree" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirement type="variable" variable="FriendActionsCount" count="90" not="true" />
+					<True>
+						<Action type="checkRequirements">
+							<Requirement type="variable" variable="AtW_LicenceCard_Purchased" />
+							<True>
+								<Action type="notification" title="RES_AtW_BrazilPin_plural" button="UI_OK" text="GEN_ResourceListing_AtW_Card" icon="ICO_CUR_AroundTheWorld_BrazilPin_LG">
+									<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</True>
+							<False>
+								<Action type="notification" title="RES_AtW_BrazilPin_plural" button="UI_OK" text="GEN_ResourceListing_AtW" icon="ICO_CUR_AroundTheWorld_BrazilPin_LG">
+									<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+									<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+								</Action>
+							</False>
+						</Action>
+					</True>
+					<False>
+						<Action type="notification" title="RES_AtW_BrazilPin_plural" button="UI_OK" text="UI_AtW_OutOfFriendActions" icon="ICO_CUR_AroundTheWorld_BrazilPin_LG">
+							<Variable name="ATW_CURRENCY_FOR_NEXT_FRIEND_ACTION" type="int" />
+							<Variable name="ATW_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
+						</Action>
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</AtW_FriendsHUDInfoAux>
+	<AtW_LNYCurrencyAward parallel="true">
+		<Action type="reward" save="true" AroundTheWorld_ActivePrizeTrackCurrency="50" suppress_sound="true" />
+	</AtW_LNYCurrencyAward>
+	<AtW_PromoteDateBox parallel="true">
+		<Action type="recommendation" recType="Promoted" name="AtW_Premium_DateNight_MysteryBox" />
+	</AtW_PromoteDateBox>
+	<AtW_PromoteCarnival parallel="true">
+		<Action type="recommendation" recType="Promoted" name="CarnivalFloat" />
+	</AtW_PromoteCarnival>
+	<FixBrokenPrizeBox>
+		<Action type="if">
+			<If expression="(LuggagePrizes_BLPlane == 0) &amp;&amp;                                 ((Box1_LostLuggage_RunwayPiece1+                                 Box1_LostLuggage_RunwayPiece2+                                 Box1_LostLuggage_FreeLandBlock+                                 Box1_LostLuggage_Hangar+                                 Box1_LostLuggage_Terminal+                                 Box1_LostLuggage_Plane) &gt;= 7)">
+				<Then>
+					<Action type="updateVariable" variable="LuggagePrizes_BLPlane" value="ATW_VisitorTasks_CurrentDay+1" />
+					<Action type="if">
+						<If expression="LuggageStep==1">
+							<Then>
+								<Action type="updateVariable" variable="LuggagePrizesEarned" value="7" />
+								<Action type="updateVariable" variable="LuggageStep" value="3" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+			<ElseIf expression="(LuggageStep == 2) &amp;&amp; (LuggagePrizes_Norbert == 0) &amp;&amp;                                     ((Box2_LostLuggage_RunwayPiece1+                                     Box2_LostLuggage_RunwayPiece2+                                     Box2_LostLuggage_Hangar+                                     Box2_LostLuggage_Terminal+                                     Box2_LostLuggage_Plane) &gt;= 7)">
+				<Then>
+					<Action type="updateVariable" variable="LuggagePrizesEarned" value="7" />
+					<Action type="updateVariable" variable="LuggagePrizes_Norbert" value="ATW_VisitorTasks_LastDayCompleted+1" />
+					<Action type="updateVariable" variable="LuggageStep" value="3" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</FixBrokenPrizeBox>
+	<AtW_ServerMakeGood>
+		<Action type="checkRequirements">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="AroundTheWorld_1" />
+				<Requirement type="quest" quest="AroundTheWorld_1_NoFrink" />
+			</Requirement>
+			<True>
+				<Action type="message" text="QST_MakeGood03_3_dlg_End_1_System" />
+				<Action type="reward" AroundTheWorld_ActivePrizeTrackCurrency="2000" AroundTheWorld_SkyCredits="500" />
+			</True>
+		</Action>
+	</AtW_ServerMakeGood>
+</ScriptPackage>

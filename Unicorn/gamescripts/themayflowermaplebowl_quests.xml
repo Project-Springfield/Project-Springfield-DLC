@@ -1,0 +1,714 @@
+﻿<Quests><!---->
+	<MasterList>
+		<DataID id="282000" name="BePreparedToNap" />
+		<DataID id="282001" name="ALARPInTheWoods_1" />
+		<DataID id="282002" name="ALARPInTheWoods_2" />
+		<DataID id="282003" name="ALARPInTheWoods_3" />
+		<DataID id="282004" name="ALARPInTheWoods_4" />
+		<DataID id="282005" name="ALARPInTheWoods_5" />
+		<DataID id="282006" name="ANapDeferred" />
+		<DataID id="282007" name="ASnowballsChanceInHeck_1" />
+		<DataID id="282008" name="ASnowballsChanceInHeck_2" />
+		<DataID id="282009" name="ASnowballsChanceInHeck_3" />
+		<DataID id="282010" name="ASnowballsChanceInHeck_4" />
+		<DataID id="282011" name="PrideAndPuritanism_1" />
+		<DataID id="282012" name="PrideAndPuritanism_2" />
+		<DataID id="282013" name="PrideAndPuritanism_3" />
+		<DataID id="282014" name="PrideAndPuritanism_4" />
+		<DataID id="282015" name="AMeritOfBadges_1" />
+		<DataID id="282016" name="AMeritOfBadges_2" />
+		<DataID id="282017" name="AMeritOfBadges_3" />
+		<DataID id="282018" name="AMeritOfBadges_4" />
+		<DataID id="282019" name="AMeritOfBadges_5" />
+		<DataID id="282600" name="TheMayflowerMapleBowl_Completed" />
+		<DataID id="282601" name="TheMayflowerMapleBowl_IntroPanel" />
+		<DataID id="282602" name="TheMayflowerMapleBowl_72HourWarning" onDeprecated="retain" endDate="TheMayflowerMapleBowl_End" />
+		<DataID id="282603" name="TheMayflowerMapleBowl_24HourWarning" onDeprecated="retain" endDate="TheMayflowerMapleBowl_End" />
+		<DataID id="282604" name="TheMayflowerMapleBowl_EventExpired" />
+		<DataID id="282605" name="TheMayflowerMapleBowl_MasterQuest" />
+		<!-- <DataID id="282700" name="AutoApply_PuritanLovejoySkin" /> -->
+		<!-- <DataID id="282701" name="AutoApply_ScoutingLisaSkin" /> -->
+		<!-- <DataID id="282702" name="AutoApply_ScoutingBartSkin" /> -->
+		<DataID id="282900" name="TheMayflowerMapleBowl_RecommendStore" onDeprecated="delete" endDate="TheMayflowerMapleBowl_End" />
+	</MasterList>
+	<Quest id="282600" name="TheMayflowerMapleBowl_Completed">
+		<Requirements>
+		<Requirement type="quest" quest="ANapDeferred" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="282601" name="TheMayflowerMapleBowl_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="BePreparedToNap" />
+			<Requirement type="time" end="TheMayflowerMapleBowl_End" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="282602" name="TheMayflowerMapleBowl_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TheMayflowerMapleBowl_End')-fromHours(72)]_" end="_[System::evaluate('Date::TheMayflowerMapleBowl_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Complete" not="true" />
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_IntroPanel" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="282603" name="TheMayflowerMapleBowl_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::TheMayflowerMapleBowl_End')-fromHours(24)]_" end="TheMayflowerMapleBowl_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Complete" not="true" />
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_IntroPanel" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="282604" name="TheMayflowerMapleBowl_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="TheMayflowerMapleBowl_End" triggerEvent="true" />
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Complete" not="true" />
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_IntroPanel" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="282605" name="TheMayflowerMapleBowl_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" not="true" />
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Complete" not="true" />
+			<Requirement type="reqList" location="TheMayflowerMapleBowl_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="ALARPInTheWoods_5" />
+					<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="ALARPInTheWoods_1">
+				<Requirement type="quest started" quest="ALARPInTheWoods_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ALARPInTheWoods_2">
+				<Requirement type="quest started" quest="ALARPInTheWoods_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ALARPInTheWoods_3">
+				<Requirement type="quest started" quest="ALARPInTheWoods_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ALARPInTheWoods_4">
+				<Requirement type="quest started" quest="ALARPInTheWoods_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="ALARPInTheWoods_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="282000" name="BePreparedToNap" tags="sidequest" icon="TheMayflowerMapleBowl_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="TheMayflowerMapleBowl_Start" end="TheMayflowerMapleBowl_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="BePreparedToNap_Start" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="OfferTheKidsMeritBadgesForAnything" quantity="1" />
+			<Objective type="complete job" character="Bart" job="WantToGoCamping" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="InsistTheyEarnBadgesLegitimately" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<ExpiryData>
+			<Requirement type="time" start="TheMayflowerMapleBowl_End" triggerEvent="true" />
+		</ExpiryData>
+	</Quest>
+	<Quest id="282001" name="ALARPInTheWoods_1" tags="mainquest" icon="TheMayflowerMapleBowl_Currency" sidebarIconScript="TheMayflowerMapleBowl_Scripts:OpenMasterQuest" questMenuConfigPath="TheMayflowerMapleBowl_QuestConfig:TheMayflowerMapleBowl_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_IntroPanel" />
+			<Requirement type="time" start="TheMayflowerMapleBowl_Start" end="TheMayflowerMapleBowl_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_1_Start" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheMayflowerMapleBowl_Currency')" amount="__TheMayflowerMapleBowl_GameConfig:ResourceQuantities:TheMayflowerMapleBowl_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheMayflowerMapleBowl_Scripts:ShowJobList" textpoolName="QST_TheMayflowerMapleBowl_Collect_obj">
+				<HighlightJobList>
+					<Job name="EarnMeritBadges" />
+					<Job name="BuyMeritBadges" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="WonderIfThisIsAnotherTimeTravelEvent" quantity="1" />
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="FeelConflicted_MMB" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="FeelDepressedAboutAmerica" quantity="1" />
+			<Objective type="complete job" character="Bart" job="FeelConflicted_MMBNSB" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheMayflowerMapleBowl_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="282002" name="ALARPInTheWoods_2" tags="mainquest" icon="TheMayflowerMapleBowl_Currency" sidebarIconScript="TheMayflowerMapleBowl_Scripts:OpenMasterQuest" questMenuConfigPath="TheMayflowerMapleBowl_QuestConfig:TheMayflowerMapleBowl_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ALARPInTheWoods_1" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_2_Start" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheMayflowerMapleBowl_Currency')" amount="__TheMayflowerMapleBowl_GameConfig:ResourceQuantities:TheMayflowerMapleBowl_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheMayflowerMapleBowl_Scripts:ShowJobList" textpoolName="QST_TheMayflowerMapleBowl_Collect_obj">
+				<HighlightJobList>
+					<Job name="EarnMeritBadges" />
+					<Job name="BuyMeritBadges" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="FightWithBart" quantity="1" />
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="FightWithLisa" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="FinallyStartToNap" quantity="1" />
+			<Objective type="complete job" group="LARPers" job="InterruptHomersNap" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Lovejoy" />
+						<Requirement type="characterunlocked" name="CBGuy" />
+						<Requirement type="characterunlocked" name="Martin" />
+						<Requirement type="characterunlocked" name="Luann" />
+						<Requirement type="characterunlocked" name="Kumiko" />
+						<Requirement type="characterunlocked" name="Kang" />
+						<Requirement type="characterunlocked" name="Kodos" />
+						<Requirement type="characterunlocked" name="Kirk" />
+						<Requirement type="characterunlocked" name="DrHibbert" />
+						<Requirement type="characterunlocked" name="Wiggum" />
+						<Requirement type="characterunlocked" name="Milhouse" />
+						<Requirement type="characterunlocked" name="Ralph" />
+						<Requirement type="characterunlocked" name="Skinner" />
+						<Requirement type="characterunlocked" name="Willy" />
+						<Requirement type="characterunlocked" name="Otto" />
+						<Requirement type="characterunlocked" name="Burns" />
+						<Requirement type="characterunlocked" name="Smithers" />
+						<Requirement type="characterunlocked" name="Snake" />
+						<Requirement type="characterunlocked" name="Moe" />
+						<Requirement type="characterunlocked" name="Grampa" />
+						<Requirement type="characterunlocked" name="Krusty" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="FightWithLisa_NSB" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheMayflowerMapleBowl_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="282003" name="ALARPInTheWoods_3" tags="mainquest" icon="TheMayflowerMapleBowl_Currency" sidebarIconScript="TheMayflowerMapleBowl_Scripts:OpenMasterQuest" questMenuConfigPath="TheMayflowerMapleBowl_QuestConfig:TheMayflowerMapleBowl_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ALARPInTheWoods_2" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_3_Start" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheMayflowerMapleBowl_Currency')" amount="__TheMayflowerMapleBowl_GameConfig:ResourceQuantities:TheMayflowerMapleBowl_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheMayflowerMapleBowl_Scripts:ShowJobList" textpoolName="QST_TheMayflowerMapleBowl_Collect_obj">
+				<HighlightJobList>
+					<Job name="EarnMeritBadges" />
+					<Job name="BuyMeritBadges" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="EarnARoleInThePilgrimLARP" quantity="1" />
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="TrainInCanadianFootball" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="TryToNapAgain" quantity="1" />
+			<Objective type="complete job" character="Bart" job="TrainInCanadianFootball_NSB" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheMayflowerMapleBowl_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="282004" name="ALARPInTheWoods_4" tags="mainquest" icon="TheMayflowerMapleBowl_Currency" sidebarIconScript="TheMayflowerMapleBowl_Scripts:OpenMasterQuest" questMenuConfigPath="TheMayflowerMapleBowl_QuestConfig:TheMayflowerMapleBowl_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ALARPInTheWoods_3" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_4_Start" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheMayflowerMapleBowl_Currency')" amount="__TheMayflowerMapleBowl_GameConfig:ResourceQuantities:TheMayflowerMapleBowl_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheMayflowerMapleBowl_Scripts:ShowJobList" textpoolName="QST_TheMayflowerMapleBowl_Collect_obj">
+				<HighlightJobList>
+					<Job name="EarnMeritBadges" />
+					<Job name="BuyMeritBadges" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="ComplainToPilgrimsAboutBart" quantity="1" />
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="ComplainToCanadianFootballersAboutLisa" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="GiveUpOnNapping" quantity="1" />
+			<Objective type="complete job" character="Bart" job="ComplainToCanadianFootballersAboutLisa_NSB" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheMayflowerMapleBowl_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="282005" name="ALARPInTheWoods_5" tags="mainquest" icon="TheMayflowerMapleBowl_Currency" sidebarIconScript="TheMayflowerMapleBowl_Scripts:OpenMasterQuest" questMenuConfigPath="TheMayflowerMapleBowl_QuestConfig:TheMayflowerMapleBowl_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="TheMayflowerMapleBowl_Expired" not="true" />
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ALARPInTheWoods_4" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_5_Start" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ALARPInTheWoods_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::TheMayflowerMapleBowl_Currency')" amount="__TheMayflowerMapleBowl_GameConfig:ResourceQuantities:TheMayflowerMapleBowl_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="TheMayflowerMapleBowl_Scripts:ShowJobList" textpoolName="QST_TheMayflowerMapleBowl_Collect_obj">
+				<HighlightJobList>
+					<Job name="EarnMeritBadges" />
+					<Job name="BuyMeritBadges" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="ShareButterSheChurnedHerself" quantity="1" />
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="PassTheBreadLiterally" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="StartEatingBeforeTheBlessing" quantity="1" />
+			<Objective type="complete job" character="Lovejoy" skin="PuritanLovejoy" job="SayABlessing" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lovejoy" unlockedskin="PuritanLovejoy" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="PassTheBreadLiterally_NSB" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="TheMayflowerMapleBowl_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="TheMayflowerMapleBowl_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="282006" name="ANapDeferred" tags="sidequest" icon="TheMayflowerMapleBowl_Event">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ALARPInTheWoods_5" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ANapDeferred_Start" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ANapDeferred_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" skin="ScoutingLisa" job="BeHappySheEarnedAMeritBadge" quantity="1" />
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="BeHappyHeEarnedAMeritBadge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="BeHappyHeCanGoHomeAndNapNow" quantity="1" />
+			<Objective type="complete job" character="Bart" job="BeHappyHeEarnedAMeritBadge_NSB" quantity="1">
+				<BranchCondition>
+					<Requirement type="conditional" logic="AND">
+						<Requirement type="characterunlocked" name="Bart" />
+						<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="282007" name="ASnowballsChanceInHeck_1" tags="sidequest" icon="Lisa_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Lisa" unlockedskin="ScoutingLisa" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="ANapDeferred" />
+				<Requirement type="time" start="TheMayflowerMapleBowl_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_1_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" skin="ScoutingLisa" job="ShowOffMeritBadges_TEMP" quantity="1" />
+			<Objective type="complete job" character="Bart" job="CountHowManySnowballsThereveBeen" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Milhouse" job="FeelSelfConsciousAboutHisKnees" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282008" name="ASnowballsChanceInHeck_2" tags="sidequest" icon="Lisa_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASnowballsChanceInHeck_1" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_2_Start" triggerType="character" character="Lisa" />
+		<Objectives>
+			<Objective type="complete job" character="Lisa" skin="ScoutingLisa" job="TryToOrienteer_TEMP" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="UseAnOrienteeringApp" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282009" name="ASnowballsChanceInHeck_3" tags="sidequest" icon="Lisa_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASnowballsChanceInHeck_2" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_3_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_3_End" />
+		<Objectives>
+			<Objective type="complete job" group="Preppers" job="ScareKids" quantity="3" />
+			<Objective type="complete job" character="Lisa" skin="ScoutingLisa" job="BeScaredOfPreppers" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="PrepareToLeaveLisaBehind" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282010" name="ASnowballsChanceInHeck_4" tags="sidequest" icon="Lisa_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="ASnowballsChanceInHeck_3" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_4_Start" triggerType="character" character="Lisa" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="ASnowballsChanceInHeck_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" job="BeImpressedLisaAndMilhouseMadeItBack" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" skin="ScoutingLisa" job="TryToFindOutWhichIsTheRealSnowball" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="HaveAMassiveCatAllergyAttack" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="282011" name="PrideAndPuritanism_1" tags="sidequest" icon="RevLoveJoy_Puritan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Lovejoy" unlockedskin="PuritanLovejoy" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="PrideAndPuritanism_1_Start" triggerType="character" character="Lovejoy" />
+		<Objectives>
+			<Objective type="complete job" character="Lovejoy" skin="PuritanLovejoy" job="AnnoyHisFamily_TEMP" quantity="1" />
+			<Objective type="complete job" character="JessicaLovejoy" job="RefuseToDoGodlyChores" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="JessicaLovejoy" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="HelenLovejoy" job="TakeALongHotSpiteBath" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="HelenLovejoy" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282012" name="PrideAndPuritanism_2" tags="sidequest" icon="RevLoveJoy_Puritan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PrideAndPuritanism_1" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="PrideAndPuritanism_2_Start" triggerType="character" character="Lovejoy" />
+		<Objectives>
+			<Objective type="complete job" character="Lovejoy" skin="PuritanLovejoy" job="PreachAndPreachAndPreach_TEMP" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WearStupidSinSign" quantity="1" />
+			<Objective type="complete job" character="Marge" job="StruggleToStayAwakeForSixMoreHours" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282013" name="PrideAndPuritanism_3" tags="sidequest" icon="RevLoveJoy_Puritan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PrideAndPuritanism_2" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="PrideAndPuritanism_3_Start" triggerType="character" character="Lovejoy" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="PrideAndPuritanism_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Lovejoy" skin="PuritanLovejoy" job="BecomeMorePuritanical_TEMP" quantity="1" />
+			<Objective type="complete job" character="Ned" job="StartToWorry_MMB" quantity="1" />
+			<Objective type="complete job" character="Homer" job="WearAnotherStupidSinSign" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="ResistUrgeToDebateHistory" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282014" name="PrideAndPuritanism_4" tags="sidequest" icon="RevLoveJoy_Puritan">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="PrideAndPuritanism_3" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="PrideAndPuritanism_4_Start" triggerType="character" character="Lovejoy" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="PrideAndPuritanism_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="ShoutLetMyPeopleGo" quantity="1" />
+			<Objective type="complete job" character="Ned" job="ShakeItForTheLord" quantity="1" />
+			<Objective type="complete job" character="Lovejoy" skin="PuritanLovejoy" job="SnapOutOfIt" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="282015" name="AMeritOfBadges_1" tags="sidequest" icon="Bart_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="character" name="Bart" unlockedskin="ScoutingBart" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_1_Start" triggerType="character" character="Bart" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="TryToBeCool_TEMP" quantity="1" />
+			<Objective type="complete job" character="Skinner" job="TalkUpScouting" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Skinner" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="Bullies" job="CrackTheirKnuckles" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Nelson" />
+						<Requirement type="characterunlocked" name="Kearney" />
+						<Requirement type="characterunlocked" name="Jimbo" />
+						<Requirement type="characterunlocked" name="Dolph" />
+						<Requirement type="characterunlocked" name="GinaVendetti" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282016" name="AMeritOfBadges_2" tags="sidequest" icon="Bart_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AMeritOfBadges_1" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_2_Start" triggerType="character" character="Bart" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="MockSkinner" quantity="1" />
+			<Objective type="complete job" character="Skinner" job="HaveAFlashback_MMB" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Skinner" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" group="Bullies" job="BeScaredAndImpressed" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Nelson" />
+						<Requirement type="characterunlocked" name="Kearney" />
+						<Requirement type="characterunlocked" name="Jimbo" />
+						<Requirement type="characterunlocked" name="Dolph" />
+						<Requirement type="characterunlocked" name="GinaVendetti" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282017" name="AMeritOfBadges_3" tags="sidequest" icon="Bart_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AMeritOfBadges_2" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_3_Start" triggerType="character" character="Bart" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="ScoutForMischief_TEMP" quantity="1" />
+			<Objective type="complete job" group="Bullies" job="EarnAStreetArtBadge" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Nelson" />
+						<Requirement type="characterunlocked" name="Kearney" />
+						<Requirement type="characterunlocked" name="Jimbo" />
+						<Requirement type="characterunlocked" name="Dolph" />
+						<Requirement type="characterunlocked" name="GinaVendetti" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282018" name="AMeritOfBadges_4" tags="sidequest" icon="Bart_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AMeritOfBadges_3" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_4_Start" triggerType="character" character="Bart" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="PullAFireAlarm" quantity="1" />
+			<Objective type="complete job" group="Bullies" job="ConductASocialDynamicsExperiment" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Nelson" />
+						<Requirement type="characterunlocked" name="Kearney" />
+						<Requirement type="characterunlocked" name="Jimbo" />
+						<Requirement type="characterunlocked" name="Dolph" />
+						<Requirement type="characterunlocked" name="GinaVendetti" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="282019" name="AMeritOfBadges_5" tags="sidequest" icon="Bart_Scout">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="AMeritOfBadges_4" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_5_Start" triggerType="character" character="Bart" />
+		<EndScript package="TheMayflowerMapleBowl_Scripts_Dialogue" name="AMeritOfBadges_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Bart" skin="ScoutingBart" job="BeShockedToSeeTheBullies" quantity="1" />
+			<Objective type="complete job" group="Bullies" job="ExpectToReceiveMeritBadges" quantity="3">
+				<BranchCondition>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="characterunlocked" name="Nelson" />
+						<Requirement type="characterunlocked" name="Kearney" />
+						<Requirement type="characterunlocked" name="Jimbo" />
+						<Requirement type="characterunlocked" name="Dolph" />
+						<Requirement type="characterunlocked" name="GinaVendetti" />
+					</Requirement>
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="282700" name="AutoApply_PuritanLovejoySkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="PuritanLovejoy" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Lovejoy" unlockedskin="PuritanLovejoy" not="true" />
+			<Requirement type="characterunlocked" name="Lovejoy" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TheMayflowerMapleBowl_Scripts" name="AutoApply_PuritanLovejoySkin_End" />
+	</Quest>
+	<Quest id="282701" name="AutoApply_ScoutingLisaSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="ScoutingLisa" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Lisa" unlockedskin="ScoutingLisa" not="true" />
+			<Requirement type="characterunlocked" name="Lisa" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TheMayflowerMapleBowl_Scripts" name="AutoApply_ScoutingLisaSkin_End" />
+	</Quest>
+	<Quest id="282702" name="AutoApply_ScoutingBartSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="ScoutingBart" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Bart" unlockedskin="ScoutingBart" not="true" />
+			<Requirement type="characterunlocked" name="Bart" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="TheMayflowerMapleBowl_Scripts" name="AutoApply_ScoutingBartSkin_End" />
+	</Quest>
+	<Quest id="282900" name="TheMayflowerMapleBowl_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="TheMayflowerMapleBowl_Requirements:StoreCategory_TheMayflowerMapleBowl_Unlocked" />
+		</Requirements>
+		<StartScript package="TheMayflowerMapleBowl_Scripts" name="RecommendStoreCategory_TheMayflowerMapleBowl" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

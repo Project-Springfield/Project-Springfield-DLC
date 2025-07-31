@@ -1,0 +1,1589 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="109000" name="MonorailEvent">
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="ProjectBoard" />
+			</LandInfo>
+		</LandInfos>
+		<HUDCurrencies buttonType="guide" guideButtonScript="Monorail_Scripts:TabPressed_GuidePanel">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest started" quest="ARailOfOneCity_5" />
+			</Requirements>
+			<Currency type="Monorail_PT1">
+				<Requirement type="reqList" location="Monorail_Config:Req_PT1" />
+			</Currency>
+			<Currency type="Monorail_PT2">
+				<Requirement type="reqList" location="Monorail_Config:Req_PT2" />
+			</Currency>
+			<Currency type="Monorail_PT3">
+				<Requirement type="reqList" location="Monorail_Config:Req_PT3" />
+			</Currency>
+		</HUDCurrencies>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUB_Mono15_Projectboard">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="quest" quest="ARailOfOneCity_6" objective="1" />
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost10__" not="true" />
+				</Requirements>
+				<RunScript>
+					<Script name="TabPressed_ProjectBoardPanel" package="Monorail_Scripts" />
+				</RunScript>
+				<ExclamationMark>
+					<Requirements>
+						<Requirement type="formula" formula="lessThan(Monorail_ProjectSaveTime,System::evaluate('Calendar::Last::8:00'))" />
+						<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost10__" not="true" />
+					</Requirements>
+				</ExclamationMark>
+			</Button>
+		</SpecialButtons>
+		<Jobs>
+			<Job name="PickUpTrash">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="active quest" quest="ARailOfOneCity_2" />
+					<Requirement type="active quest" quest="ARailOfOneCity_3" />
+					<Requirement type="active quest" quest="ARailOfOneCity_4" />
+					<Requirement type="active quest" quest="SameAsItEverWas" />
+				</Requirement>
+			</Job>
+			<Job name="PutOnAMusicalExtravaganza">
+				<Requirement type="active quest" quest="ARailOfOneCity_3" />
+			</Job>
+			<Job name="JoinInTheMusicalExtravaganza">
+				<Requirement type="active quest" quest="ARailOfOneCity_3" />
+			</Job>
+			<Job name="RaiseMoneyForTheMonorail">
+				<Requirement type="active quest" quest="ARailOfOneCity_4" />
+			</Job>
+			<Job name="RunGilOutOfTown">
+				<Requirement type="active quest" quest="SameAsItEverWas" />
+			</Job>
+			<Job name="NotHaveToPickUpTrash">
+				<Requirement type="active quest" quest="ARailOfOneCity_5" />
+			</Job>
+			<Job name="OpenAMonorailWindow">
+				<Requirement type="active quest" quest="RailAgainstTheMachine_1" />
+			</Job>
+			<Job name="PutAPennyOnTheMonorailTrack">
+				<Requirement type="active quest" quest="RailAgainstTheMachine_4" />
+			</Job>
+			<Job name="GetSomeSleep">
+				<Requirement type="active quest" quest="OneTrackMind_1" />
+			</Job>
+			<Job name="GoForARideOnTheMonorail">
+				<Requirement type="active quest" quest="OneTrackMind_4" />
+			</Job>
+			<Job name="TempLyleJob" hideJobMenuIfRequirementsFail="true">
+				<Requirements>
+					<Requirement type="quest" quest="ARailOfOneCity_4" />
+				</Requirements>
+				<VisibilityRequirements>
+					<Requirement type="quest" quest="ARailOfOneCity_4" />
+				</VisibilityRequirements>
+			</Job>
+			<Job name="AggressivelyRecyclingSeaLife" time="4h">
+				<Reward MonorailActivePrizeTrackCurrency="450" xp="15" />
+			</Job>
+			<Job name="SpawningPossums1" time="4h" textpoolName="JOB_SpawningPossums1_name">
+				<CharacterReward character="Possum" characterCount="8 + System::evaluate('Group::Building::TrackPiece::LandCount')/12" spawnImmediately="false" icon="ICO_Mono15_spawntappable_sm" />
+			</Job>
+			<Job name="SpawningPossums2" time="4h" textpoolName="JOB_SpawningPossums2_name">
+				<CharacterReward character="Possum" characterCount="8 + System::evaluate('Group::Building::TrackPiece::LandCount')/12" spawnImmediately="false" icon="ICO_Mono15_spawntappable_sm" />
+			</Job>
+			<Job name="SpawningPossums3" time="4h" textpoolName="JOB_SpawningPossums3_name">
+				<CharacterReward character="Possum" characterCount="8 + System::evaluate('Group::Building::TrackPiece::LandCount')/12" spawnImmediately="false" icon="ICO_Mono15_spawntappable_sm" />
+			</Job>
+			<Job name="SpawningPossums4" time="4h" textpoolName="JOB_SpawningPossums4_name">
+				<CharacterReward character="Possum" characterCount="8 + System::evaluate('Group::Building::TrackPiece::LandCount')/12" spawnImmediately="false" icon="ICO_Mono15_spawntappable_sm" />
+			</Job>
+		</Jobs>
+		<Characters override="true">
+			<Character name="Possum">
+				<OnEvent onObject="Possum" event="CharacterTouched" user="local">
+					<Script name="Monorail_Scripts:Possum_RadiusTap" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<SpawnOverTime character="Possum" loggedOnSpawnTime="0" loggedOffSpawnTime="0" maxAllowedInTown="50" regularBankMax="0" errorTitle="UI_Monorail_MaxPossums_Title" errorBody="UI_Monorail_MaxPossums_Body">
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<Badges>
+			<Badge name="JobBoard">
+				<Condition variable="DailyTask_Available" repeatable="true">
+					<Requirements>
+						<Requirement type="formula" formula="lessThan(Monorail_ProjectSaveTime,System::evaluate('Calendar::Last::8:00'))" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="FindBuilding">
+				<Condition variable="ResourceJob_Available" repeatable="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="reqList" location="Monorail_Config:ShowDumpBadge_Available" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="ARailOfOneCity_7" />
+								<Requirement type="reqList" location="Monorail_Config:ShowMetalBadge_Available" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="RailAgainstTheMachine_2" />
+								<Requirement type="reqList" location="Monorail_Config:ShowPlasticBadge_Available" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="OneTrackMind_2" />
+								<Requirement type="reqList" location="Monorail_Config:ShowGlassBadge_Available" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+				<Condition variable="ResourceJob_Done" repeatable="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="reqList" location="Monorail_Config:ShowDumpBadge_Done" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="ARailOfOneCity_7" />
+								<Requirement type="reqList" location="Monorail_Config:ShowMetalBadge_Done" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="RailAgainstTheMachine_2" />
+								<Requirement type="reqList" location="Monorail_Config:ShowPlasticBadge_Done" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="quest started" quest="OneTrackMind_2" />
+								<Requirement type="reqList" location="Monorail_Config:ShowGlassBadge_Done" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="PrizeTrack">
+				<Condition variable="PrizeTrack1_Available" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="Monorail_Config:Req_PT1" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrack2_Available" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="Monorail_Config:Req_PT2" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PrizeTrack3_Available" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="Monorail_Config:Req_PT3" />
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+		<EventHub menuConfig="Monorail_Config:EventHub">
+			<Tabs>
+				<Tab name="Tab_PrizeTrack" icon="__Monorail_Config:Icons:PrizeTrackIcon__">
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="PrizeTrack" />
+					</BadgeRequirements>
+					<Script name="TabPressed_PrizeTrack" package="Monorail_Scripts" />
+				</Tab>
+				<Tab name="Tab_ProjectBoard" icon="ico_mhub_mono15_projectboard">
+					<DisplayRequirements>
+						<Requirement type="quest" quest="ARailOfOneCity_6" objective="1" />
+						<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost10__" not="true" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_ProjectBoard" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="JobBoard" />
+					</BadgeRequirements>
+					<Script name="TabPressed_ProjectBoardPanel" package="Monorail_Scripts" />
+				</Tab>
+				<Tab name="Tab_BuildingFinder" icon="ico_mhub_mono15_findbuilding">
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_BuildingFinder" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==3" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="FindBuilding" />
+					</BadgeRequirements>
+					<Script name="TabPressed_BuildingFinder" package="Monorail_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="Junk" />
+				<Resource type="Metal" />
+				<Resource type="Plastic" />
+				<Resource type="Glass" />
+			</ResourceTypes>
+		</EventHub>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="Monorail_Config:PrizeTrack0">
+				<Prize name="BLD_MonorailStation_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize1_desc" listIcon="ICO_Mono15_RegularStation" rewardIcon="ICO_Mono15_RegularStation_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate01__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost01__" />
+					<Reward>
+						<Item type="building" name="MonorailStation" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize2_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize2_desc" listIcon="ICO_Mono15_TrackpartsMD" rewardIcon="ICO_Mono15_TrackpartSMD_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate02__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost02__" />
+					<Reward>
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize3_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize3_desc" listIcon="ICO_Mono15_TrackpartsMD" rewardIcon="ICO_Mono15_TrackpartsMD_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate03__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost03__" />
+					<Reward>
+						<Item type="building" name="CurveTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize4_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize4_desc" listIcon="ICO_Mono15_standardstationpartsSM" rewardIcon="ICO_Mono15_standardstationpartsSM_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate04__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost04__" />
+					<Reward>
+						<Item type="building" name="MonorailStationMod1" />
+						<Item type="building" name="MonorailStationMod4" />
+						<Item type="building" name="MonorailStationMod4" />
+						<Item type="building" name="MonorailStationMod3" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize5_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize5_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate05__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost05__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize6_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize6_desc" listIcon="ICO_Mono15_standardstationpartsSM" rewardIcon="ICO_Mono15_standardstationpartsSM_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate06__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost06__" />
+					<Reward>
+						<Item type="building" name="MonorailStationMod1" />
+						<Item type="building" name="MonorailStationMod4" />
+						<Item type="building" name="MonorailStationMod4" />
+						<Item type="building" name="MonorailStationMod2" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize7_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize7_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate07__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost07__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize8_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize8_desc" listIcon="ICO_Mono15_standardstationpartsSM" rewardIcon="ICO_Mono15_standardstationpartsSM_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate08__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost08__" />
+					<Reward>
+						<Item type="building" name="MonorailStationMod4" />
+						<Item type="building" name="MonorailStationMod4" />
+						<Item type="building" name="MonorailStationMod2" />
+						<Item type="building" name="MonorailStationMod3" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack1_Prize9_name" infoOverrideText="CON_Monorail_PrizeTrack1_Prize9_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" showInventoryPopup="false" useImmediately="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate09__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost09__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_RayPatterson_name" listIcon="ICO_Mono15_RayPatterson" rewardIcon="ICO_Mono15_RayPatterson_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack1_RushRate10__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT1" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack1_Cost10__" />
+					<Reward>
+						<Item type="character" name="RayPatterson" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="Monorail_Config:PrizeTrack1">
+				<Prize name="BLD_TetanusTerminal_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize1_desc" listIcon="ICO_Mono15_TetanusTerminal" rewardIcon="ICO_Mono15_TetanusTerminal_LG.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate01__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost01__" />
+					<Reward>
+						<Item type="building" name="TetanusTerminal" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize2_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize2_desc" listIcon="ICO_Mono15_TrackpartsMD" rewardIcon="ICO_Mono15_TrackpartsMD_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate02__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost02__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize3_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize3_desc" listIcon="ICO_Mono15_TrackpartsMD" rewardIcon="ICO_Mono15_TrackpartsMD_LG.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate03__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost03__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize4_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize4_desc" listIcon="ICO_Mono15_TetanusTerminalpartsSM" rewardIcon="ICO_Mono15_TetanusTerminalpartsSM_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate04__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost04__" />
+					<Reward>
+						<Item type="building" name="TetanusTerminalMod1" />
+						<Item type="building" name="TetanusTerminalMod4" />
+						<Item type="building" name="TetanusTerminalMod4" />
+						<Item type="building" name="TetanusTerminalMod3" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize5_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize5_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate05__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost05__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize6_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize6_desc" listIcon="ICO_Mono15_TetanusTerminalpartsSM" rewardIcon="ICO_Mono15_TetanusTerminalpartsSM_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate06__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost06__" />
+					<Reward>
+						<Item type="building" name="TetanusTerminalMod1" />
+						<Item type="building" name="TetanusTerminalMod4" />
+						<Item type="building" name="TetanusTerminalMod4" />
+						<Item type="building" name="TetanusTerminalMod2" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize7_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize7_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" useImmediately="false" placeAsPrize="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate07__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost07__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize8_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize8_desc" listIcon="ICO_Mono15_TetanusTerminalpartsSM" rewardIcon="ICO_Mono15_TetanusTerminalpartsSM_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate08__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost08__" />
+					<Reward>
+						<Item type="building" name="TetanusTerminalMod4" />
+						<Item type="building" name="TetanusTerminalMod4" />
+						<Item type="building" name="TetanusTerminalMod2" />
+						<Item type="building" name="TetanusTerminalMod3" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack2_Prize9_name" infoOverrideText="CON_Monorail_PrizeTrack2_Prize9_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate09__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost09__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_UriahsHeapRecyclingCenter_name" listIcon="ICO_Mono15_HippieUriahHeap" rewardIcon="ICO_Mono15_HippieUriahHeap_LG.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack2_RushRate10__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT2" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack2_Cost10__" />
+					<Reward>
+						<Item type="building" name="UriahsHeapRecyclingCenter" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="2" type="local" menuConfig="Monorail_Config:PrizeTrack2">
+				<Prize name="BLD_MallStation_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize1_desc" listIcon="ICO_Mono15_MallORailStation" rewardIcon="ICO_Mono15_MallORailStation_LG.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate01__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost01__" />
+					<Reward>
+						<Item type="building" name="MallStation" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize2_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize2_desc" listIcon="ICO_Mono15_TrackpartsMD" rewardIcon="ICO_Mono15_TrackpartsMD_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate02__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost02__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize3_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize3_desc" listIcon="ICO_Mono15_TrackpartsMD" rewardIcon="ICO_Mono15_TrackpartsMD_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate03__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost03__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize4_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize4_desc" listIcon="ICO_Mono15_MalloRailpartsSM" rewardIcon="ICO_Mono15_MalloRailpartsSM_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate04__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost04__" />
+					<Reward>
+						<Item type="building" name="MallStationMod1" />
+						<Item type="building" name="MallStationMod4" />
+						<Item type="building" name="MallStationMod4" />
+						<Item type="building" name="MallStationMod3" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize5_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize5_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate05__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost05__" />
+					<Reward>
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize6_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize6_desc" listIcon="ICO_Mono15_MalloRailpartsSM" rewardIcon="ICO_Mono15_MalloRailpartsSM_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate06__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost06__" />
+					<Reward>
+						<Item type="building" name="MallStationMod1" />
+						<Item type="building" name="MallStationMod4" />
+						<Item type="building" name="MallStationMod4" />
+						<Item type="building" name="MallStationMod2" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize7_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize7_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate07__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost07__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="StraightTrack2x" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize8_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize8_desc" listIcon="ICO_Mono15_MalloRailpartsSM" rewardIcon="ICO_Mono15_MalloRailpartsSM_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate08__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost08__" />
+					<Reward>
+						<Item type="building" name="MallStationMod4" />
+						<Item type="building" name="MallStationMod4" />
+						<Item type="building" name="MallStationMod2" />
+						<Item type="building" name="MallStationMod3" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_Monorail_PrizeTrack3_Prize9_name" infoOverrideText="CON_Monorail_PrizeTrack3_Prize9_desc" listIcon="ICO_Mono15_TrackpartsLG" rewardIcon="ICO_Mono15_TrackpartsLG_LG.rgb" useImmediately="false" showInventoryPopup="false" placeAsPrize="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate09__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost09__" />
+					<Reward>
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="StraightTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="SCurveTrack" />
+						<Item type="building" name="CurveTrack" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_RailYard_name" listIcon="ICO_Mono15_CobbRailYard" rewardIcon="ICO_Mono15_CobbRailYard_LG.rgb" useImmediately="false" showInventoryPopup="false" rush_rate="__Monorail_Config:PrizeTrackValues:PrizeTrack3_RushRate10__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost10__" />
+					<Reward>
+						<Item type="building" name="RailYard" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<PrizeListButton icon="__Monorail_Config:Icons:PrizeTrackIcon__">
+			<Script package="Monorail_Scripts" name="TabPressed_PrizeTrack" />
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest started" quest="ARailOfOneCity_5" />
+			</Requirements>
+		</PrizeListButton>
+		<GeneralBuffers>
+			<Buffer name="ProjectBoard" id="1" />
+		</GeneralBuffers>
+		<Notifications location="Monorail_Notifications:Notifications">
+			<Notification name="PrizeTrack2Start" />
+			<Notification name="PrizeTrack3Start" />
+			<Notification name="PrizeTrack1Ending" />
+			<Notification name="PrizeTrack2Ending" />
+			<Notification name="PrizeTrack3Ending" />
+		</Notifications>
+		<onExit destroyHUD="true" />
+		<Overrides></Overrides>
+		<Variable name="Monorail" value="true" />
+		<Variable name="Monorail_ProjectsComplete" value="0" />
+		<Variable name="Monorail_ProjectSaveTime" value="0" />
+		<Variable name="EventHubTabValue" value="1" owner="0" />
+		<Variable name="Monorail_TrackPiecesNeeded" value="0" owner="0" />
+		<Variable name="Monorail_UnusedVariable" value="0" owner="0" />
+		<Variable name="Monorail_ProjectPt1TurnIn" value="0" />
+		<Variable name="Monorail_ProjectPt2TurnIn" value="0" />
+		<Variable name="Monorail_ProjectPt3TurnIn" value="0" />
+		<Variable name="Monorail_FoundHeadWalker" value="0" owner="0" />
+		<Variable name="Monorail_Store" value="false" />
+		<Variable name="PossumTap" value="0" />
+		<Variable name="Monorail_DumpOverride" value="false" />
+		<Variable name="Monorail_Prestige1_Cost" value="3000" />
+		<Variable name="Monorail_Prestige2_Cost" value="6000" />
+		<Variable name="Monorail_Prestige3_Cost" value="2000" />
+		<Variable name="DailyTask_Available" value="0" />
+		<Variable name="ResourceJob_Available" value="0" />
+		<Variable name="ResourceJob_Done" value="0" />
+		<Variable name="PrizeTrack1_Available" value="0" />
+		<Variable name="PrizeTrack2_Available" value="0" />
+		<Variable name="PrizeTrack3_Available" value="0" />
+	</SpecialEvent>
+	<SpecialEvent id="109001" name="MonorailEvent_Social">
+		<SuppressFriendActions shop="true" farm="true" pushnotes="true"></SuppressFriendActions>
+		<Variable name="Monorail_SocialUpgrade" value="false" />
+		<Variable name="Monorail_Social" value="true" />
+		<List name="Dumpable">
+			<String name="AdultEducationAnnex" />
+			<String name="AllNightGym" />
+			<String name="AsiaDeCuba" />
+			<String name="AztecTheatre" />
+			<String name="BadDreamHouse" />
+			<String name="Bowlarama" />
+			<String name="BurnsManor" />
+			<String name="BusinessmansSocialClub" />
+			<String name="Channel6" />
+			<String name="CoolBrownHouse" />
+			<String name="CryptoBarn" />
+			<String name="DrHibbertFamilyPractice" />
+			<String name="DuffBrewery" />
+			<String name="DuffStadium" />
+			<String name="ElChemistri" />
+			<String name="FatTonysCompound" />
+			<String name="FilmSet" />
+			<String name="FirstChurchOfLardLad" />
+			<String name="FirstChurchofSpringfield" />
+			<String name="FlandersHome" />
+			<String name="FortSensible" />
+			<String name="FrinksLab" />
+			<String name="GildedTruffle" />
+			<String name="GulpNBlow" />
+			<String name="HouseOfEvil" />
+			<String name="HowardsFlowers" />
+			<String name="JustRainsticks" />
+			<String name="KrabappelApartment" />
+			<String name="KrustyBurger" />
+			<String name="KrustyBurgerFranchise" />
+			<String name="KrustyluStudios" />
+			<String name="LardLadsDonuts" />
+			<String name="LugashsGym" />
+			<String name="Luigis" />
+			<String name="MalariaZone" />
+			<String name="MappleStore" />
+			<String name="MoesTavern" />
+			<String name="MuchAdoAboutMuffins" />
+			<String name="MyFirstTattoo" />
+			<String name="OFlanagansPub" />
+			<String name="OpenAirStage" />
+			<String name="OrangeHouse" />
+			<String name="PetCemetery" />
+			<String name="PhineasQButterfats" />
+			<String name="PimentoGrove" />
+			<String name="PinkHouse" />
+			<String name="PlanetHype" />
+			<String name="PoliceStation" />
+			<String name="PowerPlant" />
+			<String name="PowerPlantBuildings" />
+			<String name="PowerPlantLot" />
+			<String name="PumpkinHouse" />
+			<String name="PurpleHouse" />
+			<String name="SantasVillage" />
+			<String name="SimpsonHome" />
+			<String name="SirPuttsALot" />
+			<String name="SleepEazyMotel" />
+			<String name="SprawlMart" />
+			<String name="SpringfieldBuddhistTemple" />
+			<String name="SpringfieldCemetery" />
+			<String name="SpringfieldColiseum" />
+			<String name="SpringfieldCommunityCenter" />
+			<String name="SpringfieldDowns" />
+			<String name="SpringfieldElementary" />
+			<String name="SpringfieldGeneralHospital" />
+			<String name="SpringfieldLibrary" />
+			<String name="SpringfieldPenitentiary" />
+			<String name="SpringfieldPostOffice" />
+			<String name="SpringfieldRetirementCastle" />
+			<String name="SuperCollider" />
+			<String name="SwankyFish" />
+			<String name="TheFryingDutchman" />
+			<String name="TheItchyAndScratchyStore" />
+			<String name="TownHall" />
+			<String name="TryNSave" />
+			<String name="TurbanOutfitters" />
+			<String name="Ultrahouse2" />
+			<String name="VanHoutenHome" />
+			<String name="VolcanoLair" />
+			<String name="WolfcastlesMansion" />
+			<String name="ZestysPizza" />
+			<String name="SpringfieldWaxMuseum" />
+			<String name="Calmwood" />
+			<String name="KampKrusty" />
+			<String name="SpringfieldHighSchool" />
+			<String name="Knowledgeum" />
+			<String name="DMV" />
+			<String name="StusDisco" />
+			<String name="SpinsterCityApartments" />
+			<String name="SpringfieldPetShop" />
+			<String name="FirstChurchOfLardLad" />
+			<String name="Ultrahouse2" />
+			<String name="PumpkinHouse" />
+			<String name="GingerbreadHouse" />
+			<String name="NoiseLandVideoArcade" />
+			<String name="SpringfieldMuseumOfNaturalHistory" />
+			<String name="BachelorArms" />
+			<String name="CrackerFactory" />
+			<String name="CaesarsPowWowCasino" />
+			<String name="SpringfieldCountyCourtHouse" />
+			<String name="SpringfieldGroceryStore" />
+			<String name="Costingtons" />
+			<String name="EggNogBar" />
+			<String name="SpringfieldSkatingRink" />
+			<String name="SpringfieldMall" />
+			<String name="SingingSirloin" />
+			<String name="MadameChaos" />
+			<String name="ShamRockCafe" />
+			<String name="GuineaPigRescueCenter" />
+			<String name="BlockoStore" />
+			<String name="JohnnyFiestas" />
+			<String name="FireworksCandyAndPuppyDogs" />
+			<String name="StonecutterDaycareCenter" />
+			<String name="AbandonedStore" />
+			<String name="AhFudgeFactory" />
+			<String name="LottoNLiquor" />
+			<String name="SanjaysHouse" />
+			<String name="ApusApartment" />
+			<String name="ItchyScratchyStudio" />
+			<String name="KBBLRadio" />
+			<String name="MansionOfSolidGold" />
+			<String name="TunnelOfLove" />
+			<String name="SleepingItchysCastle" />
+			<String name="ItchyAndScratchyGiftShop" />
+			<String name="RadioactiveManTheRide" />
+			<String name="DuffPavilion" />
+			<String name="WetAndSmokeyStuntShow" />
+			<String name="KrustysHauntedCondo" />
+			<String name="ScratchysFleaDipper" />
+			<String name="VikingBoatRide" />
+			<String name="KrustylandHotel" />
+			<String name="EyeballsOfDeath" />
+			<String name="MtKrustmore" />
+			<String name="KrustylandBurger2" />
+			<String name="ItchyAndScratchyGiftShop2" />
+			<String name="TwirlNHurl" />
+			<String name="HappyElvesRide" />
+			<String name="KrustysGiantWheel" />
+			<String name="TavernOnTheScream" />
+			<String name="KrustysOnePlateMaximumBuffet" />
+			<String name="HonestJohnsComputers" />
+			<String name="TheHappySumo" />
+			<String name="BloatersAtTheSquidport" />
+			<String name="ZiffCorpOfficeBuilding" />
+			<String name="TheHungryHun" />
+			<String name="IndoorTennisCourts" />
+			<String name="KrustysMansion" />
+			<String name="SpookyHouse" />
+			<String name="MakeAThingWorkshop" />
+			<String name="ToyWorkshop" />
+			<String name="IcePalace" />
+			<String name="SequelStop" />
+			<String name="MontgomeryBurnsStatePrison" />
+			<String name="NationalBankOfSpringfield" />
+			<String name="DeathMountain" />
+			<String name="ZenithCityApartment1" />
+			<String name="ZenithCityApartment2" />
+			<String name="ZenithCityApartment3" />
+			<String name="TarPits" />
+			<String name="BeerNBrawl" />
+			<String name="TheCastleOfEqualia" />
+			<String name="DAmicoSummerHome" />
+			<String name="RanchoRelaxo" />
+			<String name="OldAbandonedWarehouse" />
+			<String name="MunicipalHouseOfPancakes" />
+			<String name="LovejoyResidence" />
+			<String name="Shortys" />
+			<String name="ItBlows" />
+			<String name="ConstructionSite" />
+			<String name="KaneManor" />
+			<String name="Monsarno" />
+			<String name="SpringfieldOperaHouse" />
+			<String name="OldSimpsonFarm" />
+			<String name="ItalianVilla" />
+			<String name="ItsAWonderfulKnife" />
+			<String name="MonsarnoLibrary" />
+			<String name="MonsarnoPrimateResources" />
+			<String name="MonsarnoCafeteria" />
+			<String name="MonsarnoHumanResources" />
+			<String name="BlarneyCastle" />
+			<String name="MonroesTherapyCenter" />
+			<String name="RedBlazerRealty" />
+			<String name="HealthSpa" />
+			<String name="PlasticSurgeryCenter" />
+			<String name="MontessoriSchool" />
+			<String name="IncubatorThinkTank" />
+			<String name="PoloFieldHouse" />
+			<String name="DeluxeCondo_First" />
+			<String name="SpringfieldSlaughterhouse" />
+			<String name="SpringfieldYMCA" />
+			<String name="BurnsBasketBallStadium" />
+			<String name="Sportacus" />
+			<String name="SpringfieldArms" />
+			<String name="TheGridiron" />
+			<String name="SimpsonsLaserTag" />
+			<String name="UriahsHeapRecyclingCenter" />
+			<String name="LittleLisasRecyclingPlant" />
+			<String name="RailYard" />
+			<String name="MonorailCafe" />
+			<String name="MalibuStacyHQ" />
+			<String name="StacysDreamHouse" />
+			<String name="WaverlyHillsElementarySchool" />
+			<String name="AjaxSteelMill" />
+			<String name="Shotkickers" />
+			<String name="PowersHouse" />
+			<String name="SeethingSisters" />
+			<String name="ScandalgateHotel" />
+			<String name="PresidentialEstate" />
+			<String name="IRSBuilding" />
+			<String name="WoosterfieldHotel" />
+			<String name="PowellMotors" />
+			<String name="PowellMansion" />
+		</List>
+		<BuildingGroupNames>
+			<Group name="DumpableBuildings" />
+		</BuildingGroupNames>
+		<Buildings override="true" list="Dumpable">
+			<Building>
+				<Group name="DumpableBuildings" />
+				<Vandalism text="UI_FriendAction_Monorail" suppressRatingChange="true" suppressFriendClean="true" vandalRewardInstant="true" cleanRewardInstant="true" fastBreak="true" forceActive="false" allowCodeFlip="true" useSpecialAction="false">
+					<OneShot name="Clean" file="StinkCloud_Medium" animation="smoke_active_out" x="0" y="0" position="indicator" />
+					<OneShot name="Spray" file="StinkCloud_Medium" animation="smoke_active_in" x="0" y="0" position="indicator" />
+					<Anim name="Vandalized" file="StinkCloud_Medium" animation="smoke_active" overlay="true" randomStartFrame="false" position="indicator" postDraw="true" />
+					<CleanIndicator hidden="true" />
+					<SprayIndicator icon="indicator_mono15_FriendAction" />
+					<Reward type="VandalismScript" script="Monorail_Scripts:DumpReward" />
+					<Reward type="CleanScript" script="Monorail_Scripts:CleanGarbageReward" />
+					<Sound type="Vandalism" sound="Monorail_FriendAction" />
+					<Sound type="Clean" sound="Monorail_FriendActionClear" />
+				</Vandalism>
+			</Building>
+		</Buildings>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" icon="ico_mono15_blueprints_sm.rgb" type="Monorail_PT1" icon2="ico_mono15_ducttape_sm.rgb" type2="Monorail_PT2" icon3="ico_mono15_bellswhistles_sm.rgb" type3="Monorail_PT3">
+			<Currency type="Monorail_PT1">
+				<Requirement type="reqList" location="Monorail_Config:Req_PT1" />
+			</Currency>
+			<Currency type="Monorail_PT2">
+				<Requirement type="reqList" location="Monorail_Config:Req_PT2" />
+			</Currency>
+			<Currency type="Monorail_PT3">
+				<Requirement type="reqList" location="Monorail_Config:Req_PT3" />
+			</Currency>
+			<Script name="Monorail_Scripts:MonorailFriendsHUDInfo" />
+		</FriendsMap>
+		<FriendHUDCurrencies buttonType="guide">
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="fakefriend" />
+				<Requirement type="friendvariable" variable="Monorail_Social" />
+			</Requirement>
+			<Currency type="MonorailActivePrizeTrackCurrency" />
+		</FriendHUDCurrencies>
+		<FriendHUD useTwoActions="true" regularActionText="UI_FriendAction_Monorail_RegAction" icon="ICO_Mono15_FriendsAction_LG.rgb" tipText="UI_FriendAction_Monorail_Tip" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+			<CurrencyHelpButtonAction>
+				<Script name="Monorail_Scripts:MonorailFriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+	</SpecialEvent>
+	<SpecialEvent id="109002" name="MonorailEvent_Daily1">
+		<DailyBonus>
+			<Day id="5">
+				<Reward>
+					<Cost price="2" />
+					<Item type="consumable" name="MonorailDaily1Prize5" useImmediately="true" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="109003" name="MonorailEvent_Daily2">
+		<DailyBonus>
+			<Day id="5">
+				<Reward>
+					<Item type="consumable" name="MonorailDaily2Prize5" useImmediately="true" />
+					<Cost price="2" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="109004" name="MonorailEvent_Daily3">
+		<DailyBonus>
+			<Day id="5">
+				<Reward>
+					<Item type="consumable" name="MonorailDaily3Prize5" useImmediately="true" />
+					<Cost price="2" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+	</SpecialEvent>
+	<SpecialEvent id="109005" name="Monorail_PreRailYard">
+		<Jobs>
+			<Job name="AggressivelyRecyclingSeaLife" time="4h">
+				<Reward Railyard_Currency="450" xp="15" />
+			</Job>
+		</Jobs>
+		<Buildings override="true">
+			<Building name="ProjectBoard">
+				<Sell allowed="false" storeoverride="false" />
+				<OnEvent onObject="ProjectBoard" event="BuildingTouched">
+					<Script name="Monorail_Scripts:TabPressed_ProjectBoardPanel" />
+				</OnEvent>
+				<TouchIcon value="__Monorail_Config:Icons:ProjectBoardIndicator__" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="formula" formula="lessThan(Monorail_ProjectSaveTime,System::evaluate('Calendar::Last::8:00'))" />
+						<Requirement type="players land" />
+						<Requirement type="special currency" currency="Monorail_PT3" amount="__Monorail_Config:PrizeTrackValues:PrizeTrack3_Cost10__" not="true" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building name="SpringfieldDump">
+				<ResourceGenerator resourceCapSelector="__Monorail_Config:SpendableValues:JunkMax__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Junk" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="MonorailTopup" menuConfig="Monorail_Config:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" useHelpScript="Monorail_Scripts:HelpButton_BuildingFinder_FromBuilding" gotoBuilding="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+							<Requirement type="quest started" quest="BringAllTheJunkToTheYard" />
+						</Requirement>
+					</Requirements>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="quest started" quest="ARailOfOneCity_6" />
+						</VisibilityRequirements>
+						<Job name="CollectJunk" character="Homer" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="SaveTheEnvironment" character="Lisa" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="8" />
+							<Requirement type="quest started" quest="Thrillhouse01" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="TryToImpressLisa" character="Milhouse" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="4" />
+							<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="DoHisChristianDuty" character="Ned" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="20" />
+							<Requirement type="quest started" quest="ReElectMayorQuimby02" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="PoseForPhotoOp" character="Quimby" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="6" />
+							<Requirement type="quest started" quest="SlackJawedYokel01" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="PutTheNewestSpucklerToWork" character="Cletus" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="10" />
+							<Requirement type="quest started" quest="SchoolhouseCrock04" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="TakeABreakFromRakingLeaves" character="Willy" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="characterunlocked" name="RayPatterson" />
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+						</VisibilityRequirements>
+						<Job name="PickUpTrashRay" character="RayPatterson" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Uter_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="45" />
+									</True>
+									<False>
+										<Requirement type="level" level="25" />
+									</False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="Uter" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="LookForDiscardedChocolate" character="Uter" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Brandine_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="time" start="MonorailMerchandizing_Brandine_Start" end="MonorailMerchandizing_Brandine_End" />
+								<Requirement type="characterunlocked" name="Brandine" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="CleanUpNatureUsingNature" character="Brandine" />
+					</Slot>
+					<Slot tipText="UI_Monorail_DeweyLargo_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="40" />
+									</True>
+									<False></False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="DeweyLargo" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="AssembleTheBand" character="DeweyLargo" />
+					</Slot>
+					<Slot tipText="UI_Monorail_JesseGrass_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="quest started" quest="ARailOfOneCity_5" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="time" start="MonorailMerchandizing_JesseGrass_Start" end="MonorailMerchandizing_JesseGrass_End" />
+								<Requirement type="characterunlocked" name="JesseGrass" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="Redwood_Scripts" name="GetJesseGrass" />
+						<Job name="HealMotherEarth" character="JesseGrass" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="109006" name="Monorail_KrustyStationText" package="Monorail_SpecialEvents">
+		<Buildings override="true">
+			<Building name="KrustyStation">
+				<BuildMenuText text="UI_KrustyStation_BuildMenuText" />
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="109008" name="Monorail_RailYardText">
+		<Buildings override="true">
+			<Building name="RailYard">
+				<BuildMenuText text="UI_RailYard_ExcitingText" />
+			</Building>
+		</Buildings>
+	</SpecialEvent>
+	<SpecialEvent id="109100" name="Railyard_RepeatableEvent">
+		<Buildings override="true">
+			<Building name="ProjectBoard">
+				<OnEvent onObject="ProjectBoard" event="BuildingTouched">
+					<Script name="Monorail_Scripts:TabPressed_ProjectBoardPanel" />
+				</OnEvent>
+			</Building>
+			<Building name="SpringfieldDump">
+				<ResourceGenerator resourceCapSelector="__Monorail_Config:SpendableValues:JunkMax__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Junk" resourceCapIcon="ico_mono15_junk_sm.rgb" topupConfig="MonorailTopup" menuConfig="Monorail_Config:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:DumpFullPopup" useHelpScript="Monorail_Scripts:HelpButton_BuildingFinder_FromBuilding" gotoBuilding="true">
+					<Slot>
+						<Job name="CollectJunk" character="Homer" />
+					</Slot>
+					<Slot>
+						<Job name="SaveTheEnvironment" character="Lisa" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="8" />
+							<Requirement type="quest started" quest="Thrillhouse01" />
+						</VisibilityRequirements>
+						<Job name="TryToImpressLisa" character="Milhouse" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="4" />
+							<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+						</VisibilityRequirements>
+						<Job name="DoHisChristianDuty" character="Ned" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="20" />
+							<Requirement type="quest started" quest="ReElectMayorQuimby02" />
+						</VisibilityRequirements>
+						<Job name="PoseForPhotoOp" character="Quimby" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="6" />
+							<Requirement type="quest started" quest="SlackJawedYokel01" />
+						</VisibilityRequirements>
+						<Job name="PutTheNewestSpucklerToWork" character="Cletus" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="10" />
+							<Requirement type="quest started" quest="SchoolhouseCrock04" />
+						</VisibilityRequirements>
+						<Job name="TakeABreakFromRakingLeaves" character="Willy" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="characterunlocked" name="RayPatterson" />
+						</VisibilityRequirements>
+						<Job name="PickUpTrashRay" character="RayPatterson" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Uter_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="45" />
+									</True>
+									<False>
+										<Requirement type="level" level="25" />
+									</False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="Uter" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="LookForDiscardedChocolate" character="Uter" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Brandine_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="time" start="MonorailMerchandizing_Brandine_Start" end="MonorailMerchandizing_Brandine_End" />
+								<Requirement type="characterunlocked" name="Brandine" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="CleanUpNatureUsingNature" character="Brandine" />
+					</Slot>
+					<Slot tipText="UI_Monorail_DeweyLargo_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="40" />
+									</True>
+									<False></False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="DeweyLargo" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="AssembleTheBand" character="DeweyLargo" />
+					</Slot>
+					<Slot tipText="UI_Monorail_JesseGrass_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="JesseGrassRecommendation" />
+								<Requirement type="characterunlocked" name="JesseGrass" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="Redwood_Scripts" name="GetJesseGrass" />
+						<Job name="HealMotherEarth" character="JesseGrass" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+			<Building name="MetalDepot">
+				<ResourceGenerator resourceCapSelector="__Monorail_Config:SpendableValues:MetalMax__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Metal" resourceCapIcon="ico_mono15_metal_sm.rgb" auxiliarySpendable="Junk" menuConfig="Monorail_Config:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:MetalFullPopup" topupConfig="MonorailTopup" useHelpScript="Monorail_Scripts:HelpButton_BuildingFinder_FromBuilding" gotoBuilding="true">
+					<Slot>
+						<Job name="GatherMetal_Lisa" character="Lisa" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="4" />
+							<Requirement type="quest started" quest="TheNewEvergreenTerrace03" />
+						</VisibilityRequirements>
+						<Job name="GatherMetal_Ned" character="Ned" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Hippie_Upsell">
+						<Job name="GatherMetal_Hippie" character="Hippie" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Brandine_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="time" start="MonorailMerchandizing_Brandine_Start" end="MonorailMerchandizing_Brandine_End" />
+								<Requirement type="characterunlocked" name="Brandine" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="GatherMetal_Brandine" character="Brandine" />
+					</Slot>
+					<Slot tipText="UI_Monorail_JesseGrass_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="JesseGrassRecommendation" />
+								<Requirement type="characterunlocked" name="JesseGrass" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="Redwood_Scripts" name="GetJesseGrass" />
+						<Job name="GatherMetal_JesseGrass" character="JesseGrass" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="7" />
+							<Requirement type="quest started" quest="MadeWithUSDALetterGradedBeef01" />
+						</VisibilityRequirements>
+						<Job name="GatherMetal_Krusty" character="Krusty" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="11" />
+							<Requirement type="quest started" quest="ItsPronouncedNucular01" />
+						</VisibilityRequirements>
+						<Job name="GatherMetal_Burns" character="Burns" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="14" />
+							<Requirement type="quest started" quest="PassionOfTheFlanders01" />
+						</VisibilityRequirements>
+						<Job name="GatherMetal_Lovejoy" character="Lovejoy" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+			<Building name="PlasticDepot">
+				<ResourceGenerator resourceCapSelector="__Monorail_Config:SpendableValues:PlasticMax__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Plastic" resourceCapIcon="ico_mono15_plastic_sm.rgb" auxiliarySpendable="Junk" menuConfig="Monorail_Config:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:PlasticFullPopup" topupConfig="MonorailTopup" useHelpScript="Monorail_Scripts:HelpButton_BuildingFinder_FromBuilding" gotoBuilding="true">
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="8" />
+							<Requirement type="quest started" quest="Thrillhouse01" />
+						</VisibilityRequirements>
+						<Job name="GatherPlastic_Milhouse" character="Milhouse" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="6" />
+							<Requirement type="quest started" quest="SlackJawedYokel01" />
+						</VisibilityRequirements>
+						<Job name="GatherPlastic_Cletus" character="Cletus" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Hippie_Upsell">
+						<Job name="GatherPlastic_Hippie" character="Hippie" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Uter_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="45" />
+									</True>
+									<False>
+										<Requirement type="level" level="25" />
+									</False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="Uter" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="GatherPlastic_Uter" character="Uter" />
+					</Slot>
+					<Slot tipText="UI_Monorail_JesseGrass_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="JesseGrassRecommendation" />
+								<Requirement type="characterunlocked" name="JesseGrass" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="Redwood_Scripts" name="GetJesseGrass" />
+						<Job name="GatherPlastic_JesseGrass" character="JesseGrass" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="9" />
+							<Requirement type="quest started" quest="WeDoNeedYesEducation02" />
+						</VisibilityRequirements>
+						<Job name="GatherPlastic_Skinner" character="Skinner" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="12" />
+							<Requirement type="quest started" quest="SanctusArxNerdarium" />
+						</VisibilityRequirements>
+						<Job name="GatherPlastic_Martin" character="Martin" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="13" />
+							<Requirement type="quest started" quest="TheDungeonKeeper02" />
+						</VisibilityRequirements>
+						<Job name="GatherPlastic_CBGuy" character="CBGuy" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+			<Building name="GlassDepot">
+				<ResourceGenerator resourceCapSelector="__Monorail_Config:SpendableValues:GlassMax__" slotsUnlockedVariable="Monorail_UnusedVariable" resourceName="Glass" resourceCapIcon="ico_mono15_glass_sm.rgb" auxiliarySpendable="Junk" topupConfig="MonorailTopup" menuConfig="Monorail_Config:ResourceGeneratingConfig" onFullScript="Monorail_Scripts:GlassFullPopup" useHelpScript="Monorail_Scripts:HelpButton_BuildingFinder_FromBuilding" gotoBuilding="true">
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="20" />
+							<Requirement type="quest started" quest="ReElectMayorQuimby02" />
+						</VisibilityRequirements>
+						<Job name="GatherGlass_Quimby" character="Quimby" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="10" />
+							<Requirement type="quest started" quest="SchoolhouseCrock04" />
+						</VisibilityRequirements>
+						<Job name="GatherGlass_Willy" character="Willy" />
+					</Slot>
+					<Slot tipText="UI_Monorail_Hippie_Upsell">
+						<Job name="GatherGlass_Hippie" character="Hippie" />
+					</Slot>
+					<Slot tipText="UI_Monorail_DeweyLargo_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="branch">
+									<Condition>
+										<Requirement type="variable" variable="UserVersion" count="1" />
+									</Condition>
+									<True>
+										<Requirement type="level" level="40" />
+									</True>
+									<False></False>
+								</Requirement>
+								<Requirement type="characterunlocked" name="DeweyLargo" />
+							</Requirement>
+						</VisibilityRequirements>
+						<Job name="GatherGlass_Largo" character="DeweyLargo" />
+					</Slot>
+					<Slot tipText="UI_Monorail_JesseGrass_Upsell">
+						<VisibilityRequirements>
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="quest started" quest="JesseGrassRecommendation" />
+								<Requirement type="characterunlocked" name="JesseGrass" />
+							</Requirement>
+						</VisibilityRequirements>
+						<CustomGetNowScript package="Redwood_Scripts" name="GetJesseGrass" />
+						<Job name="GatherGlass_JesseGrass" character="JesseGrass" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="12" />
+							<Requirement type="quest started" quest="BartCrusoe02" />
+						</VisibilityRequirements>
+						<Job name="GatherGlass_Bart" character="Bart" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="15" />
+							<Requirement type="quest" quest="IsThereAnAlCoholicHere01" />
+						</VisibilityRequirements>
+						<Job name="GatherGlass_Marge" character="Marge" />
+					</Slot>
+					<Slot>
+						<VisibilityRequirements>
+							<Requirement type="level" level="15" />
+							<Requirement type="quest" quest="IsThereAnAlCoholicHere01" />
+						</VisibilityRequirements>
+						<Job name="GatherGlass_Moe" character="Moe" />
+					</Slot>
+				</ResourceGenerator>
+			</Building>
+		</Buildings>
+		<Variable name="EventHubTabValue" value="1" owner="0" />
+		<Variable name="Monorail_FinalPrizeState" value="1" />
+		<Variable name="Monorail_FinalPrizeState_Buffer" value="1" />
+		<Variable name="Monorail_FinalPrizeState_Earned" value="0" />
+		<Variable name="EventHubTabValue" value="1" owner="0" />
+		<Variable name="Railyard_ResourceJob_Available" value="0" />
+		<Variable name="Railyard_ResourceJob_Done" value="0" />
+		<Variable name="RailYard_Active" value="true" />
+		<Badges>
+			<Badge name="FindBuilding">
+				<Condition variable="Railyard_ResourceJob_Available" repeatable="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="reqList" location="Monorail_Config:ShowDumpBadge_Available" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="MetalResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowMetalBadge_Available" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="PlasticResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowPlasticBadge_Available" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="GlassResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowGlassBadge_Available" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+				<Condition variable="Railyard_ResourceJob_Done" repeatable="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="reqList" location="Monorail_Config:ShowDumpBadge_Done" />
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="MetalResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowMetalBadge_Done" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="PlasticResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowPlasticBadge_Done" />
+							</Requirement>
+							<Requirement type="conditional" logic="AND">
+								<Requirement type="variable" variable="GlassResourceAvailable" />
+								<Requirement type="reqList" location="Monorail_Config:ShowGlassBadge_Done" />
+							</Requirement>
+						</Requirement>
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+		<EventHub menuConfig="Monorail_Config:EventHub" generalHub="false">
+			<Tabs>
+				<Tab name="Tab_DailyChallenge" icon="ICO_MHUD_DailyTasksSystem_SE">
+					<DisplayRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="EventHubTabValue==2" />
+							<Requirement type="formula" formula="EventHubTabValue==1" />
+						</Requirement>
+						<Requirement type="quest started" quest="FreshOffTheDonutTruck_4" />
+						<Requirement type="building" building="BigBox" rewardsCollected="yes" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="State_DailyChallengeSystemMenu" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==1" />
+					</HighlightRequirements>
+					<Script name="OpenDailyChallengeSystemUI" package="DailyTasks_HelperScripts" />
+				</Tab>
+				<Tab name="Tab_ProjectBoard" icon="ICO_HUD_RailyardTaskBook">
+					<DisplayRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="formula" formula="EventHubTabValue==2" />
+							<Requirement type="formula" formula="EventHubTabValue==1" />
+						</Requirement>
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_ProjectBoard" />
+							<Requirement type="gamestate" state="State_HubGuidePanel" />
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_BuildingFinder" />
+						</Requirement>
+						<Requirement type="formula" formula="EventHubTabValue==2" />
+					</HighlightRequirements>
+					<Script name="TabPressed_RailyardProjectBoardPanel" package="Monorail_Scripts" />
+				</Tab>
+				<Tab name="Tab_AspirationalGrind" icon="ICO_MHUB_TimeTravellingToaster_AspirationalGrind">
+					<DisplayRequirements>
+						<Requirement type="quest" quest="AspirationalGrind_Intro" />
+						<Requirement type="active quest" quest="AspirationalGrind_Master" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="EventHubTabValue==3" />
+					</HighlightRequirements>
+					<Script name="AspirationalGrind_Scripts:TabPressed_AspirationalGrind" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="Junk" />
+				<Resource type="Metal" />
+				<Resource type="Plastic" />
+				<Resource type="Glass" />
+			</ResourceTypes>
+		</EventHub>
+		<PrizeLists>
+			<PrizeList id="0" type="repeatable" endTimeFormula="System::evaluate('Calendar::NextWDay::Tuesday::8:00')" currencyToReset="Railyard_Currency" menuConfig="Monorail_RailyardConfig:RailyardPrizeTrack" onResetScript="Railyard_Scripts:Railyard_Reset" repeatOnComplete="true">
+				<Prize name="CON_RailYard_PrizeTrack_Prize1_name" listIcon="ICO_Railyard_1MysteryTrack_SM" rewardIcon="ICO_Railyard_1MysteryTrack_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate01__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Railyard_Currency" amount="__Monorail_RailyardConfig:RailyardValues:Railyard_Cost01__" />
+					<Reward>
+						<Item type="consumable" name="RailYard_PrizeTrack_Prize1" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_RailYard_PrizeTrack_Prize2_name" listIcon="ICO_Railyard_2MysteryTrack_SM" rewardIcon="ICO_Railyard_2MysteryTrack_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate02__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Railyard_Currency" amount="__Monorail_RailyardConfig:RailyardValues:Railyard_Cost02__" />
+					<Reward>
+						<Item type="consumable" name="RailYard_PrizeTrack_Prize2" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_RailYard_PrizeTrack_Prize3_name" listIcon="ICO_Railyard_3MysteryTrack_SM" rewardIcon="ICO_Railyard_3MysteryTrack_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate03__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Railyard_Currency" amount="__Monorail_RailyardConfig:RailyardValues:Railyard_Cost03__" />
+					<Reward>
+						<Item type="consumable" name="RailYard_PrizeTrack_Prize3" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_RailYard_PrizeTrack_Prize4_name" listIcon="ICO_Railyard_Track05_SM" rewardIcon="ICO_Railyard_Track05_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate04__" largeSizeIcon="true">
+					<Requirement type="special currency" currency="Railyard_Currency" amount="__Monorail_RailyardConfig:RailyardValues:Railyard_Cost04__" />
+					<Reward>
+						<Item type="consumable" name="RailYard_PrizeTrack_Prize4" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<PrizeEntries>
+					<Requirement type="special currency" currency="Railyard_Currency" amount="__Monorail_RailyardConfig:RailyardValues:Railyard_Cost05__" />
+					<Prize name="BLD_MonorailTunnel_name" listIcon="ICO_Railyard_MonorailTunnel_SM" rewardIcon="ICO_Railyard_MonorailTunnel_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==1" />
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailTunnel" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Earned" value="1" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="2" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_MonorailStation_name" infoOverrideText="UI_Railyard_StationPrize_InfoOverride" listIcon="ICO_Mono15_RegularStation" rewardIcon="ICO_Mono15_RegularStation_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==2" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="conditional" logic="OR" not="true">
+									<Requirement type="item" item="MonorailStation" />
+									<Requirement type="building" building="MonorailStation" />
+									<Requirement type="place building" building="MonorailStation" />
+								</Requirement>
+								<Requirement type="formula" formula="Monorail_FinalPrizeState_Earned==1" />
+							</Requirement>
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailStation" />
+							<Item type="building" name="MonorailStationMod1" />
+							<Item type="building" name="MonorailStationMod1" />
+							<Item type="building" name="MonorailStationMod2" />
+							<Item type="building" name="MonorailStationMod2" />
+							<Item type="building" name="MonorailStationMod3" />
+							<Item type="building" name="MonorailStationMod3" />
+							<Item type="building" name="MonorailStationMod4" />
+							<Item type="building" name="MonorailStationMod4" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Earned" value="1" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="3" />
+						</Reward>
+					</Prize>
+					<Prize name="CON_RailYard_PrizeTrack_Prize5_SPECIAL_name" listIcon="ICO_Railyard_Donuts10Track10_SM" rewardIcon="ICO_Railyard_Donuts10Track10_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==2" />
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="RailYard_PrizeTrack_Prize5_SPECIAL" useImmediately="true" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="3" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_TetanusTerminal_name" infoOverrideText="UI_Railyard_StationPrize_InfoOverride" listIcon="ICO_Railyard_TetanusAndModulars_SM" rewardIcon="ICO_Railyard_TetanusAndModulars_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==3" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="conditional" logic="OR" not="true">
+									<Requirement type="item" item="TetanusTerminal" />
+									<Requirement type="building" building="TetanusTerminal" />
+									<Requirement type="place building" building="TetanusTerminal" />
+								</Requirement>
+								<Requirement type="formula" formula="Monorail_FinalPrizeState_Earned==1" />
+							</Requirement>
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="TetanusTerminal" />
+							<Item type="building" name="TetanusTerminalMod1" />
+							<Item type="building" name="TetanusTerminalMod1" />
+							<Item type="building" name="TetanusTerminalMod2" />
+							<Item type="building" name="TetanusTerminalMod2" />
+							<Item type="building" name="TetanusTerminalMod3" />
+							<Item type="building" name="TetanusTerminalMod3" />
+							<Item type="building" name="TetanusTerminalMod4" />
+							<Item type="building" name="TetanusTerminalMod4" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Earned" value="1" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="4" />
+						</Reward>
+					</Prize>
+					<Prize name="CON_RailYard_PrizeTrack_Prize5_SPECIAL2_name" listIcon="ICO_Railyard_Donuts20Track20_SM" rewardIcon="ICO_Railyard_Donuts20Track20_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==3" />
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="RailYard_PrizeTrack_Prize5_SPECIAL2" useImmediately="true" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="4" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_MallStation_name" infoOverrideText="UI_Railyard_StationPrize_InfoOverride" listIcon="ICO_Railyard_MallORailAndModulars_SM" rewardIcon="ICO_Railyard_MallORailAndModulars_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==4" />
+							<Requirement type="conditional" logic="OR">
+								<Requirement type="conditional" logic="OR" not="true">
+									<Requirement type="item" item="MallStation" />
+									<Requirement type="building" building="MallStation" />
+									<Requirement type="place building" building="MallStation" />
+								</Requirement>
+								<Requirement type="formula" formula="Monorail_FinalPrizeState_Earned==1" />
+							</Requirement>
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MallStation" />
+							<Item type="building" name="MallStationMod1" />
+							<Item type="building" name="MallStationMod1" />
+							<Item type="building" name="MallStationMod2" />
+							<Item type="building" name="MallStationMod2" />
+							<Item type="building" name="MallStationMod3" />
+							<Item type="building" name="MallStationMod3" />
+							<Item type="building" name="MallStationMod4" />
+							<Item type="building" name="MallStationMod4" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Earned" value="1" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="5" />
+						</Reward>
+					</Prize>
+					<Prize name="CON_RailYard_PrizeTrack_Prize5_SPECIAL2_name" listIcon="ICO_Railyard_Donuts20Track20_SM" rewardIcon="ICO_Railyard_Donuts20Track20_LG.rgb" showInventoryPopup="false" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==4" />
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="consumable" name="RailYard_PrizeTrack_Prize5_SPECIAL2" useImmediately="true" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="5" />
+						</Reward>
+					</Prize>
+					<Prize name="BLD_MonorailTunnel_name" listIcon="ICO_Railyard_MonorailTunnel_SM" rewardIcon="ICO_Railyard_MonorailTunnel_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<ActiveRequirements>
+							<Requirement type="formula" formula="Monorail_FinalPrizeState==5" />
+							<Requirement type="time" start="Railyard_Start" hideFromInfo="true" />
+						</ActiveRequirements>
+						<Reward>
+							<Item type="building" name="MonorailTunnel" />
+							<Item type="setvariable" name="Monorail_FinalPrizeState_Buffer" value="6" />
+						</Reward>
+					</Prize>
+					<Prize name="CON_RailYard_PrizeTrack_Prize5_name" listIcon="ICO_Railyard_Donuts05Track05_SM" rewardIcon="ICO_Railyard_Donuts05Track05_LG.rgb" showInventoryPopup="true" useImmediately="false" rush_rate="__Monorail_RailyardConfig:RailyardValues:Railyard_RushRate05__" largeSizeIcon="true">
+						<Reward>
+							<Item type="consumable" name="RailYard_PrizeTrack_Prize5" useImmediately="true" />
+						</Reward>
+					</Prize>
+				</PrizeEntries>
+			</PrizeList>
+		</PrizeLists>
+		<GeneralBuffers>
+			<Buffer name="RailyardProjectBoard" id="1" />
+		</GeneralBuffers>
+	</SpecialEvent>
+</SpecialEvents>

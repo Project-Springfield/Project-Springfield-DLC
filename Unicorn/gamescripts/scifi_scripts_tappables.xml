@@ -1,0 +1,291 @@
+﻿<ScriptPackage>
+	<DestroyAllTappables_MultiVac parallel="true">
+		<Action type="sound" sound="SciFighter_EMP" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true">
+			<OneShot name="regular" file="EMPPulse" animation="Active" x="0" y="0" />
+		</Action>
+		<Action type="flashScreen" colour="White" speed="5" />
+		<Action type="delay" time="0.2" />
+		<Action type="actionSequence" script="SciFi_Scripts_Tappables:DestroyAllTappables" parseOnDemand="true" />
+	</DestroyAllTappables_MultiVac>
+	<DestroyAllTappables_BigDigiBen parallel="true">
+		<Action type="sound" sound="SciFighter_EMP" />
+		<Action type="if">
+			<If expression="!System::evaluate('Building::BigDigiBen::Flip::AsBool')">
+				<Then>
+					<Action type="anim-building-oneshot" postdraw="true" nowait="true">
+						<OneShot name="regular" file="EMPPulse" animation="Active" x="_[gridToWorld(-3)]_" y="_[gridToWorld(1)]_" />
+					</Action>
+				</Then>
+			</If>
+			<Else>
+				<Then>
+					<Action type="anim-building-oneshot" postdraw="true" nowait="true">
+						<OneShot name="regular" file="EMPPulse" animation="Active" x="_[gridToWorld(3)]_" y="_[gridToWorld(-1)]_" />
+					</Action>
+				</Then>
+			</Else>
+		</Action>
+		<Action type="flashScreen" colour="White" speed="5" />
+		<Action type="delay" time="0.2" />
+		<Action type="actionSequence" script="SciFi_Scripts_Tappables:DestroyAllTappables" parseOnDemand="true" />
+	</DestroyAllTappables_BigDigiBen>
+	<DestroyAllTappables parallel="true">
+		<Action type="program">
+			<Program><![CDATA[#program;
+                    
+                    var character = Character::find('Robot_Tappable');
+                    var characterInstanceList = Land::getAllInstancesOfObject(character);
+                    
+                    var eventCurrencyPerRobot = toDouble(System::getConfigValue('__SciFi_BalancingConfig:Tappables:EventCurrency__'));
+                    var craftingCurrency1PerRobot = toDouble(System::getConfigValue('__SciFi_BalancingConfig:Tappables:RobotParts__'));
+                    var craftingCurrency2PerRobot = toDouble(System::getConfigValue('__SciFi_BalancingConfig:Tappables:FutureBucks__'));
+                    
+                    var eventCurrencyTotal = 0;
+                    var craftingCurrency1Total = 0;
+                    var craftingCurrency2Total = 0;
+                    var robotsTapped = 0;
+                    
+                    foreach(characterInstanceList as instance)
+                    {
+                        if(Object::getVariable(instance, 'Tapped')!=1)
+                        {
+                            eventCurrencyTotal += eventCurrencyPerRobot;
+                            craftingCurrency1Total += craftingCurrency1PerRobot;
+                            craftingCurrency2Total += craftingCurrency2PerRobot;
+                            robotsTapped++;
+                            
+                            Object::setVariable(instance, 'Tapped', '1', 0, false);
+                            Object::setDelete(instance, true);
+                            Character::stopMovement(instance);
+                            Script::runOnObjectInstance('SciFi_Scripts_Tappables:RobotTapped_PolyVac_AnimateAndKill', instance);
+                        }
+                    }
+                    var robotsBanked = User::getVariable('BankedRobots');
+                    eventCurrencyTotal += (eventCurrencyPerRobot * robotsBanked);
+                    craftingCurrency1Total += (craftingCurrency1PerRobot * robotsBanked);
+                    craftingCurrency2Total += (craftingCurrency2PerRobot * robotsBanked);
+                    
+                    Global::setVariable('SciFi_PolyVacRewards_ActivePrizeTrackCurrency', eventCurrencyTotal);
+                    Global::setVariable('SciFi_PolyVacRewards_CraftingCurrency1', craftingCurrency1Total);
+                    Global::setVariable('SciFi_PolyVacRewards_CraftingCurrency2', craftingCurrency2Total);
+                    User::setVariable('BankedRobots', 0, true);
+                    
+                    User::setVariable('RobotsTapped', User::getVariable('RobotsTapped') + robotsTapped, true);
+                    User::setVariable('SF_DCS_RobotsTapped', User::getVariable('SF_DCS_RobotsTapped') + robotsTapped, true);
+                ]]></Program>
+		</Action>
+		<Action type="runActionSequenceOnAll" characterGroup="RobotTappables" script="SciFi_Scripts_Tappables:SetRobotsToDelete" />
+		<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="Global::getVariable('SciFi_PolyVacRewards_ActivePrizeTrackCurrency')" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_RPAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency1="Global::getVariable('SciFi_PolyVacRewards_CraftingCurrency1')" chance="1" chanceType="s" suppress_sound="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_FBAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency2="Global::getVariable('SciFi_PolyVacRewards_CraftingCurrency2')" chance="1" chanceType="s" suppress_sound="true" />
+			</True>
+		</Action>
+	</DestroyAllTappables>
+	<SetRobotsToDelete cache="true">
+		<Action type="setObjectFlag" flags="delete" />
+	</SetRobotsToDelete>
+	<RobotTapped_PolyVac_AnimateAndKill parallel="true" cache="true">
+		<Action type="anim-play" animation="Tap_2" />
+		<Action type="deletecharacter" />
+	</RobotTapped_PolyVac_AnimateAndKill>
+	<GoToRobot>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="pantoobject" time="0" characterGroup="RobotTappables" reqObjectVarToAvoid="Tapped" />
+			</True>
+			<False>
+				<Action type="gotoland" land="Springfield" showPopup="true" />
+			</False>
+		</Action>
+	</GoToRobot>
+	<RobotTapped_Local_Radius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Tapped!=1">
+				<Then>
+					<Action type="setObjectVariable" variable="Tapped" value="1" allowOrphan="false" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="playflyby" flybyName="BlastEffect" radius="5" unitScale="0.13" playbackFPS="50" />
+					<Action type="runScriptOnAll" character="Robot_Tappable" in_radius="5" radius_delay="0.3" script="SciFi_Scripts_Tappables:RobotTapped_Local_InRadius" />
+					<Action type="actionSequence" script="SciFi_Scripts_Tappables:RobotTapped_Local" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</RobotTapped_Local_Radius>
+	<RobotTapped_Local_InRadius parallel="true" cache="true">
+		<Action type="if">
+			<If expression="Object::Tapped!=1">
+				<Then>
+					<Action type="setObjectVariable" variable="Tapped" value="1" allowOrphan="false" />
+					<Action type="setObjectFlag" flags="delete" />
+					<Action type="actionSequence" script="SciFi_Scripts_Tappables:RobotTapped_Local" parseOnDemand="true" />
+				</Then>
+			</If>
+		</Action>
+	</RobotTapped_Local_InRadius>
+	<RobotTapped_Local parallel="true" cache="true">
+		<Action type="setVariable" intVariable="RobotsTapped" intValue="RobotsTapped + 1" />
+		<Action type="setVariable" intVariable="SF_DCS_RobotsTapped" intValue="SF_DCS_RobotsTapped + 1" />
+		<Action type="actionSequence" script="SciFi_Scripts_Tappables:RobotReward_Local" />
+		<Action type="stop" />
+		<Action type="anim-play" character="Robot_Tappable" animation="Tap_2" />
+		<Action type="deletecharacter" character="Robot_Tappable" />
+	</RobotTapped_Local>
+	<RobotReward_Local parallel="true" cache="true">
+		<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="__SciFi_BalancingConfig:Tappables:EventCurrency__" suppress_sound="true" />
+		<Action type="sound" sound="Robot_Local_Tap" ignoreObject="true" />
+		<Action type="if">
+			<If>
+				<Requirement type="variable" variable="SF_RPAvailable" />
+				<Then>
+					<Action type="reward" save="true" SciFi_CraftingCurrency1="__SciFi_BalancingConfig:Tappables:RobotParts__" chance="1" chanceType="s" suppress_sound="true" />
+				</Then>
+			</If>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="variable" variable="SF_FBAvailable" />
+			<True>
+				<Action type="reward" save="true" SciFi_CraftingCurrency2="__SciFi_BalancingConfig:Tappables:FutureBucks__" chance="1" chanceType="s" suppress_sound="true" />
+			</True>
+		</Action>
+	</RobotReward_Local>
+	<SpawnRobots_LowLevelFriend>
+		<Action type="createobject" name="Robot_Tappable" count="10" save="true" panCamera="false" />
+		<Action type="if">
+			<If expression="(rand(10)==1) &amp;&amp; (AnomaliesTapped &lt; 5)">
+				<Then>
+					<Action type="createobject" name="TheAnomaly" count="1" save="true" panCamera="true" />
+					<Action type="if">
+						<If expression="!AnomalySeen">
+							<Then>
+								<Action type="actionSequence" script="SciFi_Scripts_Dialogue_Side:AnomalyFirstSeen" />
+								<Action type="updateVariable" disableEvents="true" variable="AnomalySeen" value="1" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</SpawnRobots_LowLevelFriend>
+	<SpawnRobots_MidLevelFriend>
+		<Action type="createobject" name="Robot_Tappable" count="20" save="true" panCamera="false" />
+		<Action type="if">
+			<If expression="(rand(10)==1) &amp;&amp; (AnomaliesTapped &lt; 5)">
+				<Then>
+					<Action type="createobject" name="TheAnomaly" count="1" save="true" panCamera="true" />
+					<Action type="if">
+						<If expression="!AnomalySeen">
+							<Then>
+								<Action type="actionSequence" script="SciFi_Scripts_Dialogue_Side:AnomalyFirstSeen" />
+								<Action type="updateVariable" disableEvents="true" variable="AnomalySeen" value="1" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</SpawnRobots_MidLevelFriend>
+	<SpawnRobots_HighLevelFriend>
+		<Action type="createobject" name="Robot_Tappable" count="30" save="true" panCamera="false" />
+		<Action type="if">
+			<If expression="(rand(10)==1) &amp;&amp; (AnomaliesTapped &lt; 5)">
+				<Then>
+					<Action type="createobject" name="TheAnomaly" count="1" save="true" panCamera="true" />
+					<Action type="if">
+						<If expression="!AnomalySeen">
+							<Then>
+								<Action type="actionSequence" script="SciFi_Scripts_Dialogue_Side:AnomalyFirstSeen" />
+								<Action type="updateVariable" disableEvents="true" variable="AnomalySeen" value="1" />
+							</Then>
+						</If>
+					</Action>
+				</Then>
+			</If>
+		</Action>
+	</SpawnRobots_HighLevelFriend>
+	<RobotTapped_Social parallel="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="formula" formula="Object::Tapped!=1" />
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="setObjectFlag" flags="delete" />
+				<Action type="setVariable" intVariable="RobotTapped_Social" intValue="RobotTapped_Social + 1" />
+				<Action type="setVariable" intVariable="SF_DCS_FriendsRobotsTapped" intValue="SF_DCS_FriendsRobotsTapped + 1" />
+				<Action type="actionSequence" script="SciFi_Scripts_Tappables:RobotReward_Social" />
+				<Action type="sound" sound="Robot_Social_Tap" />
+				<Action type="anim-play" character="Robot_Tappable" animation="Tap_3" />
+				<Action type="anim-waitforend" />
+				<Action type="fade" fade="outmax" />
+				<Action type="deletecharacter" character="Robot_Tappable" />
+			</True>
+		</Action>
+	</RobotTapped_Social>
+	<RobotReward_Social parallel="true" cache="true">
+		<Action type="reward" save="true" money="selector socialMoneyReward" xp="1" FriendPoint="selector friendPointsReward" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+		<Action type="if">
+			<If>
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act1" />
+				<Then>
+					<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="selector SciFiPT1CurrencyPerFriendAction" suppress_sound="true" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act2" />
+				<Then>
+					<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="selector SciFiPT2CurrencyPerFriendAction" suppress_sound="true" />
+				</Then>
+			</ElseIf>
+			<ElseIf>
+				<Requirement type="reqList" location="SciFi_GameConfig:Requirement_Act3" />
+				<Then>
+					<Action type="reward" save="true" SciFi_ActivePrizeTrackCurrency="selector SciFiPT3CurrencyPerFriendAction" suppress_sound="true" />
+				</Then>
+			</ElseIf>
+		</Action>
+	</RobotReward_Social>
+	<Anomaly_Social parallel="true" cache="true">
+		<Action type="checkRequirements" ignoreObject="false">
+			<Requirements>
+				<Requirement type="formula" formula="Object::Tapped!=1" />
+				<Requirement type="friendactioncount" amount="3" special="false" not="true" />
+			</Requirements>
+			<True>
+				<Action type="friendActionPerformed" />
+				<Action type="if">
+					<If expression="AnomaliesTapped==0">
+						<Then>
+							<Action type="updateVariable" disableEvents="true" variable="AnomalyTappedTime" value="time()" />
+						</Then>
+					</If>
+				</Action>
+				<Action type="updateVariable" disableEvents="true" variable="AnomaliesTapped" value="AnomaliesTapped+1" />
+				<Action type="updateVariable" disableEvents="true" variable="SF_DCS_AnomalyTapped" value="SF_DCS_AnomalyTapped+1" />
+				<Action type="setObjectFlag" flags="delete" />
+				<Action type="actionSequence" script="SciFi_Scripts_Tappables:AnomalyReward_Social" />
+				<Action type="anim-play" animation="Tap" />
+				<Action type="anim-waitforend" />
+				<Action type="fade" fade="outmax" />
+				<Action type="deletecharacter" />
+			</True>
+		</Action>
+	</Anomaly_Social>
+	<Anomaly_ResetDCS>
+		<Action type="updateVariable" disableEvents="true" variable="SF_DCS_AnomalyTapped" value="0" />
+	</Anomaly_ResetDCS>
+	<AnomalyReward_Social parallel="true" cache="true">
+		<Action type="reward" save="true" xp="5" suppress_sound="true" FriendPoint="selector friendPointsReward" money="selector socialMoneyReward" SciFi_ActivePrizeTrackCurrency="selector SciFiPT1CurrencyPerAnomalyAction" SciFi_CraftingCurrency1="selector SciFiPT2CurrencyPerAnomalyAction" SciFi_CraftingCurrency2="selector SciFiPT3CurrencyPerAnomalyAction" />
+		<Action type="reward" save="true" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" suppress_sound="true" />
+	</AnomalyReward_Social>
+</ScriptPackage>

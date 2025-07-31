@@ -1,0 +1,39 @@
+﻿<Buildings>
+	<MasterList>
+		<DataID id="158000" name="BanditFort" />
+	</MasterList>
+	<BuildingDefaults>
+		<LoadBuilding value="true" />
+		<Cost money="0" donuts="0" />
+		<Sell money="0.25" donuts="25" allowed="true" />
+		<Unique value="false" />
+		<Falls value="true" />
+		<MultiPlace value="false" />
+		<ApplyLevelMultiplier value="true" />
+		<BuildFromInventory value="true" />
+		<TaxJobPackage value="WildWestPromo_Jobs" />
+		<MoveColour R="1.0" G="1.0" B="1.0" A="0.7" />
+		<BadColour R="1.0" G="0.8" B="0.8" A="0.7" />
+		<GoodColour R="1.0" G="1.0" B="1.0" A="0.7" />
+	</BuildingDefaults>
+	<Building id="158000" name="BanditFort" type="Building" xpValue="200">
+		<Requirements>
+			<Requirement type="level" level="5" />
+		</Requirements>
+		<Cost donuts="200" />
+		<Unique value="true" />
+		<Sell allowed="false" storeoverride="true" />
+		<Job id="158007" name="BanditFortTaxJob" time="2h" textpoolName="JOB_BanditFortJob1_name" premiumJob="true" OnJobStartedScript="WildWestPromo_Scripts:BanditFortTaxJobFlip" />
+		<BuildTime time="6s" />
+		<GridType type="grass|pavement|beach|dirtedge|dirtpavement" />
+		<RatingElem decoration="100" />
+		<Group name="BanditHideouts" />
+		<OnEvent event="BuildingTouched" onObject="BanditFort" gamestate="GameState_InGame">
+			<Script name="BanditFort_Tapped" package="WildWestPromo_Scripts" />
+		</OnEvent>
+		<EffectOverlay bsv3="BanditFort_Attacking" anim="Attacking_Active" controller="WildWestPromoBattleFortAttacking" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="false" registerVariableEvent="true" formulaRequirement="or(or(System::evaluate('Job::AssaultTheBanditFort_Perm::Active'), System::evaluate('Job::AssaultTheBanditFort::Active')), System::evaluate('Job::LeadTheAssault::Active'))" />
+		<EffectOverlay bsv3="BanditFort_Preparing" anim="Preparing_Active" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="and(System::evaluate('Building::BanditFort::Object::TaxJobEventFlip')==1, and(and(!System::evaluate('Job::AssaultTheBanditFort_Perm::Active'), !System::evaluate('Job::AssaultTheBanditFort::Active')), !System::evaluate('Job::LeadTheAssault::Active')))" />
+		<EffectOverlay bsv3="BanditFort_Raiding" anim="Raiding_Active" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" animLoop="true" registerVariableEvent="true" formulaRequirement="and(System::evaluate('Building::BanditFort::Object::TaxJobEventFlip')==0, and(and(!System::evaluate('Job::AssaultTheBanditFort_Perm::Active'), !System::evaluate('Job::AssaultTheBanditFort::Active')), !System::evaluate('Job::LeadTheAssault::Active')))" />
+		<BSv2 name="BanditFort" />
+	</Building>
+</Buildings>

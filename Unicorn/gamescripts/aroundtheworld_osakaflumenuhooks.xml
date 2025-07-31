@@ -1,0 +1,79 @@
+﻿<Attributes>
+	<Attribute name="CheckMenuBranch"><![CDATA[#program;
+            var objectID = Menu::eventArray['objectID'];
+            var componentID = Menu::eventArray['componentID'];
+            var componentCount = Menu::eventArray['componentCount'];
+            if(componentID == StringID::fromString('ButtonDisplay'))
+            {
+                if(objectID == StringID::fromString('ButtonStatusIdle'))
+                {
+                    var osakaFluList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                    if(Array::size(osakaFluList) > componentCount)
+                    {
+                        var osakaFlu = Array::getValueAtIndex(osakaFluList,componentCount);
+                        if(toDouble(Object::getVariable(osakaFlu,'AttachedToTappable')) == 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                elseif(objectID == StringID::fromString('ButtonStatusActive'))
+                {
+                    var osakaFluList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                    if(Array::size(osakaFluList) > componentCount)
+                    {
+                        var osakaFlu = Array::getValueAtIndex(osakaFluList,componentCount);
+                        if(toDouble(Object::getVariable(osakaFlu,'AttachedToTappable')) != 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        ]]></Attribute>
+	<Attribute name="GetComponentCount"><![CDATA[#program;
+            var componentID = Menu::eventArray['componentID'];
+            if(componentID == StringID::fromString('ButtonDisplay'))
+            {
+                return 5;
+            }
+            return 0;
+        ]]></Attribute>
+	<Attribute name="GetPageComponentName"><![CDATA[#program;
+            return 'ButtonDisplay';
+        ]]></Attribute>
+	<Attribute name="GetMenuConfig"><![CDATA[#program;
+            var pagedConfig = Array::create('paged'=>Array::create('numEntries'=>5,'numPerPage'=>5,'scrollArea'=>'scrollarea','scrollAreaContents'=>'ScrollAreaContents','scrollComponent'=>'Objects','verticalScroll'=>false'));
+            return pagedConfig;
+        ]]></Attribute>
+	<Attribute name="OnMenuButtonNamedSelected"><![CDATA[#program;
+            var buttonID = Menu::eventArray['objectID'];
+            var componentCount = Menu::eventArray['componentCount'];
+
+            if( buttonID == StringID::fromString('ActiveButton') ||
+                buttonID == StringID::fromString('IdleButton'))
+            {
+                var osakaFluList = Land::getAllInstancesOfObject(Character::find('OsakaFlu'));
+                if(Array::size(osakaFluList) > componentCount)
+                {
+                    var osakaFlu = Array::getValueAtIndex(osakaFluList, componentCount);
+                    System::setGameState('GameState_InGame');
+                    
+                    var goToInstance = osakaFlu;
+                    var touristServerID = Object::getVariableAsNumber(osakaFlu,'AttachedToTappable');
+                    if(touristServerID != 0)
+                    {
+                        goToInstance = Land::getCharacterInstanceFromServerID(touristServerID);
+                    }
+                    
+                    Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:OsakaFlu_GoTo', goToInstance);
+
+                    UISound::button();
+                }
+            }
+            elseif(buttonID == StringID::fromString('LockedButton'))
+            {
+            }
+        ]]></Attribute>
+</Attributes>

@@ -1,0 +1,597 @@
+﻿<Quests> <!---->
+	<MasterList>
+		<DataID id="258000" name="SummertimeBlues_1" />
+		<DataID id="258001" name="SummertimeBlues_2" />
+		<DataID id="258002" name="TheDevilAndTheDeepBlueSlide_1" />
+		<DataID id="258003" name="TheDevilAndTheDeepBlueSlide_2" />
+		<DataID id="258004" name="TheDevilAndTheDeepBlueSlide_3" />
+		<DataID id="258005" name="TheDevilAndTheDeepBlueSlide_4" />
+		<DataID id="258006" name="TheDevilAndTheDeepBlueSlide_5" />
+		<DataID id="258007" name="SummerSplashinHadMeABlast" />
+		<DataID id="258008" name="AVeryMoistMystery_1" />
+		<DataID id="258009" name="AVeryMoistMystery_2" />
+		<DataID id="258010" name="AVeryMoistMystery_3" />
+		<DataID id="258011" name="AVeryMoistMystery_4" />
+		<DataID id="258012" name="AVeryMoistMystery_5" />
+		<DataID id="258013" name="BeachReporterBingo_1" />
+		<DataID id="258014" name="BeachReporterBingo_2" />
+		<DataID id="258015" name="BeachReporterBingo_3" />
+		<DataID id="258016" name="BeachReporterBingo_4" />
+		<DataID id="258017" name="TheBestLaidTans_1" />
+		<DataID id="258018" name="TheBestLaidTans_2" />
+		<DataID id="258019" name="TheBestLaidTans_3" />
+		<DataID id="258020" name="TheBestLaidTans_4" />
+		<DataID id="258021" name="TheBestLaidTans_5" />
+		<DataID id="258600" name="SplashAndBurn_Completed" />
+		<DataID id="258601" name="SplashAndBurn_IntroPanel" />
+		<DataID id="258602" name="SplashAndBurn_72HourWarning" onDeprecated="retain" endDate="SplashAndBurn_End" />
+		<DataID id="258603" name="SplashAndBurn_24HourWarning" onDeprecated="retain" endDate="SplashAndBurn_End" />
+		<DataID id="258604" name="SplashAndBurn_EventExpired" />
+		<DataID id="258605" name="SplashAndBurn_MasterQuest" />
+		<!-- <DataID id="258700" name="AutoApply_SwimsuitHomerSkin" /> -->
+		<!-- <DataID id="258701" name="AutoApply_SwimsuitBrockmanSkin" /> -->
+		<DataID id="258900" name="SplashAndBurn_RecommendStore" onDeprecated="delete" endDate="SplashAndBurn_End" />
+	</MasterList>
+	<Quest id="258600" name="SplashAndBurn_Completed">
+		<Requirements>
+			<Requirement type="quest" quest="SummerSplashinHadMeABlast" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts" name="ShowEventOutro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="258601" name="SplashAndBurn_IntroPanel" tags="sidequest">
+		<Requirements>
+			<Requirement type="quest" quest="SummertimeBlues_2" />
+			<Requirement type="time" end="SplashAndBurn_End" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts" name="ShowEventIntro" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="258602" name="SplashAndBurn_72HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_PreExpiryDisplayed72" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SplashAndBurn_End')-fromHours(72)]_" end="_[System::evaluate('Date::SplashAndBurn_End')-fromHours(24)]_" triggerEvent="true" />
+			<Requirement type="variable" variable="SplashAndBurn_Complete" not="true" />
+			<Requirement type="quest" quest="SplashAndBurn_IntroPanel" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts" name="ExpiryWarning_72hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="258603" name="SplashAndBurn_24HourWarning" tags="dummy">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_PreExpiryDisplayed24" not="true" />
+			<Requirement type="time" start="_[System::evaluate('Date::SplashAndBurn_End')-fromHours(24)]_" end="SplashAndBurn_End" triggerEvent="true" />
+			<Requirement type="variable" variable="SplashAndBurn_Complete" not="true" />
+			<Requirement type="quest" quest="SplashAndBurn_IntroPanel" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts" name="ExpiryWarning_24hr" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="258604" name="SplashAndBurn_EventExpired" tags="dummy">
+		<Requirements>
+			<Requirement type="time" start="SplashAndBurn_End" triggerEvent="true" />
+			<Requirement type="variable" variable="SplashAndBurn_Complete" not="true" />
+			<Requirement type="quest" quest="SplashAndBurn_IntroPanel" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts" name="DisplayExpiry" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="258605" name="SplashAndBurn_MasterQuest" tags="sidequest" repeatable="true">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_Expired" not="true" />
+			<Requirement type="variable" variable="SplashAndBurn_Complete" not="true" />
+			<Requirement type="reqList" location="SplashAndBurn_Requirements:MasterQuestActive" />
+		</Requirements>
+		<Priority custom="101" />
+		<SidebarBadge type="LimitedTime" />
+		<Objectives>
+			<Objective type="requirement list" hide="true">
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_5" />
+					<Requirement type="variable" variable="SplashAndBurn_Expired" />
+				</Requirement>
+			</Objective>
+		</Objectives>
+		<QuestProgressDelegates>
+			<QuestProgressDelegate delegate="TheDevilAndTheDeepBlueSlide_1">
+				<Requirement type="quest started" quest="TheDevilAndTheDeepBlueSlide_2" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheDevilAndTheDeepBlueSlide_2">
+				<Requirement type="quest started" quest="TheDevilAndTheDeepBlueSlide_3" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheDevilAndTheDeepBlueSlide_3">
+				<Requirement type="quest started" quest="TheDevilAndTheDeepBlueSlide_4" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheDevilAndTheDeepBlueSlide_4">
+				<Requirement type="quest started" quest="TheDevilAndTheDeepBlueSlide_5" not="true" />
+			</QuestProgressDelegate>
+			<QuestProgressDelegate delegate="TheDevilAndTheDeepBlueSlide_5"></QuestProgressDelegate>
+		</QuestProgressDelegates>
+	</Quest>
+	<Quest id="258000" name="SummertimeBlues_1" tags="sidequest" icon="SplashAndBurn_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="SplashAndBurn_Start" end="SplashAndBurn_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="SummertimeBlues_1_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="SummertimeBlues_1_End" />
+		<Objectives>
+			<Objective type="complete job" group="NormalSpringfielders" job="BumpIntoASadLonelyHomer" quantity="3" />
+			<Objective type="complete job" character="Lenny" job="DrinkFreePlatinumDuff" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Lenny" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Carl" job="GetANeckMassageAtTheSwankyAirportLounge" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Carl" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Homer" job="SqueezeIntoHisSmallEconomyMiddleSeat" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258001" name="SummertimeBlues_2" tags="sidequest" icon="SplashAndBurn_Event">
+		<Requirements>
+			<Requirement type="quest" quest="SummertimeBlues_1" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="SummertimeBlues_2_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="SummertimeBlues_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="GiveLisaHisCreditNirvanaPassword" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="LogIntoHomersCreditNirvanaAccount" quantity="1" />
+			<Objective type="complete job" character="Bart" job="LaughBecauseHomersPasswordWasPassword" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258002" name="TheDevilAndTheDeepBlueSlide_1" tags="mainquest" icon="SplashAndBurn_Currency" sidebarIconScript="SplashAndBurn_Scripts:OpenMasterQuest" questMenuConfigPath="SplashAndBurn_QuestConfig:SplashAndBurn_Item1_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_Expired" not="true" />
+			<Requirement type="quest" quest="SplashAndBurn_IntroPanel" />
+			<Requirement type="time" start="SplashAndBurn_Start" end="SplashAndBurn_End" triggerEvent="true" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_1_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_1_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SplashAndBurn_Currency')" amount="__SplashAndBurn_GameConfig:ResourceQuantities:SplashAndBurn_ResourceList1__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SplashAndBurn_Scripts:ShowJobList" textpoolName="QST_SplashAndBurn_Collect_obj">
+				<HighlightJobList>
+					<Job name="BlowUpPoolFloaties" />
+					<Job name="StealPoolFloatiesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="RushToTheDevilsDeluge" quantity="1" />
+			<Objective type="complete job" character="Lisa" job="QuestionTheWaterQuality" quantity="1" />
+			<Objective type="complete job" character="Homer" job="LookForTheSnackBar" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SplashAndBurn_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SplashAndBurn_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="258003" name="TheDevilAndTheDeepBlueSlide_2" tags="mainquest" icon="SplashAndBurn_Currency" sidebarIconScript="SplashAndBurn_Scripts:OpenMasterQuest" questMenuConfigPath="SplashAndBurn_QuestConfig:SplashAndBurn_Item2_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_1" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_2_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_2_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SplashAndBurn_Currency')" amount="__SplashAndBurn_GameConfig:ResourceQuantities:SplashAndBurn_ResourceList2__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SplashAndBurn_Scripts:ShowJobList" textpoolName="QST_SplashAndBurn_Collect_obj">
+				<HighlightJobList>
+					<Job name="BlowUpPoolFloaties" />
+					<Job name="StealPoolFloatiesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Homer" skin="SwimsuitHomer" job="DanceToDistract" quantity="1" />
+			<Objective type="complete job" character="Bart" job="TryToSneakOntoTheSlide" quantity="1" />
+			<Objective type="complete job" character="PaulFlart" job="BlockBart" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PaulFlart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SplashAndBurn_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SplashAndBurn_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="258004" name="TheDevilAndTheDeepBlueSlide_3" tags="mainquest" icon="SplashAndBurn_Currency" sidebarIconScript="SplashAndBurn_Scripts:OpenMasterQuest" questMenuConfigPath="SplashAndBurn_QuestConfig:SplashAndBurn_Item3_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_2" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_3_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_3_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SplashAndBurn_Currency')" amount="__SplashAndBurn_GameConfig:ResourceQuantities:SplashAndBurn_ResourceList3__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SplashAndBurn_Scripts:ShowJobList" textpoolName="QST_SplashAndBurn_Collect_obj">
+				<HighlightJobList>
+					<Job name="BlowUpPoolFloaties" />
+					<Job name="StealPoolFloatiesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="CarryMilhouse" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="PutOnTheirDisguise" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="PaulFlart" job="BeSuspicious" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PaulFlart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="TestTheParkWater" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SplashAndBurn_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SplashAndBurn_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="258005" name="TheDevilAndTheDeepBlueSlide_4" tags="mainquest" icon="SplashAndBurn_Currency" sidebarIconScript="SplashAndBurn_Scripts:OpenMasterQuest" questMenuConfigPath="SplashAndBurn_QuestConfig:SplashAndBurn_Item4_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_3" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_4_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_4_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SplashAndBurn_Currency')" amount="__SplashAndBurn_GameConfig:ResourceQuantities:SplashAndBurn_ResourceList4__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SplashAndBurn_Scripts:ShowJobList" textpoolName="QST_SplashAndBurn_Collect_obj">
+				<HighlightJobList>
+					<Job name="BlowUpPoolFloaties" />
+					<Job name="StealPoolFloatiesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="ExposeTaintedWater" quantity="1" />
+			<Objective type="complete job" character="PaulFlart" job="MakeExcusesForTaintedWater" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PaulFlart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="SneakOutOfWaterParkJail" quantity="1" />
+			<Objective type="complete job" character="Milhouse" job="FollowBartOutOfJail" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Milhouse" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SplashAndBurn_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SplashAndBurn_MasterQuest" />
+		</DeleteObjectivesRequirements>
+	</Quest>
+	<Quest id="258006" name="TheDevilAndTheDeepBlueSlide_5" tags="mainquest" icon="SplashAndBurn_Currency" sidebarIconScript="SplashAndBurn_Scripts:OpenMasterQuest" questMenuConfigPath="SplashAndBurn_QuestConfig:SplashAndBurn_Item5_QuestConfig" forceObjectiveHighlight="true" showRewards="true">
+		<Requirements>
+			<Requirement type="variable" variable="SplashAndBurn_Expired" not="true" />
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_4" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_5_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheDevilAndTheDeepBlueSlide_5_End" />
+		<Objectives>
+			<Objective type="collect custom expression" expression="System::evaluate('Spendable::SplashAndBurn_Currency')" amount="__SplashAndBurn_GameConfig:ResourceQuantities:SplashAndBurn_ResourceList5__" progress="lifetime" showProgress="true" showProgressAsQuantity="true" GoToEnabled="true" GoToBehaviour="script" GoToScript="SplashAndBurn_Scripts:ShowJobList" textpoolName="QST_SplashAndBurn_Collect_obj">
+				<HighlightJobList>
+					<Job name="BlowUpPoolFloaties" />
+					<Job name="StealPoolFloatiesFromWork" />
+				</HighlightJobList>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="DiveOntoTheSlide" quantity="1" />
+			<Objective type="complete job" character="PaulFlart" job="DiveAfterHim" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PaulFlart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<Priority types="LimitedTime" />
+		<SidebarBadge type="LimitedTime" />
+		<QuestParent quest="SplashAndBurn_MasterQuest" />
+		<DeleteObjectivesRequirements>
+			<Requirement type="quest" quest="SplashAndBurn_MasterQuest" />
+		</DeleteObjectivesRequirements>
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="258007" name="SummerSplashinHadMeABlast" tags="sidequest" icon="SplashAndBurn_Event">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_5" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="SummerSplashinHadMeABlast_Start" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="SummerSplashinHadMeABlast_End" />
+		<Objectives>
+			<Objective type="complete job" character="PaulFlart" job="LetBartGo" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="PaulFlart" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Bart" job="StealPaulFlartsScooter" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="258008" name="AVeryMoistMystery_1" tags="sidequest" icon="PaulFlart">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="PaulFlart" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_1_Start" triggerType="character" character="PaulFlart" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="PaulFlart" job="EnjoyWaterParkFreebies_Temp" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258009" name="AVeryMoistMystery_2" tags="sidequest" icon="PaulFlart">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AVeryMoistMystery_1" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_2_Start" triggerType="character" character="PaulFlart" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="PaulFlart" job="LookForClues_Temp" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="EatFreeIceCream" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258010" name="AVeryMoistMystery_3" tags="sidequest" icon="PaulFlart">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AVeryMoistMystery_2" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_3_Start" triggerType="character" character="PaulFlart" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="PaulFlart" job="LookForClues_Temp2" quantity="1" />
+			<Objective type="complete job" character="Wiggum" job="EatMoreFreeIceCream" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Wiggum" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258011" name="AVeryMoistMystery_4" tags="sidequest" icon="PaulFlart">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AVeryMoistMystery_3" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_4_Start" triggerType="character" character="PaulFlart" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="PaulFlart" job="QuestionTheSeaCaptain" quantity="1" />
+			<Objective type="complete job" character="SeaCaptain" job="ProvideAFishyAlibi" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="SeaCaptain" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258012" name="AVeryMoistMystery_5" tags="sidequest" icon="PaulFlart">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="AVeryMoistMystery_4" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_5_Start" triggerType="character" character="PaulFlart" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="AVeryMoistMystery_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="PaulFlart" job="FollowTheTrail_Flart" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="258013" name="BeachReporterBingo_1" tags="sidequest" icon="KentBrockman_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="KentBrockman" unlockedskin="SwimsuitBrockman" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_1_Start" triggerType="character" character="KentBrockman" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="KentBrockman" skin="SwimsuitBrockman" job="ThrowAFit" quantity="1" />
+			<Objective type="complete job" character="ArniePye" job="LaughAtBrockman" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ArniePye" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258014" name="BeachReporterBingo_2" tags="sidequest" icon="KentBrockman_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BeachReporterBingo_1" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_2_Start" triggerType="character" character="KentBrockman" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="KentBrockman" skin="SwimsuitBrockman" job="LookForAParty" quantity="1" />
+			<Objective type="complete job" character="ArniePye" job="EatAnEarlyDinner" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="ArniePye" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258015" name="BeachReporterBingo_3" tags="sidequest" icon="KentBrockman_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BeachReporterBingo_2" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_3_Start" triggerType="character" character="KentBrockman" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_3_End" />
+		<Objectives>
+			<Objective type="complete job" character="KentBrockman" skin="SwimsuitBrockman" job="ReportOnSpringBreak_Temp" quantity="1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258016" name="BeachReporterBingo_4" tags="sidequest" icon="KentBrockman_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="BeachReporterBingo_3" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_4_Start" triggerType="character" character="KentBrockman" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="BeachReporterBingo_4_End" />
+		<Objectives>
+			<Objective type="complete job" character="KentBrockman" skin="SwimsuitBrockman" job="DoAWeatherReport_Temp" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="258017" name="TheBestLaidTans_1" tags="sidequest" icon="Homer_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="character" name="Homer" unlockedskin="SwimsuitHomer" />
+			<Requirement type="conditional" logic="OR">
+				<Requirement type="quest" quest="TheDevilAndTheDeepBlueSlide_5" />
+				<Requirement type="time" start="SplashAndBurn_End" />
+			</Requirement>
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_1_Start" triggerType="character" character="Homer" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_1_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="SwimsuitHomer" job="DripOilAllOverTheKitchen" quantity="1" />
+			<Objective type="complete job" character="Marge" job="CleanUpHomersOilSpill" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Marge" />
+				</BranchCondition>
+			</Objective>
+			<Objective type="complete job" character="Lisa" job="BeDisturbedByAllOfThis" quantity="1" />
+			<Objective type="complete job" character="Bart" job="RecordThisOnHisPhone" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258018" name="TheBestLaidTans_2" tags="sidequest" icon="Homer_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheBestLaidTans_1" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_2_Start" triggerType="character" character="Homer" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_2_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="SwimsuitHomer" job="DisturbCoworkers" quantity="1" />
+			<Objective type="complete job" character="Smithers" job="ReviewTheCompanyDressCode" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Smithers" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258019" name="TheBestLaidTans_3" tags="sidequest" icon="Homer_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheBestLaidTans_2" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_3_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="SwimsuitHomer" job="MowTheYard_Temp" quantity="1" />
+			<Objective type="complete job" character="Bart" job="LivestreamHomerMowing" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258020" name="TheBestLaidTans_4" tags="sidequest" icon="Homer_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheBestLaidTans_3" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_4_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="SwimsuitHomer" job="SkateAroundTown_Temp" quantity="1" />
+			<Objective type="complete job" character="Bart" job="LivestreamHomerSkating" quantity="1">
+				<BranchCondition>
+					<Requirement type="characterunlocked" name="Bart" />
+				</BranchCondition>
+			</Objective>
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="258021" name="TheBestLaidTans_5" tags="sidequest" icon="Homer_Swimsuit">
+		<Requirements>
+			<Requirement type="level" level="15" />
+			<Requirement type="quest" quest="TheBestLaidTans_4" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_5_Start" triggerType="character" character="Homer" />
+		<EndScript package="SplashAndBurn_Scripts_Dialogue" name="TheBestLaidTans_5_End" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" skin="SwimsuitHomer" job="WaitImpatientlyForHisPrize" quantity="1" />
+		</Objectives>
+		<Reward money="200" xp="20" />
+		<EndOfQuestline />
+	</Quest>
+	<Quest id="258700" name="AutoApply_SwimsuitHomerSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="SwimsuitHomer" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="Homer" unlockedskin="SwimsuitHomer" not="true" />
+			<Requirement type="characterunlocked" name="Homer" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="SplashAndBurn_Scripts" name="AutoApply_SwimsuitHomerSkin_End" />
+	</Quest>
+	<Quest id="258701" name="AutoApply_SwimsuitBrockmanSkin" tags="sidequest">
+		<Requirements>
+			<Requirement type="consumableCount" name="SwimsuitBrockman" requireCountMin="1" />
+			<Requirement type="characterunlocked" name="KentBrockman" unlockedskin="SwimsuitBrockman" not="true" />
+			<Requirement type="characterunlocked" name="KentBrockman" requiredSeen="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+		<EndScript package="SplashAndBurn_Scripts" name="AutoApply_SwimsuitBrockmanSkin_End" />
+	</Quest>
+	<Quest id="258900" name="SplashAndBurn_RecommendStore" tags="dummy">
+		<Requirements>
+			<Requirement type="reqList" location="SplashAndBurn_Requirements:StoreCategory_SplashAndBurn_Unlocked" />
+		</Requirements>
+		<StartScript package="SplashAndBurn_Scripts" name="RecommendStoreCategory_SplashAndBurn" />
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+</Quests>

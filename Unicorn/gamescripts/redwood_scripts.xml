@@ -1,0 +1,333 @@
+﻿<ScriptPackage>
+	<WoodChipper_Tapped parallel="true" ignoreHUD="true">
+		<Action type="sound" sound="sfx_WorldsLargestRedwood_Wood_Chipper.caf" />
+		<Action type="anim-play" building="WoodChipper" animation="ActiveNoLoop" />
+	</WoodChipper_Tapped>
+	<Redwood_GoToShop>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="focusOnMenuItem" menuCategory="Currency" />
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</Redwood_GoToShop>
+	<WorldsLargestRedwood_Tapped parallel="true" ignoreHUD="true">
+		<Action type="if">
+			<If>
+				<Requirement type="formula" formula="lessThan(RedwoodLevel, 4)" />
+				<Then>
+					<Action type="sound" sound="sfx_WorldsLargestRedwood_TreeGroan_Sappling.caf" />
+				</Then>
+			</If>
+			<ElseIf>
+				<Requirement type="formula" formula="lessThan(RedwoodLevel, 8)" />
+				<Then>
+					<Action type="sound" sound="sfx_WorldsLargestRedwood_TreeGroan_Med.caf" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="sound" sound="sfx_WorldsLargestRedwood_TreeGroan_FullGrown.caf" />
+				</Then>
+			</Else>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="quest started" quest="WorldsLargestRedwood_1" />
+				<Requirement type="quest" quest="WorldsLargestRedwood_10" not="true" />
+			</Requirements>
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress">
+					<Extras>
+						<Attribute name="questParentDelegate" value="WorldsLargestRedwood_Master" />
+					</Extras>
+				</Action>
+			</True>
+		</Action>
+	</WorldsLargestRedwood_Tapped>
+	<WorldsLargestRedwood_Menu>
+		<Action type="gotoState" state="GameState_QuestProgress">
+			<Extras>
+				<Attribute name="questParentDelegate" value="WorldsLargestRedwood_Master" />
+			</Extras>
+		</Action>
+	</WorldsLargestRedwood_Menu>
+	<IncrementRedwoodLevel parallel="true">
+		<Action type="setVariable" intVariable="NextRedwoodLevel" intValue="RedwoodLevel+1" />
+		<Action type="completeJob" name="ContributeManMadeEmissions" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="SendThreateningLettersToHimself" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="WorkAwayFromFatTonysHole" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="FillTheHoleWithFertilizer" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="TurnUnsoldKrustylandTicketsIntoMulch" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="OrderA12000CATScanForTheTree" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="ApplyOttosGrowingKnowledge" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="GiveLisaHisRecipeForRedwoodTreeBrownies" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="RecruitCommunityServiceWorkersToFertilize" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="InstallAGuardRailAroundTheTree" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="PracticeTheDriveFromMoesToTheTree" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="SignBartsNoteInExchangeForFertilizer" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="GiveHisTeacherABernieSandersSticker" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="StandPerfectlyStillAndDoNothing" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="HelpByDoingNothingSketchy" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_2" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_3" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_4" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_5" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_6" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_7" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_8" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_9" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+		<Action type="completeJob" name="UsePocketMulch_10" giveRewardsRefunds="true" forceRefundOrCancel="true" />
+	</IncrementRedwoodLevel>
+	<RedwoodLevelUp>
+		<Action type="setVariable" intVariable="RedwoodLevel" intValue="RedwoodLevel+1" />
+		<Action type="sound" sound="MoneyMountain_Upgrade01.caf" />
+		<Action type="anim-building-oneshot" postdraw="true" nowait="true" requiresInGame="true" panCamera="true">
+			<OneShot name="regular" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+			<OneShot name="flipped" file="TWBuildingUpgrade" animation="TWBuildingUpgrade" x="0" y="0" />
+		</Action>
+		<Action type="delay" time="2" />
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="formula" formula="and(greaterThan(RedwoodLevel,0),lessThan(RedwoodLevel,11))" />
+			</Requirements>
+			<True>
+				<Action type="runScript" script="RedwoodLevelUpPanel" package="Redwood_Scripts" />
+			</True>
+		</Action>
+	</RedwoodLevelUp>
+	<RedwoodLevelUpPanel>
+		<Action type="genericMessage">
+			<Attribute name="config">
+				<AttributeSet name="title">
+					<Attribute name="text" value="UI_Redwood_UpgradePanel_title" localise="true" parameters="levelTextData">
+						<AttributeSet name="levelTextData">
+							<Attribute name="0" formula="RedwoodLevel-1" />
+						</AttributeSet>
+					</Attribute>
+					<Attribute name="font" value="eFont_LargeBold" />
+					<Attribute name="color" value="FFD51AFF" />
+				</AttributeSet>
+				<AttributeSet name="message">
+					<Attribute name="font" value="eFont_Large" />
+					<Attribute name="color" value="FFFFFFFF" />
+					<Attribute name="text" value="UI_Redwood_UpgradePanel_Text" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="button_OK">
+					<Attribute name="button_text">
+						<AttributeSet name="text">
+							<Attribute name="text" value="UI_OK" localise="true" />
+						</AttributeSet>
+					</Attribute>
+				</AttributeSet>
+				<AttributeSet name="left">
+					<Attribute name="image" value="ICO_Redwood_Upgrade_Lisa" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</RedwoodLevelUpPanel>
+	<GetJesseGrass ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="character" name="JesseGrass" />
+			<True>
+				<Action type="pantoobject" character="JesseGrass" time="0" />
+			</True>
+			<False>
+				<Action type="checkRequirements">
+					<Requirement type="characterunlocked" name="JesseGrass" />
+					<True>
+						<Action type="focusOnMenuItem" itemName="JesseGrass" inventory="true" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="ConsumableJesseGrass" />
+					</False>
+				</Action>
+			</False>
+		</Action>
+	</GetJesseGrass>
+	<RedwoodGuide_WithoutExit>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Redwood_MenuConfig:RedwoodGuidePanelConfig">
+			<Extras>
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</RedwoodGuide_WithoutExit>
+	<RedwoodGuide>
+		<Action type="gotoState" state="State_HubGuidePanel" extras="Redwood_MenuConfig:RedwoodGuidePanelConfig">
+			<Extras>
+				<Attribute name="ExitButtonScript" value="Redwood_Scripts:WorldsLargestRedwood_Menu" />
+				<Attribute name="Center" value="true" />
+			</Extras>
+		</Action>
+	</RedwoodGuide>
+	<Redwood_OpenResourceMenu ignoreHUD="true">
+		<Action type="runScript" script="MiscScripts:ForceSpringfield">
+			<FormatToken key="script" value="Redwood_Scripts:Redwood_OpenResourceMenu_Impl" />
+		</Action>
+	</Redwood_OpenResourceMenu>
+	<Redwood_OpenResourceMenu_Impl ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="building" building="WorldsLargestRedwood" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT02" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT03" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT04" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT05" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_6" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT06" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_7" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT07" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_8" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT08" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_9" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT09" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="WorldsLargestRedwood_10" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="Redwood_Event" />
+									<Attribute name="JobList" value="Redwood_JL_PT10" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="WorldsLargestRedwood" inventory="true" />
+			</False>
+		</Action>
+	</Redwood_OpenResourceMenu_Impl>
+	<JesseGrass_Purchased ignoreHUD="true">
+		<Action type="createobject" name="JesseGrass" count="1" save="true" showUnlock="true" panCamera="true" teleportCamera="false" />
+	</JesseGrass_Purchased>
+	<Premium_FertilizerReward_QST2_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Premium_FertilizerReward_QST2_Job1>
+	<Standard_FertilizerReward_QST2_Job2 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST2_Job2>
+	<Standard_FertilizerReward_QST3_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST3_Job1>
+	<Standard_FertilizerReward_QST3_Job2 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST3_Job2>
+	<Standard_FertilizerReward_QST4_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST4_Job1>
+	<Standard_FertilizerReward_QST5_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST5_Job1>
+	<Premium_FertilizerReward_QST6_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Premium_FertilizerReward_QST6_Job1>
+	<Standard_FertilizerReward_QST6_Job2 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST6_Job2>
+	<Standard_FertilizerReward_QST7_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST7_Job1>
+	<Standard_FertilizerReward_QST7_Job2 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST7_Job2>
+	<Premium_FertilizerReward_QST8_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Premium_FertilizerReward_QST8_Job1>
+	<Standard_FertilizerReward_QST8_Job2 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST8_Job2>
+	<Standard_FertilizerReward_QST9_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST9_Job1>
+	<Standard_FertilizerReward_QST9_Job2 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST9_Job2>
+	<Standard_FertilizerReward_QST10_Job1 parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Standard_FertilizerReward_QST10_Job1>
+	<Premium_FertilizerReward_UsePocketMulch parallel="true">
+		<Action type="reward" save="true" RW_Fertilizer="10" suppress_sound="true" />
+	</Premium_FertilizerReward_UsePocketMulch>
+</ScriptPackage>

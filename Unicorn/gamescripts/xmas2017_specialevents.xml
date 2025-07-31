@@ -1,0 +1,1070 @@
+﻿<SpecialEvents>
+	<MasterList>
+		<DataID id="188000" name="XMAS2017_Event" onDeprecated="delete" enabled="FLAG_XMAS2017" />
+		<DataID id="188001" name="ReGiftingMachine" onDeprecated="delete" enabled="FLAG_XMAS2017" />
+		<DataID id="188002" name="XMAS2017_Social" onDeprecated="delete" enabled="FLAG_XMAS2017" />
+		<DataID id="188003" name="XMAS2017_FriendMapSnow" onDeprecated="delete" enabled="FLAG_XMAS2017" />
+	</MasterList>
+	<SpecialEvent id="188000" name="XMAS2017_Event">
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="RigellianChristmasSpaceship" priority="1" />
+			</LandInfo>
+		</LandInfos>
+		<Overrides>
+			<Override what="menu" from="FriendsIcon" to="ICO_MHUB_XMAS2017_Friends.rgb" />
+		</Overrides>
+		<HUDCurrencies buttonType="guide" guideButtonScript="XMAS2017_Scripts:GuidePanel_Event">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="reqList" location="XMAS2017_Requirements:EventHub_Unlocked" />
+			</Requirements>
+			<Currency type="XMAS2017_ActivePrizeTrackCurrency" />
+			<Currency type="XMAS2017_CraftingCurrency" />
+			<Currency type="XMAS2017_MinigameCurrency" />
+		</HUDCurrencies>
+		<ProximityCheck attackers="HypnotizableCharacters" defenders="RoboFunzo" gridRadius="4" frequency="idle" chance="2" canTargetScriptedMovementCharacters="false" attackerMustFaceDefender="true"></ProximityCheck>
+		<List name="HypnotizableCharacters">
+			<String name="Homer" />
+			<String name="Marge" />
+			<String name="Bart" />
+			<String name="Lisa" />
+			<String name="Grampa" />
+			<String name="Nelson" />
+			<String name="Milhouse" />
+			<String name="Kirk" />
+			<String name="Luann" />
+			<String name="SgtSkinner" />
+			<String name="Krusty" />
+			<String name="Ned" />
+			<String name="Wiggum" />
+			<String name="Snake" />
+			<String name="Burns" />
+			<String name="Smithers" />
+			<String name="RichardNixon" />
+			<String name="Apu" />
+			<String name="Selma" />
+			<String name="Patty" />
+		</List>
+		<Characters override="true" list="HypnotizableCharacters">
+			<Character effectsAlwaysDirty="true" possessedText="UI_XMAS2017_Hypnotized">
+				<EffectOverlays>
+					<EffectOverlay bsv3="robofunzo_front_hover.bcell" anim="robofunzo_front_hover.bcell" randomStartFrame="true" rooted="true" allowInNormal="true" allowInWrecked="false" registerVariableEvent="true" characterFlip="true" centerHorizontalByBoundingBox="true" formulaRequirement="#program;                     var character = Array::getValueForKey(System::script, 'ObjectInstance');                     if(Object::getVariableAsNumber(character, 'RoboFunzoAttached'))                     {                     var directionX = Character::getDirectionX(character);                     var directionZ = Character::getDirectionZ(character);                                          if((directionX==-1 &amp;&amp; directionZ==0) || (directionX==0 &amp;&amp; directionZ==1)|| (directionX==0 &amp;&amp; directionZ==0) || (directionX==0 &amp;&amp; directionZ==2) ||  (directionX==-2 &amp;&amp; directionZ==0))                     {                     return true;                     }                     }                        return false;" />
+					<EffectOverlay bsv3="robofunzo_back_hover.bcell" anim="robofunzo_back_hover.bcell" randomStartFrame="true" rooted="true" allowInNormal="true" allowInWrecked="false" registerVariableEvent="true" characterFlip="true" centerHorizontalByBoundingBox="true" formulaRequirement="#program;                     var character = Array::getValueForKey(System::script, 'ObjectInstance');                     if(Object::getVariableAsNumber(character, 'RoboFunzoAttached'))                     {                     var directionX = Character::getDirectionX(character);                     var directionZ = Character::getDirectionZ(character);                                          if((directionX==0 &amp;&amp; directionZ==-1) || (directionX==1 &amp;&amp; directionZ==0) || (directionX==0 &amp;&amp; directionZ==-2) ||(directionX==2 &amp;&amp; directionZ==0))                     {                     return true;                     }                     }                                          return false;" />
+					<EffectOverlay bsv3="robofunzo_hover_squish.bcell" anim="robofunzo_hover_squish.bcell" randomStartFrame="false" rooted="true" allowInNormal="true" allowInWrecked="false" registerVariableEvent="true" characterFlip="true" animLoop="false" centerHorizontalByBoundingBox="true" formulaRequirement="#program;                     var character = Array::getValueForKey(System::script, 'ObjectInstance');                     if(Object::getVariableAsNumber(character, 'RoboFunzoDestroyed'))                     {                     return true;                     }                                          return false;" />
+				</EffectOverlays>
+				<DepossessScript script="XMAS2017_Scripts:HypnotizableCharacterTouched" />
+				<OnEvent event="CharacterTouched" onObject="${NAME}" user="local">
+					<Script name="HypnotizableCharacterTouched" package="XMAS2017_Scripts" />
+				</OnEvent>
+				<OnEvent event="CharacterStateChanged" onObject="${NAME}" user="local">
+					<Script name="HypnotizableCharacterTouched" package="XMAS2017_Scripts" />
+				</OnEvent>
+				<OnEvent event="EnteredProximity" onObject="${NAME}" user="local">
+					<Script name="RoboFunzoPossess" package="XMAS2017_Scripts" />
+				</OnEvent>
+				<OnEvent event="LandVisited" onObject="${NAME}" user="local" ignoreTypeCheck="true">
+					<Script name="XMAS2017_Scripts:AttachRoboFunzos" />
+				</OnEvent>
+			</Character>
+		</Characters>
+		<Characters override="true">
+			<Character name="RoboFunzo">
+				<OnEvent onObject="RoboFunzo" event="CharacterTouched" user="local">
+					<Script name="XMAS2017_Scripts:TappableTapped" />
+				</OnEvent>
+				<OnEvent onObject="RoboFunzo" event="CharacterTouched" user="remote">
+					<Script name="XMAS2017_Scripts:TappableTapped_Friend" />
+				</OnEvent>
+				<OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="friendlevel" level="5" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:SocialActions_Unlocked" />
+					</Requirements>
+					<Script name="XMAS2017_Scripts:SpawnFriendTappables" />
+				</OnEvent>
+			</Character>
+			<Character name="GautamaBuddha" storable="false"></Character>
+			<Character name="Kang" storable="false"></Character>
+			<Character name="Kodos" storable="false"></Character>
+			<Character name="Shiva" storable="false"></Character>
+			<Character name="SantaClaus" storable="false"></Character>
+		</Characters>
+		<Buildings override="true">
+			<Building id="188008" name="ReGiftingMachine">
+				<CustomMenuComponents>
+					<MenuComponent menu="MinigameWithCurrencyComponent" component="MinigameWithCurrency" menuConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineStatusMenuComponentMenuConfig" buttonsConfig="XMAS2017_MenuConfig_ReGiftingMachine:ReGiftingMachineStatusMenuComponentButtonConfig" showBeforeJobs="true"></MenuComponent>
+				</CustomMenuComponents>
+				<TouchIcon value="Indicator_XMAS2017_CurrencyReGifting.rgb" removeOnTouch="false" touchBuildingOnTouch="true">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="formula" formula="System::evaluate('Minigame::ReGiftingMachine::Ready')" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:HaveEnoughMiniGameCurrency" />
+						<Requirement type="gamestate" state="GameState_InGame" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building id="1" name="SimpsonHome" type="Building">
+				<Locators>
+					<Locator name="AttackPoint" x="4" z="1" />
+				</Locators>
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar01" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 0) &amp;&amp; ReGiftingMachine_Active ) &amp;&amp;(System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar01_Flipped" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 0) &amp;&amp; ReGiftingMachine_Active ) &amp;&amp;(!System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar02" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 1) &amp;&amp; ReGiftingMachine_Active ) &amp;&amp;(System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar02_Flipped" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 1) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(!System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar03" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 2) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar03_Flipped" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 2) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(!System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar04" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 3) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar04_Flipped" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 3) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(!System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar05" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 4) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar05_Flipped" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 4) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(!System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar06" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 5) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+				<EffectOverlay bsv3="ICO_XMAS2017_BuildingHPBar" anim="HPBar06_Flipped" randomStartFrame="false" vboCache="true" rooted="post" allowInNormal="true" allowInWrecked="true" animLoop="true" formulaRequirement="((min(System::evaluate('Building::SimpsonHome::Object::Damage'), 5) == 5) &amp;&amp; ReGiftingMachine_Active )&amp;&amp;(!System::evaluate('Building::SimpsonHome::Flip::AsBool'))" />
+			</Building>
+			<Building name="Kwik-E-Mart">
+				<OnEvent event="BuildingTouched" onObject="Kwik-E-Mart">
+					<Requirement type="active quest" quest="TwasTheNightBeforeScratchMas" />
+					<Script name="KwikEMart_Tapped" package="XMAS2017_Scripts" />
+				</OnEvent>
+			</Building>
+			<Building id="53" name="Kwik-E-MartFranchise">
+				<OnEvent event="BuildingTouched" onObject="Kwik-E-MartFranchise">
+					<Requirement type="active quest" quest="TwasTheNightBeforeScratchMas" />
+					<Script name="KwikEMart_Tapped" package="XMAS2017_Scripts" />
+				</OnEvent>
+			</Building>
+			<Building id="127060" name="GingerbreadMansion" textpoolName="BLD_GingerbreadMansion_Buildable_name" />
+			<Building id="188007" name="RigellianChristmasSpaceship">
+				<TouchIcon value="Indicator_XMAS2017_Boss.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_Ready" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_Active" not="true" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_ReadyToCollect" not="true" />
+					</Requirements>
+				</TouchIcon>
+				<OnEvent event="BuildingTouched" onObject="RigellianChristmasSpaceship">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_Ready" />
+					</Requirements>
+					<Script name="Tab_BossFight" package="XMAS2017_Scripts" />
+				</OnEvent>
+			</Building>
+			<Building id="188009" name="JesusCarpentryShop">
+				<TouchIcon value="Indicator_XMAS2017_Crafting.rgb" removeOnTouch="false">
+					<Requirements>
+						<Requirement type="players land" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:Crafting_Available" />
+					</Requirements>
+				</TouchIcon>
+			</Building>
+			<Building name="TempleBethSpringfield">
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="CandyCave">
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="HeavenlySwingSet">
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="SchoolBus">
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="BartsTreehouse">
+				<Sell allowed="false" storeoverride="false" />
+			</Building>
+			<Building name="CandyCaneFencing">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:CandyCaneFencing_Single__" />
+			</Building>
+			<Building name="RigellianChristmasWall">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:RigellianChristmasWall__" />
+			</Building>
+			<Building name="GumDropRocks">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:GumDropRocks__" />
+			</Building>
+			<Building name="LollipopFlowers">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:LollipopFlowers__" />
+			</Building>
+			<Building name="FestiveNutcracker">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:FestiveNutcracker__" />
+			</Building>
+			<Building name="FestiveHotDrinkStand">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:FestiveHotDrinkStand__" />
+			</Building>
+			<Building name="LampPostFestiveBell">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:LampPostFestiveBell__" />
+			</Building>
+			<Building name="LampPostFestiveBow">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:LampPostFestiveBow__" />
+			</Building>
+			<Building name="FestiveCandycane">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:FestiveCandycane__" />
+			</Building>
+			<Building name="PoinsettiaFlowers">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:PoinsettiaFlowers__" />
+			</Building>
+			<Building name="NorthPoleColumns">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:NorthPoleColumns__" />
+			</Building>
+			<Building name="IceFence">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:IceFence__" />
+			</Building>
+			<Building name="WoodenSoldiers">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:WoodenSoldiers__" />
+			</Building>
+			<Building name="SnowpersonSecurityGuard">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:SnowpersonSecurityGuard__" />
+			</Building>
+			<Building name="GingerbreadHouseDeco">
+				<VisibilityRequirements>
+					<Requirement type="level" level="1" not="true" />
+				</VisibilityRequirements>
+				<Cost XMAS2017_CraftingCurrency="__XMAS2017_BalancingConfig:CraftItemsCost:GingerbreadHouseDeco__" />
+			</Building>
+		</Buildings>
+		<Jobs override="true">
+			<Job name="PretendingToDeliverChristmasMagic">
+				<Reward XMAS2017_ActivePrizeTrackCurrency="toDouble(System::getConfigValue('__XMAS2017_GameConfig:Jobs:4HStandard_PrizeTrackCurrency__'))" />
+			</Job>
+		</Jobs>
+		<SpawnOverTime character="RoboFunzo" loggedOnSpawnTime="__XMAS2017_BalancingConfig:Tappables:LoggedOnSpawnTime__" loggedOffSpawnTime="__XMAS2017_BalancingConfig:Tappables:LoggedOffSpawnTime__" maxAllowedInTown="__XMAS2017_BalancingConfig:Tappables:SpawnMaxInTown__" regularBankMax="__XMAS2017_BalancingConfig:Tappables:SpawnBankMax__" spawnInstances="__XMAS2017_BalancingConfig:Tappables:SpawnRateAmount__" bankVariable="BankedRoboFunzos" errorTitle="UI_June2015_BallFull_title" errorBody="UI_XMAS2017_TownFull" errorReplacementScript="XMAS2017_Scripts:SpawnFullHudTip" allowPartialBanking="false">
+			<Subland value="Springfield" />
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2017_Requirements:Tappables_Unlocked" />
+			</Requirements>
+		</SpawnOverTime>
+		<Variable name="XMAS2017" value="1" />
+		<Variable name="RoboFunzos_Tapped" value="0" />
+		<Variable name="RoboFunzo_Tapped_Friend" value="0" />
+		<Variable name="BankedRoboFunzos" value="0" />
+		<Variable name="RoboFunzos_TotalAttached" value="0" />
+		<Variable name="XMAS2017_BossFight_AnimationPhase2" value="0" />
+		<Variable name="XMAS2017_DCS_RoboFunzos" value="0" />
+		<Variable name="XMAS2017_DCS_RoboFunzos_Friends" value="0" />
+		<Variable name="XMAS2017_HolidayScratcher_Seen" value="0" />
+		<Variable name="XMAS2017_HolidayScratcher_ObjSeen" value="0" />
+		<Variable name="CandyCaneFencing_New" value="0" />
+		<Variable name="RigellianChristmasWall_New" value="0" />
+		<Variable name="ElfDayCareDoor_New" value="0" />
+		<Variable name="GumDropRocks_New" value="0" />
+		<Variable name="LollipopFlowers_New" value="0" />
+		<Variable name="FestiveNutcracker_New" value="0" />
+		<Variable name="FestiveHotDrinkStand_New" value="0" />
+		<Variable name="LampPostFestiveBow_New" value="0" />
+		<Variable name="LampPostFestiveBell_New" value="0" />
+		<Variable name="FestiveCandycane_New" value="0" />
+		<Variable name="PoinsettiaFlowers_New" value="0" />
+		<Variable name="NorthPoleColumns_New" value="0" />
+		<Variable name="IceFence_New" value="0" />
+		<Variable name="WoodenSoldiers_New" value="0" />
+		<Variable name="SnowpersonSecurityGuard_New" value="0" />
+		<Variable name="GingerbreadHouseDeco_New" value="0" />
+		<Variable name="GingerbreadSimpsonsHouse_New" value="0" />
+		<Variable name="CandyCaneFencing_TotalCrafted" value="0" />
+		<Variable name="RigellianChristmasWall_TotalCrafted" value="0" />
+		<Variable name="ElfDayCareDoor_TotalCrafted" value="0" />
+		<Variable name="GumDropRocks_TotalCrafted" value="0" />
+		<Variable name="LollipopFlowers_TotalCrafted" value="0" />
+		<Variable name="FestiveNutcracker_TotalCrafted" value="0" />
+		<Variable name="FestiveHotDrinkStand_TotalCrafted" value="0" />
+		<Variable name="LampPostFestiveBow_TotalCrafted" value="0" />
+		<Variable name="LampPostFestiveBell_TotalCrafted" value="0" />
+		<Variable name="FestiveCandycane_TotalCrafted" value="0" />
+		<Variable name="PoinsettiaFlowers_TotalCrafted" value="0" />
+		<Variable name="NorthPoleColumns_TotalCrafted" value="0" />
+		<Variable name="IceFence_TotalCrafted" value="0" />
+		<Variable name="WoodenSoldiers_TotalCrafted" value="0" />
+		<Variable name="SnowpersonSecurityGuard_TotalCrafted" value="0" />
+		<Variable name="GingerbreadHouseDeco_TotalCrafted" value="0" />
+		<Variable name="GingerbreadSimpsonsHouse_TotalCrafted" value="0" />
+		<Variable name="CandyCaneFencing_Crafted" value="0" />
+		<Variable name="RigellianChristmasWall_Crafted" value="0" />
+		<Variable name="ElfDayCareDoor_Crafted" value="0" />
+		<Variable name="GumDropRocks_Crafted" value="0" />
+		<Variable name="LollipopFlowers_Crafted" value="0" />
+		<Variable name="FestiveNutcracker_Crafted" value="0" />
+		<Variable name="FestiveHotDrinkStand_Crafted" value="0" />
+		<Variable name="LampPostFestiveBow_Crafted" value="0" />
+		<Variable name="LampPostFestiveBell_Crafted" value="0" />
+		<Variable name="FestiveCandycane_Crafted" value="0" />
+		<Variable name="PoinsettiaFlowers_Crafted" value="0" />
+		<Variable name="NorthPoleColumns_Crafted" value="0" />
+		<Variable name="IceFence_Crafted" value="0" />
+		<Variable name="WoodenSoldiers_Crafted" value="0" />
+		<Variable name="SnowpersonSecurityGuard_Crafted" value="0" />
+		<Variable name="GingerbreadHouseDeco_Crafted" value="0" />
+		<Variable name="GingerbreadSimpsonsHouse_Crafted" value="0" />
+		<Variable name="XMAS2017_CraftingLevel" value="1" />
+		<Variable name="XMAS2017_MaxCraftingLevel" value="13" owner="0" />
+		<Variable name="XMAS2017_CraftProgress" value="0" />
+		<Variable name="XMAS2017_MaxCraftProgress" value="99999" />
+		<Notifications location="XMAS2017_Notifications:Notifications">
+			<Notification name="MaxRoboFunzos" />
+			<Notification name="MaxRoboFunzos24hr" />
+		</Notifications>
+		<Variable name="XMAS2017_EventHubTabValue" value="0" />
+		<EventHub menuConfig="Config_EventHub:Default">
+			<Tabs>
+				<Tab name="Tab_PrizeTrack" icon="ICO_MHUB_XMAS2017_PrizeTrack">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2017_EventHubTabValue==0" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2017_PrizeTrackBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_PrizeTrack" package="XMAS2017_Scripts" />
+				</Tab>
+				<Tab name="Tab_ReGiftingMachine" icon="ICO_MHUB_XMAS2017_ReGiftingMachine">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:ReGiftingMachine_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2017_EventHubTabValue==1" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2017_ReGiftingMachineBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_ReGiftingMachine" package="XMAS2017_Scripts" />
+				</Tab>
+				<Tab name="Tab_BossFight" icon="ICO_MHUB_XMAS2017_Boss">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2017_EventHubTabValue==2" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2017_BossFightBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_BossFight" package="XMAS2017_Scripts" />
+				</Tab>
+				<Tab name="Tab_Crafting" icon="ICO_MHUB_XMAS2017_Crafting">
+					<DisplayRequirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:Crafting_Unlocked" />
+					</DisplayRequirements>
+					<HighlightRequirements>
+						<Requirement type="formula" formula="XMAS2017_EventHubTabValue==3" />
+					</HighlightRequirements>
+					<BadgeRequirements>
+						<Requirement type="checkBadge" badgeName="XMAS2017_CraftingBadge" />
+					</BadgeRequirements>
+					<Script name="Tab_Crafting" package="XMAS2017_Scripts" />
+				</Tab>
+			</Tabs>
+			<ResourceTypes>
+				<Resource type="XMAS2017_ActivePrizeTrackCurrency" />
+				<Resource type="XMAS2017_CraftingCurrency" />
+				<Resource type="XMAS2017_MinigameCurrency" />
+			</ResourceTypes>
+		</EventHub>
+		<PrizeListButton icon="ICO_MHUB_XMAS2017_PrizeTrack" animate="false">
+			<Script package="XMAS2017_Scripts" name="PrizeListButtonPressed" />
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="reqList" location="XMAS2017_Requirements:EventHub_Unlocked" />
+			</Requirements>
+			<BadgeRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="checkBadge" badgeName="XMAS2017_CraftingBadge" />
+					<Requirement type="checkBadge" badgeName="XMAS2017_PrizeTrackBadge" />
+					<Requirement type="checkBadge" badgeName="XMAS2017_ReGiftingMachineBadge" />
+					<Requirement type="checkBadge" badgeName="XMAS2017_BossFightBadge" />
+				</Requirement>
+			</BadgeRequirements>
+		</PrizeListButton>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUB_XMAS2017_ReGiftingMachine">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="reqList" location="XMAS2017_Requirements:ReGiftingMachine_Unlocked" />
+				</Requirements>
+				<RunScript>
+					<Script name="XMAS2017_Scripts:Tab_ReGiftingMachine" />
+				</RunScript>
+				<ExclamationMark>
+					<Requirements>
+						<Requirement type="checkBadge" badgeName="XMAS2017_ReGiftingMachineBadge" />
+					</Requirements>
+				</ExclamationMark>
+			</Button>
+			<Button mode="game" icon="ICO_MHUB_XMAS2017_FindTappable">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="reqList" location="XMAS2017_Requirements:Tappables_Unlocked" />
+				</Requirements>
+				<RunScript>
+					<Script name="XMAS2017_Scripts:GoTo_Tappables" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<Variable name="XMAS2017_PrizeTrack_Act1_Seen" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act1_Prize2" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act1_Prize3" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act1_Prize4" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act1_Prize5" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act1_Prize6" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act1_Prize7" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Seen" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Prize2" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Prize3" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Prize4" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Prize5" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Prize6" value="0" />
+		<Variable name="XMAS2017_PrizeTrack_Act2_Prize7" value="0" />
+		<Variable name="XMAS2017_Crafting_Available" value="0" />
+		<Variable name="XMAS2017_Crafting_LevelAvailable" value="0" />
+		<Variable name="XMAS2017_ReGiftingMachineAvailable" value="0" />
+		<Variable name="XMAS2017_ReadyToCollect_BossFight" value="0" />
+		<Variable name="XMAS2017_CanStart_BossFightCharacter" value="0" />
+		<Variable name="CandyCaneFencing_Badge" value="0" />
+		<Variable name="RigellianChristmasWall_Badge" value="0" />
+		<Variable name="ElfDayCareDoor_Badge" value="0" />
+		<Variable name="GumDropRocks_Badge" value="0" />
+		<Variable name="LollipopFlowers_Badge" value="0" />
+		<Variable name="FestiveNutcracker_Badge" value="0" />
+		<Variable name="FestiveHotDrinkStand_Badge" value="0" />
+		<Variable name="LampPostFestiveBow_Badge" value="0" />
+		<Variable name="LampPostFestiveBell_Badge" value="0" />
+		<Variable name="FestiveCandycane_Badge" value="0" />
+		<Variable name="PoinsettiaFlowers_Badge" value="0" />
+		<Variable name="NorthPoleColumns_Badge" value="0" />
+		<Variable name="IceFence_Badge" value="0" />
+		<Variable name="WoodenSoldiers_Badge" value="0" />
+		<Variable name="SnowpersonSecurityGuard_Badge" value="0" />
+		<Variable name="GingerbreadHouseDeco_Badge" value="0" />
+		<Variable name="GingerbreadSimpsonsHouse_Badge" value="0" />
+		<Badges>
+			<Badge name="XMAS2017_PrizeTrackBadge">
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Seen" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:ActOne" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Prize2" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize1__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Prize3" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize2__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Prize4" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize3__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Prize5" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize4__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Prize6" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize5__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act1_Prize7" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act1_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize6__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Seen" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:ActTwo" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Prize2" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize1__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Prize3" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize2__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Prize4" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize3__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Prize5" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize4__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Prize6" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize5__" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_PrizeTrack_Act2_Prize7" repeatable="false">
+					<Requirements>
+						<Requirement type="formula" formula="greaterThan(XMAS2017_PrizeTrack_Act2_Seen, 0)" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:PrizeTrack_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize6__" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="XMAS2017_CraftingBadge">
+				<Condition variable="XMAS2017_Crafting_Available" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:Crafting_Unlocked" />
+					</Requirements>
+				</Condition>
+				<Condition variable="XMAS2017_Crafting_LevelAvailable" repeatable="true">
+					<Requirements>
+						<Requirement type="formula" formula="XMAS2017_CraftingLevel &lt; XMAS2017_MaxCraftingLevel" />
+						<Requirement type="formula" formula="XMAS2017_CraftProgress &gt;= XMAS2017_MaxCraftProgress" />
+					</Requirements>
+				</Condition>
+				<Condition variable="CraftingActTwo" repeatable="false">
+					<Requirements>
+						<Requirement type="reqList" location="XMAS2017_Requirements:ActTwo" />
+					</Requirements>
+				</Condition>
+				<Condition variable="CandyCaneFencing_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:CandyCaneFencing__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 1)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="RigellianChristmasWall_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:RigellianChristmasWall__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 1)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="ElfDayCareDoor_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:ElfDayCareDoor__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 2)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="GumDropRocks_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:GumDropRocks__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 2)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="LollipopFlowers_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:LollipopFlowers__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 3)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="FestiveNutcracker_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:FestiveNutcracker__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 4)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="FestiveHotDrinkStand_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:FestiveHotDrinkStand__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 5)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="LampPostFestiveBell_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:LampPostFestiveBell__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 6)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="LampPostFestiveBow_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:LampPostFestiveBow__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 7)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="FestiveCandycane_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:FestiveCandycane__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 8)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="PoinsettiaFlowers_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:PoinsettiaFlowers__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 8)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="NorthPoleColumns_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:NorthPoleColumns__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 9)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="IceFence_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:IceFence__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 10)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="WoodenSoldiers_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:WoodenSoldiers__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 11)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="SnowpersonSecurityGuard_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:SnowpersonSecurityGuard__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel,11)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="GingerbreadHouseDeco_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:GingerbreadHouseDeco__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 12)" />
+					</Requirements>
+				</Condition>
+				<Condition variable="GingerbreadSimpsonsHouse_Badge" repeatable="false">
+					<Requirements>
+						<Requirement type="variable" variable="XMAS2017_Crafting_Available" />
+						<Requirement type="special currency" currency="XMAS2017_CraftingCurrency" amount="__XMAS2017_BalancingConfig:CraftItemsCost:GingerbreadSimpsonsHouse__" />
+						<Requirement type="formula" formula="greaterThanEQ(XMAS2017_CraftingLevel, 13)" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="XMAS2017_BossFightBadge">
+				<Condition variable="XMAS2017_ReadyToCollect_BossFight" repeatable="true">
+					<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_ReadyToCollect" />
+				</Condition>
+				<Condition variable="XMAS2017_CanStart_BossFightCharacter" repeatable="true">
+					<Requirements>
+						<Requirement type="building" building="RigellianChristmasSpaceship" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:BossFight_Ready" />
+					</Requirements>
+				</Condition>
+			</Badge>
+			<Badge name="XMAS2017_ReGiftingMachineBadge">
+				<Condition variable="XMAS2017_ReGiftingMachineAvailable" repeatable="true">
+					<Requirements>
+						<Requirement type="formula" formula="System::evaluate('Minigame::ReGiftingMachine::Ready')" />
+						<Requirement type="reqList" location="XMAS2017_Requirements:ReGiftingMachine_Unlocked" />
+						<Requirement type="special currency" currency="XMAS2017_MinigameCurrency" amount="__XMAS2017_BalancingConfig:ReGiftingMachine:StartCurrency__" />
+					</Requirements>
+				</Condition>
+			</Badge>
+		</Badges>
+		<Variable name="XMAS2017_PT1_P1" value="0" />
+		<Variable name="XMAS2017_PT1_P2" value="0" />
+		<Variable name="XMAS2017_PT1_P3" value="0" />
+		<Variable name="XMAS2017_PT1_P4" value="0" />
+		<Variable name="XMAS2017_PT1_P5" value="0" />
+		<Variable name="XMAS2017_PT1_P6" value="0" />
+		<Variable name="XMAS2017_PT1_P7" value="0" />
+		<Variable name="XMAS2017_PT2_P1" value="0" />
+		<Variable name="XMAS2017_PT2_P2" value="0" />
+		<Variable name="XMAS2017_PT2_P3" value="0" />
+		<Variable name="XMAS2017_PT2_P4" value="0" />
+		<Variable name="XMAS2017_PT2_P5" value="0" />
+		<Variable name="XMAS2017_PT2_P6" value="0" />
+		<Variable name="XMAS2017_PT2_P7" value="0" />
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="XMAS2017_PrizeTrackConfig:PrizeTrack0">
+				<Prize name="PRIZ_SantaKangLandToken_name" listIcon="ICO_PRIZ_XMAS2017_SantaKang_MD" rewardIcon="ICO_PRIZ_AroundTheWorld_FreeLandToken_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize1_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="SantaKang" useImmediately="true" />
+						<Item type="consumable" name="FreeLandBlock" useImmediately="false" />
+						<Item type="setvariable" name="XMAS2017_PT1_P1" value="1" />
+						<Item type="script" name="XMAS2017_Scripts:GuidePanel_Event" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_RigellianChristmasToyWorkshop_name" listIcon="ICO_PRIZ_XMAS2017_RigellianToyWorkshop_MD" rewardIcon="ICO_PRIZ_XMAS2017_RigellianToyWorkshop_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize2_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="RigellianChristmasToyWorkshop" />
+						<Item type="setvariable" name="XMAS2017_PT1_P2" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_FreeLandToken_name" listIcon="ICO_PRIZ_XMAS2017_FreeLandToken_MD" rewardIcon="ICO_PRIZ_XMAS2017_FreeLandToken_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="FreeLandBlock" />
+						<Item type="setvariable" name="XMAS2017_PT1_P3" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_IceSkatingRink_name" listIcon="ICO_PRIZ_XMAS2017_IceSkatingRink_MD" rewardIcon="ICO_PRIZ_XMAS2017_IceSkatingRink_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize4_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="IceSkatingRink" />
+						<Item type="setvariable" name="XMAS2017_PT1_P4" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_WorkerElves_name" listIcon="ICO_PRIZ_XMAS2017_WorkerElves_MD" rewardIcon="ICO_PRIZ_XMAS2017_WorkerElves_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="character" name="WorkerElves" />
+						<Item type="setvariable" name="XMAS2017_PT1_P5" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_RigellianConstructionSite_name" listIcon="ICO_PRIZ_XMAS2017_RigellianConstructionSite_MD" rewardIcon="ICO_PRIZ_XMAS2017_RigellianConstructionSite_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize6_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize6__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="RigellianConstructionSite" />
+						<Item type="setvariable" name="XMAS2017_PT1_P6" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="PRIZ_MrsKodosClausRigelliganFireplace_name" listIcon="ICO_PRIZ_XMAS2017_MrsKodosClausRigellianFireplace_MD" rewardIcon="ICO_PRIZ_XMAS2017_MrsKodosClausRigellianFireplace_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack1:Prize7_Rush__" largeSizeIcon="true" infoOverrideText="BLD_RigellianChristmasFireplace_desc">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act1PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack1:Prize7__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="RigellianChristmasFireplace" />
+						<Item type="consumable" name="MrsKodosClaus" useImmediately="true" />
+						<Item type="setvariable" name="XMAS2017_PT1_P7" value="1" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+			<PrizeList id="1" type="local" menuConfig="XMAS2017_PrizeTrackConfig:PrizeTrack1">
+				<Prize name="PRIZ_BuddhaFreeLandToken_name" listIcon="ICO_PRIZ_XMAS2017_GautamaBuddha_MD" rewardIcon="ICO_PRIZ_XMAS2017_GautamaBuddha_LG.rgb" useImmediately="false" showRewardPopup="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize1_Rush__" largeSizeIcon="true" infoOverrideText="CHA_GautamaBuddha_desc">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize1__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="script" name="XMAS2017_Scripts:PrizeTrack1" />
+						<Item type="script" name="XMAS2017_Scripts:MessageFreeLandBlock" />
+						<Item type="setvariable" name="XMAS2017_PT2_P1" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="PRIZ_ConductorOttoColdTrain_name" listIcon="ICO_PRIZ_XMAS2017_ConductorOtto_MD" rewardIcon="ICO_PRIZ_XMAS2017_ConductorOtto_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize2_Rush__" largeSizeIcon="true" infoOverrideText="CHA_WorkerElves_desc">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize2__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="ColdTrain" />
+						<Item type="consumable" name="ConductorOtto" useImmediately="true" />
+						<Item type="script" name="XMAS2017_Scripts:MessageConductorOtto" />
+						<Item type="setvariable" name="XMAS2017_PT2_P2" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_FreeLandToken_name" listIcon="ICO_PRIZ_XMAS2017_FreeLandToken_MD" rewardIcon="ICO_PRIZ_XMAS2017_FreeLandToken_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize3_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize3__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="FreeLandBlock" />
+						<Item type="setvariable" name="XMAS2017_PT2_P3" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_KwanzaaDrHibbert_name" listIcon="ICO_PRIZ_XMAS2017_KwanzaaDrHibbert_MD" rewardIcon="ICO_PRIZ_XMAS2017_KwanzaaDrHibbert_LG.rgb" useImmediately="true" showRewardPopup="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize4_Rush__" largeSizeIcon="true" infoOverrideText="CHA_SantaClaus_desc">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize4__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="consumable" name="KwanzaaDrHibbert" useImmediately="true" />
+						<Item type="script" name="XMAS2017_Scripts:MessageKwanzaaDrHibbert" />
+						<Item type="setvariable" name="XMAS2017_PT2_P4" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_ChristmasCabin_name" listIcon="ICO_PRIZ_XMAS2017_ChristmasCabin_MD" rewardIcon="ICO_PRIZ_XMAS2017_ChristmasCabin_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize5_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize5__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="ChristmasCabin" />
+						<Item type="setvariable" name="XMAS2017_PT2_P5" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_SantasHouse_name" listIcon="ICO_PRIZ_XMAS2017_SantasHouse_MD" rewardIcon="ICO_PRIZ_XMAS2017_SantasHouse_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize6_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize6__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="SantasHouse" />
+						<Item type="setvariable" name="XMAS2017_PT2_P6" value="1" />
+					</Reward>
+				</Prize>
+				<Prize name="PRIZ_JackFrostCandyCave_name" listIcon="ICO_PRIZ_XMAS2017_JackFrostCandyCave_MD" rewardIcon="ICO_PRIZ_XMAS2017_JackFrostCandyCave_LG.rgb" useImmediately="false" showInventoryPopup="false" baseRushCost="__XMAS2017_BalancingConfig:PrizeTrack2:Prize7_Rush__" largeSizeIcon="true">
+					<Requirements>
+						<Requirement type="land" land="Springfield" />
+						<Requirement type="special currency" currency="XMAS2017_Act2PrizeTrackCurrency" amount="__XMAS2017_BalancingConfig:PrizeTrack2:Prize7__" />
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="gamestate" state="GameState_HubPrizeTrack" />
+							<Requirement type="gamestate" state="GameState_InGame" />
+						</Requirement>
+					</Requirements>
+					<Reward>
+						<Item type="building" name="CandyCave" />
+						<Item type="setvariable" name="XMAS2017_PT2_P7" value="1" />
+					</Reward>
+				</Prize>
+			</PrizeList>
+		</PrizeLists>
+		<Variable name="XMAS2017_Act1_FreeLandBlock_From_Box" value="0" />
+		<Variable name="XMAS2017_Act1_IceRoadStraight_From_Box" value="0" />
+		<Variable name="XMAS2017_Act1_IceRoadStraight_From_Box2" value="0" />
+		<Variable name="XMAS2017_Act1_IceRoadStraight_From_Box3" value="0" />
+		<Variable name="XMAS2017_Act1_IceRoadStraight_From_Box4" value="0" />
+		<Variable name="XMAS2017_Act1_LargeSnowyChristmasHill_From_Box" value="0" />
+		<Variable name="XMAS2017_Act1_SmallSnowyChristmasHill_From_Box" value="0" />
+		<Variable name="XMAS2017_EventHubTabValue" value="3" />
+		<Variable name="XMAS2017_CraftingGuideSeen" value="0" />
+		<Variable name="XMAS2017_ReGiftingMachineGuideSeen" value="0" />
+		<Variable name="XMAS2017_BossFightGuideSeen" value="0" />
+		<Variable name="ReGiftingMachineWon" value="false" />
+		<Variable name="ReGiftingMachineLost" value="false" />
+		<Variable name="ReGiftingMachineFTUESeen" value="0" />
+		<Variable name="XMAS2017_Act1_MysteryBox_LoopCount" value="0" />
+		<Variable name="XMAS2017_Act1_MysteryBox_PopupCount" value="0" />
+		<Variable name="XMAS2017_Act2_FreeLandBlock_From_Box" value="0" />
+		<Variable name="XMAS2017_Act2_IceRoadStraight_From_Box" value="0" />
+		<Variable name="XMAS2017_Act2_IceRoadStraight_From_Box2" value="0" />
+		<Variable name="XMAS2017_Act2_IceRoadStraight_From_Box3" value="0" />
+		<Variable name="XMAS2017_Act2_IceRoadStraight_From_Box4" value="0" />
+		<Variable name="XMAS2017_Act2_NorthPoleElfCabins_From_Box" value="0" />
+		<Variable name="XMAS2017_Act2_NorthPoleReindeerStables_From_Box" value="0" />
+		<Variable name="XMAS2017_Act2_MysteryBox_LoopCount" value="0" />
+		<Variable name="XMAS2017_Act2_MysteryBox_PopupCount" value="0" />
+		<Variable name="XMAS2017_StorePanelSeen" value="0" />
+		<Promo eventName="XMAS2017_JesusBirthday" questID="188513" type="building" object="HeavenlySwingSet" yes="BTN_199Donuts" visualEndDate="XMAS2017_Gil_OUT" menu="XMAS2017DynamicTextPromo" menuConfig="XMAS2017_MenuConfig_Misc:PromoMenuConfig">
+			<Cost donuts="__XMAS2017_GameConfig:PremiumCosts:HeavenlySwingSet__" />
+		</Promo>
+	</SpecialEvent>
+	<SpecialEvent id="188001" name="ReGiftingMachine">
+		<Variable name="ReGiftingMachine_Active" value="0" />
+		<Variable name="RM_GameLength" value="15" owner="0" />
+		<Variable name="RM_MaxDamage" value="6" owner="0" />
+		<Variable name="RM_VisualDamageThreshold" value="2" owner="0" />
+		<Variable name="RM_StartingRoboFunzos" value="5" owner="0" />
+		<Variable name="RM_RoboFunzoRewards" value="0" owner="0" />
+		<Variable name="RM_WinPrizeReward" value="0" owner="0" />
+		<Variable name="RM_WinCraftingReward" value="0" owner="0" />
+		<Variable name="RM_WinMiniGameReward" value="0" owner="0" />
+		<Variable name="RM_LossPrizeReward" value="0" owner="0" />
+		<Variable name="RM_LossCraftingReward" value="0" owner="0" />
+		<Variable name="RM_LossMiniGameReward" value="0" owner="0" />
+		<Variable name="RM_StartCurrency" value="0" owner="0" />
+		<Variable name="RM_PAUSED" value="0" />
+		<Variable name="RM_UNPAUSED" value="0" owner="0" />
+		<Variable name="RM_INMAIN" value="0" />
+		<Variable name="RM_GAMELOST" value="0" owner="0" />
+		<Variable name="RM_GAMEWON" value="0" owner="0" />
+		<Variable name="RM_FRAMECNT" value="0" owner="0" />
+		<Variable name="RM_SPEEDBONUS" value="0" owner="0" />
+		<Variable name="RM_CHARGING" value="0" owner="0" />
+		<Variable name="RM_ATTACKING" value="0" owner="0" />
+		<Variable name="RM_TAPPABLE" value="0" owner="0" />
+		<Variable name="RM_STARTED" value="0" />
+		<Variable name="RM_COUNTDOWN" value="0" owner="0" />
+		<Variable name="RM_PAYOUT1" value="0" owner="0" />
+		<Variable name="RM_PAYOUT2" value="0" owner="0" />
+		<Variable name="RM_PAYOUT3" value="0" owner="0" />
+		<Variable name="RM_REWARD1" value="0" />
+		<Variable name="RM_REWARD2" value="0" />
+		<Variable name="RM_REWARD3" value="0" />
+		<Variable name="RM_DCS_ReGiftingMachine_RoboFunzos" value="0" />
+		<Variable name="RM_DCS_ReGiftingMachine_Wins" value="0" />
+		<Variable name="RM_DCS_ReGiftingMachine_NoDamage" value="0" />
+		<Variable name="RM_Required_Wins" value="6" />
+		<Variable name="RM_Wins" value="0" />
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script name="XMAS2017_Scripts:ReGiftingMachineLandLoad" />
+		</OnEvent>
+	</SpecialEvent>
+	<SpecialEvent id="188002" name="XMAS2017_Social">
+		<Variable name="XMAS2017_Social" value="true" />
+		<Variable name="XMAS2017_SocialCount" value="0" />
+		<SuppressFriendActions shop="true" farm="true" pushnotes="true" vandalism="true"></SuppressFriendActions>
+		<FriendHUD>
+			<TipInfo text="UI_XMAS2017_FriendTip" icon="ico_cur_xmas2017_currencyact1_md.rgb">
+				<Requirement type="reqList" location="XMAS2017_Requirements:ActOne" />
+			</TipInfo>
+			<TipInfo text="UI_XMAS2017_FriendTip" icon="ico_cur_xmas2017_currencyact2_md.rgb">
+				<Requirement type="reqList" location="XMAS2017_Requirements:ActTwo" />
+			</TipInfo>
+			<CurrencyHelpButtonAction>
+				<Script name="XMAS2017_Scripts:FriendsHUDInfo" />
+			</CurrencyHelpButtonAction>
+		</FriendHUD>
+		<FriendHUDCurrencies buttonType="guide" guideButtonScript="XMAS2017_Scripts:GuidePanel_Crafting_Center">
+			<Requirements>
+				<Requirement type="reqList" location="XMAS2017_Requirements:SocialActions_Unlocked" />
+			</Requirements>
+			<Currency type="XMAS2017_ActivePrizeTrackCurrency" />
+			<Currency type="XMAS2017_CraftingCurrency" />
+		</FriendHUDCurrencies>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="2" icon="ico_cur_xmas2017_currencyact1_sm.rgb" type="XMAS2017_Act1PrizeTrackCurrency" icon2="ico_cur_xmas2017_currencyact2_sm.rgb" type2="XMAS2017_Act2PrizeTrackCurrency">
+			<Currency type="XMAS2017_Act1PrizeTrackCurrency">
+				<Requirement type="reqList" location="XMAS2017_Requirements:ActOne" />
+			</Currency>
+			<Currency type="XMAS2017_Act2PrizeTrackCurrency">
+				<Requirement type="reqList" location="XMAS2017_Requirements:ActTwo" />
+			</Currency>
+			<Currency type="XMAS2017_CraftingCurrency" />
+			<Script name="XMAS2017_Scripts:FriendsHUDInfo" />
+		</FriendsMap>
+	</SpecialEvent>
+	<SpecialEvent id="188003" name="XMAS2017_FriendMapSnow">
+		<FriendsMap screenEffect="SnowFall" />
+	</SpecialEvent>
+</SpecialEvents>

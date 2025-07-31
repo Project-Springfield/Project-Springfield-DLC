@@ -1,0 +1,1080 @@
+﻿<ScriptPackage>
+	<OnDanceLikeMargeIsWatchingDone parallel="true">
+		<Action type="playCharacterAnimation" animation="Dance_Active_Out" />
+	</OnDanceLikeMargeIsWatchingDone>
+	<OnStruggleWithTheWeightOfTheWorldDone>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var charObj = Character::find('DonBrodka');
+                    var charInstance = Land::getFirstInstanceOfObject(charObj);
+                    var animName = toString(Object::getProperty(charInstance, 'Animation'));
+                    if (String::endsWith(animName, 'left'))
+                    {
+                        Script::runOnObjectInstance('XMAS2018_Scripts:OnStruggleWithTheWeightOfTheWorldDone_Left', charInstance);
+                    }
+                    else
+                    {
+                        Script::runOnObjectInstance('XMAS2018_Scripts:OnStruggleWithTheWeightOfTheWorldDone_Right', charInstance);
+                    }
+                ]]></Program>
+		</Action>
+	</OnStruggleWithTheWeightOfTheWorldDone>
+	<OnStruggleWithTheWeightOfTheWorldDone_Left parallel="true">
+		<Action type="playCharacterAnimation" animation="Struggle_With_Weight_Active_Out_Left" />
+	</OnStruggleWithTheWeightOfTheWorldDone_Left>
+	<OnStruggleWithTheWeightOfTheWorldDone_Right parallel="true">
+		<Action type="playCharacterAnimation" animation="Struggle_With_Weight_Active_Out_Right" />
+	</OnStruggleWithTheWeightOfTheWorldDone_Right>
+	<ShowMiniEventIntro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2018MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="XMAS2018_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="XMAS2018_IntroSeen" not="true" />
+					<Attribute name="text" value="UI_MiniEvents_PlayButton" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Requirement type="variable" variable="XMAS2018_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Requirement type="variable" variable="XMAS2018_IntroSeen" />
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_XMAS2018_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="timeLeft">
+					<Attribute name="text" value="UI_XMAS2018_IntroPanel_Timer" localise="true" />
+					<Attribute name="color" value="FFFFFFFF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn1">
+					<Attribute name="text" value="UI_XMAS2018_IntroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn2">
+					<Attribute name="text" value="UI_XMAS2018_IntroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn3">
+					<Attribute name="text" value="UI_XMAS2018_IntroPanel_3" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2018_MiniEventPanel_Intro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+		<Action type="updateVariable" variable="XMAS2018_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="XMAS2018_Category" eventName="UI_XMAS2018_Title" limitedTime="true" limitedTimeEndDate="XMAS2018_End" />
+		<Action type="reparseBuildMenu" />
+	</ShowMiniEventIntro>
+	<ShowMiniEventOutro>
+		<Action type="miniEventPanel">
+			<Attribute name="config">
+				<AttributeSet name="source">
+					<Attribute name="file" value="XMAS2018MiniEventPopUp" />
+				</AttributeSet>
+				<AttributeSet name="playButtonText">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="playButtonTextHL">
+					<Attribute name="text" value="UI_OK" localise="true" />
+				</AttributeSet>
+				<AttributeSet name="titleText">
+					<Attribute name="text" value="UI_XMAS2018_Title" localise="true" />
+					<Attribute name="color" value="ffcb1bff" />
+				</AttributeSet>
+				<AttributeSet name="textColumn4">
+					<Attribute name="text" value="UI_XMAS2018_OutroPanel_1" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="textColumn5">
+					<Attribute name="text" value="UI_XMAS2018_OutroPanel_2" localise="true" />
+					<Attribute name="color" value="000000FF" />
+				</AttributeSet>
+				<AttributeSet name="panel">
+					<Attribute name="image" value="BSE_XMAS2018_MiniEventPanel_Outro" />
+				</AttributeSet>
+				<AttributeSet name="playButton">
+					<Attribute name="color" value="0091F1FF" />
+				</AttributeSet>
+			</Attribute>
+		</Action>
+	</ShowMiniEventOutro>
+	<ExpiryWarning_72hr>
+		<Action type="message" text="UI_XMAS2018_Questline1_72HourExpiry_text" />
+		<Action type="setVariable" boolVariable="XMAS2018_PreExpiryDisplayed72" boolValue="true" />
+		<Action type="runScript" script="XMAS2018_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_72hr>
+	<ExpiryWarning_24hr>
+		<Action type="message" text="{FormattedExpiration24}" formatMe="root">
+			<FormattingConfig path="XMAS2018_GameConfig:ExpirationFormattedText" />
+		</Action>
+		<Action type="setVariable" boolVariable="XMAS2018_PreExpiryDisplayed24" boolValue="true" />
+		<Action type="runScript" script="XMAS2018_Scripts:OpenEventHub" waitUntilComplete="true" />
+	</ExpiryWarning_24hr>
+	<DisplayExpiry>
+		<Action type="message" text="UI_XMAS2018_Questline1_Expired_text" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2018_OnePanel" />
+		<Action type="runScript" script="XMAS2018_Scripts:OpenEventHub" waitUntilComplete="true" />
+		<Action type="runScript" script="XMAS2018_Scripts:CheckIfEnd_WeekWasNotStarted" />
+	</DisplayExpiry>
+	<CheckIfEnd_Week1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2018_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week1>
+	<CheckIfEnd_Week2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2018_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week2>
+	<CheckIfEnd_Week3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2018_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week3>
+	<CheckIfEnd_Week4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="quest" quest="XMAS2018_EventExpired" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_Week4>
+	<CheckIfEnd_WeekWasNotStarted ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2018_Requirements:MasterQuestActive1" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week1_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2018_Requirements:MasterQuestActive2" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week2_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2018_Requirements:MasterQuestActive3" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week3_Expired" boolValue="true" />
+			</True>
+		</Action>
+		<Action type="checkRequirements">
+			<Requirement type="reqList" location="XMAS2018_Requirements:MasterQuestActive4" not="true" />
+			<True>
+				<Action type="setVariable" boolVariable="XMAS2018_Week4_Expired" boolValue="true" />
+			</True>
+		</Action>
+	</CheckIfEnd_WeekWasNotStarted>
+	<MiniEventCompleted_Week1>
+		<Action type="setVariable" boolVariable="XMAS2018_Week1_Complete" boolValue="true" />
+	</MiniEventCompleted_Week1>
+	<MiniEventCompleted_Week2>
+		<Action type="setVariable" boolVariable="XMAS2018_Week2_Complete" boolValue="true" />
+	</MiniEventCompleted_Week2>
+	<MiniEventCompleted_Week3>
+		<Action type="setVariable" boolVariable="XMAS2018_Week3_Complete" boolValue="true" />
+	</MiniEventCompleted_Week3>
+	<MiniEventCompleted_Week4>
+		<Action type="setVariable" boolVariable="XMAS2018_Week4_Complete" boolValue="true" />
+	</MiniEventCompleted_Week4>
+	<OpenMasterQuest1>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline1_MasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest1>
+	<OpenMasterQuest2>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline2_MasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest2>
+	<OpenMasterQuest3>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline3_MasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest3>
+	<OpenMasterQuest4>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline4_MasterQuest" />
+					</Extras>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</OpenMasterQuest4>
+	<ShowJobList1 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_1" />
+							<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_1_NoSkinner" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2018_Questline1_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2018_Questline1_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_3" />
+							<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_3_NoRalph" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2018_Questline1_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2018_Questline1_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_5" />
+							<Requirement type="active quest" quest="TwasThePageantBeforeChristmas_5_NoRalph" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week1" />
+									<Attribute name="JobList" value="XMAS2018_Questline1_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList1>
+	<ShowJobList2 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ASavageThaw_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2018_Questline2_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ASavageThaw_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2018_Questline2_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="ASavageThaw_3" />
+							<Requirement type="active quest" quest="ASavageThaw_3_NoRalph" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2018_Questline2_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ASavageThaw_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2018_Questline2_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="ASavageThaw_5" />
+							<Requirement type="active quest" quest="ASavageThaw_5_NoRalph" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week2" />
+									<Attribute name="JobList" value="XMAS2018_Questline2_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList2>
+	<ShowJobList3 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ParamoursOfChristmasPast_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2018_Questline3_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ParamoursOfChristmasPast_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2018_Questline3_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ParamoursOfChristmasPast_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2018_Questline3_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="ParamoursOfChristmasPast_4" />
+							<Requirement type="active quest" quest="ParamoursOfChristmasPast_4_NoSmithers" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2018_Questline3_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ParamoursOfChristmasPast_5" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week3" />
+									<Attribute name="JobList" value="XMAS2018_Questline3_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList3>
+	<ShowJobList4 ignoreHUD="true">
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="if">
+					<If>
+						<Requirement type="active quest" quest="ChristmasDoesntSuckSuck_1" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2018_Questline4_JL_1" />
+								</Extras>
+							</Action>
+						</Then>
+					</If>
+					<ElseIf>
+						<Requirement type="active quest" quest="ChristmasDoesntSuckSuck_2" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2018_Questline4_JL_2" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ChristmasDoesntSuckSuck_3" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2018_Questline4_JL_3" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="active quest" quest="ChristmasDoesntSuckSuck_4" />
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2018_Questline4_JL_4" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+					<ElseIf>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="active quest" quest="ChristmasDoesntSuckSuck_5" />
+							<Requirement type="active quest" quest="ChristmasDoesntSuckSuck_5_NoBabyGerald" />
+						</Requirement>
+						<Then>
+							<Action type="gotoState" state="GameState_SpecialEventJobList">
+								<Extras>
+									<Attribute name="SpecialEvent" value="XMAS2018_Event_Week4" />
+									<Attribute name="JobList" value="XMAS2018_Questline4_JL_5" />
+								</Extras>
+							</Action>
+						</Then>
+					</ElseIf>
+				</Action>
+			</True>
+			<False>
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</ShowJobList4>
+	<OpenEventHub>
+		<Action type="if">
+			<If expression="XMAS2018_EventHubTabValue == 0">
+				<Then>
+					<Action type="runScript" script="XMAS2018_Scripts:Tab_Week1" />
+				</Then>
+			</If>
+			<ElseIf expression="XMAS2018_EventHubTabValue == 1">
+				<Then>
+					<Action type="runScript" script="XMAS2018_Scripts:Tab_Week2" />
+				</Then>
+			</ElseIf>
+			<ElseIf expression="XMAS2018_EventHubTabValue == 2">
+				<Then>
+					<Action type="runScript" script="XMAS2018_Scripts:Tab_Week3" />
+				</Then>
+			</ElseIf>
+			<Else>
+				<Then>
+					<Action type="runScript" script="XMAS2018_Scripts:Tab_Week4" />
+				</Then>
+			</Else>
+		</Action>
+	</OpenEventHub>
+	<Tab_Week1>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="0" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2018_Questline1_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline1_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2018_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2018_Start" end="XMAS2018_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week1>
+	<Tab_Week2>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="1" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2018_Questline2_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline2_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2018_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2018_Start" end="XMAS2018_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week2>
+	<Tab_Week3>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="2" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2018_Questline3_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline3_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2018_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2018_Start" end="XMAS2018_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week3>
+	<Tab_Week4>
+		<Action type="updateVariable" variable="XMAS2018_EventHubTabValue" value="3" />
+		<Action type="checkRequirements">
+			<Requirement type="gamestate" state="GameState_QuestProgress" />
+			<True>
+				<Action type="changeQuestForProgressState" name="XMAS2018_Questline4_MasterQuest" />
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_QuestProgress" forceState="true">
+					<Extras>
+						<Attribute name="questParentDelegate" value="XMAS2018_Questline4_MasterQuest" />
+						<Attribute name="specialEvent" value="XMAS2018_Event" />
+						<Attribute name="showEventHub" value="false" />
+						<Attribute name="showEventHub" value="true">
+							<Requirement type="time" start="XMAS2018_Start" end="XMAS2018_End" />
+						</Attribute>
+					</Extras>
+				</Action>
+			</False>
+		</Action>
+	</Tab_Week4>
+	<HotRoastedChestnutsCart_Tapped parallel="true" ignoreHUD="true"></HotRoastedChestnutsCart_Tapped>
+	<FestiveCarolers_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="mod(Object::CrowdState+1,3)" asExpression="true" />
+	</FestiveCarolers_Tapped>
+	<FestiveCarolers_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="CrowdState" value="0" />
+	</FestiveCarolers_Init>
+	<GoToFestiveCarolers>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="FestiveCarolers" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="FestiveCarolers" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="FestiveCarolers" inventory="true" />
+			</False>
+		</Action>
+	</GoToFestiveCarolers>
+	<FairBoothTouched>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var instance = Script::getObjectInstance();
+                    Building::tryFlip(instance);
+                ]]></Program>
+		</Action>
+	</FairBoothTouched>
+	<GoToFairBooth>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="FairBooth" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="FairBooth" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="FairBooth" inventory="true" />
+			</False>
+		</Action>
+	</GoToFairBooth>
+	<PileOfPresents_Tapped parallel="true" ignoreHUD="true">
+		<Action type="setObjectVariable" variable="TapState" value="mod(Object::TapState+1,3)" asExpression="true" />
+	</PileOfPresents_Tapped>
+	<PileOfPresents_Init ignoreHUD="true">
+		<Action type="setObjectVariable" variable="TapState" value="0" />
+	</PileOfPresents_Init>
+	<GoToPileOfPresents>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="building" building="PileOfPresents" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" building="PileOfPresents" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="PileOfPresents" inventory="true" />
+			</False>
+		</Action>
+	</GoToPileOfPresents>
+	<GoToPersonalizedTalkingAstrolabe>
+		<Action type="checkRequirements">
+			<Requirement type="land" land="Springfield" />
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="PersonalizedTalkingAstrolabe" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" building="PersonalizedTalkingAstrolabe" />
+					</True>
+					<False>
+						<Action type="focusOnMenuItem" itemName="PersonalizedTalkingAstrolabe" inventory="true" />
+					</False>
+				</Action>
+			</True>
+			<False>
+				<Action type="gotoState" state="GameState_InGame" />
+				<Action type="pantoobject" building="KrustylandShuttleToSpringfield" fakeTouch="true" />
+			</False>
+		</Action>
+	</GoToPersonalizedTalkingAstrolabe>
+	<GoToYoungMarge>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="time" start="XMAS2018_YoungMarge_IN" end="XMAS2018_YoungMarge_OUT" />
+			</Requirements>
+			<True>
+				<Action type="checkRequirements">
+					<Requirements>
+						<Requirement type="building" building="RollerRink" />
+					</Requirements>
+					<True>
+						<Action type="pantoobject" character="YoungMarge" />
+					</True>
+					<False>
+						<Action type="actionSequence" script="XMAS2018_Scripts_Dialogue:DisplayPromo" />
+					</False>
+				</Action>
+			</True>
+		</Action>
+	</GoToYoungMarge>
+	<GoToPrinceMartin>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="time" start="XMAS2018_WinterWonderlandMysteryBox_IN" end="XMAS2018_WinterWonderlandMysteryBox_OUT" />
+			</Requirements>
+			<True>
+				<Action type="focusOnMenuItem" itemName="XMAS2018_WinterWolderland_MysteryBox" menuCategory="XMAS2018_Category" />
+			</True>
+		</Action>
+	</GoToPrinceMartin>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="XMAS2018_Category" />
+	</EnterStoreCategory>
+	<UnlockStoreCategory>
+		<Action type="updateVariable" variable="XMAS2018_Store" value="true" />
+		<Action type="recommendation" recType="Event" name="XMAS2018_OnePanel" eventName="UI_XMAS2018_Title" limitedTime="true" limitedTimeEndDate="XMAS2018_End" />
+		<Action type="reparseBuildMenu" />
+	</UnlockStoreCategory>
+	<RecommendStoreCategory ignoreHUD="true">
+		<Action type="reparseBuildMenu" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2018_OnePanel" />
+		<Action type="recommendation" recType="Event" name="XMAS2018_OnePanel" eventName="UI_XMAS2018_Title" limitedTime="true" limitedTimeEndDate="XMAS2018_End" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreCategory>
+	<RecommendStoreOnePanel ignoreHUD="true">
+		<Action type="clearRecommendations" category="Event" name="XMAS2018_ThreePanel" />
+		<Action type="clearRecommendations" category="Event" name="XMAS2018_OnePanel" />
+		<Action type="recommendation" recType="Event" name="XMAS2018_OnePanel" eventName="UI_XMAS2018_Title" limitedTime="true" limitedTimeEndDate="XMAS2018_End" />
+		<Action type="reparseBuildMenu" />
+	</RecommendStoreOnePanel>
+	<StoreNotification_YarnBarn>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="YarnBarn" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_YarnBarn_name" text="UNK_YarnBarn_upsell_desc" icon="ICO_PRIZ_XMAS2018_YarnBarn_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="YarnBarn" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_YarnBarn>
+	<StoreNotification_CirqueDePuree>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="CirqueDePuree" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_CirqueDePuree_name" text="UNK_CirqueDePuree_upsell_desc" icon="ICO_PRIZ_XMAS2018_CirqueDePuree_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="CirqueDePuree" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CirqueDePuree>
+	<StoreNotification_CircusOfValues>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="CircusOfValues" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_CircusOfValues_name" text="BLD_CircusOfValues_upsell_desc" icon="ICO_PRIZ_XMAS2018_CircusOfValues_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="CircusOfValues" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_CircusOfValues>
+	<StoreNotification_TheScreens>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TheScreens" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TheScreens_name" text="BLD_TheScreens_upsell_desc" icon="ICO_PRIZ_XMAS2018_TheScreens_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TheScreens" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TheScreens>
+	<StoreNotification_AnchorManagement>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="AnchorManagement" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_AnchorManagement_name" text="UNK_AnchorManagement_upsell_desc" icon="ICO_PRIZ_XMAS2018_AnchorManagement_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="AnchorManagement" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_AnchorManagement>
+	<StoreNotification_IceFishingShack>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="IceFishingShack" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_IceFishingShack_name" text="UNK_IceFishingShack_upsell_desc" icon="ICO_PRIZ_XMAS2018_IceFishing_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="IceFishingShack" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_IceFishingShack>
+	<StoreNotification_IglooMansion>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="IglooMansion" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_IglooMansion_name" text="BLD_IglooMansion_upsell_desc" icon="ICO_PRIZ_XMAS2018_IglooMansion_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="IglooMansion" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_IglooMansion>
+	<StoreNotification_BoatHouse>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="characterunlocked" name="SeaCaptain" />
+				<Requirement type="building owned" building="BoatHouse" not="true" />
+			</Requirements>
+			<True>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_BoatHouse_name" text="BLD_BoatHouse_upsell_desc" icon="ICO_PRIZ_XMAS2018_BoatHouse_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="BoatHouse" menuCategory="XMAS2018_Category" />
+			</True>
+		</Action>
+	</StoreNotification_BoatHouse>
+	<StoreNotification_AircraftCarrier>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="AircraftCarrier" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_AircraftCarrier_name" text="UNK_AircraftCarrier_upsell_desc" icon="ICO_PRIZ_XMAS2018_AircraftCarrier_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="AircraftCarrier" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_AircraftCarrier>
+	<StoreNotification_MargeSculptureGarden>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="MargeSculptureGarden" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_MargeSculptureGarden_name" text="UNK_MargeSculptureGarden_upsell_desc" icon="ICO_PRIZ_XMAS2018_MargeSculptureGarden_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MargeSculptureGarden" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_MargeSculptureGarden>
+	<StoreNotification_TimberlogDiner>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="TheTimberlogDiner" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_TheTimberlogDiner_name" text="BLD_TimberlogDiner_upsell_desc" icon="ICO_PRIZ_XMAS2018_TimberlogDiner_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="TheTimberlogDiner" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_TimberlogDiner>
+	<StoreNotification_BethlehemInn>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="BethlehemInn" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_BethlehemInn_name" text="BLD_BethlehemInn_upsell_desc" icon="ICO_PRIZ_XMAS2018_BethlehemInn_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="BethlehemInn" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_BethlehemInn>
+	<StoreNotification_MiniGolfCastle>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="MiniGolfCastle" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_MiniGolfCastle_name" text="UNK_MiniGolfCastle_upsell_desc" icon="ICO_PRIZ_XMAS2018_MiniGolf_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="MiniGolfCastle" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_MiniGolfCastle>
+	<StoreNotification_KidFirstIndustries>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="KidFirstIndustries" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_KidFirstIndustries_name" text="UNK_KidFirstIndustries_upsell_desc" icon="ICO_PRIZ_XMAS2018_KidFirstIndustries_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="KidFirstIndustries" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_KidFirstIndustries>
+	<StoreNotification_ToysBThis>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="ToysBThis" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_ToysBThis_name" text="BLD_ToysBThis_upsell_desc" icon="ICO_PRIZ_XMAS2018_ToysBThis_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="ToysBThis" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_ToysBThis>
+	<StoreNotification_PersonalizedTalkingAstrolabe>
+		<Action type="checkRequirements">
+			<Requirement type="building owned" building="PersonalizedTalkingAstrolabe" />
+			<False>
+				<Action type="reparseBuildMenu" />
+				<Action type="notificationLarge" title="BLD_PersonalizedTalkingAstrolabe_name" text="UNK_PersonalizedTalkingAstrolabe_upsell_desc" icon="ICO_PRIZ_XMAS2018_PersonalizedTalkingAstrolabe_LG" button="UI_OK" />
+				<Action type="focusOnMenuItem" itemName="PersonalizedTalkingAstrolabe" menuCategory="XMAS2018_Category" />
+			</False>
+		</Action>
+	</StoreNotification_PersonalizedTalkingAstrolabe>
+	<StoreNotification_LastChance>
+		<Action type="reparseBuildMenu" />
+		<Action type="notificationLarge" title="UI_XMAS2018_LastChance_Notification_Title" text="UI_XMAS2018_LastChance_Notification_Desc" icon="ICO_PopUp_XMAS2018_Event_LG" button="UI_OK" />
+		<Action type="focusOnMenuItem" menuCategory="XMAS2018_Category" />
+	</StoreNotification_LastChance>
+	<SantasLittleHelper_Giveaway_Start>
+		<Action type="notification" title="UI_SantasLittleHelperGiveaway_title" text="UI_SantasLittleHelperGiveaway_text" icon="ICO_PRIZ_XMAS2018_SantasLittleHelper_MD" button="UI_Excite" />
+		<Action type="checkRequirements">
+			<Requirement type="characterunlocked" name="SantasLittleHelper" />
+			<False>
+				<Action type="reward">
+					<Item type="consumable" name="XMAS2018_SantasLittleHelper_Giveaway" useImmediately="true" />
+				</Action>
+			</False>
+		</Action>
+	</SantasLittleHelper_Giveaway_Start>
+	<SantasLittleHelper_Giveaway_End>
+		<Action type="checkRequirements">
+			<Requirement type="character" name="SantasLittleHelper" />
+			<True>
+				<Action type="pantoobject" character="SantasLittleHelper" fakeTouch="true" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="SantasLittleHelper" inventory="true" />
+			</False>
+		</Action>
+	</SantasLittleHelper_Giveaway_End>
+	<ActInEnsemble_start>
+		<Action type="pantoobject" building="PageantStage" />
+	</ActInEnsemble_start>
+	<DriveTheSnowMobile_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var bartInstance = Land::getFirstInstanceOfObject(Character::find('Bart'));
+                    
+                    var snowMobileInstance = Land::getFirstInstanceOfObject(Building::find('SnowMobile'));
+                    var snowMobilePosX = toDouble(Building::getProperty(snowMobileInstance, 'X'));
+                    var snowMobilePosZ = toDouble(Building::getProperty(snowMobileInstance, 'Z'));
+                    
+                    Character::snapToPosition(bartInstance, snowMobilePosX, snowMobilePosZ);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="SnowMobile" />
+	</DriveTheSnowMobile_start>
+	<DriveTheSnowMobile_end>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var bartInstance = Land::getFirstInstanceOfObject(Character::find('Bart'));
+                    var milhouseIntance = Land::getFirstInstanceOfObject(Character::find('Milhouse'));
+                    
+                    var snowMobileInstance = Land::getFirstInstanceOfObject(Building::find('SnowMobile'));
+                    var snowMobilePosX = toDouble(Building::getProperty(snowMobileInstance, 'X'));
+                    var snowMobilePosZ = toDouble(Building::getProperty(snowMobileInstance, 'Z'));
+                    
+                    Character::snapToPosition(bartInstance, snowMobilePosX, snowMobilePosZ);
+                    Character::snapToPosition(milhouseInstance, snowMobilePosX, snowMobilePosZ);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="SnowMobile" />
+	</DriveTheSnowMobile_end>
+	<SitOnHomersLap_start>
+		<Action type="pantoobject" building="SantaHomie" />
+	</SitOnHomersLap_start>
+	<RideTheCarousel_start>
+		<Action type="pantoobject" building="ChristmasCarousel" />
+	</RideTheCarousel_start>
+	<GreyhoundSleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var maggieInstance = Land::getFirstInstanceOfObject(Character::find('Maggie'));
+                    var margeInstance = Land::getFirstInstanceOfObject(Character::find('Marge'));
+
+                    Character::fadeOut(margeInstance);
+                    Character::fadeOut(maggieInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="GreyhoundSleigh" />
+	</GreyhoundSleigh_start>
+	<GreyhoundSleigh_end>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var maggieInstance = Land::getFirstInstanceOfObject(Character::find('Maggie'));
+                    var margeInstance = Land::getFirstInstanceOfObject(Character::find('Marge'));
+
+                    Character::fadeIn(margeInstance);
+                    Character::fadeIn(maggieInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="GreyhoundSleigh" />
+	</GreyhoundSleigh_end>
+	<SLHGreyhoundSleigh_start>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var SLHInstance = Land::getFirstInstanceOfObject(Character::find('SantasLittleHelper'));
+
+                    Character::fadeOut(SLHInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="GreyhoundSleigh" />
+	</SLHGreyhoundSleigh_start>
+	<SLHGreyhoundSleigh_end>
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var SLHInstance = Land::getFirstInstanceOfObject(Character::find('SantasLittleHelper'));
+
+                    Character::fadeIn(SLHInstance);
+                ]]></Program>
+		</Action>
+		<Action type="pantoobject" building="GreyhoundSleigh" />
+	</SLHGreyhoundSleigh_end>
+</ScriptPackage>

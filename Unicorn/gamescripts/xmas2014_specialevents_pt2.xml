@@ -1,0 +1,653 @@
+﻿<SpecialEvents>
+	<SpecialEvent id="4197" name="XMAS2014_Pt2">
+		<LoopScript package="XMAS2014_Scripts_Pt2" script="WobbleCannonButton" interval="60s" interval_variance="5s" loop="true" playThenWait="false" />
+		<GuideData title="UI_XMAS2014GUIDEPANEL2_title" tip="UI_XMAS2014GUIDEPANEL2_tip" step1="UI_XMAS2014GUIDEPANEL2_panelone" step2="UI_XMAS2014GUIDEPANEL2_paneltwo" step3="UI_XMAS2014GUIDEPANEL2_panelthree" img1="ICO_XMAS2014P2_Step1Image" img2="ICO_XMAS2014P2_Step2Image" img3="ICO_XMAS2014P2_Step3Image" countdownText="UI_XMAS2014Pt2Guide_countdown" endDate="XMASTwentyFourteenPtTwoPrizeTrackEnd"></GuideData>
+		<PrizeListButton icon="ICO_XMAS2014_BellTrophy">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="building" building="ElfCannon" />
+			</Requirements>
+		</PrizeListButton>
+		<HUDCurrencies buttonType="guide">
+			<Requirements>
+				<Requirement type="variable" variable="XMAS2014_Pt2" />
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="quest started" quest="ProjectAfterParty03" />
+			</Requirements>
+			<Currency type="ElfBerries" />
+			<Currency type="FullBottles" />
+			<Currency type="GunPowder" />
+		</HUDCurrencies>
+		<FriendHUDCurrencies buttonType="guide">
+			<Requirements>
+				<Requirement type="land" land="Springfield" />
+				<Requirement type="variable" variable="XMAS2014_Pt2" />
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="friendvariable" variable="XMAS2014" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+				<Requirement type="building" building="ElfCannon" />
+			</Requirements>
+			<Currency type="ElfBerries" />
+			<Currency type="FullBottles" />
+			<Currency type="GunPowder" />
+		</FriendHUDCurrencies>
+		<FriendsMap showCurrencyForFriends="true" currenciesToDisplay="3" type1FakeFriend="true" type2FakeFriend="true" type3FakeFriend="true" icon="ICO_XMAS2014_ElfBells_SM.rgb" type="ElfBerries" icon2="ICO_XMAS2014_ElfBottle_SM.rgb" type2="FullBottles" icon3="ICO_XMAS2014_CannonGear_SM.rgb" type3="GunPowder">
+			<Currency type="ElfBerries" />
+			<Currency type="FullBottles" />
+			<Currency type="GunPowder" />
+			<Requirements>
+				<Requirement type="variable" variable="XMAS2014_Pt2" />
+			</Requirements>
+			<Script name="XMASFriendsHUDInfo" package="XMAS2014_Scripts_Pt2" />
+		</FriendsMap>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="ElfCannon" />
+			</LandInfo>
+		</LandInfos>
+		<OnEvent event="EnterFriendMap" ignoreTypeCheck="true">
+			<Script package="XMAS2014_Scripts_Pt2" name="OnWorldMapLoad" />
+		</OnEvent>
+		<OnEvent event="BuildingTouched" ignoreTypeCheck="true">
+			<Script package="XMAS2014_Scripts_Pt2" name="UpdateGunPowderBalance" />
+		</OnEvent>
+		<OnEvent event="MinigameReady" onObject="ElfCannon" user="local">
+			<Script package="XMAS2014_Scripts_Pt2" name="ResetElfCannon" />
+		</OnEvent>
+		<OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+			<Script package="XMAS2014_Scripts_Pt2" name="ResetSOTElfSessionStartTime" />
+		</OnEvent>
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_MHUD_XMAS14_Teleporter_SE">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="variable" variable="XMAS2014ToolStunner" />
+				</Requirements>
+				<RunScript>
+					<Script name="ElfZapperButtonPressed" package="XMAS2014_Scripts_Pt2" />
+				</RunScript>
+			</Button>
+			<Button mode="game" icon="ICO_MHUD_CannonFire_SE" counter="true" identifier="CannonButtonReady">
+				<CounterSource source="3 - timesToFire" type="formula" />
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="formula" formula="lessThan(timesToFire,3)" />
+					<Requirement type="building" building="ElfCannon" />
+				</Requirements>
+				<RunScript>
+					<Script name="CannonButtonPressed" package="XMAS2014_Scripts_Pt2" />
+				</RunScript>
+			</Button>
+			<Button mode="game" icon="ico_mhud_cannoncooldown_se" identifier="CannonButtonCoolDown">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="formula" formula="timesToFire==3" />
+				</Requirements>
+				<RunScript>
+					<Script name="CannonButtonPressed" package="XMAS2014_Scripts_Pt2" />
+				</RunScript>
+			</Button>
+			<Button mode="friendmap" icon="ICO_XMAS2014_Leaderboard.rgb">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="variable" variable="ShowLeaderboard" />
+				</Requirements>
+				<RunScript>
+					<Script name="SpecialEventButtonInFriendMapPressed" package="XMAS2014_Scripts_Pt2" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<StaticButtons>
+			<BuildButton></BuildButton>
+			<MoveButton></MoveButton>
+			<FriendButton>
+				<Script package="XMAS2014_Scripts_Pt2" name="OnFriendButtonPressed" />
+			</FriendButton>
+		</StaticButtons>
+		<SpawnOverTime character="Xmas014_BadElf" spawnReplacementScript="XMAS2014_Scripts_Pt2:SpawnReplacementForElves" loggedOnSpawnTime="__XMAS2014_GameConfig:ElfSpawningRate:Time__" loggedOffSpawnTime="__XMAS2014_GameConfig:ElfSpawningRate:Time__" maxAllowedInTown="__XMAS2014_GameConfig:ElfSpawningRate:MaxInTown__" regularBankMax="__XMAS2014_GameConfig:ElfSpawningRate:MaxBanked__" premiumBankMax="0" premiumBankingAllowed="false" bankVariable="bankedElves" errorTitle="UI_TooManyElves_errortitle" errorBody="UI_TooManyElves_errorbody" spawnInstances="__XMAS2014_GameConfig:ElfSpawningRate:NumberSpawned__" alwaysCheckRequirements="true">
+			<Requirements>
+				<Requirement type="quest started" quest="ProjectAfterParty02" />
+				<Requirement type="time" start="XMASDayTwentyFourteenStart" end="XMASDayTwentyFourteenEnd" not="true" />
+				<Requirement type="players land" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<SpawnOverTime character="Xmas014_BadElf" spawnReplacementScript="XMAS2014_Scripts_Pt2:SpawnReplacementForElves" loggedOnSpawnTime="15m" loggedOffSpawnTime="15m" maxAllowedInTown="40" regularBankMax="20" premiumBankMax="0" premiumBankingAllowed="false" bankVariable="bankedElves" errorTitle="UI_TooManyElves_errortitle" errorBody="UI_TooManyElves_errorbody" spawnInstances="3" alwaysCheckRequirements="true">
+			<Requirements>
+				<Requirement type="quest started" quest="ProjectAfterParty02" />
+				<Requirement type="time" start="XMASDayTwentyFourteenStart" end="XMASDayTwentyFourteenEnd" />
+				<Requirement type="players land" />
+			</Requirements>
+			<Subland value="Springfield" />
+		</SpawnOverTime>
+		<TouchOverrides>
+			<TouchOverride onEvent="Hold" holdTime="0.5">
+				<Requirements>
+					<Requirement type="players land" />
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="variable" variable="XMAS2014ToolStunner" />
+				</Requirements>
+				<Script name="ActivateBadElfStunner" package="XMAS2014_Scripts_Pt2" />
+			</TouchOverride>
+		</TouchOverrides>
+		<VacuumConfig name="BadElfStunner" suction_sprite="StunnerXMAS2014" suction_anim="Active" suction_sound="365_stunny_bunner_tool.caf" allowCameraNudge="true" miniHud="true" applyCameraScale="true">
+			<Scale x="1.71" y="1.36" z="1" />
+			<Logging>
+				<Event id="2577" param1="characters_after" param2="characters_before" trigger="end" />
+			</Logging>
+			<CaptureInfo characterList="CustomTouchCharacters" fromSpecialEvent="XMAS2014_Pt2" pullRadius="0" captureRadius="4.5" outerPullSpeed="0" innerPullSpeed="0" script="DoBadElfStun" package="XMAS2014_Scripts_Pt2" allow_recapture="true" />
+		</VacuumConfig>
+		<List name="CustomTouchCharacters">
+			<String name="Xmas014_BadElf" />
+		</List>
+		<Jobs override="true">
+			<Job name="SendHomerAHolidayGiftXmas2014">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="active quest" quest="DrNoEl" />
+				</Requirements>
+			</Job>
+			<Job name="BegElvesToStay">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty01" />
+				</Requirements>
+			</Job>
+			<Job name="EnjoyChristmasFruitCake">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty01" />
+				</Requirements>
+			</Job>
+			<Job name="StandOnTheElfCaveHatch">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty02" />
+				</Requirements>
+			</Job>
+			<Job name="CheckOutTheToyWorkshopPtTwo">
+				<Requirements>
+					<Requirement type="active quest" quest="ChristmasWasHere" />
+				</Requirements>
+			</Job>
+			<Job name="HighFiveSomeElves">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty01_Alt" />
+				</Requirements>
+			</Job>
+			<Job name="AgonizeOverMoralChoice">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty04" />
+				</Requirements>
+			</Job>
+			<Job name="PerformInWetTShirtContest">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty05" />
+				</Requirements>
+			</Job>
+			<Job name="EatYumbas">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty06" />
+				</Requirements>
+			</Job>
+			<Job name="RepelElfPartygoers">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty07" />
+				</Requirements>
+			</Job>
+			<Job name="FeedTheElves">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty08" />
+				</Requirements>
+			</Job>
+			<Job name="ResearchElvesPtTwo">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty09" />
+				</Requirements>
+			</Job>
+			<Job name="LookAtSelfHelpBooks">
+				<Requirements>
+					<Requirement type="active quest" quest="ProjectAfterParty09" />
+				</Requirements>
+			</Job>
+			<Job name="MakeASnowmanTEMP">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="PretendToSkiTEMP">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="MakeSnowAngelsTEMP">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingTEMP">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="character" name="Rod" />
+					<Requirement type="character" name="Todd" />
+				</Requirements>
+			</Job>
+			<Job name="BeANutcrackerTEMP">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="PrepareChristmasTreatsTEMP">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingRod">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingTodd">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+				</Requirements>
+			</Job>
+			<Job name="TakeTheBoysSnowmobilingNoBoys">
+				<Requirements>
+					<Requirement type="variable" variable="XMAS2014_Pt2" />
+					<Requirement type="character" name="Rod" not="true" />
+					<Requirement type="character" name="Todd" not="true" />
+				</Requirements>
+			</Job>
+			<Job name="SendAnAppreciationHolidayGiftToHomer">
+				<Requirements>
+					<Requirement type="active quest" quest="AVeryBreweryChristmasPt1" />
+				</Requirements>
+			</Job>
+			<Job name="ShutUpAndDoStuffAtHome">
+				<Requirements>
+					<Requirement type="conditional" logic="OR">
+						<Requirement type="active quest" quest="BestNewYearsDayEver01" />
+						<Requirement type="active quest" quest="BestNewYearsDayEver02" />
+						<Requirement type="time" start="XMASTwentyFourteenNewYearsDay" end="XMASTwentyFourteenNewYearsDayEnd" />
+					</Requirement>
+				</Requirements>
+			</Job>
+			<Job name="AcceptTheFrozenBeerBucketChallenge">
+				<Requirements>
+					<Requirement type="active quest" quest="BestNewYearsDayEver03" />
+					<Requirement type="time" start="XMASTwentyFourteenNewYearsDay" end="XMASTwentyFourteenNewYearsDayEnd" />
+				</Requirements>
+			</Job>
+			<Job name="PlayAVeryLucrativeDressUpGameOnHisMyPad">
+				<Requirements>
+					<Requirement type="active quest" quest="BestNewYearsDayEver04" />
+					<Requirement type="time" start="XMASTwentyFourteenNewYearsDay" end="XMASTwentyFourteenNewYearsDayEnd" />
+				</Requirements>
+			</Job>
+			<Job name="PlayTheSimpsonsTappedOutOnHisMyPad">
+				<Requirements>
+					<Requirement type="active quest" quest="BestNewYearsDayEver05" />
+					<Requirement type="time" start="XMASTwentyFourteenNewYearsDay" end="XMASTwentyFourteenNewYearsDayEnd" />
+				</Requirements>
+			</Job>
+		</Jobs>
+		<DailyBonus>
+			<Day id="1">
+				<Reward ElfBerries="__XMAS2014_GameConfig:CustomDailyBonusPt2:Day01Berries__">
+					<Item type="consumable" name="XMAS2014Pt2DailyBonus1" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="2">
+				<Reward ElfBerries="__XMAS2014_GameConfig:CustomDailyBonusPt2:Day02Berries__">
+					<Item type="consumable" name="XMAS2014Pt2DailyBonus2" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="3">
+				<Reward ElfBerries="__XMAS2014_GameConfig:CustomDailyBonusPt2:Day03Berries__">
+					<Item type="consumable" name="XMAS2014Pt2DailyBonus3" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="4">
+				<Reward ElfBerries="__XMAS2014_GameConfig:CustomDailyBonusPt2:Day04Berries__">
+					<Item type="consumable" name="XMAS2014Pt2DailyBonus4" useImmediately="true" />
+					<Cost price="1" />
+				</Reward>
+			</Day>
+			<Day id="5">
+				<Reward GunPowder="__XMAS2014_GameConfig:CustomDailyBonusPt2:Day05GunPowder__">
+					<Item type="consumable" name="XMAS2014Pt2DailyBonus5" useImmediately="true" />
+					<Cost price="5" />
+				</Reward>
+			</Day>
+		</DailyBonus>
+		<FakeFriendOverride>
+			<Building name="SimpsonHome" skin="Decorated_SimpsonHome" />
+			<Building name="BrownHouse" skin="Decorated_BrownHouse" />
+			<Building name="FlandersHome" skin="Decorated_FlandersHome" />
+			<Building name="PurpleHouse" skin="Decorated_PurpleHouse" />
+			<Building name="BlueHouse" skin="Decorated_BlueHouse" />
+			<Building name="VanHoutenHome" skin="Decorated_VanHoutenHome" />
+			<Building name="PinkHouse" skin="Decorated_PinkHouse" />
+			<Building name="WhiteHouse" skin="Decorated_WhiteHouse" />
+			<Building name="WilliesShack" skin="Decorated_WilliesShack" />
+			<Building name="OrangeHouse" skin="Decorated_OrangeHouse" />
+			<Building name="MuntzHouse" skin="Decorated_MuntzHouse" />
+			<Building name="KrabappelApartment" skin="Decorated_KrabappelApartment" />
+			<Building name="FrinksLab" skin="Decorated_FrinksLab" />
+			<Building name="VolcanoLair" skin="Decorated_VolcanoLair" />
+			<Building name="CletusFarm" skin="Decorated_CletusFarm" />
+			<Building name="PowerPlant" skin="CCT" />
+			<Building name="SkinnerHouse" skin="Decorated_SkinnerHouse" />
+			<Building name="FirstChurchofSpringfield" skin="SponsoredChurch" />
+			<Building name="BurnsManor" skin="Decorated_FestiveBurnsManor" />
+			<Building name="FatTonysCompound" skin="Decorated_FestiveCompound" />
+			<Building name="WolfcastlesMansion" skin="Decorated_FestiveWolfcastlesMansion" />
+			<Building name="SanjaysHouse" skin="Decorated_FestiveSanjaysHouse" />
+			<Building name="MansionOfSolidGold" skin="Decorated_FestiveMansionOfSolidGold" />
+			<Building name="CrazyCatHouse" skin="Decorated_FestiveCrazyCatHouse" />
+			<Building name="ApusApartment" skin="Decorated_FestiveApusApartment" />
+			<Building name="Houseboat" skin="Decorated_FestiveHouseboat" />
+			<Building name="WiggumHouse" skin="Decorated_WiggumHome" />
+			<Building name="LardLadsDonuts" skin="Decorated_LardLadsDonuts" />
+		</FakeFriendOverride>
+		<Buildings override="true">
+			<Building name="ElfCannon">
+				<Vandalism allowCodeFlip="true" fastBreak="true" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" forceActive="false" overlay="false" showNoVisibleVandalism="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="players land" />
+							<Requirement type="friendvariable" variable="XMAS2014_Pt2" />
+							<Requirement type="fakefriend" />
+						</Requirement>
+					</Requirements>
+					<CleanIndicator hidden="false" icon="Indicator_Social_Handshake" />
+					<SprayIndicator icon="Indicator_XMAS2014_Spark" />
+					<Reward type="Vandalism" ElfBerries="__XMAS2014_GameConfig:Formulas:BerriesPerFriendActionElfCannonTouched__" FriendPoint="selector friendPointsReward" money="selector socialMoneyReward" xp="2" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+					<Reward type="Clean" ElfBerries="selector XMASBerriesPerCleanElfCannon" FriendPoint="selector friendPointsRewardOwner" money="selector socialMoneyReward" xp="2" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+				</Vandalism>
+				<OnEvent onObject="${NAME}" event="BuildingVandalized" user="remote">
+					<Script name="OnFriendTouchesElfCannon" package="XMAS2014_Scripts_Pt2" />
+				</OnEvent>
+			</Building>
+		</Buildings>
+		<Variable name="XMAS2014ToolStunner" value="false" />
+		<Variable name="XMAS2014StunnedBadElves" value="0" />
+		<Variable name="bankedElves" value="0" />
+		<Variable name="XMAS2014_Pt2" value="true" />
+		<Variable name="elvesToBeFired" value="0" />
+		<Variable name="timesToFire" value="0" />
+		<Variable name="ignoreFire" value="0" />
+		<Variable name="cannonShots" value="0" />
+		<Variable name="currentTimesFired" value="0" />
+		<Variable name="totalTimesFired" value="0" />
+		<Variable name="TotalElvesFired" value="0" />
+		<Variable name="OpenLeaderboard" value="0" owner="0" />
+		<Variable name="ShowLeaderboard" value="false" />
+		<Variable name="ElfCannonLevel" value="1" />
+		<Variable name="SOTElfSessionSpawnCount" value="0" owner="0" />
+		<Variable name="SOTElfSessionStartTime" value="0" owner="0" />
+		<Variable name="SOTElfSessionCurrentTime" value="0" owner="0" />
+		<Variable name="SOTElfEffectEnabled" value="1" owner="0" />
+		<Variable name="SOTElfSpawnCloseToCannon" value="1" owner="0" />
+		<Variable name="SeenPrestigeSystemMessage" value="false" />
+		<Variable name="GunPowderBalance" value="0" />
+		<Notifications location="XMAS2014_Notifications:Notifications">
+			<Notification name="MaxElvesPN" />
+		</Notifications>
+		<Overrides>
+			<Override what="text" from="UI_DailyPlayFooter" to="UI_ElvesDailyPlayPTtwo_Body" />
+		</Overrides>
+		<LandInfos>
+			<LandInfo id="1" name="Springfield">
+				<FocusBuilding value="ElfCannon" />
+			</LandInfo>
+		</LandInfos>
+	</SpecialEvent>
+	<SpecialEvent id="4198" name="XMAS2014_Pt2_BadElvesSpawning">
+		<Jobs override="true">
+			<Job name="MakingQuestsShorter">
+				<CharacterReward character="Xmas014_BadElf" characterCount="4" spawnImmediately="false" icon="ICO_XMAS2014_Elves_SM" />
+			</Job>
+		</Jobs>
+		<Buildings override="true">
+			<Building name="ElfPortal">
+				<Vandalism allowCodeFlip="true" fastBreak="true" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" forceActive="false" overlay="false" showNoVisibleVandalism="true">
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="players land" />
+							<Requirement type="friendvariable" variable="XMAS2014_Pt2" />
+							<Requirement type="fakefriend" />
+						</Requirement>
+					</Requirements>
+					<CleanIndicator hidden="false" icon="Indicator_Social_Handshake" />
+					<SprayIndicator icon="Indicator_XMAS2014_ElfBells" />
+					<Reward type="Vandalism" ElfBerries="__XMAS2014_GameConfig:Formulas:BerriesPerFriendActionElfCannonTouched__" FriendPoint="selector friendPointsReward" money="selector socialMoneyReward" xp="2" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+					<Reward type="Clean" ElfBerries="selector XMASBerriesPerCleanElfCannon" FriendPoint="selector friendPointsRewardOwner" money="selector socialMoneyReward" xp="2" donuts="1" chance="selector socialDonutChanceReward" chanceType="d" />
+				</Vandalism>
+			</Building>
+		</Buildings>
+		<List name="FriendActionJobs">
+			<String name="IncomeTax3" />
+			<String name="MarkingUpPrices" />
+			<String name="MarkingUpPricesFranchise" />
+			<String name="IncomeTax1" />
+			<String name="IncomeTax7" />
+			<String name="IncomeTax0" />
+			<String name="ThawingMeatPatties" />
+			<String name="ThawingMeatPattiesFranchise" />
+			<String name="IncomeTax2" />
+			<String name="IncomeTax8" />
+			<String name="IncomeTax4" />
+			<String name="IncomeTax5" />
+			<String name="FryingEverythingInSight" />
+			<String name="IncomeTax9" />
+			<String name="CollectingLibraryFines" />
+			<String name="ProvidingSarcasticService" />
+			<String name="IncomeTax6" />
+			<String name="GettingWired" />
+			<String name="CollectionPlate" />
+			<String name="SpreadingGossip" />
+			<String name="GildingTruffles" />
+			<String name="EmptyingSpitValves" />
+			<String name="WarmingUpCoffees" />
+			<String name="SpicingUpMeatballs" />
+			<String name="ServingTime" />
+			<String name="PerformingExperiments" />
+			<String name="TwistingCrullers" />
+			<String name="PoppingCorn" />
+			<String name="BottlingDuff" />
+			<String name="UnleashingDoomsdayDevices" />
+			<String name="StaringAtNeptune" />
+			<String name="SweetSweetLemonaide" />
+			<String name="CollectingWelfare" />
+			<String name="OverdueRent" />
+			<String name="MoneyFoundInSock" />
+			<String name="IncubatingZombies" />
+			<String name="IncubatingPetZombies" />
+			<String name="SellingEvilAndCursedFrogurt" />
+			<String name="ScaringUnsuspectingGuests" />
+			<String name="IncubatingZombies02" />
+			<String name="PointlesslyAcceleratingParticles" />
+			<String name="PuttingUpWantedPosters" />
+			<String name="RaisingPretentiousKids" />
+			<String name="PeddlingPills" />
+			<String name="CuttingEdgeMedicalProcedures" />
+			<String name="PuttingMsInFrontOfProductNames" />
+			<String name="RackingPins" />
+			<String name="RegurgitatingIdeas" />
+			<String name="SuckingConsumersDry" />
+			<String name="FeedingReindeer" />
+			<String name="SellingExcessPricelessArtifacts" />
+			<String name="OverchargingCelebrityDiners" />
+			<String name="InvestigatingWhereTheRemoteIs" />
+			<String name="OvercomplicatingSimpleCuisine" />
+			<String name="CausingCavities" />
+			<String name="CapitalizingOnInsecureRelationships" />
+			<String name="LosingGolfBalls" />
+			<String name="RakingSandGardens" />
+			<String name="PretendingToBeACollege" />
+			<String name="IrishingUpDrinks" />
+			<String name="BoringSchoolchildren" />
+			<String name="OverchargingForLuxuryBoxes" />
+			<String name="DenyingSteroidUse" />
+			<String name="ChargingHourlyRates" />
+			<String name="InflatingDreamsOfGymnasticStardom" />
+			<String name="YellingAtCustomers" />
+			<String name="NotConductingLegitimateBusiness" />
+			<String name="BloodMoney" />
+			<String name="FusingCuisines" />
+			<String name="ListeningToPinsDrop" />
+			<String name="WrappingPresents" />
+			<String name="AttractingSnakes01" />
+			<String name="AttractingSnakes02" />
+			<String name="AttractingSnakes03" />
+			<String name="MassProducingAntiques" />
+			<String name="ServingSameStuffAsAtLuigis" />
+			<String name="NotBeingUsed" />
+			<String name="IncomeTax10" />
+			<String name="DrivingSmallRetailersOutOfBusiness" />
+			<String name="DolingOutMeds" />
+			<String name="CrushingHope" />
+			<String name="IgnoringTheFirstRuleOfRobotics" />
+			<String name="LayingDownAntTraps" />
+			<String name="StitchingAndPatchingItchyAndScratchy" />
+			<String name="DiscountingRadiumFilledCompasses" />
+			<String name="UnleashingTheTurbanator" />
+			<String name="InkingYetAnotherTribalTattoo" />
+			<String name="AssuringAuthoritiesItsNotAFront" />
+			<String name="StuffingMuffinBaskets" />
+			<String name="DecipheringSecretGovernmentPlans" />
+			<String name="InducingVertigo" />
+			<String name="ServingFoodToTheExtreme" />
+			<String name="PayingOffHealthAuthorities" />
+			<String name="IncomeTax11" />
+			<String name="HidingAffairs" />
+			<String name="EatingCraftservice" />
+			<String name="PunishingDelts" />
+			<String name="GivingInsomniacsAPlaceToGo" />
+			<String name="IncomeTax12" />
+			<String name="BuildingToys" />
+			<String name="CuttingWages" />
+			<String name="PunishingTheLactoseIntolerant" />
+			<String name="LooseningSlots" />
+			<String name="NotUsingTheKitchens" />
+			<String name="PayingTVWritersOnHiatus" />
+			<String name="CallingFattyThingsLowFat" />
+			<String name="SpinningVinyl" />
+			<String name="BeingUnvisited" />
+			<String name="SellingFerretLikePoodles" />
+			<String name="WorshippingTheHolyDonut" />
+			<String name="IgnoringTheFirstRuleOfRobotics" />
+			<String name="ViolatingEveryBuildingCode" />
+			<String name="LayingDownAntTraps" />
+			<String name="PuttingCursesOnNonPayingCustomers" />
+			<String name="SwindlingAllowances" />
+			<String name="StuffingMammoths" />
+			<String name="IncubatingSpirits1" />
+			<String name="IncubatingSpirits2" />
+			<String name="FormingIntoCliques" />
+			<String name="ClaimingThingsAreScience" />
+			<String name="LosingPaperwork" />
+			<String name="HerdingCats" />
+			<String name="MakingToysForUngratefulKids" />
+			<String name="SpawningBadElves" />
+			<String name="MakingDreamsBecomePurchases" />
+			<String name="UndercookingPork" />
+			<String name="BypassingDuodena" />
+			<String name="EnforcingCasualFashion" />
+			<String name="GoldPanningInTheBathtub" />
+			<String name="AddingTipsForPartiesOfFourOrMore" />
+			<String name="StitchingAndPatchingItchyAndScratchy" />
+			<String name="BeingAbandoned" />
+			<String name="KeepingSecrets" />
+			<String name="EarningEmblems2" />
+			<String name="GoBoom" />
+			<String name="StealthTaxingTheIgnorant" />
+			<String name="TeemingWithChildren" />
+			<String name="IncomeTax" />
+			<String name="ConvertingEggMoleculesToCash" />
+			<String name="AssemblingCashFromEggMolecules" />
+			<String name="ChargingPeopleToBuildTheirOwnStuff" />
+			<String name="TankingLocalPropertyValues" />
+			<String name="LockingInChevrons" />
+			<String name="MaintainingOperationsWithASkeletonCrew" />
+			<String name="GenerateTroopsCastle2" />
+			<String name="GenerateTroopsCastle3" />
+			<String name="GenerateTroopsCastle1" />
+			<String name="GeneratingGold" />
+			<String name="MixingElixir" />
+			<String name="WritingForAllTheCharacters" />
+			<String name="BoringPeopleUntilTheFireworks" />
+			<String name="AllowingParentsToNotVaccinateTheirChildren" />
+			<String name="ShowingPeeps" />
+			<String name="EnjoyingAnOrganicGreenIceCoffee" />
+			<String name="RescuingUnlovedGuineaPigs" />
+			<String name="ShippingSharpEdgeShapes" />
+			<String name="SentencingPeopleToJuryDuty" />
+			<String name="PuttingAlcoholicsInChargeOfChildren" />
+			<String name="EmpoweringRentACops" />
+			<String name="TakingLowStandardsToNewHeights" />
+			<String name="AddingMeatToVegetableSides" />
+			<String name="HiringAndFiringBallboys" />
+			<String name="PahkingCahsInTheYahd" />
+			<String name="TakingOutAdditionalMortgages" />
+			<String name="BeingThePlaceForRefurbishedPCs" />
+			<String name="CookingWellSungSteaks" />
+			<String name="ServingMargaritasWithRandomSides" />
+			<String name="ObesifyingAmerica" />
+			<String name="PriceCheckingEmbarrassingItems" />
+			<String name="ModernizingHolidays" />
+			<String name="ServingNonSashimiGradeSashimi" />
+			<String name="HiringPeoplesDaughters" />
+			<String name="CrackingCoccyxBones" />
+			<String name="SerenadingUncomfortableCouples" />
+			<String name="SellingBloodDiamonds" />
+			<String name="DesensitizingChildrenToViolence" />
+			<String name="ProvidingBasicNecessities" />
+			<String name="DoingNothingExtremelyWell" />
+			<String name="SellingPureHappiness" />
+			<String name="SearchingForPresents" />
+			<String name="TakingDeliveryOfPresents" />
+			<String name="PreparingPilotsForLiftoff" />
+			<String name="LeechingWifi" />
+			<String name="CausingConversationsToDerail" />
+			<String name="SellingOverpricedVideoGames" />
+			<String name="HuntingOrcs" />
+			<String name="ProratingHolidayCheer" />
+			<String name="CoveringFloorInSawdust" />
+			<String name="RefoldingSweaters" />
+		</List>
+		<SuppressFriendActions>
+			<VandalismSuppressionExceptionList>
+				<Building name="ElfCannon" />
+				<Building name="ElfPortal" />
+			</VandalismSuppressionExceptionList>
+			<VandalismRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="fakefriend" />
+					<Requirement type="friendvariable" variable="XMAS2014" />
+				</Requirement>
+			</VandalismRequirements>
+		</SuppressFriendActions>
+		<Jobs override="true" list="FriendActionJobs">
+			<Job>
+				<SocialBonusReward>
+					<Requirements>
+						<Requirement type="conditional" logic="OR">
+							<Requirement type="fakefriend" />
+							<Requirement type="friendvariable" variable="XMAS2014" />
+						</Requirement>
+						<Requirement type="friend land" />
+					</Requirements>
+					<Reward ElfBerries="__XMAS2014_GameConfig:Formulas:BerriesPerFriendAction__" xp="1" chanceType="s" chance="1" />
+					<IconOverride name="Indicator_XMAS2014_ElfBells" />
+				</SocialBonusReward>
+			</Job>
+		</Jobs>
+	</SpecialEvent>
+</SpecialEvents>
