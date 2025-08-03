@@ -3,7 +3,16 @@
 		<DataID id="160001" name="TheWhackIsBack_1" onDeprecated="delete" endDate="WhackingDayPromo_End" />
 		<DataID id="160002" name="TheWhackIsBack_2" onDeprecated="delete" endDate="WhackingDayPromo_Kill" />
 		<DataID id="160003" name="TheWhackIsBack_3" onDeprecated="delete" endDate="WhackingDayPromo_Kill" />
-
+		<DataID id="160004" name="TheEastGoesWest" onDeprecated="delete" endDate="WhackingDayPromo_End" />
+		<DataID id="160005" name="HomerLiveDialogue" onDeprecated="delete" endDate="HomerLivePromo_End" />
+		<DataID id="160006" name="NinjaHomerNotOwned" />
+		<DataID id="160007" name="WingChunForDummies_WDP" />
+		<DataID id="160008" name="WingChunForDummies_EndDummy_WDP" />
+		<DataID id="160009" name="WingChunForDummies_EndDummyBranch_WDP" />
+		<DataID id="160010" name="GettingCarriedAway01_WDP" />
+		<DataID id="160011" name="GettingCarriedAway02_WDP" />
+		<DataID id="160012" name="ITaughtBruceLeeAllHeKnew_WDP" />
+		<DataID id="160013" name="OhWhackingDay_WDP" />
 	</MasterList>
 	<Quest id="160001" name="TheWhackIsBack_1" tags="sidequest" icon="WDAY_Baton" toolTip="UI_TheWhackIsBack_tooltip">
 		<Priority types="LimitedTime" />
@@ -14,7 +23,7 @@
 		</Requirements>
 		<StartScript package="WhackingDayPromo_Scripts_Dialogue" name="TheWhackIsBack_1_Start" />
 		<Objectives>
-		<Objective type="build" building="worldslargesttoilet" quantity="1" rewardsCollected="yes"/>
+			<Objective type="build" building="worldslargesttoilet" quantity="1" rewardsCollected="yes"/>
 		</Objectives>
 		<EndScript package="WhackingDayPromo_Scripts_Dialogue" name="TheWhackIsBack_1_End" />
 		<Reward money="100" xp="10" />
@@ -45,5 +54,116 @@
 		<Reward>
 			<Item type="character" name="SnakeWestern" useImmediately="true" />
 		</Reward>
+	</Quest>
+	<Quest id="160004" name="TheEastGoesWest" tags="sidequest" icon="Homer_Ninja">
+		<Priority types="LimitedTime" />
+		<Requirements>
+			<Requirement type="quest" quest="TheWhackIsBack_3" />
+			<Requirement type="character" name="Homer" unlockedskin="Ninja" />
+			<Requirement type="building" building="TownPlaza" />
+		</Requirements>
+		<StartScript package="WhackingDayPromo_Scripts_Dialogue" name="TheEastGoesWest_Start" triggerType="character" character="Homer" />
+		<EndScript package="WhackingDayPromo_Scripts_Dialogue" name="TheEastGoesWest_End" />
+		<Objectives>
+			<Objective type="complete job" job="CelebrateWhackingDay" quantity="1" progress="quest" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="160005" name="HomerLiveDialogue" tags="sidequest">
+		<Requirements>
+			<Requirement type="level" level="5" />
+			<Requirement type="quest" quest="MyPad" />
+			<Requirement type="time" start="HomerLivePromo_Start" end="HomerLivePromo_End" />
+		</Requirements>
+		<!--<StartScript package="WhackingDayPromo_Scripts_Dialogue" name="HomerLiveDialogue_Start" />-->
+		<Objectives>
+			<Objective type="none" />
+		</Objectives>
+	</Quest>
+	<Quest id="160006" name="NinjaHomerNotOwned" tags="sidequest">
+		<Requirements>
+			<Requirement type="character" name="Homer" unlockedskin="Ninja" not="true" />
+		</Requirements>
+		<Objectives>
+			<Objective type="none" suppressCompleteSound="true" />
+		</Objectives>
+	</Quest>
+	<Quest id="160007" name="WingChunForDummies_WDP" icon="Homer_Ninja" tags="sidequest" textpoolName="QST_WingChunForDummies_1_name">
+		<Requirements>
+			<Requirement type="character" name="Homer" unlockedskin="Ninja" />
+			<Requirement type="quest" quest="NinjaHomerNotOwned" />
+		</Requirements>
+		<StartScript package="Quests_WhackingDay_Scripts" name="WingChunForDummies_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="build" group="PracticeSnakes" quantity="1" rewardsCollected="yes" lateEnd="true" textpoolName="QST_WingChunForDummies_2_obj_1" />
+			<Objective type="complete job" character="Homer" job="FakeWhackPretendSnakes" quantity="1" progress="quest" textpoolName="QST_WingChunForDummies_2_obj_2" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<QuestBranch>
+		<BranchCondition>
+			<Requirement type="group" group="PracticeSnakes" count="2" />
+		</BranchCondition>
+		<False>
+			<Quest id="160008" name="WingChunForDummies_EndDummy_WDP" tags="sidequest">
+				<Requirements>
+					<Requirement type="quest" quest="WingChunForDummies_WDP" />
+				</Requirements>
+				<Objectives>
+					<Objective type="none" />
+				</Objectives>
+				<StartScript package="Quests_WhackingDay_Scripts" name="WingChunForDummies_End" />
+			</Quest>
+		</False>
+		<True>
+			<Quest id="160009" name="WingChunForDummies_EndDummyBranch_WDP" tags="sidequest">
+				<Requirements>
+					<Requirement type="quest" quest="WingChunForDummies_WDP" />
+				</Requirements>
+				<Objectives>
+					<Objective type="none" />
+				</Objectives>
+			</Quest>
+		</True>
+	</QuestBranch>
+	<Quest id="160010" name="GettingCarriedAway01_WDP" icon="Homer_Ninja" tags="sidequest" textpoolName="QST_GettingCarriedAway01_1_name">
+		<Requirements>
+			<Requirement type="quest" quest="WingChunForDummies_WDP" />
+		</Requirements>
+		<StartScript package="Quests_WhackingDay_Scripts" name="GettingCarriedAway01_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="SmashUpFlanderssHouse" quantity="1" progress="quest" textpoolName="QST_GettingCarriedAway01_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="160011" name="GettingCarriedAway02_WDP" icon="Homer_Ninja" tags="sidequest" textpoolName="QST_GettingCarriedAway02_1_name">
+		<Requirements>
+			<Requirement type="quest" quest="GettingCarriedAway01_WDP" />
+		</Requirements>
+		<StartScript package="Quests_WhackingDay_Scripts" name="GettingCarriedAway02_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="SteerTheMobInWiseDirections" quantity="1" progress="quest" textpoolName="QST_GettingCarriedAway02_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="160012" name="ITaughtBruceLeeAllHeKnew_WDP" icon="Homer_Ninja" tags="sidequest" textpoolName="QST_ITaughtBruceLeeAllHeKnew_1_name">
+		<Requirements>
+			<Requirement type="quest" quest="GettingCarriedAway02_WDP" />
+		</Requirements>
+		<StartScript package="Quests_WhackingDay_Scripts" name="IAmBruceLeeAndSnakesAreMyChuckNorris_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="TwirlWhackingStick" quantity="1" progress="quest" textpoolName="QST_ITaughtBruceLeeAllHeKnew_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
+	</Quest>
+	<Quest id="160013" name="OhWhackingDay_WDP" icon="Homer_Ninja" tags="sidequest" textpoolName="QST_OhWhackingDay_1_name">
+		<Requirements>
+			<Requirement type="quest" quest="ITaughtBruceLeeAllHeKnew_WDP" />
+		</Requirements>
+		<StartScript package="Quests_WhackingDay_Scripts" name="OhWhackingDay_Start" triggerType="character" character="Homer" />
+		<Objectives>
+			<Objective type="complete job" character="Homer" job="PolishStickForWhacking" quantity="1" progress="quest" textpoolName="QST_OhWhackingDay_2_obj_1" />
+		</Objectives>
+		<Reward money="100" xp="10" />
 	</Quest>
 </Quests>
