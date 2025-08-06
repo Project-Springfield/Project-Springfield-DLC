@@ -5,7 +5,7 @@
                 var level = 0;
                 var objName = '';
                 var newpoints = 0;
-            
+
                 if(name == 'Homer')
                     {
                         objName = 'Obj_Music_Homer';
@@ -98,32 +98,32 @@
 
                     if(objName != '')
                     {
-                    
+
                         level = ObjectVars::getVariableInt(objName, 'level');
                         var halfLevel = level / 2;
                         Telemetry::logEvent(9610,'Enumeration',location,'Enumeration',name,'Enumeration',toString(halfLevel));
-                    
-                    
+
+
                         var starRanks = Attributes::createFromPackage('Music_Spreadsheet_Config:StarRanks');
                         var xpSession = toDouble(Attributes::getValueFromAttributes(starRanks,'StarXPPerSession'));
                         newpoints = ObjectVars::getVariableInt(objName, 'points') +xpSession;
                         Object::setVariableForAdHoc(objName, 'points', toString(newpoints), 0, false);
-                    
+
                         for(var iter = 1; iter < toDouble(10); iter++)
                         {
                             var rank1 = formatInteger('StarRank%d',iter);
                             var rank2 = formatInteger('StarRank%d',iter+1);
-                    
+
                             var points1 = toDouble(Attributes::getValueFromAttributes(starRanks,rank1));
                             var points2 = toDouble(Attributes::getValueFromAttributes(starRanks,rank2));
-                    
+
                             if(newpoints >= points1 && newpoints < points2)
                             {
                                 Object::setVariableForAdHoc(objName, 'level', toString(iter), 0, false);
                             }
-                    
+
                         }
-                    
+
                         var points10 =toDouble(Attributes::getValueFromAttributes(starRanks,'StarRank10'));
                         if(newpoints >= points10)
                         {
@@ -147,7 +147,7 @@
                             if(name == characterName)
                             {
                                 Object::setVariableForAdHoc(sessionsAdHoc, toString(i), '0', 0, false);
-                                                    
+
                                 var numCharacters = User::getVariable(sessionsNumCharactersVariable);
                                 if(numCharacters == numSlots)
                                 {
@@ -155,19 +155,19 @@
                                     rewardToLose = rewardToLose + bonus;
                                 }
                                 numCharacters = numCharacters - 1;
-                                                    
+
                                 User::setVariable(sessionsNumCharactersVariable, numCharacters, false);
-                                                    
+
                                 var sessionReward = User::getVariable(rewardVariable);
                                 User::setVariable(rewardVariable, sessionReward - rewardToLose, false);
-                                                    
+
                                 return true;
                             }
                         }
                     }
                     return false;
                 }
-                
+
                 function populateNumCharactersArray(numCharactersArray)
                 {
                     Array::pushBack(numCharactersArray, User::getVariable('Session_RockStageNumCharacters'));
@@ -179,10 +179,10 @@
                     Array::pushBack(numCharactersArray, User::getVariable('Session_KrustyBurgerNumCharacters'));
                     Array::pushBack(numCharactersArray, User::getVariable('Session_SpringfieldElementaryNumCharacters'));
                 }
-                
+
                 var numCharactersBefore = Array::create();
                 populateNumCharactersArray(numCharactersBefore);
-                
+
                 updateRewards(4, 'Obj_RockStage_Sessions_Characters', scriptCharacterName, 'Session_RockStageNumCharacters', 'Session_RockStageReward');
                 updateRewards(4, 'Obj_PopStage_Sessions_Characters', scriptCharacterName, 'Session_PopStageNumCharacters', 'Session_PopStageReward');
                 updateRewards(4, 'Obj_HipHopStage_Sessions_Characters', scriptCharacterName, 'Session_HipHopStageNumCharacters', 'Session_HipHopStageReward');
@@ -191,10 +191,10 @@
                 updateRewards(2, 'Obj_KwikEMart_Sessions_Characters', scriptCharacterName, 'Session_KwikEMartNumCharacters', 'Session_KwikEMartReward');
                 updateRewards(2, 'Obj_KrustyBurger_Sessions_Characters', scriptCharacterName, 'Session_KrustyBurgerNumCharacters', 'Session_KrustyBurgerReward');
                 updateRewards(2, 'Obj_SpringfieldElementary_Sessions_Characters', scriptCharacterName, 'Session_SpringfieldElementaryNumCharacters', 'Session_SpringfieldElementaryReward');
-                
+
                 var numCharactersAfter = Array::create();
                 populateNumCharactersArray(numCharactersAfter);
-                
+
                 for(var i = 0; i < 8; i++)
                 {
                     var before = Array::getValueAtIndex(numCharactersBefore, i);
@@ -212,7 +212,7 @@
                 var configAmount = '__Music_GameConfig:PerformerRewardAmount:Amount__';
                 var level = 0;
                 var objName = '';
-                
+
                 if(name == 'Homer')
                 {
                     objName = 'Obj_Music_Homer';
@@ -309,7 +309,7 @@
                     objName = 'Obj_Music_Maggie';
                     configAmount = '__Music_GameConfig:PremiumPerformerRewardAmount:Amount__';
                 }
-                
+
                 if(objName != '')
                 {
                     level = ObjectVars::getVariableInt(objName, 'level');

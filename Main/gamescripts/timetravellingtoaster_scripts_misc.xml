@@ -374,14 +374,14 @@
                     var duration = fromDays(7);
                     var interval = User::getVariable('Vault_Group_A_LastInterval');
                     var theStart = Date::toDouble('TTT_Start');
-                    
+
                     var startDate = Date::toDouble('TTT_Start') + (duration * interval);
                     var endDate = Date::toDouble('TTT_Start') + (duration * (interval + 1));
-                    
+
                     User::setVariable('TheVaultCycle_StartDate', startDate, true);
                     User::setVariable('TheVaultCycle_EndDate', endDate, true);
                     User::setVariable('TheVaultCycle_OldInterval', interval, true);
-                    
+
                     var timerArray = Array::create('name'=>'VaultTimer','start'=>startDate,'end'=>endDate,'expireOnEnd'=>1);
                     Timer::add(timerArray);
                 ]]></Program>
@@ -735,7 +735,7 @@
                                 Object::getVariable(instance, 'TAPPED')!=1)
                             {
                                 numCharactersTapped++;
-                                
+
                                 Object::setVariable(instance, 'TAPPED', '1', 0, false);
                                 Object::setDelete(instance, true);
                                 Script::runOnObjectInstance('TimeTravellingToaster_Scripts_Misc:Tappable_AnimateAndDie', instance);
@@ -759,15 +759,15 @@
 	<RemoveAct1Tappables parallel="true">
 		<Action type="program">
 			<Program><![CDATA[#program;
-                    
+
                     var tappableInstances = Land::getAllInstancesOfObject(Character::find('TTT_Tappable_Act1'));
-                    
+
                     foreach(tappableInstances as instance)
                     {
                         Script::runOnObjectInstance('TimeTravellingToaster_Scripts_Misc:Tappable_AnimateAndDie', instance);
                         Character::createInstance('TTT_Tappable_Act2', false, false);
 					}
-					
+
 					User::setVariable('TTT_BankedTappables_Act2', min(User::getVariable('TTT_BankedTappables_Act1') + User::getVariable('TTT_BankedTappables_Act2'), toDouble(System::getConfigValue('__TimeTravellingToaster_BalancingConfig:Tappables:BankMax__'))), true);
 					User::setVariable('TTT_BankedTappables_Act1', 0, true);
                 ]]></Program>
@@ -776,15 +776,15 @@
 	<RemoveAct2Tappables parallel="true">
 		<Action type="program">
 			<Program><![CDATA[#program;
-                    
+
                     var tappableInstances = Land::getAllInstancesOfObject(Character::find('TTT_Tappable_Act1'));
 					var arraySize = Array::size(tappableInstances);
-					
+
 					foreach (Land::getAllInstancesOfObject(Character::find('TTT_Tappable_Act2')) as instance)
 					{
 						Array::pushBack(tappableInstances, instance);
 					}
-					
+
 					if (arraySize > 0 && Array::size(tappableInstances)==arraySize)
 					{
 						User::setVariable('TTT_BankedTappables_Act3', min(User::getVariable('TTT_BankedTappables_Act1') + User::getVariable('TTT_BankedTappables_Act3'), toDouble(System::getConfigValue('__TimeTravellingToaster_BalancingConfig:Tappables:BankMax__'))), true);
@@ -795,7 +795,7 @@
 						User::setVariable('TTT_BankedTappables_Act3', min(User::getVariable('TTT_BankedTappables_Act2') + User::getVariable('TTT_BankedTappables_Act3'), toDouble(System::getConfigValue('__TimeTravellingToaster_BalancingConfig:Tappables:BankMax__'))), true);
 						User::setVariable('TTT_BankedTappables_Act2', 0, true);
 					}
-                    
+
                     foreach(tappableInstances as instance)
                     {
                         Script::runOnObjectInstance('TimeTravellingToaster_Scripts_Misc:Tappable_AnimateAndDie', instance);

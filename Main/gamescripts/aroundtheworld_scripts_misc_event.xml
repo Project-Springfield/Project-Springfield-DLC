@@ -12,7 +12,7 @@
 					<Action type="program">
 						<Program><![CDATA[
 								#program;
-								
+
 								var actualTickets = User::getVariable('AroundTheWorld_PlaneTickets');
 								var ticketCap = toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:AirportJobs:TicketSoftCap__'));
 								if (actualTickets < ticketCap)
@@ -20,11 +20,11 @@
 									var currentTime = time();
 									var lastTime = User::getVariable('TicketSpentTime');
 									var regenThreshold = secondsFromTimeString(System::getConfigValue('__AroundTheWorld_BalancingConfig:AirportJobs:TicketSpawnTimer__'));
-									
+
 									var diff = floor((currentTime - lastTime) / regenThreshold);
-									
+
 									var lastTickets = User::getVariable('TicketCount');
-									
+
 									if (diff > 0)
 									{
 										if (min(lastTickets+diff, ticketCap) > actualTickets)
@@ -40,7 +40,7 @@
 										}
 									}
 								}
-								
+
 							]]></Program>
 					</Action>
 				</Then>
@@ -164,14 +164,14 @@
                 {
                     var osakaFlu = Array::getValueAtIndex(osakaFluList, 0);
                     System::setGameState('GameState_InGame');
-                    
+
                     var goToInstance = osakaFlu;
                     var touristServerID = Object::getVariableAsNumber(osakaFlu,'AttachedToTappable');
                     if(touristServerID != 0)
                     {
                         goToInstance = Land::getCharacterInstanceFromServerID(touristServerID);
                     }
-                    
+
                     Script::runOnObjectInstance('AroundTheWorld_Scripts_Misc_Event:OsakaFlu_GoTo', goToInstance);
                 }
 				]]></Program>
@@ -595,10 +595,10 @@
                     var character = Character::find('Tourist');
                     var characterInstanceList = Land::getAllInstancesOfObject(character);
                     var dcsTappedTourists = User::getVariable('AtW_DCS_TappedTourists');
-                    
+
                     var numCharactersTapped = User::getVariable('AroundTheWorld_BankedTappables');
                     User::setVariable('AroundTheWorld_BankedTappables', 0, true);
-                    
+
                     foreach(characterInstanceList as instance)
                     {
                         if( !Object::getDelete(instance) &&
@@ -606,7 +606,7 @@
                         {
                             numCharactersTapped++;
                             dcsTappedTourists++;
-                            
+
                             if(Object::getProperty(instance, 'Visible'))
                             {
                                 Object::setDelete(instance, true);
@@ -620,15 +620,15 @@
                             }
                         }
                     }
-					
+
                     User::setVariable('AtW_DCS_TappedTourists', dcsTappedTourists, true);
-                    
+
 					var eventCurrencyPayout = toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:Tappables:EventCurrency__')) * numCharactersTapped;
 					var craftCurrencyPayout = toDouble(System::getConfigValue('__AroundTheWorld_BalancingConfig:Tappables:CraftingCurrency__')) * numCharactersTapped;
-					
+
 					Global::setVariable('AtW_TICRewards_EventCurrency', eventCurrencyPayout);
 					Global::setVariable('AtW_TICRewards_CraftCurrency', craftCurrencyPayout);
-                    
+
                 ]]></Program>
 		</Action>
 		<Action type="delay" time="0.2" />
@@ -703,7 +703,7 @@
                         {
                             Object::setVariable(osakaFlu, 'AttachedToTappable', '0', 0, false);
                             Object::setVariable(osakaFlu, 'CooldownEndTime', toString(time() + fromHours(4)), 0, false);
-                            
+
                             Character::stopMovement(osakaFlu);
                             var touristX = Character::getPositionX(tourist);
                             var touristZ = Character::getPositionZ(tourist);
@@ -777,11 +777,11 @@
                         var touristServerID = Object::getProperty(tourist, 'UID');
                         var osakaFlu = Script::getObjectInstance();
                         var osakaFluServerID = Object::getProperty(osakaFlu, 'UID');
-                        
+
                         Object::setVariable(tourist,'OsakaFluAttached', toString(osakaFluServerID), 0, true);
                         Object::setVariable(osakaFlu, 'AttachedToTappable', toString(touristServerID), 0, false);
                         Character::fadeOut(osakaFlu);
-                        
+
                         User::setVariable('AtW_ActiveOsakaFlu', 1, true);
                     }
                 ]]></Program>
@@ -826,7 +826,7 @@
                     if(randPercent < chanceOfInfection)
                     {
                         User::setVariable('OsakaFluProgress',1,true);
-                        
+
                         var regionConfig = Attributes::createFromPackage('AroundTheWorld_RegionConfig:Regions');
                         var countryCode = Geo::getGeolocation();
                         var region = 9;
@@ -855,7 +855,7 @@
                     var countryCode = Geo::getGeolocation();
                     var currentRIV = Script::getVariableFromProvider('OsakaFluRIV', 'regionIDs');
                     var updatedRIV = Geo::addGeolocToString(countryCode, currentRIV);
-                    
+
                     Object::setVariableForAdHoc('OsakaFluRIV', 'regionIDs', updatedRIV, 0, false);
                 ]]></Program>
 		</Action>
@@ -871,7 +871,7 @@
                     if(currentProgress!=1)
                     {
                         User::setVariable('OsakaFluProgress',1,true);
-                        
+
                         var regionConfig = Attributes::createFromPackage('AroundTheWorld_RegionConfig:Regions');
                         var countryCode = Geo::getGeolocation();
                         var region = 9;
@@ -967,9 +967,9 @@
                             var currentRIV = Script::getVariableFromProvider('OsakaFluRIV', 'regionIDs');
                             var incomingRIV = Script::getObjectData('Object::regionIDs');
                             var updatedRIVWithIncoming = Geo::mergeGeolocsStrings(currentRIV, incomingRIV);
-                            
+
                             Object::setVariableForAdHoc('OsakaFluRIV', 'regionIDs', updatedRIVWithIncoming, 0, false);
-							
+
 							Telemetry::logEvent(7006,'Enumeration','0','Enumeration',User::getMayhemID(), 'Enumeration', 'Gave');
                         ]]></Program>
 				</Action>
@@ -977,7 +977,7 @@
 					<Program><![CDATA[
                             #program;
                             User::setVariable('OsakaFluProgress',1,true);
-                            
+
                             var regionConfig = Attributes::createFromPackage('AroundTheWorld_RegionConfig:Regions');
                             var countryCode = Geo::getGeolocation();
                             var region = 9;
@@ -1010,9 +1010,9 @@
                             {
                                 var delta = level - currentLevel;
                                 User::setVariable('OsakaFluLevel',level,true);
-                                
+
                                 User::setVariable('AtW_OsakaFlu_LeveledUp',1,true);
-                                
+
                                 for(var s = 0;s < delta;s++)
                                 {
                                     Script::run('AroundTheWorld_Scripts_Misc_Event:OsakaFlu_Spawn');

@@ -33,19 +33,19 @@
 	<DestroyAllTappables parallel="true">
 		<Action type="program">
 			<Program><![CDATA[#program;
-                    
+
                     var character = Character::find('Robot_Tappable');
                     var characterInstanceList = Land::getAllInstancesOfObject(character);
-                    
+
                     var eventCurrencyPerRobot = toDouble(System::getConfigValue('__SciFi_BalancingConfig:Tappables:EventCurrency__'));
                     var craftingCurrency1PerRobot = toDouble(System::getConfigValue('__SciFi_BalancingConfig:Tappables:RobotParts__'));
                     var craftingCurrency2PerRobot = toDouble(System::getConfigValue('__SciFi_BalancingConfig:Tappables:FutureBucks__'));
-                    
+
                     var eventCurrencyTotal = 0;
                     var craftingCurrency1Total = 0;
                     var craftingCurrency2Total = 0;
                     var robotsTapped = 0;
-                    
+
                     foreach(characterInstanceList as instance)
                     {
                         if(Object::getVariable(instance, 'Tapped')!=1)
@@ -54,7 +54,7 @@
                             craftingCurrency1Total += craftingCurrency1PerRobot;
                             craftingCurrency2Total += craftingCurrency2PerRobot;
                             robotsTapped++;
-                            
+
                             Object::setVariable(instance, 'Tapped', '1', 0, false);
                             Object::setDelete(instance, true);
                             Character::stopMovement(instance);
@@ -65,12 +65,12 @@
                     eventCurrencyTotal += (eventCurrencyPerRobot * robotsBanked);
                     craftingCurrency1Total += (craftingCurrency1PerRobot * robotsBanked);
                     craftingCurrency2Total += (craftingCurrency2PerRobot * robotsBanked);
-                    
+
                     Global::setVariable('SciFi_PolyVacRewards_ActivePrizeTrackCurrency', eventCurrencyTotal);
                     Global::setVariable('SciFi_PolyVacRewards_CraftingCurrency1', craftingCurrency1Total);
                     Global::setVariable('SciFi_PolyVacRewards_CraftingCurrency2', craftingCurrency2Total);
                     User::setVariable('BankedRobots', 0, true);
-                    
+
                     User::setVariable('RobotsTapped', User::getVariable('RobotsTapped') + robotsTapped, true);
                     User::setVariable('SF_DCS_RobotsTapped', User::getVariable('SF_DCS_RobotsTapped') + robotsTapped, true);
                 ]]></Program>
