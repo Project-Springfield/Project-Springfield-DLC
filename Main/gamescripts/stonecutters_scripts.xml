@@ -1,4 +1,41 @@
 ﻿<ScriptPackage>
+  <EnablePrizeList>
+		<Action type="if">
+      <If>
+        <Requirement type="formula" formula="lessThan(User::getVariable('enablePrizeList'), 2)" />
+        <Then>
+          <Action type="setVariable" intVariable="enablePrizeList" intValue="enablePrizeList + 1" />
+        </Then>
+      </If>
+    </Action>
+  </EnablePrizeList>
+  <StoreUnlocked>
+		<Action type="runScript" script="RecommendStoreOnePanel" package="Stonecutters_Scripts" />
+  </StoreUnlocked>
+  <ResetNumber1DC>
+		<Action type="if">
+      <If>
+        <Requirement type="formula" formula="lessThan(User::getVariable('Number1DCTaskCooldown'), serverTime(0))" />
+        <Then>
+          <Action type="setVariable" intVariable="Number1DCTaskCooldown" intValue="serverTime(0) + 86400" />
+          <Action type="setVariable" intVariable="Number1DCTaskLevel" intValue="0" />
+        </Then>
+      </If>
+    </Action>
+  </ResetNumber1DC>
+  <FocusCensus>
+    <Action type="returnToInGameState" waitForState="true" />
+    <Action type="pantoobject" building="TownHall" fakeTouch="true" time="0" />
+  </FocusCensus>
+	<RecommendStoreOnePanel ignoreHUD="false">
+		<Action type="clearRecommendations" category="Event" name="Stonecutters_OnePanel" />
+		<Action type="recommendation" recType="Event" name="Stonecutters_OnePanel" eventName="SET_Stonecutters_name" limitedTime="true" limitedTimeEndDate="Stonecutters_End" />
+		<Action type="reparseBuildMenu" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+	</RecommendStoreOnePanel>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="Stonecutters_Category" />
+	</EnterStoreCategory>
 	<NewUserVERSION_Increase ignoreHUD="true" parallel="true">
 		<Action type="setVariable" intVariable="UserVersion" intValue="2" />
 	</NewUserVERSION_Increase>
@@ -15,6 +52,7 @@
 	</StonecuttersPrestigeReward>
 	<SacredParchment_Touched>
 		<Action type="sound" sound="Stonecutters_SacredParchmentTap.caf" />
+    <Action type="gotoState" state="GameState_SacredParchment"/>
 	</SacredParchment_Touched>
 	<StonecutterTable_Touched parallel="true">
 		<Action type="sound" sound="Stonecutters_WeDo_1Cast.caf" />
@@ -22,9 +60,13 @@
 	<ArkOfTheStonecovenant_touched parallel="true">
 		<Action type="sound" sound="Stonecutters_ark_stone_covenant.caf" />
 	</ArkOfTheStonecovenant_touched>
-	<Number1_Tapped parallel="true">
-		<Action type="anim-play" animation="Victory_pose" appendLeftRight="true" />
-	</Number1_Tapped>
+	<Number1DailyTaskCompleted parallel="true">
+		<Action type="pantoobject" character="Number1" />
+		<Action type="anim-play" character="Number1" animation="Victory_pose" appendLeftRight="true" />
+    <Action type="delay" time="1" />
+		<Action type="runScript" script="OpenDailyChallengeSystemUINonBlockingFromGameState" package="DailyTasks_HelperScripts" />
+    <Action type="setVariable" intVariable="Number1DCTaskLevel" intValue="Number1DCTaskLevel+1" />
+	</Number1DailyTaskCompleted>
 	<RobedFigures_Message>
 		<Action type="message" title="UI_RobedFiguresButton_Title" text="UI_RobedFiguresButton_Body" />
 	</RobedFigures_Message>
@@ -35,7 +77,7 @@
 			<Action type="sound" sound="Stonecutters_RobedFigureTap03.caf" />
 		</Action>
 		<Action type="anim-play" animation="Tap" />
-		<Action type="reward" save="true" StonecutterEmblems="4" suppress_sound="true" />
+		<Action type="reward" save="true" StonecutterEmblems="__Stonecutters_GameConfig:CurrencyRewards:RobedFigure__" suppress_sound="true" />
 		<Action type="deletecharacter" character="RobedFigure" />
 		<Action type="checkRequirements">
 			<Requirements>
@@ -47,7 +89,7 @@
 		</Action>
 	</CaptureRobedFigure>
 	<DeSpyReward>
-		<Action type="reward" save="true" StonecutterEmblems="5" FriendPoint="selector friendPointsRewardOwner" suppress_sound="true">
+		<Action type="reward" save="true" StonecutterEmblems="__Stonecutters_GameConfig:CurrencyRewards:DeSpyReward__" FriendPoint="selector friendPointsRewardOwner" suppress_sound="true">
 			<Decay type="cleanVandalism" unit="StonecutterEmblems" timeStart="2h" timeFinish="8h" incrementTime="2h" incrementUnitLoss="1" minUnit="1" />
 		</Action>
 	</DeSpyReward>
@@ -61,8 +103,16 @@
 			<Variable name="STONECUTTERS_ACTIONS_UNTIL_NEXT_MULTIPLIER" type="int" />
 		</Action>
 	</StonecutterFriendsHUDInfoAux>
+  <Number1GiveRewards>
+		<Action type="setVariable" boolVariable="giveEmblems" boolValue="true" />
+		<Action type="runScript" script="Stonecutters_Scripts:Number1Task1Event" waitUntilComplete="true" />
+		<Action type="runScript" script="Stonecutters_Scripts:Number2Task1Event" waitUntilComplete="true" />
+		<Action type="runScript" script="Stonecutters_Scripts:Number3Task1Event" waitUntilComplete="true" />
+		<Action type="runScript" script="Stonecutters_Scripts:Number4Task1Event" waitUntilComplete="true" />
+  </Number1GiveRewards>
 	<Number1Task1Event parallel="true">
 		<Action type="pantoobject" character="Number1" />
+    <Action type="setVariable" intVariable="Number1TaskComplete" intValue="Number1TaskComplete+1" />
 		<Action type="checkExpression" expression="giveEmblems">
 			<ExpressionCase value="1">
 				<Action type="reward" character="Number1" save="true" StonecutterEmblems="50" />
@@ -253,10 +303,7 @@
 		<Action type="resetTimezone" />
 		<Action type="dialogue" character="Number1" text="QST_GameOfStones04_3_dlg_Start_1_Number1" revealSpeed="medium" />
 		<Action type="dialogue" character="Number1" text="QST_GameOfStones04_3_dlg_Start_2_Number1" revealSpeed="medium" />
-		<Action type="message" text="QST_GameOfStones04_3_dlg_Started_6_SystemMessage" />
-		<Action type="dialogue" character="Homer" text="QST_GameOfStones04_3_dlg_Started_7_Homer" revealSpeed="medium" emotion="angry" />
-		<Action type="dialogue" character="Number1" text="QST_GameOfStones04_3_dlg_Started_8_Number1" revealSpeed="medium" />
-		<Action type="dialogue" character="Number1" text="QST_GameOfStones04_3_dlg_Started_9_Number1" revealSpeed="medium" />
+		<Action type="message" text="QST_GameOfStones04_3_dlg_Started_6_SystemMessage" waitForDismiss="true" />
 	</GameOfStones04_Start>
 	<GameOfStones04_Started>
 		<Action type="dialogue" character="Homer" text="QST_GameOfStones04_3_dlg_Started_1_Homer" revealSpeed="medium" emotion="confused" />
@@ -757,4 +804,12 @@
 		<Action type="dialogue" character="Homer" text="QST_WelcomeToTheStonecuttersNumber5_3_dlg_Start_1_Homer" revealSpeed="medium" emotion="happy" />
 		<Action type="dialogue" character="Jasper" text="QST_WelcomeToTheStonecuttersNumber5_3_dlg_Start_2_Jasper" revealSpeed="medium" emotion="mad" />
 	</WelcomeToTheStonecuttersNumber5_Start>
+  <Stonecutters_AllDailyChallengesFinished_End>
+    <Action type="setVariable" intVariable="Number1DCTaskLevel" intValue="Number1DCTaskLevel+1" />
+		<Action type="message" title="UI_NumOneTask_title" text="UI_AllOfTodayDailyChallenges_Finished" waitForDismiss="true" />
+  </Stonecutters_AllDailyChallengesFinished_End>
+  <PreActivateEvent>
+    <Action type="setVariable" boolVariable="PreActivateEvent" boolValue="true" />
+		<Action type="runScript" script="Number1Task1Event" package="Stonecutters_Scripts" />
+  </PreActivateEvent>
 </ScriptPackage>
