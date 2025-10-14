@@ -1,4 +1,37 @@
 ﻿<ScriptPackage>
+	<EnterStoreCategory ignoreHUD="true">
+		<Action type="focusOnMenuItem" menuCategory="THOH2013_Category" />
+	</EnterStoreCategory>
+  <THOH2013StoreUnlocked_Start>
+		<Action type="runScript" script="GoToHubPrizeTrack" package="THOH2013_Scripts" />
+  </THOH2013StoreUnlocked_Start>
+  <THOH2013StoreUnlocked_End>
+		<Action type="runScript" script="RecommendStoreOnePanel" package="THOH2013_Scripts" />
+  </THOH2013StoreUnlocked_End>
+	<RecommendStoreOnePanel ignoreHUD="false">
+		<Action type="clearRecommendations" category="Event" name="THOH2013_OnePanel" />
+		<Action type="recommendation" recType="Event" name="THOH2013_OnePanel" eventName="UI_THOH2013_Title" limitedTime="true" limitedTimeEndDate="THOH2013_End" />
+		<Action type="reparseBuildMenu" />
+		<Action type="focusOnMenuItem" menuCategory="FrontPage" />
+	</RecommendStoreOnePanel>
+  <GoToHubPrizeTrack>
+    <Action type="gotoState" state="GameState_HubPrizeTrack" forceState="true" >
+      <Extras>
+        <Attribute name="helpButtonScript" value="THOH2013_Scripts:ShowGuide" />
+        <Attribute name="specialEvent" value="THOH2013" />
+				<Attribute name="exitButtonScript" value="MiscScripts:GoToInGame" />
+      </Extras>
+    </Action>
+  </GoToHubPrizeTrack>
+	<ActOnePrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_THOH2013_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_THOH_SuzanneGingerbreadHouse_LG" darken="true" />
+	</ActOnePrizeTrackTab>
+	<ActTwoPrizeTrackTab ignoreHUD="true">
+		<Action type="notification" title="UI_THOH2013_Title" button="UI_OK" text="UI_Superheroes2_PrizeTrack_Future_text" tooltip="UI_Superheroes2_PrizeTrack_Future_toolTip" icon="ICO_THOH_KingHomer_LG" darken="true" />
+	</ActTwoPrizeTrackTab>
+  <ShowGuide>
+		<Action type="show guide" event="THOH2013" />
+  </ShowGuide>
 	<LateCommunityRewardOne>
 		<Action type="reward">
 			<Item type="building" name="FirstChurchOfLardLad" />
@@ -139,7 +172,7 @@
 		<Action type="runScript" script="GhostReward" package="THOH2013_Scripts" waitUntilComplete="true" />
 		<Action type="deletecharacter" character="Ghost" />
 	</BustGhostFriend>
-	<GhostPossess parallel="true" interruptable="true" lastinterruptableaction="5">
+	<GhostPossess parallel="true" >
 		<Action type="anim-remap" character="Ghost">
 			<AnimationRemap Front_Walk="Front_Attack" Back_Walk="Back_Attack" Idle="Front_Attack" />
 		</Action>
@@ -147,7 +180,7 @@
 		<Action type="anim-remap" character="Ghost" />
 		<Action type="stop" />
 		<Action type="anim-play" animation="Dispersal_Down" />
-		<Action type="deletecharacter" character="Ghost" />
+    <Action type="deletecharacter" character="Ghost" />
 		<Action type="skin-backup" object0="1" />
 		<Action type="skin-set" object0="1" skin=".*Haunted" />
 		<Action type="anim-play" object0="1" animation="Attacked" autodetectFlip="true" />
@@ -363,6 +396,16 @@
 		<Action type="setVariable" boolVariable="THOHToolVacuum" boolValue="true" />
 		<Action type="setVariable" boolVariable="THOHToolBomb" boolValue="false" />
 	</ActivateToolVacuum>
+  <UseToolVacuum>
+    <Action type="setVariable" intVariable="VacuumCooldown" intValue="serverTime(0) + int(System::getConfigValue('__THOH2013_GameConfig:GhostTools:VacuumWaitingTimeHours__')) * 3600" />
+		<Action type="runScriptOnAll" character="Ghost" script="VacuumExterminateGhost" package="THOH2013_Scripts" />
+  </UseToolVacuum>
+  <VacuumExterminateGhost parallel="true">
+		<Action type="stop" character="Ghost" />
+		<Action type="playflyby" flybyName="THOH2013SuctionEffect" radius="5" unitScale="0.13" playbackFPS="24" centerOnObject="true" />
+    <Action type="delay" time="2" />
+    <Action type="runScript" script="BustGhost" package="THOH2013_Scripts" />
+  </VacuumExterminateGhost>
 	<ActivateToolBomb>
 		<Action type="setVariable" boolVariable="THOHToolBasic" boolValue="false" />
 		<Action type="setVariable" boolVariable="THOHToolVacuum" boolValue="false" />
@@ -378,7 +421,6 @@
 	</FreakNoGeeksTrivia>
 	<LateStartPanel>
 		<Action type="createobject" name="Ghost" count="40" save="true" panCamera="false" />
-		<Action type="gotoState" state="GameState_SpecialEventPrizeList" />
 	</LateStartPanel>
 	<FriendGremlins_Start>
 		<Action type="message" text="QST_FriendGremlins_3_dlg_Start_1_SystemMessage" />
@@ -404,35 +446,38 @@
 		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_7_Lisa" revealSpeed="medium" />
 		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_8_GypsyFortuneTeller" revealSpeed="medium" />
 		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_Start_9_Lisa" revealSpeed="medium" />
-		<Action type="show guide" event="guide" />
 	</TheGhostInTheMachineBasedApp02_Start>
 	<TheGhostInTheMachineBasedApp02_End>
 		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_End_1_Homer" revealSpeed="medium" />
 		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_End_2_Marge" revealSpeed="medium" />
 		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp02_3_dlg_End_3_Homer" revealSpeed="medium" />
-		<Action type="gotoState" state="GameState_SpecialEventCommunityPrizeList" />
 	</TheGhostInTheMachineBasedApp02_End>
 	<TheGhostInTheMachineBasedApp03_Start>
-		<Action type="vandalize" building="FlandersHome" />
 		<Action type="pantoobject" building="FlandersHome" />
+		<!--Action type="vandalize" building="FlandersHome" /-->
+		<Action type="createobject" name="Ghost" building="FlandersHome" count="3" save="true" panCamera="false" />
 		<Action type="dialogue" character="Ned" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_1_Ned" revealSpeed="medium" />
-		<Action type="vandalize" building="Kwik-E-Mart" />
 		<Action type="pantoobject" building="Kwik-E-Mart" />
+		<!--Action type="vandalize" building="Kwik-E-Mart" /-->
+		<Action type="createobject" name="Ghost" count="5" building="Kwik-E-Mart" save="true" panCamera="false" />
 		<Action type="dialogue" character="Apu" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_2_Apu" revealSpeed="medium" />
-		<Action type="vandalize" building="SimpsonHome" />
 		<Action type="pantoobject" building="SimpsonHome" />
+		<!--Action type="vandalize" building="SimpsonHome" /-->
+		<Action type="createobject" name="Ghost" count="7" building="SimpsonHome" save="true" panCamera="false" />
 		<Action type="dialogue" character="Bart" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_3_Bart" revealSpeed="medium" />
-		<Action type="message" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_4_SystemMessage" />
+		<!--Action type="message" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_Start_4_SystemMessage" /-->
 	</TheGhostInTheMachineBasedApp03_Start>
 	<TheGhostInTheMachineBasedApp03_End>
 		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_End_1_Marge" revealSpeed="medium" />
 		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp03_3_dlg_End_2_Homer" revealSpeed="medium" />
+		<Action type="runScript" script="ShowGuide" package="THOH2013_Scripts" />
 	</TheGhostInTheMachineBasedApp03_End>
 	<TheGhostInTheMachineBasedApp04_Start>
 		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_1_GypsyFortuneTeller" revealSpeed="medium" />
 		<Action type="dialogue" character="Marge" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_2_Marge" revealSpeed="medium" />
 		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_3_GypsyFortuneTeller" revealSpeed="medium" />
 		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_4_Lisa" revealSpeed="medium" />
+
 		<Action type="dialogue" character="GypsyFortuneTeller" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_5_GypsyFortuneTeller" revealSpeed="medium" />
 		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_6_Lisa" revealSpeed="medium" />
 		<Action type="dialogue" character="Homer" text="QST_TheGhostInTheMachineBasedApp04_3_dlg_Start_7_Homer" revealSpeed="medium" />
@@ -465,8 +510,9 @@
 		<Action type="dialogue" character="Bart" text="QST_TheGhostInTheMachineBasedApp06_3_dlg_End_2_Bart" revealSpeed="medium" />
 	</TheGhostInTheMachineBasedApp06_End>
 	<TheGhostInTheMachineBasedApp07_JobStart>
-		<Action type="vandalize" building="PowerPlantLot" />
+		<!--Action type="vandalize" building="PowerPlantLot" /-->
 		<Action type="pantoobject" building="PowerPlantLot" />
+		<Action type="createobject" name="Ghost" count="10" building="PowerPlantLot" save="true" panCamera="false" />
 	</TheGhostInTheMachineBasedApp07_JobStart>
 	<TheGhostInTheMachineBasedApp07_Start>
 		<Action type="dialogue" character="FrankGrimesSpirit" text="QST_TheGhostInTheMachineBasedApp07_3_dlg_Start_1_FrankGrimes" revealSpeed="medium" />
@@ -547,8 +593,8 @@
 		<Action type="dialogue" character="Lisa" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_3_Lisa" revealSpeed="medium" />
 		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_4_Burns" revealSpeed="medium" />
 		<Action type="dialogue" character="PinheadCarl" text="QST_TheGhostInTheMachineBasedApp14_3_dlg_End_5_PinheadCarl" revealSpeed="medium" />
-		<Action type="vandalize" building="PowerPlantLot" />
 		<Action type="pantoobject" building="PowerPlantLot" />
+		<Action type="createobject" name="Ghost" count="10" building="PowerPlantLot" save="true" panCamera="false" />
 		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_1_Burns" revealSpeed="medium" />
 		<Action type="dialogue" character="Burns" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_2_Burns" revealSpeed="medium" />
 		<Action type="dialogue" character="Smithers" text="QST_TheGhostInTheMachineBasedApp15_3_dlg_Start_3_Smithers" revealSpeed="medium" />
@@ -679,7 +725,7 @@
 		<Action type="dialogue" character="Homer" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_4_Homer" revealSpeed="medium" />
 		<Action type="dialogue" character="Frink" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_5_Frink" revealSpeed="medium" />
 		<Action type="dialogue" character="Homer" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_6_Homer" revealSpeed="medium" />
-		<Action type="message" text="QST_TheSpacePoweredGhostInhalator_3_dlg_Start_7_SystemMessage" />
+    <Action type="message" text="__THOH2013_GameConfig:FormatedText:VacuumSystemMessage__" />
 	</TheSpacePoweredGhostInhalator_Start>
 	<Ultrahouse2_Start>
 		<Action type="dialogue" character="Frink" text="QST_Ultrahouse2_3_dlg_Start_1_Frink" revealSpeed="medium" />
@@ -889,7 +935,7 @@
 	</ShootDownKodos01_Place>
 	<ShootDownKodos01_Placed>
 		<Action type="message" text="QST_ShootDownKodos01_3_dlg_Start_8_SystemMessage" />
-		<Action type="dialogue" character="Kodos" text="QST_ShootDownKodos01_3_dlg_Start_9_Kodos" revealSpeed="medium" />
+		<!--Action type="dialogue" character="Kodos" text="QST_ShootDownKodos01_3_dlg_Start_9_Kodos" revealSpeed="medium" /-->
 	</ShootDownKodos01_Placed>
 	<ShootDownKodos02_Start>
 		<Action type="dialogue" character="Kodos" text="QST_ShootDownKodos02_3_dlg_Start_1_Kodos" revealSpeed="medium" />
@@ -969,4 +1015,276 @@
 		<Action type="dialogue" character="Moe" text="QST_TheLardOfTheRings05_3_dlg_End_1_Moe" revealSpeed="medium" />
 		<Action type="dialogue" character="Homer_Strongman" text="QST_TheLardOfTheRings05_3_dlg_End_2_StrongmanHomer" revealSpeed="medium" />
 	</TheLardOfTheRings05_End>
+	<ApplySpookyShader>
+    <Action type="if">
+      <If expression=
+        "
+          #program;
+          var ghostTolerance = int(System::getConfigValue('__THOH2013_GameConfig:EventDefinitions:DarkShaderTolerance__'));
+          var tappableInstances = Land::getAllInstancesOfObject(Character::find('Ghost'));
+					var arraySize = Array::size(tappableInstances);
+          if(arraySize &gt; ghostTolerance){
+              return true;
+          }
+          return false;
+        "
+      >
+        <Then>
+          <Action type="setShader" shader="DarkerSpookyAtmosphere" set="THOH2015_ShaderSets:InGameSet" />
+        </Then>
+      </If>
+      <Else>
+        <Then>
+          <Action type="setShader" shader="DarkSpookyAtmosphere" set="THOH2015_ShaderSets:InGameSet" />
+        </Then>
+      </Else>
+    </Action>
+	</ApplySpookyShader>
+  <ResetUFOHitCounter>
+		<Action type="setVariable" intVariable="UFOHitCounter" intValue="0" />
+  </ResetUFOHitCounter>
+	<GoToRayGun>
+		<Action type="checkRequirements">
+			<Requirements>
+				<Requirement type="place building" building="RayGun" />
+			</Requirements>
+			<True>
+				<Action type="pantoobject" time="0" building="RayGun" zoom="0.1" fakeTouch="true" />
+			</True>
+			<False>
+				<Action type="focusOnMenuItem" itemName="RayGun" inventory="true" />
+      </False>
+    </Action>
+  </GoToRayGun>
+  <RayGunAttack ignoreHUD="true">
+    <Action type="checkExpression" expression="UFOHitCounter">
+      <ExpressionCase value="0">
+        <Action type="fadeScreen" colour="Black" direction="out" speed="0.2" />
+        <Action type="showScreenEffect" screenEffect="DarkScreen" show="true" />
+        <Action type="showScreenEffect" screenEffect="PinHoleScreen" show="true" />
+				<Action type="pantoobject" time="0" building="RayGun" zoom="0.1" fakeTouch="false" />
+        <Action type="removeFlyBy" flyBy="UFO" />
+        <Action type="delay" time="0.01" />
+        <Action type="spawnFlyBy" flyBy="UFO" />
+        <Action type="delay" time="10" />
+        <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+        <Action type="delay" time="0.01" />
+        <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_1" nowait="true" loop="true" />
+        <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+		    <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+		    <Action type="runScript" script="ResyncUFO" package="THOH2013_Scripts" />
+      </ExpressionCase>
+      <ExpressionCase value="1">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <ction type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_1" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+		          <Action type="flashObject" object="UFO" remove="true" />
+		          <Action type="dialogue" character="Kodos" text="QST_ShootDownKodos02_3_dlg_Start_1_Kodos" revealSpeed="medium" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="2">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_1" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="3">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="4">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_1" nowait="true" loop="true" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="5">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_1" nowait="true" loop="true" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="6">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_3" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+		          <Action type="flashObject" object="UFO" remove="true" />
+		          <Action type="dialogue" character="Kodos" text="QST_ShootDownKodos01_3_dlg_Start_9_Kodos" revealSpeed="medium" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="7">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_3" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="8">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+	            <Action type="sound" sound="165_ufo_crash.caf" replayType="playAnyways"/>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+              <Action type="delay" time="0.01" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_3" nowait="true" loop="true" />
+		          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+              <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+              <Action type="delay" time="5.0" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+      <ExpressionCase value="9">
+				<Action type="if">
+					<If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+						<Then>
+		          <Action type="setVariable" intVariable="UFOHitCounter" intValue="UFOHitCounter+1" />
+              <Action type="setVariable" boolVariable="UFOHasCrashed" boolValue="true" />
+              <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Crash" nowait="true" loop="false" />
+              <Action type="delay" time="1.5" />
+              <Action type="fadeScreen" colour="White" direction="out" speed="9" />
+              <Action type="shakeCamera" length="64" magnitude="64" />
+		          <Action type="sound" sound="278_ghost_bomb_revison2.caf" />
+              <Action type="createobject" name="CrashedUFO" building="RayGun" save="true" panCamera="false" />
+              <Action type="moveObjectInstance" onType="building" onObject="CrashedUFO" xPos="gridToWorld(System::evaluate('Building::RayGun::Object::GridX'))" yPos="gridToWorld(System::evaluate('Building::RayGun::Object::GridY'))" forceValid="false" />
+              <Action type="if">
+                <If expression="System::evaluate('Building::RayGun::Flip::AsBool')">
+                  <Then>
+                    <Action type="runScriptOnAll" building="CrashedUFO" script="UFOCrashes" package="THOH2013_Scripts" />
+                  </Then>
+                </If>
+              </Action>
+              <Action type="deletebuilding" building="RayGun" waitForAnimationToComplete="false" />
+						</Then>
+					</If>
+        </Action>
+      </ExpressionCase>
+    </Action>
+    <Action type="delay" time="1.0" />
+		<Action type="flashObject" object="UFO" remove="true" />
+  </RayGunAttack>
+  <ResyncUFO>
+    <Action type="if">
+      <If expression="lessThan(mod(serverTime(0) - UFOHitTimer, 6), 1)">
+        <Then>
+          <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_2" nowait="true" loop="true" />
+          <Action type="delay" time="0.01" />
+          <Action type="anim-play" flyBy="UFO" animation="Attack_Ray_Gun_Level_1" nowait="true" loop="true" />
+          <Action type="setVariable" intVariable="UFOHitTimer" intValue="serverTime(0)" />
+          <Action type="flashObject" object="UFO" color="FF00FFFF" period="0.38" instanceDuration="0.18" />
+          <Action type="delay" time="1.0" />
+		      <Action type="flashObject" object="UFO" remove="true" />
+          <Action type="fadeScreen" colour="Black" direction="in" speed="0.25" />
+        </Then>
+      </If>
+      <Else>
+				<Then>
+          <Action type="delay" time="1.0" />
+		      <Action type="runScript" script="ResyncUFO" package="THOH2013_Scripts" />
+				</Then>
+      </Else>
+    </Action>
+  </ResyncUFO>
+  <ShootLasers>
+	  <Action type="sound" sound="amb_ea_tsto_laser_fire.caf" replayType="playAnyways"/>
+  </ShootLasers>
+  <UFOCrashes parallel="true">
+		<Action type="program">
+			<Program><![CDATA[
+                    #program;
+                    var instance = Script::getObjectInstance();
+                    Building::tryFlip(instance);
+                ]]></Program>
+    </Action>
+  </UFOCrashes>
+  <ShootingDownUFOBattleEnding_End>
+    <Action type="fadeScreen" colour="White" direction="in" speed="2" />
+    <Action type="flashScreen" colour="White" speed="2" />
+    <Action type="shakeCamera" length="120" magnitude="64" />
+    <Action type="sound" sound="278_ghost_bomb_revison2.caf" />
+    <Action type="flashScreen" colour="White" speed="2" />
+    <Action type="sound" sound="278_ghost_bomb_revison2.caf" />
+    <Action type="flashScreen" colour="White" speed="2" />
+    <Action type="flashScreen" colour="White" speed="2" />
+    <Action type="sound" sound="278_ghost_bomb_revison2.caf" />
+    <Action type="delay" time="3.0" />
+    <Action type="dialogue" character="Kodos" text="QST_ShootDownKodos03_3_dlg_Start_2_Kodos" revealSpeed="medium" />
+    <Action type="dialogue" character="Frink" text="QST_ShootDownKodos03_3_dlg_Start_3_Frink" revealSpeed="medium" />
+    <Action type="dialogue" character="Frink" text="QST_ShootDownKodos03_3_dlg_Start_4_Frink" revealSpeed="medium" />
+    <Action type="reward">
+      <Item type="character" name="Kodos" useImmediately="true" />
+      <Item type="building" name="RayGun" useImmediately="false" />
+    </Action>
+    <Action type="moveObjectInstance" onType="character" onObject="Kodos" xPos="gridToWorld(System::evaluate('Building::CrashedUFO::Object::GridX')-.25)" yPos="gridToWorld(System::evaluate('Building::CrashedUFO::Object::GridY')+.25)" forceValid="false" />
+  </ShootingDownUFOBattleEnding_End>
 </ScriptPackage>

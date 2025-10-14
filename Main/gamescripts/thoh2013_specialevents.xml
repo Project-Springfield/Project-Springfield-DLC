@@ -1,6 +1,10 @@
 ﻿<SpecialEvents>
+  <MasterList>
+		<DataID id="4006" name="THOH2013" onDeprecated="delete" startDate="THOH2013_Start" endDate="THOH2013_End" />
+		<DataID id="4007" name="THOH2013_Definitions" onDeprecated="delete" startDate="THOH2013_Start" endDate="THOH2013_End" />
+  </MasterList>
 	<SpecialEvent id="4006" name="THOH2013">
-		<GuideData title="UI_THOH2013Guide_name" tip="UI_THOH2013Guide_tip" step1="UI_THOH2013Guide_panel01" step2="UI_THOH2013Guide_panel02" step3="UI_THOH2013Guide_panel03" img1="ICO_THOH_Step1Image" img2="ICO_THOH_Step2Image" img3="ICO_THOH_Step3Image" countdownText="UI_THOH2013Guide_countdown" endDate="THOHTwentyFourEndDate" />
+		<GuideData title="UI_THOH2013Guide_name" tip="UI_THOH2013Guide_tip" step1="UI_THOH2013Guide_panel01" step2="UI_THOH2013Guide_panel02" step3="UI_THOH2013Guide_panel03" img1="ICO_THOH_Step1Image" img2="ICO_THOH_Step2Image" img3="ICO_THOH_Step3Image" countdownText="UI_THOH2013Guide_countdown" endDate="THOH2013_End" />
 		<HUDCurrencies buttonType="guide">
 			<Currency type="Ectoplasm" />
 			<Currency type="Gremlins" />
@@ -38,8 +42,27 @@
 					</FriendScript>
 				</CharacterSpawnMode>
 			</Button>
+			<Button mode="game" icon="ICO_THOH_Tools_Vacuum">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="variable" variable="VacuumToolUnlocked" />
+          <Requirement type="formula" formula="lessThan(User::getVariable('VacuumCooldown'), serverTime(0))" />
+				</Requirements>
+				<RunScript>
+				  <Script name="UseToolVacuum" package="THOH2013_Scripts" />
+				</RunScript>
+			</Button>
+			<Button mode="game" icon="ICO_THOH_Tools_GhostBomb" counter="true" identifier="GhostBomb" >
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+          <Requirement type="formula" formula="Array::size(Inventory::getConsumablesAsArray('GhostBomb'))" />
+				</Requirements>
+				<RunScript>
+				  <Script name="GhostBombTap" package="THOH2013_Scripts" />
+				</RunScript>
+			</Button>
 		</SpecialButtons>
-		<SpecialTools>
+		<!--SpecialTools>
 			<Requirements>
 				<Requirement type="variable" variable="THOH24" />
 				<Requirement type="land" land="Springfield" />
@@ -62,7 +85,7 @@
 				<Item type="consumable" name="GhostBomb" emptyTitle="UI_THOH2013_OutOfBombs_Title" emptyText="UI_THOH2013_OutOfBombs_Text" getMoreErrorBuyItem="GhostBombCon" />
 				<Script name="ActivateToolBomb" package="THOH2013_Scripts" />
 			</Tool>
-		</SpecialTools>
+		</SpecialTools-->
 		<List name="Hauntable">
 			<String name="AdultEducationAnnex" />
 			<String name="AllNightGym" />
@@ -529,11 +552,11 @@
 				</Vandalism>
 			</Building>
 		</Buildings>
-		<Autovandalize list="Hauntable" time="24h" amount="3" max="15">
+		<!--Autovandalize list="Hauntable" time="24h" amount="3" max="15">
 			<Requirements>
 				<Requirement type="quest started" quest="TheGhostInTheMachineBasedApp03" />
 			</Requirements>
-		</Autovandalize>
+		</Autovandalize-->
 		<List name="Posessors">
 			<String name="Ghost" />
 		</List>
@@ -576,7 +599,9 @@
 			<String name="Eddie" />
 			<String name="Lou" />
 		</List>
-		<ProximityCheck attackers="Posessors" defenders="PossessableCharacters" gridRadius="4" defenderSkinRestriction=".*Haunted" frequency="idle" chance="2" canTargetScriptedMovementCharacters="false" attackerMustFaceDefender="true"></ProximityCheck>
+    <ProximityChecks>
+      <ProximityCheck  attackers="Posessors" defenders="PossessableCharacters" gridRadius="4" defenderSkinRestriction=".*Haunted" frequency="idle" chance="2" canTargetScriptedMovementCharacters="false" attackerMustFaceDefender="true" />
+    </ProximityChecks>
 		<Characters override="true" list="Posessors">
 			<Character>
 				<OnEvent event="CharacterTouched" onObject="Ghost" user="local">
@@ -909,154 +934,160 @@
 					<Requirement type="players land" />
 					<Requirement type="building" building="CrashedUFO" not="true" />
 					<Requirement type="item" item="CrashedUFO" not="true" />
-					<Requirement type="quest" quest="ShootingDownUFOEnd2" not="true" />
 					<Requirement type="conditional" logic="OR">
-						<Requirement type="quest" quest="Ultrahouse2" />
-						<Requirement type="time" start="HalloweenGiveaway_StartDate" />
+					  <!--Requirement type="conditional" logic="AND">
+              <Requirement type="building owned" building="RayGun" not="true" />
+			        <Requirement type="special currency" currency="Ectoplasm" amount="4100" />
+            </Requirement-->
+		        <Requirement type="quest" quest="Ultrahouse2" />
 					</Requirement>
 				</Requirements>
 			</FlyBy>
 		</FlyBys>
-		<PrizeLists state="GameState_SpecialEventPrizeList">
-			<PrizeList id="1" type="community">
-				<Attributes>
-					<Attribute name="nameText" value="UI_THOH2013_CommunityPrizeMenu_Title" />
-					<Attribute name="completeTitle" value="UI_THOH2013_CommunityPrizeMenu_CompleteTitle" />
-					<Attribute name="completeText" value="UI_THOH2013_CommunityPrizeMenu_Complete" />
-					<Attribute name="messageText" value="UI_THOH2013_CommunityPrizesAwardDesc" />
-					<Attribute name="infoText" value="UI_THOH2013_CommunityPrizeMenu_InfoText" />
-					<Attribute name="subTitleText" value="UI_THOH2013_CommunityPrizeMenu_SubTitleText" />
-					<Attribute name="totalText" value="UI_THOH2013_CommunityPrizeMenu_GlobalTotal" />
-					<Attribute name="rewardTipText" value="" />
-					<Attribute name="menuTipText" value="UI_THOH2013_CommunityPrizeMenu_MenuTipText" />
-					<Attribute name="currency1" value="Ectoplasm" />
-					<Attribute name="currency2" value="donuts" />
-					<Attribute name="goalReachedTitle" value="UI_THOH2013_CommunityPrizeMenu_GoalReached_Title" />
-					<Attribute name="goalReachedText" value="UI_THOH2013_CommunityPrizeMenu_GoalReached_Text" />
-					<Attribute name="backgroundRewardIcon" value="ICO_THOH2013_MenuGhost" />
-				</Attributes>
-				<Prize name="BLD_FirstChurchOfLardLad_name" listIcon="ICO_THOH_ChurchOfLardLad_MD" rewardIcon="ICO_THOH_ChurchOfLardLad_LG" useImmediately="false">
-					<Requirements>
-						<Requirement type="community currency" currency="Ectoplasm" thresholdIndex="0" />
-						<Requirement type="quest" quest="TheGhostInTheMachineBasedApp02" />
-						<Requirement type="land" land="Springfield" />
-					</Requirements>
-					<Reward>
-						<Item type="building" name="FirstChurchOfLardLad" />
-					</Reward>
-				</Prize>
-				<Prize name="CHA_ClawingZombie_name" listIcon="ICO_THOH_ClawingZombie_MD" rewardIcon="ICO_THOH_ClawingZombie_LG">
-					<Requirements>
-						<Requirement type="community currency" currency="Ectoplasm" thresholdIndex="1" />
-						<Requirement type="quest" quest="TheGhostInTheMachineBasedApp02" />
-						<Requirement type="land" land="Springfield" />
-					</Requirements>
-					<Reward>
-						<Item type="character" name="ClawingZombie" />
-					</Reward>
-				</Prize>
-				<Prize name="CON_GhostBombTool_name" listIcon="ICO_THOH_GhostBomb_MD" rewardIcon="ICO_THOH_GhostBomb_LG">
-					<Requirements>
-						<Requirement type="community currency" currency="Ectoplasm" thresholdIndex="2" />
-						<Requirement type="quest" quest="TheGhostInTheMachineBasedApp02" />
-						<Requirement type="land" land="Springfield" />
-					</Requirements>
-					<Reward>
-						<Item type="consumable" name="GhostBombTool" useImmediately="true" />
-					</Reward>
-				</Prize>
-				<Prize name="CHA_FrogPrince_name" listIcon="ICO_THOH_FrogPrince_MD" rewardIcon="ICO_THOH_FrogPrince_LG">
-					<Requirements>
-						<Requirement type="community currency" currency="Ectoplasm" thresholdIndex="3" />
-						<Requirement type="quest" quest="TheGhostInTheMachineBasedApp02" />
-						<Requirement type="land" land="Springfield" />
-					</Requirements>
-					<Reward>
-						<Item type="character" name="FrogPrince" />
-					</Reward>
-				</Prize>
-				<Prize name="BLD_KingHomersSkyscraper_name" listIcon="ICO_THOH_KingHomer_MD" rewardIcon="ICO_THOH_KingHomer_LG" useImmediately="false">
-					<Requirements>
-						<Requirement type="community currency" currency="Ectoplasm" thresholdIndex="4" />
-						<Requirement type="quest" quest="TheGhostInTheMachineBasedApp02" />
-						<Requirement type="land" land="Springfield" />
-					</Requirements>
-					<Reward>
-						<Item type="building" name="KingHomersSkyscraper" />
-					</Reward>
-				</Prize>
-			</PrizeList>
-			<PrizeList id="0" type="local">
-				<Attributes>
-					<Attribute name="nameText" value="UI_THOH2013_PersonalPrizeMenu_Title" />
-					<Attribute name="completeText" value="UI_THOH2013_PersonalPrizeMenu_Complete" />
-					<Attribute name="messageText" value="UI_THOH2013_PrizesAwardDesc" />
-					<Attribute name="countText" value="UI_THOH2013_PrizesEctoplasmCount" />
-					<Attribute name="getnowText" value="UI_WhackingDayPrizes_getnow" />
-					<Attribute name="backgroundRewardIcon" value="ICO_THOH2013_MenuGhost" />
-					<Attribute name="tipText" value="UI_THOH2013_PersonalPrizeMenu_Tip" />
-					<Attribute name="rewardTipText" value="" />
-					<Attribute name="currency1" value="Ectoplasm" />
-					<Attribute name="currency2" value="donuts" />
-				</Attributes>
-				<Prize name="BLD_PumpkinHouse_name" listIcon="ICO_THOH_PumpkinHouse_MD" rewardIcon="ICO_THOH_PumpkinHouse_LG" useImmediately="false" rush_rate="2">
-					<Requirement type="special currency" currency="Ectoplasm" amount="100" />
+		<ScreenEffects>
+			<ScreenEffect name="DarkScreen" class="DarkScreenBehaviour">
+				<Requirements>
+					<Requirement type="level" level="5"/>
+				</Requirements>
+			</ScreenEffect>
+		</ScreenEffects>
+    <EventHub menuConfig="Config_EventHub:Default" >
+			<Tabs>
+        <Tab name="Tab_PrizeTrack" icon="ICO_THOH_Ectoplasm_01" >
+					<Script name="Dummy" package="THOH2013_Scripts" />
+				</Tab>
+      </Tabs>
+		</EventHub>
+		<PrizeLists>
+			<PrizeList id="0" type="local" menuConfig="THOH2013_PrizeTrackConfig:PrizeTrack0">
+				<Prize name="BLD_PumpkinHouse_name" listIcon="ICO_THOH_PumpkinHouse_MD" rewardIcon="ICO_THOH_PumpkinHouse_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="500" />
 					<Reward>
 						<Item type="building" name="PumpkinHouse" />
 					</Reward>
 				</Prize>
-				<Prize name="BLD_AncientBurialGround_name" listIcon="ICO_THOH_AncientBurialGround_MD" rewardIcon="ICO_THOH_AncientBurialGround_LG" useImmediately="false" rush_rate="6">
-					<Requirement type="special currency" currency="Ectoplasm" amount="500" />
+				<Prize name="BLD_AncientBurialGround_name" listIcon="ICO_THOH_AncientBurialGround_MD" rewardIcon="ICO_THOH_AncientBurialGround_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="1000" />
 					<Reward>
 						<Item type="building" name="AncientBurialGround" />
 					</Reward>
 				</Prize>
-				<Prize name="CON_VacuumTool_name" listIcon="ICO_THOH_VacuumTool_MD" rewardIcon="ICO_THOH_VacuumTool_LG" rush_rate="9">
-					<Requirement type="special currency" currency="Ectoplasm" amount="1250" />
-					<Reward>
-						<Item type="consumable" name="VacuumTool" useImmediately="true" />
-					</Reward>
-				</Prize>
-				<Prize name="CHA_ShufflingZombie_name" listIcon="ICO_THOH_ShufflingZombie_MD" rewardIcon="ICO_THOH_ShufflingZombie_LG" rush_rate="8">
+				<Prize name="CHA_ShufflingZombie_name" listIcon="ICO_THOH_ShufflingZombie_MD" rewardIcon="ICO_THOH_ShufflingZombie_LG" rush_rate="0.001">
 					<Requirement type="special currency" currency="Ectoplasm" amount="2000" />
 					<Reward>
 						<Item type="character" name="ShufflingZombie" />
 					</Reward>
 				</Prize>
-				<Prize name="BLD_VictorianUFO_name" listIcon="ICO_THOH_KodosUFO_MD" rewardIcon="ICO_THOH_KodosUFO_LG" useImmediately="false" rush_rate="9">
+				<Prize name="CHA_Strongman_name" listIcon="Homer_Strongman_Menu" rewardIcon="CharacterSets_Homer_Strongman" useImmediately="false" rush_rate="0.001">
 					<Requirement type="special currency" currency="Ectoplasm" amount="3000" />
+					<Reward>
+						<Item type="consumable" name="Strongman" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_VictorianUFO_name" listIcon="ICO_THOH_KodosUFO_MD" rewardIcon="ICO_THOH_KodosUFO_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="4000" />
 					<Reward>
 						<Item type="building" name="VictorianUFO" />
 					</Reward>
 				</Prize>
-				<Prize name="BLD_Ultrahouse2_name" listIcon="ICO_THOH_Ultrahouse3000_MD" rewardIcon="ICO_THOH_Ultrahouse3000_LG" useImmediately="false" rush_rate="8">
-					<Requirement type="special currency" currency="Ectoplasm" amount="4000" />
+				<Prize name="CON_VacuumTool_name" listIcon="ICO_THOH_VacuumTool_MD" rewardIcon="ICO_THOH_VacuumTool_LG" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="5000" />
+					<Reward>
+						<Item type="consumable" name="VacuumTool" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_Ultrahouse2_name" listIcon="ICO_THOH_Ultrahouse3000_MD" rewardIcon="ICO_THOH_Ultrahouse3000_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="7000" />
 					<Reward>
 						<Item type="building" name="Ultrahouse2" />
 					</Reward>
 				</Prize>
-				<Prize name="CHA_KingSnorky_name" listIcon="ICO_THOH_KingSnorky_MD" rewardIcon="ICO_THOH_KingSnorky_LG" rush_rate="7">
-					<Requirement type="special currency" currency="Ectoplasm" amount="5250" />
+      </PrizeList>
+			<PrizeList id="1" type="local" menuConfig="THOH2013_PrizeTrackConfig:PrizeTrack1">
+				<Prize name="CHA_KingSnorky_name" listIcon="ICO_THOH_KingSnorky_MD" rewardIcon="ICO_THOH_KingSnorky_LG" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="8250" />
 					<Reward>
 						<Item type="character" name="KingSnorky" />
 					</Reward>
 				</Prize>
-				<Prize name="BLD_TwirlNHurl_name" listIcon="ICO_THOH_KangsCenterdome_MD" rewardIcon="ICO_THOH_KangsCenterdome_LG" useImmediately="false" rush_rate="6">
-					<Requirement type="special currency" currency="Ectoplasm" amount="6500" />
+				<Prize name="BLD_TwirlNHurl_name" listIcon="ICO_THOH_KangsCenterdome_MD" rewardIcon="ICO_THOH_KangsCenterdome_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="9500" />
 					<Reward>
 						<Item type="building" name="TwirlNHurl" />
 					</Reward>
 				</Prize>
-				<Prize name="BLD_BurnsCoffin_name" listIcon="ICO_THOH_BurnsAndCoffin_MD" rewardIcon="ICO_THOH_BurnsAndCoffin_LG" useImmediately="false" rush_rate="6">
-					<Requirement type="special currency" currency="Ectoplasm" amount="8000" />
+				<Prize name="CHA_ClawingZombie_name" listIcon="ICO_THOH_ClawingZombie_MD" rewardIcon="ICO_THOH_ClawingZombie_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="11000" />
+					<Reward>
+						<Item type="character" name="ClawingZombie" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_UBO_name" listIcon="MrBurns_UBO_Menu" rewardIcon="Unlock_MrBurns_UBO" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="12500" />
+					<Reward>
+						<Item type="character" name="ClawingZombie" />
+					</Reward>
+				</Prize>
+				<Prize name="CON_GhostBombTool_name" listIcon="ICO_THOH_GhostBomb_MD" rewardIcon="ICO_THOH_GhostBomb_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="14000" />
+					<Reward>
+						<Item type="consumable" name="GhostBombTool" useImmediately="true" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_BurnsCoffin_name" listIcon="ICO_THOH_BurnsAndCoffin_MD" rewardIcon="ICO_THOH_BurnsAndCoffin_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="15500" />
 					<Reward>
 						<Item type="building" name="BurnsCoffin" />
 					</Reward>
 				</Prize>
-				<Prize name="BLD_GingerbreadHouse_name" listIcon="ICO_THOH_SuzanneGingerbreadHouse_MD" rewardIcon="ICO_THOH_SuzanneGingerbreadHouse_LG" useImmediately="false" rush_rate="6">
-					<Requirement type="special currency" currency="Ectoplasm" amount="10000" />
+				<Prize name="BLD_GingerbreadHouse_name" listIcon="ICO_THOH_SuzanneGingerbreadHouse_MD" rewardIcon="ICO_THOH_SuzanneGingerbreadHouse_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="18000" />
 					<Reward>
 						<Item type="building" name="GingerbreadHouse" />
+					</Reward>
+				</Prize>
+      </PrizeList>
+			<PrizeList id="2" type="local" menuConfig="THOH2013_PrizeTrackConfig:PrizeTrack2">
+				<Prize name="BLD_FirstChurchOfLardLad_name" listIcon="ICO_THOH_ChurchOfLardLad_MD" rewardIcon="ICO_THOH_ChurchOfLardLad_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="19500" />
+					<Reward>
+						<Item type="building" name="FirstChurchOfLardLad" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_FrogPrince_name" listIcon="ICO_THOH_FrogPrince_MD" rewardIcon="ICO_THOH_FrogPrince_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="21000" />
+					<Reward>
+						<Item type="character" name="FrogPrince" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_DonutTortureDevice_name" listIcon="DonutTortureDevice_Menu" rewardIcon="DonutTortureDevice_Menu" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="22500" />
+					<Reward>
+						<Item type="building" name="DonutTortureDevice" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_GhostPirateAirship_name" listIcon="GhostPirateAirship_Menu" rewardIcon="GhostPirateAirship_Menu" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="24000" />
+					<Reward>
+						<Item type="building" name="GhostPirateAirship" />
+					</Reward>
+				</Prize>
+				<Prize name="CHA_Hugo_name" listIcon="CharacterSets_Hugo" rewardIcon="CharacterSets_Hugo" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="25500" />
+					<Reward>
+						<Item type="character" name="Hugo" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_HoverCopter_name" listIcon="HoverCopter_Menu" rewardIcon="HoverCopter_Menu" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="27000" />
+					<Reward>
+						<Item type="building" name="GhostPirateAirship" />
+					</Reward>
+				</Prize>
+				<Prize name="BLD_KingHomersSkyscraper_name" listIcon="ICO_THOH_KingHomer_MD" rewardIcon="ICO_THOH_KingHomer_LG" useImmediately="false" rush_rate="0.001">
+					<Requirement type="special currency" currency="Ectoplasm" amount="30000" />
+					<Reward>
+						<Item type="building" name="KingHomersSkyscraper" />
 					</Reward>
 				</Prize>
 			</PrizeList>
@@ -1088,7 +1119,7 @@
 			<Override what="color" from="BUTTONPINK" to="00aa04FF" />
 			<Override what="color" from="PROGRESSFILL" to="c000ffFF" />
 		</Overrides>
-		<SpawnOverTime character="Ghost" loggedOnSpawnTime="15m" loggedOffSpawnTime="15m" maxAllowedInTown="20" regularBankMax="80" premiumBankMax="20" bankVariable="bankedGhosts" errorTitle="UI_THOH2013_MaxGhosts_Title" errorBody="UI_THOH2013_MaxGhosts_Text">
+		<SpawnOverTime character="Ghost" loggedOnSpawnTime="15m" loggedOffSpawnTime="15m" maxAllowedInTown="80" regularBankMax="80" premiumBankMax="20" bankVariable="bankedGhosts" errorTitle="UI_THOH2013_MaxGhosts_Title" errorBody="UI_THOH2013_MaxGhosts_Text">
 			<Subland value="Springfield" />
 		</SpawnOverTime>
 		<TouchOverrides>
@@ -1111,9 +1142,10 @@
 		</TouchOverrides>
 		<PrizeListButton>
 			<Requirements>
-				<Requirement type="variable" variable="enablePrizeList" />
+				<Requirement type="quest" quest="TheGhostInTheMachineBasedApp03" />
 				<Requirement type="land" land="Springfield" />
 			</Requirements>
+			<Script package="THOH2013_Scripts" name="GoToHubPrizeTrack" />
 		</PrizeListButton>
 		<VacuumConfig name="GhostVacuum" suction_sprite="VacuumSuction" suction_anim_in="Active_In" suction_anim="Active" suction_anim_out="Active_Out">
 			<CaptureInfo characterList="Posessors" fromSpecialEvent="THOH2013" pullOffsetX="-6" pullOffsetY="6" pullRadius="16" captureRadius="2" outerPullSpeed="300" innerPullSpeed="500" script="SuckGhost" package="THOH2013_Scripts">
@@ -1121,6 +1153,7 @@
 			</CaptureInfo>
 			<CaptureInfo characterList="PossessableCharacters" fromSpecialEvent="THOH2013" pullRadius="0" captureRadius="16" outerPullSpeed="0" innerPullSpeed="0" script="GhostExcorcism" package="THOH2013_Scripts" allow_recapture="true" requiresSkin=".*Haunted" />
 		</VacuumConfig>
+		<Variable name="VacuumCooldown" value="0" />
 		<Variable name="bankedGhosts" value="0" />
 		<Variable name="GhostBombForced" value="0" />
 		<Variable name="GhostDonut" value="0" />
@@ -1140,5 +1173,122 @@
 		<Variable name="GhostsVacuumed" value="0" />
 		<Variable name="GhostsBombed" value="0" />
 		<Variable name="GhostsZapped" value="0" />
+    <Variable name="UFOHitCounter" value="0" />
+    <Variable name="UFOHitTime" value="0" />
+    <Variable name="UFOHasBeenHit" value="false" />
+    <Variable name="UFOHasCrashed" value="false" />
 	</SpecialEvent>
+  <SpecialEvent id="4007" name="THOH2013_Definitions">
+
+    <LoopScript package="THOH2013_Scripts" script="ApplySpookyShader" interval="0s" loop="false" />
+
+    <OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+      <Script name="ApplySpookyShader" package="THOH2013_Scripts" />
+    </OnEvent>
+
+    <OnEvent event="LandVisited" user="remote" ignoreTypeCheck="true">
+      <Script name="ApplySpookyShader" package="THOH2013_Scripts" />
+    </OnEvent>
+
+    <LoopScript package="THOH2013_Scripts" script="ResetUFOHitCounter" interval="0s" loop="false" >
+      <Requirements>
+        <Requirement type="reqList" location="THOH2013_Requirements:THOH2013_UFOOnTheRun" />
+      </Requirements>
+    </LoopScript>
+
+    <OnEvent event="LandVisited" user="local" ignoreTypeCheck="true">
+      <Requirements>
+        <Requirement type="reqList" location="THOH2013_Requirements:THOH2013_UFOOnTheRun" />
+      </Requirements>
+      <Script name="ResetUFOHitCounter" package="THOH2013_Scripts" />
+    </OnEvent>
+
+		<Buildings override="true">
+			<Building name="GypsyFortuneTellerShop">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_GypsyFortuneTellerShop__" />
+        <BuildTime time="24h" />
+      </Building>
+			<Building name="HouseOfEvil">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_HouseOfEvil__" />
+      </Building>
+			<Building name="Mausoleum">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_Mausoleum__" />
+      </Building>
+			<Building name="PetCemetery">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_PetCemetery__" />
+      </Building>
+			<Building name="SpringfieldCemetery">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_SpringfieldCemetery__" />
+      </Building>
+			<Building name="BadDreamHouse">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_BadDreamHouse__" />
+      </Building>
+			<Building name="FreakShowTent">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_FreakShowTent__" />
+        <BuildTime time="24h" />
+      </Building>
+			<Building name="AncientBurialGround">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_AncientBurialGround__" />
+      </Building>
+			<Building name="SpookyWall">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_SpookyWall__" />
+      </Building>
+			<Building name="Freakmobile">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_Freakmobile__" />
+      </Building>
+			<Building name="WailingWall">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_WailingWall__" />
+      </Building>
+			<Building name="GhostZapper">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_GhostZapper__" />
+      </Building>
+			<Building name="BooberellasStreetCart">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_BooberellasStreetCart__" />
+      </Building>
+			<Building name="JackOLantern">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_JackOLantern__" />
+      </Building>
+			<Building name="DeadTree">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_DeadTree__" />
+      </Building>
+			<Building name="SpookyTree">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_SpookyTree__" />
+      </Building>
+			<Building name="PumpkinPatch">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_PumpkinPatch__" />
+      </Building>
+			<Building name="RayGun">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_RayGun__" />
+      </Building>
+    </Buildings>
+
+
+    <Characters override="true">
+      <Character name="Booberella">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_Booberella__" />
+      </Character>
+      <Character name="Kodos">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_Kodos__" />
+      </Character>
+      <Character name="SnarlingZombie">
+        <Cost money="__THOH2013_GameConfig:PremiumCosts:THOH2013_SnarlingZombie__" />
+      </Character>
+      <Character name="CrazyZombie">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_CrazyZombie__" />
+      </Character>
+      <Character name="SenileZombie">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_SenileZombie__" />
+      </Character>
+      <Character name="BurnsMonster">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_BurnsMonster__" />
+      </Character>
+      <Character name="TheRaven">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_TheRaven__" />
+      </Character>
+      <Character name="TalkingKrustyDoll">
+        <Cost donuts="__THOH2013_GameConfig:PremiumCosts:THOH2013_TalkingKrustyDoll__" />
+      </Character>
+    </Characters>
+
+  </SpecialEvent>
 </SpecialEvents>
