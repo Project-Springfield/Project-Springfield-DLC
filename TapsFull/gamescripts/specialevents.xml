@@ -1364,14 +1364,43 @@
     </FlyBys>
   </SpecialEvent>
   <SpecialEvent id="1003" name="SeasonWinter">
-    <LoopScript package="XMAS2017_Scripts" script="StartSnowFlyByAtRandomTime" interval="0s" loop="false" />
+    <Variable name="WinterFlyByStart" value="0" />
+    <Variable name="WinterFlyByEnd" value="0" />
+    <Variable name="WinterFlyByType" value="0" />
+    <Variable name="WinterFlyByChance" value="0" />
+    <LoopScript script="ResetSnowFlyBy" package="MiscScripts" interval="0s" loop="false" />
+    <LoopScript script="StartSnowFlyByAtRandomTime" package="MiscScripts" interval="0s" loop="false">
+      <Requirements>
+        <Requirement type="formula" formula="lessThan(User::getVariable('WinterFlyByChance'), 58)" />
+      </Requirements>
+    </LoopScript>
     <FlyBys>
       <FlyBy name="Snow">
         <Requirements>
-          <Requirement type="formula" formula="lessThan(User::getVariable('WinterFlyByStart'), serverTime(0))" />
+          <Requirement type="formula" formula="User::getVariable('WinterFlyByType') == 1" />
           <Requirement type="formula" formula="greaterThan(User::getVariable('WinterFlyByEnd'), serverTime(0))" />
-          <Requirement type="level" level="5" />
-          <Requirement type="quest" quest="MyPad" />
+          <Requirement type="formula" formula="lessThan(User::getVariable('WinterFlyByStart'), serverTime(0))" />
+        </Requirements>
+      </FlyBy>
+      <FlyBy name="FallingSnowHeavy">
+        <Requirements>
+          <Requirement type="formula" formula="User::getVariable('WinterFlyByType') == 2" />
+          <Requirement type="formula" formula="greaterThan(User::getVariable('WinterFlyByEnd'), serverTime(0))" />
+          <Requirement type="formula" formula="lessThan(User::getVariable('WinterFlyByStart'), serverTime(0))" />
+        </Requirements>
+      </FlyBy>
+      <FlyBy name="Blizzard">
+        <Requirements>
+          <Requirement type="formula" formula="User::getVariable('WinterFlyByType') == 3" />
+          <Requirement type="formula" formula="greaterThan(User::getVariable('WinterFlyByEnd'), serverTime(0))" />
+          <Requirement type="formula" formula="lessThan(User::getVariable('WinterFlyByStart'), serverTime(0))" />
+        </Requirements>
+      </FlyBy>
+      <FlyBy name="Blizzard02">
+        <Requirements>
+          <Requirement type="formula" formula="User::getVariable('WinterFlyByType') == 4" />
+          <Requirement type="formula" formula="greaterThan(User::getVariable('WinterFlyByEnd'), serverTime(0))" />
+          <Requirement type="formula" formula="lessThan(User::getVariable('WinterFlyByStart'), serverTime(0))" />
         </Requirements>
       </FlyBy>
     </FlyBys>
@@ -6371,7 +6400,5 @@
 		<Variable name="TSTOTE_Complete" value="false" />
 		<Variable name="NoDonutReRain" value="false" />
     <Variable name="WelcomeScreenCooldown" value="0" />
-    <Variable name="WinterFlyByStart" value="0"/>
-    <Variable name="WinterFlyByEnd" value="0"/>
 	</SpecialEvent>
 </SpecialEvents>
