@@ -1,7 +1,7 @@
 ﻿<SpecialEvents>
 	<MasterList>
 		<DataID id="156000" name="CrookAndLadder_Main" />
-		<DataID id="156001" name="CrookAndLadder_NonPermanent" />
+    <DataID id="156001" name="CrookAndLadder_NonPermanent" />
 	</MasterList>
 	<SpecialEvent id="156000" name="CrookAndLadder_Main">
 		<Variable name="CrookAndLadder_Event" value="true" />
@@ -12,6 +12,7 @@
 		<Variable name="CrookAndLadder_KwikEMartOnFire" value="false" />
 		<Variable name="CrookAndLadder_SchoolOnFire" value="false" />
 		<Variable name="CrookAndLadder_PoliceStationFire" value="false" />
+		<Variable name="CrookAndLadder_Store" value="true" />
 		<Variable name="CnL_RegularReward" value="0" />
 		<Variable name="CnL_PremiumReward" value="0" />
 		<Variable name="CnL_TappablesReward" value="0" />
@@ -39,7 +40,6 @@
 			<Requirements>
 				<Requirement type="quest started" quest="WeDidntStartTheFire_3" />
 				<Requirement type="quest" quest="WeDidntStartTheFire_9" not="true" />
-				<Requirement type="variable" variable="CrookAndLadder_Expired" not="true" />
 			</Requirements>
 			<Subland value="Springfield" />
 		</SpawnOverTime>
@@ -277,5 +277,457 @@
 	</SpecialEvent>
 	<SpecialEvent id="156001" name="CrookAndLadder_NonPermanent">
 		<Variable name="CrookAndLadder_Store" value="true" />
+		<SpecialButtons>
+			<Button mode="game" icon="ICO_CrookAndLadder_TopRight">
+				<Requirements>
+					<Requirement type="land" land="Springfield" />
+					<Requirement type="quest started" quest="WeDidntStartTheFire_2" />
+					<Requirement type="quest" quest="WeDidntStartTheFire_9" not="true" />
+					<Requirement type="time" end="CrookAndLadder_End" />
+				</Requirements>
+				<RunScript>
+					<Script name="OpenMasterQuest" package="CrookAndLadder_Scripts" />
+				</RunScript>
+			</Button>
+		</SpecialButtons>
+		<SuppressFriendActions>
+			<ShopRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+				<Requirement type="quest" quest="WeDidntStartTheFire_2" />
+			</ShopRequirements>
+			<FarmRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+				<Requirement type="quest" quest="WeDidntStartTheFire_2" />
+			</FarmRequirements>
+			<VandalismRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+				<Requirement type="quest" quest="WeDidntStartTheFire_2" not="true" />
+			</VandalismRequirements>
+			<PushNoteRequirements>
+				<Requirement type="conditional" logic="OR">
+					<Requirement type="players land" />
+					<Requirement type="fakefriend" />
+				</Requirement>
+				<Requirement type="quest" quest="WeDidntStartTheFire_2" />
+			</PushNoteRequirements>
+		</SuppressFriendActions>
+		<BuildingGroupNames>
+			<Group name="CrookAndLadderFires" />
+		</BuildingGroupNames>
+		<Buildings override="true">
+			<Building name="BurnsManor">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_BurnsManor_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_BurnsManor_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_BurnsManor_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="FirstChurchofSpringfield">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_Church_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_Church_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_Church_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_Church_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_Church_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_Church_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="CletusFarm">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_CletusFarm_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_CletusFarm_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_CletusFarm_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_CletusFarm_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_CletusFarm_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_CletusFarm_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="AndroidsDungeon">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_ComicBookShop_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_ComicBookShop_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_ComicBookShop_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="FlandersHome">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_FlandersHouse_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_FlandersHouse_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_FlandersHouse_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_FlandersHouse_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_FlandersHouse_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_FlandersHouse_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="BrownHouse">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_GenericHouse01_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_GenericHouse01_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_GenericHouse01_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="BlueHouse">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_GenericHouse02_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_GenericHouse02_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_GenericHouse02_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="WhiteHouse">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_GenericHouse04_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_GenericHouse04_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_GenericHouse04_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="OrangeHouse">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_GenericHouse05_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_GenericHouse05_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_GenericHouse05_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="JavaServer">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_JavaServer_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_JavaServer_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_JavaServer_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="Kwik-E-Mart">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_KwikEMart_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_KwikEMart_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_KwikEMart_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="Kwik-E-MartFranchise">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_KwikEMart_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_KwikEMart_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_KwikEMart_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="KrustyBurger">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_KrustyBurger_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_KrustyBurger_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_KrustyBurger_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_KrustyBurger_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_KrustyBurger_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_KrustyBurger_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="KrustyBurgerFranchise">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_KrustyBurger_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_KrustyBurger_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_KrustyBurger_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_KrustyBurger_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_KrustyBurger_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_KrustyBurger_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="MoesTavern">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_Moes_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_Moes_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_Moes_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="SpringfieldElementary">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_School_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_School_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_School_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="SimpsonHome">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_SimpsonHome_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_SimpsonHome_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_SimpsonHome_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_SimpsonHome_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_SimpsonHome_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_SimpsonHome_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="SkinnerHouse">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_SkinnerHouse_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_SkinnerHouse_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_SkinnerHouse_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_SkinnerHouse_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_SkinnerHouse_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_SkinnerHouse_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="SpringfieldDowns">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_SpringfieldDowns_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_SpringfieldDowns_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_SpringfieldDowns_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_SpringfieldDowns_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_SpringfieldDowns_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_SpringfieldDowns_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="SpringfieldLibrary">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_SpringfieldLibrary_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_SpringfieldLibrary_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_SpringfieldLibrary_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="VanHoutenHome">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_VanHouten_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_VanHouten_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_VanHouten_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_VanHouten_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_VanHouten_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_VanHouten_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+			<Building name="WiggumHouse">
+				<Vandalism text="UI_FireStartedBy" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="false">
+					<Requirements>
+						<Requirement type="quest" quest="MyPad" />
+					</Requirements>
+					<OneShot name="Clean" file="FireOverlay" animation="Fire_WiggumHouse_Out" x="0" y="0" />
+					<OneShot name="Spray" file="FireOverlay" animation="Fire_WiggumHouse_In" x="0" y="0" />
+					<OneShot name="CleanFlipped" file="FireOverlayFlipped" animation="Fire_WiggumHouse_Out" x="0" y="0" />
+					<OneShot name="SprayFlipped" file="FireOverlayFlipped" animation="Fire_WiggumHouse_In" x="0" y="0" />
+					<Anim name="Vandalized" file="FireOverlay" animation="Fire_WiggumHouse_Active" overlay="true" randomStartFrame="false" />
+					<Anim name="VandalizedFlipped" file="FireOverlayFlipped" animation="Fire_WiggumHouse_Active" overlay="true" randomStartFrame="false" />
+					<CleanIndicator icon="Indicator_Hat" />
+					<SprayIndicator icon="Indicator_Fire" />
+					<Reward type="VandalismScript" script="CrookAndLadder_Scripts:CrookAndLadder_VandalismReward" />
+					<Reward type="CleanScript" script="CrookAndLadder_Scripts:CrookAndLadder_CleanReward" />
+					<Sound type="Vandalism" sound="sfx_Crook_Ladder_Vandalism_Set_02.caf" />
+					<Sound type="Clean" sound="sfx_Crook_Ladder_Vandalism_Clear_01.caf" />
+				</Vandalism>
+				<Group name="CrookAndLadderFires" />
+			</Building>
+		</Buildings>
 	</SpecialEvent>
 </SpecialEvents>
