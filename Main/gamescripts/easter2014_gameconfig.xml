@@ -4,12 +4,17 @@
 		<Attribute name="Easter2014_End" value="2026-04-30 15:00" />
 		<Attribute name="Easter2014_ShatteredEnd" value="2026-05-05 15:00" />
 	</Dates>
+  <PremiumCosts>
+    <Attribute name="PinkEasterMysteryBox" value="500" />
+    <Attribute name="BlueEasterMysteryBox" value="500" />
+    <Attribute name="YellowEasterMysteryBox" value="500" />
+  </PremiumCosts>
+	<CurrencyRewards>
+		<Attribute name="BlueEasterEggs" formula="2 + rand(3 + 2 * mod(partialMayhemId,2))" />
+    <Attribute name="PinkEasterEggs" formula="2 + rand(3 + 2 * (1 - mod(partialMayhemId,2)))" />
+  </CurrencyRewards>
 	<PinkEasterMysteryBox_MysteryBoxGeneralConfig>
 		<Include path="Config_PrizeBoxes:Default" />
-		<!--Attribute name="backgroundImage" value="ICO_ABartFuture_MysteryBox_Background.rgb" />
-		<Attribute name="openSound" value="THOH2017_MysteryBox_Open" />
-		<Attribute name="ambientSound" value="AtW_PrizeBoxMusic" />
-		<Attribute name="rewardPath" value="ABartFuture_GameConfig:ABartFutureMysteryBox_MysteryBoxPrizes" /-->
 		<Attribute name="backgroundImage" value="BSE_MYSPink_Background.rgb" />
 		<Attribute name="openSound" value="THOH2017_MysteryBox_Open" />
 		<Attribute name="ambientSound" value="AtW_PrizeBoxMusic" />
@@ -18,7 +23,7 @@
 		<Attribute name="fadeInSpeed" value="0.5f" />
 		<Attribute name="fadeOutSpeed" value="4f" />
 		<Attribute name="showGetMoreButton" value="false" />
-		<Attribute name="insufficientFundsScript" value="MiscScripts:InsufficientTokens" />
+		<Attribute name="insufficientFundsScript" value="Easter2014_Scripts:InsufficientEasterEggs" />
 		<Attribute name="showCurrencyIcon" value="true" />
 		<Attribute name="exitToState" value="GameState_Store" />
 		<Attribute name="purchaseIcon" value="ICO_Mystery_PinkEgg_LG.rgb" />
@@ -30,34 +35,194 @@
 			<Attribute name="openAnimation" value="ICO_Mystery_PinkBox_Open" />
 			<Attribute name="closedAnimation" value="ICO_Mystery_PinkBox_Closed" />
 			<Attribute name="selectedAnimation" value="ICO_Mystery_PinkBox_Closed" />
-			<Attribute name="infoTextIconAtlas" value="_[Currency::getIconSmall('ABartFutureMysteryBoxToken')]_" />
-			<Attribute name="infoTextAmount" value="__ABartFuture_GameConfig:PremiumCosts:ABartFutureMysteryBox__" />
+			<Attribute name="infoTextIconAtlas" value="_[Currency::getIconSmall('PinkEasterEggs')]_" />
+			<Attribute name="infoTextAmount" value="__Easter2014_GameConfig:PremiumCosts:PinkEasterMysteryBox__" />
       <RewardList>
-        <Reward chance="0.3">
+        <Reward chance="selector PinkBoxChirpyBoyChance" minimumAttempts="12" awardAtAttempt="80">
           <Item type="character" name="ChirpyBoyBartJr" />
         </Reward>
-        <Reward chance="0.5">
-          <Item type="building" name="BlockoStore" />
-        </Reward>
-        <Reward chance="1.0">
-          <Item type="building" name="EasterFence" />
-          <Item type="building" name="EasterFence" />
-          <Item type="building" name="EasterFence" />
+        <Reward chance="selector PinkBoxChirpyBoyChance">
+					<Requirements>
+						<Requirement type="characterunlocked" name="ChirpyBoyBartJr" />
+					</Requirements>
           <Item type="consumable" name="BlueEggSub_TwoFifty" useImmediately="true" />
         </Reward>
-        <!--Reward money="0" donuts="0" xp="0" chance="selector PinkBoxBeachTowelChance">
+        <Reward chance="selector PinkBoxBlockoStoreChance" minimumAttempts="12" awardAtAttempt="81">
+          <Item type="building" name="BlockoStore" />
+        </Reward>
+        <Reward chance="selector PinkBoxBlockoStoreChance">
+					<Requirements>
+            <Requirement type="building owned" building="BlockoStore" />
+					</Requirements>
+          <Item type="consumable" name="BlueEggSub_TwoFifty" useImmediately="true" />
+        </Reward>
+        <Reward chance="selector PinkBoxEasterFenceChance">
+          <Item type="building" name="EasterFence" />
+          <Item type="building" name="EasterFence" />
+          <Item type="building" name="EasterFence" />
+        </Reward>
+        <Reward chance="selector PinkBoxBeachTowelChance">
           <Item type="building" name="BeachTowelAndUmbrella" />
         </Reward>
-        <Reward money="0" donuts="0" xp="0" chance="selector PinkBoxEasterTreeChance">
+        <Reward chance="selector PinkBoxEasterTreeChance">
           <Item type="building" name="EasterTree" />
         </Reward>
-        <Reward money="0" donuts="0" xp="0" chance="selector Easter2014AwardCommonEggVar">
+        <Reward chance="selector Easter2014AwardCommonEggVar">
           <Item type="consumable" name="GoldEggs_OneHundred" useImmediately="true" />
         </Reward>
-        <Reward money="0" donuts="0" xp="0" chance="selector Easter2014AwardUnCommonEggVar">
+        <Reward chance="selector Easter2014AwardUnCommonEggVar">
           <Item type="consumable" name="GoldEggs_ThreeHundred" useImmediately="true" />
-        </Reward-->
+        </Reward>
       </RewardList>
 		</PrizeBox>
 	</PinkEasterMysteryBox_MysteryBoxPrizes>
+	<BlueEasterMysteryBox_MysteryBoxGeneralConfig>
+		<Include path="Config_PrizeBoxes:Default" />
+		<Attribute name="backgroundImage" value="BSE_MYSBlue_Background.rgb" />
+		<Attribute name="openSound" value="THOH2017_MysteryBox_Open" />
+		<Attribute name="ambientSound" value="AtW_PrizeBoxMusic" />
+		<Attribute name="rewardPath" value="Easter2014_GameConfig:BlueEasterMysteryBox_MysteryBoxPrizes" />
+		<Attribute name="showRewardTime" value="0.8f" />
+		<Attribute name="fadeInSpeed" value="0.5f" />
+		<Attribute name="fadeOutSpeed" value="4f" />
+		<Attribute name="showGetMoreButton" value="false" />
+		<Attribute name="insufficientFundsScript" value="Easter2014_Scripts:InsufficientEasterEggs" />
+		<Attribute name="showCurrencyIcon" value="true" />
+		<Attribute name="exitToState" value="GameState_Store" />
+		<Attribute name="purchaseIcon" value="ICO_Mystery_BlueEgg_LG.rgb" />
+	</BlueEasterMysteryBox_MysteryBoxGeneralConfig>
+	<BlueEasterMysteryBox_MysteryBoxPrizes>
+		<PrizeBox>
+			<Attribute name="boxImage" value="ICO_Easter_Mystery_Box" />
+			<Attribute name="consumable" value="BlueEasterMysteryBox" />
+			<Attribute name="openAnimation" value="ICO_Mystery_BlueBox_Open" />
+			<Attribute name="closedAnimation" value="ICO_Mystery_BlueBox_Closed" />
+			<Attribute name="selectedAnimation" value="ICO_Mystery_BlueBox_Closed" />
+			<Attribute name="infoTextIconAtlas" value="_[Currency::getIconSmall('BlueEasterEggs')]_" />
+			<Attribute name="infoTextAmount" value="__Easter2014_GameConfig:PremiumCosts:BlueEasterMysteryBox__" />
+      <RewardList>
+        <Reward chance="selector BlueBoxEggCouncilGuyChance" minimumAttempts="12" awardAtAttempt="81">
+          <Item type="character" name="TheEggCouncilGuy" />
+        </Reward>
+        <Reward chance="selector BlueBoxEggCouncilGuyChance">
+          <Requirements>
+						<Requirement type="characterunlocked" name="TheEggCouncilGuy" />
+					</Requirements>
+          <Item type="consumable" name="PinkEggSub_TwoFifty" useImmediately="true" />
+        </Reward>
+        <Reward chance="selector BlueBoxJohnnyFiestasChance" minimumAttempts="12" awardAtAttempt="80">
+          <Item type="building" name="JohnnyFiestas" />
+        </Reward>
+        <Reward chance="selector BlueBoxJohnnyFiestasChance">
+					<Requirements>
+            <Requirement type="building owned" building="JohnnyFiestas" />
+					</Requirements>
+          <Item type="consumable" name="PinkEggSub_TwoFifty" useImmediately="true" />
+        </Reward>
+        <Reward chance="selector BlueBoxEasterPondChance">
+          <Item type="building" name="EasterPond" />
+        </Reward>
+        <Reward chance="selector BlueBoxEasterEggPileChance">
+          <Item type="building" name="EasterEggPile" />
+        </Reward>
+        <Reward chance="selector BlueBoxEasterFenceChance">
+          <Item type="building" name="EasterFence" />
+          <Item type="building" name="EasterFence" />
+          <Item type="building" name="EasterFence" />
+        </Reward>
+        <Reward chance="selector Easter2014AwardUnCommonEggVar">
+          <Item type="consumable" name="GoldEggs_OneHundred" useImmediately="true" />
+        </Reward>
+        <Reward chance="selector Easter2014AwardCommonEggVar">
+          <Item type="consumable" name="GoldEggs_ThreeHundred" useImmediately="true" />
+        </Reward>
+      </RewardList>
+		</PrizeBox>
+	</BlueEasterMysteryBox_MysteryBoxPrizes>
+	<YellowEasterMysteryBox_MysteryBoxGeneralConfig>
+		<Include path="Config_PrizeBoxes:Default" />
+		<Attribute name="backgroundImage" value="BSE_MYSYellow_Background.rgb" />
+		<Attribute name="openSound" value="THOH2017_MysteryBox_Open" />
+		<Attribute name="ambientSound" value="AtW_PrizeBoxMusic" />
+		<Attribute name="rewardPath" value="Easter2014_GameConfig:YellowEasterMysteryBox_MysteryBoxPrizes" />
+		<Attribute name="showRewardTime" value="0.8f" />
+		<Attribute name="fadeInSpeed" value="0.5f" />
+		<Attribute name="fadeOutSpeed" value="4f" />
+		<Attribute name="showGetMoreButton" value="false" />
+		<Attribute name="insufficientFundsScript" value="Easter2014_Scripts:InsufficientEasterEggs" />
+		<Attribute name="showCurrencyIcon" value="true" />
+		<Attribute name="exitToState" value="GameState_Store" />
+		<Attribute name="purchaseIcon" value="ICO_Mystery_YellowEgg_LG.rgb" />
+	</YellowEasterMysteryBox_MysteryBoxGeneralConfig>
+	<YellowEasterMysteryBox_MysteryBoxPrizes>
+		<PrizeBox>
+			<Attribute name="boxImage" value="ICO_Easter_Mystery_Box" />
+			<Attribute name="consumable" value="YellowEasterMysteryBox" />
+			<Attribute name="openAnimation" value="ICO_Mystery_YellowBox_Open" />
+			<Attribute name="closedAnimation" value="ICO_Mystery_YellowBox_Closed" />
+			<Attribute name="selectedAnimation" value="ICO_Mystery_YellowBox_Closed" />
+			<Attribute name="infoTextIconAtlas" value="_[Currency::getIconSmall('YellowEasterEggs')]_" />
+			<Attribute name="infoTextAmount" value="__Easter2014_GameConfig:PremiumCosts:YellowEasterMysteryBox__" />
+      <RewardList>
+        <Reward chance="0.02" minimumAttempts="20" awardAtAttempt="80">
+          <Item type="character" name="SharyBobbins" />
+        </Reward>
+        <Reward chance="0.02">
+          <Requirements>
+						<Requirement type="characterunlocked" name="SharyBobbins" />
+					</Requirements>
+          <Item type="building" name="PinkEggBasket" />
+        </Reward>
+        <Reward chance="0.05" awardAtAttempt="81">
+          <Item type="character" name="HugsBunny" />
+        </Reward>
+        <Reward chance="0.05">
+					<Requirements>
+						<Requirement type="characterunlocked" name="HugsBunny" />
+					</Requirements>
+          <Item type="building" name="BlueEggBasket" />
+        </Reward>
+        <Reward chance="0.1" awardAtAttempt="50">
+          <Item type="character" name="FatherSean" />
+        </Reward>
+        <Reward chance="0.1">
+					<Requirements>
+						<Requirement type="characterunlocked" name="FatherSean" />
+					</Requirements>
+          <Item type="consumable" name="GoldEggs_ThreeHundred" useImmediately="true" />
+        </Reward>
+        <Reward chance="0.22" awardAtAttempt="20">
+          <Item type="character" name="Bunny24601" />
+        </Reward>
+        <Reward chance="0.22">
+					<Requirements>
+						<Requirement type="characterunlocked" name="Bunny24601" />
+					</Requirements>
+          <Item type="consumable" name="BlueEggSub_TwoFifty" useImmediately="true" />
+        </Reward>
+        <Reward chance="0.38" awardAtAttempt="15">
+          <Item type="building" name="BananaDictatorship" />
+        </Reward>
+        <Reward chance="0.38">
+					<Requirements>
+            <Requirement type="building owned" building="BananaDictatorship" />
+					</Requirements>
+          <Item type="consumable" name="PinkEggSub_TwoFifty" useImmediately="true" />
+        </Reward>
+        <Reward chance="0.55">
+          <Item type="building" name="EasterGate" />
+        </Reward>
+        <Reward chance="0.62">
+          <Item type="building" name="KodosTopiary" />
+        </Reward>
+        <Reward chance="0.69">
+          <Item type="building" name="KangTopiary" />
+        </Reward>
+        <Reward chance="1.0">
+          <Item type="building" name="PastelPicketFence" />
+          <Item type="building" name="PastelPicketFence" />
+        </Reward>
+      </RewardList>
+		</PrizeBox>
+	</YellowEasterMysteryBox_MysteryBoxPrizes>
 </Attributes>
