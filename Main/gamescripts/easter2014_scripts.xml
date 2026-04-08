@@ -776,9 +776,21 @@
 		<Action type="scheduleScript" mode="create" script="Easter2014_Scripts:InsufficientEasterEggs_Script" relativeTime="0.5s" localLandOnly="true" shouldSave="false" />
 	</InsufficientEasterEggs>
 	<InsufficientEasterEggs_Script>
-		<Action type="gotoState" state="GameState_InGame" />
-		<Action type="message" text="UI_GetMoreEggs" />
-		<Action type="focusOnMenuItem" menuCategory="Easter2014_Category" />
+		<Action type="checkRequirements">
+			<Requirements>
+        <Requirement type="reqList" location="Easter2014_Requirements:StoreCategory_Unlocked" />
+        <Requirement type="reqList" location="Easter2014_Requirements:EggProvisions_Unlocked" />
+			</Requirements>
+			<True>
+		    <Action type="gotoState" state="GameState_InGame" />
+        <Action type="message" text="UI_GetMoreEggs" />
+        <Action type="focusOnMenuItem" menuCategory="Easter2014_Boxes_Category" itemName="Easter2014_PinkAndBlueEggs_ELEVENTHOUSANDFOURHUNDRED" />
+			</True>
+			<False>
+		    <Action type="gotoState" state="GameState_InGame" />
+        <Action type="message" text="UI_GetMoreEggsTitle" />
+			</False>
+		</Action>
 	</InsufficientEasterEggs_Script>
   <CollectEasterEgg>
 		<Action type="reward" save="true" BlueEasterEggs="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggs__" PinkEasterEggs="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggs__" FriendPoint="selector friendPointsRewardOwner" noDrops="false" suppress_sound="true">
@@ -790,8 +802,11 @@
 		<Action type="reparseBuildMenu" />
 		<Action type="focusOnMenuItem" menuCategory="Easter2014_Category" />
 		<Action type="clearRecommendations" category="Event" name="Easter2014_OnePanel" />
-		<Action type="recommendation" recType="Event" name="Easter2014_OnePanel" eventName="UI_Valentines_BuildMenuTitle" limitedTime="true" limitedTimeEndDate="Easter2014_End" />
+    <Action type="recommendation" recType="Event" name="Easter2014_OnePanel" eventName="UI_BuildMenu_Easter2014" />
   </Easter2014StoreUnlocked_End>
+  <EnterEaster2014Category>
+		<Action type="focusOnMenuItem" menuCategory="Easter2014_Category" />
+  </EnterEaster2014Category>
   <FocusOnEasterBoxesCategory>
 		<Action type="focusOnMenuItem" menuCategory="Easter2014_Boxes_Category" />
   </FocusOnEasterBoxesCategory>
