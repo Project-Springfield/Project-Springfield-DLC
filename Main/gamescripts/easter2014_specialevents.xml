@@ -41,7 +41,7 @@
 			</Currency>
 			<Currency type="YellowEasterEggs" />
 		</FriendHUDCurrencies>
-		<FriendHUD icon="ICO_FHUD_DualEgg_tooltip.rgb" tipText="UI_FriendHud_Tip" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true">
+		<FriendHUD useTwoActions="true" icon="ICO_FHUD_DualEgg_tooltip.rgb" tipText="UI_FriendHud_Tip" specialActionText="UI_PinkBasketFirstTap_title" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true" specialActionLimit="5">
 			<CurrencyHelpButtonAction>
 				<Script name="ShowFriendsHUDHelp" package="Easter2014_Scripts" />
 			</CurrencyHelpButtonAction>
@@ -70,8 +70,9 @@
 				<Requirement type="variable" variable="enablePrizeList" />
 				<Requirement type="land" land="Springfield" />
 			</Requirements>
+			<Script package="Easter2014_Scripts" name="FocusOnEasterBoxesCategory" />
 		</PrizeListButton>
-		<PrizeLists state="GameState_SpecialEventPrizeList">
+		<!--PrizeLists state="GameState_SpecialEventPrizeList">
 			<PrizeList id="0" type="panel" autoAward="false">
 				<Attributes>
 					<Attribute name="nameText" value="UI_EasterBoxes" />
@@ -105,7 +106,7 @@
 					</Reward>
 				</Prize>
 			</PrizeList>
-		</PrizeLists>
+		</PrizeLists-->
 		<SpawnOverTime character="EasterRabbit" loggedOnSpawnTime="300" loggedOffSpawnTime="300" maxAllowedInTown="40" regularBankMax="20" premiumBankMax="0" bankVariable="bankedBunnies" errorTitle="UI_TooManyRabbitsTitle" errorBody="UI_TooManyRabbitsError">
 			<Subland value="Springfield" />
 		</SpawnOverTime>
@@ -143,12 +144,6 @@
 				<Script name="ActivateBunnyStunner" package="Easter2014_Scripts" />
 			</TouchOverride>
 		</TouchOverrides-->
-		<PrizeListButton>
-			<Requirements>
-				<Requirement type="variable" variable="enablePrizeList" />
-				<Requirement type="land" land="Springfield" />
-			</Requirements>
-		</PrizeListButton>
 		<!--VacuumConfig name="BunnyStunner" suction_sprite="Stunner" suction_anim="Active" suction_sound="365_stunny_bunner_tool.caf" allowCameraNudge="true" miniHud="true" applyCameraScale="true">
 			<Scale x="2" y="1.5" z="1" />
 			<Logging>
@@ -193,12 +188,77 @@
 				<Reward PinkEasterEggs="50" />
 			</Exchange>
 		</Bank>
-		<Buildings>
+		<Buildings override="true">
 			<Building id="22503" name="NaturalFabergeEgg" type="AnimatedDecoration" xpValue="100">
 				<Requirements>
 					<Requirement type="quest" quest="FourDayWeekendForOurSins18" />
 				</Requirements>
 			</Building>
+      <Building id="22504" name="FrinkTheticEggGeneratorMkii">
+        <Job id="21025" name="ReEggulatingAllMolecules" time="24h">
+          <Reward BlueEasterEggs="selector UncommonBlueFrinkMarkIIGenJob" PinkEasterEggs="selector UncommonPinkFrinkMarkIIGenJob" xp="30"/>
+        </Job>
+      </Building>
+      <Building id="22516" name="FrinkTheticEggGeneratorMki">
+        <Job id="21026" name="ReEggulatingSomeMolecules" time="12h">
+          <Reward BlueEasterEggs="selector CommonBlueFrinkMarkIGenJob" PinkEasterEggs="selector CommonPinkFrinkMarkIGenJob" money="0" xp="30"/>
+        </Job>
+      </Building>
+      <Building id="22500" name="PinkEggBasket" type="AnimatedDecoration" xpValue="10">
+		    <Sell allowed="true" storeoverride="false" />
+        <ActiveAnimationController name="Active01">
+				  <Requirement type="formula" formula="BasketLevel==2" />
+        </ActiveAnimationController>
+        <ActiveAnimationController name="Active02">
+				  <Requirement type="formula" formula="BasketLevel==1" />
+        </ActiveAnimationController>
+        <ActiveAnimationController name="Active03">
+				  <Requirement type="formula" formula="BasketLevel==2" />
+        </ActiveAnimationController>
+        <ActiveAnimationController name="Active04">
+				  <Requirement type="formula" formula="BasketLevel==3" />
+        </ActiveAnimationController>
+        <NeutralAnimationController name="Neutral">
+          <Requirements>
+				    <Requirement type="formula" formula="BasketLevel==1" />
+          </Requirements>
+        </NeutralAnimationController>
+        <NeutralAnimationController name="Active02">
+          <Requirements>
+				    <Requirement type="formula" formula="BasketLevel==2" />
+          </Requirements>
+        </NeutralAnimationController>
+        <NeutralAnimationController name="Active01">
+				  <Requirement type="formula" formula="BasketLevel==1" />
+        </NeutralAnimationController>
+        <NeutralAnimationController name="Tap">
+				  <Requirement type="formula" formula="BasketLevel==3" />
+        </NeutralAnimationController>
+        <Vandalism text="{0}" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true" showNoVisibleVandalism="true" useSpecialAction="true">
+          <Requirements>
+            <Requirement type="conditional" logic="OR">
+              <Requirement type="players land" />
+              <Requirement type="special currency" currency="PinkEasterEggs" amount="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToDonate__" />
+            </Requirement>
+          </Requirements>
+          <CleanIndicator icon="Indicator_Egg_Pink" />
+          <SprayIndicator icon="Indicator_Emptybasket_Pink" />
+					<Reward type="VandalismScript" script="DepositPinkEggBasket" package="Easter2014_Scripts" />
+					<Reward type="CleanScript" script="CollectPinkEggBasket" package="Easter2014_Scripts" />
+					<Sound type="Vandalism" sound="363_egg_currency_collected.caf" />
+					<Sound type="Clean" sound="363_egg_currency_collected.caf" />
+        </Vandalism>
+      </Building>
+      <Building id="22502" name="BlueEggBasket" type="AnimatedDecoration" xpValue="10">
+        <Vandalism text="{0}" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true" showNoVisibleVandalism="true" useSpecialAction="true">
+          <CleanIndicator icon="Indicator_Egg_Blue" />
+          <SprayIndicator icon="Indicator_Emptybasket_Blue" />
+          <Reward type="Vandalism" FriendPoint="selector friendPointsReward" BlueEasterEggs="selector Easter2014BlueEggBonusSocialReward" PinkEasterEggs="selector Easter2014PinkEggBonusSocialReward" money="selector socialMoneyReward" xp="1" chanceType="s" chance="1" />
+					<Reward type="CleanScript" script="CollectEasterEgg" package="Easter2014_Scripts" />
+					<Sound type="Vandalism" sound="363_egg_currency_collected.caf" />
+					<Sound type="Clean" sound="363_egg_currency_collected.caf" />
+        </Vandalism>
+      </Building>
 		</Buildings>
 		<Jobs>
 			<Job name="StealEasterEggs">
