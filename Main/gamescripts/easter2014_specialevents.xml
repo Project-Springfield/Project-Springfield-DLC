@@ -11,7 +11,8 @@
 		<Variable name="rabbitsSpawnedScript6" value="true" />
 		<Variable name="rabbitsSpawnedScript7" value="true" />
 		<Variable name="rabbitsSpawnedScript8" value="true" />
-		<Variable name="FirstBasketTap" value="true" />
+		<Variable name="FirstPinkBasketTap" value="true" />
+		<Variable name="FirstBlueBasketTap" value="true" />
 	</SpecialEvent>
 	<SpecialEvent id="4026" name="Easter2014">
 		<GuideData title="UI_Easter2014Guide_name" tip="UI_Easter2014Guide_tip" step1="UI_Easter2014Guide_panel01" step2="UI_Easter2014Guide_panel02" step3="UI_Easter2014Guide_panel03" img1="ICO_HELP_Easter_Step1Image" img2="ICO_HELP_Easter_Step2Image" img3="ICO_HELP_Easter_Step3Image" countdownText="UI_Easter2014Guide_countdown" endDate="EasterTwentyFourteenEndDate" />
@@ -41,7 +42,7 @@
 			</Currency>
 			<Currency type="YellowEasterEggs" />
 		</FriendHUDCurrencies>
-		<FriendHUD useTwoActions="true" icon="ICO_FHUD_DualEgg_tooltip.rgb" tipText="UI_FriendHud_Tip" specialActionText="UI_PinkBasketFirstTap_title" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true" specialActionLimit="5">
+		<FriendHUD useTwoActions="true" icon="ICO_FHUD_DualEgg_tooltip.rgb" tipText="UI_FriendHud_Tip" specialActionText="UI_PinkBasketFirstTap_title" currencyHelpIcon="ICO_GENR_INFOI" currencyHelpIconUsesAtlas="true" specialActionLimit="55">
 			<CurrencyHelpButtonAction>
 				<Script name="ShowFriendsHUDHelp" package="Easter2014_Scripts" />
 			</CurrencyHelpButtonAction>
@@ -205,59 +206,54 @@
         </Job>
       </Building>
       <Building id="22500" name="PinkEggBasket" type="AnimatedDecoration" xpValue="10">
-		    <Sell allowed="true" storeoverride="false" />
-        <ActiveAnimationController name="Active01">
-				  <Requirement type="formula" formula="BasketLevel==2" />
-        </ActiveAnimationController>
-        <ActiveAnimationController name="Active02">
-				  <Requirement type="formula" formula="BasketLevel==1" />
-        </ActiveAnimationController>
-        <ActiveAnimationController name="Active03">
-				  <Requirement type="formula" formula="BasketLevel==2" />
-        </ActiveAnimationController>
-        <ActiveAnimationController name="Active04">
-				  <Requirement type="formula" formula="BasketLevel==3" />
-        </ActiveAnimationController>
-        <NeutralAnimationController name="Neutral">
-          <Requirements>
-				    <Requirement type="formula" formula="BasketLevel==1" />
-          </Requirements>
-        </NeutralAnimationController>
-        <NeutralAnimationController name="Active02">
-          <Requirements>
-				    <Requirement type="formula" formula="BasketLevel==2" />
-          </Requirements>
-        </NeutralAnimationController>
-        <NeutralAnimationController name="Active01">
-				  <Requirement type="formula" formula="BasketLevel==1" />
-        </NeutralAnimationController>
-        <NeutralAnimationController name="Tap">
-				  <Requirement type="formula" formula="BasketLevel==3" />
-        </NeutralAnimationController>
         <Vandalism text="{0}" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true" showNoVisibleVandalism="true" useSpecialAction="true">
           <Requirements>
             <Requirement type="conditional" logic="OR">
               <Requirement type="players land" />
-              <Requirement type="special currency" currency="PinkEasterEggs" amount="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToDonate__" />
+              <Requirement type="conditional" logic="AND">
+                <Requirement type="special currency" currency="PinkEasterEggs" amount="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToDonate__" />
+                <Requirement type="variable" variable="FirstPinkBasketTap" not="true" />
+              </Requirement>
             </Requirement>
           </Requirements>
           <CleanIndicator icon="Indicator_Egg_Pink" />
           <SprayIndicator icon="Indicator_Emptybasket_Pink" />
 					<Reward type="VandalismScript" script="DepositPinkEggBasket" package="Easter2014_Scripts" />
 					<Reward type="CleanScript" script="CollectPinkEggBasket" package="Easter2014_Scripts" />
-					<Sound type="Vandalism" sound="363_egg_currency_collected.caf" />
-					<Sound type="Clean" sound="363_egg_currency_collected.caf" />
+					<Sound type="Vandalism" sound="367_full_egg_basket.caf" />
+					<Sound type="Clean" sound="367_full_egg_basket.caf" />
         </Vandalism>
+				<TouchIcon value="Indicator_Emptybasket_Pink.rgb" removeOnTouch="true" touchBuildingOnTouch="false">
+					<Requirements>
+            <Requirement type="friend land" />
+            <Requirement type="variable" variable="FirstPinkBasketTap" />
+					</Requirements>
+				</TouchIcon>
       </Building>
       <Building id="22502" name="BlueEggBasket" type="AnimatedDecoration" xpValue="10">
         <Vandalism text="{0}" suppressRatingChange="true" suppressFriendClean="true" cleanRewardInstant="true" fastBreak="true" forceActive="true" allowCodeFlip="true" showNoVisibleVandalism="true" useSpecialAction="true">
+          <Requirements>
+            <Requirement type="conditional" logic="OR">
+              <Requirement type="players land" />
+              <Requirement type="conditional" logic="AND">
+                <Requirement type="special currency" currency="BlueEasterEggs" amount="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggsToDonate__" />
+                <Requirement type="variable" variable="FirstBlueBasketTap" not="true" />
+              </Requirement>
+            </Requirement>
+          </Requirements>
           <CleanIndicator icon="Indicator_Egg_Blue" />
           <SprayIndicator icon="Indicator_Emptybasket_Blue" />
-          <Reward type="Vandalism" FriendPoint="selector friendPointsReward" BlueEasterEggs="selector Easter2014BlueEggBonusSocialReward" PinkEasterEggs="selector Easter2014PinkEggBonusSocialReward" money="selector socialMoneyReward" xp="1" chanceType="s" chance="1" />
-					<Reward type="CleanScript" script="CollectEasterEgg" package="Easter2014_Scripts" />
-					<Sound type="Vandalism" sound="363_egg_currency_collected.caf" />
-					<Sound type="Clean" sound="363_egg_currency_collected.caf" />
+					<Reward type="VandalismScript" script="DepositBlueEggBasket" package="Easter2014_Scripts" />
+					<Reward type="CleanScript" script="CollectBlueEggBasket" package="Easter2014_Scripts" />
+					<Sound type="Vandalism" sound="367_full_egg_basket.caf" />
+					<Sound type="Clean" sound="367_full_egg_basket.caf" />
         </Vandalism>
+				<TouchIcon value="Indicator_Emptybasket_Blue.rgb" removeOnTouch="true" touchBuildingOnTouch="false">
+					<Requirements>
+            <Requirement type="friend land" />
+            <Requirement type="variable" variable="FirstBlueBasketTap" />
+					</Requirements>
+				</TouchIcon>
       </Building>
 		</Buildings>
 		<Jobs>

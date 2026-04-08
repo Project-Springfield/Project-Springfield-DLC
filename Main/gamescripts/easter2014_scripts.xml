@@ -153,6 +153,27 @@
 		<Action type="doBankExchange" event="4026" />
 	</FriendExchanged>
 	<DoPinkBankCollect parallel="true" exclusive="true">
+    <!--Action type="checkExpression" expression="System::evaluate('Building::Instance::[LAST_TOUCH_BUILDING_UID]::Object::BasketLevel')">
+      <ExpressionCase value="0">
+        <Action type="message" text="Level: 0" />
+      </ExpressionCase>
+      <ExpressionCase value="1">
+        <Action type="message" text="Level: 1" />
+      </ExpressionCase>
+      <ExpressionCase value="2">
+        <Action type="message" text="Level: 2" />
+      </ExpressionCase>
+      <ExpressionCase value="3">
+        <Action type="message" text="Level: 3" />
+      </ExpressionCase>
+      <ExpressionCase value="4">
+        <Action type="message" text="Level: 4" />
+      </ExpressionCase>
+      <ExpressionCase value="5">
+        <Action type="message" text="Level: 5" />
+      </ExpressionCase>
+    </Action>
+    <Action type="message" text="Level: unknown" /-->
 		<Action type="doBankCollect" event="4026" package="Easter2014_Scripts" script="DestroyPinkBuilding" />
 		<Action type="sound" sound="367_full_egg_basket.caf" />
 	</DoPinkBankCollect>
@@ -161,12 +182,14 @@
 		<Action type="sound" sound="367_full_egg_basket.caf" />
 	</DoBlueBankCollect>
 	<DestroyPinkBuilding parallel="true" cache="true">
-		<Action type="deletebuilding" building="PinkEggBasket" waitForAnimationToComplete="true" />
-		<Action type="incrementSessionCounter" counter="EASTER2014_PINK_BASKETS_COLLECTED" increment="1" />
+    <Action type="anim-play" building="PinkEggBasket" animation="Tap" />
+    <Action type="deletebuilding" building="PinkEggBasket" waitForAnimationToComplete="true" />
+		<!--Action type="incrementSessionCounter" counter="EASTER2014_PINK_BASKETS_COLLECTED" increment="1" /-->
 	</DestroyPinkBuilding>
 	<DestroyBlueBuilding parallel="true" cache="true">
+    <Action type="anim-play" building="BlueEggBasket" animation="Tap" />
 		<Action type="deletebuilding" building="BlueEggBasket" waitForAnimationToComplete="true" />
-		<Action type="incrementSessionCounter" counter="EASTER2014_BLUE_BASKETS_COLLECTED" increment="1" />
+		<!--Action type="incrementSessionCounter" counter="EASTER2014_BLUE_BASKETS_COLLECTED" increment="1" /-->
 	</DestroyBlueBuilding>
 	<ShowFriendsHUDHelp parallel="true">
 		<Action type="triggerevent" name="ScriptEvent" data="Easter2014UpdateFriendActionHelpVariables" />
@@ -182,16 +205,15 @@
 		<Action type="sound" sound="348_enviro_ambient_2.caf" />
 	</PlayAmbientSound>
 	<BasketFirstTapBlue>
-    <Action type="message" text="__Debug_GameConfig:PrintValues:Value02__"/>
 		<Action type="checkRequirements">
-			<Requirements>
-				<Requirement type="special currency" currency="BlueEasterEggs" amount="100" />
-			</Requirements>
+      <Requirements>
+        <Requirement type="variable" variable="FirstBlueBasketTap" />
+      </Requirements>
 			<True>
-				<Action type="checkExpression" expression="FirstBasketTap">
+				<Action type="checkExpression" expression="FirstBlueBasketTap">
 					<ExpressionCase value="1">
 						<Action type="message" title="UI_BlueBasketFirstTap_title" text="UI_BlueBasketFirstTap_body" />
-						<Action type="setVariable" boolVariable="FirstBasketTap" boolValue="false" />
+						<Action type="setVariable" boolVariable="FirstBlueBasketTap" boolValue="false" />
 					</ExpressionCase>
 				</Action>
 			</True>
@@ -202,14 +224,14 @@
 	</BasketFirstTapBlue>
 	<BasketFirstTapPink>
 		<Action type="checkRequirements">
-			<Requirements>
-				<Requirement type="special currency" currency="PinkEasterEggs" amount="100" />
-			</Requirements>
+      <Requirements>
+        <Requirement type="variable" variable="FirstPinkBasketTap" />
+      </Requirements>
 			<True>
-				<Action type="checkExpression" expression="FirstBasketTap">
+				<Action type="checkExpression" expression="FirstPinkBasketTap">
 					<ExpressionCase value="1">
 						<Action type="message" title="UI_PinkBasketFirstTap_title" text="UI_PinkBasketFirstTap_body" />
-						<Action type="setVariable" boolVariable="FirstBasketTap" boolValue="false" />
+						<Action type="setVariable" boolVariable="FirstPinkBasketTap" boolValue="false" />
 					</ExpressionCase>
 				</Action>
 			</True>
@@ -774,18 +796,49 @@
 		<Action type="focusOnMenuItem" menuCategory="Easter2014_Boxes_Category" />
   </FocusOnEasterBoxesCategory>
   <PinkEggBasketPlaced>
-		<Action type="setObjectVariable" variable="BasketLevel" value="2" />
+		<Action type="setObjectVariable" variable="BasketLevel" value="0" allowOrphan="false" />
   </PinkEggBasketPlaced>
+  <BlueEggBasketPlaced>
+		<Action type="setObjectVariable" variable="BasketLevel" value="0" allowOrphan="false" />
+  </BlueEggBasketPlaced>
   <CollectPinkEggBasket parallel="true">
-    <Action type="reward" save="true" PinkEasterEggs="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToReceive__" FriendPoint="0" noDrops="false" suppress_sound="true" />
-		<Action type="setVariable" intVariable="BasketLevel" intValue="BasketLevel+1" asExpression="true">
-      <Objects>
-        <ObjectByName name="PinkEggBasket" />
-      </Objects>
+    <Action type="reward" save="true" PinkEasterEggs="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToDonate__" FriendPoint="0" noDrops="false" />
+    <Action type="checkExpression" expression="System::evaluate('Building::PinkEggBasket::Object::BasketLevel')">
+      <ExpressionCase value="0">
+        <Action type="setObjectVariable" variable="BasketLevel" value="1" asExpression="true" allowOrphan="false" />
+      </ExpressionCase>
+      <ExpressionCase value="1">
+        <Action type="setObjectVariable" variable="BasketLevel" value="2" asExpression="true" allowOrphan="false" />
+      </ExpressionCase>
+      <ExpressionCase value="2">
+        <Action type="setObjectVariable" variable="BasketLevel" value="3" asExpression="true" allowOrphan="false" />
+      </ExpressionCase>
+      <ExpressionCase value="3">
+        <Action type="setObjectVariable" variable="BasketLevel" value="4" asExpression="true" allowOrphan="false" />
+			  <Action type="runScript" script="DestroyPinkBuilding" package="Easter2014_Scripts" waitUntilComplete="true" />
+      </ExpressionCase>
     </Action>
   </CollectPinkEggBasket>
+  <CollectBlueEggBasket parallel="true">
+    <Action type="reward" save="true" BlueEasterEggs="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggsToDonate__" FriendPoint="0" noDrops="false" />
+    <Action type="checkExpression" expression="System::evaluate('Building::BlueEggBasket::Object::BasketLevel')">
+      <ExpressionCase value="0">
+        <Action type="setObjectVariable" variable="BasketLevel" value="1" asExpression="true" allowOrphan="false" />
+      </ExpressionCase>
+      <ExpressionCase value="1">
+        <Action type="setObjectVariable" variable="BasketLevel" value="2" asExpression="true" allowOrphan="false" />
+      </ExpressionCase>
+      <ExpressionCase value="2">
+        <Action type="setObjectVariable" variable="BasketLevel" value="3" asExpression="true" allowOrphan="false" />
+      </ExpressionCase>
+      <ExpressionCase value="3">
+        <Action type="setObjectVariable" variable="BasketLevel" value="4" asExpression="true" allowOrphan="false" />
+			  <Action type="runScript" script="DestroyBlueBuilding" package="Easter2014_Scripts" waitUntilComplete="true" />
+      </ExpressionCase>
+    </Action>
+  </CollectBlueEggBasket>
   <DepositPinkEggBasket parallel="true">
-    <Action type="reward" save="true" BlueEasterEggs="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggsToReceive__" FriendPoint="0" noDrops="false" suppress_sound="true" />
+    <Action type="reward" save="true" BlueEasterEggs="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggsToReceive__" FriendPoint="0" noDrops="false" />
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
@@ -887,4 +940,107 @@
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="true" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
   </DepositPinkEggBasket>
+  <DepositBlueEggBasket parallel="true">
+    <Action type="reward" save="true" PinkEasterEggs="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToReceive__" FriendPoint="0" noDrops="false" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+    <Action type="reward" save="true" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+  </DepositBlueEggBasket>
 </ScriptPackage>
