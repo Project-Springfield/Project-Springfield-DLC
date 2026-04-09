@@ -1375,6 +1375,26 @@
       </Building>
     </Buildings>
   </SpecialEvent>
+  <SpecialEvent id="1000" name="SeasonSpring">
+    <Variable name="RainFlyByStart" value="0" />
+    <Variable name="RainFlyByEnd" value="0" />
+    <Variable name="RainFlyByChance" value="0" />
+    <LoopScript script="ResetRainFlyBy" package="MiscScripts" interval="0s" loop="false" />
+    <LoopScript script="StartRainFlyByAtRandomTime" package="MiscScripts" interval="0s" loop="false">
+      <Requirements>
+        <Requirement type="formula" formula="lessThan(User::getVariable('RainFlyByChance'), 12)" />
+      </Requirements>
+    </LoopScript>
+    <FlyBys>
+      <FlyBy name="Raindrops">
+        <Requirements>
+          <Requirement type="time" start="SeasonSpringRain_Start" end="SeasonSpring_End"/>
+          <Requirement type="formula" formula="greaterThan(User::getVariable('RainFlyByEnd'), serverTime(0))" />
+          <Requirement type="formula" formula="lessThan(User::getVariable('RainFlyByStart'), serverTime(0))" />
+        </Requirements>
+      </FlyBy>
+    </FlyBys>
+  </SpecialEvent>
   <SpecialEvent id="1002" name="SeasonFall">
     <FlyBys>
       <FlyBy name="Leaf">
@@ -1495,7 +1515,7 @@
         <String name="Bench00"/>
         <String name="HomersPool"/>
         <String name="WoodenFence"/>
-        <!--<String name="ParkingLot"/>-->
+        <String name="ParkingLot"/>
         <String name="GarbageBin"/>
         <String name="Shrub01"/>
         <String name="LargeHedge"/>
