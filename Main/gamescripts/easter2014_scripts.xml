@@ -1,4 +1,7 @@
 ﻿<ScriptPackage>
+  <PanToRandomEggBasket>
+    <Action type="pantoobject" buildingGroup="EggBaskets" randomPickFromGroup="true" time="0" />
+  </PanToRandomEggBasket>
 	<EggRewardWithFabergeEgg parallel="true" cache="true">
 		<Action type="rewardchoice" save="true">
 			<Reward chance="selector Easter2014AwardPinkEggChanceVar" chanceType="s" PinkEasterEggs="1" />
@@ -181,13 +184,13 @@
 		<Action type="doBankCollect" event="4026" package="Easter2014_Scripts" script="DestroyBlueBuilding" />
 		<Action type="sound" sound="367_full_egg_basket.caf" />
 	</DoBlueBankCollect>
-	<DestroyPinkBuilding parallel="true" cache="true">
+	<DestroyPinkBuilding parallel="true" ignoreHUD="true">
     <Action type="anim-play" building="PinkEggBasket" animation="Tap" />
 		<Action type="delay" time="1.5" />
     <Action type="deletebuilding" building="PinkEggBasket" waitForAnimationToComplete="false" />
 		<!--Action type="incrementSessionCounter" counter="EASTER2014_PINK_BASKETS_COLLECTED" increment="1" /-->
 	</DestroyPinkBuilding>
-	<DestroyBlueBuilding parallel="true" cache="true">
+	<DestroyBlueBuilding parallel="true" ignoreHUD="true">
     <Action type="anim-play" building="BlueEggBasket" animation="Tap" />
 		<Action type="delay" time="1.5" />
 		<Action type="deletebuilding" building="BlueEggBasket" waitForAnimationToComplete="false" />
@@ -880,7 +883,7 @@
       </ExpressionCase>
     </Action>
   </CollectBlueEggBasket>
-  <DepositPinkEggBasket parallel="true">
+  <DepositPinkEggBasket ignoreHUD="true">
     <Action type="reward" save="true" BlueEasterEggs="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggsToReceive__" FriendPoint="0" noDrops="false" />
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
@@ -982,8 +985,18 @@
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="false" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="true" PinkEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+        <Requirement type="special currency" currency="PinkEasterEggs" amount="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToDonate__" not="true" />
+        <Requirement type="variable" variable="FirstPinkBasketTap" not="true" />
+			</Requirements>
+			<True>
+        <Action type="runScriptOnAll" building="PinkEggBasket" script="Easter2014_Scripts:DestroyPinkBuilding" />
+        <Action type="delay" delay="2" />
+			</True>
+		</Action>
   </DepositPinkEggBasket>
-  <DepositBlueEggBasket parallel="true">
+  <DepositBlueEggBasket ignoreHUD="true">
     <Action type="reward" save="true" PinkEasterEggs="__Easter2014_GameConfig:CurrencyRewards:PinkEasterEggsToReceive__" FriendPoint="0" noDrops="false" />
     <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
@@ -1085,6 +1098,16 @@
     <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="false" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
     <Action type="reward" save="true" BlueEasterEggs="-1" FriendPoint="0" noDrops="true" suppress_sound="true" />
+		<Action type="checkRequirements">
+			<Requirements>
+        <Requirement type="special currency" currency="BlueEasterEggs" amount="__Easter2014_GameConfig:CurrencyRewards:BlueEasterEggsToDonate__" not="true" />
+        <Requirement type="variable" variable="FirstBlueBasketTap" not="true" />
+			</Requirements>
+			<True>
+        <Action type="runScriptOnAll" building="BlueEggBasket" script="Easter2014_Scripts:DestroyBlueBuilding" />
+        <Action type="delay" delay="2" />
+			</True>
+		</Action>
   </DepositBlueEggBasket>
   <FixPinkEggsBalance>
     <Action type="reward" save="true" PinkEasterEggs="__Easter2014_GameConfig:CurrencyRewards:IncrementPinkEggs__" FriendPoint="0" noDrops="true" suppress_sound="true" />
