@@ -58,18 +58,19 @@
 			<Currency type="YellowEasterEggs" />
 			<Script package="Easter2014_Scripts" name="ShowFriendsHUDHelp" />
 		</FriendsMap>
-		<CustomGetMore>
+		<!--CustomGetMore>
 			<GetMoreRule mode="game" file="Easter2014_EggPackBuildMenu.xml" getMorePromptTitle="UI_GetMore_Easter2014" getMorePromptDescription="UI_GetMore_Desc" getMoreReason="UI_GetMoreEggs_Reason">
 				<SpendableCurrency name="BlueEasterEggs" />
 				<SpendableCurrency name="YellowEasterEggs" />
 				<SpendableCurrency name="PinkEasterEggs" />
 				<SpendableCurrency name="EasterEggs" />
 			</GetMoreRule>
-		</CustomGetMore>
+		</CustomGetMore-->
 		<PrizeListButton>
 			<Requirements>
 				<Requirement type="variable" variable="enablePrizeList" />
 				<Requirement type="land" land="Springfield" />
+        <Requirement type="reqList" location="Easter2014_Requirements:StoreCategory_Unlocked" />
 			</Requirements>
 			<Script package="Easter2014_Scripts" name="FocusOnEasterBoxesCategory" />
 		</PrizeListButton>
@@ -108,7 +109,7 @@
 				</Prize>
 			</PrizeList>
 		</PrizeLists-->
-		<SpawnOverTime character="EasterRabbit" loggedOnSpawnTime="300" loggedOffSpawnTime="300" maxAllowedInTown="40" regularBankMax="20" premiumBankMax="0" bankVariable="bankedBunnies" errorTitle="UI_TooManyRabbitsTitle" errorBody="UI_TooManyRabbitsError">
+		<SpawnOverTime character="EasterRabbit" loggedOnSpawnTime="300" loggedOffSpawnTime="300" maxAllowedInTown="40" regularBankMax="80" premiumBankMax="0" bankVariable="bankedBunnies" errorTitle="UI_TooManyRabbitsTitle" errorBody="UI_TooManyRabbitsError">
 			<Subland value="Springfield" />
 		</SpawnOverTime>
 		<SpecialButtons>
@@ -120,10 +121,9 @@
 					<Requirement type="friendvariable" variable="Easter2014" />
 					<Requirement type="quest" quest="Easter2014Trigger" />
 				</Requirements>
-				<FocusOnNextBuildingInList>
-					<Building name="PinkEggBasket" />
-					<Building name="BlueEggBasket" />
-				</FocusOnNextBuildingInList>
+				<RunScript>
+					<Script name="PanToRandomEggBasket" package="Easter2014_Scripts" />
+				</RunScript>
 			</Button>
 			<Button mode="game" icon="ico_mhud_stunnybunner_se" counter="false">
 				<Requirements>
@@ -196,12 +196,12 @@
 				</Requirements>
 			</Building>
       <Building id="22504" name="FrinkTheticEggGeneratorMkii">
-        <Job id="21025" name="ReEggulatingAllMolecules" time="24h">
+        <Job id="21150" name="AssemblingCashFromEggMolecules" textpoolName="JOB_ReEggulatingAllMolecules_name" time="24h">
           <Reward BlueEasterEggs="selector UncommonBlueFrinkMarkIIGenJob" PinkEasterEggs="selector UncommonPinkFrinkMarkIIGenJob" xp="30"/>
         </Job>
       </Building>
       <Building id="22516" name="FrinkTheticEggGeneratorMki">
-        <Job id="21026" name="ReEggulatingSomeMolecules" time="12h">
+        <Job id="21151" name="ConvertingEggMoleculesToCash" textpoolName="JOB_ReEggulatingSomeMolecules_name" time="12h">
           <Reward BlueEasterEggs="selector CommonBlueFrinkMarkIGenJob" PinkEasterEggs="selector CommonPinkFrinkMarkIGenJob" money="0" xp="30"/>
         </Job>
       </Building>
@@ -817,9 +817,9 @@
       <!--String name="Mountain02"/-->
       <!--String name="Mountain03"/-->
       <!--String name="Mountain04"/-->
-      <String name="SpringfieldHeightsTunnel"/>
+      <!--String name="SpringfieldHeightsTunnel"/>
       <String name="SpringfieldHeightsTunnel_Front"/>
-      <String name="SpringfieldHeightsTunnel_Back"/>
+      <String name="SpringfieldHeightsTunnel_Back"/-->
       <String name="SpringfieldConventionCenter"/>
       <String name="BloodbathAndBeyond"/>
       <String name="SpringfieldDump"/>
@@ -1512,7 +1512,7 @@
       <String name="NewFrontierCanyon_FixedBridge" />
       <String name="NWCBridgeFixedTop" />
       <String name="NewFrontierCanyon_Waterfall" />
-      <String name="MountainTunnel01_Blue" />
+      <!--String name="MountainTunnel01_Blue" />
       <String name="MountainTunnel02_Yellow" />
       <String name="MountainTunnel03_Red" />
       <String name="MountainTunnel01_Back" />
@@ -1521,7 +1521,7 @@
       <String name="MountainTunnel02_Front" />
       <String name="MountainTunnel03_Back" />
       <String name="MountainTunnel03_Front" />
-      <String name="MonorailCanyonBridge" />
+      <String name="MonorailCanyonBridge" /-->
       <String name="NWBMonorailBridgeSub" />
       <String name="SantasCastle" />
       <String name="BagAReindeerHuntingRange" />
@@ -1774,5 +1774,10 @@
         </Vandalism>
       </Building>
     </Buildings>
+    <LoopScript package="Easter2014_Scripts" script="ResetEasterRabbitPosition" interval="0s" loop="false">
+      <Requirements>
+        <Requirement type="formula" formula="Array::size(Land::getAllInstancesOfObject(Character::find('EasterRabbit')))" />
+      </Requirements>
+    </LoopScript>
 	</SpecialEvent>
 </SpecialEvents>
