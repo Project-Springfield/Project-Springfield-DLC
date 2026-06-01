@@ -71,4 +71,9 @@ else:
         land.set("height", str(height))
         land.set("value", ", ".join(value))
 
+        for element in root.find("LandInfo").iter("RoadMap"):
+            if element.attrib["layer"] != "0":
+                element.set("size", f"{width + offset_x},{height}")
+
+
         tree.write(landfile)
