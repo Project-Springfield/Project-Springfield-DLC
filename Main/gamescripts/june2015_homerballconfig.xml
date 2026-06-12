@@ -29,8 +29,8 @@
 		</Attribute>
 		<Attribute name="showCharacterCooldown" value="true" />
 		<Attribute name="showProgressBar" value="false" />
-		<Attribute name="PlayButtonScript" value="June2015_Scripts:BeginHomerballMatch" />
-		<Attribute name="PlaySinglePlayerScript" value="June2015_Scripts:BeginHomerballSinglePlayer" />
+		<Attribute name="PlayButtonScript" value="June2015_Scripts:LaunchMatchmaking" />
+		<Attribute name="PlaySinglePlayerScript" value="June2015_Scripts:LaunchMatchmaking" />
 		<Attribute name="onUpgradePerformedScript" value="June2015_Scripts:OnAthleteUpgraded" />
 		<Attribute name="onAwayHelpClickedScript" value="June2015_Scripts:Guide_TapBallCenter_ReturnToRosterSelect" />
 		<Attribute name="onHomeHelpClickedScript" value="June2015_Scripts:Guide_TeamManagement" />
@@ -53,12 +53,12 @@
 		<Attribute name="activeLocators" value="Active_FaceOff|Active_Que|Active_Spawn|Active_Despawn" />
 		<Attribute name="passiveLocators" value="Passive_FaceOff|Passive_Que|Passive_Spawn|Passive_Despawn" />
 		<Attribute name="templateAthlete" value="HomerballPlayer" />
-		<Attribute name="maxSwitches" value="__June2015_GameConfig:Match:maxSwitches__" />
+		<Attribute name="maxSwitches" value="2" />
 		<Attribute name="maxSwitches" value="1">
 			<Requirement type="active quest" quest="BallsOfGlory01" />
 		</Attribute>
-		<Attribute name="maxPowerUpRating" value="__June2015_GameConfig:Match:maxPowerUpRating__" />
-		<Attribute name="ratingPerPowerUp" value="__June2015_GameConfig:Match:ratingPerPowerUp__" />
+		<Attribute name="maxPowerUpRating" value="11" />
+		<Attribute name="ratingPerPowerUp" value="4" />
 		<Attribute name="shuffleActive" value="false" />
 		<Attribute name="shufflePassive" value="true">
 			<Requirement type="variable" variable="HB_MatchTutorial" not="true" />
@@ -66,11 +66,15 @@
 		<Attribute name="reorderPassive" value="true">
 			<Requirement type="variable" variable="HB_MatchTutorial" not="true" />
 		</Attribute>
-		<Attribute name="activeTieWinChanceRound" value="__June2015_GameConfig:Match:tieActiveChance__" />
+		<Attribute name="activeTieWinChanceRound" value="0.5" />
 		<Attribute name="startMatchScript" value="June2015_Scripts:MatchStart" />
-		<Attribute name="wonMatchScript" value="June2015_Scripts:MatchGameWin" />
-		<Attribute name="lostMatchScript" value="June2015_Scripts:MatchGameLose" />
-		<Attribute name="tiedMatchScript" value="June2015_Scripts:MatchGameTie" />
+		<!-- DLC restore: point result scripts directly at the popup scripts. The wrapper scripts
+		     MatchGameWin/Lose/Tie do not execute at match teardown on 4.69 (verified live: zero
+		     actions run), while the *GameMessage popup scripts (ignoreHUD) do. This unfreezes the
+		     match + shows the result popup. (Win-counter/currency grants are a follow-up.) -->
+		<Attribute name="wonMatchScript" value="June2015_Scripts:WinGameMessage" />
+		<Attribute name="lostMatchScript" value="June2015_Scripts:LoseGameMessage" />
+		<Attribute name="tiedMatchScript" value="June2015_Scripts:TieGameMessage" />
 		<Attribute name="powerUpScript" value="June2015_Scripts:MatchPowerUpScript" />
 		<Attribute name="switchScript" value="June2015_Scripts:MatchSwitchScript" />
 		<Attribute name="remoteScript" value="June2015_Scripts:ReceiveMatchResult" />
@@ -90,10 +94,10 @@
 		<Attribute name="characterNoHideList" value="HomerballPlayer" />
 		<Attribute name="buildingNoHideList" value="HomerballPitch|HomerballPitch_Front_Left|HomerballPitch_Front_Right" />
 		<Attribute name="buildingAlwaysHideList" value="GypsyFortuneTellerShop|NativityScene|SkiLift|GingerbreadHouse|SeeSaw" />
-		<Attribute name="useDrawAllBuildings" value="__June2015_GameConfig:Match:DrawAllBuildingsInMatch__" />
-		<Attribute name="defaultRatingMod" value="__June2015_GameConfig:Match:defaultRatingMod__" />
+		<Attribute name="useDrawAllBuildings" value="1" />
+		<Attribute name="defaultRatingMod" value="-1" />
 		<Attribute name="exitPitchSpeed" value="1.5" />
-		<Attribute name="disableExit" value="true" />
+		<Attribute name="disableExit" value="false" />
 		<Attribute name="scoreIndicatorSpeedMod" value="0.5" />
 		<Attribute name="singlePlayerRatings">
 			<Requirements>
@@ -236,7 +240,14 @@
 		<Attribute name="buyPowerUpBody" value="UI_June2015_BuyPowerUp_body" />
 		<Attribute name="buyPowerUpImage" value="ICO_June2015_Tonic_XL.rgb" />
 		<Attribute name="scoreBaseImage" value="BSE_Score_DiagonalSide.rgb" />
-		<Attribute name="ratingConfig" value="June2015_HomerballConfig:NormalStarRating" />
+		<!-- ratingConfig removed: on 4.68 RatingSystem::Clear() frees+nulls the rating
+		     config, then onMenuComponentCreated re-reads it (RegisterMenuSprite ->
+		     GetAttribute(NULL,"animNeutral")) -> SIGSEGV. This is a 4.68 engine
+		     regression vs 4.15 (where Clear only reset the sprite vector). Omitting
+		     ratingConfig stops the match HUD from building the player star-rating
+		     widgets, so the crashing Clear+Register path is skipped. The match plays;
+		     only the in-match star-power indicators are absent. (A .so patch to Clear
+		     would restore them, but the restore is DLC-only.) -->
 		<Attribute name="activeDefaultName" value="UI_June2015_DefaultActiveTeamName" localise="true" />
 		<Attribute name="passiveDefaultName" value="UI_June2015_DefaultPassiveTeamName" localise="true" />
 		<Attribute name="roundText" value="UI_June2015_RoundText" />
@@ -430,8 +441,8 @@
 		<Attribute name="animLost" value="ActivatingStar" />
 		<Attribute name="animMax" value="SuperGoldStar" />
 		<Attribute name="playUnlockAnimation" value="true" />
-		<Attribute name="playLostAnimation" value="true" />
-		<Attribute name="playMaxAnimation" value="true" />
+			<Attribute name="playLostAnimation" value="true" />
+			<Attribute name="playMaxAnimation" value="true" />
 		<Attribute name="maxRating" value="10" />
 		<Attribute name="audioUnlock" value="UIUpgradeCharacter" />
 	</NormalStarRating>
@@ -447,8 +458,8 @@
 		<Attribute name="animLost" value="ActivatingStar" />
 		<Attribute name="animMax" value="SuperGoldStar" />
 		<Attribute name="playUnlockAnimation" value="true" />
-		<Attribute name="playLostAnimation" value="true" />
-		<Attribute name="playMaxAnimation" value="true" />
+			<Attribute name="playLostAnimation" value="true" />
+			<Attribute name="playMaxAnimation" value="true" />
 		<Attribute name="maxRating" value="10" />
 		<Attribute name="audioUnlock" value="UIUpgradeCharacter" />
 	</LargeStarRating>
@@ -464,8 +475,8 @@
 		<Attribute name="animLost" value="ActivatingStar" />
 		<Attribute name="animMax" value="SuperGoldStar" />
 		<Attribute name="playUnlockAnimation" value="true" />
-		<Attribute name="playLostAnimation" value="true" />
-		<Attribute name="playMaxAnimation" value="true" />
+			<Attribute name="playLostAnimation" value="true" />
+			<Attribute name="playMaxAnimation" value="true" />
 		<Attribute name="maxRating" value="10" />
 	</TeamAverageStarRating>
 	<PotentialRosterConfig>
@@ -531,7 +542,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_homer.rgb" />
 				<Attribute name="xpVariable" value="HomerHBXP" />
 				<Attribute name="cooldownEndVariable" value="HomerHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Homer__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -560,7 +571,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_lisa.rgb" />
 				<Attribute name="xpVariable" value="LisaHBXP" />
 				<Attribute name="cooldownEndVariable" value="LisaHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Lisa__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -589,7 +600,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_mrburns.rgb" />
 				<Attribute name="xpVariable" value="BurnsHBXP" />
 				<Attribute name="cooldownEndVariable" value="BurnsHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Burns__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -618,7 +629,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_nelson.rgb" />
 				<Attribute name="xpVariable" value="NelsonHBXP" />
 				<Attribute name="cooldownEndVariable" value="NelsonHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Nelson__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -647,7 +658,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_apu.rgb" />
 				<Attribute name="xpVariable" value="ApuHBXP" />
 				<Attribute name="cooldownEndVariable" value="ApuHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Apu__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -676,7 +687,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_bart.rgb" />
 				<Attribute name="xpVariable" value="BartHBXP" />
 				<Attribute name="cooldownEndVariable" value="BartHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Bart__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -705,7 +716,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_marge.rgb" />
 				<Attribute name="xpVariable" value="MargeHBXP" />
 				<Attribute name="cooldownEndVariable" value="MargeHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Marge__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -734,7 +745,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_abe.rgb" />
 				<Attribute name="xpVariable" value="GrampaHBXP" />
 				<Attribute name="cooldownEndVariable" value="GrampaHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Grampa__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -763,7 +774,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_cbg.rgb" />
 				<Attribute name="xpVariable" value="CBGuyHBXP" />
 				<Attribute name="cooldownEndVariable" value="CBGuyHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:CBGuy__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play_Double" />
 				<Attribute name="winAnimController" value="HomerBall_Win_Double" />
@@ -792,7 +803,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_ralph.rgb" />
 				<Attribute name="xpVariable" value="RalphHBXP" />
 				<Attribute name="cooldownEndVariable" value="RalphHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Ralph__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play_Double" />
 				<Attribute name="winAnimController" value="HomerBall_Win_Double" />
@@ -821,7 +832,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_dredericktatum.rgb" />
 				<Attribute name="xpVariable" value="DrederickTatumHBXP" />
 				<Attribute name="cooldownEndVariable" value="DrederickTatumHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:DrederickTatum__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -850,7 +861,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_jasper.rgb" />
 				<Attribute name="xpVariable" value="JasperHBXP" />
 				<Attribute name="cooldownEndVariable" value="JasperHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Jasper__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -879,7 +890,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_ned.rgb" />
 				<Attribute name="xpVariable" value="NedHBXP" />
 				<Attribute name="cooldownEndVariable" value="NedHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Ned__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -908,7 +919,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_crazycatlady.rgb" />
 				<Attribute name="xpVariable" value="CrazyCatLadyHBXP" />
 				<Attribute name="cooldownEndVariable" value="CrazyCatLadyHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:CrazyCatLady__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -937,7 +948,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_lugash.rgb" />
 				<Attribute name="xpVariable" value="LugashHBXP" />
 				<Attribute name="cooldownEndVariable" value="LugashHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Lugash__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -966,7 +977,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_milhouse.rgb" />
 				<Attribute name="xpVariable" value="MilhouseHBXP" />
 				<Attribute name="cooldownEndVariable" value="MilhouseHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:Milhouse__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
@@ -995,7 +1006,7 @@
 				<Attribute name="portraitPopUp" value="ico_june2015_popup_furiousd.rgb" />
 				<Attribute name="xpVariable" value="FuriousDHBXP" />
 				<Attribute name="cooldownEndVariable" value="FuriousDHBCooldownEnd" />
-				<Attribute name="cooldown" value="__June2015_GameConfig:Cooldown:FuriousD__" />
+				<Attribute name="cooldown" value="4h" />
 				<Attribute name="levelCostSelector" value="HomerballCostPerLevel_Default" />
 				<Attribute name="playAnimController" value="HomerBall_Play" />
 				<Attribute name="winAnimController" value="HomerBall_Win" />
