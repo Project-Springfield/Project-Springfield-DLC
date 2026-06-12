@@ -11,15 +11,16 @@ pitch, with quests, match rewards, prize tracks, currency, and the event store.
 |------|----------|
 | `../Main/gamescripts/` | The restored gamescripts (the functional restore — see the file list below). |
 | `textpools/` | A rebuilt `textpools-en` pack carrying the event's 197 pruned `UI_June2015_*` localization strings. **Required** — without it the match HUD crashes the client (`strlen(NULL)`). |
+| `art/` | The themed **title-splash** packs (`core-splashes-{small,medium,large}` + the `res-core` layout), served under the `SoccerCup2015` component. Built at priority 9000 so they override the APK's stock title splash via DLC. Cosmetic but part of the verified build. |
 | `docs/SOCCERCUP2015_RESTORE.md` | Full restore write-up: every bug hit, the root causes (several traced live in the engine), and exactly what was changed. **Read this first.** |
 | `docs/tsto_homerball_matchmaking_protocol.md` | The Tap Ball matchmaking / async-PvP wire protocol the server side needs (RE'd from the client). |
 
-> **No `art/` folder, unlike the Superheroes bundle** — that one shipped *generated*
-> merged atlas packs that exist nowhere in the base tree. Tap Ball needs no generated
-> art: every pack it uses (`June2015Menu_LTD-*`, `SoccerCup2015Menu-*`, `June2015Game-*`,
-> …) is a **stock base-tree file** that EA merely dropped from the DLC index on retire.
-> The restore re-adds their index entries; the server just has to keep serving the base
-> packs (overlay-first, base-fallback resolution).
+> **The `art/` here is the title splash only.** Unlike the Superheroes bundle (which
+> shipped generated merged atlas packs), Tap Ball's menu/game art needs nothing
+> generated: every pack it uses (`June2015Menu_LTD-*`, `SoccerCup2015Menu-*`,
+> `June2015Game-*`, …) is a **stock base-tree file** that EA merely dropped from the
+> DLC index on retire. The restore re-adds their index entries; the server just has to
+> keep serving the base packs (overlay-first, base-fallback resolution).
 
 ## Gamescript changes (in `Main/gamescripts/`)
 
@@ -54,6 +55,9 @@ See `docs/SOCCERCUP2015_RESTORE.md` for the complete, sectioned account.
 2. Serve the `textpools/` pack and index it (`Language="en"`) — the event HUD reads
    `UI_June2015_*` keys that no modern textpool carries; missing = instant crash when a
    match starts.
+2b. (Optional, cosmetic) Serve the `art/` splash packs under the `SoccerCup2015`
+   component and index them (tiers 25/50/100 + `res-core` for all) — they theme the
+   title screen; their per-file priority (9000) is what overrides the APK splash.
 3. The event window is **gameplayconfig-gated** (no literal `dates.xml` window): the
    server must publish the `June2015_GameConfig:Dates:*` sub-keys opened (start → far
    past, end → far future) or the event reads as expired regardless of the DLC.
